@@ -10,6 +10,9 @@ using AWS.UUIDs: uuid4
 
 Gets details of a job execution.
 
+Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
 # Arguments
 
 - `job_id`: The unique identifier assigned to this job when it was created.
@@ -21,8 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"executionNumber"`: Optional. A number that identifies a particular job execution on a
   particular device. If not specified, the latest job execution is returned.
-- `"includeJobDocument"`: Optional. When set to true, the response contains the job
-  document. The default is false.
+- `"includeJobDocument"`: Optional. Unless set to false, the response contains the job
+  document. The default is true.
 """
 function describe_job_execution end
 
@@ -58,6 +61,9 @@ end
 
 Gets the list of all jobs for a thing that are not in a terminal status.
 
+Requires permission to access the [GetPendingJobExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
 # Arguments
 
 - `thing_name`: The name of the thing that is executing the job.
@@ -87,10 +93,89 @@ function get_pending_job_executions(
 end
 
 """
+    start_command_execution(command_arn, target_arn)
+    start_command_execution(command_arn, target_arn, params::Dict{String,<:Any})
+
+Using the command created with the `CreateCommand` API, start a command execution on a
+specific device.
+
+# Arguments
+
+- `command_arn`: The Amazon Resource Number (ARN) of the command. For example,
+  `arn:aws:iot:<region>:<accountid>:command/<commandName>`
+- `target_arn`: The Amazon Resource Number (ARN) of the device where the command execution
+  is occurring.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: The client token is used to implement idempotency. It ensures that the
+  request completes no more than one time. If you retry a request with the same token and
+  the same parameters, the request will complete successfully. However, if you retry the
+  request using the same token but different parameters, an HTTP 409 conflict occurs. If you
+  omit this value, Amazon Web Services SDKs will automatically generate a unique client
+  request.
+
+- `"executionTimeoutSeconds"`: Specifies the amount of time in second the device has to
+  finish the command execution. A timer is started as soon as the command execution is
+  created. If the command execution status is not set to another terminal state before the
+  timer expires, it will automatically update to `TIMED_OUT`.
+
+- `"parameters"`: A list of parameters that are required by the `StartCommandExecution` API
+  when performing the command on a device.
+"""
+function start_command_execution end
+
+function start_command_execution(
+    commandArn, targetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot_jobs_data_plane(
+        "POST",
+        "/command-executions",
+        Dict{String,Any}(
+            "commandArn" => commandArn,
+            "targetArn" => targetArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_command_execution(
+    commandArn,
+    targetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_jobs_data_plane(
+        "POST",
+        "/command-executions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "commandArn" => commandArn,
+                    "targetArn" => targetArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_next_pending_job_execution(thing_name)
     start_next_pending_job_execution(thing_name, params::Dict{String,<:Any})
 
 Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
+
+Requires permission to access the [StartNextPendingJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
 
@@ -103,13 +188,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusDetails"`: A collection of name/value pairs that describe the status of the job
   execution. If not specified, the statusDetails are unchanged.
 
+  The maximum length of the value in the name/value pair is 1,024 characters.
+
 - `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish execution
   of this job. If the job execution status is not set to a terminal state before this timer
   expires, or before the timer is reset (by calling `UpdateJobExecution`, setting the status
-  to `IN_PROGRESS` and specifying a new timeout value in field `stepTimeoutInMinutes`) the
-  job execution status will be automatically set to `TIMED_OUT`. Note that setting this
-  timeout has no effect on that job execution timeout which may have been specified when the
-  job was created (`CreateJob` using field `timeoutConfig`).
+  to `IN_PROGRESS`, and specifying a new timeout value in field `stepTimeoutInMinutes`) the
+  job execution status will be automatically set to `TIMED_OUT`. Note that setting the step
+  timeout has no effect on the in progress timeout that may have been specified when the job
+  was created (`CreateJob` using field `timeoutConfig`).
+
+  Valid values for this parameter range from 1 to 10080 (1 minute to 7 days).
 """
 function start_next_pending_job_execution end
 
@@ -144,6 +233,9 @@ end
 
 Updates the status of a job execution.
 
+Requires permission to access the [UpdateJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html)
+action.
+
 # Arguments
 
 - `job_id`: The unique identifier assigned to this job when it was created.
@@ -174,13 +266,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusDetails"`: Optional. A collection of name/value pairs that describe the status of
   the job execution. If not specified, the statusDetails are unchanged.
 
+  The maximum length of the value in the name/value pair is 1,024 characters.
+
 - `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish execution
   of this job. If the job execution status is not set to a terminal state before this timer
   expires, or before the timer is reset (by again calling `UpdateJobExecution`, setting the
-  status to `IN_PROGRESS` and specifying a new timeout value in this field) the job
+  status to `IN_PROGRESS`, and specifying a new timeout value in this field) the job
   execution status will be automatically set to `TIMED_OUT`. Note that setting or resetting
-  this timeout has no effect on that job execution timeout which may have been specified
+  the step timeout has no effect on the in progress timeout that may have been specified
   when the job was created (`CreateJob` using field `timeoutConfig`).
+
+  Valid values for this parameter range from 1 to 10080 (1 minute to 7 days). A value of -1
+  is also valid and will cancel the current step timer (created by an earlier use of
+  `UpdateJobExecutionRequest`).
 """
 function update_job_execution end
 

@@ -236,7 +236,8 @@ Creates a channel to which you can add users and send messages.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ChannelId"`: The ID of the channel in the request.
+- `"ChannelId"`: An ID for the channel being created. If you do not specify an ID, a UUID
+  will be created for the channel.
 - `"ElasticChannelConfiguration"`: The attributes required to configure and create an
   elastic channel. An elastic channel can support a maximum of 1-million users, excluding
   moderators.
@@ -391,7 +392,7 @@ Channel flows process the following items:
 
 !!! note
     Channel flows don't process Control or System messages. For more information about the
-    message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types)
+    message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime-sdk/latest/dg/using-the-messaging-sdk.html#msg-types)
     in the *Amazon Chime developer guide*.
 
 # Arguments
@@ -1750,6 +1751,13 @@ end
     get_messaging_session_endpoint(params::Dict{String,<:Any})
 
 The details of the endpoint for the messaging session.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"network-type"`: The type of network for the messaging session endpoint. Either IPv4 only
+  or dual-stack (IPv4 and IPv6).
 """
 function get_messaging_session_endpoint end
 
@@ -1938,7 +1946,7 @@ Lists all channel memberships in a channel.
     `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
     header.
 
-If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html)
+If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html)
 API.
 
 # Arguments
@@ -2683,8 +2691,8 @@ end
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer)
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Redacts message content, but not metadata. The message exists in the back end, but the
-action returns null content, and the state shows as redacted.
+Redacts message content and metadata. The message exists in the back end, but the action
+returns null content, and the state shows as redacted.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
@@ -2758,6 +2766,10 @@ across all channels.
 
 The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the `AppInstanceUser`
 or `AppInstanceBot` that makes the API call as the value in the header.
+
+!!! note
+    This operation isn't supported for `AppInstanceUsers` with a large number of
+    memberships.
 
 # Arguments
 

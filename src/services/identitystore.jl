@@ -124,24 +124,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Addresses"`: A list of `Address` objects containing addresses associated with the user.
 
+- `"Birthdate"`: The user's birthdate in YYYY-MM-DD format. This field supports standard
+  date format for storing personal information.
+
 - `"DisplayName"`: A string containing the name of the user. This value is typically
-  formatted for display when the user is referenced. For example, "John Doe."
+  formatted for display when the user is referenced. For example, "John Doe." When used in
+  IAM Identity Center, this parameter is required.
 
 - `"Emails"`: A list of `Email` objects containing email addresses associated with the user.
 
+- `"Extensions"`: A map with additional attribute extensions for the user. Each map key
+  corresponds to an extension name, while map values represent extension data in `Document`
+  type (not supported by Java V1, Go V1 and older versions of the CLI).
+  `aws:identitystore:enterprise` is the only supported extension name.
+
 - `"Locale"`: A string containing the geographical region or location of the user.
 
-- `"Name"`: An object containing the name of the user.
+- `"Name"`: An object containing the name of the user. When used in IAM Identity Center,
+  this parameter is required.
 
 - `"NickName"`: A string containing an alternate name for the user.
 
 - `"PhoneNumbers"`: A list of `PhoneNumber` objects containing phone numbers associated with
   the user.
 
+- `"Photos"`: A list of photos associated with the user. You can add up to 3 photos per
+  user. Each photo can include a value, type, display name, and primary designation.
+
 - `"PreferredLanguage"`: A string containing the preferred language of the user. For
   example, "American English" or "en-us."
 
 - `"ProfileUrl"`: A string containing a URL that might be associated with the user.
+
+- `"Roles"`: A list of `Role` objects containing roles associated with the user.
 
 - `"Timezone"`: A string containing the time zone of the user.
 
@@ -156,6 +171,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
+
+- `"Website"`: The user's personal website or blog URL. This field allows users to provide a
+  link to their personal or professional website.
 """
 function create_user end
 
@@ -330,9 +348,9 @@ end
 Retrieves the group metadata and attributes from `GroupId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -384,9 +402,9 @@ end
 Retrieves membership metadata and attributes from `MembershipId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -437,9 +455,9 @@ end
 Retrieves the user metadata and attributes from the `UserId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -448,6 +466,14 @@ Retrieves the user metadata and attributes from the `UserId` in an identity stor
   generated string that contains numbers and lower case letters. This value is generated at
   the time that a new identity store is created.
 - `user_id`: The identifier for a user in the identity store.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Extensions"`: A collection of extension names indicating what extensions the service
+  should retrieve alongside other user attributes. `aws:identitystore:enterprise` is the
+  only supported extension name.
 """
 function describe_user end
 
@@ -489,9 +515,9 @@ end
 Retrieves `GroupId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -547,9 +573,9 @@ end
 Retrieves the `MembershipId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -608,9 +634,9 @@ end
 Retrieves the `UserId` in an identity store.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -667,9 +693,9 @@ Checks the user's membership in all requested groups and returns if the member e
 queried groups.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -727,9 +753,9 @@ For the specified group in the specified identity store, returns the list of all
 `GroupMembership` objects and returns results in paginated form.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -792,9 +818,9 @@ For the specified member in the specified identity store, returns the list of al
 `GroupMembership` objects and returns results in paginated form.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -861,9 +887,9 @@ objects. Filtering for a `Group` by the `DisplayName` attribute is deprecated. I
 the `GetGroupId` API action.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -923,9 +949,9 @@ Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use t
 `GetUserId` API action.
 
 !!! note
-    If you have administrator access to a member account, you can use this API from the
-    member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-    in the *Organizations User Guide*.
+    If you have access to a member account, you can use this API operation from the member
+    account. For more information, see [Limiting access to the identity store from member accounts](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-accounts.html#limiting-access-from-member-accounts)
+    in the *IAM Identity Center User Guide*.
 
 # Arguments
 
@@ -938,6 +964,9 @@ Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use t
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"Extensions"`: A collection of extension names indicating what extensions the service
+  should retrieve alongside other user attributes. `aws:identitystore:enterprise` is the
+  only supported extension name.
 - `"Filters"`: A list of `Filter` objects, which is used in the `ListUsers` and `ListGroups`
   requests.
 - `"MaxResults"`: The maximum number of results to be returned per request. This parameter
@@ -980,15 +1009,15 @@ end
     update_group(group_id, identity_store_id, operations)
     update_group(group_id, identity_store_id, operations, params::Dict{String,<:Any})
 
-For the specified group in the specified identity store, updates the group metadata and
-attributes.
+Updates the specified group metadata and attributes in the specified identity store.
 
 # Arguments
 
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `operations`: A list of `AttributeOperation` objects to apply to the requested group.
-  These operations might add, replace, or remove an attribute.
+  These operations might add, replace, or remove an attribute. For more information on the
+  attributes that can be added, replaced, or removed, see [Group](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html).
 """
 function update_group end
 
@@ -1036,14 +1065,14 @@ end
     update_user(identity_store_id, operations, user_id)
     update_user(identity_store_id, operations, user_id, params::Dict{String,<:Any})
 
-For the specified user in the specified identity store, updates the user metadata and
-attributes.
+Updates the specified user metadata and attributes in the specified identity store.
 
 # Arguments
 
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `operations`: A list of `AttributeOperation` objects to apply to the requested user. These
-  operations might add, replace, or remove an attribute.
+  operations might add, replace, or remove an attribute. For more information on the
+  attributes that can be added, replaced, or removed, see [User](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html).
 - `user_id`: The identifier for a user in the identity store.
 """
 function update_user end

@@ -8,9 +8,9 @@ using AWS.UUIDs: uuid4
     add_tags(resource_id, tags_list)
     add_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Adds one or more tags to a trail, event data store, or channel, up to a limit of 50.
-Overwrites an existing tag's value when a new value is specified for an existing tag key.
-Tag key names must be unique; you cannot have two keys with the same name but different
+Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of
+50. Overwrites an existing tag's value when a new value is specified for an existing tag
+key. Tag key names must be unique; you cannot have two keys with the same name but different
 values. If you specify a key without a value, the tag will be created with the specified key
 and a value of null. You can tag a trail or event data store that applies to all Amazon Web
 Services Regions only from the Region in which the trail or event data store was created
@@ -18,13 +18,16 @@ Services Regions only from the Region in which the trail or event data store was
 
 # Arguments
 
-- `resource_id`: Specifies the ARN of the trail, event data store, or channel to which one
-  or more tags will be added.
+- `resource_id`: Specifies the ARN of the trail, event data store, dashboard, or channel to
+  which one or more tags will be added.
 
   The format of a trail ARN is: `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 
   The format of an event data store ARN is:
   `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  The format of a dashboard ARN is:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
 
   The format of a channel ARN is:
   `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
@@ -82,6 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
   the specified query is running.
+- `"EventDataStoreOwnerAccountId"`: The account ID of the event data store owner.
 """
 function cancel_query end
 
@@ -169,6 +173,83 @@ function create_channel(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_dashboard(name)
+    create_dashboard(name, params::Dict{String,<:Any})
+
+Creates a custom dashboard or the Highlights dashboard.
+
+- **Custom dashboards** - Custom dashboards allow you to query events in any event data
+  store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a
+  custom dashboard, or you can set a refresh schedule.
+- **Highlights dashboard** - You can create the Highlights dashboard to see a summary of key
+  user activities and API usage across all your event data stores. CloudTrail Lake manages
+  the Highlights dashboard and refreshes the dashboard every 6 hours. To create the
+  Highlights dashboard, you must set and enable a refresh schedule.
+
+CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled
+refresh. CloudTrail must be granted permissions to run the [`start_query`](@ref) operation
+on your behalf. To provide permissions, run the [`put_resource_policy`](@ref) operation to
+attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard)
+in the *CloudTrail User Guide*.
+
+To set a refresh schedule, CloudTrail must be granted permissions to run the [`start_dashboard_refresh`](@ref)
+operation to refresh the dashboard on your behalf. To provide permissions, run the [`put_resource_policy`](@ref)
+operation to attach a resource-based policy to the dashboard. For more information, see [Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards)
+in the *CloudTrail User Guide*.
+
+For more information about dashboards, see [CloudTrail Lake dashboards](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-dashboard.html)
+in the *CloudTrail User Guide*.
+
+# Arguments
+
+- `name`: The name of the dashboard. The name must be unique to your account.
+
+  To create the Highlights dashboard, the name must be `AWSCloudTrail-Highlights`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RefreshSchedule"`: The refresh schedule configuration for the dashboard.
+
+  To create the Highlights dashboard, you must set a refresh schedule and set the `Status`
+  to `ENABLED`. The `Unit` for the refresh schedule must be `HOURS` and the `Value` must be
+  `6`.
+
+- `"TagsList"`:
+
+- `"TerminationProtectionEnabled"`: Specifies whether termination protection is enabled for
+  the dashboard. If termination protection is enabled, you cannot delete the dashboard until
+  termination protection is disabled.
+
+- `"Widgets"`: An array of widgets for a custom dashboard. A custom dashboard can have a
+  maximum of ten widgets.
+
+  You do not need to specify widgets for the Highlights dashboard.
+"""
+function create_dashboard end
+
+function create_dashboard(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail(
+        "CreateDashboard",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_dashboard(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "CreateDashboard",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -359,9 +440,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services account that is the management account or delegated administrator account for an
   organization in Organizations.
 
-- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail.
-  The value can be an alias name prefixed by `alias/`, a fully specified ARN to an alias, a
-  fully specified ARN to a key, or a globally unique identifier.
+- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs and digest files
+  delivered by CloudTrail. The value can be an alias name prefixed by `alias/`, a fully
+  specified ARN to an alias, a fully specified ARN to a key, or a globally unique
+  identifier.
 
   CloudTrail also supports KMS multi-Region keys. For more information about multi-Region
   keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
@@ -378,8 +460,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
   The maximum length is 200 characters.
 
-- `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
-  log file delivery. The maximum length is 256 characters.
+- `"SnsTopicName"`: Specifies the name or ARN of the Amazon SNS topic defined for
+  notification of log file delivery. The maximum length is 256 characters.
 
 - `"TagsList"`:
 """
@@ -451,6 +533,43 @@ function delete_channel(
 end
 
 """
+    delete_dashboard(dashboard_id)
+    delete_dashboard(dashboard_id, params::Dict{String,<:Any})
+
+Deletes the specified dashboard. You cannot delete a dashboard that has termination
+protection enabled.
+
+# Arguments
+
+- `dashboard_id`: The name or ARN for the dashboard.
+"""
+function delete_dashboard end
+
+function delete_dashboard(DashboardId; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail(
+        "DeleteDashboard",
+        Dict{String,Any}("DashboardId" => DashboardId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_dashboard(
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "DeleteDashboard",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DashboardId" => DashboardId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_event_data_store(event_data_store)
     delete_event_data_store(event_data_store, params::Dict{String,<:Any})
 
@@ -503,13 +622,22 @@ end
     delete_resource_policy(resource_arn)
     delete_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Deletes the resource-based policy attached to the CloudTrail channel.
+Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or
+channel.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting
-  the resource-based policy from. The following is the format of a resource ARN:
-  `arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel`.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail event data store,
+  dashboard, or channel you're deleting the resource-based policy from.
+
+  Example event data store ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  Example dashboard ARN format:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
+
+  Example channel ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
 """
 function delete_resource_policy end
 
@@ -546,6 +674,17 @@ end
 Deletes a trail. This operation must be called from the Region in which the trail was
 created. `DeleteTrail` cannot be called on the shadow trails (replicated trails in other
 Regions) of a trail that is enabled in all Regions.
+
+!!! important
+    While deleting a CloudTrail trail is an irreversible action, CloudTrail does not delete
+    log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the
+    CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail
+    will stop logging of events in all Amazon Web Services Regions enabled in your Amazon
+    Web Services account. Deleting a single-Region trail will stop logging of events in that
+    Region only. It will not stop logging of events in other Regions even if the trails in
+    those other Regions have identical names to the deleted trail.
+
+    For information about account closure and deletion of CloudTrail trails, see [https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html).
 
 # Arguments
 
@@ -626,8 +765,10 @@ Returns metadata about a query, including query run time in milliseconds, number
 scanned and matched, and query status. If the query results were delivered to an S3 bucket,
 the response also provides the S3 URI and the delivery status.
 
-You must specify either a `QueryID` or a `QueryAlias`. Specifying the `QueryAlias` parameter
-returns information about the last query run for the alias.
+You must specify either `QueryId` or `QueryAlias`. Specifying the `QueryAlias` parameter
+returns information about the last query run for the alias. You can provide `RefreshId`
+along with `QueryAlias` to view the query results of a dashboard query for the specified
+`RefreshId`.
 
 # Optional Parameters
 
@@ -635,8 +776,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
   the specified query was run.
+- `"EventDataStoreOwnerAccountId"`: The account ID of the event data store owner.
 - `"QueryAlias"`: The alias that identifies a query template.
 - `"QueryId"`: The query ID.
+- `"RefreshId"`: The ID of the dashboard refresh.
 """
 function describe_query end
 
@@ -810,6 +953,69 @@ function enable_federation(
 end
 
 """
+    generate_query(event_data_stores, prompt)
+    generate_query(event_data_stores, prompt, params::Dict{String,<:Any})
+
+Generates a query from a natural language prompt. This operation uses generative artificial
+intelligence (generative AI) to produce a ready-to-use SQL query from the prompt.
+
+The prompt can be a question or a statement about the event data in your event data store.
+For example, you can enter prompts like "What are my top errors in the past month?" and
+“Give me a list of users that used SNS.”
+
+The prompt must be in English. For information about limitations, permissions, and supported
+Regions, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html)
+in the *CloudTrail* user guide.
+
+!!! note
+    Do not include any personally identifying, confidential, or sensitive information in
+    your prompts.
+
+    This feature uses generative AI large language models (LLMs); we recommend double-
+    checking the LLM response.
+
+# Arguments
+
+- `event_data_stores`: The ARN (or ID suffix of the ARN) of the event data store that you
+  want to query. You can only specify one event data store.
+- `prompt`: The prompt that you want to use to generate the query. The prompt must be in
+  English. For example prompts, see [Example prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html#lake-query-generator-examples)
+  in the *CloudTrail* user guide.
+"""
+function generate_query end
+
+function generate_query(
+    EventDataStores, Prompt; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "GenerateQuery",
+        Dict{String,Any}("EventDataStores" => EventDataStores, "Prompt" => Prompt);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function generate_query(
+    EventDataStores,
+    Prompt,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GenerateQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EventDataStores" => EventDataStores, "Prompt" => Prompt),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_channel(channel)
     get_channel(channel, params::Dict{String,<:Any})
 
@@ -840,6 +1046,73 @@ function get_channel(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Channel" => Channel), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_dashboard(dashboard_id)
+    get_dashboard(dashboard_id, params::Dict{String,<:Any})
+
+Returns the specified dashboard.
+
+# Arguments
+
+- `dashboard_id`: The name or ARN for the dashboard.
+"""
+function get_dashboard end
+
+function get_dashboard(DashboardId; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail(
+        "GetDashboard",
+        Dict{String,Any}("DashboardId" => DashboardId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_dashboard(
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "GetDashboard",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DashboardId" => DashboardId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_configuration()
+    get_event_configuration(params::Dict{String,<:Any})
+
+Retrieves the current event configuration settings for the specified event data store or
+trail. The response includes maximum event size configuration, the context key selectors
+configured for the event data store, and any aggregation settings configured for the trail.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EventDataStore"`: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event
+  data store for which you want to retrieve event configuration settings.
+- `"TrailName"`: The name of the trail for which you want to retrieve event configuration
+  settings.
+"""
+function get_event_configuration end
+
+function get_event_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail("GetEventConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_event_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "GetEventConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -891,16 +1164,19 @@ Describes the settings for the event selectors that you configured for your trai
 information returned for your event selectors includes the following:
 
 - If your event selector includes read-only events, write-only events, or all events. This
-  applies to both management events and data events.
+  applies to management events, data events, and network activity events.
 - If your event selector includes management events.
+- If your event selector includes network activity events, the event sources for which you
+  are logging network activity events.
 - If your event selector includes data events, the resources on which you are logging data
   events.
 
-For more information about logging management and data events, see the following topics in
-the *CloudTrail User Guide*:
+For more information about logging management, data, and network activity events, see the
+following topics in the *CloudTrail User Guide*:
 
 - [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html)
 - [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
+- [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html)
 
 # Arguments
 
@@ -986,16 +1262,16 @@ end
     get_insight_selectors(params::Dict{String,<:Any})
 
 Describes the settings for the Insights event selectors that you configured for your trail
-or event data store. `GetInsightSelectors` shows if CloudTrail Insights event logging is
-enabled on the trail or event data store, and if it is, which Insights types are enabled. If
-you run `GetInsightSelectors` on a trail or event data store that does not have Insights
-events enabled, the operation throws the exception `InsightNotEnabledException`
+or event data store. `GetInsightSelectors` shows if CloudTrail Insights logging is enabled
+and which Insights types are configured with corresponding event categories. If you run
+`GetInsightSelectors` on a trail or event data store that does not have Insights events
+enabled, the operation throws the exception `InsightNotEnabledException`
 
 Specify either the `EventDataStore` parameter to get Insights event selectors for an event
 data store, or the `TrailName` parameter to the get Insights event selectors for a trail.
 You cannot specify these parameters together.
 
-For more information, see [Logging CloudTrail Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
+For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
 in the *CloudTrail User Guide*.
 
 # Optional Parameters
@@ -1055,6 +1331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventDataStore"`: The ARN (or ID suffix of the ARN) of the event data store against
   which the query was run.
+- `"EventDataStoreOwnerAccountId"`: The account ID of the event data store owner.
 - `"MaxQueryResults"`: The maximum number of query results to display on a single page.
 - `"NextToken"`: A token you can use to get the next page of query results.
 """
@@ -1087,13 +1364,21 @@ end
     get_resource_policy(resource_arn, params::Dict{String,<:Any})
 
 Retrieves the JSON text of the resource-based policy document attached to the CloudTrail
-channel.
+event data store, dashboard, or channel.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail channel attached to the
-  resource-based policy. The following is the format of a resource ARN:
-  `arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel`.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail event data store,
+  dashboard, or channel attached to the resource-based policy.
+
+  Example event data store ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  Example dashboard ARN format:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
+
+  Example channel ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
 """
 function get_resource_policy end
 
@@ -1169,9 +1454,14 @@ trail status from all Regions, you must call the operation on each Region.
 
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which you are requesting
   status. To get the status of a shadow trail (a replication of the trail in another
-  Region), you must specify its ARN. The following is the format of a trail ARN.
+  Region), you must specify its ARN.
 
+  The following is the format of a trail ARN:
   `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
+
+  !!! note
+      If the trail is an organization trail and you are a member account in the organization
+      in Organizations, you must provide the full ARN of that trail, and not just the name.
 """
 function get_trail_status end
 
@@ -1221,6 +1511,33 @@ function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail("ListChannels", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_dashboards()
+    list_dashboards(params::Dict{String,<:Any})
+
+Returns information about all dashboards in the account, in the current Region.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of dashboards to display on a single page.
+- `"NamePrefix"`: Specify a name prefix to filter on.
+- `"NextToken"`: A token you can use to get the next page of dashboard results.
+- `"Type"`: Specify a dashboard type to filter on: `CUSTOM` or `MANAGED`.
+"""
+function list_dashboards end
+
+function list_dashboards(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail("ListDashboards"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_dashboards(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail("ListDashboards", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1322,6 +1639,83 @@ function list_imports(
 end
 
 """
+    list_insights_data(data_type, insight_source)
+    list_insights_data(data_type, insight_source, params::Dict{String,<:Any})
+
+Returns Insights events generated on a trail that logs data events. You can list Insights
+events that occurred in a Region within the last 90 days.
+
+ListInsightsData supports the following Dimensions for Insights events:
+
+- Event ID
+- Event name
+- Event source
+
+All dimensions are optional. The default number of results returned is 50, with a maximum of
+50 possible. The response includes a token that you can use to get the next page of results.
+
+The rate of ListInsightsData requests is limited to two per second, per account, per Region.
+If this limit is exceeded, a throttling error occurs.
+
+# Arguments
+
+- `data_type`: Specifies the category of events returned. To fetch Insights events, specify
+  `InsightsEvents` as the value of `DataType`
+- `insight_source`: The Amazon Resource Name(ARN) of the trail for which you want to
+  retrieve Insights events.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Dimensions"`: Contains a map of dimensions. Currently the map can contain only one item.
+- `"EndTime"`: Specifies that only events that occur before or at the specified time are
+  returned. If the specified end time is before the specified start time, an error is
+  returned.
+- `"MaxResults"`: The number of events to return. Possible values are 1 through 50. The
+  default is 50.
+- `"NextToken"`: The token to use to get the next page of results after a previous API call.
+  This token must be passed in with the same parameters that were specified in the original
+  call. For example, if the original call specified a EventName as a dimension with
+  `PutObject` as a value, the call with NextToken should include those same parameters.
+- `"StartTime"`: Specifies that only events that occur after or at the specified time are
+  returned. If the specified start time is after the specified end time, an error is
+  returned.
+"""
+function list_insights_data end
+
+function list_insights_data(
+    DataType, InsightSource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "ListInsightsData",
+        Dict{String,Any}("DataType" => DataType, "InsightSource" => InsightSource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_insights_data(
+    DataType,
+    InsightSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "ListInsightsData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataType" => DataType, "InsightSource" => InsightSource),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_insights_metric_data(event_name, event_source, insight_type)
     list_insights_metric_data(event_name, event_source, insight_type, params::Dict{String,<:Any})
 
@@ -1338,9 +1732,18 @@ inclusive.
 - Data points with a period of 300 seconds (5-minute) are available for 63 days.
 - Data points with a period of 3600 seconds (1 hour) are available for 90 days.
 
-Access to the `ListInsightsMetricData` API operation is linked to the
-`cloudtrail:LookupEvents` action. To use this operation, you must have permissions to
-perform the `cloudtrail:LookupEvents` action.
+To use [`list_insights_metric_data`](@ref) operation, you must have the following
+permissions:
+
+- If `ListInsightsMetricData` is invoked with `TrailName` parameter, access to the
+  `ListInsightsMetricData` API operation is linked to the `cloudtrail:LookupEvents` action
+  and `cloudtrail:ListInsightsData`. To use this operation, you must have permissions to
+  perform the `cloudtrail:LookupEvents` and `cloudtrail:ListInsightsData` action on the
+  specific trail.
+- If `ListInsightsMetricData` is invoked without `TrailName` parameter, access to the
+  `ListInsightsMetricData` API operation is linked to the `cloudtrail:LookupEvents` action
+  only. To use this operation, you must have permissions to perform the
+  `cloudtrail:LookupEvents` action.
 
 # Arguments
 
@@ -1360,7 +1763,7 @@ perform the `cloudtrail:LookupEvents` action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DataType"`: Type of datapoints to return. Valid values are `NonZeroData` and
+- `"DataType"`: Type of data points to return. Valid values are `NonZeroData` and
   `FillWithZeros`. The default is `NonZeroData`.
 
 - `"EndTime"`: Specifies, in UTC, the end time for time-series data. The value specified is
@@ -1374,8 +1777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If returning metrics for the `ApiErrorRateInsight` Insights type, this is the error to
   retrieve data for. For example, `AccessDenied`.
 
-- `"MaxResults"`: The maximum number of datapoints to return. Valid values are integers from
-  1 to 21600. The default value is 21600.
+- `"MaxResults"`: The maximum number of data points to return. Valid values are integers
+  from 1 to 21600. The default value is 21600.
 
 - `"NextToken"`: Returned if all datapoints can't be returned in a single call. For example,
   due to reaching `MaxResults`.
@@ -1391,6 +1794,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is inclusive; results include data points with the specified time stamp.
 
   The default is 90 days before the time of request.
+
+- `"TrailName"`: The Amazon Resource Name(ARN) or name of the trail for which you want to
+  retrieve Insights metrics data. This parameter should only be provided to fetch Insights
+  metrics data generated on trails logging data events. This parameter is not required for
+  Insights metric data generated on trails logging management events.
 """
 function list_insights_metric_data end
 
@@ -1529,18 +1937,21 @@ end
     list_tags(resource_id_list)
     list_tags(resource_id_list, params::Dict{String,<:Any})
 
-Lists the tags for the specified trails, event data stores, or channels in the current
-Region.
+Lists the tags for the specified trails, event data stores, dashboards, or channels in the
+current Region.
 
 # Arguments
 
-- `resource_id_list`: Specifies a list of trail, event data store, or channel ARNs whose
-  tags will be listed. The list has a limit of 20 ARNs.
+- `resource_id_list`: Specifies a list of trail, event data store, dashboard, or channel
+  ARNs whose tags will be listed. The list has a limit of 20 ARNs.
 
   Example trail ARN format: `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 
   Example event data store ARN format:
   `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  Example dashboard ARN format:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
 
   Example channel ARN format:
   `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
@@ -1677,16 +2088,69 @@ function lookup_events(
 end
 
 """
+    put_event_configuration()
+    put_event_configuration(params::Dict{String,<:Any})
+
+Updates the event configuration settings for the specified event data store or trail. This
+operation supports updating the maximum event size, adding or modifying context key
+selectors for event data store, and configuring aggregation settings for the trail.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AggregationConfigurations"`: The list of aggregation configurations that you want to
+  configure for the trail.
+- `"ContextKeySelectors"`: A list of context key selectors that will be included to provide
+  enriched event data.
+- `"EventDataStore"`: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event
+  data store for which event configuration settings are updated.
+- `"MaxEventSize"`: The maximum allowed size for events to be stored in the specified event
+  data store. If you are using context key selectors, MaxEventSize must be set to Large.
+- `"TrailName"`: The name of the trail for which you want to update event configuration
+  settings.
+"""
+function put_event_configuration end
+
+function put_event_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail("PutEventConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function put_event_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "PutEventConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     put_event_selectors(trail_name)
     put_event_selectors(trail_name, params::Dict{String,<:Any})
 
-Configures an event selector or advanced event selectors for your trail. Use event selectors
-or advanced event selectors to specify management and data event settings for your trail. If
-you want your trail to log Insights events, be sure the event selector enables logging of
-the Insights event types you want configured for your trail. For more information about
-logging Insights events, see [Logging Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
+Configures event selectors (also referred to as *basic event selectors*) or advanced event
+selectors for your trail. You can use either `AdvancedEventSelectors` or `EventSelectors`,
+but not both. If you apply `AdvancedEventSelectors` to a trail, any existing
+`EventSelectors` are overwritten.
+
+You can use `AdvancedEventSelectors` to log management events, data events for all resource
+types, and network activity events.
+
+You can use `EventSelectors` to log management events and data events for the following
+resource types:
+
+- `AWS::DynamoDB::Table`
+- `AWS::Lambda::Function`
+- `AWS::S3::Object`
+
+You can't use `EventSelectors` to log network activity events.
+
+If you want your trail to log Insights events, be sure the event selector or advanced event
+selector enables logging of the Insights event types you want configured for your trail. For
+more information about logging Insights events, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
 in the *CloudTrail User Guide*. By default, trails created without specific event selectors
-are configured to log all read and write management events, and no data events.
+are configured to log all read and write management events, and no data events or network
+activity events.
 
 When an event occurs in your account, CloudTrail evaluates the event selectors or advanced
 event selectors in all trails. For each trail, if the event matches any event selector, the
@@ -1695,7 +2159,8 @@ doesn't log the event.
 
 Example
 
-1. You create an event selector for a trail and specify that you want write-only events.
+1. You create an event selector for a trail and specify that you want to log write-only
+   events.
 2. The EC2 `GetConsoleOutput` and `RunInstances` API operations occur in your account.
 3. CloudTrail evaluates whether the events match your event selectors.
 4. The `RunInstances` is a write-only event and it matches your event selector. The trail
@@ -1706,15 +2171,12 @@ Example
 The [`put_event_selectors`](@ref) operation must be called from the Region in which the
 trail was created; otherwise, an `InvalidHomeRegionException` exception is thrown.
 
-You can configure up to five event selectors for each trail. For more information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html), [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html),
-and [Quotas in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html)
-in the *CloudTrail User Guide*.
+You can configure up to five event selectors for each trail.
 
 You can add advanced event selectors, and conditions for your advanced event selectors, up
-to a maximum of 500 values for all conditions and selectors on a trail. You can use either
-`AdvancedEventSelectors` or `EventSelectors`, but not both. If you apply
-`AdvancedEventSelectors` to a trail, any existing `EventSelectors` are overwritten. For more
-information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
+to a maximum of 500 values for all conditions and selectors on a trail. For more
+information, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html), [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html),
+and [Quotas in CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html)
 in the *CloudTrail User Guide*.
 
 # Arguments
@@ -1739,17 +2201,30 @@ in the *CloudTrail User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdvancedEventSelectors"`: Specifies the settings for advanced event selectors. You can
-  add advanced event selectors, and conditions for your advanced event selectors, up to a
-  maximum of 500 values for all conditions and selectors on a trail. You can use either
+  use advanced event selectors to log management events, data events for all resource types,
+  and network activity events.
+
+  You can add advanced event selectors, and conditions for your advanced event selectors, up
+  to a maximum of 500 values for all conditions and selectors on a trail. You can use either
   `AdvancedEventSelectors` or `EventSelectors`, but not both. If you apply
   `AdvancedEventSelectors` to a trail, any existing `EventSelectors` are overwritten. For
   more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
+  and [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html)
   in the *CloudTrail User Guide*.
 
-- `"EventSelectors"`: Specifies the settings for your event selectors. You can configure up
-  to five event selectors for a trail. You can use either `EventSelectors` or
-  `AdvancedEventSelectors` in a `PutEventSelectors` request, but not both. If you apply
-  `EventSelectors` to a trail, any existing `AdvancedEventSelectors` are overwritten.
+- `"EventSelectors"`: Specifies the settings for your event selectors. You can use event
+  selectors to log management events and data events for the following resource types:
+
+  - `AWS::DynamoDB::Table`
+  - `AWS::Lambda::Function`
+  - `AWS::S3::Object`
+
+  You can't use event selectors to log network activity events.
+
+  You can configure up to five event selectors for a trail. You can use either
+  `EventSelectors` or `AdvancedEventSelectors` in a `PutEventSelectors` request, but not
+  both. If you apply `EventSelectors` to a trail, any existing `AdvancedEventSelectors` are
+  overwritten.
 """
 function put_event_selectors end
 
@@ -1781,10 +2256,15 @@ end
     put_insight_selectors(insight_selectors)
     put_insight_selectors(insight_selectors, params::Dict{String,<:Any})
 
-Lets you enable Insights event logging by specifying the Insights selectors that you want to
-enable on an existing trail or event data store. You also use `PutInsightSelectors` to turn
-off Insights event logging, by passing an empty list of Insights types. The valid Insights
-event types are `ApiErrorRateInsight` and `ApiCallRateInsight`.
+Lets you enable Insights event logging on specific event categories by specifying the
+Insights selectors that you want to enable on an existing trail or event data store. You
+also use `PutInsightSelectors` to turn off Insights event logging, by passing an empty list
+of Insights types. The valid Insights event types are `ApiErrorRateInsight` and
+`ApiCallRateInsight`, and valid EventCategories are `Management` and `Data`.
+
+!!! note
+    Insights on data events are not supported on event data stores. For event data stores,
+    you can only enable Insights on management events.
 
 To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the
 ARNs) for the source event data store (`EventDataStore`) and the destination event data
@@ -1796,6 +2276,14 @@ data stores must belong to the same Amazon Web Services account.
 To log Insights events for a trail, you must specify the name (`TrailName`) of the
 CloudTrail trail for which you want to change or add Insights selectors.
 
+- For Management events Insights: To log CloudTrail Insights on the API call rate, the trail
+  or event data store must log `write` management events. To log CloudTrail Insights on the
+  API error rate, the trail or event data store must log `read` or `write` management
+  events.
+- For Data events Insights: To log CloudTrail Insights on the API call rate or API error
+  rate, the trail must log `read` or `write` data events. Data events Insights are not
+  supported on event data store.
+
 To log CloudTrail Insights events on API call volume, the trail or event data store must log
 `write` management events. To log CloudTrail Insights events on API error rate, the trail or
 event data store must log `read` or `write` management events. You can call
@@ -1803,20 +2291,22 @@ event data store must log `read` or `write` management events. You can call
 call `GetEventDataStore` on an event data store to check whether the event data store logs
 management events.
 
-For more information, see [Logging CloudTrail Insights events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
+For more information, see [Working with CloudTrail Insights](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-insights-events-with-cloudtrail.html)
 in the *CloudTrail User Guide*.
 
 # Arguments
 
-- `insight_selectors`: A JSON string that contains the Insights types you want to log on a
-  trail or event data store. `ApiCallRateInsight` and `ApiErrorRateInsight` are valid
-  Insight types.
+- `insight_selectors`: Contains the Insights types you want to log on a specific category of
+  events on a trail or event data store. `ApiCallRateInsight` and `ApiErrorRateInsight` are
+  valid Insight types.The EventCategory field can specify `Management` or `Data` events or
+  both. For event data store, you can log Insights for management events only.
 
-  The `ApiCallRateInsight` Insights type analyzes write-only management API calls that are
-  aggregated per minute against a baseline API call volume.
+  The `ApiCallRateInsight` Insights type analyzes write-only management API calls or read
+  and write data API calls that are aggregated per minute against a baseline API call
+  volume.
 
-  The `ApiErrorRateInsight` Insights type analyzes management API calls that result in error
-  codes. The error is shown if the API call is unsuccessful.
+  The `ApiErrorRateInsight` Insights type analyzes management and data API calls that result
+  in error codes. The error is shown if the API call is unsuccessful.
 
 # Optional Parameters
 
@@ -1874,26 +2364,29 @@ end
     put_resource_policy(resource_arn, resource_policy)
     put_resource_policy(resource_arn, resource_policy, params::Dict{String,<:Any})
 
-Attaches a resource-based permission policy to a CloudTrail channel that is used for an
-integration with an event source outside of Amazon Web Services. For more information about
-resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html)
+Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or
+channel. For more information about resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html)
 in the *CloudTrail User Guide*.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail channel attached to the
-  resource-based policy. The following is the format of a resource ARN:
-  `arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel`.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudTrail event data store,
+  dashboard, or channel attached to the resource-based policy.
+
+  Example event data store ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  Example dashboard ARN format:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
+
+  Example channel ARN format:
+  `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
 
 - `resource_policy`: A JSON-formatted string for an Amazon Web Services resource-based
   policy.
 
-  The following are requirements for the resource policy:
-
-  - Contains only one action: cloudtrail-data:PutAuditEvents
-  - Contains at least one statement. The policy can have a maximum of 20 statements.
-  - Each statement contains at least one principal. A statement can have a maximum of 50
-    principals.
+  For example resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html)
+  in the *CloudTrail User Guide*.
 """
 function put_resource_policy end
 
@@ -1975,17 +2468,20 @@ end
     remove_tags(resource_id, tags_list)
     remove_tags(resource_id, tags_list, params::Dict{String,<:Any})
 
-Removes the specified tags from a trail, event data store, or channel.
+Removes the specified tags from a trail, event data store, dashboard, or channel.
 
 # Arguments
 
-- `resource_id`: Specifies the ARN of the trail, event data store, or channel from which
-  tags should be removed.
+- `resource_id`: Specifies the ARN of the trail, event data store, dashboard, or channel
+  from which tags should be removed.
 
   Example trail ARN format: `arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail`
 
   Example event data store ARN format:
   `arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE`
+
+  Example dashboard ARN format:
+  `arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash`
 
   Example channel ARN format:
   `arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890`
@@ -2068,13 +2564,119 @@ function restore_event_data_store(
 end
 
 """
+    search_sample_queries(search_phrase)
+    search_sample_queries(search_phrase, params::Dict{String,<:Any})
+
+Searches sample queries and returns a list of sample queries that are sorted by relevance.
+To search for sample queries, provide a natural language `SearchPhrase` in English.
+
+# Arguments
+
+- `search_phrase`: The natural language phrase to use for the semantic search. The phrase
+  must be in English. The length constraint is in characters, not words.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return on a single page. The default
+  value is 10.
+- `"NextToken"`: A token you can use to get the next page of results. The length constraint
+  is in characters, not words.
+"""
+function search_sample_queries end
+
+function search_sample_queries(
+    SearchPhrase; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "SearchSampleQueries",
+        Dict{String,Any}("SearchPhrase" => SearchPhrase);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function search_sample_queries(
+    SearchPhrase,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "SearchSampleQueries",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SearchPhrase" => SearchPhrase), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_dashboard_refresh(dashboard_id)
+    start_dashboard_refresh(dashboard_id, params::Dict{String,<:Any})
+
+Starts a refresh of the specified dashboard.
+
+Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's
+widgets. CloudTrail must be granted permissions to run the [`start_query`](@ref) operation
+on your behalf. To provide permissions, run the [`put_resource_policy`](@ref) operation to
+attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard)
+in the *CloudTrail User Guide*.
+
+# Arguments
+
+- `dashboard_id`: The name or ARN of the dashboard.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"QueryParameterValues"`: The query parameter values for the dashboard
+
+  For custom dashboards, the following query parameters are valid: `\$StartTime\$`,
+  `\$EndTime\$`, and `\$Period\$`.
+
+  For managed dashboards, the following query parameters are valid: `\$StartTime\$`,
+  `\$EndTime\$`, `\$Period\$`, and `\$EventDataStoreId\$`. The `\$EventDataStoreId\$` query
+  parameter is required.
+"""
+function start_dashboard_refresh end
+
+function start_dashboard_refresh(
+    DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudtrail(
+        "StartDashboardRefresh",
+        Dict{String,Any}("DashboardId" => DashboardId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_dashboard_refresh(
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "StartDashboardRefresh",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DashboardId" => DashboardId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_event_data_store_ingestion(event_data_store)
     start_event_data_store_ingestion(event_data_store, params::Dict{String,<:Any})
 
 Starts the ingestion of live events on an event data store specified as either an ARN or the
 ID portion of the ARN. To start ingestion, the event data store `Status` must be
-`STOPPED_INGESTION` and the `eventCategory` must be `Management`, `Data`, or
-`ConfigurationItem`.
+`STOPPED_INGESTION` and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`,
+or `ConfigurationItem`.
 
 # Arguments
 
@@ -2223,6 +2825,7 @@ parameters are used only for the queries that populate the CloudTrail Lake dashb
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeliveryS3Uri"`: The URI for the S3 bucket where CloudTrail delivers the query results.
+- `"EventDataStoreOwnerAccountId"`: The account ID of the event data store owner.
 - `"QueryAlias"`: The alias that identifies a query template.
 - `"QueryParameters"`: The query parameters for the specified `QueryAlias`.
 - `"QueryStatement"`: The SQL code of your query.
@@ -2245,7 +2848,8 @@ end
 
 Stops the ingestion of live events on an event data store specified as either an ARN or the
 ID portion of the ARN. To stop ingestion, the event data store `Status` must be `ENABLED`
-and the `eventCategory` must be `Management`, `Data`, or `ConfigurationItem`.
+and the `eventCategory` must be `Management`, `Data`, `NetworkActivity`, or
+`ConfigurationItem`.
 
 # Arguments
 
@@ -2400,6 +3004,72 @@ function update_channel(
 end
 
 """
+    update_dashboard(dashboard_id)
+    update_dashboard(dashboard_id, params::Dict{String,<:Any})
+
+Updates the specified dashboard.
+
+To set a refresh schedule, CloudTrail must be granted permissions to run the [`start_dashboard_refresh`](@ref)
+operation to refresh the dashboard on your behalf. To provide permissions, run the [`put_resource_policy`](@ref)
+operation to attach a resource-based policy to the dashboard. For more information, see [Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards)
+in the *CloudTrail User Guide*.
+
+CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled
+refresh. CloudTrail must be granted permissions to run the [`start_query`](@ref) operation
+on your behalf. To provide permissions, run the [`put_resource_policy`](@ref) operation to
+attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard)
+in the *CloudTrail User Guide*.
+
+# Arguments
+
+- `dashboard_id`: The name or ARN of the dashboard.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RefreshSchedule"`: The refresh schedule configuration for the dashboard.
+
+- `"TerminationProtectionEnabled"`: Specifies whether termination protection is enabled for
+  the dashboard. If termination protection is enabled, you cannot delete the dashboard until
+  termination protection is disabled.
+
+- `"Widgets"`: An array of widgets for the dashboard. A custom dashboard can have a maximum
+  of 10 widgets.
+
+  To add new widgets, pass in an array that includes the existing widgets along with any new
+  widgets. Run the `GetDashboard` operation to get the list of widgets for the dashboard.
+
+  To remove widgets, pass in an array that includes the existing widgets minus the widgets
+  you want removed.
+"""
+function update_dashboard end
+
+function update_dashboard(DashboardId; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudtrail(
+        "UpdateDashboard",
+        Dict{String,Any}("DashboardId" => DashboardId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_dashboard(
+    DashboardId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudtrail(
+        "UpdateDashboard",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DashboardId" => DashboardId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_event_data_store(event_data_store)
     update_event_data_store(event_data_store, params::Dict{String,<:Any})
 
@@ -2411,8 +3081,8 @@ or between 7 and 2557 if `BillingMode` is set to `FIXED_RETENTION_PRICING`. By d
 `TerminationProtection` is enabled.
 
 For event data stores for CloudTrail events, `AdvancedEventSelectors` includes or excludes
-management or data events in your event data store. For more information about
-`AdvancedEventSelectors`, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
+management, data, or network activity events in your event data store. For more information
+about `AdvancedEventSelectors`, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
 
 For event data stores for CloudTrail Insights events, Config configuration items, Audit
 Manager evidence, or non-Amazon Web Services events, `AdvancedEventSelectors` includes
@@ -2615,9 +3285,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       a non-organization trail, or convert a non-organization trail to an organization
       trail.
 
-- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail.
-  The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a
-  fully specified ARN to a key, or a globally unique identifier.
+- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs and digest files
+  delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully
+  specified ARN to an alias, a fully specified ARN to a key, or a globally unique
+  identifier.
 
   CloudTrail also supports KMS multi-Region keys. For more information about multi-Region
   keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
@@ -2637,8 +3308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
   The maximum length is 200 characters.
 
-- `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
-  log file delivery. The maximum length is 256 characters.
+- `"SnsTopicName"`: Specifies the name or ARN of the Amazon SNS topic defined for
+  notification of log file delivery. The maximum length is 256 characters.
 """
 function update_trail end
 

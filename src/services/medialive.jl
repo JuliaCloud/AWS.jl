@@ -253,13 +253,21 @@ Creates a new channel
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AnywhereSettings"`: The Elemental Anywhere settings for this channel.
 - `"CdiInputSpecification"`: Specification of CDI inputs for this channel
 - `"ChannelClass"`: The class for this channel. STANDARD for a channel with two pipelines or
   SINGLE_PIPELINE for a channel with one pipeline.
+- `"ChannelEngineVersion"`: The desired engine version for this channel.
+- `"ChannelSecurityGroups"`: A list of IDs for all the Input Security Groups attached to the
+  channel.
 - `"Destinations"`:
+- `"DryRun"`:
 - `"EncoderSettings"`:
+- `"InferenceSettings"`: Include this setting to include Elemental Inference features in
+  this channel.
 - `"InputAttachments"`: List of input attachments for channel.
 - `"InputSpecification"`: Specification of network and file inputs for this channel
+- `"LinkedChannelSettings"`: The linked channel settings for the channel.
 - `"LogLevel"`: The log level to write to CloudWatch Logs.
 - `"Maintenance"`: Maintenance settings for this channel.
 - `"Name"`: Name of channel.
@@ -289,6 +297,65 @@ function create_channel(
     return medialive(
         "POST",
         "/prod/channels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_channel_placement_group(cluster_id)
+    create_channel_placement_group(cluster_id, params::Dict{String,<:Any})
+
+Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation,
+you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you
+add Channels to the group (you do this by modifying the Channels to add them to a specific
+group). You now have an association of Channels to ChannelPlacementGroup, and
+ChannelPlacementGroup to Nodes. This association means that all the Channels in the group
+are able to run on any of the Nodes associated with the group.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Name"`: Specify a name that is unique in the Cluster. You can't change the name. Names
+  are case-sensitive.
+- `"Nodes"`: An array of one ID for the Node that you want to associate with the
+  ChannelPlacementGroup. (You can't associate more than one Node with the
+  ChannelPlacementGroup.) The Node and the ChannelPlacementGroup must be in the same
+  Cluster.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources. the request.
+- `"Tags"`: A collection of key-value pairs.
+"""
+function create_channel_placement_group end
+
+function create_channel_placement_group(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_channel_placement_group(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
         );
@@ -328,6 +395,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatapointsToAlarm"`: The number of datapoints within the evaluation period that must be
   breaching to trigger the alarm.
 - `"Description"`: A resource's optional description.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
 - `"Tags"`:
 """
 function create_cloud_watch_alarm_template end
@@ -359,6 +428,7 @@ function create_cloud_watch_alarm_template(
             "TargetResourceType" => TargetResourceType,
             "Threshold" => Threshold,
             "TreatMissingData" => TreatMissingData,
+            "RequestId" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -396,6 +466,7 @@ function create_cloud_watch_alarm_template(
                     "TargetResourceType" => TargetResourceType,
                     "Threshold" => Threshold,
                     "TreatMissingData" => TreatMissingData,
+                    "RequestId" => string(uuid4()),
                 ),
                 params,
             ),
@@ -422,6 +493,8 @@ attach to signal maps for dynamically creating alarms.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A resource's optional description.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
 - `"Tags"`:
 """
 function create_cloud_watch_alarm_template_group end
@@ -432,7 +505,7 @@ function create_cloud_watch_alarm_template_group(
     return medialive(
         "POST",
         "/prod/cloudwatch-alarm-template-groups",
-        Dict{String,Any}("Name" => Name);
+        Dict{String,Any}("Name" => Name, "RequestId" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -444,7 +517,62 @@ function create_cloud_watch_alarm_template_group(
     return medialive(
         "POST",
         "/prod/cloudwatch-alarm-template-groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "RequestId" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cluster()
+    create_cluster(params::Dict{String,<:Any})
+
+Create a new Cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClusterType"`: Specify a type. All the Nodes that you later add to this Cluster must be
+  this type of hardware. One Cluster instance can't contain different hardware types. You
+  won't be able to change this parameter after you create the Cluster.
+- `"InstanceRoleArn"`: The ARN of the IAM role for the Node in this Cluster. The role must
+  include all the operations that you expect these Node to perform. If necessary, create a
+  role in IAM, then attach it here.
+- `"Name"`: Specify a name that is unique in the AWS account. We recommend that you assign a
+  name that hints at the types of Nodes in the Cluster. Names are case-sensitive.
+- `"NetworkSettings"`: Network settings that connect the Nodes in the Cluster to one or more
+  of the Networks that the Cluster is associated with.
+- `"RequestId"`: The unique ID of the request.
+- `"Tags"`: A collection of key-value pairs.
+"""
+function create_cluster end
+
+function create_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "POST",
+        "/prod/clusters",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_cluster(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/clusters",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -471,6 +599,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A resource's optional description.
 - `"EventTargets"`:
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
 - `"Tags"`:
 """
 function create_event_bridge_rule_template end
@@ -482,7 +612,10 @@ function create_event_bridge_rule_template(
         "POST",
         "/prod/eventbridge-rule-templates",
         Dict{String,Any}(
-            "EventType" => EventType, "GroupIdentifier" => GroupIdentifier, "Name" => Name
+            "EventType" => EventType,
+            "GroupIdentifier" => GroupIdentifier,
+            "Name" => Name,
+            "RequestId" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -506,6 +639,7 @@ function create_event_bridge_rule_template(
                     "EventType" => EventType,
                     "GroupIdentifier" => GroupIdentifier,
                     "Name" => Name,
+                    "RequestId" => string(uuid4()),
                 ),
                 params,
             ),
@@ -532,6 +666,8 @@ attach to signal maps for dynamically creating notification rules.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A resource's optional description.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
 - `"Tags"`:
 """
 function create_event_bridge_rule_template_group end
@@ -542,7 +678,7 @@ function create_event_bridge_rule_template_group(
     return medialive(
         "POST",
         "/prod/eventbridge-rule-template-groups",
-        Dict{String,Any}("Name" => Name);
+        Dict{String,Any}("Name" => Name, "RequestId" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -554,7 +690,13 @@ function create_event_bridge_rule_template_group(
     return medialive(
         "POST",
         "/prod/eventbridge-rule-template-groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "RequestId" => string(uuid4())),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -572,20 +714,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Destinations"`: Destination settings for PUSH type inputs.
 - `"InputDevices"`: Settings for the devices.
+- `"InputNetworkLocation"`: The location of this input. AWS, for an input existing in the
+  AWS Cloud, On-Prem for an input in a customer network.
 - `"InputSecurityGroups"`: A list of security groups referenced by IDs to attach to the
   input.
 - `"MediaConnectFlows"`: A list of the MediaConnect Flows that you want to use in this
   input. You can specify as few as one Flow and presently, as many as two. The only
   requirement is when you have more than one is that each Flow is in a separate Availability
   Zone as this ensures your EML input is redundant to AZ issues.
+- `"MulticastSettings"`: Multicast Input settings.
 - `"Name"`: Name of the input.
 - `"RequestId"`: Unique identifier of the request to ensure the request is handled exactly
   once in case of retries.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
+- `"RouterSettings"`:
+- `"SdiSources"`:
+- `"Smpte2110ReceiverGroupSettings"`: Include this parameter if the input is a SMPTE 2110
+  input, to identify the stream sources for this input.
 - `"Sources"`: The source URLs for a PULL-type input. Every PULL type input needs exactly
   two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"SrtSettings"`: The settings associated with an SRT input.
 - `"Tags"`: A collection of key-value pairs.
 - `"Type"`:
 - `"Vpc"`:
@@ -783,6 +933,168 @@ function create_multiplex_program(
 end
 
 """
+    create_network()
+    create_network(params::Dict{String,<:Any})
+
+Create as many Networks as you need. You will associate one or more Clusters with each
+Network.Each Network provides MediaLive Anywhere with required information about the network
+in your organization that you are using for video encoding using MediaLive.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IpPools"`: An array of IpPoolCreateRequests that identify a collection of IP addresses
+  in your network that you want to reserve for use in MediaLive Anywhere. MediaLiveAnywhere
+  uses these IP addresses for Push inputs (in both Bridge and NATnetworks) and for output
+  destinations (only in Bridge networks). EachIpPoolUpdateRequest specifies one CIDR block.
+- `"Name"`: Specify a name that is unique in the AWS account. We recommend that you assign a
+  name that hints at the type of traffic on the network. Names are case-sensitive.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
+- `"Routes"`: An array of routes that MediaLive Anywhere needs to know about in order to
+  route encoding traffic.
+- `"Tags"`: A collection of key-value pairs.
+"""
+function create_network end
+
+function create_network(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "POST",
+        "/prod/networks",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_network(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/networks",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_node(cluster_id)
+    create_node(cluster_id, params::Dict{String,<:Any})
+
+Create a Node in the specified Cluster. You can also create Nodes using the
+CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Name"`: The user-specified name of the Node to be created.
+- `"NodeInterfaceMappings"`: Documentation update needed
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
+- `"Role"`: The initial role of the Node in the Cluster. ACTIVE means the Node is available
+  for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE
+  Node fails.
+- `"Tags"`: A collection of key-value pairs.
+"""
+function create_node end
+
+function create_node(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/nodes",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_node(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/nodes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_node_registration_script(cluster_id)
+    create_node_registration_script(cluster_id, params::Dict{String,<:Any})
+
+Create the Register Node script for all the nodes intended for a specific Cluster. You will
+then run the script on each hardware unit that is intended for that Cluster. The script
+creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and
+activates the node hardware for use with MediaLive Anywhere.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Id"`: If you're generating a re-registration script for an already existing node, this
+  is where you provide the id.
+- `"Name"`: Specify a pattern for MediaLive Anywhere to use to assign a name to each Node in
+  the Cluster. The pattern can include the variables \$hn (hostname of the node hardware)
+  and \$ts for the date and time that the Node is created, in UTC (for example, 2024-08-
+  20T23:35:12Z).
+- `"NodeInterfaceMappings"`: Documentation update needed
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
+- `"Role"`: The initial role of the Node in the Cluster. ACTIVE means the Node is available
+  for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE
+  Node fails.
+"""
+function create_node_registration_script end
+
+function create_node_registration_script(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/nodeRegistrationScript",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_node_registration_script(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/clusters/$(ClusterId)/nodeRegistrationScript",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_partner_input(input_id)
     create_partner_input(input_id, params::Dict{String,<:Any})
 
@@ -829,6 +1141,55 @@ function create_partner_input(
 end
 
 """
+    create_sdi_source()
+    create_sdi_source(params::Dict{String,<:Any})
+
+Create an SdiSource for each video source that uses the SDI protocol. You will reference the
+SdiSource when you create an SDI input in MediaLive. You will also reference it in an
+SdiSourceMapping, in order to create a connection between the logical SdiSource and the
+physical SDI card and port that the physical SDI source uses.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Mode"`: Applies only if the type is QUAD. Specify the mode for handling the quad-link
+  signal: QUADRANT or INTERLEAVE.
+- `"Name"`: Specify a name that is unique in the AWS account. We recommend you assign a name
+  that describes the source, for example curling-cameraA. Names are case-sensitive.
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
+- `"Tags"`: A collection of key-value pairs.
+- `"Type"`: Specify the type of the SDI source: SINGLE: The source is a single-link source.
+  QUAD: The source is one part of a quad-link source.
+"""
+function create_sdi_source end
+
+function create_sdi_source(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "POST",
+        "/prod/sdiSources",
+        Dict{String,Any}("RequestId" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_sdi_source(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/sdiSources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_signal_map(discovery_entry_point_arn, name)
     create_signal_map(discovery_entry_point_arn, name, params::Dict{String,<:Any})
 
@@ -849,6 +1210,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchAlarmTemplateGroupIdentifiers"`:
 - `"Description"`: A resource's optional description.
 - `"EventBridgeRuleTemplateGroupIdentifiers"`:
+- `"RequestId"`: An ID that you assign to a create request. This ID ensures idempotency when
+  creating resources.
 - `"Tags"`:
 """
 function create_signal_map end
@@ -860,7 +1223,9 @@ function create_signal_map(
         "POST",
         "/prod/signal-maps",
         Dict{String,Any}(
-            "DiscoveryEntryPointArn" => DiscoveryEntryPointArn, "Name" => Name
+            "DiscoveryEntryPointArn" => DiscoveryEntryPointArn,
+            "Name" => Name,
+            "RequestId" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -880,7 +1245,9 @@ function create_signal_map(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "DiscoveryEntryPointArn" => DiscoveryEntryPointArn, "Name" => Name
+                    "DiscoveryEntryPointArn" => DiscoveryEntryPointArn,
+                    "Name" => Name,
+                    "RequestId" => string(uuid4()),
                 ),
                 params,
             ),
@@ -961,6 +1328,45 @@ function delete_channel(
 end
 
 """
+    delete_channel_placement_group(channel_placement_group_id, cluster_id)
+    delete_channel_placement_group(channel_placement_group_id, cluster_id, params::Dict{String,<:Any})
+
+Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
+
+# Arguments
+
+- `channel_placement_group_id`: The ID of the channel placement group.
+- `cluster_id`: The ID of the cluster.
+"""
+function delete_channel_placement_group end
+
+function delete_channel_placement_group(
+    ChannelPlacementGroupId, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_channel_placement_group(
+    ChannelPlacementGroupId,
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_cloud_watch_alarm_template(identifier)
     delete_cloud_watch_alarm_template(identifier, params::Dict{String,<:Any})
 
@@ -1031,6 +1437,38 @@ function delete_cloud_watch_alarm_template_group(
     return medialive(
         "DELETE",
         "/prod/cloudwatch-alarm-template-groups/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cluster(cluster_id)
+    delete_cluster(cluster_id, params::Dict{String,<:Any})
+
+Delete a Cluster. The Cluster must be idle.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster.
+"""
+function delete_cluster end
+
+function delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "DELETE", "/prod/clusters/$(ClusterId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/clusters/$(ClusterId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1258,6 +1696,75 @@ function delete_multiplex_program(
 end
 
 """
+    delete_network(network_id)
+    delete_network(network_id, params::Dict{String,<:Any})
+
+Delete a Network. The Network must have no resources associated with it.
+
+# Arguments
+
+- `network_id`: The ID of the network.
+"""
+function delete_network end
+
+function delete_network(NetworkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "DELETE", "/prod/networks/$(NetworkId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_network(
+    NetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/networks/$(NetworkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_node(cluster_id, node_id)
+    delete_node(cluster_id, node_id, params::Dict{String,<:Any})
+
+Delete a Node. The Node must be IDLE.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+- `node_id`: The ID of the node.
+"""
+function delete_node end
+
+function delete_node(ClusterId, NodeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "DELETE",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_node(
+    ClusterId,
+    NodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_reservation(reservation_id)
     delete_reservation(reservation_id, params::Dict{String,<:Any})
 
@@ -1323,6 +1830,42 @@ function delete_schedule(
     return medialive(
         "DELETE",
         "/prod/channels/$(ChannelId)/schedule",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_sdi_source(sdi_source_id)
+    delete_sdi_source(sdi_source_id, params::Dict{String,<:Any})
+
+Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be
+attached to any input.
+
+# Arguments
+
+- `sdi_source_id`: The ID of the SdiSource.
+"""
+function delete_sdi_source end
+
+function delete_sdi_source(SdiSourceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "DELETE",
+        "/prod/sdiSources/$(SdiSourceId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_sdi_source(
+    SdiSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/sdiSources/$(SdiSourceId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1458,6 +2001,77 @@ function describe_channel(
     return medialive(
         "GET",
         "/prod/channels/$(ChannelId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_channel_placement_group(channel_placement_group_id, cluster_id)
+    describe_channel_placement_group(channel_placement_group_id, cluster_id, params::Dict{String,<:Any})
+
+Get details about a ChannelPlacementGroup.
+
+# Arguments
+
+- `channel_placement_group_id`: The ID of the channel placement group.
+- `cluster_id`: The ID of the cluster.
+"""
+function describe_channel_placement_group end
+
+function describe_channel_placement_group(
+    ChannelPlacementGroupId, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_channel_placement_group(
+    ChannelPlacementGroupId,
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster(cluster_id)
+    describe_cluster(cluster_id, params::Dict{String,<:Any})
+
+Get details about a Cluster.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster.
+"""
+function describe_cluster end
+
+function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "GET", "/prod/clusters/$(ClusterId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1691,6 +2305,77 @@ function describe_multiplex_program(
 end
 
 """
+    describe_network(network_id)
+    describe_network(network_id, params::Dict{String,<:Any})
+
+Get details about a Network.
+
+# Arguments
+
+- `network_id`: The ID of the network.
+"""
+function describe_network end
+
+function describe_network(NetworkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "GET", "/prod/networks/$(NetworkId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_network(
+    NetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/networks/$(NetworkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_node(cluster_id, node_id)
+    describe_node(cluster_id, node_id, params::Dict{String,<:Any})
+
+Get details about a Node in the specified Cluster.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+- `node_id`: The ID of the node.
+"""
+function describe_node end
+
+function describe_node(
+    ClusterId, NodeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_node(
+    ClusterId,
+    NodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_offering(offering_id)
     describe_offering(offering_id, params::Dict{String,<:Any})
 
@@ -1795,6 +2480,43 @@ function describe_schedule(
     return medialive(
         "GET",
         "/prod/channels/$(ChannelId)/schedule",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_sdi_source(sdi_source_id)
+    describe_sdi_source(sdi_source_id, params::Dict{String,<:Any})
+
+Gets details about a SdiSource.
+
+# Arguments
+
+- `sdi_source_id`: Get details about an SdiSource.
+"""
+function describe_sdi_source end
+
+function describe_sdi_source(
+    SdiSourceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/sdiSources/$(SdiSourceId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_sdi_source(
+    SdiSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/sdiSources/$(SdiSourceId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2039,6 +2761,95 @@ function get_signal_map(
 end
 
 """
+    list_alerts(channel_id)
+    list_alerts(channel_id, params::Dict{String,<:Any})
+
+List the alerts for a channel with optional filtering based on alert state.
+
+# Arguments
+
+- `channel_id`: The unique ID of the channel
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return
+- `"nextToken"`: The next pagination token
+- `"stateFilter"`: Specifies the set of alerts to return based on their state. SET - Return
+  only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return
+  all alerts.
+"""
+function list_alerts end
+
+function list_alerts(ChannelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "GET",
+        "/prod/channels/$(ChannelId)/alerts";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_alerts(
+    ChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(ChannelId)/alerts",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_channel_placement_groups(cluster_id)
+    list_channel_placement_groups(cluster_id, params::Dict{String,<:Any})
+
+Retrieve the list of ChannelPlacementGroups in the specified Cluster.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return.
+- `"nextToken"`: The token to retrieve the next page of results.
+"""
+function list_channel_placement_groups end
+
+function list_channel_placement_groups(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_channel_placement_groups(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_channels()
     list_channels(params::Dict{String,<:Any})
 
@@ -2150,6 +2961,78 @@ function list_cloud_watch_alarm_templates(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cluster_alerts(cluster_id)
+    list_cluster_alerts(cluster_id, params::Dict{String,<:Any})
+
+List the alerts for a cluster with optional filtering based on alert state.
+
+# Arguments
+
+- `cluster_id`: The unique ID of the cluster
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return
+- `"nextToken"`: The next pagination token
+- `"stateFilter"`: Specifies the set of alerts to return based on their state. SET - Return
+  only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return
+  all alerts.
+"""
+function list_cluster_alerts end
+
+function list_cluster_alerts(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/alerts";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_cluster_alerts(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/alerts",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_clusters()
+    list_clusters(params::Dict{String,<:Any})
+
+Retrieve the list of Clusters.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return.
+- `"nextToken"`: The token to retrieve the next page of results.
+"""
+function list_clusters end
+
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive("GET", "/prod/clusters"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET", "/prod/clusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2376,6 +3259,53 @@ function list_inputs(
 end
 
 """
+    list_multiplex_alerts(multiplex_id)
+    list_multiplex_alerts(multiplex_id, params::Dict{String,<:Any})
+
+List the alerts for a multiplex with optional filtering based on alert state.
+
+# Arguments
+
+- `multiplex_id`: The unique ID of the multiplex
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return
+- `"nextToken"`: The next pagination token
+- `"stateFilter"`: Specifies the set of alerts to return based on their state. SET - Return
+  only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return
+  all alerts.
+"""
+function list_multiplex_alerts end
+
+function list_multiplex_alerts(
+    MultiplexId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes/$(MultiplexId)/alerts";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_multiplex_alerts(
+    MultiplexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/multiplexes/$(MultiplexId)/alerts",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_multiplex_programs(multiplex_id)
     list_multiplex_programs(multiplex_id, params::Dict{String,<:Any})
 
@@ -2449,6 +3379,75 @@ function list_multiplexes(
 end
 
 """
+    list_networks()
+    list_networks(params::Dict{String,<:Any})
+
+Retrieve the list of Networks.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return.
+- `"nextToken"`: The token to retrieve the next page of results.
+"""
+function list_networks end
+
+function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive("GET", "/prod/networks"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET", "/prod/networks", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_nodes(cluster_id)
+    list_nodes(cluster_id, params::Dict{String,<:Any})
+
+Retrieve the list of Nodes.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return.
+- `"nextToken"`: The token to retrieve the next page of results.
+"""
+function list_nodes end
+
+function list_nodes(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/nodes";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_nodes(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/clusters/$(ClusterId)/nodes",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_offerings()
     list_offerings(params::Dict{String,<:Any})
 
@@ -2461,7 +3460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelClass"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
 - `"channelConfiguration"`: Filter to offerings that match the configuration of an existing
   channel, e.g. '2345678' (a channel ID)
-- `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+- `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
 - `"duration"`: Filter by offering duration, e.g. '12'
 - `"maxResults"`:
 - `"maximumBitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
@@ -2497,7 +3496,7 @@ List purchased reservations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"channelClass"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
-- `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+- `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
 - `"maxResults"`:
 - `"maximumBitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
 - `"maximumFramerate"`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
@@ -2520,6 +3519,33 @@ function list_reservations(
 )
     return medialive(
         "GET", "/prod/reservations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_sdi_sources()
+    list_sdi_sources(params::Dict{String,<:Any})
+
+List all the SdiSources in the AWS account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return.
+- `"nextToken"`: The token to retrieve the next page of results.
+"""
+function list_sdi_sources end
+
+function list_sdi_sources(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive("GET", "/prod/sdiSources"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_sdi_sources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET", "/prod/sdiSources", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2588,6 +3614,27 @@ function list_tags_for_resource(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_versions()
+    list_versions(params::Dict{String,<:Any})
+
+Retrieves an array of all the encoder engine versions that are available in this AWS
+account.
+"""
+function list_versions end
+
+function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive("GET", "/prod/versions"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "GET", "/prod/versions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3271,11 +4318,19 @@ Updates a channel.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AnywhereSettings"`: The Elemental Anywhere settings for this channel.
 - `"CdiInputSpecification"`: Specification of CDI inputs for this channel
+- `"ChannelEngineVersion"`: Channel engine version for this channel
+- `"ChannelSecurityGroups"`: A list of IDs for all the Input Security Groups attached to the
+  channel.
 - `"Destinations"`: A list of output destinations for this channel.
+- `"DryRun"`:
 - `"EncoderSettings"`: The encoder settings for this channel.
+- `"InferenceSettings"`: Include this setting to include Elemental Inference features in
+  this channel.
 - `"InputAttachments"`:
 - `"InputSpecification"`: Specification of network and file inputs for this channel
+- `"LinkedChannelSettings"`: The linked channel settings for the channel.
 - `"LogLevel"`: The log level to write to CloudWatch Logs.
 - `"Maintenance"`: Maintenance settings for this channel.
 - `"Name"`: The name of the channel.
@@ -3348,6 +4403,55 @@ function update_channel_class(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ChannelClass" => ChannelClass), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_channel_placement_group(channel_placement_group_id, cluster_id)
+    update_channel_placement_group(channel_placement_group_id, cluster_id, params::Dict{String,<:Any})
+
+Change the settings for a ChannelPlacementGroup.
+
+# Arguments
+
+- `channel_placement_group_id`: The ID of the channel placement group.
+- `cluster_id`: The ID of the cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Name"`: Include this parameter only if you want to change the current name of the
+  ChannelPlacementGroup. Specify a name that is unique in the Cluster. You can't change the
+  name. Names are case-sensitive.
+- `"Nodes"`: Include this parameter only if you want to change the list of Nodes that are
+  associated with the ChannelPlacementGroup.
+"""
+function update_channel_placement_group end
+
+function update_channel_placement_group(
+    ChannelPlacementGroupId, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_channel_placement_group(
+    ChannelPlacementGroupId,
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/channelplacementgroups/$(ChannelPlacementGroupId)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3451,6 +4555,49 @@ function update_cloud_watch_alarm_template_group(
     return medialive(
         "PATCH",
         "/prod/cloudwatch-alarm-template-groups/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cluster(cluster_id)
+    update_cluster(cluster_id, params::Dict{String,<:Any})
+
+Change the settings for a Cluster.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Name"`: Include this parameter only if you want to change the current name of the
+  Cluster. Specify a name that is unique in the AWS account. You can't change the name.
+  Names are case-sensitive.
+- `"NetworkSettings"`: Include this property only if you want to change the current
+  connections between the Nodes in the Cluster and the Networks the Cluster is associated
+  with.
+"""
+function update_cluster end
+
+function update_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "PUT", "/prod/clusters/$(ClusterId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3573,12 +4720,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source of the input. You can specify as few as one Flow and presently, as many as two. The
   only requirement is when you have more than one is that each Flow is in a separate
   Availability Zone as this ensures your EML input is redundant to AZ issues.
+- `"MulticastSettings"`: Multicast Input settings.
 - `"Name"`: Name of the input.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
+- `"SdiSources"`:
+- `"Smpte2110ReceiverGroupSettings"`: Include this parameter if the input is a SMPTE 2110
+  input, to identify the stream sources for this input.
 - `"Sources"`: The source URLs for a PULL-type input. Every PULL type input needs exactly
   two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"SpecialRouterSettings"`: When using MediaConnect Router as the source of a MediaLive
+  input there's a special handoff that occurs when a router output is created. This group of
+  settings is set on your behalf by the MediaConnect Router service using this set of
+  settings. This setting object can only by used by that service.
+- `"SrtSettings"`: The settings associated with an SRT input.
 """
 function update_input end
 
@@ -3708,6 +4864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MultiplexSettings"`: The new settings for a multiplex.
 - `"Name"`: Name of the multiplex.
+- `"PacketIdentifiersMapping"`:
 """
 function update_multiplex end
 
@@ -3780,6 +4937,153 @@ function update_multiplex_program(
 end
 
 """
+    update_network(network_id)
+    update_network(network_id, params::Dict{String,<:Any})
+
+Change the settings for a Network.
+
+# Arguments
+
+- `network_id`: The ID of the network
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IpPools"`: Include this parameter only if you want to change the pool of IP addresses in
+  the network. An array of IpPoolCreateRequests that identify a collection of IP addresses
+  in this network that you want to reserve for use in MediaLive Anywhere. MediaLive Anywhere
+  uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output
+  destinations (only in Bridge networks). Each IpPoolUpdateRequest specifies one CIDR block.
+
+- `"Name"`: Include this parameter only if you want to change the name of the Network.
+  Specify a name that is unique in the AWS account. Names are case-sensitive.
+
+- `"Routes"`: Include this parameter only if you want to change or add routes in the
+  Network. An array of Routes that MediaLive Anywhere needs to know about in order to route
+  encoding traffic.
+"""
+function update_network end
+
+function update_network(NetworkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "PUT", "/prod/networks/$(NetworkId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_network(
+    NetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/networks/$(NetworkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_node(cluster_id, node_id)
+    update_node(cluster_id, node_id, params::Dict{String,<:Any})
+
+Change the settings for a Node.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+- `node_id`: The ID of the node.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Name"`: Include this parameter only if you want to change the current name of the Node.
+  Specify a name that is unique in the Cluster. You can't change the name. Names are case-
+  sensitive.
+- `"Role"`: The initial role of the Node in the Cluster. ACTIVE means the Node is available
+  for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE
+  Node fails.
+- `"SdiSourceMappings"`: The mappings of a SDI capture card port to a logical SDI data
+  stream
+"""
+function update_node end
+
+function update_node(ClusterId, NodeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_node(
+    ClusterId,
+    NodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_node_state(cluster_id, node_id)
+    update_node_state(cluster_id, node_id, params::Dict{String,<:Any})
+
+Update the state of a node.
+
+# Arguments
+
+- `cluster_id`: The ID of the cluster
+- `node_id`: The ID of the node.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"State"`: The state to apply to the Node. Set to ACTIVE (COMMISSIONED) to indicate that
+  the Node is deployable. MediaLive Anywhere will consider this node it needs a Node to run
+  a Channel on, or when it needs a Node to promote from a backup node to an active node. Set
+  to DRAINING to isolate the Node so that MediaLive Anywhere won't use it.
+"""
+function update_node_state end
+
+function update_node_state(
+    ClusterId, NodeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)/state";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_node_state(
+    ClusterId,
+    NodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/clusters/$(ClusterId)/nodes/$(NodeId)/state",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_reservation(reservation_id)
     update_reservation(reservation_id, params::Dict{String,<:Any})
 
@@ -3817,6 +5121,55 @@ function update_reservation(
     return medialive(
         "PUT",
         "/prod/reservations/$(ReservationId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_sdi_source(sdi_source_id)
+    update_sdi_source(sdi_source_id, params::Dict{String,<:Any})
+
+Change some of the settings in an SdiSource.
+
+# Arguments
+
+- `sdi_source_id`: The ID of the SdiSource
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Mode"`: Include this parameter only if you want to change the name of the SdiSource.
+  Specify a name that is unique in the AWS account. We recommend you assign a name that
+  describes the source, for example curling-cameraA. Names are case-sensitive.
+- `"Name"`: Include this parameter only if you want to change the name of the SdiSource.
+  Specify a name that is unique in the AWS account. We recommend you assign a name that
+  describes the source, for example curling-cameraA. Names are case-sensitive.
+- `"Type"`: Include this parameter only if you want to change the mode. Specify the type of
+  the SDI source: SINGLE: The source is a single-link source. QUAD: The source is one part
+  of a quad-link source.
+"""
+function update_sdi_source end
+
+function update_sdi_source(SdiSourceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return medialive(
+        "PUT",
+        "/prod/sdiSources/$(SdiSourceId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_sdi_source(
+    SdiSourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return medialive(
+        "PUT",
+        "/prod/sdiSources/$(SdiSourceId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

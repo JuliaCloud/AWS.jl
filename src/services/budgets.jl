@@ -12,9 +12,15 @@ Creates a budget and, if included, notifications and subscribers.
 
 !!! important
     Only one of `BudgetLimit` or `PlannedBudgetLimits` can be present in the syntax at one
-    time. Use the syntax that matches your case. The Request Syntax section shows the
+    time. Use the syntax that matches your use case. The Request Syntax section shows the
     `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples)
     section.
+
+    Similarly, only one set of filter and metric selections can be present in the syntax at
+    one time. Either `FilterExpression` and `Metrics` or `CostFilters` and `CostTypes`, not
+    both or a different combination. We recommend using `FilterExpression` and `Metrics` as
+    they provide more flexible and powerful filtering capabilities. The Request Syntax
+    section shows the `FilterExpression`/`Metrics` syntax.
 
 # Arguments
 
@@ -535,6 +541,15 @@ Describes a budget.
 - `account_id`: The `accountId` that is associated with the budget that you want a
   description of.
 - `budget_name`: The name of the budget that you want a description of.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ShowFilterExpression"`: Specifies whether the response includes the filter expression
+  associated with the budget. By showing the filter expression, you can see detailed
+  filtering logic applied to the budget, such as Amazon Web Services services or tags that
+  are being tracked.
 """
 function describe_budget end
 
@@ -901,6 +916,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default is 100.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
+- `"ShowFilterExpression"`: Specifies whether the response includes the filter expression
+  associated with the budgets. By showing the filter expression, you can see detailed
+  filtering logic applied to the budgets, such as Amazon Web Services services or tags that
+  are being tracked.
 """
 function describe_budgets end
 
@@ -1253,6 +1272,12 @@ Amazon Web Services has new usage data to use for forecasting.
     time. Use the syntax that matches your case. The Request Syntax section shows the
     `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples)
     section.
+
+    Similarly, only one set of filter and metric selections can be present in the syntax at
+    one time. Either `FilterExpression` and `Metrics` or `CostFilters` and `CostTypes`, not
+    both or a different combination. We recommend using `FilterExpression` and `Metrics` as
+    they provide more flexible and powerful filtering capabilities. The Request Syntax
+    section shows the `FilterExpression`/`Metrics` syntax.
 
 # Arguments
 

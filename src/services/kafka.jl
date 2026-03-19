@@ -114,6 +114,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PER_TOPIC_PER_PARTITION.
 - `"LoggingInfo"`:
 - `"OpenMonitoring"`: The settings for open monitoring.
+- `"Rebalancing"`: Specifies if intelligent rebalancing should be turned on for the new MSK
+  Provisioned cluster with Express brokers. By default, intelligent rebalancing status is
+  ACTIVE for all new clusters.
 - `"StorageMode"`: This controls storage mode for supported storage tiers.
 - `"Tags"`: Create tags when creating the cluster.
 """
@@ -346,6 +349,74 @@ function create_replicator(
 end
 
 """
+    create_topic(cluster_arn, partition_count, replication_factor, topic_name)
+    create_topic(cluster_arn, partition_count, replication_factor, topic_name, params::Dict{String,<:Any})
+
+Creates a topic in the specified MSK cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `partition_count`: The number of partitions for the topic.
+- `replication_factor`: The replication factor for the topic.
+- `topic_name`: The name of the topic to create.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Configs"`: Topic configurations encoded as a Base64 string.
+"""
+function create_topic end
+
+function create_topic(
+    ClusterArn,
+    PartitionCount,
+    ReplicationFactor,
+    TopicName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/v1/clusters/$(ClusterArn)/topics",
+        Dict{String,Any}(
+            "PartitionCount" => PartitionCount,
+            "ReplicationFactor" => ReplicationFactor,
+            "TopicName" => TopicName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_topic(
+    ClusterArn,
+    PartitionCount,
+    ReplicationFactor,
+    TopicName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/v1/clusters/$(ClusterArn)/topics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PartitionCount" => PartitionCount,
+                    "ReplicationFactor" => ReplicationFactor,
+                    "TopicName" => TopicName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id)
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id, params::Dict{String,<:Any})
 
@@ -562,6 +633,45 @@ function delete_replicator(
     return kafka(
         "DELETE",
         "/replication/v1/replicators/$(ReplicatorArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_topic(cluster_arn, topic_name)
+    delete_topic(cluster_arn, topic_name, params::Dict{String,<:Any})
+
+Deletes a topic in the specified MSK cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `topic_name`: The name of the topic to delete.
+"""
+function delete_topic end
+
+function delete_topic(
+    ClusterArn, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafka(
+        "DELETE",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_topic(
+    ClusterArn,
+    TopicName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "DELETE",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -848,6 +958,94 @@ function describe_replicator(
 end
 
 """
+    describe_topic(cluster_arn, topic_name)
+    describe_topic(cluster_arn, topic_name, params::Dict{String,<:Any})
+
+Returns topic details of this topic on a MSK cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `topic_name`: The Kafka topic name that uniquely identifies the topic.
+"""
+function describe_topic end
+
+function describe_topic(
+    ClusterArn, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_topic(
+    ClusterArn,
+    TopicName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_topic_partitions(cluster_arn, topic_name)
+    describe_topic_partitions(cluster_arn, topic_name, params::Dict{String,<:Any})
+
+Returns partition details of this topic on a MSK cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `topic_name`: The Kafka topic name that uniquely identifies the topic.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
+"""
+function describe_topic_partitions end
+
+function describe_topic_partitions(
+    ClusterArn, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)/partitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_topic_partitions(
+    ClusterArn,
+    TopicName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)/partitions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_vpc_connection(arn)
     describe_vpc_connection(arn, params::Dict{String,<:Any})
 
@@ -881,7 +1079,11 @@ end
     get_bootstrap_brokers(cluster_arn)
     get_bootstrap_brokers(cluster_arn, params::Dict{String,<:Any})
 
-A list of brokers that a client application can use to bootstrap.
+A list of brokers that a client application can use to bootstrap. This list doesn't
+necessarily include all of the brokers in the cluster. The following Python 3.6 example
+shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap
+brokers. If you don't know the ARN of your cluster, you can use the [`list_clusters`](@ref)
+operation to get the ARNs of all the clusters in this account and Region.
 
 # Arguments
 
@@ -1440,6 +1642,52 @@ function list_tags_for_resource(
     return kafka(
         "GET",
         "/v1/tags/$(ResourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_topics(cluster_arn)
+    list_topics(cluster_arn, params::Dict{String,<:Any})
+
+List topics in a MSK cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If there are more
+  results, the response includes a NextToken parameter.
+- `"nextToken"`: The paginated results marker. When the result of the operation is
+  truncated, the call returns NextToken in the response. To get the next batch, provide this
+  token in your next request.
+- `"topicNameFilter"`: Returns topics starting with given name.
+"""
+function list_topics end
+
+function list_topics(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_topics(
+    ClusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(ClusterArn)/topics",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2164,6 +2412,62 @@ function update_monitoring(
 end
 
 """
+    update_rebalancing(cluster_arn, current_version, rebalancing)
+    update_rebalancing(cluster_arn, current_version, rebalancing, params::Dict{String,<:Any})
+
+Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned
+cluster with Express brokers.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
+- `current_version`: The current version of the cluster.
+- `rebalancing`: Specifies if intelligent rebalancing should be turned on for your cluster.
+  The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters
+  that you create with Express brokers.
+"""
+function update_rebalancing end
+
+function update_rebalancing(
+    ClusterArn,
+    CurrentVersion,
+    Rebalancing;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(ClusterArn)/rebalancing",
+        Dict{String,Any}("CurrentVersion" => CurrentVersion, "Rebalancing" => Rebalancing);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_rebalancing(
+    ClusterArn,
+    CurrentVersion,
+    Rebalancing,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(ClusterArn)/rebalancing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentVersion" => CurrentVersion, "Rebalancing" => Rebalancing
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_replication_info(current_version, replicator_arn, source_kafka_cluster_arn, target_kafka_cluster_arn)
     update_replication_info(current_version, replicator_arn, source_kafka_cluster_arn, target_kafka_cluster_arn, params::Dict{String,<:Any})
 
@@ -2330,6 +2634,52 @@ function update_storage(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_topic(cluster_arn, topic_name)
+    update_topic(cluster_arn, topic_name, params::Dict{String,<:Any})
+
+Updates the configuration of the specified topic.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+- `topic_name`: The name of the topic to update configuration for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Configs"`: The new topic configurations encoded as a Base64 string.
+- `"PartitionCount"`: The new total number of partitions for the topic.
+"""
+function update_topic end
+
+function update_topic(
+    ClusterArn, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_topic(
+    ClusterArn,
+    TopicName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(ClusterArn)/topics/$(TopicName)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

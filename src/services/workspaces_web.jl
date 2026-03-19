@@ -49,6 +49,52 @@ function associate_browser_settings(
 end
 
 """
+    associate_data_protection_settings(data_protection_settings_arn, portal_arn)
+    associate_data_protection_settings(data_protection_settings_arn, portal_arn, params::Dict{String,<:Any})
+
+Associates a data protection settings resource with a web portal.
+
+# Arguments
+
+- `data_protection_settings_arn`: The ARN of the data protection settings.
+- `portal_arn`: The ARN of the web portal.
+"""
+function associate_data_protection_settings end
+
+function associate_data_protection_settings(
+    dataProtectionSettingsArn, portalArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "PUT",
+        "/portals/$(portalArn)/dataProtectionSettings",
+        Dict{String,Any}("dataProtectionSettingsArn" => dataProtectionSettingsArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_data_protection_settings(
+    dataProtectionSettingsArn,
+    portalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "PUT",
+        "/portals/$(portalArn)/dataProtectionSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("dataProtectionSettingsArn" => dataProtectionSettingsArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_ip_access_settings(ip_access_settings_arn, portal_arn)
     associate_ip_access_settings(ip_access_settings_arn, portal_arn, params::Dict{String,<:Any})
 
@@ -131,6 +177,50 @@ function associate_network_settings(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("networkSettingsArn" => networkSettingsArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_session_logger(portal_arn, session_logger_arn)
+    associate_session_logger(portal_arn, session_logger_arn, params::Dict{String,<:Any})
+
+Associates a session logger with a portal.
+
+# Arguments
+
+- `portal_arn`: The ARN of the portal to associate to the session logger ARN.
+- `session_logger_arn`: The ARN of the session logger to associate to the portal ARN.
+"""
+function associate_session_logger end
+
+function associate_session_logger(
+    portalArn, sessionLoggerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "PUT",
+        "/portals/$(portalArn)/sessionLogger",
+        Dict{String,Any}("sessionLoggerArn" => sessionLoggerArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_session_logger(
+    portalArn,
+    sessionLoggerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "PUT",
+        "/portals/$(portalArn)/sessionLogger",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sessionLoggerArn" => sessionLoggerArn), params
             ),
         );
         aws_config,
@@ -275,23 +365,21 @@ function associate_user_settings(
 end
 
 """
-    create_browser_settings(browser_policy)
-    create_browser_settings(browser_policy, params::Dict{String,<:Any})
+    create_browser_settings()
+    create_browser_settings(params::Dict{String,<:Any})
 
 Creates a browser settings resource that can be associated with a web portal. Once
 associated with a web portal, browser settings control how the browser will behave once a
 user starts a streaming session for the web portal.
-
-# Arguments
-
-- `browser_policy`: A JSON string containing Chrome Enterprise policies that will be applied
-  to all streaming sessions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalEncryptionContext"`: Additional encryption context of the browser settings.
+
+- `"browserPolicy"`: A JSON string containing Chrome Enterprise policies that will be
+  applied to all streaming sessions.
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Idempotency ensures that an API request completes only once.
@@ -305,39 +393,93 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customerManagedKey"`: The custom managed key of the browser settings.
 
 - `"tags"`: The tags to add to the browser settings resource. A tag is a key-value pair.
+
+- `"webContentFilteringPolicy"`: The policy that specifies which URLs end users are allowed
+  to access or which URLs or domain categories they are restricted from accessing for
+  enhanced security.
 """
 function create_browser_settings end
 
-function create_browser_settings(
-    browserPolicy; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_browser_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return workspaces_web(
         "POST",
         "/browserSettings",
-        Dict{String,Any}(
-            "browserPolicy" => browserPolicy, "clientToken" => string(uuid4())
-        );
+        Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_browser_settings(
-    browserPolicy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workspaces_web(
         "POST",
         "/browserSettings",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "browserPolicy" => browserPolicy, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_protection_settings()
+    create_data_protection_settings(params::Dict{String,<:Any})
+
+Creates a data protection settings resource that can be associated with a web portal.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"additionalEncryptionContext"`: Additional encryption context of the data protection
+  settings.
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, subsequent
+  retries with the same client token returns the result from the original successful
+  request.
+
+  If you do not specify a client token, one is automatically generated by the Amazon Web
+  Services SDK.
+
+- `"customerManagedKey"`: The custom managed key of the data protection settings.
+
+- `"description"`: The description of the data protection settings.
+
+- `"displayName"`: The display name of the data protection settings.
+
+- `"inlineRedactionConfiguration"`: The inline redaction configuration of the data
+  protection settings that will be applied to all sessions.
+
+- `"tags"`: The tags to add to the data protection settings resource. A tag is a key-value
+  pair.
+"""
+function create_data_protection_settings end
+
+function create_data_protection_settings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "POST",
+        "/dataProtectionSettings",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_protection_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "POST",
+        "/dataProtectionSettings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -405,6 +547,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
+
+- `"tags"`: The tags to add to the identity provider resource. A tag is a key-value pair.
 """
 function create_identity_provider end
 
@@ -490,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"displayName"`: The display name of the IP access settings.
 
-- `"tags"`: The tags to add to the browser settings resource. A tag is a key-value pair.
+- `"tags"`: The tags to add to the IP access settings resource. A tag is a key-value pair.
 """
 function create_ip_access_settings end
 
@@ -623,10 +767,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to call `CreateIdentityProvider` to integrate your identity provider with your web portal.
   User and group access to your web portal is controlled through your identity provider.
 
-  `IAM Identity Center` web portals are authenticated through IAM Identity Center (successor
-  to Single Sign-On). Identity sources (including external identity provider integration),
-  plus user and group access to your web portal, can be configured in the IAM Identity
-  Center.
+  `IAM Identity Center` web portals are authenticated through IAM Identity Center. Identity
+  sources (including external identity provider integration), plus user and group access to
+  your web portal, can be configured in the IAM Identity Center.
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Idempotency ensures that an API request completes only once.
@@ -645,6 +788,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: The type and resources of the underlying instance.
 
 - `"maxConcurrentSessions"`: The maximum number of concurrent sessions for the portal.
+
+- `"portalCustomDomain"`: The custom domain of the web portal that users access in order to
+  start streaming sessions.
 
 - `"tags"`: The tags to add to the web portal. A tag is a key-value pair.
 """
@@ -668,6 +814,79 @@ function create_portal(
         "/portals",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_session_logger(event_filter, log_configuration)
+    create_session_logger(event_filter, log_configuration, params::Dict{String,<:Any})
+
+Creates a session logger.
+
+# Arguments
+
+- `event_filter`: The filter that specifies the events to monitor.
+- `log_configuration`: The configuration that specifies where logs are delivered.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"additionalEncryptionContext"`: The additional encryption context of the session logger.
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, subsequent
+  retries with the same client token returns the result from the original successful
+  request. If you do not specify a client token, one is automatically generated by the AWS
+  SDK.
+
+- `"customerManagedKey"`: The custom managed key of the session logger.
+
+- `"displayName"`: The human-readable display name for the session logger resource.
+
+- `"tags"`: The tags to add to the session logger.
+"""
+function create_session_logger end
+
+function create_session_logger(
+    eventFilter, logConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "POST",
+        "/sessionLoggers",
+        Dict{String,Any}(
+            "eventFilter" => eventFilter,
+            "logConfiguration" => logConfiguration,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_session_logger(
+    eventFilter,
+    logConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "POST",
+        "/sessionLoggers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventFilter" => eventFilter,
+                    "logConfiguration" => logConfiguration,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -830,6 +1049,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"additionalEncryptionContext"`: The additional encryption context of the user settings.
 
+- `"brandingConfigurationInput"`: The branding configuration input that customizes the
+  appearance of the web portal for end users. This includes a custom logo, favicon,
+  localized strings, color theme, and optionally a wallpaper and terms of service.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Idempotency ensures that an API request completes only once.
   With an idempotent request, if the original request completes successfully, subsequent
@@ -845,6 +1068,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customerManagedKey"`: The customer managed key used to encrypt sensitive information in
   the user settings.
 
+- `"deepLinkAllowed"`: Specifies whether the user can use deep links that open automatically
+  when connecting to a session.
+
 - `"disconnectTimeoutInMinutes"`: The amount of time that a streaming session remains active
   after users disconnect.
 
@@ -853,6 +1079,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   interval begins.
 
 - `"tags"`: The tags to add to the user settings resource. A tag is a key-value pair.
+
+- `"toolbarConfiguration"`: The configuration of the toolbar. This allows administrators to
+  select the toolbar type and visual mode, set maximum display resolution for sessions, and
+  choose which items are visible to end users during their sessions. If administrators do
+  not modify these settings, end users retain control over their toolbar preferences.
+
+- `"webAuthnAllowed"`: Specifies whether the user can use WebAuthn redirection for
+  passwordless login to websites within the streaming session.
 """
 function create_user_settings end
 
@@ -942,6 +1176,43 @@ function delete_browser_settings(
     return workspaces_web(
         "DELETE",
         "/browserSettings/$(browserSettingsArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_protection_settings(data_protection_settings_arn)
+    delete_data_protection_settings(data_protection_settings_arn, params::Dict{String,<:Any})
+
+Deletes data protection settings.
+
+# Arguments
+
+- `data_protection_settings_arn`: The ARN of the data protection settings.
+"""
+function delete_data_protection_settings end
+
+function delete_data_protection_settings(
+    dataProtectionSettingsArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "DELETE",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_protection_settings(
+    dataProtectionSettingsArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "DELETE",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1085,6 +1356,43 @@ function delete_portal(
     return workspaces_web(
         "DELETE",
         "/portals/$(portalArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_session_logger(session_logger_arn)
+    delete_session_logger(session_logger_arn, params::Dict{String,<:Any})
+
+Deletes a session logger resource.
+
+# Arguments
+
+- `session_logger_arn`: The ARN of the session logger.
+"""
+function delete_session_logger end
+
+function delete_session_logger(
+    sessionLoggerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "DELETE",
+        "/sessionLoggers/$(sessionLoggerArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_session_logger(
+    sessionLoggerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "DELETE",
+        "/sessionLoggers/$(sessionLoggerArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1240,6 +1548,43 @@ function disassociate_browser_settings(
 end
 
 """
+    disassociate_data_protection_settings(portal_arn)
+    disassociate_data_protection_settings(portal_arn, params::Dict{String,<:Any})
+
+Disassociates data protection settings from a web portal.
+
+# Arguments
+
+- `portal_arn`: The ARN of the web portal.
+"""
+function disassociate_data_protection_settings end
+
+function disassociate_data_protection_settings(
+    portalArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalArn)/dataProtectionSettings";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_data_protection_settings(
+    portalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalArn)/dataProtectionSettings",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disassociate_ip_access_settings(portal_arn)
     disassociate_ip_access_settings(portal_arn, params::Dict{String,<:Any})
 
@@ -1307,6 +1652,43 @@ function disassociate_network_settings(
     return workspaces_web(
         "DELETE",
         "/portals/$(portalArn)/networkSettings",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_session_logger(portal_arn)
+    disassociate_session_logger(portal_arn, params::Dict{String,<:Any})
+
+Disassociates a session logger from a portal.
+
+# Arguments
+
+- `portal_arn`: The ARN of the portal to disassociate from the a session logger.
+"""
+function disassociate_session_logger end
+
+function disassociate_session_logger(
+    portalArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalArn)/sessionLogger";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_session_logger(
+    portalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalArn)/sessionLogger",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1425,6 +1807,45 @@ function disassociate_user_settings(
 end
 
 """
+    expire_session(portal_id, session_id)
+    expire_session(portal_id, session_id, params::Dict{String,<:Any})
+
+Expires an active secure browser session.
+
+# Arguments
+
+- `portal_id`: The ID of the web portal for the session.
+- `session_id`: The ID of the session to expire.
+"""
+function expire_session end
+
+function expire_session(
+    portalId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalId)/sessions/$(sessionId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function expire_session(
+    portalId,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "DELETE",
+        "/portals/$(portalId)/sessions/$(sessionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_browser_settings(browser_settings_arn)
     get_browser_settings(browser_settings_arn, params::Dict{String,<:Any})
 
@@ -1455,6 +1876,43 @@ function get_browser_settings(
     return workspaces_web(
         "GET",
         "/browserSettings/$(browserSettingsArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_protection_settings(data_protection_settings_arn)
+    get_data_protection_settings(data_protection_settings_arn, params::Dict{String,<:Any})
+
+Gets the data protection settings.
+
+# Arguments
+
+- `data_protection_settings_arn`: The ARN of the data protection settings.
+"""
+function get_data_protection_settings end
+
+function get_data_protection_settings(
+    dataProtectionSettingsArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "GET",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_protection_settings(
+    dataProtectionSettingsArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "GET",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1628,6 +2086,82 @@ function get_portal_service_provider_metadata(
     return workspaces_web(
         "GET",
         "/portalIdp/$(portalArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_session(portal_id, session_id)
+    get_session(portal_id, session_id, params::Dict{String,<:Any})
+
+Gets information for a secure browser session.
+
+# Arguments
+
+- `portal_id`: The ID of the web portal for the session.
+- `session_id`: The ID of the session.
+"""
+function get_session end
+
+function get_session(
+    portalId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "GET",
+        "/portals/$(portalId)/sessions/$(sessionId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_session(
+    portalId,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "GET",
+        "/portals/$(portalId)/sessions/$(sessionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_session_logger(session_logger_arn)
+    get_session_logger(session_logger_arn, params::Dict{String,<:Any})
+
+Gets details about a specific session logger resource.
+
+# Arguments
+
+- `session_logger_arn`: The ARN of the session logger.
+"""
+function get_session_logger end
+
+function get_session_logger(
+    sessionLoggerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "GET",
+        "/sessionLoggers/$(sessionLoggerArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_session_logger(
+    sessionLoggerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "GET",
+        "/sessionLoggers/$(sessionLoggerArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1813,6 +2347,40 @@ function list_browser_settings(
 end
 
 """
+    list_data_protection_settings()
+    list_data_protection_settings(params::Dict{String,<:Any})
+
+Retrieves a list of data protection settings.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to be included in the next page.
+- `"nextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_data_protection_settings end
+
+function list_data_protection_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return workspaces_web(
+        "GET", "/dataProtectionSettings"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_data_protection_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "GET",
+        "/dataProtectionSettings",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_identity_providers(portal_arn)
     list_identity_providers(portal_arn, params::Dict{String,<:Any})
 
@@ -1942,6 +2510,80 @@ function list_portals(
 )
     return workspaces_web(
         "GET", "/portals", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_session_loggers()
+    list_session_loggers(params::Dict{String,<:Any})
+
+Lists all available session logger resources.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to be included in the next page.
+- `"nextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_session_loggers end
+
+function list_session_loggers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return workspaces_web(
+        "GET", "/sessionLoggers"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_session_loggers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "GET", "/sessionLoggers", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_sessions(portal_id)
+    list_sessions(portal_id, params::Dict{String,<:Any})
+
+Lists information for multiple secure browser sessions from a specific portal.
+
+# Arguments
+
+- `portal_id`: The ID of the web portal for the sessions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to be included in the next page.
+- `"nextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+- `"sessionId"`: The ID of the session.
+- `"sortBy"`: The method in which the returned sessions should be sorted.
+- `"status"`: The status of the session.
+- `"username"`: The username of the session.
+"""
+function list_sessions end
+
+function list_sessions(portalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return workspaces_web(
+        "GET", "/portals/$(portalId)/sessions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_sessions(
+    portalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "GET",
+        "/portals/$(portalId)/sessions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2237,6 +2879,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
+
+- `"webContentFilteringPolicy"`: The policy that specifies which URLs end users are allowed
+  to access or which URLs or domain categories they are restricted from accessing for
+  enhanced security.
 """
 function update_browser_settings end
 
@@ -2260,6 +2906,65 @@ function update_browser_settings(
     return workspaces_web(
         "PATCH",
         "/browserSettings/$(browserSettingsArn)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_protection_settings(data_protection_settings_arn)
+    update_data_protection_settings(data_protection_settings_arn, params::Dict{String,<:Any})
+
+Updates data protection settings.
+
+# Arguments
+
+- `data_protection_settings_arn`: The ARN of the data protection settings.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, subsequent
+  retries with the same client token return the result from the original successful request.
+
+  If you do not specify a client token, one is automatically generated by the Amazon Web
+  Services SDK.
+
+- `"description"`: The description of the data protection settings.
+
+- `"displayName"`: The display name of the data protection settings.
+
+- `"inlineRedactionConfiguration"`: The inline redaction configuration of the data
+  protection settings that will be applied to all sessions.
+"""
+function update_data_protection_settings end
+
+function update_data_protection_settings(
+    dataProtectionSettingsArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "PATCH",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_protection_settings(
+    dataProtectionSettingsArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "PATCH",
+        "/dataProtectionSettings/$(dataProtectionSettingsArn)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
@@ -2499,10 +3204,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to call `CreateIdentityProvider` to integrate your identity provider with your web portal.
   User and group access to your web portal is controlled through your identity provider.
 
-  `IAM Identity Center` web portals are authenticated through IAM Identity Center (successor
-  to Single Sign-On). Identity sources (including external identity provider integration),
-  plus user and group access to your web portal, can be configured in the IAM Identity
-  Center.
+  `IAM Identity Center` web portals are authenticated through IAM Identity Center. Identity
+  sources (including external identity provider integration), plus user and group access to
+  your web portal, can be configured in the IAM Identity Center.
 
 - `"displayName"`: The name of the web portal. This is not visible to users who log into the
   web portal.
@@ -2510,6 +3214,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: The type and resources of the underlying instance.
 
 - `"maxConcurrentSessions"`: The maximum number of concurrent sessions for the portal.
+
+- `"portalCustomDomain"`: The custom domain of the web portal that users access in order to
+  start streaming sessions.
 """
 function update_portal end
 
@@ -2526,6 +3233,51 @@ function update_portal(
 )
     return workspaces_web(
         "PUT", "/portals/$(portalArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    update_session_logger(session_logger_arn)
+    update_session_logger(session_logger_arn, params::Dict{String,<:Any})
+
+Updates the details of a session logger.
+
+# Arguments
+
+- `session_logger_arn`: The ARN of the session logger to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"displayName"`: The updated display name.
+- `"eventFilter"`: The updated eventFilter.
+- `"logConfiguration"`: The updated logConfiguration.
+"""
+function update_session_logger end
+
+function update_session_logger(
+    sessionLoggerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workspaces_web(
+        "POST",
+        "/sessionLoggers/$(sessionLoggerArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_session_logger(
+    sessionLoggerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workspaces_web(
+        "POST",
+        "/sessionLoggers/$(sessionLoggerArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2653,6 +3405,12 @@ Updates the user settings.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"brandingConfigurationInput"`: The branding configuration that customizes the appearance
+  of the web portal for end users. When updating user settings without an existing branding
+  configuration, all fields (logo, favicon, localized strings, and color theme) are required
+  except for wallpaper and terms of service. When updating user settings with an existing
+  branding configuration, all fields are optional.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Idempotency ensures that an API request completes only once.
   With an idempotent request, if the original request completes successfully, subsequent
@@ -2669,6 +3427,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"copyAllowed"`: Specifies whether the user can copy text from the streaming session to
   the local device.
 
+- `"deepLinkAllowed"`: Specifies whether the user can use deep links that open automatically
+  when connecting to a session.
+
 - `"disconnectTimeoutInMinutes"`: The amount of time that a streaming session remains active
   after users disconnect.
 
@@ -2684,8 +3445,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"printAllowed"`: Specifies whether the user can print to the local device.
 
+- `"toolbarConfiguration"`: The configuration of the toolbar. This allows administrators to
+  select the toolbar type and visual mode, set maximum display resolution for sessions, and
+  choose which items are visible to end users during their sessions. If administrators do
+  not modify these settings, end users retain control over their toolbar preferences.
+
 - `"uploadAllowed"`: Specifies whether the user can upload files from the local device to
   the streaming session.
+
+- `"webAuthnAllowed"`: Specifies whether the user can use WebAuthn redirection for
+  passwordless login to websites within the streaming session.
 """
 function update_user_settings end
 

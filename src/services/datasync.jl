@@ -5,100 +5,6 @@ using AWS.AWSServices: datasync
 using AWS.UUIDs: uuid4
 
 """
-    add_storage_system(agent_arns, client_token, credentials, server_configuration, system_type)
-    add_storage_system(agent_arns, client_token, credentials, server_configuration, system_type, params::Dict{String,<:Any})
-
-Creates an Amazon Web Services resource for an on-premises storage system that you want
-DataSync Discovery to collect information about.
-
-# Arguments
-
-- `agent_arns`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects
-  to and reads from your on-premises storage system's management interface. You can only
-  specify one ARN.
-
-- `client_token`: Specifies a client token to make sure requests with this API operation are
-  idempotent. If you don't specify a client token, DataSync generates one for you
-  automatically.
-
-- `credentials`: Specifies the user name and password for accessing your on-premises storage
-  system's management interface.
-
-- `server_configuration`: Specifies the server name and network port required to connect
-  with the management interface of your on-premises storage system.
-
-- `system_type`: Specifies the type of on-premises storage system that you want DataSync
-  Discovery to collect information about.
-
-  !!! note
-      DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All
-      Flash FAS (AFF) systems running ONTAP 9.7 or later.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"CloudWatchLogGroupArn"`: Specifies the ARN of the Amazon CloudWatch log group for
-  monitoring and logging discovery job events.
-- `"Name"`: Specifies a familiar name for your on-premises storage system.
-- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
-  Web Services resources. We recommend creating at least a name tag for your on-premises
-  storage system.
-"""
-function add_storage_system end
-
-function add_storage_system(
-    AgentArns,
-    ClientToken,
-    Credentials,
-    ServerConfiguration,
-    SystemType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "AddStorageSystem",
-        Dict{String,Any}(
-            "AgentArns" => AgentArns,
-            "ClientToken" => ClientToken,
-            "Credentials" => Credentials,
-            "ServerConfiguration" => ServerConfiguration,
-            "SystemType" => SystemType,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function add_storage_system(
-    AgentArns,
-    ClientToken,
-    Credentials,
-    ServerConfiguration,
-    SystemType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "AddStorageSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AgentArns" => AgentArns,
-                    "ClientToken" => ClientToken,
-                    "Credentials" => Credentials,
-                    "ServerConfiguration" => ServerConfiguration,
-                    "SystemType" => SystemType,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     cancel_task_execution(task_execution_arn)
     cancel_task_execution(task_execution_arn, params::Dict{String,<:Any})
 
@@ -149,47 +55,37 @@ end
     create_agent(activation_key)
     create_agent(activation_key, params::Dict{String,<:Any})
 
-Activates an DataSync agent that you've deployed in your storage environment. The activation
+Activates an DataSync agent that you deploy in your storage environment. The activation
 process associates the agent with your Amazon Web Services account.
 
-If you haven't deployed an agent yet, see the following topics to learn more:
-
-- [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
-- [Create an agent](https://docs.aws.amazon.com/datasync/latest/userguide/configure-agent.html)
-
-!!! note
-    If you're transferring between Amazon Web Services storage services, you don't need a
-    DataSync agent.
+If you haven't deployed an agent yet, see [Do I need a DataSync agent?](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html)
 
 # Arguments
 
 - `activation_key`: Specifies your DataSync agent's activation key. If you don't have an
-  activation key, see [Activate your agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
+  activation key, see [Activating your agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AgentName"`: Specifies a name for your agent. You can see this name in the DataSync
-  console.
+- `"AgentName"`: Specifies a name for your agent. We recommend specifying a name that you
+  can remember.
 
 - `"SecurityGroupArns"`: Specifies the Amazon Resource Name (ARN) of the security group that
-  protects your task's [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces)
-  when [using a virtual private cloud (VPC) endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc).
-  You can only specify one ARN.
+  allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
 
-- `"SubnetArns"`: Specifies the ARN of the subnet where you want to run your DataSync task
-  when using a VPC endpoint. This is the subnet where DataSync creates and manages the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces)
-  for your transfer. You can only specify one ARN.
+- `"SubnetArns"`: Specifies the ARN of the subnet where your VPC service endpoint is
+  located. You can only specify one ARN.
 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least one tag for your agent.
 
-- `"VpcEndpointId"`: Specifies the ID of the VPC endpoint that you want your agent to
-  connect to. For example, a VPC endpoint ID looks like `vpce-01234d5aff67890e1`.
+- `"VpcEndpointId"`: Specifies the ID of the [VPC service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#datasync-in-vpc)
+  that you're using. For example, a VPC endpoint ID looks like `vpce-01234d5aff67890e1`.
 
   !!! important
-      The VPC endpoint you use must include the DataSync service name (for example,
+      The VPC service endpoint you use must include the DataSync service name (for example,
       `com.amazonaws.us-east-2.datasync`).
 """
 function create_agent end
@@ -219,29 +115,22 @@ function create_agent(
 end
 
 """
-    create_location_azure_blob(agent_arns, authentication_type, container_url)
-    create_location_azure_blob(agent_arns, authentication_type, container_url, params::Dict{String,<:Any})
+    create_location_azure_blob(authentication_type, container_url)
+    create_location_azure_blob(authentication_type, container_url, params::Dict{String,<:Any})
 
 Creates a transfer *location* for a Microsoft Azure Blob Storage container. DataSync can use
-this location as a transfer source or destination.
+this location as a transfer source or destination. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent)
+that connects to your container.
 
 Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access)
 and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers)
 and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types).
-You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent)
-that can connect to your container.
 
 # Arguments
-
-- `agent_arns`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
-  connect with your Azure Blob Storage container.
-
-  You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
 
 - `authentication_type`: Specifies the authentication method DataSync uses to access your
   Azure Blob Storage. DataSync can access blob storage using a shared access signature
   (SAS).
-
 - `container_url`: Specifies the URL of the Azure Blob Storage container involved in your
   transfer.
 
@@ -252,13 +141,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessTier"`: Specifies the access tier that you want your objects or files transferred
   into. This only applies when using the location as a transfer destination. For more
   information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
+
+- `"AgentArns"`: (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent
+  that can connect with your Azure Blob Storage container. If you are setting up an
+  agentless cross-cloud transfer, you do not need to specify a value for this parameter.
+
+  You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
+
+  !!! note
+      Make sure you configure this parameter correctly when you first create your storage
+      location. You cannot add or remove agents from a storage location after you create it.
+
 - `"BlobType"`: Specifies the type of blob that you want your objects or files to be when
   transferring them into Azure Blob Storage. Currently, DataSync only supports moving data
   into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  which includes the authentication token that DataSync uses to access a specific AzureBlob
+  storage location, with a customer-managed KMS key.
+
+  When you include this parameter as part of a `CreateLocationAzureBlob` request, you
+  provide only the KMS key ARN. DataSync uses this KMS key together with the authentication
+  token you specify for `SasConfiguration` to create a DataSync-managed secret to store the
+  location access credentials.
+
+  Make sure that DataSync has permission to access the KMS key that you specify. For more
+  information, see [Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `SasConfiguration`) or `CustomSecretConfig`
+      (without `SasConfiguration`) to provide credentials for a `CreateLocationAzureBlob`
+      request. Do not provide both parameters for the same request.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed Secrets
+  Manager secret where the authentication token for an AzureBlob storage location is stored
+  in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN
+  for an IAM role that provides access to the secret. For more information, see [Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `SasConfiguration`) or `CustomSecretConfig`
+      (without `SasConfiguration`) to provide credentials for a `CreateLocationAzureBlob`
+      request. Do not provide both parameters for the same request.
+
 - `"SasConfiguration"`: Specifies the SAS configuration that allows DataSync to access your
   Azure Blob Storage.
+
+  !!! note
+      If you provide an authentication token using `SasConfiguration`, but do not provide
+      secret configuration details using `CmkSecretConfig` or `CustomSecretConfig`, then
+      DataSync stores the token using your Amazon Web Services account's secrets manager
+      secret.
+
 - `"Subdirectory"`: Specifies path segments if you want to limit your transfer to a virtual
   directory in your container (for example, `/my/images`).
+
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your transfer
   location.
@@ -266,17 +202,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_location_azure_blob end
 
 function create_location_azure_blob(
-    AgentArns,
-    AuthenticationType,
-    ContainerUrl;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    AuthenticationType, ContainerUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datasync(
         "CreateLocationAzureBlob",
         Dict{String,Any}(
-            "AgentArns" => AgentArns,
-            "AuthenticationType" => AuthenticationType,
-            "ContainerUrl" => ContainerUrl,
+            "AuthenticationType" => AuthenticationType, "ContainerUrl" => ContainerUrl
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -284,7 +215,6 @@ function create_location_azure_blob(
 end
 
 function create_location_azure_blob(
-    AgentArns,
     AuthenticationType,
     ContainerUrl,
     params::AbstractDict{String};
@@ -296,7 +226,6 @@ function create_location_azure_blob(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AgentArns" => AgentArns,
                     "AuthenticationType" => AuthenticationType,
                     "ContainerUrl" => ContainerUrl,
                 ),
@@ -319,32 +248,38 @@ Before you begin, make sure that you understand how DataSync [accesses Amazon EF
 
 # Arguments
 
-- `ec2_config`: Specifies the subnet and security groups DataSync uses to access your Amazon
-  EFS file system.
-- `efs_filesystem_arn`: Specifies the ARN for the Amazon EFS file system.
+- `ec2_config`: Specifies the subnet and security groups DataSync uses to connect to one of
+  your Amazon EFS file system's [mount targets](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html).
+- `efs_filesystem_arn`: Specifies the ARN for your Amazon EFS file system.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccessPointArn"`: Specifies the Amazon Resource Name (ARN) of the access point that
-  DataSync uses to access the Amazon EFS file system.
+  DataSync uses to mount your Amazon EFS file system.
+
+  For more information, see [Accessing restricted file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam).
 
 - `"FileSystemAccessRoleArn"`: Specifies an Identity and Access Management (IAM) role that
-  DataSync assumes when mounting the Amazon EFS file system.
+  allows DataSync to access your Amazon EFS file system.
+
+  For information on creating this role, see [Creating a DataSync IAM role for file system access](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role).
 
 - `"InTransitEncryption"`: Specifies whether you want DataSync to use Transport Layer
-  Security (TLS) 1.2 encryption when it copies data to or from the Amazon EFS file system.
+  Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file
+  system.
 
   If you specify an access point using `AccessPointArn` or an IAM role using
   `FileSystemAccessRoleArn`, you must set this parameter to `TLS1_2`.
 
 - `"Subdirectory"`: Specifies a mount path for your Amazon EFS file system. This is where
-  DataSync reads or writes data (depending on if this is a source or destination location).
-  By default, DataSync uses the root directory, but you can also include subdirectories.
+  DataSync reads or writes data on your file system (depending on if this is a source or
+  destination location).
 
-  !!! note
-      You must specify a value with forward slashes (for example, `/path/to/folder`).
+  By default, DataSync uses the root directory (or [access point](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html)
+  if you provide one by using `AccessPointArn`). You can also include subdirectories using
+  forward slashes (for example, `/path/to/folder`).
 
 - `"Tags"`: Specifies the key-value pair that represents a tag that you want to add to the
   resource. The value can be an empty string. This value helps you manage, filter, and
@@ -396,20 +331,29 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for L
 
 # Arguments
 
-- `fsx_filesystem_arn`: The Amazon Resource Name (ARN) for the FSx for Lustre file system.
-- `security_group_arns`: The Amazon Resource Names (ARNs) of the security groups that are
-  used to configure the FSx for Lustre file system.
+- `fsx_filesystem_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file
+  system.
+
+- `security_group_arns`: Specifies the Amazon Resource Names (ARNs) of up to five security
+  groups that provide access to your FSx for Lustre file system.
+
+  The security groups must be able to access the file system's ports. The file system must
+  also allow access from the security groups. For information about file system access, see
+  the [*Amazon FSx for Lustre User Guide*](https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Subdirectory"`: A subdirectory in the location's path. This subdirectory in the FSx for
-  Lustre file system is used to read data from the FSx for Lustre source location or write
-  data to the FSx for Lustre destination.
-- `"Tags"`: The key-value pair that represents a tag that you want to add to the resource.
-  The value can be an empty string. This value helps you manage, filter, and search for your
-  resources. We recommend that you create a name tag for your location.
+- `"Subdirectory"`: Specifies a mount path for your FSx for Lustre file system. The path can
+  include subdirectories.
+
+  When the location is used as a source, DataSync reads data from the mount path. When the
+  location is used as a destination, DataSync writes data to the mount path. If you don't
+  include this parameter, DataSync uses the file system's root directory (`/`).
+
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources. We recommend creating at least a name tag for your location.
 """
 function create_location_fsx_lustre end
 
@@ -480,8 +424,8 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for O
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Subdirectory"`: Specifies a path to the file share in the SVM where you'll copy your
-  data.
+- `"Subdirectory"`: Specifies a path to the file share in the SVM where you want to transfer
+  data to or from.
 
   You can specify a junction path (also known as a mount point), qtree path (for NFS file
   shares), or share name (for SMB file shares). For example, your mount path might be
@@ -616,8 +560,8 @@ function create_location_fsx_open_zfs(
 end
 
 """
-    create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user)
-    create_location_fsx_windows(fsx_filesystem_arn, password, security_group_arns, user, params::Dict{String,<:Any})
+    create_location_fsx_windows(fsx_filesystem_arn, security_group_arns, user)
+    create_location_fsx_windows(fsx_filesystem_arn, security_group_arns, user, params::Dict{String,<:Any})
 
 Creates a transfer *location* for an Amazon FSx for Windows File Server file system.
 DataSync can use this location as a source or destination for transferring data.
@@ -629,11 +573,12 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for W
 - `fsx_filesystem_arn`: Specifies the Amazon Resource Name (ARN) for the FSx for Windows
   File Server file system.
 
-- `password`: Specifies the password of the user with the permissions to mount and access
-  the files, folders, and file metadata in your FSx for Windows File Server file system.
+- `security_group_arns`: Specifies the ARNs of the Amazon EC2 security groups that provide
+  access to your file system's preferred subnet.
 
-- `security_group_arns`: Specifies the ARNs of the security groups that provide access to
-  your file system's preferred subnet.
+  The security groups that you specify must be able to communicate with your file system's
+  security groups. For information about configuring security groups for file system access,
+  see the [*Amazon FSx for Windows File Server User Guide*](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html).
 
   !!! note
       If you choose a security group that doesn't allow connections from within itself, do
@@ -654,11 +599,40 @@ Before you begin, make sure that you understand how DataSync [accesses FSx for W
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: Specifies the name of the Microsoft Active Directory domain that the FSx for
-  Windows File Server file system belongs to.
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  which includes the password that DataSync uses to access a specific FSx Windows storage
+  location, with a customer-managed KMS key.
+
+  When you include this parameter as part of a `CreateLocationFsxWindows` request, you
+  provide only the KMS key ARN. DataSync uses this KMS key together with the `Password` you
+  specify for to create a DataSync-managed secret to store the location access credentials.
+
+  Make sure that DataSync has permission to access the KMS key that you specify. For more
+  information, see [Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `Password`) or `CustomSecretConfig`
+      (without `Password`) to provide credentials for a `CreateLocationFsxWindows` request.
+      Do not provide both parameters for the same request.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed Secrets
+  Manager secret where the password for an FSx for Windows File Server storage location is
+  stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and
+  the ARN for an IAM role that provides access to the secret. For more information, see [Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `Password`) or `CustomSecretConfig`
+      (without `Password`) to provide credentials for a `CreateLocationFsxWindows` request.
+      Do not provide both parameters for the same request.
+
+- `"Domain"`: Specifies the name of the Windows domain that the FSx for Windows File Server
+  file system belongs to.
 
   If you have multiple Active Directory domains in your environment, configuring this
   parameter makes sure that DataSync connects to the right file system.
+
+- `"Password"`: Specifies the password of the user with the permissions to mount and access
+  the files, folders, and file metadata in your FSx for Windows File Server file system.
 
 - `"Subdirectory"`: Specifies a mount path for your file system using forward slashes. This
   is where DataSync reads or writes data (depending on if this is a source or destination
@@ -671,7 +645,6 @@ function create_location_fsx_windows end
 
 function create_location_fsx_windows(
     FsxFilesystemArn,
-    Password,
     SecurityGroupArns,
     User;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -680,7 +653,6 @@ function create_location_fsx_windows(
         "CreateLocationFsxWindows",
         Dict{String,Any}(
             "FsxFilesystemArn" => FsxFilesystemArn,
-            "Password" => Password,
             "SecurityGroupArns" => SecurityGroupArns,
             "User" => User,
         );
@@ -691,7 +663,6 @@ end
 
 function create_location_fsx_windows(
     FsxFilesystemArn,
-    Password,
     SecurityGroupArns,
     User,
     params::AbstractDict{String};
@@ -704,7 +675,6 @@ function create_location_fsx_windows(
                 _merge,
                 Dict{String,Any}(
                     "FsxFilesystemArn" => FsxFilesystemArn,
-                    "Password" => Password,
                     "SecurityGroupArns" => SecurityGroupArns,
                     "User" => User,
                 ),
@@ -727,8 +697,8 @@ Before you begin, make sure that you understand how DataSync [accesses HDFS clus
 
 # Arguments
 
-- `agent_arns`: The Amazon Resource Names (ARNs) of the agents that are used to connect to
-  the HDFS cluster.
+- `agent_arns`: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to
+  your HDFS cluster.
 - `authentication_type`: The type of authentication used to determine the identity of the
   user.
 - `name_nodes`: The NameNode that manages the HDFS namespace. The NameNode performs
@@ -743,10 +713,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BlockSize"`: The size of data blocks to write into the HDFS cluster. The block size must
   be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
 
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  which includes the Kerberos keytab that DataSync uses to access a specific Hadoop
+  Distributed File System (HDFS) storage location, with a customer-managed KMS key.
+
+  When you include this parameter as part of a `CreateLocationHdfs` request, you provide
+  only the KMS key ARN. DataSync uses this KMS key together with the `KerberosKeytab` you
+  specify for to create a DataSync-managed secret to store the location access credentials.
+
+  Make sure that DataSync has permission to access the KMS key that you specify. For more
+  information, see [Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `KerberosKeytab`) or `CustomSecretConfig`
+      (without `KerberosKeytab`) to provide credentials for a `CreateLocationHdfs` request.
+      Do not provide both parameters for the same request.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed Secrets
+  Manager secret where the Kerberos keytab for the HDFS storage location is stored in
+  binary, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an
+  IAM role that provides access to the secret. For more information, see [Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `KerberosKeytab`) or `CustomSecretConfig`
+      (without `KerberosKeytab`) to provide credentials for a `CreateLocationHdfs` request.
+      Do not provide both parameters for the same request.
+
 - `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
   defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
-  providing the file's address. If you're using the CLI, it performs base64 encoding for
-  you. Otherwise, provide the base64-encoded text.
+  providing the file's address.
 
   !!! note
       If `KERBEROS` is specified for `AuthenticationType`, this parameter is required.
@@ -842,19 +837,15 @@ this location as a source or destination for transferring data.
 
 Before you begin, make sure that you understand how DataSync [accesses NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
 
-!!! note
-    If you're copying data to or from an Snowcone device, you can also use
-    `CreateLocationNfs` to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
-
 # Arguments
 
-- `on_prem_config`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that want
-  to connect to your NFS file server.
+- `on_prem_config`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
+  connect to your NFS file server.
 
-  You can specify more than one agent. For more information, see [Using multiple agents for transfers](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
+  You can specify more than one agent. For more information, see [Using multiple DataSync agents](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents).
 
-- `server_hostname`: Specifies the Domain Name System (DNS) name or IP version 4 address of
-  the NFS file server that your DataSync agent connects to.
+- `server_hostname`: Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file
+  server that your DataSync agent connects to.
 
 - `subdirectory`: Specifies the export path in your NFS file server that you want DataSync
   to mount.
@@ -917,22 +908,20 @@ function create_location_nfs(
 end
 
 """
-    create_location_object_storage(agent_arns, bucket_name, server_hostname)
-    create_location_object_storage(agent_arns, bucket_name, server_hostname, params::Dict{String,<:Any})
+    create_location_object_storage(bucket_name, server_hostname)
+    create_location_object_storage(bucket_name, server_hostname, params::Dict{String,<:Any})
 
 Creates a transfer *location* for an object storage system. DataSync can use this location
-as a source or destination for transferring data.
+as a source or destination for transferring data. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#when-agent-required).
 
 Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites)
 for DataSync to work with object storage systems.
 
 # Arguments
 
-- `agent_arns`: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
-  securely connect with your location.
 - `bucket_name`: Specifies the name of the object storage bucket involved in the transfer.
-- `server_hostname`: Specifies the domain name or IP address of the object storage server. A
-  DataSync agent uses this hostname to mount the object storage server in a network.
+- `server_hostname`: Specifies the domain name or IP address (IPv4 or IPv6) of the object
+  storage server that your DataSync agent connects to.
 
 # Optional Parameters
 
@@ -941,8 +930,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessKey"`: Specifies the access key (for example, a user name) if credentials are
   required to authenticate with the object storage server.
 
+- `"AgentArns"`: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync
+  agents that can connect with your object storage system. If you are setting up an
+  agentless cross-cloud transfer, you do not need to specify a value for this parameter.
+
+  !!! note
+      Make sure you configure this parameter correctly when you first create your storage
+      location. You cannot add or remove agents from a storage location after you create it.
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  which includes the `SecretKey` that DataSync uses to access a specific object storage
+  location, with a customer-managed KMS key.
+
+  When you include this parameter as part of a `CreateLocationObjectStorage` request, you
+  provide only the KMS key ARN. DataSync uses this KMS key together with the value you
+  specify for the `SecretKey` parameter to create a DataSync-managed secret to store the
+  location access credentials.
+
+  Make sure that DataSync has permission to access the KMS key that you specify. For more
+  information, see [Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `SecretKey`) or `CustomSecretConfig`
+      (without `SecretKey`) to provide credentials for a `CreateLocationObjectStorage`
+      request. Do not provide both parameters for the same request.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed Secrets
+  Manager secret where the secret key for a specific object storage location is stored in
+  plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN
+  for an IAM role that provides access to the secret. For more information, see [Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `SecretKey`) or `CustomSecretConfig`
+      (without `SecretKey`) to provide credentials for a `CreateLocationObjectStorage`
+      request. Do not provide both parameters for the same request.
+
 - `"SecretKey"`: Specifies the secret key (for example, a password) if credentials are
   required to authenticate with the object storage server.
+
+  !!! note
+      If you provide a secret using `SecretKey`, but do not provide secret configuration
+      details using `CmkSecretConfig` or `CustomSecretConfig`, then DataSync stores the
+      token using your Amazon Web Services account's Secrets Manager secret.
 
 - `"ServerCertificate"`: Specifies a certificate chain for DataSync to authenticate with
   your object storage system if the system uses a private or self-signed certificate
@@ -967,7 +996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic on (for example, port 443).
 
 - `"ServerProtocol"`: Specifies the protocol that your object storage server uses to
-  communicate.
+  communicate. If not specified, the default value is `HTTPS`.
 
 - `"Subdirectory"`: Specifies the object prefix for your object storage server. If this is a
   source location, DataSync only copies objects with this prefix. If this is a destination
@@ -980,25 +1009,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_location_object_storage end
 
 function create_location_object_storage(
-    AgentArns,
-    BucketName,
-    ServerHostname;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    BucketName, ServerHostname; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datasync(
         "CreateLocationObjectStorage",
-        Dict{String,Any}(
-            "AgentArns" => AgentArns,
-            "BucketName" => BucketName,
-            "ServerHostname" => ServerHostname,
-        );
+        Dict{String,Any}("BucketName" => BucketName, "ServerHostname" => ServerHostname);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_location_object_storage(
-    AgentArns,
     BucketName,
     ServerHostname,
     params::AbstractDict{String};
@@ -1010,9 +1031,7 @@ function create_location_object_storage(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AgentArns" => AgentArns,
-                    "BucketName" => BucketName,
-                    "ServerHostname" => ServerHostname,
+                    "BucketName" => BucketName, "ServerHostname" => ServerHostname
                 ),
                 params,
             ),
@@ -1116,30 +1135,25 @@ function create_location_s3(
 end
 
 """
-    create_location_smb(agent_arns, password, server_hostname, subdirectory, user)
-    create_location_smb(agent_arns, password, server_hostname, subdirectory, user, params::Dict{String,<:Any})
+    create_location_smb(agent_arns, server_hostname, subdirectory)
+    create_location_smb(agent_arns, server_hostname, subdirectory, params::Dict{String,<:Any})
 
 Creates a transfer *location* for a Server Message Block (SMB) file server. DataSync can use
 this location as a source or destination for transferring data.
 
-Before you begin, make sure that you understand how DataSync [accesses SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb).
+Before you begin, make sure that you understand how DataSync accesses SMB file servers. For
+more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
 
 # Arguments
 
-- `agent_arns`: Specifies the DataSync agent (or agents) which you want to connect to your
-  SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+- `agent_arns`: Specifies the DataSync agent (or agents) that can connect to your SMB file
+  server. You specify an agent by using its Amazon Resource Name (ARN).
 
-- `password`: Specifies the password of the user who can mount your SMB file server and has
-  permission to access the files and folders involved in your transfer.
-
-  For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
-
-- `server_hostname`: Specifies the Domain Name Service (DNS) name or IP address of the SMB
-  file server that your DataSync agent will mount.
+- `server_hostname`: Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file
+  server that your DataSync agent connects to.
 
   !!! note
-      You can't specify an IP version 6 (IPv6) address.
+      If you're using Kerberos authentication, you must specify a domain name.
 
 - `subdirectory`: Specifies the name of the share exported by your SMB file server where
   DataSync will read or write data. You can include a subdirectory in the share path (for
@@ -1147,50 +1161,113 @@ Before you begin, make sure that you understand how DataSync [accesses SMB file 
   also mount this path.
 
   To copy all data in the subdirectory, DataSync must be able to mount the SMB share and
-  access all of its data. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
-
-- `user`: Specifies the user that can mount and access the files, folders, and file metadata
-  in your SMB file server.
-
-  For information about choosing a user with the right level of access for your transfer,
-  see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
+  access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: Specifies the name of the Active Directory domain that your SMB file server
-  belongs to.
+- `"AuthenticationType"`: Specifies the authentication protocol that DataSync uses to
+  connect to your SMB file server. DataSync supports `NTLM` (default) and `KERBEROS`
+  authentication.
 
-  If you have multiple Active Directory domains in your environment, configuring this
-  parameter makes sure that DataSync connects to the right file server.
+  For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  either a `Password` or `KerberosKeytab` (for `NTLM` (default) and `KERBEROS`
+  authentication types, respectively) that DataSync uses to access a specific SMB storage
+  location, with a customer-managed KMS key.
+
+  When you include this parameter as part of a `CreateLocationSmbRequest` request, you
+  provide only the KMS key ARN. DataSync uses this KMS key together with either the
+  `Password` or `KerberosKeytab` you specify to create a DataSync-managed secret to store
+  the location access credentials.
+
+  Make sure that DataSync has permission to access the KMS key that you specify. For more
+  information, see [Using a service-managed secret encrypted with a custom KMS key](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#service-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with either `Password` or `KerberosKeytab`) or
+      `CustomSecretConfig` (without any `Password` and `KerberosKeytab`) to provide
+      credentials for a `CreateLocationSmbRequest` request. Do not provide both
+      `CmkSecretConfig` and `CustomSecretConfig` parameters for the same request.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed Secrets
+  Manager secret where the SMB storage location credentials is stored in Secrets Manager as
+  plain text (for `Password`) or binary (for `KerberosKeytab`). This configuration includes
+  the secret ARN, and the ARN for an IAM role that provides access to the secret. For more
+  information, see [Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key).
+
+  !!! note
+      You can use either `CmkSecretConfig` (with `SasConfiguration`) or `CustomSecretConfig`
+      (without `SasConfiguration`) to provide credentials for a `CreateLocationSmbRequest`
+      request. Do not provide both parameters for the same request.
+
+- `"DnsIpAddresses"`: Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB
+  file server belongs to. This parameter applies only if `AuthenticationType` is set to
+  `KERBEROS`.
+
+  If you have multiple domains in your environment, configuring this parameter makes sure
+  that DataSync connects to the right SMB file server.
+
+- `"Domain"`: Specifies the Windows domain name that your SMB file server belongs to. This
+  parameter applies only if `AuthenticationType` is set to `NTLM`.
+
+  If you have multiple domains in your environment, configuring this parameter makes sure
+  that DataSync connects to the right file server.
+
+- `"KerberosKeytab"`: Specifies your Kerberos key table (keytab) file, which includes
+  mappings between your Kerberos principal and encryption keys.
+
+  To avoid task execution errors, make sure that the Kerberos principal that you use to
+  create the keytab file matches exactly what you specify for `KerberosPrincipal`.
+
+- `"KerberosKrb5Conf"`: Specifies a Kerberos configuration file (`krb5.conf`) that defines
+  your Kerberos realm configuration.
+
+  The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+
+- `"KerberosPrincipal"`: Specifies a Kerberos principal, which is an identity in your
+  Kerberos realm that has permission to access the files, folders, and file metadata in your
+  SMB file server.
+
+  A Kerberos principal might look like `HOST/kerberosuser@MYDOMAIN.ORG`.
+
+  Principal names are case sensitive. Your DataSync task execution will fail if the
+  principal that you specify for this parameter doesn’t exactly match the principal that you
+  use to create the keytab file.
 
 - `"MountOptions"`: Specifies the version of the SMB protocol that DataSync uses to access
   your SMB file server.
 
+- `"Password"`: Specifies the password of the user who can mount your SMB file server and
+  has permission to access the files and folders involved in your transfer. This parameter
+  applies only if `AuthenticationType` is set to `NTLM`.
+
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
+
+- `"User"`: Specifies the user that can mount and access the files, folders, and file
+  metadata in your SMB file server. This parameter applies only if `AuthenticationType` is
+  set to `NTLM`.
+
+  For information about choosing a user with the right level of access for your transfer,
+  see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
 """
 function create_location_smb end
 
 function create_location_smb(
     AgentArns,
-    Password,
     ServerHostname,
-    Subdirectory,
-    User;
+    Subdirectory;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datasync(
         "CreateLocationSmb",
         Dict{String,Any}(
             "AgentArns" => AgentArns,
-            "Password" => Password,
             "ServerHostname" => ServerHostname,
             "Subdirectory" => Subdirectory,
-            "User" => User,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1199,10 +1276,8 @@ end
 
 function create_location_smb(
     AgentArns,
-    Password,
     ServerHostname,
     Subdirectory,
-    User,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1213,10 +1288,8 @@ function create_location_smb(
                 _merge,
                 Dict{String,Any}(
                     "AgentArns" => AgentArns,
-                    "Password" => Password,
                     "ServerHostname" => ServerHostname,
                     "Subdirectory" => Subdirectory,
-                    "User" => User,
                 ),
                 params,
             ),
@@ -1252,12 +1325,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchLogGroupArn"`: Specifies the Amazon Resource Name (ARN) of an Amazon
   CloudWatch log group for monitoring your task.
 
+  For Enhanced mode tasks, you don't need to specify anything. DataSync automatically sends
+  logs to a CloudWatch log group named `/aws/datasync`.
+
 - `"Excludes"`: Specifies exclude filters that define the files, objects, and folders in
   your source location that you don't want DataSync to transfer. For more information and
   examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
 
-- `"Includes"`: Specifies include filters define the files, objects, and folders in your
-  source location that you want DataSync to transfer. For more information and examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
+- `"Includes"`: Specifies include filters that define the files, objects, and folders in
+  your source location that you want DataSync to transfer. For more information and
+  examples, see [Specifying what DataSync transfers by using filters](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
 
 - `"ManifestConfig"`: Configures a manifest, which is a list of files or objects that you
   want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
@@ -1278,6 +1355,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   *Tags* are key-value pairs that help you manage, filter, and search for your DataSync
   resources.
+
+- `"TaskMode"`: Specifies one of the following task modes for your data transfer:
+
+  - `ENHANCED` - Transfer virtually unlimited numbers of objects with higher performance
+    than Basic mode. Enhanced mode tasks optimize the data transfer process by listing,
+    preparing, transferring, and verifying data in parallel. Enhanced mode is currently
+    available for transfers between Amazon S3 locations, transfers between Azure Blob and
+    Amazon S3 without an agent, and transfers between other clouds and Amazon S3 without an
+    agent.
+
+    !!! note
+        To create an Enhanced mode task, the IAM role that you use to call the `CreateTask`
+        operation must have the `iam:CreateServiceLinkedRole` permission.
+
+  - `BASIC` (default) - Transfer files or objects between Amazon Web Services storage and
+    all other supported DataSync locations. Basic mode tasks are subject to [quotas](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html)
+    on the number of files, objects, and directories in a dataset. Basic mode sequentially
+    prepares, transfers, and verifies data, making it slower than Enhanced mode for most
+    workloads.
+
+  For more information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences).
 
 - `"TaskReportConfig"`: Specifies how you want to configure a task report, which provides
   detailed information about your DataSync transfer. For more information, see [Monitoring your DataSync transfers with task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
@@ -1470,47 +1568,6 @@ function describe_agent(
         "DescribeAgent",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_discovery_job(discovery_job_arn)
-    describe_discovery_job(discovery_job_arn, params::Dict{String,<:Any})
-
-Returns information about a DataSync discovery job.
-
-# Arguments
-
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
-  you want information about.
-"""
-function describe_discovery_job end
-
-function describe_discovery_job(
-    DiscoveryJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "DescribeDiscoveryJob",
-        Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_discovery_job(
-    DiscoveryJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "DescribeDiscoveryJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn), params
-            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1962,186 +2019,6 @@ function describe_location_smb(
 end
 
 """
-    describe_storage_system(storage_system_arn)
-    describe_storage_system(storage_system_arn, params::Dict{String,<:Any})
-
-Returns information about an on-premises storage system that you're using with DataSync
-Discovery.
-
-# Arguments
-
-- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of an on-premises storage
-  system that you're using with DataSync Discovery.
-"""
-function describe_storage_system end
-
-function describe_storage_system(
-    StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "DescribeStorageSystem",
-        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_storage_system(
-    StorageSystemArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "DescribeStorageSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_storage_system_resource_metrics(discovery_job_arn, resource_id, resource_type)
-    describe_storage_system_resource_metrics(discovery_job_arn, resource_id, resource_type, params::Dict{String,<:Any})
-
-Returns information, including performance data and capacity usage, which DataSync Discovery
-collects about a specific resource in your-premises storage system.
-
-# Arguments
-
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
-  collects information about your on-premises storage system.
-- `resource_id`: Specifies the universally unique identifier (UUID) of the storage system
-  resource that you want information about.
-- `resource_type`: Specifies the kind of storage system resource that you want information
-  about.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"EndTime"`: Specifies a time within the total duration that the discovery job ran. To see
-  information gathered during a certain time frame, use this parameter with `StartTime`.
-- `"MaxResults"`: Specifies how many results that you want in the response.
-- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
-  list of results in the response.
-- `"StartTime"`: Specifies a time within the total duration that the discovery job ran. To
-  see information gathered during a certain time frame, use this parameter with `EndTime`.
-"""
-function describe_storage_system_resource_metrics end
-
-function describe_storage_system_resource_metrics(
-    DiscoveryJobArn,
-    ResourceId,
-    ResourceType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "DescribeStorageSystemResourceMetrics",
-        Dict{String,Any}(
-            "DiscoveryJobArn" => DiscoveryJobArn,
-            "ResourceId" => ResourceId,
-            "ResourceType" => ResourceType,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_storage_system_resource_metrics(
-    DiscoveryJobArn,
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "DescribeStorageSystemResourceMetrics",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DiscoveryJobArn" => DiscoveryJobArn,
-                    "ResourceId" => ResourceId,
-                    "ResourceType" => ResourceType,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_storage_system_resources(discovery_job_arn, resource_type)
-    describe_storage_system_resources(discovery_job_arn, resource_type, params::Dict{String,<:Any})
-
-Returns information that DataSync Discovery collects about resources in your on-premises
-storage system.
-
-# Arguments
-
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that's
-  collecting data from your on-premises storage system.
-- `resource_type`: Specifies what kind of storage system resources that you want information
-  about.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"Filter"`: Filters the storage system resources that you want returned. For example, this
-  might be volumes associated with a specific storage virtual machine (SVM).
-- `"MaxResults"`: Specifies the maximum number of storage system resources that you want to
-  list in a response.
-- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
-  list of results in the response.
-- `"ResourceIds"`: Specifies the universally unique identifiers (UUIDs) of the storage
-  system resources that you want information about. You can't use this parameter in
-  combination with the `Filter` parameter.
-"""
-function describe_storage_system_resources end
-
-function describe_storage_system_resources(
-    DiscoveryJobArn, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "DescribeStorageSystemResources",
-        Dict{String,Any}(
-            "DiscoveryJobArn" => DiscoveryJobArn, "ResourceType" => ResourceType
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_storage_system_resources(
-    DiscoveryJobArn,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "DescribeStorageSystemResources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DiscoveryJobArn" => DiscoveryJobArn, "ResourceType" => ResourceType
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     describe_task(task_arn)
     describe_task(task_arn, params::Dict{String,<:Any})
 
@@ -2182,7 +2059,12 @@ end
     describe_task_execution(task_execution_arn, params::Dict{String,<:Any})
 
 Provides information about an execution of your DataSync task. You can use this operation to
-help monitor the progress of an ongoing transfer or check the results of the transfer.
+help monitor the progress of an ongoing data transfer or check the results of the transfer.
+
+!!! note
+    Some `DescribeTaskExecution` response elements are only relevant to a specific task
+    mode. For information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences)
+    and [Understanding data transfer performance counters](https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html).
 
 # Arguments
 
@@ -2212,71 +2094,6 @@ function describe_task_execution(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("TaskExecutionArn" => TaskExecutionArn), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    generate_recommendations(discovery_job_arn, resource_ids, resource_type)
-    generate_recommendations(discovery_job_arn, resource_ids, resource_type, params::Dict{String,<:Any})
-
-Creates recommendations about where to migrate your data to in Amazon Web Services.
-Recommendations are generated based on information that DataSync Discovery collects about
-your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-
-Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html)
-operation.
-
-# Arguments
-
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
-  collects information about your on-premises storage system.
-- `resource_ids`: Specifies the universally unique identifiers (UUIDs) of the resources in
-  your storage system that you want recommendations on.
-- `resource_type`: Specifies the type of resource in your storage system that you want
-  recommendations on.
-"""
-function generate_recommendations end
-
-function generate_recommendations(
-    DiscoveryJobArn,
-    ResourceIds,
-    ResourceType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "GenerateRecommendations",
-        Dict{String,Any}(
-            "DiscoveryJobArn" => DiscoveryJobArn,
-            "ResourceIds" => ResourceIds,
-            "ResourceType" => ResourceType,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function generate_recommendations(
-    DiscoveryJobArn,
-    ResourceIds,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "GenerateRecommendations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DiscoveryJobArn" => DiscoveryJobArn,
-                    "ResourceIds" => ResourceIds,
-                    "ResourceType" => ResourceType,
-                ),
-                params,
             ),
         );
         aws_config,
@@ -2324,38 +2141,6 @@ function list_agents(
 end
 
 """
-    list_discovery_jobs()
-    list_discovery_jobs(params::Dict{String,<:Any})
-
-Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon
-Web Services account where you're using DataSync Discovery.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"MaxResults"`: Specifies how many results you want in the response.
-- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
-  list of results in the response.
-- `"StorageSystemArn"`: Specifies the Amazon Resource Name (ARN) of an on-premises storage
-  system. Use this parameter if you only want to list the discovery jobs that are associated
-  with a specific storage system.
-"""
-function list_discovery_jobs end
-
-function list_discovery_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return datasync("ListDiscoveryJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function list_discovery_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "ListDiscoveryJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
     list_locations()
     list_locations(params::Dict{String,<:Any})
 
@@ -2386,34 +2171,6 @@ function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datasync("ListLocations", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    list_storage_systems()
-    list_storage_systems(params::Dict{String,<:Any})
-
-Lists the on-premises storage systems that you're using with DataSync Discovery.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"MaxResults"`: Specifies how many results you want in the response.
-- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
-  list of results in the response.
-"""
-function list_storage_systems end
-
-function list_storage_systems(; aws_config::AbstractAWSConfig=current_aws_config())
-    return datasync("ListStorageSystems"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function list_storage_systems(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "ListStorageSystems", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
 end
 
 """
@@ -2524,132 +2281,13 @@ function list_tasks(
 end
 
 """
-    remove_storage_system(storage_system_arn)
-    remove_storage_system(storage_system_arn, params::Dict{String,<:Any})
-
-Permanently removes a storage system resource from DataSync Discovery, including the
-associated discovery jobs, collected data, and recommendations.
-
-# Arguments
-
-- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of the storage system that
-  you want to permanently remove from DataSync Discovery.
-"""
-function remove_storage_system end
-
-function remove_storage_system(
-    StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "RemoveStorageSystem",
-        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function remove_storage_system(
-    StorageSystemArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "RemoveStorageSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    start_discovery_job(client_token, collection_duration_minutes, storage_system_arn)
-    start_discovery_job(client_token, collection_duration_minutes, storage_system_arn, params::Dict{String,<:Any})
-
-Runs a DataSync discovery job on your on-premises storage system. If you haven't added the
-storage system to DataSync Discovery yet, do this first by using the [AddStorageSystem](https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html)
-operation.
-
-# Arguments
-
-- `client_token`: Specifies a client token to make sure requests with this API operation are
-  idempotent. If you don't specify a client token, DataSync generates one for you
-  automatically.
-
-- `collection_duration_minutes`: Specifies in minutes how long you want the discovery job to
-  run.
-
-  !!! note
-      For more accurate recommendations, we recommend a duration of at least 14 days. Longer
-      durations allow time to collect a sufficient number of data points and provide a
-      realistic representation of storage performance and utilization.
-
-- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of the on-premises storage
-  system that you want to run the discovery job on.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
-  Web Services resources.
-"""
-function start_discovery_job end
-
-function start_discovery_job(
-    ClientToken,
-    CollectionDurationMinutes,
-    StorageSystemArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "StartDiscoveryJob",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "CollectionDurationMinutes" => CollectionDurationMinutes,
-            "StorageSystemArn" => StorageSystemArn,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function start_discovery_job(
-    ClientToken,
-    CollectionDurationMinutes,
-    StorageSystemArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "StartDiscoveryJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "CollectionDurationMinutes" => CollectionDurationMinutes,
-                    "StorageSystemArn" => StorageSystemArn,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     start_task_execution(task_arn)
     start_task_execution(task_arn, params::Dict{String,<:Any})
 
 Starts an DataSync transfer task. For each task, you can only run one task execution at a
 time.
 
-There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses).
+There are several steps to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses).
 
 !!! important
     If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
@@ -2718,52 +2356,6 @@ function start_task_execution(
     return datasync(
         "StartTaskExecution",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    stop_discovery_job(discovery_job_arn)
-    stop_discovery_job(discovery_job_arn, params::Dict{String,<:Any})
-
-Stops a running DataSync discovery job.
-
-You can stop a discovery job anytime. A job that's stopped before it's scheduled to end
-likely will provide you some information about your on-premises storage system resources. To
-get recommendations for a stopped job, you must use the [GenerateRecommendations](https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html)
-operation.
-
-# Arguments
-
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
-  you want to stop.
-"""
-function stop_discovery_job end
-
-function stop_discovery_job(
-    DiscoveryJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "StopDiscoveryJob",
-        Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function stop_discovery_job(
-    DiscoveryJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "StopDiscoveryJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn), params
-            ),
-        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2903,66 +2495,13 @@ function update_agent(
 end
 
 """
-    update_discovery_job(collection_duration_minutes, discovery_job_arn)
-    update_discovery_job(collection_duration_minutes, discovery_job_arn, params::Dict{String,<:Any})
-
-Edits a DataSync discovery job configuration.
-
-# Arguments
-
-- `collection_duration_minutes`: Specifies in minutes how long that you want the discovery
-  job to run. (You can't set this parameter to less than the number of minutes that the job
-  has already run for.)
-- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
-  you want to update.
-"""
-function update_discovery_job end
-
-function update_discovery_job(
-    CollectionDurationMinutes,
-    DiscoveryJobArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "UpdateDiscoveryJob",
-        Dict{String,Any}(
-            "CollectionDurationMinutes" => CollectionDurationMinutes,
-            "DiscoveryJobArn" => DiscoveryJobArn,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_discovery_job(
-    CollectionDurationMinutes,
-    DiscoveryJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "UpdateDiscoveryJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CollectionDurationMinutes" => CollectionDurationMinutes,
-                    "DiscoveryJobArn" => DiscoveryJobArn,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     update_location_azure_blob(location_arn)
     update_location_azure_blob(location_arn, params::Dict{String,<:Any})
 
-Modifies some configurations of the Microsoft Azure Blob Storage transfer location that
-you're using with DataSync.
+Modifies the following configurations of the Microsoft Azure Blob Storage transfer location
+that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html).
 
 # Arguments
 
@@ -2977,10 +2516,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   into. This only applies when using the location as a transfer destination. For more
   information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
 
-- `"AgentArns"`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that can
-  connect with your Azure Blob Storage container.
+- `"AgentArns"`: (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent
+  that can connect with your Azure Blob Storage container. If you are setting up an
+  agentless cross-cloud transfer, you do not need to specify a value for this parameter.
 
   You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
+
+  !!! note
+      You cannot add or remove agents from a storage location after you initially create it.
 
 - `"AuthenticationType"`: Specifies the authentication method DataSync uses to access your
   Azure Blob Storage. DataSync can access blob storage using a shared access signature
@@ -2989,6 +2532,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BlobType"`: Specifies the type of blob that you want your objects or files to be when
   transferring them into Azure Blob Storage. Currently, DataSync only supports moving data
   into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  such as an authentication token or set of credentials that DataSync uses to access a
+  specific transfer location, and a customer-managed KMS key.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed secret,
+  such as an authentication token or set of credentials that DataSync uses to access a
+  specific transfer location, and a customer-managed Identity and Access Management (IAM)
+  role that provides access to the secret.
 
 - `"SasConfiguration"`: Specifies the SAS configuration that allows DataSync to access your
   Azure Blob Storage.
@@ -3025,11 +2577,327 @@ function update_location_azure_blob(
 end
 
 """
+    update_location_efs(location_arn)
+    update_location_efs(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon EFS transfer location that
+you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
+
+# Arguments
+
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer
+  location that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccessPointArn"`: Specifies the Amazon Resource Name (ARN) of the access point that
+  DataSync uses to mount your Amazon EFS file system.
+
+  For more information, see [Accessing restricted Amazon EFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam).
+
+- `"FileSystemAccessRoleArn"`: Specifies an Identity and Access Management (IAM) role that
+  allows DataSync to access your Amazon EFS file system.
+
+  For information on creating this role, see [Creating a DataSync IAM role for Amazon EFS file system access](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role).
+
+- `"InTransitEncryption"`: Specifies whether you want DataSync to use Transport Layer
+  Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file
+  system.
+
+  If you specify an access point using `AccessPointArn` or an IAM role using
+  `FileSystemAccessRoleArn`, you must set this parameter to `TLS1_2`.
+
+- `"Subdirectory"`: Specifies a mount path for your Amazon EFS file system. This is where
+  DataSync reads or writes data on your file system (depending on if this is a source or
+  destination location).
+
+  By default, DataSync uses the root directory (or [access point](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html)
+  if you provide one by using `AccessPointArn`). You can also include subdirectories using
+  forward slashes (for example, `/path/to/folder`).
+"""
+function update_location_efs end
+
+function update_location_efs(
+    LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datasync(
+        "UpdateLocationEfs",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_efs(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationEfs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_location_fsx_lustre(location_arn)
+    update_location_fsx_lustre(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon FSx for Lustre transfer
+location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with FSx for Lustre](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html).
+
+# Arguments
+
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer
+  location that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Subdirectory"`: Specifies a mount path for your FSx for Lustre file system. The path can
+  include subdirectories.
+
+  When the location is used as a source, DataSync reads data from the mount path. When the
+  location is used as a destination, DataSync writes data to the mount path. If you don't
+  include this parameter, DataSync uses the file system's root directory (`/`).
+"""
+function update_location_fsx_lustre end
+
+function update_location_fsx_lustre(
+    LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datasync(
+        "UpdateLocationFsxLustre",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_fsx_lustre(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationFsxLustre",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_location_fsx_ontap(location_arn)
+    update_location_fsx_ontap(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer
+location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with FSx for ONTAP](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html).
+
+# Arguments
+
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer
+  location that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Protocol"`: Specifies the data transfer protocol that DataSync uses to access your
+  Amazon FSx file system.
+
+- `"Subdirectory"`: Specifies a path to the file share in the storage virtual machine (SVM)
+  where you want to transfer data to or from.
+
+  You can specify a junction path (also known as a mount point), qtree path (for NFS file
+  shares), or share name (for SMB file shares). For example, your mount path might be
+  `/vol1`, `/vol1/tree1`, or `/share1`.
+
+  !!! note
+      Don't specify a junction path in the SVM's root volume. For more information, see [Managing FSx for ONTAP storage virtual machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html)
+      in the *Amazon FSx for NetApp ONTAP User Guide*.
+"""
+function update_location_fsx_ontap end
+
+function update_location_fsx_ontap(
+    LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datasync(
+        "UpdateLocationFsxOntap",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_fsx_ontap(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationFsxOntap",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_location_fsx_open_zfs(location_arn)
+    update_location_fsx_open_zfs(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer
+location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html).
+
+!!! note
+    Request parameters related to `SMB` aren't supported with the [`update_location_fsx_open_zfs`](@ref)
+    operation.
+
+# Arguments
+
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS transfer
+  location that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Protocol"`:
+- `"Subdirectory"`: Specifies a subdirectory in the location's path that must begin with
+  `/fsx`. DataSync uses this subdirectory to read or write data (depending on whether the
+  file system is a source or destination location).
+"""
+function update_location_fsx_open_zfs end
+
+function update_location_fsx_open_zfs(
+    LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datasync(
+        "UpdateLocationFsxOpenZfs",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_fsx_open_zfs(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationFsxOpenZfs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_location_fsx_windows(location_arn)
+    update_location_fsx_windows(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon FSx for Windows File Server
+transfer location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html).
+
+# Arguments
+
+- `location_arn`: Specifies the ARN of the FSx for Windows File Server transfer location
+  that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  such as a `Password` or set of credentials that DataSync uses to access a specific
+  transfer location, and a customer-managed KMS key.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed secret,
+  such as a `Password` or set of credentials that DataSync uses to access a specific
+  transfer location, and a customer-managed Identity and Access Management (IAM) role that
+  provides access to the secret.
+
+- `"Domain"`: Specifies the name of the Windows domain that your FSx for Windows File Server
+  file system belongs to.
+
+  If you have multiple Active Directory domains in your environment, configuring this
+  parameter makes sure that DataSync connects to the right file system.
+
+- `"Password"`: Specifies the password of the user with the permissions to mount and access
+  the files, folders, and file metadata in your FSx for Windows File Server file system.
+
+- `"Subdirectory"`: Specifies a mount path for your file system using forward slashes.
+  DataSync uses this subdirectory to read or write data (depending on whether the file
+  system is a source or destination location).
+
+- `"User"`: Specifies the user with the permissions to mount and access the files, folders,
+  and file metadata in your FSx for Windows File Server file system.
+
+  For information about choosing a user with the right level of access for your transfer,
+  see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions)
+  for FSx for Windows File Server locations.
+"""
+function update_location_fsx_windows end
+
+function update_location_fsx_windows(
+    LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datasync(
+        "UpdateLocationFsxWindows",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_fsx_windows(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationFsxWindows",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_location_hdfs(location_arn)
     update_location_hdfs(location_arn, params::Dict{String,<:Any})
 
-Updates some parameters of a previously created location for a Hadoop Distributed File
-System cluster.
+Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS)
+transfer location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with an HDFS cluster](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html).
 
 # Arguments
 
@@ -3039,14 +2907,21 @@ System cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AgentArns"`: The ARNs of the agents that are used to connect to the HDFS cluster.
+- `"AgentArns"`: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to
+  your HDFS cluster.
 - `"AuthenticationType"`: The type of authentication used to determine the identity of the
   user.
 - `"BlockSize"`: The size of the data blocks to write into the HDFS cluster.
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  such as a `KerberosKeytab` or set of credentials that DataSync uses to access a specific
+  transfer location, and a customer-managed KMS key.
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed secret,
+  such as a `KerberosKeytab` or set of credentials that DataSync uses to access a specific
+  transfer location, and a customer-managed Identity and Access Management (IAM) role that
+  provides access to the secret.
 - `"KerberosKeytab"`: The Kerberos key table (keytab) that contains mappings between the
   defined Kerberos principal and the encrypted keys. You can load the keytab from a file by
-  providing the file's address. If you use the CLI, it performs base64 encoding for you.
-  Otherwise, provide the base64-encoded text.
+  providing the file's address.
 - `"KerberosKrb5Conf"`: The `krb5.conf` file that contains the Kerberos configuration
   information. You can load the `krb5.conf` file by providing the file's address. If you're
   using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-
@@ -3099,10 +2974,10 @@ end
     update_location_nfs(location_arn)
     update_location_nfs(location_arn, params::Dict{String,<:Any})
 
-Modifies some configurations of the Network File System (NFS) transfer location that you're
-using with DataSync.
+Modifies the following configuration parameters of the Network File System (NFS) transfer
+location that you're using with DataSync.
 
-For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
+For more information, see [Configuring transfers with an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
 
 # Arguments
 
@@ -3116,6 +2991,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MountOptions"`:
 
 - `"OnPremConfig"`:
+
+- `"ServerHostname"`: Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file
+  server that your DataSync agent connects to.
 
 - `"Subdirectory"`: Specifies the export path in your NFS file server that you want DataSync
   to mount.
@@ -3155,7 +3033,10 @@ end
     update_location_object_storage(location_arn)
     update_location_object_storage(location_arn, params::Dict{String,<:Any})
 
-Updates some parameters of an existing DataSync location for an object storage system.
+Modifies the following configuration parameters of the object storage transfer location that
+you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with an object storage system](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
 
 # Arguments
 
@@ -3169,11 +3050,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessKey"`: Specifies the access key (for example, a user name) if credentials are
   required to authenticate with the object storage server.
 
-- `"AgentArns"`: Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can
-  securely connect with your location.
+- `"AgentArns"`: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync
+  agents that can connect with your object storage system. If you are setting up an
+  agentless cross-cloud transfer, you do not need to specify a value for this parameter.
+
+  !!! note
+      You cannot add or remove agents from a storage location after you initially create it.
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  such as an authentication token or set of credentials that DataSync uses to access a
+  specific transfer location, and a customer-managed KMS key.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed secret,
+  such as an authentication token or set of credentials that DataSync uses to access a
+  specific transfer location, and a customer-managed Identity and Access Management (IAM)
+  role that provides access to the secret.
 
 - `"SecretKey"`: Specifies the secret key (for example, a password) if credentials are
   required to authenticate with the object storage server.
+
+  !!! note
+      If you provide a secret using `SecretKey`, but do not provide secret configuration
+      details using `CmkSecretConfig` or `CustomSecretConfig`, then DataSync stores the
+      token using your Amazon Web Services account's Secrets Manager secret.
 
 - `"ServerCertificate"`: Specifies a certificate chain for DataSync to authenticate with
   your object storage system if the system uses a private or self-signed certificate
@@ -3195,6 +3094,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To use this parameter, configure `ServerProtocol` to `HTTPS`.
 
   Updating this parameter doesn't interfere with tasks that you have in progress.
+
+- `"ServerHostname"`: Specifies the domain name or IP address (IPv4 or IPv6) of the object
+  storage server that your DataSync agent connects to.
 
 - `"ServerPort"`: Specifies the port that your object storage server accepts inbound network
   traffic on (for example, port 443).
@@ -3235,11 +3137,83 @@ function update_location_object_storage(
 end
 
 """
+    update_location_s3(location_arn)
+    update_location_s3(location_arn, params::Dict{String,<:Any})
+
+Modifies the following configuration parameters of the Amazon S3 transfer location that
+you're using with DataSync.
+
+!!! important
+    Before you begin, make sure that you read the following topics:
+
+    - [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)
+    - [Evaluating S3 request costs when using DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
+
+# Arguments
+
+- `location_arn`: Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer
+  location that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"S3Config"`:
+
+- `"S3StorageClass"`: Specifies the storage class that you want your objects to use when
+  Amazon S3 is a transfer destination.
+
+  For buckets in Amazon Web Services Regions, the storage class defaults to `STANDARD`. For
+  buckets on Outposts, the storage class defaults to `OUTPOSTS`.
+
+  For more information, see [Storage class considerations with Amazon S3 transfers](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
+
+- `"Subdirectory"`: Specifies a prefix in the S3 bucket that DataSync reads from or writes
+  to (depending on whether the bucket is a source or destination location).
+
+  !!! note
+      DataSync can't transfer objects with a prefix that begins with a slash (`/`) or
+      includes `//`, `/./`, or `/../` patterns. For example:
+
+      - `/photos`
+      - `photos//2006/January`
+      - `photos/./2006/February`
+      - `photos/../2006/March`
+"""
+function update_location_s3 end
+
+function update_location_s3(LocationArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return datasync(
+        "UpdateLocationS3",
+        Dict{String,Any}("LocationArn" => LocationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_location_s3(
+    LocationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datasync(
+        "UpdateLocationS3",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LocationArn" => LocationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_location_smb(location_arn)
     update_location_smb(location_arn, params::Dict{String,<:Any})
 
-Updates some of the parameters of a Server Message Block (SMB) file server location that you
-can use for DataSync transfers.
+Modifies the following configuration parameters of the Server Message Block (SMB) transfer
+location that you're using with DataSync.
+
+For more information, see [Configuring DataSync transfers with an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
 
 # Arguments
 
@@ -3249,24 +3223,69 @@ can use for DataSync transfers.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AgentArns"`: Specifies the DataSync agent (or agents) which you want to connect to your
-  SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
+- `"AgentArns"`: Specifies the DataSync agent (or agents) that can connect to your SMB file
+  server. You specify an agent by using its Amazon Resource Name (ARN).
 
-- `"Domain"`: Specifies the Windows domain name that your SMB file server belongs to.
+- `"AuthenticationType"`: Specifies the authentication protocol that DataSync uses to
+  connect to your SMB file server. DataSync supports `NTLM` (default) and `KERBEROS`
+  authentication.
+
+  For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
+
+- `"CmkSecretConfig"`: Specifies configuration information for a DataSync-managed secret,
+  such as a `Password` or `KerberosKeytab` or set of credentials that DataSync uses to
+  access a specific transfer location, and a customer-managed KMS key.
+
+- `"CustomSecretConfig"`: Specifies configuration information for a customer-managed secret,
+  such as a `Password` or `KerberosKeytab` or set of credentials that DataSync uses to
+  access a specific transfer location, and a customer-managed Identity and Access Management
+  (IAM) role that provides access to the secret.
+
+- `"DnsIpAddresses"`: Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that
+  your SMB file server belongs to. This parameter applies only if `AuthenticationType` is
+  set to `KERBEROS`.
+
+  If you have multiple domains in your environment, configuring this parameter makes sure
+  that DataSync connects to the right SMB file server.
+
+- `"Domain"`: Specifies the Windows domain name that your SMB file server belongs to. This
+  parameter applies only if `AuthenticationType` is set to `NTLM`.
 
   If you have multiple domains in your environment, configuring this parameter makes sure
   that DataSync connects to the right file server.
 
-  For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
+- `"KerberosKeytab"`: Specifies your Kerberos key table (keytab) file, which includes
+  mappings between your Kerberos principal and encryption keys.
+
+  To avoid task execution errors, make sure that the Kerberos principal that you use to
+  create the keytab file matches exactly what you specify for `KerberosPrincipal`.
+
+- `"KerberosKrb5Conf"`: Specifies a Kerberos configuration file (`krb5.conf`) that defines
+  your Kerberos realm configuration.
+
+  The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+
+- `"KerberosPrincipal"`: Specifies a Kerberos prinicpal, which is an identity in your
+  Kerberos realm that has permission to access the files, folders, and file metadata in your
+  SMB file server.
+
+  A Kerberos principal might look like `HOST/kerberosuser@MYDOMAIN.ORG`.
+
+  Principal names are case sensitive. Your DataSync task execution will fail if the
+  principal that you specify for this parameter doesn’t exactly match the principal that you
+  use to create the keytab file.
 
 - `"MountOptions"`:
 
 - `"Password"`: Specifies the password of the user who can mount your SMB file server and
-  has permission to access the files and folders involved in your transfer.
+  has permission to access the files and folders involved in your transfer. This parameter
+  applies only if `AuthenticationType` is set to `NTLM`.
 
-  For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
+- `"ServerHostname"`: Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file
+  server that your DataSync agent connects to.
+
+  !!! note
+      If you're using Kerberos authentication, you must specify a domain name.
 
 - `"Subdirectory"`: Specifies the name of the share exported by your SMB file server where
   DataSync will read or write data. You can include a subdirectory in the share path (for
@@ -3274,15 +3293,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also mount this path.
 
   To copy all data in the specified subdirectory, DataSync must be able to mount the SMB
-  share and access all of its data. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
+  share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
 
 - `"User"`: Specifies the user name that can mount your SMB file server and has permission
-  to access the files and folders involved in your transfer.
+  to access the files and folders involved in your transfer. This parameter applies only if
+  `AuthenticationType` is set to `NTLM`.
 
   For information about choosing a user with the right level of access for your transfer,
-  see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
-  for SMB locations.
+  see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
 """
 function update_location_smb end
 
@@ -3313,62 +3331,6 @@ function update_location_smb(
 end
 
 """
-    update_storage_system(storage_system_arn)
-    update_storage_system(storage_system_arn, params::Dict{String,<:Any})
-
-Modifies some configurations of an on-premises storage system resource that you're using
-with DataSync Discovery.
-
-# Arguments
-
-- `storage_system_arn`: Specifies the ARN of the on-premises storage system that you want
-  reconfigure.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AgentArns"`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that
-  connects to and reads your on-premises storage system. You can only specify one ARN.
-- `"CloudWatchLogGroupArn"`: Specifies the ARN of the Amazon CloudWatch log group for
-  monitoring and logging discovery job events.
-- `"Credentials"`: Specifies the user name and password for accessing your on-premises
-  storage system's management interface.
-- `"Name"`: Specifies a familiar name for your on-premises storage system.
-- `"ServerConfiguration"`: Specifies the server name and network port required to connect
-  with your on-premises storage system's management interface.
-"""
-function update_storage_system end
-
-function update_storage_system(
-    StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return datasync(
-        "UpdateStorageSystem",
-        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_storage_system(
-    StorageSystemArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return datasync(
-        "UpdateStorageSystem",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     update_task(task_arn)
     update_task(task_arn, params::Dict{String,<:Any})
 
@@ -3385,6 +3347,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CloudWatchLogGroupArn"`: Specifies the Amazon Resource Name (ARN) of an Amazon
   CloudWatch log group for monitoring your task.
+
+  For Enhanced mode tasks, you must use `/aws/datasync` as your log group name. For example:
+
+  `arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*`
+
+  For more information, see [Monitoring data transfers with CloudWatch Logs](https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html).
 
 - `"Excludes"`: Specifies exclude filters that define the files, objects, and folders in
   your source location that you don't want DataSync to transfer. For more information and

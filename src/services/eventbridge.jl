@@ -160,23 +160,12 @@ of time for changes to take effect. If you do not specify a pattern to filter ev
 the archive, all events are sent to the archive except replayed events. Replayed events are
 not sent to an archive.
 
-!!! note
-    Archives and schema discovery are not supported for event buses encrypted using a
-    customer managed key. EventBridge returns an error if:
+!!! important
+    If you have specified that EventBridge use a customer managed key for encrypting the
+    source event bus, we strongly recommend you also specify a customer managed key for any
+    archives for the event bus as well.
 
-    - You call
-      `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
-      on an event bus set to use a customer managed key for encryption.
-    - You call
-      `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
-      on an event bus set to use a customer managed key for encryption.
-    - You call
-      `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
-      to set a customer managed key on an event bus with an archives or schema discovery
-      enabled.
-
-    To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-    Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+    For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html)
     in the *Amazon EventBridge User Guide*.
 
 # Arguments
@@ -189,7 +178,27 @@ not sent to an archive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the archive.
+
 - `"EventPattern"`: An event pattern to use to filter events sent to the archive.
+
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt this archive. The identifier
+  can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt the archive.
+
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
+  in the *Key Management Service Developer Guide*.
+
+  !!! important
+      If you have specified that EventBridge use a customer managed key for encrypting the
+      source event bus, we strongly recommend you also specify a customer managed key for
+      any archives for the event bus as well.
+
+      For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html)
+      in the *Amazon EventBridge User Guide*.
+
 - `"RetentionDays"`: The number of days to retain events for. Default value is 0. If set to
   0, events are retained indefinitely
 """
@@ -235,10 +244,14 @@ end
 Creates a connection. A connection defines the authorization type and credentials to use for
 authorization with an API destination HTTP endpoint.
 
+For more information, see [Connections for endpoint targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection.html)
+in the *Amazon EventBridge User Guide*.
+
 # Arguments
 
-- `auth_parameters`: A `CreateConnectionAuthRequestParameters` object that contains the
-  authorization parameters to use to authorize with the endpoint.
+- `auth_parameters`: The authorization parameters to use to authorize with the endpoint.
+
+  You must include only authorization parameters for the `AuthorizationType` you specify.
 
 - `authorization_type`: The type of authorization to use for the connection.
 
@@ -252,6 +265,22 @@ authorization with an API destination HTTP endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the connection to create.
+
+- `"InvocationConnectivityParameters"`: For connections to private APIs, the parameters to
+  use for invoking the API.
+
+  For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html)
+  in the *<i>Amazon EventBridge User Guide* </i>.
+
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt this connection. The
+  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt the connection.
+
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
+  in the *Key Management Service Developer Guide*.
 """
 function create_connection end
 
@@ -409,27 +438,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
   Services owned key to encrypt events on the event bus.
 
-  For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html)
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
   in the *Key Management Service Developer Guide*.
 
   !!! note
-      Archives and schema discovery are not supported for event buses encrypted using a
-      customer managed key. EventBridge returns an error if:
+      Schema discovery is not supported for event buses encrypted using a customer managed
+      key. EventBridge returns an error if:
 
-      - You call
-        `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
-        on an event bus set to use a customer managed key for encryption.
       - You call
         `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
         on an event bus set to use a customer managed key for encryption.
       - You call
         `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
-        to set a customer managed key on an event bus with an archives or schema discovery
-        enabled.
+        to set a customer managed key on an event bus with schema discovery enabled.
 
-      To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-      Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+      To enable schema discovery on an event bus, choose to use an Amazon Web Services owned
+      key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html)
       in the *Amazon EventBridge User Guide*.
+
+  !!! important
+      If you have specified that EventBridge use a customer managed key for encrypting the
+      source event bus, we strongly recommend you also specify a customer managed key for
+      any archives for the event bus as well.
+
+      For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html)
+      in the *Amazon EventBridge User Guide*.
+
+- `"LogConfig"`: The logging configuration settings for the event bus.
+
+  For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html)
+  in the *EventBridge User Guide*.
 
 - `"Tags"`: Tags to associate with the event bus.
 """
@@ -1300,10 +1338,20 @@ Retrieves a list of API destination in the account in the current Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectionArn"`: The ARN of the connection specified for the API destination.
+
 - `"Limit"`: The maximum number of API destinations to include in the response.
+
 - `"NamePrefix"`: A name prefix to filter results returned. Only API destinations with a
   name that starts with the prefix are returned.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_api_destinations end
 
@@ -1331,10 +1379,21 @@ match to the archive names. Filter parameters are exclusive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EventSourceArn"`: The ARN of the event source associated with the archive.
+
 - `"Limit"`: The maximum number of results to return.
+
 - `"NamePrefix"`: A name prefix to filter the archives returned. Only archives with name
   that match the prefix are returned.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
+
 - `"State"`: The state of the archive.
 """
 function list_archives end
@@ -1360,10 +1419,20 @@ Retrieves a list of connections from the account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ConnectionState"`: The state of the connection.
+
 - `"Limit"`: The maximum number of connections to return.
+
 - `"NamePrefix"`: A name prefix to filter results returned. Only connections with a name
   that starts with the prefix are returned.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_connections end
 
@@ -1400,11 +1469,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For example, `"NamePrefix": "ABC"` will return all endpoints with "ABC" in the
   name.
 
-- `"NextToken"`: If `nextToken` is returned, there are more results available. The value of
-  `nextToken` is a unique pagination token for each page. Make the call again using the
-  returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_endpoints end
 
@@ -1432,9 +1504,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
   operation also returns a NextToken which you can use in a subsequent operation to retrieve
   the next set of results.
+
 - `"NamePrefix"`: Specifying this limits the results to only those event buses with names
   that start with the specified prefix.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_event_buses end
 
@@ -1464,9 +1545,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
   operation also returns a NextToken which you can use in a subsequent operation to retrieve
   the next set of results.
+
 - `"NamePrefix"`: Specifying this limits the results to only those partner event sources
   with names that start with the specified prefix.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_event_sources end
 
@@ -1502,8 +1592,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Specifying this limits the number of results returned by this operation. The
   operation also returns a NextToken which you can use in a subsequent operation to retrieve
   the next set of results.
-- `"NextToken"`: The token returned by a previous call to this operation. Specifying this
-  retrieves the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_partner_event_source_accounts end
 
@@ -1554,8 +1651,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: pecifying this limits the number of results returned by this operation. The
   operation also returns a NextToken which you can use in a subsequent operation to retrieve
   the next set of results.
-- `"NextToken"`: The token returned by a previous call to this operation. Specifying this
-  retrieves the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_partner_event_sources end
 
@@ -1597,10 +1701,21 @@ to the replay names. Filter parameters are exclusive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EventSourceArn"`: The ARN of the archive from which the events are replayed.
+
 - `"Limit"`: The maximum number of replays to retrieve.
+
 - `"NamePrefix"`: A name prefix to filter the replays returned. Only replays with name that
   match the prefix are returned.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
+
 - `"State"`: The state of the replay.
 """
 function list_replays end
@@ -1634,8 +1749,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventBusName"`: The name or ARN of the event bus to list rules for. If you omit this,
   the default event bus is used.
+
 - `"Limit"`: The maximum number of results to return.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_rule_names_by_target end
 
@@ -1683,9 +1807,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventBusName"`: The name or ARN of the event bus to list the rules for. If you omit
   this, the default event bus is used.
+
 - `"Limit"`: The maximum number of results to return.
+
 - `"NamePrefix"`: The prefix matching the rule name.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_rules end
 
@@ -1756,8 +1890,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
+
 - `"Limit"`: The maximum number of results to return.
-- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+
+- `"NextToken"`: The token returned by a previous call, which you can use to retrieve the
+  next set of results.
+
+  The value of `nextToken` is a unique pagination token for each page. To retrieve the next
+  page of results, make the call again using the returned token. Keep all other arguments
+  unchanged.
+
+  Using an expired pagination token results in an `HTTP 400 InvalidToken` error.
 """
 function list_targets_by_rule end
 
@@ -1787,17 +1930,17 @@ end
 
 Sends custom events to Amazon EventBridge so that they can be matched to rules.
 
-The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including
-the event and any necessary characters and keys of the JSON representation of the event. To
-learn more, see [Calculating PutEvents event entry size](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html)
-in the *<i>Amazon EventBridge User Guide* </i>
+You can batch multiple event entries into one request for efficiency. However, the total
+entry size must be less than 256KB. You can calculate the entry size before you send the
+events. For more information, see [Calculating PutEvents event entry size](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevents.html#eb-putevent-size)
+in the *<i>Amazon EventBridge User Guide* </i>.
 
 PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
 constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
 9,223,372,036,854,775,807.
 
 !!! note
-    PutEvents will only process nested JSON up to 1100 levels deep.
+    PutEvents will only process nested JSON up to 1000 levels deep.
 
 # Arguments
 
@@ -1882,9 +2025,8 @@ end
     put_permission(params::Dict{String,<:Any})
 
 Running `PutPermission` permits the specified Amazon Web Services account or Amazon Web
-Services organization to put events to the specified *event bus*. Amazon EventBridge
-(CloudWatch Events) rules in your account are triggered by these events arriving to an event
-bus in your account.
+Services organization to put events to the specified *event bus*. Amazon EventBridge rules
+in your account are triggered by these events arriving to an event bus in your account.
 
 For another account to send events to your account, that external account must have an
 EventBridge rule with your account's event bus as a target.
@@ -2007,6 +2149,9 @@ after any change.
 An infinite loop can quickly cause higher than expected charges. We recommend that you use
 budgeting, which alerts you when charges exceed your specified limit. For more information,
 see [Managing Your Costs with Budgets](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-managing-costs.html).
+
+To create a rule that filters for management events from Amazon Web Services services, see [Receiving read-only management events from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html#eb-service-event-cloudtrail-management)
+in the *EventBridge User Guide*.
 
 # Arguments
 
@@ -2510,8 +2655,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge
-(CloudWatch Events), rules and event buses can be tagged.
+Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge,
+rules and event buses can be tagged.
 
 # Arguments
 
@@ -2609,7 +2754,27 @@ Updates the specified archive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: The description for the archive.
+
 - `"EventPattern"`: The event pattern to use to filter events sent to the archive.
+
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt this archive. The identifier
+  can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt the archive.
+
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
+  in the *Key Management Service Developer Guide*.
+
+  !!! important
+      If you have specified that EventBridge use a customer managed key for encrypting the
+      source event bus, we strongly recommend you also specify a customer managed key for
+      any archives for the event bus as well.
+
+      For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html)
+      in the *Amazon EventBridge User Guide*.
+
 - `"RetentionDays"`: The number of days to retain events in the archive.
 """
 function update_archive end
@@ -2653,8 +2818,26 @@ Updates settings for a connection.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AuthParameters"`: The authorization parameters to use for the connection.
+
 - `"AuthorizationType"`: The type of authorization to use for the connection.
+
 - `"Description"`: A description for the connection.
+
+- `"InvocationConnectivityParameters"`: For connections to private APIs, the parameters to
+  use for invoking the API.
+
+  For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html)
+  in the *<i>Amazon EventBridge User Guide* </i>.
+
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt this connection. The
+  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt the connection.
+
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
+  in the *Key Management Service Developer Guide*.
 """
 function update_connection end
 
@@ -2743,27 +2926,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
   Services owned key to encrypt events on the event bus.
 
-  For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html)
+  For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html)
   in the *Key Management Service Developer Guide*.
 
   !!! note
-      Archives and schema discovery are not supported for event buses encrypted using a
-      customer managed key. EventBridge returns an error if:
+      Schema discovery is not supported for event buses encrypted using a customer managed
+      key. EventBridge returns an error if:
 
-      - You call
-        `[CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html)`
-        on an event bus set to use a customer managed key for encryption.
       - You call
         `[CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer)`
         on an event bus set to use a customer managed key for encryption.
       - You call
         `[UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html)`
-        to set a customer managed key on an event bus with an archives or schema discovery
-        enabled.
+        to set a customer managed key on an event bus with schema discovery enabled.
 
-      To enable archives or schema discovery on an event bus, choose to use an Amazon Web
-      Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html)
+      To enable schema discovery on an event bus, choose to use an Amazon Web Services owned
+      key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html)
       in the *Amazon EventBridge User Guide*.
+
+  !!! important
+      If you have specified that EventBridge use a customer managed key for encrypting the
+      source event bus, we strongly recommend you also specify a customer managed key for
+      any archives for the event bus as well.
+
+      For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html)
+      in the *Amazon EventBridge User Guide*.
+
+- `"LogConfig"`: The logging configuration settings for the event bus.
+
+  For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html)
+  in the *EventBridge User Guide*.
 
 - `"Name"`: The name of the event bus.
 """

@@ -5,6 +5,140 @@ using AWS.AWSServices: network_firewall
 using AWS.UUIDs: uuid4
 
 """
+    accept_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id)
+    accept_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id, params::Dict{String,<:Any})
+
+Accepts a transit gateway attachment request for Network Firewall. When you accept the
+attachment request, Network Firewall creates the necessary routing components to enable
+traffic flow between the transit gateway and firewall endpoints.
+
+You must accept a transit gateway attachment to complete the creation of a transit gateway-
+attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance,
+use [`describe_firewall`](@ref) to verify the firewall status.
+
+To reject an attachment instead of accepting it, use [`reject_network_firewall_transit_gateway_attachment`](@ref).
+
+!!! note
+    It can take several minutes for the attachment acceptance to complete and the firewall
+    to become available.
+
+# Arguments
+
+- `transit_gateway_attachment_id`: Required. The unique identifier of the transit gateway
+  attachment to accept. This ID is returned in the response when creating a transit gateway-
+  attached firewall.
+"""
+function accept_network_firewall_transit_gateway_attachment end
+
+function accept_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "AcceptNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function accept_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "AcceptNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_availability_zones(availability_zone_mappings)
+    associate_availability_zones(availability_zone_mappings, params::Dict{String,<:Any})
+
+Associates the specified Availability Zones with a transit gateway-attached firewall. For
+each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You
+can specify one or more Availability Zones where you want to deploy the firewall.
+
+After adding Availability Zones, you must update your transit gateway route tables to direct
+traffic through the new firewall endpoints. Use [`describe_firewall`](@ref) to monitor the
+status of the new endpoints.
+
+# Arguments
+
+- `availability_zone_mappings`: Required. The Availability Zones where you want to create
+  firewall endpoints. You must specify at least one Availability Zone.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
+  Firewall returns a token to your requests that access the firewall. The token marks the
+  state of the firewall resource at the time of the request.
+
+  To make an unconditional change to the firewall, omit the token in your update request.
+  Without the token, Network Firewall performs your updates regardless of whether the
+  firewall has changed since you last retrieved it.
+
+  To make a conditional change to the firewall, provide the token in your update request.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
+  this happens, retrieve the firewall again to get a current copy of it with a new token.
+  Reapply your changes as needed, then try the operation again using the new token.
+"""
+function associate_availability_zones end
+
+function associate_availability_zones(
+    AvailabilityZoneMappings; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "AssociateAvailabilityZones",
+        Dict{String,Any}("AvailabilityZoneMappings" => AvailabilityZoneMappings);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_availability_zones(
+    AvailabilityZoneMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "AssociateAvailabilityZones",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AvailabilityZoneMappings" => AvailabilityZoneMappings),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_firewall_policy(firewall_policy_arn)
     associate_firewall_policy(firewall_policy_arn, params::Dict{String,<:Any})
 
@@ -147,8 +281,78 @@ function associate_subnets(
 end
 
 """
-    create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
-    create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id, params::Dict{String,<:Any})
+    attach_rule_groups_to_proxy_configuration(rule_groups, update_token)
+    attach_rule_groups_to_proxy_configuration(rule_groups, update_token, params::Dict{String,<:Any})
+
+Attaches `ProxyRuleGroup` resources to a `ProxyConfiguration`
+
+A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The
+details of the behavior are defined in the rule groups that you add to your configuration.
+
+# Arguments
+
+- `rule_groups`: The proxy rule group(s) to attach to the proxy configuration
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy configuration. The token marks the state of the proxy
+  configuration resource at the time of the request.
+
+  To make changes to the proxy configuration, you provide the token in your request. Network
+  Firewall uses the token to ensure that the proxy configuration hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an `InvalidTokenException`.
+  If this happens, retrieve the proxy configuration again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the new
+  token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function attach_rule_groups_to_proxy_configuration end
+
+function attach_rule_groups_to_proxy_configuration(
+    RuleGroups, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "AttachRuleGroupsToProxyConfiguration",
+        Dict{String,Any}("RuleGroups" => RuleGroups, "UpdateToken" => UpdateToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function attach_rule_groups_to_proxy_configuration(
+    RuleGroups,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "AttachRuleGroupsToProxyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RuleGroups" => RuleGroups, "UpdateToken" => UpdateToken),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_firewall(firewall_name, firewall_policy_arn)
+    create_firewall(firewall_name, firewall_policy_arn, params::Dict{String,<:Any})
 
 Creates an Network Firewall `Firewall` and accompanying `FirewallStatus` for a VPC.
 
@@ -169,60 +373,92 @@ operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref), and [`unta
 
 To retrieve information about firewalls, use [`list_firewalls`](@ref) and [`describe_firewall`](@ref).
 
+To generate a report on the last 30 days of traffic monitored by a firewall, use [`start_analysis_report`](@ref).
+
 # Arguments
 
 - `firewall_name`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
-
 - `firewall_policy_arn`: The Amazon Resource Name (ARN) of the `FirewallPolicy` that you
   want to use for the firewall.
-
-- `subnet_mappings`: The public subnets to use for your Network Firewall firewalls. Each
-  subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a
-  firewall endpoint in each subnet.
-
-- `vpc_id`: The unique identifier of the VPC where Network Firewall should create the
-  firewall.
-
-  You can't change this setting after you create the firewall.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AvailabilityZoneChangeProtection"`: Optional. A setting indicating whether the firewall
+  is protected against changes to its Availability Zone configuration. When set to `TRUE`,
+  you cannot add or remove Availability Zones without first disabling this protection using
+  `UpdateAvailabilityZoneChangeProtection`.
+
+  Default value: `FALSE`
+
+- `"AvailabilityZoneMappings"`: Required. The Availability Zones where you want to create
+  firewall endpoints for a transit gateway-attached firewall. You must specify at least one
+  Availability Zone. Consider enabling the firewall in every Availability Zone where you
+  have workloads to maintain Availability Zone isolation.
+
+  You can modify Availability Zones later using `AssociateAvailabilityZones` or
+  `DisassociateAvailabilityZones`, but this may briefly disrupt traffic. The
+  `AvailabilityZoneChangeProtection` setting controls whether you can make these
+  modifications.
+
 - `"DeleteProtection"`: A flag indicating whether it is possible to delete the firewall. A
   setting of `TRUE` indicates that the firewall is protected against deletion. Use this
   setting to protect against accidentally deleting a firewall that is in use. When you
   create a firewall, the operation initializes this flag to `TRUE`.
+
 - `"Description"`: A description of the firewall.
+
+- `"EnabledAnalysisTypes"`: An optional setting indicating the specific traffic analysis
+  types to enable on the firewall.
+
 - `"EncryptionConfiguration"`: A complex type that contains settings for encryption of your
   firewall resources.
+
 - `"FirewallPolicyChangeProtection"`: A setting indicating whether the firewall is protected
   against a change to the firewall policy association. Use this setting to protect against
   accidentally modifying the firewall policy for a firewall that is in use. When you create
   a firewall, the operation initializes this setting to `TRUE`.
+
 - `"SubnetChangeProtection"`: A setting indicating whether the firewall is protected against
   changes to the subnet associations. Use this setting to protect against accidentally
   modifying the subnet associations for a firewall that is in use. When you create a
   firewall, the operation initializes this setting to `TRUE`.
+
+- `"SubnetMappings"`: The public subnets to use for your Network Firewall firewalls. Each
+  subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a
+  firewall endpoint in each subnet.
+
 - `"Tags"`: The key:value pairs to associate with the resource.
+
+- `"TransitGatewayId"`: Required when creating a transit gateway-attached firewall. The
+  unique identifier of the transit gateway to attach to this firewall. You can provide
+  either a transit gateway from your account or one that has been shared with you through
+  Resource Access Manager.
+
+  !!! important
+      After creating the firewall, you cannot change the transit gateway association. To use
+      a different transit gateway, you must create a new firewall.
+
+  For information about creating firewalls, see `CreateFirewall`. For specific guidance
+  about transit gateway-attached firewalls, see [Considerations for transit gateway-attached firewalls](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tgw-firewall-considerations.html)
+  in the *Network Firewall Developer Guide*.
+
+- `"VpcId"`: The unique identifier of the VPC where Network Firewall should create the
+  firewall.
+
+  You can't change this setting after you create the firewall.
 """
 function create_firewall end
 
 function create_firewall(
-    FirewallName,
-    FirewallPolicyArn,
-    SubnetMappings,
-    VpcId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    FirewallName, FirewallPolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return network_firewall(
         "CreateFirewall",
         Dict{String,Any}(
-            "FirewallName" => FirewallName,
-            "FirewallPolicyArn" => FirewallPolicyArn,
-            "SubnetMappings" => SubnetMappings,
-            "VpcId" => VpcId,
+            "FirewallName" => FirewallName, "FirewallPolicyArn" => FirewallPolicyArn
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -232,8 +468,6 @@ end
 function create_firewall(
     FirewallName,
     FirewallPolicyArn,
-    SubnetMappings,
-    VpcId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -243,10 +477,7 @@ function create_firewall(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "FirewallName" => FirewallName,
-                    "FirewallPolicyArn" => FirewallPolicyArn,
-                    "SubnetMappings" => SubnetMappings,
-                    "VpcId" => VpcId,
+                    "FirewallName" => FirewallName, "FirewallPolicyArn" => FirewallPolicyArn
                 ),
                 params,
             ),
@@ -327,6 +558,281 @@ function create_firewall_policy(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_proxy(nat_gateway_id, proxy_name, tls_intercept_properties)
+    create_proxy(nat_gateway_id, proxy_name, tls_intercept_properties, params::Dict{String,<:Any})
+
+Creates an Network Firewall `Proxy`
+
+Attaches a Proxy configuration to a NAT Gateway.
+
+To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref),
+and [`untag_resource`](@ref).
+
+To retrieve information about proxies, use [`list_proxies`](@ref) and [`describe_proxy`](@ref).
+
+# Arguments
+
+- `nat_gateway_id`: A unique identifier for the NAT gateway to use with proxy resources.
+- `proxy_name`: The descriptive name of the proxy. You can't change the name of a proxy
+  after you create it.
+- `tls_intercept_properties`: TLS decryption on traffic to filter on attributes in the HTTP
+  header.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ListenerProperties"`: Listener properties for HTTP and HTTPS traffic.
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"Tags"`: The key:value pairs to associate with the resource.
+"""
+function create_proxy end
+
+function create_proxy(
+    NatGatewayId,
+    ProxyName,
+    TlsInterceptProperties;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateProxy",
+        Dict{String,Any}(
+            "NatGatewayId" => NatGatewayId,
+            "ProxyName" => ProxyName,
+            "TlsInterceptProperties" => TlsInterceptProperties,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_proxy(
+    NatGatewayId,
+    ProxyName,
+    TlsInterceptProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateProxy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NatGatewayId" => NatGatewayId,
+                    "ProxyName" => ProxyName,
+                    "TlsInterceptProperties" => TlsInterceptProperties,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_proxy_configuration(default_rule_phase_actions, proxy_configuration_name)
+    create_proxy_configuration(default_rule_phase_actions, proxy_configuration_name, params::Dict{String,<:Any})
+
+Creates an Network Firewall `ProxyConfiguration`
+
+A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The
+details of the behavior are defined in the rule groups that you add to your configuration.
+
+To manage a proxy configuration's tags, use the standard Amazon Web Services resource
+tagging operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref), and [`untag_resource`](@ref).
+
+To retrieve information about proxies, use [`list_proxy_configurations`](@ref) and [`describe_proxy_configuration`](@ref).
+
+# Arguments
+
+- `default_rule_phase_actions`: Evaluation points in the traffic flow where rules are
+  applied. There are three phases in a traffic where the rule match is applied.
+- `proxy_configuration_name`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the proxy configuration.
+
+- `"RuleGroupArns"`: The proxy rule group arn(s) to attach to the proxy configuration.
+
+  You must specify the ARNs or the names, and you can specify both.
+
+- `"RuleGroupNames"`: The proxy rule group name(s) to attach to the proxy configuration.
+
+  You must specify the ARNs or the names, and you can specify both.
+
+- `"Tags"`: The key:value pairs to associate with the resource.
+"""
+function create_proxy_configuration end
+
+function create_proxy_configuration(
+    DefaultRulePhaseActions,
+    ProxyConfigurationName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateProxyConfiguration",
+        Dict{String,Any}(
+            "DefaultRulePhaseActions" => DefaultRulePhaseActions,
+            "ProxyConfigurationName" => ProxyConfigurationName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_proxy_configuration(
+    DefaultRulePhaseActions,
+    ProxyConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateProxyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultRulePhaseActions" => DefaultRulePhaseActions,
+                    "ProxyConfigurationName" => ProxyConfigurationName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_proxy_rule_group(proxy_rule_group_name)
+    create_proxy_rule_group(proxy_rule_group_name, params::Dict{String,<:Any})
+
+Creates an Network Firewall `ProxyRuleGroup`
+
+Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of
+rules across multiple proxy configurations.
+
+To manage a proxy rule group's tags, use the standard Amazon Web Services resource tagging
+operations, [`list_tags_for_resource`](@ref), [`tag_resource`](@ref), and [`untag_resource`](@ref).
+
+To retrieve information about proxy rule groups, use [`list_proxy_rule_groups`](@ref) and [`describe_proxy_rule_group`](@ref).
+
+To retrieve information about individual proxy rules, use [`describe_proxy_rule_group`](@ref)
+and [`describe_proxy_rule`](@ref).
+
+# Arguments
+
+- `proxy_rule_group_name`: The descriptive name of the proxy rule group. You can't change
+  the name of a proxy rule group after you create it.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the proxy rule group.
+- `"Rules"`: Individual rules that define match conditions and actions for application-layer
+  traffic. Rules specify what to inspect (domains, headers, methods) and what action to take
+  (allow, deny, alert).
+- `"Tags"`: The key:value pairs to associate with the resource.
+"""
+function create_proxy_rule_group end
+
+function create_proxy_rule_group(
+    ProxyRuleGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "CreateProxyRuleGroup",
+        Dict{String,Any}("ProxyRuleGroupName" => ProxyRuleGroupName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_proxy_rule_group(
+    ProxyRuleGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateProxyRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ProxyRuleGroupName" => ProxyRuleGroupName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_proxy_rules(rules)
+    create_proxy_rules(rules, params::Dict{String,<:Any})
+
+Creates Network Firewall `ProxyRule` resources.
+
+Attaches new proxy rule(s) to an existing proxy rule group.
+
+To retrieve information about individual proxy rules, use [`describe_proxy_rule_group`](@ref)
+and [`describe_proxy_rule`](@ref).
+
+# Arguments
+
+- `rules`: Individual rules that define match conditions and actions for application-layer
+  traffic. Rules specify what to inspect (domains, headers, methods) and what action to take
+  (allow, deny, alert).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function create_proxy_rules end
+
+function create_proxy_rules(Rules; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "CreateProxyRules",
+        Dict{String,Any}("Rules" => Rules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_proxy_rules(
+    Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "CreateProxyRules",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Rules" => Rules), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -427,6 +933,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   own rule group is copied from. You can use the metadata to keep track of updates made to
   the originating rule group.
 
+- `"SummaryConfiguration"`: An object that contains a `RuleOptions` array of strings. You
+  use `RuleOptions` to determine which of the following `RuleSummary` values are returned in
+  response to `DescribeRuleGroupSummary`.
+
+  - `Metadata` - returns
+  - `Msg`
+  - `SID`
+
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
 function create_rule_group end
@@ -471,13 +985,14 @@ end
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name)
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name, params::Dict{String,<:Any})
 
-Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration
-contains Certificate Manager certificate associations between and the scope configurations
-that Network Firewall uses to decrypt and re-encrypt traffic traveling through your
-firewall.
-
-After you create a TLS inspection configuration, you can associate it with a new firewall
-policy.
+Creates an Network Firewall TLS inspection configuration. Network Firewall uses TLS
+inspection configurations to decrypt your firewall's inbound and outbound SSL/TLS traffic.
+After decryption, Network Firewall inspects the traffic according to your firewall policy's
+stateful rules, and then re-encrypts it before sending it to its destination. You can enable
+inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS
+inspection with your firewall, you must first import or provision certificates using ACM,
+create a TLS inspection configuration, add that configuration to a new firewall policy, and
+then associate that policy with your firewall.
 
 To update the settings for a TLS inspection configuration, use [`update_tlsinspection_configuration`](@ref).
 
@@ -562,6 +1077,69 @@ function create_tlsinspection_configuration(
 end
 
 """
+    create_vpc_endpoint_association(firewall_arn, subnet_mapping, vpc_id)
+    create_vpc_endpoint_association(firewall_arn, subnet_mapping, vpc_id, params::Dict{String,<:Any})
+
+Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint
+is independent of the firewall endpoints that you specify in the `Firewall` itself, and you
+define it in addition to those endpoints after the firewall has been created. You can define
+a VPC endpoint association using a different VPC than the one you used in the firewall
+specifications.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+- `subnet_mapping`:
+- `vpc_id`: The unique identifier of the VPC where you want to create a firewall endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the VPC endpoint association.
+- `"Tags"`: The key:value pairs to associate with the resource.
+"""
+function create_vpc_endpoint_association end
+
+function create_vpc_endpoint_association(
+    FirewallArn, SubnetMapping, VpcId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "CreateVpcEndpointAssociation",
+        Dict{String,Any}(
+            "FirewallArn" => FirewallArn, "SubnetMapping" => SubnetMapping, "VpcId" => VpcId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_vpc_endpoint_association(
+    FirewallArn,
+    SubnetMapping,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "CreateVpcEndpointAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallArn" => FirewallArn,
+                    "SubnetMapping" => SubnetMapping,
+                    "VpcId" => VpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_firewall()
     delete_firewall(params::Dict{String,<:Any})
 
@@ -636,6 +1214,225 @@ function delete_firewall_policy(
 )
     return network_firewall(
         "DeleteFirewallPolicy", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id)
+    delete_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id, params::Dict{String,<:Any})
+
+Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or
+the transit gateway owner can delete the attachment.
+
+!!! important
+    After you delete a transit gateway attachment, traffic will no longer flow through the
+    firewall endpoints.
+
+After you initiate the delete operation, use [`describe_firewall`](@ref) to monitor the
+deletion status.
+
+# Arguments
+
+- `transit_gateway_attachment_id`: Required. The unique identifier of the transit gateway
+  attachment to delete.
+"""
+function delete_network_firewall_transit_gateway_attachment end
+
+function delete_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DeleteNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_proxy(nat_gateway_id)
+    delete_proxy(nat_gateway_id, params::Dict{String,<:Any})
+
+Deletes the specified `Proxy`.
+
+Detaches a Proxy configuration from a NAT Gateway.
+
+# Arguments
+
+- `nat_gateway_id`: The NAT Gateway the proxy is attached to.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyArn"`: The Amazon Resource Name (ARN) of a proxy.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyName"`: The descriptive name of the proxy. You can't change the name of a proxy
+  after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function delete_proxy end
+
+function delete_proxy(NatGatewayId; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DeleteProxy",
+        Dict{String,Any}("NatGatewayId" => NatGatewayId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_proxy(
+    NatGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DeleteProxy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NatGatewayId" => NatGatewayId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_proxy_configuration()
+    delete_proxy_configuration(params::Dict{String,<:Any})
+
+Deletes the specified `ProxyConfiguration`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function delete_proxy_configuration end
+
+function delete_proxy_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DeleteProxyConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_proxy_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteProxyConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_proxy_rule_group()
+    delete_proxy_rule_group(params::Dict{String,<:Any})
+
+Deletes the specified `ProxyRuleGroup`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function delete_proxy_rule_group end
+
+function delete_proxy_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DeleteProxyRuleGroup"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_proxy_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteProxyRuleGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_proxy_rules(rules)
+    delete_proxy_rules(rules, params::Dict{String,<:Any})
+
+Deletes the specified `ProxyRule`(s). currently attached to a `ProxyRuleGroup`
+
+# Arguments
+
+- `rules`: The proxy rule(s) to remove from the existing proxy rule group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function delete_proxy_rules end
+
+function delete_proxy_rules(Rules; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DeleteProxyRules",
+        Dict{String,Any}("Rules" => Rules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_proxy_rules(
+    Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteProxyRules",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Rules" => Rules), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -760,6 +1557,56 @@ function delete_tlsinspection_configuration(
 end
 
 """
+    delete_vpc_endpoint_association(vpc_endpoint_association_arn)
+    delete_vpc_endpoint_association(vpc_endpoint_association_arn, params::Dict{String,<:Any})
+
+Deletes the specified `VpcEndpointAssociation`.
+
+You can check whether an endpoint association is in use by reviewing the route tables for
+the Availability Zones where you have the endpoint subnet mapping. You can retrieve the
+subnet mapping by calling [`describe_vpc_endpoint_association`](@ref). You define and update
+the route tables through Amazon VPC. As needed, update the route tables for the Availability
+Zone to remove the firewall endpoint for the association. When the route tables no longer
+use the firewall endpoint, you can remove the endpoint association safely.
+
+# Arguments
+
+- `vpc_endpoint_association_arn`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+"""
+function delete_vpc_endpoint_association end
+
+function delete_vpc_endpoint_association(
+    VpcEndpointAssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DeleteVpcEndpointAssociation",
+        Dict{String,Any}("VpcEndpointAssociationArn" => VpcEndpointAssociationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_vpc_endpoint_association(
+    VpcEndpointAssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DeleteVpcEndpointAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcEndpointAssociationArn" => VpcEndpointAssociationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_firewall()
     describe_firewall(params::Dict{String,<:Any})
 
@@ -789,6 +1636,35 @@ function describe_firewall(
 )
     return network_firewall(
         "DescribeFirewall", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_firewall_metadata()
+    describe_firewall_metadata(params::Dict{String,<:Any})
+
+Returns the high-level information about a firewall, including the Availability Zones where
+the Firewall is currently in use.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+"""
+function describe_firewall_metadata end
+
+function describe_firewall_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DescribeFirewallMetadata"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_firewall_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeFirewallMetadata", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -828,6 +1704,71 @@ function describe_firewall_policy(
 end
 
 """
+    describe_flow_operation(firewall_arn, flow_operation_id)
+    describe_flow_operation(firewall_arn, flow_operation_id, params::Dict{String,<:Any})
+
+Returns key information about a specific flow operation.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+- `flow_operation_id`: A unique identifier for the flow operation. This ID is returned in
+  the responses to start and list commands. You provide to describe commands.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The ID of the Availability Zone where the firewall is located. For
+  example, `us-east-2a`.
+
+  Defines the scope a flow operation. You can use up to 20 filters to configure a single
+  flow operation.
+
+- `"VpcEndpointAssociationArn"`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+
+- `"VpcEndpointId"`: A unique identifier for the primary endpoint associated with a
+  firewall.
+"""
+function describe_flow_operation end
+
+function describe_flow_operation(
+    FirewallArn, FlowOperationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeFlowOperation",
+        Dict{String,Any}(
+            "FirewallArn" => FirewallArn, "FlowOperationId" => FlowOperationId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_flow_operation(
+    FirewallArn,
+    FlowOperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DescribeFlowOperation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallArn" => FirewallArn, "FlowOperationId" => FlowOperationId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_logging_configuration()
     describe_logging_configuration(params::Dict{String,<:Any})
 
@@ -861,6 +1802,162 @@ function describe_logging_configuration(
 )
     return network_firewall(
         "DescribeLoggingConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_proxy()
+    describe_proxy(params::Dict{String,<:Any})
+
+Returns the data objects for the specified proxy.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyArn"`: The Amazon Resource Name (ARN) of a proxy.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyName"`: The descriptive name of the proxy. You can't change the name of a proxy
+  after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function describe_proxy end
+
+function describe_proxy(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall("DescribeProxy"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_proxy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeProxy", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_proxy_configuration()
+    describe_proxy_configuration(params::Dict{String,<:Any})
+
+Returns the data objects for the specified proxy configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function describe_proxy_configuration end
+
+function describe_proxy_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DescribeProxyConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_proxy_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeProxyConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_proxy_rule(proxy_rule_name)
+    describe_proxy_rule(proxy_rule_name, params::Dict{String,<:Any})
+
+Returns the data objects for the specified proxy configuration for the specified proxy rule
+group.
+
+# Arguments
+
+- `proxy_rule_name`: The descriptive name of the proxy rule. You can't change the name of a
+  proxy rule after you create it.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function describe_proxy_rule end
+
+function describe_proxy_rule(
+    ProxyRuleName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeProxyRule",
+        Dict{String,Any}("ProxyRuleName" => ProxyRuleName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_proxy_rule(
+    ProxyRuleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DescribeProxyRule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProxyRuleName" => ProxyRuleName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_proxy_rule_group()
+    describe_proxy_rule_group(params::Dict{String,<:Any})
+
+Returns the data objects for the specified proxy rule group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function describe_proxy_rule_group end
+
+function describe_proxy_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DescribeProxyRuleGroup"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_proxy_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeProxyRuleGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -993,6 +2090,56 @@ function describe_rule_group_metadata(
 end
 
 """
+    describe_rule_group_summary()
+    describe_rule_group_summary(params::Dict{String,<:Any})
+
+Returns detailed information for a stateful rule group.
+
+For active threat defense Amazon Web Services managed rule groups, this operation provides
+insight into the protections enabled by the rule group, based on Suricata rule metadata
+fields. Summaries are available for rule groups you manage and for active threat defense
+Amazon Web Services managed rule groups.
+
+To modify how threat information appears in summaries, use the `SummaryConfiguration`
+parameter in [`update_rule_group`](@ref).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RuleGroupArn"`: Required. The Amazon Resource Name (ARN) of the rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
+  rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"Type"`: The type of rule group you want a summary for. This is a required field.
+
+  Valid value: `STATEFUL`
+
+  Note that `STATELESS` exists but is not currently supported. If you provide `STATELESS`,
+  an exception is returned.
+"""
+function describe_rule_group_summary end
+
+function describe_rule_group_summary(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "DescribeRuleGroupSummary"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_rule_group_summary(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeRuleGroupSummary", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     describe_tlsinspection_configuration()
     describe_tlsinspection_configuration(params::Dict{String,<:Any})
 
@@ -1029,6 +2176,194 @@ function describe_tlsinspection_configuration(
     return network_firewall(
         "DescribeTLSInspectionConfiguration",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_vpc_endpoint_association(vpc_endpoint_association_arn)
+    describe_vpc_endpoint_association(vpc_endpoint_association_arn, params::Dict{String,<:Any})
+
+Returns the data object for the specified VPC endpoint association.
+
+# Arguments
+
+- `vpc_endpoint_association_arn`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+"""
+function describe_vpc_endpoint_association end
+
+function describe_vpc_endpoint_association(
+    VpcEndpointAssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DescribeVpcEndpointAssociation",
+        Dict{String,Any}("VpcEndpointAssociationArn" => VpcEndpointAssociationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_vpc_endpoint_association(
+    VpcEndpointAssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DescribeVpcEndpointAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcEndpointAssociationArn" => VpcEndpointAssociationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    detach_rule_groups_from_proxy_configuration(update_token)
+    detach_rule_groups_from_proxy_configuration(update_token, params::Dict{String,<:Any})
+
+Detaches `ProxyRuleGroup` resources from a `ProxyConfiguration`
+
+A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The
+details of the behavior are defined in the rule groups that you add to your configuration.
+
+# Arguments
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy configuration. The token marks the state of the proxy
+  configuration resource at the time of the request.
+
+  To make changes to the proxy configuration, you provide the token in your request. Network
+  Firewall uses the token to ensure that the proxy configuration hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an `InvalidTokenException`.
+  If this happens, retrieve the proxy configuration again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the new
+  token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"RuleGroupArns"`: The proxy rule group arns to detach from the proxy configuration
+
+- `"RuleGroupNames"`: The proxy rule group names to detach from the proxy configuration
+"""
+function detach_rule_groups_from_proxy_configuration end
+
+function detach_rule_groups_from_proxy_configuration(
+    UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DetachRuleGroupsFromProxyConfiguration",
+        Dict{String,Any}("UpdateToken" => UpdateToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function detach_rule_groups_from_proxy_configuration(
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DetachRuleGroupsFromProxyConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_availability_zones(availability_zone_mappings)
+    disassociate_availability_zones(availability_zone_mappings, params::Dict{String,<:Any})
+
+Removes the specified Availability Zone associations from a transit gateway-attached
+firewall. This removes the firewall endpoints from these Availability Zones and stops
+traffic filtering in those zones. Before removing an Availability Zone, ensure you've
+updated your transit gateway route tables to redirect traffic appropriately.
+
+!!! note
+    If `AvailabilityZoneChangeProtection` is enabled, you must first disable it using [`update_availability_zone_change_protection`](@ref).
+
+To verify the status of your Availability Zone changes, use [`describe_firewall`](@ref).
+
+# Arguments
+
+- `availability_zone_mappings`: Required. The Availability Zones to remove from the
+  firewall's configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
+  Firewall returns a token to your requests that access the firewall. The token marks the
+  state of the firewall resource at the time of the request.
+
+  To make an unconditional change to the firewall, omit the token in your update request.
+  Without the token, Network Firewall performs your updates regardless of whether the
+  firewall has changed since you last retrieved it.
+
+  To make a conditional change to the firewall, provide the token in your update request.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
+  this happens, retrieve the firewall again to get a current copy of it with a new token.
+  Reapply your changes as needed, then try the operation again using the new token.
+"""
+function disassociate_availability_zones end
+
+function disassociate_availability_zones(
+    AvailabilityZoneMappings; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "DisassociateAvailabilityZones",
+        Dict{String,Any}("AvailabilityZoneMappings" => AvailabilityZoneMappings);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_availability_zones(
+    AvailabilityZoneMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "DisassociateAvailabilityZones",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AvailabilityZoneMappings" => AvailabilityZoneMappings),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1096,6 +2431,115 @@ function disassociate_subnets(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_analysis_report_results(analysis_report_id)
+    get_analysis_report_results(analysis_report_id, params::Dict{String,<:Any})
+
+The results of a `COMPLETED` analysis report generated with [`start_analysis_report`](@ref).
+
+For more information, see `AnalysisTypeReportResult`.
+
+# Arguments
+
+- `analysis_report_id`: The unique ID of the query that ran when you requested an analysis
+  report.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function get_analysis_report_results end
+
+function get_analysis_report_results(
+    AnalysisReportId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "GetAnalysisReportResults",
+        Dict{String,Any}("AnalysisReportId" => AnalysisReportId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_analysis_report_results(
+    AnalysisReportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "GetAnalysisReportResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AnalysisReportId" => AnalysisReportId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_analysis_reports()
+    list_analysis_reports(params::Dict{String,<:Any})
+
+Returns a list of all traffic analysis reports generated within the last 30 days.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function list_analysis_reports end
+
+function list_analysis_reports(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "ListAnalysisReports"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_analysis_reports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListAnalysisReports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1174,6 +2618,267 @@ function list_firewalls(
 end
 
 """
+    list_flow_operation_results(firewall_arn, flow_operation_id)
+    list_flow_operation_results(firewall_arn, flow_operation_id, params::Dict{String,<:Any})
+
+Returns the results of a specific flow operation.
+
+Flow operations let you manage the flows tracked in the flow table, also known as the
+firewall table.
+
+A flow is network traffic that is monitored by a firewall, either by stateful or stateless
+rules. For traffic to be considered part of a flow, it must share Destination,
+DestinationPort, Direction, Protocol, Source, and SourcePort.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+- `flow_operation_id`: A unique identifier for the flow operation. This ID is returned in
+  the responses to start and list commands. You provide to describe commands.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The ID of the Availability Zone where the firewall is located. For
+  example, `us-east-2a`.
+
+  Defines the scope a flow operation. You can use up to 20 filters to configure a single
+  flow operation.
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+
+- `"VpcEndpointAssociationArn"`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+
+- `"VpcEndpointId"`: A unique identifier for the primary endpoint associated with a
+  firewall.
+"""
+function list_flow_operation_results end
+
+function list_flow_operation_results(
+    FirewallArn, FlowOperationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListFlowOperationResults",
+        Dict{String,Any}(
+            "FirewallArn" => FirewallArn, "FlowOperationId" => FlowOperationId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_flow_operation_results(
+    FirewallArn,
+    FlowOperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "ListFlowOperationResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallArn" => FirewallArn, "FlowOperationId" => FlowOperationId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_flow_operations(firewall_arn)
+    list_flow_operations(firewall_arn, params::Dict{String,<:Any})
+
+Returns a list of all flow operations ran in a specific firewall. You can optionally narrow
+the request scope by specifying the operation type or Availability Zone associated with a
+firewall's flow operations.
+
+Flow operations let you manage the flows tracked in the flow table, also known as the
+firewall table.
+
+A flow is network traffic that is monitored by a firewall, either by stateful or stateless
+rules. For traffic to be considered part of a flow, it must share Destination,
+DestinationPort, Direction, Protocol, Source, and SourcePort.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The ID of the Availability Zone where the firewall is located. For
+  example, `us-east-2a`.
+
+  Defines the scope a flow operation. You can use up to 20 filters to configure a single
+  flow operation.
+
+- `"FlowOperationType"`: An optional string that defines whether any or all operation types
+  are returned.
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+
+- `"VpcEndpointAssociationArn"`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+
+- `"VpcEndpointId"`: A unique identifier for the primary endpoint associated with a
+  firewall.
+"""
+function list_flow_operations end
+
+function list_flow_operations(
+    FirewallArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListFlowOperations",
+        Dict{String,Any}("FirewallArn" => FirewallArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_flow_operations(
+    FirewallArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "ListFlowOperations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FirewallArn" => FirewallArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_proxies()
+    list_proxies(params::Dict{String,<:Any})
+
+Retrieves the metadata for the proxies that you have defined. Depending on your setting for
+max results and the number of proxies, a single call might not return the full list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function list_proxies end
+
+function list_proxies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall("ListProxies"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_proxies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListProxies", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_proxy_configurations()
+    list_proxy_configurations(params::Dict{String,<:Any})
+
+Retrieves the metadata for the proxy configuration that you have defined. Depending on your
+setting for max results and the number of proxy configurations, a single call might not
+return the full list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function list_proxy_configurations end
+
+function list_proxy_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "ListProxyConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_proxy_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListProxyConfigurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_proxy_rule_groups()
+    list_proxy_rule_groups(params::Dict{String,<:Any})
+
+Retrieves the metadata for the proxy rule groups that you have defined. Depending on your
+setting for max results and the number of proxy rule groups, a single call might not return
+the full list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function list_proxy_rule_groups end
+
+function list_proxy_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return network_firewall(
+        "ListProxyRuleGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_proxy_rule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListProxyRuleGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_rule_groups()
     list_rule_groups(params::Dict{String,<:Any})
 
@@ -1196,6 +2901,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Scope"`: The scope of the request. The default setting of `ACCOUNT` or a setting of
   `NULL` returns all of the rule groups in your account. A setting of `MANAGED` returns all
   available managed rule groups.
+- `"SubscriptionStatus"`: Filters the results to show only rule groups with the specified
+  subscription status. Use this to find subscribed or unsubscribed rule groups.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 """
@@ -1312,20 +3019,70 @@ function list_tlsinspection_configurations(
 end
 
 """
+    list_vpc_endpoint_associations()
+    list_vpc_endpoint_associations(params::Dict{String,<:Any})
+
+Retrieves the metadata for the VPC endpoint associations that you have defined. If you
+specify a fireawll, this returns only the endpoint associations for that firewall.
+
+Depending on your setting for max results and the number of associations, a single call
+might not return the full list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  If you don't specify this, Network Firewall retrieves all VPC endpoint associations that
+  you have defined.
+
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return for
+  this request. If more objects are available, in the response, Network Firewall provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of objects.
+
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Network Firewall returns a `NextToken` value in the response. To retrieve the
+  next batch of objects, use the token returned from the prior request in your next request.
+"""
+function list_vpc_endpoint_associations end
+
+function list_vpc_endpoint_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListVpcEndpointAssociations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_vpc_endpoint_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "ListVpcEndpointAssociations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
-Creates or updates an IAM policy for your rule group or firewall policy. Use this to share
-rule groups and firewall policies between accounts. This operation works in conjunction with
-the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for
+Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this
+to share these resources between accounts. This operation works in conjunction with the
+Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for
 Network Firewall.
 
-Use this operation to create or update a resource policy for your rule group or firewall
-policy. In the policy, you specify the accounts that you want to share the resource with and
-the operations that you want the accounts to be able to perform.
+For information about using sharing with Network Firewall resources, see [Sharing Network Firewall resources](https://docs.aws.amazon.com/network-firewall/latest/developerguide/sharing.html)
+in the *Network Firewall Developer Guide*.
+
+Use this operation to create or update a resource policy for your Network Firewall rule
+group, firewall policy, or firewall. In the resource policy, you specify the accounts that
+you want to share the Network Firewall resource with and the operations that you want the
+accounts to be able to perform.
 
 When you add an account in the resource policy, you then run the following Resource Access
-Manager (RAM) operations to access and accept the shared rule group or firewall policy.
+Manager (RAM) operations to access and accept the shared resource.
 
 - [GetResourceShareInvitations](https://docs.aws.amazon.com/ram/latest/APIReference/API_GetResourceShareInvitations.html)
   - Returns the Amazon Resource Names (ARNs) of the resource share invitations.
@@ -1337,8 +3094,8 @@ For additional information about resource sharing using RAM, see [Resource Acces
 # Arguments
 
 - `policy`: The IAM policy statement that lists the accounts that you want to share your
-  rule group or firewall policy with and the operations that you want the accounts to be
-  able to perform.
+  Network Firewall resources with and the operations that you want the accounts to be able
+  to perform.
 
   For a rule group resource, you can specify the following operations in the Actions section
   of the statement:
@@ -1353,11 +3110,18 @@ For additional information about resource sharing using RAM, see [Resource Acces
   - network-firewall:AssociateFirewallPolicy
   - network-firewall:ListFirewallPolicies
 
-  In the Resource section of the statement, you specify the ARNs for the rule groups and
-  firewall policies that you want to share with the account that you specified in `Arn`.
+  For a firewall resource, you can specify the following operations in the Actions section
+  of the statement:
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share rule
-  groups and firewall policies with.
+  - network-firewall:CreateVpcEndpointAssociation
+  - network-firewall:DescribeFirewallMetadata
+  - network-firewall:ListFirewalls
+
+  In the Resource section of the statement, you specify the ARNs for the Network Firewall
+  resources that you want to share with the account that you specified in `Arn`.
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share your
+  Network Firewall resources with.
 """
 function put_resource_policy end
 
@@ -1384,6 +3148,272 @@ function put_resource_policy(
             mergewith(
                 _merge,
                 Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reject_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id)
+    reject_network_firewall_transit_gateway_attachment(transit_gateway_attachment_id, params::Dict{String,<:Any})
+
+Rejects a transit gateway attachment request for Network Firewall. When you reject the
+attachment request, Network Firewall cancels the creation of routing components between the
+transit gateway and firewall endpoints.
+
+Only the transit gateway owner can reject the attachment. After rejection, no traffic will
+flow through the firewall endpoints for this attachment.
+
+Use [`describe_firewall`](@ref) to monitor the rejection status. To accept the attachment
+instead of rejecting it, use [`accept_network_firewall_transit_gateway_attachment`](@ref).
+
+!!! note
+    Once rejected, you cannot reverse this action. To establish connectivity, you must
+    create a new transit gateway-attached firewall.
+
+# Arguments
+
+- `transit_gateway_attachment_id`: Required. The unique identifier of the transit gateway
+  attachment to reject. This ID is returned in the response when creating a transit gateway-
+  attached firewall.
+"""
+function reject_network_firewall_transit_gateway_attachment end
+
+function reject_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "RejectNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}("TransitGatewayAttachmentId" => TransitGatewayAttachmentId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reject_network_firewall_transit_gateway_attachment(
+    TransitGatewayAttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "RejectNetworkFirewallTransitGatewayAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TransitGatewayAttachmentId" => TransitGatewayAttachmentId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_analysis_report(analysis_type)
+    start_analysis_report(analysis_type, params::Dict{String,<:Any})
+
+Generates a traffic analysis report for the timeframe and traffic type you specify.
+
+For information on the contents of a traffic analysis report, see `AnalysisReport`.
+
+# Arguments
+
+- `analysis_type`: The type of traffic that will be used to generate a report.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function start_analysis_report end
+
+function start_analysis_report(
+    AnalysisType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "StartAnalysisReport",
+        Dict{String,Any}("AnalysisType" => AnalysisType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_analysis_report(
+    AnalysisType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "StartAnalysisReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AnalysisType" => AnalysisType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_flow_capture(firewall_arn, flow_filters)
+    start_flow_capture(firewall_arn, flow_filters, params::Dict{String,<:Any})
+
+Begins capturing the flows in a firewall, according to the filters you define. Captures are
+similar, but not identical to snapshots. Capture operations provide visibility into flows
+that are not closed and are tracked by a firewall's flow table. Unlike snapshots, captures
+are a time-boxed view.
+
+A flow is network traffic that is monitored by a firewall, either by stateful or stateless
+rules. For traffic to be considered part of a flow, it must share Destination,
+DestinationPort, Direction, Protocol, Source, and SourcePort.
+
+!!! note
+    To avoid encountering operation limits, you should avoid starting captures with broad
+    filters, like wide IP ranges. Instead, we recommend you define more specific criteria
+    with `FlowFilters`, like narrow IP ranges, ports, or protocols.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+- `flow_filters`: Defines the scope a flow operation. You can use up to 20 filters to
+  configure a single flow operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The ID of the Availability Zone where the firewall is located. For
+  example, `us-east-2a`.
+
+  Defines the scope a flow operation. You can use up to 20 filters to configure a single
+  flow operation.
+
+- `"MinimumFlowAgeInSeconds"`: The reqested `FlowOperation` ignores flows with an age (in
+  seconds) lower than `MinimumFlowAgeInSeconds`. You provide this for start commands.
+
+  !!! note
+      We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of
+      capturing flows that are not yet established.
+
+- `"VpcEndpointAssociationArn"`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+
+- `"VpcEndpointId"`: A unique identifier for the primary endpoint associated with a
+  firewall.
+"""
+function start_flow_capture end
+
+function start_flow_capture(
+    FirewallArn, FlowFilters; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "StartFlowCapture",
+        Dict{String,Any}("FirewallArn" => FirewallArn, "FlowFilters" => FlowFilters);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_flow_capture(
+    FirewallArn,
+    FlowFilters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "StartFlowCapture",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallArn" => FirewallArn, "FlowFilters" => FlowFilters
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_flow_flush(firewall_arn, flow_filters)
+    start_flow_flush(firewall_arn, flow_filters, params::Dict{String,<:Any})
+
+Begins the flushing of traffic from the firewall, according to the filters you define. When
+the operation starts, impacted flows are temporarily marked as timed out before the Suricata
+engine prunes, or flushes, the flows from the firewall table.
+
+!!! important
+    While the flush completes, impacted flows are processed as midstream traffic. This may
+    result in a temporary increase in midstream traffic metrics. We recommend that you
+    double check your stream exception policy before you perform a flush operation.
+
+# Arguments
+
+- `firewall_arn`: The Amazon Resource Name (ARN) of the firewall.
+- `flow_filters`: Defines the scope a flow operation. You can use up to 20 filters to
+  configure a single flow operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The ID of the Availability Zone where the firewall is located. For
+  example, `us-east-2a`.
+
+  Defines the scope a flow operation. You can use up to 20 filters to configure a single
+  flow operation.
+
+- `"MinimumFlowAgeInSeconds"`: The reqested `FlowOperation` ignores flows with an age (in
+  seconds) lower than `MinimumFlowAgeInSeconds`. You provide this for start commands.
+
+- `"VpcEndpointAssociationArn"`: The Amazon Resource Name (ARN) of a VPC endpoint
+  association.
+
+- `"VpcEndpointId"`: A unique identifier for the primary endpoint associated with a
+  firewall.
+"""
+function start_flow_flush end
+
+function start_flow_flush(
+    FirewallArn, FlowFilters; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "StartFlowFlush",
+        Dict{String,Any}("FirewallArn" => FirewallArn, "FlowFilters" => FlowFilters);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_flow_flush(
+    FirewallArn,
+    FlowFilters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "StartFlowFlush",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallArn" => FirewallArn, "FlowFilters" => FlowFilters
+                ),
                 params,
             ),
         );
@@ -1486,6 +3516,146 @@ function untag_resource(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_availability_zone_change_protection(availability_zone_change_protection)
+    update_availability_zone_change_protection(availability_zone_change_protection, params::Dict{String,<:Any})
+
+Modifies the `AvailabilityZoneChangeProtection` setting for a transit gateway-attached
+firewall. When enabled, this setting prevents accidental changes to the firewall's
+Availability Zone configuration. This helps protect against disrupting traffic flow in
+production environments.
+
+When enabled, you must disable this protection before using [`associate_availability_zones`](@ref)
+or [`disassociate_availability_zones`](@ref) to modify the firewall's Availability Zone
+configuration.
+
+# Arguments
+
+- `availability_zone_change_protection`: A setting indicating whether the firewall is
+  protected against changes to the subnet associations. Use this setting to protect against
+  accidentally modifying the subnet associations for a firewall that is in use. When you
+  create a firewall, the operation initializes this setting to `TRUE`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
+  Firewall returns a token to your requests that access the firewall. The token marks the
+  state of the firewall resource at the time of the request.
+
+  To make an unconditional change to the firewall, omit the token in your update request.
+  Without the token, Network Firewall performs your updates regardless of whether the
+  firewall has changed since you last retrieved it.
+
+  To make a conditional change to the firewall, provide the token in your update request.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
+  this happens, retrieve the firewall again to get a current copy of it with a new token.
+  Reapply your changes as needed, then try the operation again using the new token.
+"""
+function update_availability_zone_change_protection end
+
+function update_availability_zone_change_protection(
+    AvailabilityZoneChangeProtection; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateAvailabilityZoneChangeProtection",
+        Dict{String,Any}(
+            "AvailabilityZoneChangeProtection" => AvailabilityZoneChangeProtection
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_availability_zone_change_protection(
+    AvailabilityZoneChangeProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateAvailabilityZoneChangeProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZoneChangeProtection" => AvailabilityZoneChangeProtection
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_firewall_analysis_settings()
+    update_firewall_analysis_settings(params::Dict{String,<:Any})
+
+Enables specific types of firewall analysis on a specific firewall you define.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EnabledAnalysisTypes"`: An optional setting indicating the specific traffic analysis
+  types to enable on the firewall.
+
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
+  firewall after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
+  Firewall returns a token to your requests that access the firewall. The token marks the
+  state of the firewall resource at the time of the request.
+
+  To make an unconditional change to the firewall, omit the token in your update request.
+  Without the token, Network Firewall performs your updates regardless of whether the
+  firewall has changed since you last retrieved it.
+
+  To make a conditional change to the firewall, provide the token in your update request.
+  Network Firewall uses the token to ensure that the firewall hasn't changed since you last
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
+  this happens, retrieve the firewall again to get a current copy of it with a new token.
+  Reapply your changes as needed, then try the operation again using the new token.
+"""
+function update_firewall_analysis_settings end
+
+function update_firewall_analysis_settings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallAnalysisSettings"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_firewall_analysis_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallAnalysisSettings",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1861,6 +4031,16 @@ one, using two separate calls to this update operation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"EnableMonitoringDashboard"`: A boolean that lets you enable or disable the detailed
+  firewall monitoring dashboard on the firewall.
+
+  The monitoring dashboard provides comprehensive visibility into your firewall's flow logs
+  and alert logs. After you enable detailed monitoring, you can access these dashboards
+  directly from the **Monitoring** page of the Network Firewall console.
+
+  Specify `TRUE` to enable the the detailed monitoring dashboard on the firewall. Specify
+  `FALSE` to disable the the detailed monitoring dashboard on the firewall.
+
 - `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall.
 
   You must specify the ARN or the name, and you can specify both.
@@ -1886,6 +4066,387 @@ function update_logging_configuration(
 )
     return network_firewall(
         "UpdateLoggingConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    update_proxy(nat_gateway_id, update_token)
+    update_proxy(nat_gateway_id, update_token, params::Dict{String,<:Any})
+
+Updates the properties of the specified proxy.
+
+# Arguments
+
+- `nat_gateway_id`: The NAT Gateway the proxy is attached to.
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy. The token marks the state of the proxy resource at
+  the time of the request.
+
+  To make changes to the proxy, you provide the token in your request. Network Firewall uses
+  the token to ensure that the proxy hasn't changed since you last retrieved it. If it has
+  changed, the operation fails with an `InvalidTokenException`. If this happens, retrieve
+  the proxy again to get a current copy of it with a current token. Reapply your changes as
+  needed, then try the operation again using the new token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ListenerPropertiesToAdd"`: Listener properties for HTTP and HTTPS traffic to add.
+
+- `"ListenerPropertiesToRemove"`: Listener properties for HTTP and HTTPS traffic to remove.
+
+- `"ProxyArn"`: The Amazon Resource Name (ARN) of a proxy.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyName"`: The descriptive name of the proxy. You can't change the name of a proxy
+  after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"TlsInterceptProperties"`: TLS decryption on traffic to filter on attributes in the HTTP
+  header.
+"""
+function update_proxy end
+
+function update_proxy(
+    NatGatewayId, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateProxy",
+        Dict{String,Any}("NatGatewayId" => NatGatewayId, "UpdateToken" => UpdateToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_proxy(
+    NatGatewayId,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NatGatewayId" => NatGatewayId, "UpdateToken" => UpdateToken
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_proxy_configuration(default_rule_phase_actions, update_token)
+    update_proxy_configuration(default_rule_phase_actions, update_token, params::Dict{String,<:Any})
+
+Updates the properties of the specified proxy configuration.
+
+# Arguments
+
+- `default_rule_phase_actions`: Evaluation points in the traffic flow where rules are
+  applied. There are three phases in a traffic where the rule match is applied.
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy configuration. The token marks the state of the proxy
+  configuration resource at the time of the request.
+
+  To make changes to the proxy configuration, you provide the token in your request. Network
+  Firewall uses the token to ensure that the proxy configuration hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an `InvalidTokenException`.
+  If this happens, retrieve the proxy configuration again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the new
+  token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function update_proxy_configuration end
+
+function update_proxy_configuration(
+    DefaultRulePhaseActions, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateProxyConfiguration",
+        Dict{String,Any}(
+            "DefaultRulePhaseActions" => DefaultRulePhaseActions,
+            "UpdateToken" => UpdateToken,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_proxy_configuration(
+    DefaultRulePhaseActions,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DefaultRulePhaseActions" => DefaultRulePhaseActions,
+                    "UpdateToken" => UpdateToken,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_proxy_rule(proxy_rule_name, update_token)
+    update_proxy_rule(proxy_rule_name, update_token, params::Dict{String,<:Any})
+
+Updates the properties of the specified proxy rule.
+
+# Arguments
+
+- `proxy_rule_name`: The descriptive name of the proxy rule. You can't change the name of a
+  proxy rule after you create it.
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy rule. The token marks the state of the proxy rule
+  resource at the time of the request.
+
+  To make changes to the proxy rule, you provide the token in your request. Network Firewall
+  uses the token to ensure that the proxy rule hasn't changed since you last retrieved it.
+  If it has changed, the operation fails with an `InvalidTokenException`. If this happens,
+  retrieve the proxy rule again to get a current copy of it with a current token. Reapply
+  your changes as needed, then try the operation again using the new token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Action"`: Depending on the match action, the proxy either stops the evaluation (if the
+  action is terminal - allow or deny), or continues it (if the action is alert) until it
+  matches a rule with a terminal action.
+
+- `"AddConditions"`: Proxy rule conditions to add. Match criteria that specify what traffic
+  attributes to examine. Conditions include operators (StringEquals, StringLike) and values
+  to match against.
+
+- `"Description"`: A description of the proxy rule.
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"RemoveConditions"`: Proxy rule conditions to remove. Match criteria that specify what
+  traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and
+  values to match against.
+"""
+function update_proxy_rule end
+
+function update_proxy_rule(
+    ProxyRuleName, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateProxyRule",
+        Dict{String,Any}("ProxyRuleName" => ProxyRuleName, "UpdateToken" => UpdateToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_proxy_rule(
+    ProxyRuleName,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxyRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ProxyRuleName" => ProxyRuleName, "UpdateToken" => UpdateToken
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_proxy_rule_group_priorities(rule_groups, update_token)
+    update_proxy_rule_group_priorities(rule_groups, update_token, params::Dict{String,<:Any})
+
+Updates proxy rule group priorities within a proxy configuration.
+
+# Arguments
+
+- `rule_groups`: proxy rule group resources to update to new positions.
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy configuration. The token marks the state of the proxy
+  configuration resource at the time of the request.
+
+  To make changes to the proxy configuration, you provide the token in your request. Network
+  Firewall uses the token to ensure that the proxy configuration hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an `InvalidTokenException`.
+  If this happens, retrieve the proxy configuration again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the new
+  token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyConfigurationArn"`: The Amazon Resource Name (ARN) of a proxy configuration.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyConfigurationName"`: The descriptive name of the proxy configuration. You can't
+  change the name of a proxy configuration after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function update_proxy_rule_group_priorities end
+
+function update_proxy_rule_group_priorities(
+    RuleGroups, UpdateToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return network_firewall(
+        "UpdateProxyRuleGroupPriorities",
+        Dict{String,Any}("RuleGroups" => RuleGroups, "UpdateToken" => UpdateToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_proxy_rule_group_priorities(
+    RuleGroups,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxyRuleGroupPriorities",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RuleGroups" => RuleGroups, "UpdateToken" => UpdateToken),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_proxy_rule_priorities(rule_group_request_phase, rules, update_token)
+    update_proxy_rule_priorities(rule_group_request_phase, rules, update_token, params::Dict{String,<:Any})
+
+Updates proxy rule priorities within a proxy rule group.
+
+# Arguments
+
+- `rule_group_request_phase`: Evaluation points in the traffic flow where rules are applied.
+  There are three phases in a traffic where the rule match is applied.
+
+- `rules`: proxy rule resources to update to new positions.
+
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the proxy rule group. The token marks the state of the proxy
+  rule group resource at the time of the request.
+
+  To make changes to the proxy rule group, you provide the token in your request. Network
+  Firewall uses the token to ensure that the proxy rule group hasn't changed since you last
+  retrieved it. If it has changed, the operation fails with an `InvalidTokenException`. If
+  this happens, retrieve the proxy rule group again to get a current copy of it with a
+  current token. Reapply your changes as needed, then try the operation again using the new
+  token.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ProxyRuleGroupArn"`: The Amazon Resource Name (ARN) of a proxy rule group.
+
+  You must specify the ARN or the name, and you can specify both.
+
+- `"ProxyRuleGroupName"`: The descriptive name of the proxy rule group. You can't change the
+  name of a proxy rule group after you create it.
+
+  You must specify the ARN or the name, and you can specify both.
+"""
+function update_proxy_rule_priorities end
+
+function update_proxy_rule_priorities(
+    RuleGroupRequestPhase,
+    Rules,
+    UpdateToken;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxyRulePriorities",
+        Dict{String,Any}(
+            "RuleGroupRequestPhase" => RuleGroupRequestPhase,
+            "Rules" => Rules,
+            "UpdateToken" => UpdateToken,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_proxy_rule_priorities(
+    RuleGroupRequestPhase,
+    Rules,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return network_firewall(
+        "UpdateProxyRulePriorities",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RuleGroupRequestPhase" => RuleGroupRequestPhase,
+                    "Rules" => Rules,
+                    "UpdateToken" => UpdateToken,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1967,6 +4528,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceMetadata"`: A complex type that contains metadata about the rule group that your
   own rule group is copied from. You can use the metadata to keep track of updates made to
   the originating rule group.
+
+- `"SummaryConfiguration"`: Updates the selected summary configuration for a rule group.
+
+  Changes affect subsequent responses from `DescribeRuleGroupSummary`.
 
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.

@@ -202,6 +202,83 @@ function associate_fleet(
 end
 
 """
+    associate_software_to_image_builder(image_builder_name, software_names)
+    associate_software_to_image_builder(image_builder_name, software_names, params::Dict{String,<:Any})
+
+Associates license included application(s) with an existing image builder instance.
+
+# Arguments
+
+- `image_builder_name`: The name of the target image builder instance.
+
+- `software_names`: The list of license included applications to associate with the image
+  builder.
+
+  Possible values include the following:
+
+  - Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  - Microsoft_Visio_2021_LTSC_Professional_32Bit
+  - Microsoft_Visio_2021_LTSC_Professional_64Bit
+  - Microsoft_Visio_2024_LTSC_Professional_32Bit
+  - Microsoft_Visio_2024_LTSC_Professional_64Bit
+  - Microsoft_Project_2021_Professional_32Bit
+  - Microsoft_Project_2021_Professional_64Bit
+  - Microsoft_Project_2024_Professional_32Bit
+  - Microsoft_Project_2024_Professional_64Bit
+  - Microsoft_Office_2021_LTSC_Standard_32Bit
+  - Microsoft_Office_2021_LTSC_Standard_64Bit
+  - Microsoft_Office_2024_LTSC_Standard_32Bit
+  - Microsoft_Office_2024_LTSC_Standard_64Bit
+  - Microsoft_Visio_2021_LTSC_Standard_32Bit
+  - Microsoft_Visio_2021_LTSC_Standard_64Bit
+  - Microsoft_Visio_2024_LTSC_Standard_32Bit
+  - Microsoft_Visio_2024_LTSC_Standard_64Bit
+  - Microsoft_Project_2021_Standard_32Bit
+  - Microsoft_Project_2021_Standard_64Bit
+  - Microsoft_Project_2024_Standard_32Bit
+  - Microsoft_Project_2024_Standard_64Bit
+"""
+function associate_software_to_image_builder end
+
+function associate_software_to_image_builder(
+    ImageBuilderName, SoftwareNames; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "AssociateSoftwareToImageBuilder",
+        Dict{String,Any}(
+            "ImageBuilderName" => ImageBuilderName, "SoftwareNames" => SoftwareNames
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_software_to_image_builder(
+    ImageBuilderName,
+    SoftwareNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "AssociateSoftwareToImageBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImageBuilderName" => ImageBuilderName, "SoftwareNames" => SoftwareNames
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_associate_user_stack(user_stack_associations)
     batch_associate_user_stack(user_stack_associations, params::Dict{String,<:Any})
 
@@ -359,7 +436,7 @@ end
 
 Creates an app block.
 
-App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual
+App blocks are a WorkSpaces Applications resource that stores the details about the virtual
 hard disk in an S3 bucket. It also stores the setup script with details about how to mount
 the virtual hard disk. The virtual hard disk includes the application binaries and other
 files necessary to launch your applications. Multiple applications can be assigned to a
@@ -455,6 +532,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the app block builder.
 
+- `"DisableIMDSV1"`: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+
 - `"DisplayName"`: The display name of the app block builder.
 
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
@@ -463,11 +543,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
   builder. To assume a role, the app block builder calls the AWS Security Token Service
   (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation
-  creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary
-  credentials and creates the **appstream_machine_role** credential profile on the instance.
+  creates a new session with temporary credentials. WorkSpaces Applications retrieves the
+  temporary credentials and creates the **appstream_machine_role** credential profile on the
+  instance.
 
-  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"Tags"`: The tags to associate with the app block builder. A tag is a key-value pair, and
   the value is optional. For example, Environment=Test. If you do not specify a value,
@@ -481,7 +562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ . : / = + \\ - @
 
   For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 """
 function create_app_block_builder end
 
@@ -587,7 +668,7 @@ end
 
 Creates an application.
 
-Applications are an Amazon AppStream 2.0 resource that stores the details about how to
+Applications are a WorkSpaces Applications resource that stores the details about how to
 launch applications on Elastic fleet streaming instances. An application consists of the
 launch details, icon, and display name. Applications are associated with an app block that
 contains the application binaries and other files. The applications assigned to an Elastic
@@ -604,8 +685,8 @@ This is only supported for Elastic fleets.
 - `launch_path`: The launch path of the application.
 - `name`: The name of the application. This name is visible to users when display name is
   not specified.
-- `platforms`: The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2
-  are supported for Elastic fleets.
+- `platforms`: The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2
+  and UBUNTU_PRO_2404 are supported for Elastic fleets.
 
 # Optional Parameters
 
@@ -679,9 +760,9 @@ end
     create_directory_config(directory_name, organizational_unit_distinguished_names)
     create_directory_config(directory_name, organizational_unit_distinguished_names, params::Dict{String,<:Any})
 
-Creates a Directory Config object in AppStream 2.0. This object includes the configuration
-information required to join fleets and image builders to Microsoft Active Directory
-domains.
+Creates a Directory Config object in WorkSpaces Applications. This object includes the
+configuration information required to join fleets and image builders to Microsoft Active
+Directory domains.
 
 # Arguments
 
@@ -754,9 +835,9 @@ end
 
 Creates a new entitlement. Entitlements control access to specific applications within a
 stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities.
-Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a
-stack. Entitlements don't apply to the desktop stream view application, or to applications
-managed by a dynamic app provider using the Dynamic Application Framework.
+WorkSpaces Applications user pool and streaming URL users are entitled to all applications
+in a stack. Entitlements don't apply to the desktop stream view application, or to
+applications managed by a dynamic app provider using the Dynamic Application Framework.
 
 # Arguments
 
@@ -821,6 +902,73 @@ function create_entitlement(
 end
 
 """
+    create_export_image_task(ami_name, iam_role_arn, image_name)
+    create_export_image_task(ami_name, iam_role_arn, image_name, params::Dict{String,<:Any})
+
+Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to
+use your customized WorkSpaces Applications images with other AWS services or for backup
+purposes.
+
+# Arguments
+
+- `ami_name`: The name for the exported EC2 AMI. This is a required field that must be
+  unique within your account and region.
+- `iam_role_arn`: The ARN of the IAM role that allows WorkSpaces Applications to create the
+  AMI. The role must have permissions to copy images, describe images, and create tags, with
+  a trust relationship allowing appstream.amazonaws.com to assume the role.
+- `image_name`: The name of the WorkSpaces Applications image to export. The image must be
+  in an available state and owned by your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AmiDescription"`: An optional description for the exported AMI. This description will be
+  applied to the resulting EC2 AMI.
+- `"TagSpecifications"`: The tags to apply to the exported AMI. These tags help you organize
+  and manage your EC2 AMIs.
+"""
+function create_export_image_task end
+
+function create_export_image_task(
+    AmiName, IamRoleArn, ImageName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "CreateExportImageTask",
+        Dict{String,Any}(
+            "AmiName" => AmiName, "IamRoleArn" => IamRoleArn, "ImageName" => ImageName
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_export_image_task(
+    AmiName,
+    IamRoleArn,
+    ImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateExportImageTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AmiName" => AmiName,
+                    "IamRoleArn" => IamRoleArn,
+                    "ImageName" => ImageName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_fleet(instance_type, name)
     create_fleet(instance_type, name, params::Dict{String,<:Any})
 
@@ -853,20 +1001,33 @@ applications and desktops.
   - stream.memory.z1d.3xlarge
   - stream.memory.z1d.6xlarge
   - stream.memory.z1d.12xlarge
-  - stream.graphics-design.large
-  - stream.graphics-design.xlarge
-  - stream.graphics-design.2xlarge
-  - stream.graphics-design.4xlarge
-  - stream.graphics-desktop.2xlarge
   - stream.graphics.g4dn.xlarge
   - stream.graphics.g4dn.2xlarge
   - stream.graphics.g4dn.4xlarge
   - stream.graphics.g4dn.8xlarge
   - stream.graphics.g4dn.12xlarge
   - stream.graphics.g4dn.16xlarge
-  - stream.graphics-pro.4xlarge
-  - stream.graphics-pro.8xlarge
-  - stream.graphics-pro.16xlarge
+  - stream.graphics.g5.xlarge
+  - stream.graphics.g5.2xlarge
+  - stream.graphics.g5.4xlarge
+  - stream.graphics.g5.8xlarge
+  - stream.graphics.g5.12xlarge
+  - stream.graphics.g5.16xlarge
+  - stream.graphics.g5.24xlarge
+  - stream.graphics.g6.xlarge
+  - stream.graphics.g6.2xlarge
+  - stream.graphics.g6.4xlarge
+  - stream.graphics.g6.8xlarge
+  - stream.graphics.g6.16xlarge
+  - stream.graphics.g6.12xlarge
+  - stream.graphics.g6.24xlarge
+  - stream.graphics.gr6.4xlarge
+  - stream.graphics.gr6.8xlarge
+  - stream.graphics.g6f.large
+  - stream.graphics.g6f.xlarge
+  - stream.graphics.g6f.2xlarge
+  - stream.graphics.g6f.4xlarge
+  - stream.graphics.gr6f.4xlarge
 
   The following instance types are available for Elastic fleets:
 
@@ -887,13 +1048,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description to display.
 
+- `"DisableIMDSV1"`: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+
+  !!! note
+      Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the
+      agent version or managed image update released on or after January 16, 2024 to support
+      IMDSv2 enforcement.
+
 - `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains active
   after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new
   streaming instance.
 
-  Specify a value between 60 and 360000.
+  Specify a value between 60 and 36000.
 
 - `"DisplayName"`: The fleet name to display.
 
@@ -919,11 +1088,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
   assume a role, a fleet instance calls the AWS Security Token Service (STS) `AssumeRole`
   API operation and passes the ARN of the role to use. The operation creates a new session
-  with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  the **appstream_machine_role** credential profile on the instance.
+  with temporary credentials. WorkSpaces Applications retrieves the temporary credentials
+  and creates the **appstream_machine_role** credential profile on the instance.
 
-  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"IdleDisconnectTimeoutInSeconds"`: The amount of time that users can be idle (inactive)
   before they are disconnected from their streaming session and the
@@ -937,7 +1106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disconnected.
 
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.
 
   !!! note
       If you enable this feature, we recommend that you specify a value that corresponds
@@ -966,15 +1135,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Specify a value between 600 and 432000.
 
-- `"Platform"`: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for
-  Elastic fleets.
+- `"Platform"`: The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404
+  are supported for Elastic fleets.
+
+- `"RootVolumeConfig"`: The configuration for the root volume of fleet instances. Use this
+  to customize storage capacity from 200 GB up to 500 GB based on your application
+  requirements.
 
 - `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
   file. This only applies to Elastic fleets.
 
-- `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
-  from the fleet. When `APP` is specified, only the windows of applications opened by users
-  display. When `DESKTOP` is specified, the standard desktop that is provided by the
+- `"StreamView"`: The WorkSpaces Applications view that is displayed to your users when they
+  stream from the fleet. When `APP` is specified, only the windows of applications opened by
+  users display. When `DESKTOP` is specified, the standard desktop that is provided by the
   operating system displays.
 
   The default value is `APP`.
@@ -990,7 +1163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ . : / = + \\ - @
 
   For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices a
   user can redirect to the fleet streaming session, when using the Windows native client.
@@ -1066,20 +1239,33 @@ The initial state of the builder is `PENDING`. When it is ready, the state is `R
   - stream.memory.z1d.3xlarge
   - stream.memory.z1d.6xlarge
   - stream.memory.z1d.12xlarge
-  - stream.graphics-design.large
-  - stream.graphics-design.xlarge
-  - stream.graphics-design.2xlarge
-  - stream.graphics-design.4xlarge
-  - stream.graphics-desktop.2xlarge
   - stream.graphics.g4dn.xlarge
   - stream.graphics.g4dn.2xlarge
   - stream.graphics.g4dn.4xlarge
   - stream.graphics.g4dn.8xlarge
   - stream.graphics.g4dn.12xlarge
   - stream.graphics.g4dn.16xlarge
-  - stream.graphics-pro.4xlarge
-  - stream.graphics-pro.8xlarge
-  - stream.graphics-pro.16xlarge
+  - stream.graphics.g5.xlarge
+  - stream.graphics.g5.2xlarge
+  - stream.graphics.g5.4xlarge
+  - stream.graphics.g5.8xlarge
+  - stream.graphics.g5.16xlarge
+  - stream.graphics.g5.12xlarge
+  - stream.graphics.g5.24xlarge
+  - stream.graphics.g6.xlarge
+  - stream.graphics.g6.2xlarge
+  - stream.graphics.g6.4xlarge
+  - stream.graphics.g6.8xlarge
+  - stream.graphics.g6.16xlarge
+  - stream.graphics.g6.12xlarge
+  - stream.graphics.g6.24xlarge
+  - stream.graphics.gr6.4xlarge
+  - stream.graphics.gr6.8xlarge
+  - stream.graphics.g6f.large
+  - stream.graphics.g6f.xlarge
+  - stream.graphics.g6f.2xlarge
+  - stream.graphics.g6f.4xlarge
+  - stream.graphics.gr6f.4xlarge
 
 - `name`: A unique name for the image builder.
 
@@ -1090,10 +1276,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Administrators can connect to the image builder only through the specified endpoints.
 
-- `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
-  builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+- `"AppstreamAgentVersion"`: The version of the WorkSpaces Applications agent to use for
+  this image builder. To use the latest version of the WorkSpaces Applications agent,
+  specify [LATEST].
 
 - `"Description"`: The description to display.
+
+- `"DisableIMDSV1"`: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+
+  !!! note
+      Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the
+      agent version or managed image update released on or after January 16, 2024 to support
+      IMDSv2 enforcement.
 
 - `"DisplayName"`: The image builder name to display.
 
@@ -1106,15 +1301,79 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the image
   builder. To assume a role, the image builder calls the AWS Security Token Service (STS)
   `AssumeRole` API operation and passes the ARN of the role to use. The operation creates a
-  new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials
-  and creates the **appstream_machine_role** credential profile on the instance.
+  new session with temporary credentials. WorkSpaces Applications retrieves the temporary
+  credentials and creates the **appstream_machine_role** credential profile on the instance.
 
-  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 
 - `"ImageName"`: The name of the image used to create the image builder.
+
+- `"RootVolumeConfig"`: The configuration for the root volume of the image builder. Use this
+  to customize storage capacity from 200 GB up to 500 GB based on your application
+  installation requirements.
+
+- `"SoftwaresToInstall"`: The list of license included applications to install on the image
+  builder during creation.
+
+  Possible values include the following:
+
+  - Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  - Microsoft_Visio_2021_LTSC_Professional_32Bit
+  - Microsoft_Visio_2021_LTSC_Professional_64Bit
+  - Microsoft_Visio_2024_LTSC_Professional_32Bit
+  - Microsoft_Visio_2024_LTSC_Professional_64Bit
+  - Microsoft_Project_2021_Professional_32Bit
+  - Microsoft_Project_2021_Professional_64Bit
+  - Microsoft_Project_2024_Professional_32Bit
+  - Microsoft_Project_2024_Professional_64Bit
+  - Microsoft_Office_2021_LTSC_Standard_32Bit
+  - Microsoft_Office_2021_LTSC_Standard_64Bit
+  - Microsoft_Office_2024_LTSC_Standard_32Bit
+  - Microsoft_Office_2024_LTSC_Standard_64Bit
+  - Microsoft_Visio_2021_LTSC_Standard_32Bit
+  - Microsoft_Visio_2021_LTSC_Standard_64Bit
+  - Microsoft_Visio_2024_LTSC_Standard_32Bit
+  - Microsoft_Visio_2024_LTSC_Standard_64Bit
+  - Microsoft_Project_2021_Standard_32Bit
+  - Microsoft_Project_2021_Standard_64Bit
+  - Microsoft_Project_2024_Standard_32Bit
+  - Microsoft_Project_2024_Standard_64Bit
+
+- `"SoftwaresToUninstall"`: The list of license included applications to uninstall from the
+  image builder during creation.
+
+  Possible values include the following:
+
+  - Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  - Microsoft_Visio_2021_LTSC_Professional_32Bit
+  - Microsoft_Visio_2021_LTSC_Professional_64Bit
+  - Microsoft_Visio_2024_LTSC_Professional_32Bit
+  - Microsoft_Visio_2024_LTSC_Professional_64Bit
+  - Microsoft_Project_2021_Professional_32Bit
+  - Microsoft_Project_2021_Professional_64Bit
+  - Microsoft_Project_2024_Professional_32Bit
+  - Microsoft_Project_2024_Professional_64Bit
+  - Microsoft_Office_2021_LTSC_Standard_32Bit
+  - Microsoft_Office_2021_LTSC_Standard_64Bit
+  - Microsoft_Office_2024_LTSC_Standard_32Bit
+  - Microsoft_Office_2024_LTSC_Standard_64Bit
+  - Microsoft_Visio_2021_LTSC_Standard_32Bit
+  - Microsoft_Visio_2021_LTSC_Standard_64Bit
+  - Microsoft_Visio_2024_LTSC_Standard_32Bit
+  - Microsoft_Visio_2024_LTSC_Standard_64Bit
+  - Microsoft_Project_2021_Standard_32Bit
+  - Microsoft_Project_2021_Standard_64Bit
+  - Microsoft_Project_2024_Standard_32Bit
+  - Microsoft_Project_2024_Standard_64Bit
 
 - `"Tags"`: The tags to associate with the image builder. A tag is a key-value pair, and the
   value is optional. For example, Environment=Test. If you do not specify a value,
@@ -1128,7 +1387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a value, the value is set to an empty string.
 
   For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"VpcConfig"`: The VPC configuration for the image builder. You can specify only one
   subnet.
@@ -1208,6 +1467,87 @@ function create_image_builder_streaming_url(
 end
 
 """
+    create_imported_image(iam_role_arn, name, source_ami_id)
+    create_imported_image(iam_role_arn, name, source_ami_id, params::Dict{String,<:Any})
+
+Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to
+use your own customized AMI to create WorkSpaces Applications images that support additional
+instance types beyond the standard stream.* instances.
+
+# Arguments
+
+- `iam_role_arn`: The ARN of the IAM role that allows WorkSpaces Applications to access your
+  AMI. The role must have permissions to modify image attributes and describe images, with a
+  trust relationship allowing appstream.amazonaws.com to assume the role.
+- `name`: A unique name for the imported image. The name must be between 1 and 100
+  characters and can contain letters, numbers, underscores, periods, and hyphens.
+- `source_ami_id`: The ID of the EC2 AMI to import. The AMI must meet specific requirements
+  including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper
+  drivers.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AgentSoftwareVersion"`: The version of the WorkSpaces Applications agent to use for the
+  imported image. Choose CURRENT_LATEST to use the agent version available at the time of
+  import, or ALWAYS_LATEST to automatically update to the latest agent version when new
+  versions are released.
+- `"AppCatalogConfig"`: Configuration for the application catalog of the imported image.
+  This allows you to specify applications available for streaming, including their paths,
+  icons, and launch parameters. This field contains sensitive data.
+- `"Description"`: An optional description for the imported image. The description must
+  match approved regex patterns and can be up to 256 characters.
+- `"DisplayName"`: An optional display name for the imported image. The display name must
+  match approved regex patterns and can be up to 100 characters.
+- `"DryRun"`: When set to true, performs validation checks without actually creating the
+  imported image. Use this to verify your configuration before executing the actual import
+  operation.
+- `"RuntimeValidationConfig"`: Configuration for runtime validation of the imported image.
+  When specified, WorkSpaces Applications provisions an instance to test streaming
+  functionality, which helps ensure the image is suitable for use.
+- `"Tags"`: The tags to apply to the imported image. Tags help you organize and manage your
+  WorkSpaces Applications resources.
+"""
+function create_imported_image end
+
+function create_imported_image(
+    IamRoleArn, Name, SourceAmiId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "CreateImportedImage",
+        Dict{String,Any}(
+            "IamRoleArn" => IamRoleArn, "Name" => Name, "SourceAmiId" => SourceAmiId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_imported_image(
+    IamRoleArn,
+    Name,
+    SourceAmiId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateImportedImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IamRoleArn" => IamRoleArn, "Name" => Name, "SourceAmiId" => SourceAmiId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_stack(name)
     create_stack(name, params::Dict{String,<:Any})
 
@@ -1223,19 +1563,22 @@ fleet, user access policies, and storage configurations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
-  Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+  Users of the stack can connect to WorkSpaces Applications only through the specified
+  endpoints.
 
 - `"ApplicationSettings"`: The persistent application settings for users of a stack. When
   these settings are enabled, changes that users make to applications and Windows settings
   are automatically saved after each session and applied to the next session.
 
+- `"ContentRedirection"`:
+
 - `"Description"`: The description to display.
 
 - `"DisplayName"`: The stack name to display.
 
-- `"EmbedHostDomains"`: The domains where AppStream 2.0 streaming sessions can be embedded
-  in an iframe. You must approve the domains that you want to host embedded AppStream 2.0
-  streaming sessions.
+- `"EmbedHostDomains"`: The domains where WorkSpaces Applications streaming sessions can be
+  embedded in an iframe. You must approve the domains that you want to host embedded
+  WorkSpaces Applications streaming sessions.
 
 - `"FeedbackURL"`: The URL that users are redirected to after they click the Send Feedback
   link. If no URL is specified, no Send Feedback link is displayed.
@@ -1258,7 +1601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   _ . : / = + \\ - @
 
   For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
@@ -1289,8 +1632,9 @@ end
     create_streaming_url(fleet_name, stack_name, user_id)
     create_streaming_url(fleet_name, stack_name, user_id, params::Dict{String,<:Any})
 
-Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user.
-A streaming URL enables application streaming to be tested without user setup.
+Creates a temporary URL to start an WorkSpaces Applications streaming session for the
+specified user. A streaming URL enables application streaming to be tested without user
+setup.
 
 # Arguments
 
@@ -1307,7 +1651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the **Desktop** stream view, you can also choose to launch directly to the operating
   system desktop. To do so, specify **Desktop**.
 - `"SessionContext"`: The session context. For more information, see [Session Context](https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 60 seconds.
 """
@@ -1350,15 +1694,98 @@ function create_streaming_url(
 end
 
 """
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text)
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text, params::Dict{String,<:Any})
+
+Creates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+
+- `favicon_s3_location`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `organization_logo_s3_location`: The organization logo that appears on the streaming
+  application catalog page.
+- `stack_name`: The name of the stack for the theme.
+- `theme_styling`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `title_text`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+"""
+function create_theme_for_stack end
+
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            "FaviconS3Location" => FaviconS3Location,
+            "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+            "StackName" => StackName,
+            "ThemeStyling" => ThemeStyling,
+            "TitleText" => TitleText,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FaviconS3Location" => FaviconS3Location,
+                    "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+                    "StackName" => StackName,
+                    "ThemeStyling" => ThemeStyling,
+                    "TitleText" => TitleText,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_updated_image(existing_image_name, new_image_name)
     create_updated_image(existing_image_name, new_image_name, params::Dict{String,<:Any})
 
 Creates a new image with the latest Windows operating system updates, driver updates, and
-AppStream 2.0 agent software.
+WorkSpaces Applications agent software.
 
-For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates"
-section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html),
-in the *Amazon AppStream 2.0 Administration Guide*.
+For more information, see the "Update an Image by Using Managed WorkSpaces Applications
+Image Updates" section in [Administer Your WorkSpaces Applications Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html),
+in the *Amazon WorkSpaces Applications Administration Guide*.
 
 # Arguments
 
@@ -1371,10 +1798,10 @@ in the *Amazon AppStream 2.0 Administration Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"dryRun"`: Indicates whether to display the status of image update availability before
-  AppStream 2.0 initiates the process of creating a new updated image. If this value is set
-  to `true`, AppStream 2.0 displays whether image updates are available. If this value is
-  set to `false`, AppStream 2.0 initiates the process of creating a new updated image
-  without displaying whether image updates are available.
+  WorkSpaces Applications initiates the process of creating a new updated image. If this
+  value is set to `true`, WorkSpaces Applications displays whether image updates are
+  available. If this value is set to `false`, WorkSpaces Applications initiates the process
+  of creating a new updated image without displaying whether image updates are available.
 
 - `"newImageDescription"`: The description to display for the new image.
 
@@ -1392,7 +1819,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a value, the value is set to an empty string.
 
   For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 """
 function create_updated_image end
 
@@ -1628,8 +2055,8 @@ end
     delete_directory_config(directory_name)
     delete_directory_config(directory_name, params::Dict{String,<:Any})
 
-Deletes the specified Directory Config object from AppStream 2.0. This object includes the
-information required to join streaming instances to an Active Directory domain.
+Deletes the specified Directory Config object from WorkSpaces Applications. This object
+includes the information required to join streaming instances to an Active Directory domain.
 
 # Arguments
 
@@ -1884,6 +2311,45 @@ function delete_stack(
 end
 
 """
+    delete_theme_for_stack(stack_name)
+    delete_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Deletes custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+
+- `stack_name`: The name of the stack for the theme.
+"""
+function delete_theme_for_stack end
+
+function delete_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_usage_report_subscription()
     delete_usage_report_subscription(params::Dict{String,<:Any})
 
@@ -2059,6 +2525,53 @@ function describe_app_blocks(
 end
 
 """
+    describe_app_license_usage(billing_period)
+    describe_app_license_usage(billing_period, params::Dict{String,<:Any})
+
+Retrieves license included application usage information.
+
+# Arguments
+
+- `billing_period`: Billing period for the usage record.
+
+  Specify the value in *yyyy-mm* format. For example, for August 2025, use *2025-08*.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: Token for pagination of results.
+"""
+function describe_app_license_usage end
+
+function describe_app_license_usage(
+    BillingPeriod; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeAppLicenseUsage",
+        Dict{String,Any}("BillingPeriod" => BillingPeriod);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_app_license_usage(
+    BillingPeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeAppLicenseUsage",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BillingPeriod" => BillingPeriod), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_application_fleet_associations()
     describe_application_fleet_associations(params::Dict{String,<:Any})
 
@@ -2129,10 +2642,11 @@ end
     describe_directory_configs()
     describe_directory_configs(params::Dict{String,<:Any})
 
-Retrieves a list that describes one or more specified Directory Config objects for AppStream
-2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in
-  the account are described. These objects include the configuration information required to
-  join fleets and image builders to Microsoft Active Directory domains.
+Retrieves a list that describes one or more specified Directory Config objects for
+WorkSpaces Applications, if the names for these objects are provided. Otherwise, all
+Directory Config objects in the account are described. These objects include the
+configuration information required to join fleets and image builders to Microsoft Active
+Directory domains.
 
 Although the response syntax in this topic includes the account password, this password is
 not returned in the actual response.
@@ -2405,6 +2919,55 @@ function describe_sessions(
 end
 
 """
+    describe_software_associations(associated_resource)
+    describe_software_associations(associated_resource, params::Dict{String,<:Any})
+
+Retrieves license included application associations for a specified resource.
+
+# Arguments
+
+- `associated_resource`: The ARN of the resource to describe software associations. Possible
+  resources are Image and ImageBuilder.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation.
+"""
+function describe_software_associations end
+
+function describe_software_associations(
+    AssociatedResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeSoftwareAssociations",
+        Dict{String,Any}("AssociatedResource" => AssociatedResource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_software_associations(
+    AssociatedResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeSoftwareAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AssociatedResource" => AssociatedResource), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_stacks()
     describe_stacks(params::Dict{String,<:Any})
 
@@ -2429,6 +2992,45 @@ function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appstream("DescribeStacks", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_theme_for_stack(stack_name)
+    describe_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Retrieves a list that describes the theme for a specified stack. A theme is custom branding
+that customizes the appearance of the streaming application catalog page.
+
+# Arguments
+
+- `stack_name`: The name of the stack for the theme.
+"""
+function describe_theme_for_stack end
+
+function describe_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2567,8 +3169,8 @@ end
     disable_user(authentication_type, user_name)
     disable_user(authentication_type, user_name, params::Dict{String,<:Any})
 
-Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until
-they are re-enabled. This action does not delete the user.
+Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications
+until they are re-enabled. This action does not delete the user.
 
 # Arguments
 
@@ -2814,11 +3416,128 @@ function disassociate_fleet(
 end
 
 """
+    disassociate_software_from_image_builder(image_builder_name, software_names)
+    disassociate_software_from_image_builder(image_builder_name, software_names, params::Dict{String,<:Any})
+
+Removes license included application(s) association(s) from an image builder instance.
+
+# Arguments
+
+- `image_builder_name`: The name of the target image builder instance.
+
+- `software_names`: The list of license included applications to disassociate from the image
+  builder.
+
+  Possible values include the following:
+
+  - Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+  - Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+  - Microsoft_Visio_2021_LTSC_Professional_32Bit
+  - Microsoft_Visio_2021_LTSC_Professional_64Bit
+  - Microsoft_Visio_2024_LTSC_Professional_32Bit
+  - Microsoft_Visio_2024_LTSC_Professional_64Bit
+  - Microsoft_Project_2021_Professional_32Bit
+  - Microsoft_Project_2021_Professional_64Bit
+  - Microsoft_Project_2024_Professional_32Bit
+  - Microsoft_Project_2024_Professional_64Bit
+  - Microsoft_Office_2021_LTSC_Standard_32Bit
+  - Microsoft_Office_2021_LTSC_Standard_64Bit
+  - Microsoft_Office_2024_LTSC_Standard_32Bit
+  - Microsoft_Office_2024_LTSC_Standard_64Bit
+  - Microsoft_Visio_2021_LTSC_Standard_32Bit
+  - Microsoft_Visio_2021_LTSC_Standard_64Bit
+  - Microsoft_Visio_2024_LTSC_Standard_32Bit
+  - Microsoft_Visio_2024_LTSC_Standard_64Bit
+  - Microsoft_Project_2021_Standard_32Bit
+  - Microsoft_Project_2021_Standard_64Bit
+  - Microsoft_Project_2024_Standard_32Bit
+  - Microsoft_Project_2024_Standard_64Bit
+"""
+function disassociate_software_from_image_builder end
+
+function disassociate_software_from_image_builder(
+    ImageBuilderName, SoftwareNames; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DisassociateSoftwareFromImageBuilder",
+        Dict{String,Any}(
+            "ImageBuilderName" => ImageBuilderName, "SoftwareNames" => SoftwareNames
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_software_from_image_builder(
+    ImageBuilderName,
+    SoftwareNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DisassociateSoftwareFromImageBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImageBuilderName" => ImageBuilderName, "SoftwareNames" => SoftwareNames
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    drain_session_instance(session_id)
+    drain_session_instance(session_id, params::Dict{String,<:Any})
+
+Drains the instance hosting the specified streaming session. The instance stops accepting
+new sessions while existing sessions continue uninterrupted. Once all sessions end, the
+instance is reclaimed and replaced. This only applies to multi-session fleets.
+
+# Arguments
+
+- `session_id`: The identifier of the streaming session.
+"""
+function drain_session_instance end
+
+function drain_session_instance(
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "DrainSessionInstance",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function drain_session_instance(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "DrainSessionInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     enable_user(authentication_type, user_name)
     enable_user(authentication_type, user_name, params::Dict{String,<:Any})
 
-Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and
-open applications from the stacks to which they are assigned.
+Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces
+Applications and open applications from the stacks to which they are assigned.
 
 # Arguments
 
@@ -2901,6 +3620,33 @@ function expire_session(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_export_image_task()
+    get_export_image_task(params::Dict{String,<:Any})
+
+Retrieves information about an export image task, including its current state, progress, and
+any error details.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"TaskId"`: The unique identifier of the export image task to retrieve information about.
+"""
+function get_export_image_task end
+
+function get_export_image_task(; aws_config::AbstractAWSConfig=current_aws_config())
+    return appstream("GetExportImageTask"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_export_image_task(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "GetExportImageTask", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3049,14 +3795,46 @@ function list_entitled_applications(
 end
 
 """
+    list_export_image_tasks()
+    list_export_image_tasks(params::Dict{String,<:Any})
+
+Lists export image tasks, with optional filtering and pagination. Use this operation to
+monitor the status of multiple export operations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Optional filters to apply when listing export image tasks. Filters help you
+  narrow down the results based on specific criteria.
+- `"MaxResults"`: The maximum number of export image tasks to return in a single request.
+  The valid range is 1-500, with a default of 50.
+- `"NextToken"`: The pagination token from a previous request. Use this to retrieve the next
+  page of results when there are more tasks than the MaxResults limit.
+"""
+function list_export_image_tasks end
+
+function list_export_image_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return appstream("ListExportImageTasks"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_export_image_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "ListExportImageTasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream
-2.0 image builders, images, fleets, and stacks.
+Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag
+WorkSpaces Applications image builders, images, fleets, and stacks.
 
 For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-in the *Amazon AppStream 2.0 Administration Guide*.
+in the *Amazon WorkSpaces Applications Administration Guide*.
 
 # Arguments
 
@@ -3173,8 +3951,9 @@ Starts the specified image builder.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
-  builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+- `"AppstreamAgentVersion"`: The version of the WorkSpaces Applications agent to use for
+  this image builder. To use the latest version of the WorkSpaces Applications agent,
+  specify [LATEST].
 """
 function start_image_builder end
 
@@ -3193,6 +3972,53 @@ function start_image_builder(
     return appstream(
         "StartImageBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_software_deployment_to_image_builder(image_builder_name)
+    start_software_deployment_to_image_builder(image_builder_name, params::Dict{String,<:Any})
+
+Initiates license included applications deployment to an image builder instance.
+
+# Arguments
+
+- `image_builder_name`: The name of the target image builder instance.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RetryFailedDeployments"`: Whether to retry previously failed license included
+  application deployments.
+"""
+function start_software_deployment_to_image_builder end
+
+function start_software_deployment_to_image_builder(
+    ImageBuilderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "StartSoftwareDeploymentToImageBuilder",
+        Dict{String,Any}("ImageBuilderName" => ImageBuilderName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_software_deployment_to_image_builder(
+    ImageBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "StartSoftwareDeploymentToImageBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ImageBuilderName" => ImageBuilderName), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3301,8 +4127,8 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag
-AppStream 2.0 image builders, images, fleets, and stacks.
+Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You
+can tag WorkSpaces Applications image builders, images, fleets, and stacks.
 
 Each tag consists of a key and an optional value. If a resource already has a tag with the
 same key, this operation updates its value.
@@ -3311,7 +4137,7 @@ To list the current tags for your resources, use [`list_tags_for_resource`](@ref
 disassociate tags from your resources, use [`untag_resource`](@ref).
 
 For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-in the *Amazon AppStream 2.0 Administration Guide*.
+in the *Amazon WorkSpaces Applications Administration Guide*.
 
 # Arguments
 
@@ -3362,12 +4188,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Disassociates one or more specified tags from the specified AppStream 2.0 resource.
+Disassociates one or more specified tags from the specified WorkSpaces Applications
+resource.
 
 To list the current tags for your resources, use [`list_tags_for_resource`](@ref).
 
 For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
-in the *Amazon AppStream 2.0 Administration Guide*.
+in the *Amazon WorkSpaces Applications Administration Guide*.
 
 # Arguments
 
@@ -3433,6 +4260,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the app block builder.
 
+- `"DisableIMDSV1"`: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+
 - `"DisplayName"`: The display name of the app block builder.
 
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
@@ -3441,11 +4271,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
   builder. To assume a role, the app block builder calls the AWS Security Token Service
   (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation
-  creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary
-  credentials and creates the **appstream_machine_role** credential profile on the instance.
+  creates a new session with temporary credentials. WorkSpaces Applications retrieves the
+  temporary credentials and creates the **appstream_machine_role** credential profile on the
+  instance.
 
-  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"InstanceType"`: The instance type to use when launching the app block builder. The
   following instance types are available:
@@ -3538,9 +4369,9 @@ end
     update_directory_config(directory_name)
     update_directory_config(directory_name, params::Dict{String,<:Any})
 
-Updates the specified Directory Config object in AppStream 2.0. This object includes the
-configuration information required to join fleets and image builders to Microsoft Active
-Directory domains.
+Updates the specified Directory Config object in WorkSpaces Applications. This object
+includes the configuration information required to join fleets and image builders to
+Microsoft Active Directory domains.
 
 # Arguments
 
@@ -3679,13 +4510,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description to display.
 
+- `"DisableIMDSV1"`: Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and
+  enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+
+  !!! note
+      Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the
+      agent version or managed image update released on or after January 16, 2024 to support
+      IMDSv2 enforcement.
+
 - `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains active
   after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new
   streaming instance.
 
-  Specify a value between 60 and 360000.
+  Specify a value between 60 and 36000.
 
 - `"DisplayName"`: The fleet name to display.
 
@@ -3698,11 +4537,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
   assume a role, a fleet instance calls the AWS Security Token Service (STS) `AssumeRole`
   API operation and passes the ARN of the role to use. The operation creates a new session
-  with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  the **appstream_machine_role** credential profile on the instance.
+  with temporary credentials. WorkSpaces Applications retrieves the temporary credentials
+  and creates the **appstream_machine_role** credential profile on the instance.
 
-  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
-  in the *Amazon AppStream 2.0 Administration Guide*.
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon WorkSpaces Applications Administration Guide*.
 
 - `"IdleDisconnectTimeoutInSeconds"`: The amount of time that users can be idle (inactive)
   before they are disconnected from their streaming session and the
@@ -3716,7 +4555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disconnected.
 
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.
 
   !!! note
       If you enable this feature, we recommend that you specify a value that corresponds
@@ -3755,20 +4594,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - stream.memory.z1d.3xlarge
   - stream.memory.z1d.6xlarge
   - stream.memory.z1d.12xlarge
-  - stream.graphics-design.large
-  - stream.graphics-design.xlarge
-  - stream.graphics-design.2xlarge
-  - stream.graphics-design.4xlarge
-  - stream.graphics-desktop.2xlarge
   - stream.graphics.g4dn.xlarge
   - stream.graphics.g4dn.2xlarge
   - stream.graphics.g4dn.4xlarge
   - stream.graphics.g4dn.8xlarge
   - stream.graphics.g4dn.12xlarge
   - stream.graphics.g4dn.16xlarge
-  - stream.graphics-pro.4xlarge
-  - stream.graphics-pro.8xlarge
-  - stream.graphics-pro.16xlarge
+  - stream.graphics.g5.xlarge
+  - stream.graphics.g5.2xlarge
+  - stream.graphics.g5.4xlarge
+  - stream.graphics.g5.8xlarge
+  - stream.graphics.g5.16xlarge
+  - stream.graphics.g5.12xlarge
+  - stream.graphics.g5.24xlarge
+  - stream.graphics.g6.xlarge
+  - stream.graphics.g6.2xlarge
+  - stream.graphics.g6.4xlarge
+  - stream.graphics.g6.8xlarge
+  - stream.graphics.g6.16xlarge
+  - stream.graphics.g6.12xlarge
+  - stream.graphics.g6.24xlarge
+  - stream.graphics.gr6.4xlarge
+  - stream.graphics.gr6.8xlarge
+  - stream.graphics.g6f.large
+  - stream.graphics.g6f.xlarge
+  - stream.graphics.g6f.2xlarge
+  - stream.graphics.g6f.4xlarge
+  - stream.graphics.gr6f.4xlarge
 
   The following instance types are available for Elastic fleets:
 
@@ -3793,15 +4645,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: A unique name for the fleet.
 
-- `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
-  supported for Elastic fleets.
+- `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and
+  UBUNTU_PRO_2404 are supported for Elastic fleets.
+
+- `"RootVolumeConfig"`: The updated configuration for the root volume of fleet instances.
+  Note that volume size cannot be decreased below the image volume size.
 
 - `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
   file. This only applies to Elastic fleets.
 
-- `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
-  from the fleet. When `APP` is specified, only the windows of applications opened by users
-  display. When `DESKTOP` is specified, the standard desktop that is provided by the
+- `"StreamView"`: The WorkSpaces Applications view that is displayed to your users when they
+  stream from the fleet. When `APP` is specified, only the windows of applications opened by
+  users display. When `DESKTOP` is specified, the standard desktop that is provided by the
   operating system displays.
 
   The default value is `APP`.
@@ -3899,7 +4754,8 @@ Updates the specified fields for the specified stack.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
-  Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+  Users of the stack can connect to WorkSpaces Applications only through the specified
+  endpoints.
 - `"ApplicationSettings"`: The persistent application settings for users of a stack. When
   these settings are enabled, changes that users make to applications and Windows settings
   are automatically saved after each session and applied to the next session.
@@ -3908,9 +4764,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack.
 - `"Description"`: The description to display.
 - `"DisplayName"`: The stack name to display.
-- `"EmbedHostDomains"`: The domains where AppStream 2.0 streaming sessions can be embedded
-  in an iframe. You must approve the domains that you want to host embedded AppStream 2.0
-  streaming sessions.
+- `"EmbedHostDomains"`: The domains where WorkSpaces Applications streaming sessions can be
+  embedded in an iframe. You must approve the domains that you want to host embedded
+  WorkSpaces Applications streaming sessions.
 - `"FeedbackURL"`: The URL that users are redirected to after they choose the Send Feedback
   link. If no URL is specified, no Send Feedback link is displayed.
 - `"RedirectURL"`: The URL that users are redirected to after their streaming session ends.
@@ -3937,6 +4793,66 @@ function update_stack(
     return appstream(
         "UpdateStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_theme_for_stack(stack_name)
+    update_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Updates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+
+- `stack_name`: The name of the stack for the theme.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AttributesToDelete"`: The attributes to delete.
+- `"FaviconS3Location"`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+- `"OrganizationLogoS3Location"`: The organization logo that appears on the streaming
+  application catalog page.
+- `"State"`: Specifies whether custom branding should be applied to catalog page or not.
+- `"ThemeStyling"`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `"TitleText"`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+"""
+function update_theme_for_stack end
+
+function update_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

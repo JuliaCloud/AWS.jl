@@ -158,11 +158,17 @@ sensitive information in request parameters except `SecretBinary` or `SecretStri
 it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html).
 
 **Required permissions:** `secretsmanager:CreateSecret`. If you include tags in the secret,
-you also need `secretsmanager:TagResource`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
+you also need `secretsmanager:TagResource`. To add replica Regions, you must also have
+`secretsmanager:ReplicateSecretToRegions`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
 
 To encrypt the secret with a KMS key other than `aws/secretsmanager`, you need
 `kms:GenerateDataKey` and `kms:Decrypt` permission to the key.
+
+!!! important
+    When you enter commands in a command shell, there is a risk of the command history being
+    accessed or utilities having access to your command parameters. This is a concern if the
+    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
 
 # Arguments
 
@@ -275,6 +281,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas)
   in the *Amazon Web Services General Reference guide*.
+
+- `"Type"`: The exact string that identifies the partner that holds the external secret. For
+  more information, see [Using Secrets Manager managed external secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html).
 """
 function create_secret end
 
@@ -788,6 +797,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call did not show all results. To get the next results, call `ListSecrets` again with this
   value.
 
+- `"SortBy"`: If not specified, secrets are listed by `CreatedDate`.
+
 - `"SortOrder"`: Secrets are listed by `CreatedDate`.
 """
 function list_secrets end
@@ -890,15 +901,15 @@ end
     put_secret_value(secret_id)
     put_secret_value(secret_id, params::Dict{String,<:Any})
 
-Creates a new version with a new encrypted secret value and attaches it to the secret. The
-version can contain a new `SecretString` value or a new `SecretBinary` value.
+Creates a new version of your secret by creating a new encrypted value and attaching it to
+the secret. version can contain a new `SecretString` value or a new `SecretBinary` value.
 
-We recommend you avoid calling `PutSecretValue` at a sustained rate of more than once every
-10 minutes. When you update the secret value, Secrets Manager creates a new version of the
-secret. Secrets Manager removes outdated versions when there are more than 100, but it does
-not remove versions created less than 24 hours ago. If you call `PutSecretValue` more than
-once every 10 minutes, you create more versions than Secrets Manager removes, and you will
-reach the quota for secret versions.
+Do not call `PutSecretValue` at a sustained rate of more than once every 10 minutes. When
+you update the secret value, Secrets Manager creates a new version of the secret. Secrets
+Manager keeps 100 of the most recent versions, but it keeps *all* secret versions created in
+the last 24 hours. If you call `PutSecretValue` more than once every 10 minutes, you will
+create more versions than Secrets Manager removes, and you will reach the quota for secret
+versions.
 
 You can specify the staging labels to attach to the new version in `VersionStages`. If you
 don't include `VersionStages`, then Secrets Manager automatically moves the staging label
@@ -919,6 +930,11 @@ sensitive information in request parameters except `SecretBinary`, `SecretString
 
 **Required permissions:** `secretsmanager:PutSecretValue`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
+
+!!! important
+    When you enter commands in a command shell, there is a risk of the command history being
+    accessed or utilities having access to your command parameters. This is a concern if the
+    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
 
 # Arguments
 
@@ -959,11 +975,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This value becomes the `VersionId` of the new version.
 
-- `"RotationToken"`: A unique identifier that indicates the source of the request. For
-  cross-account rotation (when you rotate a secret in one account by using a Lambda rotation
-  function in another account) and the Lambda rotation function assumes an IAM role to call
-  Secrets Manager, Secrets Manager validates the identity with the rotation token. For more
-  information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html).
+- `"RotationToken"`: A unique identifier that indicates the source of the request. Required
+  for secret rotations using an IAM assumed role or cross-account rotation, in which you
+  rotate a secret in one account by using a Lambda rotation function in another account. In
+  both cases, the rotation function assumes an IAM role to call Secrets Manager, and then
+  Secrets Manager validates the identity using the token. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html)
+  and [Rotation by Lambda functions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda).
 
   Sensitive: This field contains sensitive information, so the service does not include it
   in CloudTrail log entries. If you create your own log entries, you must also avoid logging
@@ -1259,16 +1276,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier)
   value to ensure uniqueness of your versions within the specified secret.
 
+- `"ExternalSecretRotationMetadata"`: The metadata needed to successfully rotate a managed
+  external secret. A list of key value pairs in JSON format specified by the partner. For
+  more information about the required information, see [Using Secrets Manager managed external secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/managed-external-secrets.html)
+
+- `"ExternalSecretRotationRoleArn"`: The Amazon Resource Name (ARN) of the role that allows
+  Secrets Manager to rotate a secret held by a third-party partner. For more information,
+  see [Security and permissions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-security.html).
+
 - `"RotateImmediately"`: Specifies whether to rotate the secret immediately or wait until
   the next scheduled rotation window. The rotation schedule is defined in
   `RotateSecretRequest\$RotationRules`.
 
-  For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate
-  the secret, Secrets Manager tests the rotation configuration by running the [`testSecret` step](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html)
-  of the Lambda rotation function. The test creates an `AWSPENDING` version of the secret
+  The default for `RotateImmediately` is `true`. If you don't specify this value, Secrets
+  Manager rotates the secret immediately.
+
+  If you set `RotateImmediately` to `false`, Secrets Manager tests the rotation
+  configuration by running the [`testSecret` step](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html)
+  of the Lambda rotation function. This test creates an `AWSPENDING` version of the secret
   and then removes it.
 
-  By default, Secrets Manager rotates the secret immediately.
+  When changing an existing rotation schedule and setting `RotateImmediately` to `false`:
+
+  - If using `AutomaticallyAfterDays` or a `ScheduleExpression` with `rate()`, the
+    previously scheduled rotation might still occur.
+  - To prevent unintended rotations, use a `ScheduleExpression` with `cron()` for granular
+    control over rotation windows.
+
+  Rotation is an asynchronous process. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html).
 
 - `"RotationLambdaARN"`: For secrets that use a Lambda rotation function to rotate, the ARN
   of the Lambda rotation function.
@@ -1277,6 +1312,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Secrets Manager User Guide*.
 
 - `"RotationRules"`: A structure that defines the rotation configuration for this secret.
+
+  !!! important
+      When changing an existing rotation schedule and setting `RotateImmediately` to
+      `false`:
+
+      - If using `AutomaticallyAfterDays` or a `ScheduleExpression` with `rate()`, the
+        previously scheduled rotation might still occur.
+      - To prevent unintended rotations, use a `ScheduleExpression` with `cron()` for
+        granular control over rotation windows.
 """
 function rotate_secret end
 
@@ -1330,7 +1374,8 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
 # Arguments
 
-- `secret_id`: The ARN of the primary secret.
+- `secret_id`: The name of the secret or the replica ARN. The replica ARN is the same as the
+  original primary secret ARN expect the Region is changed to the replica Region.
 """
 function stop_replication_to_replica end
 
@@ -1532,8 +1577,13 @@ it might be logged. For more information, see [Logging Secrets Manager events wi
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
 If you use a customer managed key, you must also have `kms:GenerateDataKey`, `kms:Encrypt`,
 and `kms:Decrypt` permissions on the key. If you change the KMS key and you don't have
-`kms:Encrypt` permission to the new key, Secrets Manager does not re-ecrypt existing secret
+`kms:Encrypt` permission to the new key, Secrets Manager does not re-encrypt existing secret
 versions with the new key. For more information, see [Secret encryption and decryption](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html).
+
+!!! important
+    When you enter commands in a command shell, there is a risk of the command history being
+    accessed or utilities having access to your command parameters. This is a concern if the
+    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
 
 # Arguments
 
@@ -1567,7 +1617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   encrypt new secret versions as well as any existing versions with the staging labels
   `AWSCURRENT`, `AWSPENDING`, or `AWSPREVIOUS`. If you don't have `kms:Encrypt` permission
-  to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new
+  to the new key, Secrets Manager does not re-encrypt existing secret versions with the new
   key. For more information about versions and staging labels, see [Concepts: Version](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version).
 
   A key alias is always prefixed by `alias/`, for example `alias/aws/secretsmanager`. For
@@ -1607,6 +1657,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sensitive: This field contains sensitive information, so the service does not include it
   in CloudTrail log entries. If you create your own log entries, you must also avoid logging
   the information in this field.
+
+- `"Type"`: The exact string that identifies the third-party partner that holds the external
+  secret. For more information, see [Managed external secret partners](https://docs.aws.amazon.com/secretsmanager/latest/userguide/mes-partners.html).
 """
 function update_secret end
 

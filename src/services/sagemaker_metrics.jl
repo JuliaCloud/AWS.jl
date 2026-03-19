@@ -5,16 +5,57 @@ using AWS.AWSServices: sagemaker_metrics
 using AWS.UUIDs: uuid4
 
 """
+    batch_get_metrics(metric_queries)
+    batch_get_metrics(metric_queries, params::Dict{String,<:Any})
+
+Used to retrieve training metrics from SageMaker.
+
+# Arguments
+
+- `metric_queries`: Queries made to retrieve training metrics from SageMaker.
+"""
+function batch_get_metrics end
+
+function batch_get_metrics(
+    MetricQueries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_metrics(
+        "POST",
+        "/BatchGetMetrics",
+        Dict{String,Any}("MetricQueries" => MetricQueries);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_metrics(
+    MetricQueries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker_metrics(
+        "POST",
+        "/BatchGetMetrics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("MetricQueries" => MetricQueries), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_put_metrics(metric_data, trial_component_name)
     batch_put_metrics(metric_data, trial_component_name, params::Dict{String,<:Any})
 
 Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker
-Studio and retrieved with the `GetMetrics` API.
+Studio.
 
 # Arguments
 
 - `metric_data`: A list of raw metric values to put.
-- `trial_component_name`: The name of the Trial Component to associate with the metrics.
+- `trial_component_name`: The name of the Trial Component to associate with the metrics. The
+  Trial Component name must be entirely lowercase.
 """
 function batch_put_metrics end
 

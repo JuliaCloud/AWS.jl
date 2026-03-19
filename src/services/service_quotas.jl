@@ -32,6 +32,44 @@ function associate_service_quota_template(
 end
 
 """
+    create_support_case(request_id)
+    create_support_case(request_id, params::Dict{String,<:Any})
+
+Creates a Support case for an existing quota increase request. This call only creates a
+Support case if the request has a `Pending` status.
+
+# Arguments
+
+- `request_id`: The ID of the pending quota increase request for which you want to open a
+  Support case.
+"""
+function create_support_case end
+
+function create_support_case(RequestId; aws_config::AbstractAWSConfig=current_aws_config())
+    return service_quotas(
+        "CreateSupportCase",
+        Dict{String,Any}("RequestId" => RequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_support_case(
+    RequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "CreateSupportCase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RequestId" => RequestId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code)
     delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code, params::Dict{String,<:Any})
 
@@ -143,6 +181,35 @@ function get_association_for_service_quota_template(
 end
 
 """
+    get_auto_management_configuration()
+    get_auto_management_configuration(params::Dict{String,<:Any})
+
+Retrieves information about your [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html)
+configuration. Automatic Management monitors your Service Quotas utilization and notifies
+you before you run out of your allocated quotas.
+"""
+function get_auto_management_configuration end
+
+function get_auto_management_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "GetAutoManagementConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_auto_management_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "GetAutoManagementConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_awsdefault_service_quota(quota_code, service_code)
     get_awsdefault_service_quota(quota_code, service_code, params::Dict{String,<:Any})
 
@@ -191,6 +258,65 @@ function get_awsdefault_service_quota(
 end
 
 """
+    get_quota_utilization_report(report_id)
+    get_quota_utilization_report(report_id, params::Dict{String,<:Any})
+
+Retrieves the quota utilization report for your Amazon Web Services account. This operation
+returns paginated results showing your quota usage across all Amazon Web Services services,
+sorted by utilization percentage in descending order (highest utilization first).
+
+You must first initiate a report using the [`start_quota_utilization_report`](@ref)
+operation. The report generation process is asynchronous and may take several seconds to
+complete. Poll this operation periodically to check the status and retrieve results when the
+report is ready.
+
+Each report contains up to 1,000 quota records per page. Use the `NextToken` parameter to
+retrieve additional pages of results. Reports are automatically deleted after 15 minutes.
+
+# Arguments
+
+- `report_id`: The unique identifier for the quota utilization report. This identifier is
+  returned by the `StartQuotaUtilizationReport` operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return per page. The default value is
+  1,000 and the maximum allowed value is 1,000.
+- `"NextToken"`: A token that indicates the next page of results to retrieve. This token is
+  returned in the response when there are more results available. Omit this parameter for
+  the first request.
+"""
+function get_quota_utilization_report end
+
+function get_quota_utilization_report(
+    ReportId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "GetQuotaUtilizationReport",
+        Dict{String,Any}("ReportId" => ReportId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_quota_utilization_report(
+    ReportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "GetQuotaUtilizationReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReportId" => ReportId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_requested_service_quota_change(request_id)
     get_requested_service_quota_change(request_id, params::Dict{String,<:Any})
 
@@ -232,9 +358,9 @@ end
     get_service_quota(quota_code, service_code)
     get_service_quota(quota_code, service_code, params::Dict{String,<:Any})
 
-Retrieves the applied quota value for the specified quota. For some quotas, only the default
-values are available. If the applied quota value is not available for a quota, the quota is
-not retrieved.
+Retrieves the applied quota value for the specified account-level or resource-level quota.
+For some quotas, only the default values are available. If the applied quota value is not
+available for a quota, the quota is not retrieved.
 
 # Arguments
 
@@ -248,9 +374,7 @@ not retrieved.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ContextId"`: Specifies the Amazon Web Services account or resource to which the quota
-  applies. The value in this field depends on the context scope associated with the
-  specified service quota.
+- `"ContextId"`: Specifies the resource with an Amazon Resource Name (ARN).
 """
 function get_service_quota end
 
@@ -345,8 +469,8 @@ end
     list_awsdefault_service_quotas(service_code)
     list_awsdefault_service_quotas(service_code, params::Dict{String,<:Any})
 
-Lists the default values for the quotas for the specified Amazon Web Service. A default
-value does not reflect any quota increases.
+Lists the default values for the quotas for the specified Amazon Web Services service. A
+default value does not reflect any quota increases.
 
 # Arguments
 
@@ -406,7 +530,9 @@ end
     list_requested_service_quota_change_history()
     list_requested_service_quota_change_history(params::Dict{String,<:Any})
 
-Retrieves the quota increase requests for the specified Amazon Web Service.
+Retrieves the quota increase requests for the specified Amazon Web Services service. Filter
+responses to return quota requests at either the account level, resource level, or all
+levels. Responses include any open or closed requests within 90 days.
 
 # Optional Parameters
 
@@ -429,8 +555,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
 
-- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services account
-  the quota request applies to.
+- `"QuotaRequestedAtLevel"`: Filters the response to return quota requests for the
+  `ACCOUNT`, `RESOURCE`, or `ALL` levels. `ACCOUNT` is the default.
 
 - `"ServiceCode"`: Specifies the service identifier. To find the service code value for an
   Amazon Web Services service, use the `ListServices` operation.
@@ -465,7 +591,8 @@ end
     list_requested_service_quota_change_history_by_quota(quota_code, service_code)
     list_requested_service_quota_change_history_by_quota(quota_code, service_code, params::Dict{String,<:Any})
 
-Retrieves the quota increase requests for the specified quota.
+Retrieves the quota increase requests for the specified quota. Filter responses to return
+quota requests at either the account level, resource level, or all levels.
 
 # Arguments
 
@@ -496,8 +623,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
 
-- `"QuotaRequestedAtLevel"`: Specifies at which level within the Amazon Web Services account
-  the quota request applies to.
+- `"QuotaRequestedAtLevel"`: Filters the response to return quota requests for the
+  `ACCOUNT`, `RESOURCE`, or `ALL` levels. `ACCOUNT` is the default.
 
 - `"Status"`: Specifies that you want to filter the results to only the requests with the
   matching status.
@@ -594,9 +721,10 @@ end
     list_service_quotas(service_code)
     list_service_quotas(service_code, params::Dict{String,<:Any})
 
-Lists the applied quota values for the specified Amazon Web Service. For some quotas, only
-the default values are available. If the applied quota value is not available for a quota,
-the quota is not retrieved.
+Lists the applied quota values for the specified Amazon Web Services service. For some
+quotas, only the default values are available. If the applied quota value is not available
+for a quota, the quota is not retrieved. Filter responses to return applied quota values at
+either the account level, resource level, or all levels.
 
 # Arguments
 
@@ -624,8 +752,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value of the previous call's `NextToken`
   response to indicate where the output should continue from.
 
-- `"QuotaAppliedAtLevel"`: Specifies at which level of granularity that the quota value is
-  applied.
+- `"QuotaAppliedAtLevel"`: Filters the response to return applied quota values for the
+  `ACCOUNT`, `RESOURCE`, or `ALL` levels. `ACCOUNT` is the default.
 
 - `"QuotaCode"`: Specifies the quota identifier. To find the quota code for a specific
   quota, use the `ListServiceQuotas` operation, and look for the `QuotaCode` response in the
@@ -663,7 +791,8 @@ end
     list_services()
     list_services(params::Dict{String,<:Any})
 
-Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
+Lists the names and codes for the Amazon Web Services services integrated with Service
+Quotas.
 
 # Optional Parameters
 
@@ -811,7 +940,7 @@ end
     request_service_quota_increase(desired_value, quota_code, service_code)
     request_service_quota_increase(desired_value, quota_code, service_code, params::Dict{String,<:Any})
 
-Submits a quota increase request for the specified quota.
+Submits a quota increase request for the specified quota at the account or resource level.
 
 # Arguments
 
@@ -826,9 +955,16 @@ Submits a quota increase request for the specified quota.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ContextId"`: Specifies the Amazon Web Services account or resource to which the quota
-  applies. The value in this field depends on the context scope associated with the
-  specified service quota.
+- `"ContextId"`: Specifies the resource with an Amazon Resource Name (ARN).
+
+- `"SupportCaseAllowed"`: Specifies if an Amazon Web Services Support case can be opened for
+  the quota increase request. This parameter is optional.
+
+  By default, this flag is set to `True` and Amazon Web Services may create a support case
+  for some quota increase requests. You can set this flag to `False` if you do not want a
+  support case created when you request a quota increase. If you set the flag to `False`,
+  Amazon Web Services does not open a support case and updates the request status to
+  `Not approved`.
 """
 function request_service_quota_increase end
 
@@ -869,6 +1005,118 @@ function request_service_quota_increase(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_auto_management(opt_in_level, opt_in_type)
+    start_auto_management(opt_in_level, opt_in_type, params::Dict{String,<:Any})
+
+Starts [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html)
+for an Amazon Web Services account, including notification preferences and excluded quotas
+configurations. Automatic Management monitors your Service Quotas utilization and notifies
+you before you run out of your allocated quotas.
+
+# Arguments
+
+- `opt_in_level`: Sets the opt-in level for Automatic Management. Only Amazon Web Services
+  account level is supported.
+- `opt_in_type`: Sets the opt-in type for Automatic Management. There are two modes: Notify
+  only and Notify and Auto-Adjust. Currently, only NotifyOnly is available.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExclusionList"`: List of Amazon Web Services services excluded from Automatic
+  Management. You won't be notified of Service Quotas utilization for Amazon Web Services
+  services added to the Automatic Management exclusion list.
+- `"NotificationArn"`: The [User Notifications](https://docs.aws.amazon.com/notifications/latest/userguide/resource-level-permissions.html#rlp-table)
+  Amazon Resource Name (ARN) for Automatic Management notifications.
+"""
+function start_auto_management end
+
+function start_auto_management(
+    OptInLevel, OptInType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "StartAutoManagement",
+        Dict{String,Any}("OptInLevel" => OptInLevel, "OptInType" => OptInType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_auto_management(
+    OptInLevel,
+    OptInType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return service_quotas(
+        "StartAutoManagement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptInLevel" => OptInLevel, "OptInType" => OptInType),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_quota_utilization_report()
+    start_quota_utilization_report(params::Dict{String,<:Any})
+
+Initiates the generation of a quota utilization report for your Amazon Web Services account.
+This asynchronous operation analyzes your quota usage across all Amazon Web Services
+services and returns a unique report identifier that you can use to retrieve the results.
+
+The report generation process may take several seconds to complete, depending on the number
+of quotas in your account. Use the [`get_quota_utilization_report`](@ref) operation to check
+the status and retrieve the results when the report is ready.
+"""
+function start_quota_utilization_report end
+
+function start_quota_utilization_report(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "StartQuotaUtilizationReport"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_quota_utilization_report(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "StartQuotaUtilizationReport", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    stop_auto_management()
+    stop_auto_management(params::Dict{String,<:Any})
+
+Stops [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html)
+for an Amazon Web Services account and removes all associated configurations. Automatic
+Management monitors your Service Quotas utilization and notifies you before you run out of
+your allocated quotas.
+"""
+function stop_auto_management end
+
+function stop_auto_management(; aws_config::AbstractAWSConfig=current_aws_config())
+    return service_quotas("StopAutoManagement"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function stop_auto_management(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "StopAutoManagement", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -964,5 +1212,43 @@ function untag_resource(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_auto_management()
+    update_auto_management(params::Dict{String,<:Any})
+
+Updates your [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html)
+configuration, including notification preferences and excluded quotas. Automatic Management
+monitors your Service Quotas utilization and notifies you before you run out of your
+allocated quotas.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExclusionList"`: List of Amazon Web Services services you want to exclude from Automatic
+  Management. You won't be notified of Service Quotas utilization for Amazon Web Services
+  services added to the Automatic Management exclusion list.
+- `"NotificationArn"`: The [User Notifications](https://docs.aws.amazon.com/notifications/latest/userguide/resource-level-permissions.html#rlp-table)
+  Amazon Resource Name (ARN) for Automatic Management notifications you want to update.
+- `"OptInType"`: Information on the opt-in type for your Automatic Management configuration.
+  There are two modes: Notify only and Notify and Auto-Adjust. Currently, only NotifyOnly is
+  available.
+"""
+function update_auto_management end
+
+function update_auto_management(; aws_config::AbstractAWSConfig=current_aws_config())
+    return service_quotas(
+        "UpdateAutoManagement"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_auto_management(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return service_quotas(
+        "UpdateAutoManagement", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

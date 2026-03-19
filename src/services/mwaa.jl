@@ -32,7 +32,7 @@ end
     create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn)
     create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn, params::Dict{String,<:Any})
 
-Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
 
 # Arguments
 
@@ -63,9 +63,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
 
 - `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
-  specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
+  specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
 
-  Valid values: `1.10.12`, `2.0.2`, `2.2.2`, `2.4.3`, `2.5.1`, `2.6.3`, `2.7.2` `2.8.1`
+  Valid values: `1.10.12`, `2.0.2`, `2.2.2`, `2.4.3`, `2.5.1`, `2.6.3`, `2.7.2`, `2.8.1`,
+  `2.9.2`, `2.10.1`, and `2.10.3`.
 
 - `"EndpointManagement"`: Defines whether the VPC endpoints configured for the environment
   are created, and managed, by the customer or by Amazon MWAA. If set to `SERVICE`, Amazon
@@ -77,8 +78,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will change to `CREATE_FAILED`. You can delete the failed environment and create a new
   one.
 
-- `"EnvironmentClass"`: The environment class type. Valid values: `mw1.small`, `mw1.medium`,
-  `mw1.large`, `mw1.xlarge`, and `mw1.2xlarge`. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+- `"EnvironmentClass"`: The environment class type. Valid values: `mw1.micro`, `mw1.small`,
+  `mw1.medium`, `mw1.large`, `mw1.xlarge`, and `mw1.2xlarge`. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
 
 - `"KmsKey"`: The Amazon Web Services Key Management Service (KMS) key to encrypt the data
   in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed
@@ -95,7 +96,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the number set in `MaxWebserers`. As TPS rates decrease Amazon MWAA disposes of the
   additional web servers, and scales down to the number set in `MinxWebserers`.
 
-  Valid values: Accepts between `2` and `5`. Defaults to `2`.
+  Valid values: For environments larger than mw1.micro, accepts values from `2` to `5`.
+  Defaults to `2` for all environment sizes except mw1.micro, which defaults to `1`.
 
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -110,7 +112,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers,
   and scales down to the number set in `MinxWebserers`.
 
-  Valid values: Accepts between `2` and `5`. Defaults to `2`.
+  Valid values: For environments larger than mw1.micro, accepts values from `2` to `5`.
+  Defaults to `2` for all environment sizes except mw1.micro, which defaults to `1`.
 
 - `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -137,7 +140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schedulers"`: The number of Apache Airflow schedulers to run in your environment. Valid
   values:
 
-  - v2 - Accepts between `2` to `5`. Defaults to `2`.
+  - v2 - For environments larger than mw1.micro, accepts values from `2` to `5`. Defaults to
+    `2` for all environment sizes except mw1.micro, which defaults to `1`.
   - v1 - Accepts `1`.
 
 - `"StartupScriptS3ObjectVersion"`: The version of the startup shell script in your Amazon
@@ -250,7 +254,7 @@ end
     delete_environment(name)
     delete_environment(name, params::Dict{String,<:Any})
 
-Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
 
 # Arguments
 
@@ -297,6 +301,61 @@ function get_environment(
 )
     return mwaa(
         "GET", "/environments/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    invoke_rest_api(method, name, path)
+    invoke_rest_api(method, name, path, params::Dict{String,<:Any})
+
+Invokes the Apache Airflow REST API on the webserver with the specified inputs. To learn
+more, see [Using the Apache Airflow REST API](https://docs.aws.amazon.com/mwaa/latest/userguide/access-mwaa-apache-airflow-rest-api.html)
+
+# Arguments
+
+- `method`: The HTTP method used for making Airflow REST API calls. For example, `POST`.
+- `name`: The name of the Amazon MWAA environment. For example, `MyMWAAEnvironment`.
+- `path`: The Apache Airflow REST API endpoint path to be called. For example,
+  `/dags/123456/clearTaskInstances`. For more information, see [Apache Airflow API](https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html)
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Body"`: The request body for the Apache Airflow REST API call, provided as a JSON
+  object.
+- `"QueryParameters"`: Query parameters to be included in the Apache Airflow REST API call,
+  provided as a JSON object.
+"""
+function invoke_rest_api end
+
+function invoke_rest_api(
+    Method, Name, Path; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mwaa(
+        "POST",
+        "/restapi/$(Name)",
+        Dict{String,Any}("Method" => Method, "Path" => Path);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function invoke_rest_api(
+    Method,
+    Name,
+    Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mwaa(
+        "POST",
+        "/restapi/$(Name)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Method" => Method, "Path" => Path), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -507,13 +566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources used in your workflows are compatible with the new Apache Airflow version. For
   more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html).
 
-  Valid values: `1.10.12`, `2.0.2`, `2.2.2`, `2.4.3`, `2.5.1`, `2.6.3`, `2.7.2`, `2.8.1`.
+  Valid values: `1.10.12`, `2.0.2`, `2.2.2`, `2.4.3`, `2.5.1`, `2.6.3`, `2.7.2`, `2.8.1`,
+  `2.9.2`, `2.10.1`, and `2.10.3`.
 
 - `"DagS3Path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For example,
   `dags`. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
 
-- `"EnvironmentClass"`: The environment class type. Valid values: `mw1.small`, `mw1.medium`,
-  `mw1.large`, `mw1.xlarge`, and `mw1.2xlarge`. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+- `"EnvironmentClass"`: The environment class type. Valid values: `mw1.micro`, `mw1.small`,
+  `mw1.medium`, `mw1.large`, `mw1.xlarge`, and `mw1.2xlarge`. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
 
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the execution role in IAM that
   allows MWAA to access Amazon Web Services resources in your environment. For example,
@@ -530,7 +590,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the number set in `MaxWebserers`. As TPS rates decrease Amazon MWAA disposes of the
   additional web servers, and scales down to the number set in `MinxWebserers`.
 
-  Valid values: Accepts between `2` and `5`. Defaults to `2`.
+  Valid values: For environments larger than mw1.micro, accepts values from `2` to `5`.
+  Defaults to `2` for all environment sizes except mw1.micro, which defaults to `1`.
 
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -545,7 +606,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers,
   and scales down to the number set in `MinxWebserers`.
 
-  Valid values: Accepts between `2` and `5`. Defaults to `2`.
+  Valid values: For environments larger than mw1.micro, accepts values from `2` to `5`.
+  Defaults to `2` for all environment sizes except mw1.micro, which defaults to `1`.
 
 - `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -605,6 +667,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment
   in the following format: `DAY:HH:MM`. For example: `TUE:03:30`. You can specify a start
   time in 30 minute increments only.
+
+- `"WorkerReplacementStrategy"`: The worker replacement strategy to use when updating the
+  environment.
+
+  You can select one of the following strategies:
+
+  - **Forced -** Stops and replaces Apache Airflow workers without waiting for tasks to
+    complete before an update.
+  - **Graceful -** Allows Apache Airflow workers to complete running tasks for up to 12
+    hours during an update before they're stopped and replaced.
 """
 function update_environment end
 

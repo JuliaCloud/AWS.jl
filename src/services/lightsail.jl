@@ -127,7 +127,7 @@ Attaches a block storage disk to a running or stopped Lightsail instance and exp
 the instance with the specified disk name.
 
 The `attach disk` operation supports tag-based access control via resource tags applied to
-the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -197,7 +197,7 @@ is available.
 
 The `attach instances to load balancer` operation supports tag-based access control via
 resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -262,7 +262,7 @@ replace the existing one and become the attached certificate.
 
 The [`attach_load_balancer_tls_certificate`](@ref) operation supports tag-based access
 control via resource tags applied to the resource identified by `load balancer name`. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -361,7 +361,7 @@ end
 Closes ports for a specific Amazon Lightsail instance.
 
 The `CloseInstancePublicPorts` action supports tag-based access control via resource tags
-applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -437,7 +437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     parameter. The `restore date` and `use latest restorable auto snapshot` parameters are
     mutually exclusive.
   - Define this parameter only when copying an automatic snapshot as a manual snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 
 - `"sourceResourceName"`: The name of the source instance or disk from which the source
   automatic snapshot was created.
@@ -445,7 +445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraint:
 
   - Define this parameter only when copying an automatic snapshot as a manual snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 
 - `"sourceSnapshotName"`: The name of the source manual snapshot to copy.
 
@@ -462,7 +462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `use latest restorable auto snapshot` and `restore date` parameters are mutually
     exclusive.
   - Define this parameter only when copying an automatic snapshot as a manual snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
 """
 function copy_snapshot end
 
@@ -510,14 +510,14 @@ Creates an Amazon Lightsail bucket.
 
 A bucket is a cloud storage resource available in the Lightsail object storage service. Use
 buckets to store objects such as data and its descriptive metadata. For more information
-about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail)
+about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail)
 in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
 
 - `bucket_name`: The name for the bucket.
 
-  For more information about bucket names, see [Bucket naming rules in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/bucket-naming-rules-in-amazon-lightsail)
+  For more information about bucket names, see [Bucket naming rules in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/bucket-naming-rules-in-amazon-lightsail)
   in the *Amazon Lightsail Developer Guide*.
 
 - `bundle_id`: The ID of the bundle to use for the bucket.
@@ -538,7 +538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableObjectVersioning"`: A Boolean value that indicates whether to enable versioning of
   objects in the bucket.
 
-  For more information about versioning, see [Enabling and suspending object versioning in a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-managing-bucket-object-versioning)
+  For more information about versioning, see [Enabling and suspending object versioning in a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-managing-bucket-object-versioning)
   in the *Amazon Lightsail Developer Guide*.
 
 - `"tags"`: The tag keys and optional values to add to the bucket during creation.
@@ -589,7 +589,7 @@ an access key ID and corresponding secret access key.
 Access keys grant full programmatic access to the specified bucket and its objects. You can
 have a maximum of two access keys per bucket. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html)
 action to get a list of current access keys for a specific bucket. For more information
-about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys)
+about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys)
 in the *Amazon Lightsail Developer Guide*.
 
 !!! important
@@ -762,7 +762,10 @@ A contact method is used to send you notifications about your Amazon Lightsail r
 You can add one email address and one mobile phone number contact method in each Amazon Web
 Services Region. However, SMS text messaging is not supported in some Amazon Web Services
 Regions, and SMS text messages cannot be sent to some countries/regions. For more
-information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
+
+The `create contact method` operation supports tag-based access control via request tags.
+For more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -791,7 +794,15 @@ information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazo
   Web Services Regions where SMS text messaging is supported, see [Supported Regions and Countries](https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html)
   in the *Amazon SNS Developer Guide*.
 
-  For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+  For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: The tag keys and optional values to add to the contact method during create.
+
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_contact_method end
 
@@ -835,7 +846,7 @@ end
 Creates an Amazon Lightsail container service.
 
 A Lightsail container service is a compute resource to which you can deploy containers. For
-more information, see [Container services in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-services)
+more information, see [Container services in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-services)
 in the *Lightsail Dev Guide*.
 
 # Arguments
@@ -890,7 +901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service to access private container image repositories, such as Amazon Elastic Container
   Registry (Amazon ECR) private repositories.
 
-  For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access)
+  For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access)
   in the *Amazon Lightsail Developer Guide*.
 
 - `"publicDomainNames"`: The public domain names to use with the container service, such as
@@ -915,7 +926,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Use the `TagResource` action to tag a resource after it's created.
 
-  For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+  For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 """
 function create_container_service end
 
@@ -966,7 +977,7 @@ endpoint of the deployment and its settings, such as the HTTP or HTTPS port to u
 health check configuration.
 
 You can deploy containers to your container service using container images from a public
-registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-container-images)
+registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-container-images)
 in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
@@ -1033,7 +1044,7 @@ Lightsail container service.
 !!! note
     This action is not required if you install and use the Lightsail Control (lightsailctl)
     plugin to push container images to your Lightsail container service. For more
-    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
+    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images)
     in the *Amazon Lightsail Developer Guide*.
 """
 function create_container_service_registry_login end
@@ -1065,7 +1076,7 @@ Creates a block storage disk that can be attached to an Amazon Lightsail instanc
 same Availability Zone (`us-east-2a`).
 
 The `create disk` operation supports tag-based access control via request tags. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1142,7 +1153,7 @@ disk can be attached to an Amazon Lightsail instance in the same Availability Zo
 
 The `create disk from snapshot` operation supports tag-based access control via request tags
 and resource tags applied to the resource identified by `disk snapshot name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1181,7 +1192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     parameter. The `restore date` and `use latest restorable auto snapshot` parameters are
     mutually exclusive.
   - Define this parameter only when creating a new disk from an automatic snapshot. For more
-    information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 - `"sourceDiskName"`: The name of the source disk from which the source automatic snapshot
   was created.
@@ -1191,7 +1202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - This parameter cannot be defined together with the `disk snapshot name` parameter. The
     `source disk name` and `disk snapshot name` parameters are mutually exclusive.
   - Define this parameter only when creating a new disk from an automatic snapshot. For more
-    information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
@@ -1206,7 +1217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `use latest restorable auto snapshot` and `restore date` parameters are mutually
     exclusive.
   - Define this parameter only when creating a new disk from an automatic snapshot. For more
-    information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 """
 function create_disk_from_snapshot end
 
@@ -1275,7 +1286,7 @@ created. After the snapshot is available, you can create a block storage disk fr
 snapshot and attach it to a running instance to access the data on the disk.
 
 The `create disk snapshot` operation supports tag-based access control via request tags. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1342,7 +1353,7 @@ Creates an Amazon Lightsail content delivery network (CDN) distribution.
 
 A distribution is a globally distributed network of caching servers that improve the
 performance of your website or web application hosted on a Lightsail instance. For more
-information, see [Content delivery networks in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-content-delivery-network-distributions).
+information, see [Content delivery networks in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-content-delivery-network-distributions).
 
 # Arguments
 
@@ -1449,7 +1460,7 @@ end
 Creates a domain resource for the specified domain (example.com).
 
 The `create domain` operation supports tag-based access control via request tags. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1498,7 +1509,7 @@ Creates one of the following domain name system (DNS) records in a domain DNS zo
 (SOA), service locator (SRV), or text (TXT).
 
 The `create domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1545,8 +1556,8 @@ end
     create_guisession_access_details(resource_name, params::Dict{String,<:Any})
 
 Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI)
-session. The primary URL initiates a web-based NICE DCV session to the virtual computer's
-application. The secondary URL initiates a web-based NICE DCV session to the virtual
+session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's
+application. The secondary URL initiates a web-based Amazon DCV session to the virtual
 computer's operating session.
 
 Use `StartGUISession` to open the session.
@@ -1591,7 +1602,7 @@ Creates a snapshot of a specific virtual private server, or *instance*. You can 
 snapshot to create a new instance that is based on that snapshot.
 
 The `create instance snapshot` operation supports tag-based access control via request tags.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1651,7 +1662,7 @@ end
 Creates one or more Amazon Lightsail instances.
 
 The `create instances` operation supports tag-based access control via request tags. For
-more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1708,7 +1719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Depending on the machine image you choose, the command to get software on your
       instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`,
-      and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+      and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
 """
 function create_instances end
 
@@ -1767,7 +1778,7 @@ Creates one or more new instances from a manual or automatic snapshot of an inst
 
 The `create instances from snapshot` operation supports tag-based access control via request
 tags and resource tags applied to the resource identified by `instance snapshot name`. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1815,7 +1826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     parameter. The `restore date` and `use latest restorable auto snapshot` parameters are
     mutually exclusive.
   - Define this parameter only when creating a new instance from an automatic snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 - `"sourceInstanceName"`: The name of the source instance from which the source automatic
   snapshot was created.
@@ -1826,7 +1837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     The `source instance name` and `instance snapshot name` parameters are mutually
     exclusive.
   - Define this parameter only when creating a new instance from an automatic snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
@@ -1841,7 +1852,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `use latest restorable auto snapshot` and `restore date` parameters are mutually
     exclusive.
   - Define this parameter only when creating a new instance from an automatic snapshot. For
-    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 - `"userData"`: You can create a launch script that configures a server with additional user
   data. For example, `apt-get -y update`.
@@ -1849,7 +1860,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       Depending on the machine image you choose, the command to get software on your
       instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`,
-      and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+      and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
 """
 function create_instances_from_snapshot end
 
@@ -1908,7 +1919,7 @@ Creates a custom SSH key pair that you can use with an Amazon Lightsail instance
     default key pair does not currently exist.
 
 The `create key pair` operation supports tag-based access control via request tags. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1953,15 +1964,15 @@ end
     create_load_balancer(instance_port, load_balancer_name, params::Dict{String,<:Any})
 
 Creates a Lightsail load balancer. To learn more about deciding whether to load balance your
-application, see [Configure your Lightsail instances for load balancing](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/configure-lightsail-instances-for-load-balancing).
-You can create up to 5 load balancers per AWS Region in your account.
+application, see [Configure your Lightsail instances for load balancing](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-lightsail-instances-for-load-balancing).
+You can create up to 10 load balancers per AWS Region in your account.
 
 When you create a load balancer, you can specify a unique name and port settings. To change
 additional load balancer settings, use the [`update_load_balancer_attribute`](@ref)
 operation.
 
 The `create load balancer` operation supports tag-based access control via request tags. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2010,7 +2021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
   action to get a list of TLS policy names that you can specify.
 
-  For more information about load balancer TLS policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy)
+  For more information about load balancer TLS policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy)
   in the *Amazon Lightsail Developer Guide*.
 """
 function create_load_balancer end
@@ -2060,7 +2071,7 @@ TLS is just an updated, more secure version of Secure Socket Layer (SSL).
 
 The [`create_load_balancer_tls_certificate`](@ref) operation supports tag-based access
 control via resource tags applied to the resource identified by `load balancer name`. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2141,7 +2152,7 @@ end
 Creates a new database in Amazon Lightsail.
 
 The `create relational database` operation supports tag-based access control via request
-tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2353,7 +2364,7 @@ database, or to change it to a different plan, such as a high availability or st
 
 The `create relational database from snapshot` operation supports tag-based access control
 via request tags and resource tags applied to the resource identified by
-relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2456,7 +2467,7 @@ Creates a snapshot of your database in Amazon Lightsail. You can use snapshots f
 to make copies of a database, and to save data before deleting a database.
 
 The `create relational database snapshot` operation supports tag-based access control via
-request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2526,7 +2537,7 @@ Deletes an alarm.
 
 An alarm is used to monitor a single metric for one of your resources. When a metric
 condition is met, the alarm can notify you by email, SMS text message, and a banner
-displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 # Arguments
 
@@ -2562,7 +2573,7 @@ end
     delete_auto_snapshot(date, resource_name)
     delete_auto_snapshot(date, resource_name, params::Dict{String,<:Any})
 
-Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 # Arguments
 
@@ -2673,7 +2684,7 @@ Deletes an access key for the specified Amazon Lightsail bucket.
 
 We recommend that you delete an access key if the secret access key is compromised.
 
-For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys)
+For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys)
 in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
@@ -2774,7 +2785,7 @@ A contact method is used to send you notifications about your Amazon Lightsail r
 You can add one email address and one mobile phone number contact method in each Amazon Web
 Services Region. However, SMS text messaging is not supported in some Amazon Web Services
 Regions, and SMS text messages cannot be sent to some countries/regions. For more
-information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
 
 # Arguments
 
@@ -2915,7 +2926,7 @@ attached to a Lightsail instance).
     The disk may remain in the `deleting` state for several minutes.
 
 The `delete disk` operation supports tag-based access control via resource tags applied to
-the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2967,7 +2978,7 @@ removed. So regardless of which prior snapshots have been deleted, all active sn
 have access to all the information needed to restore the disk.
 
 The `delete disk snapshot` operation supports tag-based access control via resource tags
-applied to the resource identified by `disk snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `disk snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3040,7 +3051,7 @@ end
 Deletes the specified domain recordset and all of its domain records.
 
 The `delete domain` operation supports tag-based access control via resource tags applied to
-the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3079,7 +3090,7 @@ end
 Deletes a specific domain entry.
 
 The `delete domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3127,7 +3138,7 @@ end
 Deletes an Amazon Lightsail instance.
 
 The `delete instance` operation supports tag-based access control via resource tags applied
-to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3174,7 +3185,7 @@ Deletes a specific snapshot of a virtual private server (or *instance*).
 
 The `delete instance snapshot` operation supports tag-based access control via resource tags
 applied to the resource identified by `instance snapshot name`. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3225,7 +3236,7 @@ created unless you launch an instance without specifying a custom key pair, or y
 API.
 
 The `delete key pair` operation supports tag-based access control via resource tags applied
-to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3278,7 +3289,7 @@ SSH or RDP clients to connect to the instance after a host key mismatch.
 !!! important
     Perform this operation only if you were expecting the host key or certificate mismatch
     or if you are familiar with the new host key or certificate on the instance. For more
-    information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
+    information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
 
 # Arguments
 
@@ -3322,7 +3333,7 @@ balancer is deleted, you will need to create a new load balancer, create a new c
 and verify domain ownership again.
 
 The `delete load balancer` operation supports tag-based access control via resource tags
-applied to the resource identified by `load balancer name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `load balancer name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3366,7 +3377,7 @@ Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
 
 The [`delete_load_balancer_tls_certificate`](@ref) operation supports tag-based access
 control via resource tags applied to the resource identified by `load balancer name`. For
-more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3429,7 +3440,7 @@ Deletes a database in Amazon Lightsail.
 
 The `delete relational database` operation supports tag-based access control via resource
 tags applied to the resource identified by relationalDatabaseName. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3500,7 +3511,7 @@ Deletes a database snapshot in Amazon Lightsail.
 
 The `delete relational database snapshot` operation supports tag-based access control via
 resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3599,7 +3610,7 @@ file systems on the device within your operating system before stopping the inst
 detaching the disk.
 
 The `detach disk` operation supports tag-based access control via resource tags applied to
-the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3643,7 +3654,7 @@ the load balancer.
 
 The `detach instances from load balancer` operation supports tag-based access control via
 resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3728,7 +3739,7 @@ end
     disable_add_on(add_on_type, resource_name)
     disable_add_on(add_on_type, resource_name, params::Dict{String,<:Any})
 
-Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 # Arguments
 
@@ -3796,7 +3807,7 @@ end
     enable_add_on(add_on_request, resource_name, params::Dict{String,<:Any})
 
 Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 # Arguments
 
@@ -3852,7 +3863,7 @@ disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exporte
 same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.
 
 The `export snapshot` operation supports tag-based access control via resource tags applied
-to the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+to the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 !!! note
     Use the `get instance snapshots` or `get disk snapshots` operations to get a list of
@@ -3931,7 +3942,7 @@ information about all alarms for a specific resource.
 
 An alarm is used to monitor a single metric for one of your resources. When a metric
 condition is met, the alarm can notify you by email, SMS text message, and a banner
-displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 # Optional Parameters
 
@@ -3970,7 +3981,7 @@ end
     get_auto_snapshots(resource_name, params::Dict{String,<:Any})
 
 Returns the available automatic snapshots for an instance or disk. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 # Arguments
 
@@ -4264,7 +4275,7 @@ Returns information about one or more Amazon Lightsail buckets. The information 
 includes the synchronization status of the Amazon Simple Storage Service (Amazon S3)
 account-level block public access feature for your Lightsail buckets.
 
-For more information about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail)
+For more information about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail)
 in the *Amazon Lightsail Developer Guide*.
 
 # Optional Parameters
@@ -4279,6 +4290,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeConnectedResources"`: A Boolean value that indicates whether to include Lightsail
   instances that were given access to the bucket using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html)
   action.
+
+- `"includeCors"`: A Boolean value that indicates whether to include Lightsail bucket CORS
+  configuration in the response. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html).
+
+  !!! note
+      This parameter is only supported when getting a single bucket with `bucketName`
+      specified. The default value for this parameter is `False`.
 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
@@ -4441,7 +4459,7 @@ A contact method is used to send you notifications about your Amazon Lightsail r
 You can add one email address and one mobile phone number contact method in each Amazon Web
 Services Region. However, SMS text messaging is not supported in some Amazon Web Services
 Regions, and SMS text messages cannot be sent to some countries/regions. For more
-information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
 
 # Optional Parameters
 
@@ -5483,7 +5501,7 @@ Returns temporary SSH keys you can use to connect to a specific virtual private 
 *instance*.
 
 The `get instance access details` operation supports tag-based access control via resource
-tags applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+tags applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -5548,7 +5566,7 @@ performance of your resources.
   - **`BurstCapacityPercentage`** - The percentage of CPU performance available for your
     instance to burst above its baseline. Your instance continuously accrues and consumes
     burst capacity. Burst capacity stops accruing when your instance's
-    `BurstCapacityPercentage` reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+    `BurstCapacityPercentage` reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity).
 
   `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
@@ -5562,7 +5580,7 @@ reaches 100%.
   CPU utilization. For example, if your instance operates at 50% CPU utilization in the
   burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50%
   rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity
-  minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+  minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity).
 
   `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
@@ -6247,7 +6265,7 @@ end
 
 Returns a list of TLS security policies that you can apply to Lightsail load balancers.
 
-For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy)
+For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy)
 in the *Amazon Lightsail Developer Guide*.
 
 # Optional Parameters
@@ -7351,7 +7369,7 @@ Opens ports for a specific Amazon Lightsail instance, and specifies the IP addre
 to connect to the instance through the ports, and the protocol.
 
 The `OpenInstancePublicPorts` action supports tag-based access control via resource tags
-applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7417,7 +7435,7 @@ Creates or updates an alarm, and associates it with the specified metric.
 
 An alarm is used to monitor a single metric for one of your resources. When a metric
 condition is met, the alarm can notify you by email, SMS text message, and a banner
-displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 When this action creates an alarm, the alarm state is immediately set to
 `INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set appropriately. Any
@@ -7426,6 +7444,9 @@ actions associated with the new state are then executed.
 When you update an existing alarm, its state is left unchanged, but the update completely
 overwrites the previous configuration of the alarm. The alarm is then evaluated with the
 updated configuration.
+
+The `put alarm` operation supports tag-based access control via request tags. For more
+information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7466,7 +7487,7 @@ updated configuration.
   - **Relational databases**: `CPUUtilization`, `DatabaseConnections`, `DiskQueueDepth`,
     `FreeStorageSpace`, `NetworkReceiveThroughput`, and `NetworkTransmitThroughput`.
 
-  For more information about these metrics, see [Metrics available in Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-resource-health-metrics#available-metrics).
+  For more information about these metrics, see [Metrics available in Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-resource-health-metrics#available-metrics).
 
 - `monitored_resource_name`: The name of the Lightsail resource that will be monitored.
 
@@ -7519,6 +7540,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     alarm switches from an `OK` or `ALARM` alarm state to an `INSUFFICIENT_DATA` state.
 
   The notification trigger defaults to `ALARM` if you don't specify this parameter.
+
+- `"tags"`: The tag keys and optional values to add to the alarm during create.
+
+  Use the `TagResource` action to tag a resource after it's created.
 
 - `"treatMissingData"`: Sets how this alarm will handle missing data points.
 
@@ -7601,7 +7626,7 @@ protocols you want to open in your `PutInstancePublicPorts`request. Or use the
 `OpenInstancePublicPorts` action to open ports without closing currently open ports.
 
 The `PutInstancePublicPorts` action supports tag-based access control via resource tags
-applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `instanceName`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7649,7 +7674,7 @@ end
 Restarts a specific instance.
 
 The `reboot instance` operation supports tag-based access control via resource tags applied
-to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7689,7 +7714,7 @@ Restarts a specific database in Amazon Lightsail.
 
 The `reboot relational database` operation supports tag-based access control via resource
 tags applied to the resource identified by relationalDatabaseName. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7736,7 +7761,7 @@ Registers a container image to your Amazon Lightsail container service.
 !!! note
     This action is not required if you install and use the Lightsail Control (lightsailctl)
     plugin to push container images to your Lightsail container service. For more
-    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
+    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images)
     in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
@@ -7884,7 +7909,7 @@ A contact method is used to send you notifications about your Amazon Lightsail r
 You can add one email address and one mobile phone number contact method in each Amazon Web
 Services Region. However, SMS text messaging is not supported in some Amazon Web Services
 Regions, and SMS text messages cannot be sent to some countries/regions. For more
-information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
 
 A verification request is sent to the contact method when you initially create it. Use this
 action to send another verification request if a previous verification request was deleted,
@@ -8195,10 +8220,10 @@ use the `reboot instance` operation.
 !!! note
     When you start a stopped instance, Lightsail assigns a new public IP address to the
     instance. To use the same IP address after stopping and starting an instance, create a
-    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
+    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip).
 
 The `start instance` operation supports tag-based access control via resource tags applied
-to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8239,7 +8264,7 @@ use the `reboot relational database` operation.
 
 The `start relational database` operation supports tag-based access control via resource
 tags applied to the resource identified by relationalDatabaseName. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8281,8 +8306,8 @@ end
     stop_guisession(resource_name)
     stop_guisession(resource_name, params::Dict{String,<:Any})
 
-Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating
-system or application. The session will close and any unsaved data will be lost.
+Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s
+operating system or application. The session will close and any unsaved data will be lost.
 
 # Arguments
 
@@ -8323,10 +8348,10 @@ Stops a specific Amazon Lightsail instance that is currently running.
 !!! note
     When you start a stopped instance, Lightsail assigns a new public IP address to the
     instance. To use the same IP address after stopping and starting an instance, create a
-    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
+    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip).
 
 The `stop instance` operation supports tag-based access control via resource tags applied to
-the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8376,8 +8401,14 @@ end
 
 Stops a specific database that is currently running in Amazon Lightsail.
 
+!!! note
+    If you don't manually start your database instance after it has been stopped for seven
+    consecutive days, Amazon Lightsail automatically starts it for you. This action helps
+    ensure that your database instance doesn't fall behind on any required maintenance
+    updates.
+
 The `stop relational database` operation supports tag-based access control via resource tags
-applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8428,10 +8459,10 @@ end
 
 Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
-unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 The `tag resource` operation supports tag-based access control via request tags and resource
-tags applied to the resource identified by `resource name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+tags applied to the resource identified by `resource name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8488,7 +8519,7 @@ notification protocol (`Email` and/or `SMS`) configured for the alarm.
 
 An alarm is used to monitor a single metric for one of your resources. When a metric
 condition is met, the alarm can notify you by email, SMS text message, and a banner
-displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 # Arguments
 
@@ -8559,7 +8590,7 @@ resource.
 
 The `untag resource` operation supports tag-based access control via request tags and
 resource tags applied to the resource identified by `resource name`. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8627,6 +8658,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accessRules"`: An object that sets the public accessibility of objects in the specified
   bucket.
+
+- `"cors"`: Sets the cross-origin resource sharing (CORS) configuration for your bucket. If
+  a CORS configuration exists, it is replaced with the specified configuration. For AWS CLI
+  operations, this parameter can also be passed as a file. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html).
+
+  !!! note
+      CORS information is only returned in a response when you update the CORS policy.
 
 - `"readonlyAccessAccounts"`: An array of strings to specify the Amazon Web Services account
   IDs that can access the bucket.
@@ -8761,7 +8799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service to access private container image repositories, such as Amazon Elastic Container
   Registry (Amazon ECR) private repositories.
 
-  For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access)
+  For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access)
   in the *Amazon Lightsail Developer Guide*.
 
 - `"publicDomainNames"`: The public domain names to use with the container service, such as
@@ -8957,7 +8995,7 @@ end
 Updates a domain recordset after it is created.
 
 The `update domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9005,7 +9043,7 @@ Modifies the Amazon Lightsail instance metadata parameters on a running or stopp
 When you modify the parameters on a running instance, the `GetInstance` or `GetInstances`
 API operation initially responds with a state of `pending`. After the parameter
 modifications are successfully applied, the state changes to `applied` in subsequent
-`GetInstance` or `GetInstances` API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-instance-metadata-service)
+`GetInstance` or `GetInstances` API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-instance-metadata-service)
 in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
@@ -9081,7 +9119,7 @@ time.
 
 The `update load balancer attribute` operation supports tag-based access control via
 resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9169,7 +9207,7 @@ are applied during the database's predefined maintenance window.
 
 The `update relational database` operation supports tag-based access control via resource
 tags applied to the resource identified by relationalDatabaseName. For more information, see
-the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9302,7 +9340,7 @@ after the database is rebooted using the `reboot relational database` operation.
 
 The `update relational database parameters` operation supports tag-based access control via
 resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 

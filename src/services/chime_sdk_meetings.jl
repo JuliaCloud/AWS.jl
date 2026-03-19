@@ -9,7 +9,7 @@ using AWS.UUIDs: uuid4
     batch_create_attendee(attendees, meeting_id, params::Dict{String,<:Any})
 
 Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information
-about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -72,6 +72,11 @@ When using capabilities, be aware of these corner cases:
   capability to receive, the response will contain an HTTP 400 Bad Request status code.
   However, you can set your `video` capability to receive and you set your `content`
   capability to not receive.
+- If meeting features is defined as `Video:MaxResolution:None` but `Content:MaxResolution`
+  is defined as something other than `None` and attendee capabilities are not defined in the
+  API request, then the default attendee video capability is set to `Receive` and attendee
+  content capability is set to `SendReceive`. This is because content `SendReceive` requires
+  video to be at least `Receive`.
 - When you change an `audio` capability from `None` or `Receive` to `Send` or `SendReceive`
   , and if the attendee left their microphone unmuted, audio will flow from the attendee to
   the other meeting participants.
@@ -136,7 +141,7 @@ end
     create_attendee(external_user_id, meeting_id, params::Dict{String,<:Any})
 
 Creates a new attendee for an active Amazon Chime SDK meeting. For more information about
-the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -176,6 +181,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     capability to receive, the response will contain an HTTP 400 Bad Request status code.
     However, you can set your `video` capability to receive and you set your `content`
     capability to not receive.
+  - If meeting features is defined as `Video:MaxResolution:None` but `Content:MaxResolution`
+    is defined as something other than `None` and attendee capabilities are not defined in
+    the API request, then the default attendee video capability is set to `Receive` and
+    attendee content capability is set to `SendReceive`. This is because content
+    `SendReceive` requires video to be at least `Receive`.
   - When you change an `audio` capability from `None` or `Receive` to `Send` or
     `SendReceive` , and if the attendee left their microphone unmuted, audio will flow from
     the attendee to the other meeting participants.
@@ -220,9 +230,19 @@ end
     create_meeting(client_request_token, external_meeting_id, media_region, params::Dict{String,<:Any})
 
 Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
-attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
-in the *Amazon Chime Developer Guide*.
+attendees. For more information about specifying media Regions, see [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions)
+and [Using meeting Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html),
+both in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime
+SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+in the *Amazon Chime SDK Developer Guide*.
+
+!!! note
+    If you use this API in conjuction with the and APIs, and you don't specify the
+    `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution`
+    parameters, the following defaults are used:
+
+    - Content.MaxResolution: FHD
+    - Video.MaxResolution: HD
 
 # Arguments
 
@@ -249,6 +269,9 @@ in the *Amazon Chime Developer Guide*.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MediaPlacementNetworkType"`: The type of network for the media placement. Either IPv4
+  only or dual-stack (IPv4 and IPv6).
 
 - `"MeetingFeatures"`: Lists the audio and video features enabled for a meeting, such as
   echo reduction.
@@ -354,9 +377,19 @@ end
     create_meeting_with_attendees(attendees, client_request_token, external_meeting_id, media_region, params::Dict{String,<:Any})
 
 Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
-more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html)
-in the *Amazon Chime Developer Guide*. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
-in the *Amazon Chime Developer Guide*.
+more information about specifying media Regions, see [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions)
+and [Using meeting Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html),
+both in the *Amazon Chime SDK Developer Guide*. For more information about the Amazon Chime
+SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
+in the *Amazon Chime SDK Developer Guide*.
+
+!!! note
+    If you use this API in conjuction with the and APIs, and you don't specify the
+    `MeetingFeatures.Content.MaxResolution` or `MeetingFeatures.Video.MaxResolution`
+    parameters, the following defaults are used:
+
+    - Content.MaxResolution: FHD
+    - Video.MaxResolution: HD
 
 # Arguments
 
@@ -386,6 +419,8 @@ in the *Amazon Chime Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"MediaPlacementNetworkType"`: The type of network for the media placement. Either IPv4
+  only or dual-stack (IPv4 and IPv6).
 - `"MeetingFeatures"`: Lists the audio and video features enabled for a meeting, such as
   echo reduction.
 - `"MeetingHostId"`: Reserved.
@@ -454,7 +489,7 @@ end
 
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
 `JoinToken`. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
-For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -496,7 +531,7 @@ end
 
 Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees,
 disconnects all clients, and prevents new clients from joining the meeting. For more
-information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -530,7 +565,7 @@ end
     get_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
 
 Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For
-more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -571,7 +606,7 @@ end
     get_meeting(meeting_id, params::Dict{String,<:Any})
 
 Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information
-about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -601,7 +636,7 @@ end
     list_attendees(meeting_id, params::Dict{String,<:Any})
 
 Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
-the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html)
+the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html)
 in the *Amazon Chime Developer Guide*.
 
 # Arguments
@@ -927,6 +962,11 @@ When using capabilities, be aware of these corner cases:
   capability to receive, the response will contain an HTTP 400 Bad Request status code.
   However, you can set your `video` capability to receive and you set your `content`
   capability to not receive.
+- If meeting features is defined as `Video:MaxResolution:None` but `Content:MaxResolution`
+  is defined as something other than `None` and attendee capabilities are not defined in the
+  API request, then the default attendee video capability is set to `Receive` and attendee
+  content capability is set to `SendReceive`. This is because content `SendReceive` requires
+  video to be at least `Receive`.
 - When you change an `audio` capability from `None` or `Receive` to `Send` or `SendReceive`
   , and if the attendee left their microphone unmuted, audio will flow from the attendee to
   the other meeting participants.

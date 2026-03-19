@@ -50,6 +50,47 @@ function batch_delete_tax_registration(
 end
 
 """
+    batch_get_tax_exemptions(account_ids)
+    batch_get_tax_exemptions(account_ids, params::Dict{String,<:Any})
+
+Get the active tax exemptions for a given list of accounts. The IAM action is
+`tax:GetExemptions`.
+
+# Arguments
+
+- `account_ids`: List of unique account identifiers.
+"""
+function batch_get_tax_exemptions end
+
+function batch_get_tax_exemptions(
+    accountIds; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST",
+        "/BatchGetTaxExemptions",
+        Dict{String,Any}("accountIds" => accountIds);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_tax_exemptions(
+    accountIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return taxsettings(
+        "POST",
+        "/BatchGetTaxExemptions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_put_tax_registration(account_ids, tax_registration_entry)
     batch_put_tax_registration(account_ids, tax_registration_entry, params::Dict{String,<:Any})
 
@@ -77,6 +118,31 @@ requirements.
 
 - The valid `personType` values are `Physical Person` and `Business`.
 
+**Indonesia**
+
+- `PutTaxRegistration`: The use of this operation to submit tax information is subject to
+  the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By
+  submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and
+  NITKU data, provided by you with the Directorate General of Taxes of Indonesia in
+  accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022.
+- `BatchPutTaxRegistration`: The use of this operation to submit tax information is subject
+  to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By
+  submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and
+  NITKU data, provided by you with the Directorate General of Taxes of Indonesia in
+  accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022, through
+  our third-party partner PT Achilles Advanced Management (OnlinePajak).
+- You must specify the `taxRegistrationNumberType` in the `indonesiaAdditionalInfo` field of
+  the `additionalTaxInformation` object.
+- If you specify `decisionNumber`, you must specify the `ppnExceptionDesignationCode` in the
+  `indonesiaAdditionalInfo` field of the `additionalTaxInformation` object. If the
+  `taxRegistrationNumberType` is set to NPWP or NITKU, valid values for
+  `ppnExceptionDesignationCode` are either `01`, `02`, `03`, `07`, or `08`.
+
+For other `taxRegistrationNumberType` values, `ppnExceptionDesignationCode` must be either
+`01`, `07`, or `08`.
+- If `ppnExceptionDesignationCode` is `07`, you must specify the `decisionNumber` in the
+  `indonesiaAdditionalInfo` field of the `additionalTaxInformation` object.
+
 **Kenya**
 
 - You must specify the `personType` in the `kenyaAdditionalInfo` field of the
@@ -87,18 +153,23 @@ requirements.
 
 **Malaysia**
 
-- If you use this operation to set a tax registration number (TRN) in Malaysia, only
-  resellers with a valid sales and service tax (SST) number are required to provide tax
-  registration information.
-- By using this API operation to set a TRN in Malaysia, Amazon Web Services will regard you
-  as self-declaring that you're an authorized business reseller registered with the Royal
-  Malaysia Customs Department (RMCD) and have a valid SST number.
+- The sector valid values are `Business` and `Individual`.
+- `RegistrationType` valid values are `NRIC` for individual, and TIN and sales and service
+  tax (SST) for Business.
+- For individual, you can specify the `taxInformationNumber` in `MalaysiaAdditionalInfo`
+  with NRIC type, and a valid `MyKad` or NRIC number.
+- For business, you must specify a `businessRegistrationNumber` in `MalaysiaAdditionalInfo`
+  with a TIN type and tax identification number.
+- For business resellers, you must specify a `businessRegistrationNumber` and
+  `taxInformationNumber` in `MalaysiaAdditionalInfo` with a sales and service tax (SST) type
+  and a valid SST number.
+- For business resellers with service codes, you must specify `businessRegistrationNumber`,
+  `taxInformationNumber`, and distinct `serviceTaxCodes` in `MalaysiaAdditionalInfo` with a
+  SST type and valid sales and service tax (SST) number. By using this API operation, Amazon
+  Web Services registers your self-declaration that you’re an authorized business reseller
+  registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
 - Amazon Web Services reserves the right to seek additional information and/or take other
   actions to support your self-declaration as appropriate.
-- If you're not a reseller of Amazon Web Services, we don't recommend that you use this
-  operation to set the TRN in Malaysia.
-- Only use this API operation to upload the TRNs for accounts through which you're reselling
-  Amazon Web Services.
 - Amazon Web Services is currently registered under the following service tax codes. You
   must include at least one of the service tax codes in the service tax code strings to
   declare yourself as an authorized registered business reseller.
@@ -204,6 +275,47 @@ function batch_put_tax_registration(
 end
 
 """
+    delete_supplemental_tax_registration(authority_id)
+    delete_supplemental_tax_registration(authority_id, params::Dict{String,<:Any})
+
+Deletes a supplemental tax registration for a single account.
+
+# Arguments
+
+- `authority_id`: The unique authority Id for the supplemental TRN information that needs to
+  be deleted.
+"""
+function delete_supplemental_tax_registration end
+
+function delete_supplemental_tax_registration(
+    authorityId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST",
+        "/DeleteSupplementalTaxRegistration",
+        Dict{String,Any}("authorityId" => authorityId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_supplemental_tax_registration(
+    authorityId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return taxsettings(
+        "POST",
+        "/DeleteSupplementalTaxRegistration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("authorityId" => authorityId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_tax_registration()
     delete_tax_registration(params::Dict{String,<:Any})
 
@@ -242,6 +354,50 @@ function delete_tax_registration(
 end
 
 """
+    get_tax_exemption_types()
+    get_tax_exemption_types(params::Dict{String,<:Any})
+
+Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
+"""
+function get_tax_exemption_types end
+
+function get_tax_exemption_types(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST", "/GetTaxExemptionTypes"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_tax_exemption_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST", "/GetTaxExemptionTypes", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_tax_inheritance()
+    get_tax_inheritance(params::Dict{String,<:Any})
+
+The get account tax inheritance status.
+"""
+function get_tax_inheritance end
+
+function get_tax_inheritance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST", "/GetTaxInheritance"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_tax_inheritance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST", "/GetTaxInheritance", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_tax_registration()
     get_tax_registration(params::Dict{String,<:Any})
 
@@ -270,38 +426,37 @@ function get_tax_registration(
 end
 
 """
-    get_tax_registration_document(destination_s3_location, tax_document_metadata)
-    get_tax_registration_document(destination_s3_location, tax_document_metadata, params::Dict{String,<:Any})
+    get_tax_registration_document(tax_document_metadata)
+    get_tax_registration_document(tax_document_metadata, params::Dict{String,<:Any})
 
 Downloads your tax documents to the Amazon S3 bucket that you specify in your request.
 
 # Arguments
 
-- `destination_s3_location`: The Amazon S3 bucket that you specify to download your tax
-  documents to.
 - `tax_document_metadata`: The metadata for your tax document.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"destinationS3Location"`: The Amazon S3 bucket that you specify to download your tax
+  documents to.
 """
 function get_tax_registration_document end
 
 function get_tax_registration_document(
-    destinationS3Location,
-    taxDocumentMetadata;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    taxDocumentMetadata; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return taxsettings(
         "POST",
         "/GetTaxRegistrationDocument",
-        Dict{String,Any}(
-            "destinationS3Location" => destinationS3Location,
-            "taxDocumentMetadata" => taxDocumentMetadata,
-        );
+        Dict{String,Any}("taxDocumentMetadata" => taxDocumentMetadata);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_tax_registration_document(
-    destinationS3Location,
     taxDocumentMetadata,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -312,15 +467,80 @@ function get_tax_registration_document(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "destinationS3Location" => destinationS3Location,
-                    "taxDocumentMetadata" => taxDocumentMetadata,
-                ),
+                Dict{String,Any}("taxDocumentMetadata" => taxDocumentMetadata),
                 params,
             ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_supplemental_tax_registrations()
+    list_supplemental_tax_registrations(params::Dict{String,<:Any})
+
+Retrieves supplemental tax registrations for a single account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The number of `taxRegistrations` results you want in one response.
+- `"nextToken"`: The token to retrieve the next set of results.
+"""
+function list_supplemental_tax_registrations end
+
+function list_supplemental_tax_registrations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST",
+        "/ListSupplementalTaxRegistrations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_supplemental_tax_registrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST",
+        "/ListSupplementalTaxRegistrations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tax_exemptions()
+    list_tax_exemptions(params::Dict{String,<:Any})
+
+Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM
+action is `tax:GetExemptions`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The number of results you want in one response.
+- `"nextToken"`: The token to retrieve the next set of results.
+"""
+function list_tax_exemptions end
+
+function list_tax_exemptions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST", "/ListTaxExemptions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tax_exemptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST", "/ListTaxExemptions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -355,6 +575,144 @@ function list_tax_registrations(
 end
 
 """
+    put_supplemental_tax_registration(tax_registration_entry)
+    put_supplemental_tax_registration(tax_registration_entry, params::Dict{String,<:Any})
+
+Stores supplemental tax registration for a single account.
+
+# Arguments
+
+- `tax_registration_entry`: The supplemental TRN information that will be stored for the
+  caller account ID.
+"""
+function put_supplemental_tax_registration end
+
+function put_supplemental_tax_registration(
+    taxRegistrationEntry; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST",
+        "/PutSupplementalTaxRegistration",
+        Dict{String,Any}("taxRegistrationEntry" => taxRegistrationEntry);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_supplemental_tax_registration(
+    taxRegistrationEntry,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return taxsettings(
+        "POST",
+        "/PutSupplementalTaxRegistration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("taxRegistrationEntry" => taxRegistrationEntry),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_tax_exemption(account_ids, authority, exemption_certificate, exemption_type)
+    put_tax_exemption(account_ids, authority, exemption_certificate, exemption_type, params::Dict{String,<:Any})
+
+Adds the tax exemption for a single account or all accounts listed in a consolidated billing
+family. The IAM action is `tax:UpdateExemptions`.
+
+# Arguments
+
+- `account_ids`: The list of unique account identifiers.
+- `authority`:
+- `exemption_certificate`:
+- `exemption_type`: The exemption type. Use the supported tax exemption type description.
+"""
+function put_tax_exemption end
+
+function put_tax_exemption(
+    accountIds,
+    authority,
+    exemptionCertificate,
+    exemptionType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return taxsettings(
+        "POST",
+        "/PutTaxExemption",
+        Dict{String,Any}(
+            "accountIds" => accountIds,
+            "authority" => authority,
+            "exemptionCertificate" => exemptionCertificate,
+            "exemptionType" => exemptionType,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_tax_exemption(
+    accountIds,
+    authority,
+    exemptionCertificate,
+    exemptionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return taxsettings(
+        "POST",
+        "/PutTaxExemption",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accountIds" => accountIds,
+                    "authority" => authority,
+                    "exemptionCertificate" => exemptionCertificate,
+                    "exemptionType" => exemptionType,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_tax_inheritance()
+    put_tax_inheritance(params::Dict{String,<:Any})
+
+The updated tax inheritance status.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"heritageStatus"`: The tax inheritance status.
+"""
+function put_tax_inheritance end
+
+function put_tax_inheritance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST", "/PutTaxInheritance"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function put_tax_inheritance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return taxsettings(
+        "POST", "/PutTaxInheritance", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     put_tax_registration(tax_registration_entry)
     put_tax_registration(tax_registration_entry, params::Dict{String,<:Any})
 
@@ -381,6 +739,31 @@ requirements.
 
 - The valid `personType` values are `Physical Person` and `Business`.
 
+**Indonesia**
+
+- `PutTaxRegistration`: The use of this operation to submit tax information is subject to
+  the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By
+  submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and
+  NITKU data, provided by you with the Directorate General of Taxes of Indonesia in
+  accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022.
+- `BatchPutTaxRegistration`: The use of this operation to submit tax information is subject
+  to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By
+  submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and
+  NITKU data, provided by you with the Directorate General of Taxes of Indonesia in
+  accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022, through
+  our third-party partner PT Achilles Advanced Management (OnlinePajak).
+- You must specify the `taxRegistrationNumberType` in the `indonesiaAdditionalInfo` field of
+  the `additionalTaxInformation` object.
+- If you specify `decisionNumber`, you must specify the `ppnExceptionDesignationCode` in the
+  `indonesiaAdditionalInfo` field of the `additionalTaxInformation` object. If the
+  `taxRegistrationNumberType` is set to NPWP or NITKU, valid values for
+  `ppnExceptionDesignationCode` are either `01`, `02`, `03`, `07`, or `08`.
+
+For other `taxRegistrationNumberType` values, `ppnExceptionDesignationCode` must be either
+`01`, `07`, or `08`.
+- If `ppnExceptionDesignationCode` is `07`, you must specify the `decisionNumber` in the
+  `indonesiaAdditionalInfo` field of the `additionalTaxInformation` object.
+
 **Kenya**
 
 - You must specify the `personType` in the `kenyaAdditionalInfo` field of the
@@ -391,18 +774,23 @@ requirements.
 
 **Malaysia**
 
-- If you use this operation to set a tax registration number (TRN) in Malaysia, only
-  resellers with a valid sales and service tax (SST) number are required to provide tax
-  registration information.
-- By using this API operation to set a TRN in Malaysia, Amazon Web Services will regard you
-  as self-declaring that you're an authorized business reseller registered with the Royal
-  Malaysia Customs Department (RMCD) and have a valid SST number.
+- The sector valid values are `Business` and `Individual`.
+- `RegistrationType` valid values are `NRIC` for individual, and TIN and sales and service
+  tax (SST) for Business.
+- For individual, you can specify the `taxInformationNumber` in `MalaysiaAdditionalInfo`
+  with NRIC type, and a valid `MyKad` or NRIC number.
+- For business, you must specify a `businessRegistrationNumber` in `MalaysiaAdditionalInfo`
+  with a TIN type and tax identification number.
+- For business resellers, you must specify a `businessRegistrationNumber` and
+  `taxInformationNumber` in `MalaysiaAdditionalInfo` with a sales and service tax (SST) type
+  and a valid SST number.
+- For business resellers with service codes, you must specify `businessRegistrationNumber`,
+  `taxInformationNumber`, and distinct `serviceTaxCodes` in `MalaysiaAdditionalInfo` with a
+  SST type and valid sales and service tax (SST) number. By using this API operation, Amazon
+  Web Services registers your self-declaration that you’re an authorized business reseller
+  registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
 - Amazon Web Services reserves the right to seek additional information and/or take other
   actions to support your self-declaration as appropriate.
-- If you're not a reseller of Amazon Web Services, we don't recommend that you use this
-  operation to set the TRN in Malaysia.
-- Only use this API operation to upload the TRNs for accounts through which you're reselling
-  Amazon Web Services.
 - Amazon Web Services is currently registered under the following service tax codes. You
   must include at least one of the service tax codes in the service tax code strings to
   declare yourself as an authorized registered business reseller.

@@ -28,6 +28,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionAtRestOptions"`: Key-value pairs to configure encryption for data that is
   written to a persistent buffer.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
+- `"PipelineRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants the
+  pipeline permission to access Amazon Web Services resources.
 - `"Tags"`: List of tags to add to the pipeline upon creation.
 - `"VpcOptions"`: Container for the values required to configure VPC access for the
   pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline
@@ -85,6 +87,54 @@ function create_pipeline(
 end
 
 """
+    create_pipeline_endpoint(pipeline_arn, vpc_options)
+    create_pipeline_endpoint(pipeline_arn, vpc_options, params::Dict{String,<:Any})
+
+Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to
+ingest data from your VPC into pipelines that you have access to.
+
+# Arguments
+
+- `pipeline_arn`: The Amazon Resource Name (ARN) of the pipeline to create the endpoint for.
+- `vpc_options`: Container for the VPC configuration for the pipeline endpoint, including
+  subnet IDs and security group IDs.
+"""
+function create_pipeline_endpoint end
+
+function create_pipeline_endpoint(
+    PipelineArn, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/createPipelineEndpoint",
+        Dict{String,Any}("PipelineArn" => PipelineArn, "VpcOptions" => VpcOptions);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_pipeline_endpoint(
+    PipelineArn,
+    VpcOptions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/createPipelineEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("PipelineArn" => PipelineArn, "VpcOptions" => VpcOptions),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_pipeline(pipeline_name)
     delete_pipeline(pipeline_name, params::Dict{String,<:Any})
 
@@ -113,6 +163,81 @@ function delete_pipeline(
     return osis(
         "DELETE",
         "/2022-01-01/osis/deletePipeline/$(PipelineName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_pipeline_endpoint(endpoint_id)
+    delete_pipeline_endpoint(endpoint_id, params::Dict{String,<:Any})
+
+Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
+
+# Arguments
+
+- `endpoint_id`: The unique identifier of the pipeline endpoint to delete.
+"""
+function delete_pipeline_endpoint end
+
+function delete_pipeline_endpoint(
+    EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "DELETE",
+        "/2022-01-01/osis/deletePipelineEndpoint/$(EndpointId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_pipeline_endpoint(
+    EndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "DELETE",
+        "/2022-01-01/osis/deletePipelineEndpoint/$(EndpointId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes a resource-based policy from an OpenSearch Ingestion resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to delete the
+  policy.
+"""
+function delete_resource_policy end
+
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "DELETE",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "DELETE",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -241,6 +366,44 @@ function get_pipeline_change_progress(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to retrieve the
+  policy.
+"""
+function get_resource_policy end
+
+function get_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_pipeline_blueprints()
     list_pipeline_blueprints(params::Dict{String,<:Any})
 
@@ -263,6 +426,85 @@ function list_pipeline_blueprints(
     return osis(
         "POST",
         "/2022-01-01/osis/listPipelineBlueprints",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_pipeline_endpoint_connections()
+    list_pipeline_endpoint_connections(params::Dict{String,<:Any})
+
+Lists the pipeline endpoints connected to pipelines in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of pipeline endpoint connections to return in the
+  response.
+- `"nextToken"`: If your initial `ListPipelineEndpointConnections` operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent
+  `ListPipelineEndpointConnections` operations, which returns results in the next page.
+"""
+function list_pipeline_endpoint_connections end
+
+function list_pipeline_endpoint_connections(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listPipelineEndpointConnections";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_pipeline_endpoint_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listPipelineEndpointConnections",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_pipeline_endpoints()
+    list_pipeline_endpoints(params::Dict{String,<:Any})
+
+Lists all pipeline endpoints in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of pipeline endpoints to return in the response.
+- `"nextToken"`: If your initial `ListPipelineEndpoints` operation returns a `NextToken`,
+  you can include the returned `NextToken` in subsequent `ListPipelineEndpoints` operations,
+  which returns results in the next page.
+"""
+function list_pipeline_endpoints end
+
+function list_pipeline_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listPipelineEndpoints";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_pipeline_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "GET",
+        "/2022-01-01/osis/listPipelineEndpoints",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -336,6 +578,96 @@ function list_tags_for_resource(
         "GET",
         "/2022-01-01/osis/listTagsForResource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based
+policies grant permissions to principals to perform actions on the resource.
+
+# Arguments
+
+- `policy`: The resource-based policy document in JSON format.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to attach the policy to.
+"""
+function put_resource_policy end
+
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "PUT",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)",
+        Dict{String,Any}("Policy" => Policy);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "PUT",
+        "/2022-01-01/osis/resourcePolicy/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    revoke_pipeline_endpoint_connections(endpoint_ids, pipeline_arn)
+    revoke_pipeline_endpoint_connections(endpoint_ids, pipeline_arn, params::Dict{String,<:Any})
+
+Revokes pipeline endpoints from specified endpoint IDs.
+
+# Arguments
+
+- `endpoint_ids`: A list of endpoint IDs for which to revoke access to the pipeline.
+- `pipeline_arn`: The Amazon Resource Name (ARN) of the pipeline from which to revoke
+  endpoint connections.
+"""
+function revoke_pipeline_endpoint_connections end
+
+function revoke_pipeline_endpoint_connections(
+    EndpointIds, PipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/revokePipelineEndpointConnections",
+        Dict{String,Any}("EndpointIds" => EndpointIds, "PipelineArn" => PipelineArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function revoke_pipeline_endpoint_connections(
+    EndpointIds,
+    PipelineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return osis(
+        "POST",
+        "/2022-01-01/osis/revokePipelineEndpointConnections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointIds" => EndpointIds, "PipelineArn" => PipelineArn
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -514,6 +846,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineConfigurationBody"`: The pipeline configuration in YAML format. The command
   accepts the pipeline configuration as a string or within a .yaml file. If you provide the
   configuration as a string, each new line must be escaped with `\\n`.
+- `"PipelineRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants the
+  pipeline permission to access Amazon Web Services resources.
 """
 function update_pipeline end
 

@@ -125,10 +125,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
   Default: `false`.
+- `"containerFormat"`: Indicates which content-packaging format is used (MPEG-TS or fMP4).
+  If `multitrackInputConfiguration` is specified and `enabled` is `true`, then
+  `containerFormat` is required and must be set to `FRAGMENTED_MP4`. Otherwise,
+  `containerFormat` may be set to `TS` or `FRAGMENTED_MP4`. Default: `TS`.
 - `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
   `false`.
 - `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video up
   to Full HD. Use `LOW` for near-real-time interaction with viewers. Default: `LOW`.
+- `"multitrackInputConfiguration"`: Object specifying multitrack input configuration.
+  Default: no multitrack input configuration is specified.
 - `"name"`: Channel name.
 - `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
   both specifies the ARN and enables playback restriction. Default: "" (empty string, no
@@ -140,10 +146,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
   specifies the ARN and enables recording. Default: "" (empty string, recording is
   disabled).
-- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. *If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
@@ -182,10 +188,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin site.
   Default: `false`.
 - `"name"`: Playback-restriction-policy name. The value does not need to be unique.
-- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 """
 function create_playback_restriction_policy end
 
@@ -244,10 +250,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   merged together. Default: 0.
 - `"renditionConfiguration"`: Object that describes which renditions should be recorded for
   a stream.
-- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 - `"thumbnailConfiguration"`: A complex type that allows you to enable/disable the recording
   of thumbnails for a live session and modify the interval at which thumbnails are generated
   for the live session.
@@ -305,10 +311,10 @@ and then CreateStreamKey.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 """
 function create_stream_key end
 
@@ -803,10 +809,10 @@ in the *Amazon IVS User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Playback-key-pair name. The value does not need to be unique.
-- `"tags"`: Any tags provided with the request are added to the playback key pair tags. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+- `"tags"`: Any tags provided with the request are added to the playback key pair tags. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 """
 function import_playback_key_pair end
 
@@ -1295,10 +1301,10 @@ Adds or updates tags for the Amazon Web Services resource with the specified ARN
   must be URL-encoded.
 
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 """
 function tag_resource end
 
@@ -1339,10 +1345,10 @@ Removes tags from the resource with the specified ARN.
   encoded.
 
 - `tag_keys`: Array of tags to be removed. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for more information, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no service-specific constraints beyond what is documented
-  there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has
+  no service-specific constraints beyond what is documented there.
 """
 function untag_resource end
 
@@ -1389,10 +1395,16 @@ ongoing stream, update the channel, and restart the stream for the changes to ta
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
+- `"containerFormat"`: Indicates which content-packaging format is used (MPEG-TS or fMP4).
+  If `multitrackInputConfiguration` is specified and `enabled` is `true`, then
+  `containerFormat` is required and must be set to `FRAGMENTED_MP4`. Otherwise,
+  `containerFormat` may be set to `TS` or `FRAGMENTED_MP4`. Default: `TS`.
 - `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
   `false`.
 - `"latencyMode"`: Channel latency mode. Use `NORMAL` to broadcast and deliver live video up
   to Full HD. Use `LOW` for near-real-time interaction with viewers.
+- `"multitrackInputConfiguration"`: Object specifying multitrack input configuration.
+  Default: no multitrack input configuration is specified.
 - `"name"`: Channel name.
 - `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
   both specifies the ARN and enables playback restriction. If this is set to an empty

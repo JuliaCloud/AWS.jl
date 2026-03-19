@@ -5,8 +5,8 @@ using AWS.AWSServices: mq
 using AWS.UUIDs: uuid4
 
 """
-    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users)
-    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users, params::Dict{String,<:Any})
+    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible)
+    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible, params::Dict{String,<:Any})
 
 Creates a broker. Note: This API is asynchronous.
 
@@ -37,11 +37,6 @@ in the *Amazon MQ Developer Guide*.
 
 # Arguments
 
-- `auto_minor_version_upgrade`: Enables automatic upgrades to new minor versions for
-  brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur
-  during the scheduled maintenance window of the broker or after a manual broker reboot. Set
-  to true by default, if no value is specified.
-
 - `broker_name`: Required. The broker's name. This value must be unique in your Amazon Web
   Services account, 1-50 characters long, must contain only letters, numbers, dashes, and
   underscores, and must not contain white spaces, brackets, wildcard characters, or special
@@ -58,18 +53,10 @@ in the *Amazon MQ Developer Guide*.
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
   and RABBITMQ.
 
-- `engine_version`: Required. The broker engine's version. For a list of supported engine
-  versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
-
 - `host_instance_type`: Required. The broker's instance type.
 
 - `publicly_accessible`: Enables connections from applications outside of the VPC that hosts
   the broker's subnets. Set to false by default, if no value is provided.
-
-- `users`: The list of broker users (persons or applications) who can access queues and
-  topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is
-  accepted and created when a broker is first provisioned. All subsequent broker users are
-  created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
 
 # Optional Parameters
 
@@ -77,6 +64,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuthenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
+
+- `"AutoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
+  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
+  the scheduled maintenance window or after a manual broker reboot. Set to true by default,
+  if no value is specified.
+
+  !!! note
+      Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
+      brokers version 3.13 and above.
 
 - `"Configuration"`: A list of information about the configuration.
 
@@ -94,6 +90,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replica broker. Must be set when dataReplicationMode is set to CRDR.
 
 - `"EncryptionOptions"`: Encryption options for the broker.
+
+- `"EngineVersion"`: The broker engine version. Defaults to the latest available version for
+  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+  sections in the Amazon MQ Developer Guide.
 
 - `"LdapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
   authorize connections to the broker. Does not apply to RabbitMQ brokers.
@@ -124,32 +125,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       endpoints in VPCs that are not owned by your Amazon Web Services account.
 
 - `"Tags"`: Create tags when creating the broker.
+
+- `"Users"`: The list of broker users (persons or applications) who can access queues and
+  topics. For Amazon MQ for RabbitMQ brokers, an administrative user is required if using
+  simple authentication and authorization. For brokers using OAuth2, this user is optional.
+  When provided, one and only one administrative user is accepted and created when a broker
+  is first provisioned. All subsequent broker users are created by making RabbitMQ API calls
+  directly to brokers or via the RabbitMQ web console.
 """
 function create_broker end
 
 function create_broker(
-    AutoMinorVersionUpgrade,
     BrokerName,
     DeploymentMode,
     EngineType,
-    EngineVersion,
     HostInstanceType,
-    PubliclyAccessible,
-    Users;
+    PubliclyAccessible;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
         "/v1/brokers",
         Dict{String,Any}(
-            "AutoMinorVersionUpgrade" => AutoMinorVersionUpgrade,
             "BrokerName" => BrokerName,
             "DeploymentMode" => DeploymentMode,
             "EngineType" => EngineType,
-            "EngineVersion" => EngineVersion,
             "HostInstanceType" => HostInstanceType,
             "PubliclyAccessible" => PubliclyAccessible,
-            "Users" => Users,
             "CreatorRequestId" => string(uuid4()),
         );
         aws_config,
@@ -158,14 +160,11 @@ function create_broker(
 end
 
 function create_broker(
-    AutoMinorVersionUpgrade,
     BrokerName,
     DeploymentMode,
     EngineType,
-    EngineVersion,
     HostInstanceType,
     PubliclyAccessible,
-    Users,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -176,14 +175,11 @@ function create_broker(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AutoMinorVersionUpgrade" => AutoMinorVersionUpgrade,
                     "BrokerName" => BrokerName,
                     "DeploymentMode" => DeploymentMode,
                     "EngineType" => EngineType,
-                    "EngineVersion" => EngineVersion,
                     "HostInstanceType" => HostInstanceType,
                     "PubliclyAccessible" => PubliclyAccessible,
-                    "Users" => Users,
                     "CreatorRequestId" => string(uuid4()),
                 ),
                 params,
@@ -195,8 +191,8 @@ function create_broker(
 end
 
 """
-    create_configuration(engine_type, engine_version, name)
-    create_configuration(engine_type, engine_version, name, params::Dict{String,<:Any})
+    create_configuration(engine_type, name)
+    create_configuration(engine_type, name, params::Dict{String,<:Any})
 
 Creates a new configuration for the specified configuration name. Amazon MQ uses the default
 configuration (the engine type and version).
@@ -205,8 +201,6 @@ configuration (the engine type and version).
 
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
   and RABBITMQ.
-- `engine_version`: Required. The broker engine's version. For a list of supported engine
-  versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
   characters long.
@@ -217,19 +211,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuthenticationStrategy"`: Optional. The authentication strategy associated with the
   configuration. The default is SIMPLE.
+- `"EngineVersion"`: The broker engine version. Defaults to the latest available version for
+  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+  sections in the Amazon MQ Developer Guide.
 - `"Tags"`: Create tags when creating the configuration.
 """
 function create_configuration end
 
 function create_configuration(
-    EngineType, EngineVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()
+    EngineType, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "POST",
         "/v1/configurations",
-        Dict{String,Any}(
-            "EngineType" => EngineType, "EngineVersion" => EngineVersion, "Name" => Name
-        );
+        Dict{String,Any}("EngineType" => EngineType, "Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -237,7 +233,6 @@ end
 
 function create_configuration(
     EngineType,
-    EngineVersion,
     Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -247,13 +242,7 @@ function create_configuration(
         "/v1/configurations",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "EngineType" => EngineType,
-                    "EngineVersion" => EngineVersion,
-                    "Name" => Name,
-                ),
-                params,
+                _merge, Dict{String,Any}("EngineType" => EngineType, "Name" => Name), params
             ),
         );
         aws_config,
@@ -389,6 +378,43 @@ function delete_broker(
     return mq(
         "DELETE",
         "/v1/brokers/$(BrokerId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_configuration(configuration_id)
+    delete_configuration(configuration_id, params::Dict{String,<:Any})
+
+Deletes the specified configuration.
+
+# Arguments
+
+- `configuration_id`: The unique ID that Amazon MQ generates for the configuration.
+"""
+function delete_configuration end
+
+function delete_configuration(
+    ConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mq(
+        "DELETE",
+        "/v1/configurations/$(ConfigurationId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_configuration(
+    ConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mq(
+        "DELETE",
+        "/v1/configurations/$(ConfigurationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -960,18 +986,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuthenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
-- `"AutoMinorVersionUpgrade"`: Enables automatic upgrades to new minor versions for brokers,
+
+- `"AutoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
   as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
-  the scheduled maintenance window of the broker or after a manual broker reboot.
+  the scheduled maintenance window or after a manual broker reboot.
+
+  !!! note
+      Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
+      brokers version 3.13 and above.
+
 - `"Configuration"`: A list of information about the configuration.
+
 - `"DataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
-- `"EngineVersion"`: The broker engine version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+
+- `"EngineVersion"`: The broker engine version. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+  sections in the Amazon MQ Developer Guide.
+
+  !!! note
+      When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and above,
+      you must have autoMinorVersionUpgrade set to true for the broker.
+
 - `"HostInstanceType"`: The broker's host instance type to upgrade to. For a list of
   supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
+
 - `"LdapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
   authorize connections to the broker. Does not apply to RabbitMQ brokers.
+
 - `"Logs"`: Enables Amazon CloudWatch logging for brokers.
+
 - `"MaintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
+
 - `"SecurityGroups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
   connections to brokers.
 """

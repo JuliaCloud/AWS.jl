@@ -5,6 +5,54 @@ using AWS.AWSServices: iot_data_plane
 using AWS.UUIDs: uuid4
 
 """
+    delete_connection(client_id)
+    delete_connection(client_id, params::Dict{String,<:Any})
+
+Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a
+client, Amazon Web Services IoT Core closes the client's network connection and optionally
+cleans the session state.
+
+# Arguments
+
+- `client_id`: The unique identifier of the MQTT client to disconnect. The client ID can't
+  start with a dollar sign (\$).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"cleanSession"`: Specifies whether to remove the client's session state when
+  disconnecting. Set to `TRUE` to delete all session information, including subscriptions
+  and queued messages. Set to `FALSE` to preserve the session state. By default, this is set
+  to `FALSE` (preserves the session state).
+- `"preventWillMessage"`: Controls if Amazon Web Services IoT Core publishes the client's
+  Last Will and Testament (LWT) message upon disconnection. Set to `TRUE` to prevent
+  publishing the LWT message. Set to `FALSE` to allow publishing. By default, this is set to
+  `FALSE` (allows publishing the LWT message).
+"""
+function delete_connection end
+
+function delete_connection(clientId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
+        "DELETE", "/connections/$(clientId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_connection(
+    clientId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot_data_plane(
+        "DELETE",
+        "/connections/$(clientId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_thing_shadow(thing_name)
     delete_thing_shadow(thing_name, params::Dict{String,<:Any})
 
@@ -57,7 +105,7 @@ Gets the details of a single retained message for the specified topic.
 This action returns the message payload of the retained message, which can incur messaging
 costs. To list only the topic names of the retained messages, call [ListRetainedMessages](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html).
 
-Requires permission to access the [GetRetainedMessage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions)
+Requires permission to access the [GetRetainedMessage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html)
 action.
 
 For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
@@ -190,7 +238,7 @@ messaging costs.
 To get the message payload of a retained message, call [GetRetainedMessage](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_GetRetainedMessage.html)
 with the topic name of the retained message.
 
-Requires permission to access the [ListRetainedMessages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions)
+Requires permission to access the [ListRetainedMessages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html)
 action.
 
 For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).

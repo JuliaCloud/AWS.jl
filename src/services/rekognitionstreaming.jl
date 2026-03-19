@@ -18,8 +18,6 @@ The maximum video size for Face Liveness is 10 MB. Face Liveness throws a
 `ValidationException` if the video does not match the necessary formatting and size
 parameters.
 
-StartFaceLivenessSession supports the websockets and [the AWS SDK for JavaScript](https://aws.amazon.com/sdk-for-javascript/).
-
 # Arguments
 
 - `x-amz-rekognition-streaming-liveness-challenge-versions`: String containing comma

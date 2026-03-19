@@ -161,6 +161,64 @@ function create_index(
 end
 
 """
+    create_resource_explorer_setup(region_list, view_name)
+    create_resource_explorer_setup(region_list, view_name, params::Dict{String,<:Any})
+
+Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions.
+This operation sets up indexes and views in the specified Regions. This operation can also
+be used to set an aggregator Region for cross-Region resource search.
+
+# Arguments
+
+- `region_list`: A list of Amazon Web Services Regions where Resource Explorer should be
+  configured. Each Region in the list will have a user-owned index created.
+- `view_name`: The name for the view to be created as part of the Resource Explorer setup.
+  The view name must be unique within the Amazon Web Services account and Region.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AggregatorRegions"`: A list of Amazon Web Services Regions that should be configured as
+  aggregator Regions. Aggregator Regions receive replicated index information from all other
+  Regions where there is a user-owned index.
+"""
+function create_resource_explorer_setup end
+
+function create_resource_explorer_setup(
+    RegionList, ViewName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/CreateResourceExplorerSetup",
+        Dict{String,Any}("RegionList" => RegionList, "ViewName" => ViewName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_resource_explorer_setup(
+    RegionList,
+    ViewName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_explorer_2(
+        "POST",
+        "/CreateResourceExplorerSetup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RegionList" => RegionList, "ViewName" => ViewName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_view(view_name)
     create_view(view_name, params::Dict{String,<:Any})
 
@@ -294,6 +352,47 @@ function delete_index(
 end
 
 """
+    delete_resource_explorer_setup()
+    delete_resource_explorer_setup(params::Dict{String,<:Any})
+
+Deletes a Resource Explorer setup configuration. This operation removes indexes and views
+from the specified Regions or all Regions where Resource Explorer is configured.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DeleteInAllRegions"`: Specifies whether to delete Resource Explorer configuration from
+  all Regions where it is currently enabled. If this parameter is set to `true`, a value for
+  `RegionList` must not be provided. Otherwise, the operation fails with a
+  `ValidationException` error.
+- `"RegionList"`: A list of Amazon Web Services Regions from which to delete the Resource
+  Explorer configuration. If not specified, the operation uses the `DeleteInAllRegions`
+  parameter to determine scope.
+"""
+function delete_resource_explorer_setup end
+
+function delete_resource_explorer_setup(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/DeleteResourceExplorerSetup"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_resource_explorer_setup(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/DeleteResourceExplorerSetup",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_view(view_arn)
     delete_view(view_arn, params::Dict{String,<:Any})
 
@@ -372,7 +471,7 @@ end
 
 Retrieves the status of your account's Amazon Web Services service access, and validates the
 service linked role required to access the multi-account search feature. Only the management
-account or a delegated administrator with service access enabled can invoke this API call.
+account can invoke this API call.
 """
 function get_account_level_service_configuration end
 
@@ -443,6 +542,160 @@ function get_index(
 )
     return resource_explorer_2(
         "POST", "/GetIndex", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_managed_view(managed_view_arn)
+    get_managed_view(managed_view_arn, params::Dict{String,<:Any})
+
+Retrieves details of the specified [Amazon Web Services-managed view](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html).
+
+# Arguments
+
+- `managed_view_arn`: The Amazon resource name (ARN) of the managed view.
+"""
+function get_managed_view end
+
+function get_managed_view(
+    ManagedViewArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetManagedView",
+        Dict{String,Any}("ManagedViewArn" => ManagedViewArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_managed_view(
+    ManagedViewArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetManagedView",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ManagedViewArn" => ManagedViewArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_explorer_setup(task_id)
+    get_resource_explorer_setup(task_id, params::Dict{String,<:Any})
+
+Retrieves the status and details of a Resource Explorer setup operation. This operation
+returns information about the progress of creating or deleting Resource Explorer
+configurations across Regions.
+
+# Arguments
+
+- `task_id`: The unique identifier of the setup task to retrieve status information for.
+  This ID is returned by `CreateResourceExplorerSetup` or `DeleteResourceExplorerSetup`
+  operations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of Region status results to return in a single
+  response. Valid values are between `1` and `100`.
+- `"NextToken"`: The pagination token from a previous `GetResourceExplorerSetup` response.
+  Use this token to retrieve the next set of results.
+"""
+function get_resource_explorer_setup end
+
+function get_resource_explorer_setup(
+    TaskId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetResourceExplorerSetup",
+        Dict{String,Any}("TaskId" => TaskId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_explorer_setup(
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetResourceExplorerSetup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskId" => TaskId), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_service_index()
+    get_service_index(params::Dict{String,<:Any})
+
+Retrieves information about the Resource Explorer index in the current Amazon Web Services
+Region. This operation returns the ARN and type of the index if one exists.
+"""
+function get_service_index end
+
+function get_service_index(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_explorer_2(
+        "POST", "/GetServiceIndex"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_service_index(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/GetServiceIndex", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_service_view(service_view_arn)
+    get_service_view(service_view_arn, params::Dict{String,<:Any})
+
+Retrieves details about a specific Resource Explorer service view. This operation returns
+the configuration and properties of the specified view.
+
+# Arguments
+
+- `service_view_arn`: The Amazon Resource Name (ARN) of the service view to retrieve details
+  for.
+"""
+function get_service_view end
+
+function get_service_view(
+    ServiceViewArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetServiceView",
+        Dict{String,Any}("ServiceViewArn" => ServiceViewArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_service_view(
+    ServiceViewArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetServiceView",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceViewArn" => ServiceViewArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -597,6 +850,240 @@ function list_indexes_for_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIdList" => AccountIdList), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_managed_views()
+    list_managed_views(params::Dict{String,<:Any})
+
+Lists the Amazon resource names (ARNs) of the [Amazon Web Services-managed views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html)
+available in the Amazon Web Services Region in which you call this operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results that you want included on each page of the
+  response. If you do not include this parameter, it defaults to a value appropriate to the
+  operation. If additional items exist beyond those included in the current response, the
+  `NextToken` response element is present and has a value (is not null). Include that value
+  as the `next_token` request parameter in the next call to the operation to get the next
+  part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from. The pagination tokens expire after 24
+  hours.
+
+- `"ServicePrincipal"`: Specifies a service principal name. If specified, then the operation
+  only returns the managed views that are managed by the input service.
+"""
+function list_managed_views end
+
+function list_managed_views(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_explorer_2(
+        "POST", "/ListManagedViews"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_managed_views(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/ListManagedViews", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_resources()
+    list_resources(params::Dict{String,<:Any})
+
+Returns a list of resources and their details that match the specified criteria. This query
+must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the
+default view for the Amazon Web Services Region in which you call this operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: An array of strings that specify which resources are included in the results
+  of queries made using this view. When you use this view in a `Search` operation, the
+  filter string is combined with the search's `QueryString` parameter using a logical `AND`
+  operator.
+
+  For information about the supported syntax, see [Search query reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
+  in the *Amazon Web Services Resource Explorer User Guide*.
+
+  !!! important
+      This query string in the context of this operation supports only [filter prefixes](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-filters)
+      with optional [operators](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-operators).
+      It doesn't support free-form text. For example, the string
+      `region:us* service:ec2 -tag:stage=prod` includes all Amazon EC2 resources in any
+      Amazon Web Services Region that begins with the letters `us` and is *not* tagged with
+      a key `Stage` that has the value `prod`.
+
+- `"MaxResults"`: The maximum number of results that you want included on each page of the
+  response. If you do not include this parameter, it defaults to a value appropriate to the
+  operation. If additional items exist beyond those included in the current response, the
+  `NextToken` response element is present and has a value (is not null). Include that value
+  as the `next_token` request parameter in the next call to the operation to get the next
+  part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure that
+      you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from. The pagination tokens expire after 24
+  hours.
+
+  !!! note
+      The `ListResources` operation does not generate a `NextToken` if you set `MaxResults`
+      to 1000.
+
+- `"ViewArn"`: Specifies the Amazon resource name (ARN) of the view to use for the query. If
+  you don't specify a value for this parameter, then the operation automatically uses the
+  default view for the Amazon Web Services Region in which you called this operation. If the
+  Region either doesn't have a default view or if you don't have permission to use the
+  default view, then the operation fails with a 401 Unauthorized exception.
+"""
+function list_resources end
+
+function list_resources(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_explorer_2(
+        "POST", "/ListResources"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/ListResources", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_service_indexes()
+    list_service_indexes(params::Dict{String,<:Any})
+
+Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This
+operation returns information about indexes including their ARNs, types, and Regions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of index results to return in a single response. Valid
+  values are between `1` and `100`.
+- `"NextToken"`: The pagination token from a previous `ListServiceIndexes` response. Use
+  this token to retrieve the next set of results.
+- `"Regions"`: A list of Amazon Web Services Regions to include in the search for indexes.
+  If not specified, indexes from all Regions are returned.
+"""
+function list_service_indexes end
+
+function list_service_indexes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_explorer_2(
+        "POST", "/ListServiceIndexes"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_service_indexes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/ListServiceIndexes", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_service_views()
+    list_service_views(params::Dict{String,<:Any})
+
+Lists all Resource Explorer service views available in the current Amazon Web Services
+account. This operation returns the ARNs of available service views.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of service view results to return in a single response.
+  Valid values are between `1` and `50`.
+- `"NextToken"`: The pagination token from a previous `ListServiceViews` response. Use this
+  token to retrieve the next set of results.
+"""
+function list_service_views end
+
+function list_service_views(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_explorer_2(
+        "POST", "/ListServiceViews"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_service_views(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST", "/ListServiceViews", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_streaming_access_for_services()
+    list_streaming_access_for_services(params::Dict{String,<:Any})
+
+Returns a list of Amazon Web Services services that have been granted streaming access to
+your Resource Explorer data. Streaming access allows Amazon Web Services services to receive
+real-time updates about your resources as they are indexed by Resource Explorer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of streaming access entries to return in the response.
+  If there are more results available, the response includes a NextToken value that you can
+  use in a subsequent call to get the next set of results. The value must be between 1 and
+  50. If you don't specify a value, the default is 50.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from. The pagination tokens expire after 24
+  hours.
+"""
+function list_streaming_access_for_services end
+
+function list_streaming_access_for_services(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/ListStreamingAccessForServices";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_streaming_access_for_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/ListStreamingAccessForServices",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

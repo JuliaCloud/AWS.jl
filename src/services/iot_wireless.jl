@@ -465,6 +465,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: The name of the new resource.
 
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
+
 - `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
 
 - `"Tags"`: The tags to attach to the new device profile. Tags are metadata that you can use
@@ -515,6 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 - `"Description"`:
+- `"Descriptor"`:
 - `"FragmentIntervalMS"`:
 - `"FragmentSizeBytes"`:
 - `"LoRaWAN"`:
@@ -708,6 +712,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: The name of the new resource.
 
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
+
 - `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
   use to manage a resource.
 """
@@ -768,8 +775,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: The name of the new resource.
 
-- `"Positioning"`: FPort values for the GNSS, stream, and ClockSync functions of the
-  positioning information.
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
+
+- `"Positioning"`: The integration status of the Device Location feature for LoRaWAN and
+  Sidewalk devices.
 
 - `"Sidewalk"`: The device configuration information to use to create the Sidewalk device.
 
@@ -855,6 +865,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the new resource.
 
 - `"Name"`: The name of the new resource.
+
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
 
 - `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
   use to manage a resource.
@@ -1105,7 +1118,7 @@ end
     delete_multicast_group(id)
     delete_multicast_group(id, params::Dict{String,<:Any})
 
-Deletes a multicast group if it is not in use by a fuota task.
+Deletes a multicast group if it is not in use by a FUOTA task.
 
 # Arguments
 
@@ -1516,7 +1529,7 @@ end
     disassociate_multicast_group_from_fuota_task(id, multicast_group_id)
     disassociate_multicast_group_from_fuota_task(id, multicast_group_id, params::Dict{String,<:Any})
 
-Disassociates a multicast group from a fuota task.
+Disassociates a multicast group from a FUOTA task.
 
 # Arguments
 
@@ -1847,8 +1860,9 @@ end
     get_log_levels_by_resource_types()
     get_log_levels_by_resource_types(params::Dict{String,<:Any})
 
-Returns current default log levels or log levels by resource types. Based on resource types,
-log levels can be for wireless device log options or wireless gateway log options.
+Returns current default log levels or log levels by resource types. Based on the resource
+type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log
+options.
 """
 function get_log_levels_by_resource_types end
 
@@ -2065,7 +2079,7 @@ Get the position information for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position information should
-    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html)
     API operation instead.
 
 # Arguments
@@ -2113,7 +2127,7 @@ Get position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position configuration should
-    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html)
     API operation instead.
 
 # Arguments
@@ -2247,14 +2261,13 @@ end
     get_resource_log_level(resource_identifier, resource_type)
     get_resource_log_level(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be
-used for a wireless device or a wireless gateway.
+Fetches the log-level override, if any, for a given resource ID and resource type..
 
 # Arguments
 
 - `resource_identifier`:
-- `resource_type`: The type of the resource, which can be `WirelessDevice` or
-  `WirelessGateway`.
+- `resource_type`: The type of resource, which can be `WirelessDevice`, `WirelessGateway`,
+  or `FuotaTask`.
 """
 function get_resource_log_level end
 
@@ -2346,7 +2359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"serviceType"`: The service type for which to get endpoint information about. Can be
   `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN Network
-  Server endpoint or `CLAIM` for the global endpoint.
+  Server endpoint.
 """
 function get_service_endpoint end
 
@@ -2938,7 +2951,7 @@ end
     list_multicast_groups_by_fuota_task(id)
     list_multicast_groups_by_fuota_task(id, params::Dict{String,<:Any})
 
-List all multicast groups associated with a fuota task.
+List all multicast groups associated with a FUOTA task.
 
 # Arguments
 
@@ -3054,7 +3067,7 @@ List position configurations for a given resource, such as positioning solvers.
 
 !!! important
     This action is no longer supported. Calls to retrieve position information should use
-    the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html)
     API operation instead.
 
 # Optional Parameters
@@ -3199,7 +3212,8 @@ end
     list_wireless_device_import_tasks()
     list_wireless_device_import_tasks(params::Dict{String,<:Any})
 
-List wireless devices that have been added to an import task.
+List of import tasks and summary information of onboarding status of devices in each import
+task.
 
 # Optional Parameters
 
@@ -3241,7 +3255,8 @@ Lists the wireless devices registered to your AWS account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"destinationName"`: A filter to list only the wireless devices that use this destination.
+- `"destinationName"`: A filter to list only the wireless devices that use as uplink
+  destination.
 - `"deviceProfileId"`: A filter to list only the wireless devices that use this device
   profile.
 - `"fuotaTaskId"`:
@@ -3349,7 +3364,7 @@ Put position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to update the position configuration should
-    use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_UpdateResourcePosition.html)
     API operation instead.
 
 # Arguments
@@ -3402,16 +3417,15 @@ end
     put_resource_log_level(log_level, resource_identifier, resource_type)
     put_resource_log_level(log_level, resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Sets the log-level override for a resource-ID and resource-type. This option can be
-specified for a wireless gateway or a wireless device. A limit of 200 log level override can
-be set per account.
+Sets the log-level override for a resource ID and resource type. A limit of 200 log level
+override can be set per account.
 
 # Arguments
 
 - `log_level`:
 - `resource_identifier`:
-- `resource_type`: The type of the resource, which can be `WirelessDevice` or
-  `WirelessGateway`.
+- `resource_type`: The type of resource, which can be `WirelessDevice`, `WirelessGateway`,
+  or `FuotaTask`.
 """
 function put_resource_log_level end
 
@@ -3456,8 +3470,8 @@ end
     reset_all_resource_log_levels()
     reset_all_resource_log_levels(params::Dict{String,<:Any})
 
-Removes the log-level overrides for all resources; both wireless devices and wireless
-gateways.
+Removes the log-level overrides for all resources; wireless devices, wireless gateways, and
+FUOTA tasks.
 """
 function reset_all_resource_log_levels end
 
@@ -3479,14 +3493,14 @@ end
     reset_resource_log_level(resource_identifier, resource_type)
     reset_resource_log_level(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Removes the log-level override, if any, for a specific resource-ID and resource-type. It can
-be used for a wireless device or a wireless gateway.
+Removes the log-level override, if any, for a specific resource ID and resource type. It can
+be used for a wireless device, a wireless gateway, or a FUOTA task.
 
 # Arguments
 
 - `resource_identifier`:
-- `resource_type`: The type of the resource, which can be `WirelessDevice` or
-  `WirelessGateway`.
+- `resource_type`: The type of resource, which can be `WirelessDevice`, `WirelessGateway`,
+  or `FuotaTask`.
 """
 function reset_resource_log_level end
 
@@ -3797,6 +3811,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`:
 - `"DeviceName"`: The name of the wireless device for which an import task is being started.
+- `"Positioning"`: The integration status of the Device Location feature for Sidewalk
+  devices.
 - `"Tags"`:
 """
 function start_single_wireless_device_import_task end
@@ -3860,6 +3876,8 @@ Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`:
+- `"Positioning"`: The integration status of the Device Location feature for Sidewalk
+  devices.
 - `"Tags"`:
 """
 function start_wireless_device_import_task end
@@ -4126,6 +4144,7 @@ Updates properties of a FUOTA task.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`:
+- `"Descriptor"`:
 - `"FirmwareUpdateImage"`:
 - `"FirmwareUpdateRole"`:
 - `"FragmentIntervalMS"`:
@@ -4154,15 +4173,16 @@ end
     update_log_levels_by_resource_types()
     update_log_levels_by_resource_types(params::Dict{String,<:Any})
 
-Set default log level, or log levels by resource types. This can be for wireless device log
-options or wireless gateways log options and is used to control the log messages that'll be
-displayed in CloudWatch.
+Set default log level, or log levels by resource types. This can be for wireless device,
+wireless gateway, or FUOTA task log options, and is used to control the log messages that'll
+be displayed in CloudWatch.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DefaultLogLevel"`:
+- `"FuotaTaskLogOptions"`:
 - `"WirelessDeviceLogOptions"`:
 - `"WirelessGatewayLogOptions"`:
 """
@@ -4366,7 +4386,7 @@ Update the position information of a resource.
 
 !!! important
     This action is no longer supported. Calls to update the position information should use
-    the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_UpdateResourcePosition.html)
     API operation instead.
 
 # Arguments
@@ -4537,11 +4557,20 @@ Updates properties of a wireless device.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A new description of the resource.
+
 - `"DestinationName"`: The name of the new destination for the device.
+
 - `"LoRaWAN"`: The updated wireless device's configuration.
+
 - `"Name"`: The new name of the resource.
-- `"Positioning"`: FPort values for the GNSS, stream, and ClockSync functions of the
-  positioning information.
+
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
+
+- `"Positioning"`: The integration status of the Device Location feature for LoRaWAN and
+  Sidewalk devices.
+
+- `"Sidewalk"`: The updated sidewalk properties.
 """
 function update_wireless_device end
 
@@ -4620,9 +4649,16 @@ Updates properties of a wireless gateway.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A new description of the resource.
+
 - `"JoinEuiFilters"`:
+
 - `"MaxEirp"`: The MaxEIRP value.
+
 - `"Name"`: The new name of the resource.
+
+  !!! note
+      The following special characters aren't accepted: `<>^#~\$`
+
 - `"NetIdFilters"`:
 """
 function update_wireless_gateway end

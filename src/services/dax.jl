@@ -34,7 +34,7 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
   provided, its length must equal the `ReplicationFactor`.
 
   !!! note
-      AWS recommends that you have at least two read replicas per cluster.
+      Amazon Web Services recommends that you have at least two read replicas per cluster.
 
 # Optional Parameters
 
@@ -52,6 +52,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `TLS` for Transport Layer Security
 
 - `"Description"`: A description of the cluster.
+
+- `"NetworkType"`: Specifies the IP protocol(s) the cluster uses for network communications.
+  Values are:
+
+  - `ipv4` - The cluster is accessible only through IPv4 addresses
+  - `ipv6` - The cluster is accessible only through IPv6 addresses
+  - `dual_stack` - The cluster is accessible through both IPv4 and IPv6 addresses.
+
+  !!! note
+      If no explicit `NetworkType` is provided, the network type is derived based on the
+      subnet group's configuration.
 
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
   notifications will be sent.

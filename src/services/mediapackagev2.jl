@@ -5,6 +5,63 @@ using AWS.AWSServices: mediapackagev2
 using AWS.UUIDs: uuid4
 
 """
+    cancel_harvest_job(channel_group_name, channel_name, harvest_job_name, origin_endpoint_name)
+    cancel_harvest_job(channel_group_name, channel_name, harvest_job_name, origin_endpoint_name, params::Dict{String,<:Any})
+
+Cancels an in-progress harvest job.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group containing the channel from which the
+  harvest job is running.
+- `channel_name`: The name of the channel from which the harvest job is running.
+- `harvest_job_name`: The name of the harvest job to cancel. This name must be unique within
+  the channel and cannot be changed after the harvest job is submitted.
+- `origin_endpoint_name`: The name of the origin endpoint that the harvest job is harvesting
+  from. This cannot be changed after the harvest job is submitted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"x-amzn-update-if-match"`: The current Entity Tag (ETag) associated with the harvest job.
+  Used for concurrency control.
+"""
+function cancel_harvest_job end
+
+function cancel_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    HarvestJobName,
+    OriginEndpointName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "PUT",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob/$(HarvestJobName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    HarvestJobName,
+    OriginEndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "PUT",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob/$(HarvestJobName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_channel(channel_group_name, channel_name)
     create_channel(channel_group_name, channel_name, params::Dict{String,<:Any})
 
@@ -29,6 +86,24 @@ channel groups.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: Enter any descriptive text that helps you to identify the channel.
+
+- `"InputSwitchConfiguration"`: The configuration for input switching based on the media
+  quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is
+  valid only when `InputType` is `CMAF`.
+
+- `"InputType"`: The input type will be an immutable field which will be used to define
+  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default
+  to HLS to preserve current behavior.
+
+  The allowed values are:
+
+  - `HLS` - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+  - `CMAF` - The DASH-IF CMAF Ingest specification (which defines CMAF segments with
+    optional DASH manifests).
+
+- `"OutputHeaderConfiguration"`: The settings for what common media server data (CMSD)
+  headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid
+  only when `InputType` is `CMAF`.
 
 - `"Tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
@@ -150,6 +225,89 @@ function create_channel_group(
 end
 
 """
+    create_harvest_job(channel_group_name, channel_name, destination, harvested_manifests, origin_endpoint_name, schedule_configuration)
+    create_harvest_job(channel_group_name, channel_name, destination, harvested_manifests, origin_endpoint_name, schedule_configuration, params::Dict{String,<:Any})
+
+Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group containing the channel from which to
+  harvest content.
+- `channel_name`: The name of the channel from which to harvest content.
+- `destination`: The S3 destination where the harvested content will be placed.
+- `harvested_manifests`: A list of manifests to be harvested.
+- `origin_endpoint_name`: The name of the origin endpoint from which to harvest content.
+- `schedule_configuration`: The configuration for when the harvest job should run, including
+  start and end times.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: An optional description for the harvest job.
+- `"HarvestJobName"`: A name for the harvest job. This name must be unique within the
+  channel.
+- `"Tags"`: A collection of tags associated with the harvest job.
+- `"x-amzn-client-token"`: A unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
+"""
+function create_harvest_job end
+
+function create_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    Destination,
+    HarvestedManifests,
+    OriginEndpointName,
+    ScheduleConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob",
+        Dict{String,Any}(
+            "Destination" => Destination,
+            "HarvestedManifests" => HarvestedManifests,
+            "ScheduleConfiguration" => ScheduleConfiguration,
+            "x-amzn-client-token" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    Destination,
+    HarvestedManifests,
+    OriginEndpointName,
+    ScheduleConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Destination" => Destination,
+                    "HarvestedManifests" => HarvestedManifests,
+                    "ScheduleConfiguration" => ScheduleConfiguration,
+                    "x-amzn-client-token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_origin_endpoint(channel_group_name, channel_name, container_type, origin_endpoint_name)
     create_origin_endpoint(channel_group_name, channel_name, container_type, origin_endpoint_name, params::Dict{String,<:Any})
 
@@ -183,9 +341,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Enter any descriptive text that helps you to identify the origin
   endpoint.
 
+- `"ForceEndpointErrorConfiguration"`: The failover settings for the endpoint.
+
 - `"HlsManifests"`: An HTTP live streaming (HLS) manifest configuration.
 
 - `"LowLatencyHlsManifests"`: A low-latency HLS manifest configuration.
+
+- `"MssManifests"`: A list of Microsoft Smooth Streaming (MSS) manifest configurations for
+  the origin endpoint. You can configure multiple MSS manifests to provide different
+  streaming experiences or to support different client requirements.
 
 - `"Segment"`: The segment configuration, including the segment name, duration, and other
   configuration values.
@@ -478,8 +642,7 @@ end
     get_channel(channel_group_name, channel_name)
     get_channel(channel_group_name, channel_name, params::Dict{String,<:Any})
 
-Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including
-the origin endpoints that are associated with it.
+Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
 
 # Arguments
 
@@ -520,8 +683,7 @@ end
     get_channel_group(channel_group_name)
     get_channel_group(channel_group_name, params::Dict{String,<:Any})
 
-Retrieves the specified channel group that's configured in AWS Elemental MediaPackage,
-including the channels and origin endpoints that are associated with it.
+Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
 
 # Arguments
 
@@ -592,6 +754,54 @@ function get_channel_policy(
     return mediapackagev2(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/policy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_harvest_job(channel_group_name, channel_name, harvest_job_name, origin_endpoint_name)
+    get_harvest_job(channel_group_name, channel_name, harvest_job_name, origin_endpoint_name, params::Dict{String,<:Any})
+
+Retrieves the details of a specific harvest job.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group containing the channel associated with
+  the harvest job.
+- `channel_name`: The name of the channel associated with the harvest job.
+- `harvest_job_name`: The name of the harvest job to retrieve.
+- `origin_endpoint_name`: The name of the origin endpoint associated with the harvest job.
+"""
+function get_harvest_job end
+
+function get_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    HarvestJobName,
+    OriginEndpointName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "GET",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob/$(HarvestJobName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_harvest_job(
+    ChannelGroupName,
+    ChannelName,
+    HarvestJobName,
+    OriginEndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "GET",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/harvestJob/$(HarvestJobName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -700,8 +910,7 @@ end
     list_channel_groups()
     list_channel_groups(params::Dict{String,<:Any})
 
-Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including
-the channels and origin endpoints that are associated with it.
+Retrieves all channel groups that are configured in Elemental MediaPackage.
 
 # Optional Parameters
 
@@ -732,7 +941,7 @@ end
     list_channels(channel_group_name, params::Dict{String,<:Any})
 
 Retrieves all channels in a specific channel group that are configured in AWS Elemental
-MediaPackage, including the origin endpoints that are associated with it.
+MediaPackage.
 
 # Arguments
 
@@ -766,6 +975,59 @@ function list_channels(
     return mediapackagev2(
         "GET",
         "/channelGroup/$(ChannelGroupName)/channel",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_harvest_jobs(channel_group_name)
+    list_harvest_jobs(channel_group_name, params::Dict{String,<:Any})
+
+Retrieves a list of harvest jobs that match the specified criteria.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group to filter the harvest jobs by. If
+  specified, only harvest jobs associated with channels in this group will be returned.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"channelName"`: The name of the channel to filter the harvest jobs by. If specified, only
+  harvest jobs associated with this channel will be returned.
+- `"includeStatus"`: The status to filter the harvest jobs by. If specified, only harvest
+  jobs with this status will be returned.
+- `"maxResults"`: The maximum number of harvest jobs to return in a single request. If not
+  specified, a default value will be used.
+- `"nextToken"`: A token used for pagination. Provide this value in subsequent requests to
+  retrieve the next set of results.
+- `"originEndpointName"`: The name of the origin endpoint to filter the harvest jobs by. If
+  specified, only harvest jobs associated with this origin endpoint will be returned.
+"""
+function list_harvest_jobs end
+
+function list_harvest_jobs(
+    ChannelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediapackagev2(
+        "GET",
+        "/channelGroup/$(ChannelGroupName)/harvestJob";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_harvest_jobs(
+    ChannelGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "GET",
+        "/channelGroup/$(ChannelGroupName)/harvestJob",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -918,6 +1180,16 @@ each request.
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
 - `policy`: The policy to attach to the specified origin endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CdnAuthConfiguration"`: The settings for using authorization headers between the
+  MediaPackage endpoint and your CDN.
+
+  For information about CDN authorization, see [CDN authorization in Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/cdn-auth.html)
+  in the MediaPackage user guide.
 """
 function put_origin_endpoint_policy end
 
@@ -949,6 +1221,102 @@ function put_origin_endpoint_policy(
         "POST",
         "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reset_channel_state(channel_group_name, channel_name)
+    reset_channel_state(channel_group_name, channel_name, params::Dict{String,<:Any})
+
+Resetting the channel can help to clear errors from misconfigurations in the encoder. A
+reset refreshes the ingest stream and removes previous content.
+
+Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds
+before you restart the encoder.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group that contains the channel that you are
+  resetting.
+- `channel_name`: The name of the channel that you are resetting.
+"""
+function reset_channel_state end
+
+function reset_channel_state(
+    ChannelGroupName, ChannelName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/reset";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reset_channel_state(
+    ChannelGroupName,
+    ChannelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/reset",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reset_origin_endpoint_state(channel_group_name, channel_name, origin_endpoint_name)
+    reset_origin_endpoint_state(channel_group_name, channel_name, origin_endpoint_name, params::Dict{String,<:Any})
+
+Resetting the origin endpoint can help to resolve unexpected behavior and other content
+packaging issues. It also helps to preserve special events when you don't want the previous
+content to be available for viewing. A reset clears out all previous content from the origin
+endpoint.
+
+MediaPackage might return old content from this endpoint in the first 30 seconds after the
+endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send
+playback requests to this endpoint.
+
+# Arguments
+
+- `channel_group_name`: The name of the channel group that contains the channel with the
+  origin endpoint that you are resetting.
+- `channel_name`: The name of the channel with the origin endpoint that you are resetting.
+- `origin_endpoint_name`: The name of the origin endpoint that you are resetting.
+"""
+function reset_origin_endpoint_state end
+
+function reset_origin_endpoint_state(
+    ChannelGroupName,
+    ChannelName,
+    OriginEndpointName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/reset";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reset_origin_endpoint_state(
+    ChannelGroupName,
+    ChannelName,
+    OriginEndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediapackagev2(
+        "POST",
+        "/channelGroup/$(ChannelGroupName)/channel/$(ChannelName)/originEndpoint/$(OriginEndpointName)/reset",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1064,6 +1432,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Any descriptive information that you want to add to the channel for
   future identification purposes.
+- `"InputSwitchConfiguration"`: The configuration for input switching based on the media
+  quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is
+  valid only when `InputType` is `CMAF`.
+- `"OutputHeaderConfiguration"`: The settings for what common media server data (CMSD)
+  headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid
+  only when `InputType` is `CMAF`.
 - `"x-amzn-update-if-match"`: The expected current Entity Tag (ETag) for the resource. If
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
@@ -1177,8 +1551,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DashManifests"`: A DASH manifest configuration.
 - `"Description"`: Any descriptive information that you want to add to the origin endpoint
   for future identification purposes.
+- `"ForceEndpointErrorConfiguration"`: The failover settings for the endpoint.
 - `"HlsManifests"`: An HTTP live streaming (HLS) manifest configuration.
 - `"LowLatencyHlsManifests"`: A low-latency HLS manifest configuration.
+- `"MssManifests"`: A list of Microsoft Smooth Streaming (MSS) manifest configurations to
+  update for the origin endpoint. This replaces the existing MSS manifest configurations.
 - `"Segment"`: The segment configuration, including the segment name, duration, and other
   configuration values.
 - `"StartoverWindowSeconds"`: The size of the window (in seconds) to create a window of the

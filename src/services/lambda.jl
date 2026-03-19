@@ -90,19 +90,20 @@ end
     add_permission(action, function_name, principal, statement_id)
     add_permission(action, function_name, principal, statement_id, params::Dict{String,<:Any})
 
-Grants an Amazon Web Service, Amazon Web Services account, or Amazon Web Services
-organization permission to use a function. You can apply the policy at the function level,
-or specify a qualifier to restrict access to a single version or alias. If you use a
-qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias
-to invoke the function. Note: Lambda does not support adding policies to version \$LATEST.
+Grants a [principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
+permission to use a function. You can apply the policy at the function level, or specify a
+qualifier to restrict access to a single version or alias. If you use a qualifier, the
+invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the
+function. Note: Lambda does not support adding policies to version \$LATEST.
 
 To grant permission to another account, specify the account ID as the `Principal`. To grant
 permission to an organization defined in Organizations, specify the organization ID as the
-`PrincipalOrgID`. For Amazon Web Services, the principal is a domain-style identifier that
-the service defines, such as `s3.amazonaws.com` or `sns.amazonaws.com`. For Amazon Web
-Services, you can also specify the ARN of the associated resource as the `SourceArn`. If you
-grant permission to a service principal without specifying the source, other accounts could
-potentially configure resources in their account to invoke your Lambda function.
+`PrincipalOrgID`. For Amazon Web Services services, the principal is a domain-style
+identifier that the service defines, such as `s3.amazonaws.com` or `sns.amazonaws.com`. For
+Amazon Web Services services, you can also specify the ARN of the associated resource as the
+`SourceArn`. If you grant permission to a service principal without specifying the source,
+other accounts could potentially configure resources in their account to invoke your Lambda
+function.
 
 This operation adds a statement to a resource-based permissions policy for the function. For
 more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
@@ -124,9 +125,9 @@ more information about function policies, see [Using resource-based policies for
   applies only to the full ARN. If you specify only the function name, it is limited to 64
   characters in length.
 
-- `principal`: The Amazon Web Service or Amazon Web Services account that invokes the
-  function. If you specify a service, use `SourceArn` or `SourceAccount` to limit who can
-  invoke the function through that service.
+- `principal`: The Amazon Web Services service, Amazon Web Services account, IAM user, or
+  IAM role that invokes the function. If you specify a service, use `SourceArn` or
+  `SourceAccount` to limit who can invoke the function through that service.
 
 - `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
@@ -140,7 +141,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"FunctionUrlAuthType"`: The type of authentication that your function URL uses. Set to
   `AWS_IAM` if you want to restrict access to authenticated users only. Set to `NONE` if you
-  want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+  want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+
+- `"InvokedViaFunctionUrl"`: Indicates whether the permission applies when the function is
+  invoked through a function URL.
 
 - `"PrincipalOrgID"`: The identifier for your organization in Organizations. Use this to
   grant permissions to all the Amazon Web Services accounts under this organization.
@@ -151,13 +155,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Update the policy only if the revision ID matches the ID that's specified.
   Use this option to avoid modifying a policy that has changed since you last read it.
 
-- `"SourceAccount"`: For Amazon Web Service, the ID of the Amazon Web Services account that
-  owns the resource. Use this together with `SourceArn` to ensure that the specified account
-  owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and
-  recreated by another account.
+- `"SourceAccount"`: For Amazon Web Services service, the ID of the Amazon Web Services
+  account that owns the resource. Use this together with `SourceArn` to ensure that the
+  specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted
+  by its owner and recreated by another account.
 
-- `"SourceArn"`: For Amazon Web Services, the ARN of the Amazon Web Services resource that
-  invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
+- `"SourceArn"`: For Amazon Web Services services, the ARN of the Amazon Web Services
+  resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
 
   Note that Lambda configures the comparison using the `StringLike` operator.
 """
@@ -199,6 +203,77 @@ function add_permission(
                     "Action" => Action,
                     "Principal" => Principal,
                     "StatementId" => StatementId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    checkpoint_durable_execution(checkpoint_token, durable_execution_arn)
+    checkpoint_durable_execution(checkpoint_token, durable_execution_arn, params::Dict{String,<:Any})
+
+Saves the progress of a [durable function](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html)
+execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint
+completed steps and schedule asynchronous operations. You typically don't need to call this
+API directly as the SDK handles checkpointing automatically.
+
+Each checkpoint operation consumes the current checkpoint token and returns a new one for
+the next checkpoint. This ensures that checkpoints are applied in the correct order and
+prevents duplicate or out-of-order state updates.
+
+# Arguments
+
+- `checkpoint_token`: A unique token that identifies the current checkpoint state. This
+  token is provided by the Lambda runtime and must be used to ensure checkpoints are applied
+  in the correct order. Each checkpoint operation consumes this token and returns a new one.
+- `durable_execution_arn`: The Amazon Resource Name (ARN) of the durable execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: An optional idempotency token to ensure that duplicate checkpoint
+  requests are handled correctly. If provided, Lambda uses this token to detect and handle
+  duplicate requests within a 15-minute window.
+- `"Updates"`: An array of state updates to apply during this checkpoint. Each update
+  represents a change to the execution state, such as completing a step, starting a
+  callback, or scheduling a timer. Updates are applied atomically as part of the checkpoint
+  operation.
+"""
+function checkpoint_durable_execution end
+
+function checkpoint_durable_execution(
+    CheckpointToken, DurableExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/checkpoint",
+        Dict{String,Any}(
+            "CheckpointToken" => CheckpointToken, "ClientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function checkpoint_durable_execution(
+    CheckpointToken,
+    DurableExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/checkpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CheckpointToken" => CheckpointToken, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -282,6 +357,79 @@ function create_alias(
 end
 
 """
+    create_capacity_provider(capacity_provider_name, permissions_config, vpc_config)
+    create_capacity_provider(capacity_provider_name, permissions_config, vpc_config, params::Dict{String,<:Any})
+
+Creates a capacity provider that manages compute resources for Lambda functions
+
+# Arguments
+
+- `capacity_provider_name`: The name of the capacity provider.
+- `permissions_config`: The permissions configuration that specifies the IAM role ARN used
+  by the capacity provider to manage compute resources.
+- `vpc_config`: The VPC configuration for the capacity provider, including subnet IDs and
+  security group IDs where compute instances will be launched.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CapacityProviderScalingConfig"`: The scaling configuration that defines how the capacity
+  provider scales compute instances, including maximum vCPU count and scaling policies.
+- `"InstanceRequirements"`: The instance requirements that specify the compute instance
+  characteristics, including architectures and allowed or excluded instance types.
+- `"KmsKeyArn"`: The ARN of the KMS key used to encrypt data associated with the capacity
+  provider.
+- `"Tags"`: A list of tags to associate with the capacity provider.
+"""
+function create_capacity_provider end
+
+function create_capacity_provider(
+    CapacityProviderName,
+    PermissionsConfig,
+    VpcConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-11-30/capacity-providers",
+        Dict{String,Any}(
+            "CapacityProviderName" => CapacityProviderName,
+            "PermissionsConfig" => PermissionsConfig,
+            "VpcConfig" => VpcConfig,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_capacity_provider(
+    CapacityProviderName,
+    PermissionsConfig,
+    VpcConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-11-30/capacity-providers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityProviderName" => CapacityProviderName,
+                    "PermissionsConfig" => PermissionsConfig,
+                    "VpcConfig" => VpcConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_code_signing_config(allowed_publishers)
     create_code_signing_config(allowed_publishers, params::Dict{String,<:Any})
 
@@ -300,6 +448,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CodeSigningPolicies"`: The code signing policies define the actions to take if the
   validation checks fail.
 - `"Description"`: Descriptive name for this code signing configuration.
+- `"Tags"`: A list of tags to add to the code signing configuration.
 """
 function create_code_signing_config end
 
@@ -350,18 +499,22 @@ For details about how to configure different event sources, see the following to
 - [Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html)
 - [Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
 
-The following error handling options are available only for stream sources (DynamoDB and
-Kinesis):
+The following error handling options are available for stream sources (DynamoDB, Kinesis,
+Amazon MSK, and self-managed Apache Kafka):
 
 - `BisectBatchOnFunctionError` – If the function returns an error, split the batch in two
   and retry.
-- `DestinationConfig` – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
 - `MaximumRecordAgeInSeconds` – Discard records older than the specified age. The default
   value is infinite (-1). When set to infinite (-1), failed records are retried until the
   record expires
 - `MaximumRetryAttempts` – Discard records after the specified number of retries. The
   default value is infinite (-1). When set to infinite (-1), failed records are retried
   until the record expires.
+- `OnFailure` – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka
+  topic, or Amazon S3 bucket. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
+
+The following option is available only for DynamoDB and Kinesis event sources:
+
 - `ParallelizationFactor` – Process multiple batches from each shard concurrently.
 
 For information about which configuration parameters apply to each event source, see the
@@ -411,11 +564,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **Amazon MQ (ActiveMQ and RabbitMQ)** – Default 100. Max 10,000.
   - **DocumentDB** – Default 100. Max 10,000.
 
-- `"BisectBatchOnFunctionError"`: (Kinesis and DynamoDB Streams only) If the function
-  returns an error, split the batch in two and retry.
+- `"BisectBatchOnFunctionError"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed
+  Apache Kafka) If the function returns an error, split the batch in two and retry.
 
-- `"DestinationConfig"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka
-  only) A configuration object that specifies the destination of an event after Lambda
+- `"DestinationConfig"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache
+  Kafka) A configuration object that specifies the destination of an event after Lambda
   processes it.
 
 - `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
@@ -439,33 +592,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FilterCriteria"`: An object that defines the filter criteria that determine whether
   Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
 
-- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
-  response type enums applied to the event source mapping.
+- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache
+  Kafka, and Amazon SQS) A list of current response type enums applied to the event source
+  mapping.
+
+- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that
+  Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+  By default, Lambda does not encrypt your filter criteria object. Specify this property to
+  encrypt data using your own customer managed key.
+
+- `"LoggingConfig"`: (Amazon MSK, and self-managed Apache Kafka only) The logging
+  configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
 
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   `MaximumBatchingWindowInSeconds` to any value from 0 seconds to 300 seconds in increments
   of seconds.
 
-  For streams and Amazon SQS event sources, the default batching window is 0 seconds. For
-  Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the
-  default batching window is 500 ms. Note that because you can only change
+  For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0
+  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
+  sources, the default batching window is 500 ms. Note that because you can only change
   `MaximumBatchingWindowInSeconds` in increments of seconds, you cannot revert back to the
   500 ms default batching window after you have changed it. To restore the default batching
 window, you must create a new event source mapping.
 
-  Related setting: For streams and Amazon SQS event sources, when you set `BatchSize` to a
-  value greater than 10, you must set `MaximumBatchingWindowInSeconds` to at least 1.
+  Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set
+  `BatchSize` to a value greater than 10, you must set `MaximumBatchingWindowInSeconds` to
+  at least 1.
 
-- `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
-  than the specified age. The default value is infinite (-1).
+- `"MaximumRecordAgeInSeconds"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed
+  Apache Kafka) Discard records older than the specified age. The default value is infinite
+  (-1).
 
-- `"MaximumRetryAttempts"`: (Kinesis and DynamoDB Streams only) Discard records after the
-  specified number of retries. The default value is infinite (-1). When set to infinite (-
-  1), failed records are retried until the record expires.
+- `"MaximumRetryAttempts"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache
+  Kafka) Discard records after the specified number of retries. The default value is
+  infinite (-1). When set to infinite (-1), failed records are retried until the record
+  expires.
+
+- `"MetricsConfig"`: The metrics configuration for your event source. For more information,
+  see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
 
 - `"ParallelizationFactor"`: (Kinesis and DynamoDB Streams only) The number of batches to
   process from each shard concurrently.
+
+- `"ProvisionedPollerConfig"`: (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only)
+  The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
 
 - `"Queues"`: (MQ) The name of the Amazon MQ broker destination queue to consume.
 
@@ -486,6 +657,8 @@ window, you must create a new event source mapping.
 
 - `"StartingPositionTimestamp"`: With `StartingPosition` set to `AT_TIMESTAMP`, the time
   from which to start reading. `StartingPositionTimestamp` cannot be in the future.
+
+- `"Tags"`: A list of tags to apply to the event source mapping.
 
 - `"Topics"`: The name of the Kafka topic.
 
@@ -530,8 +703,8 @@ end
 Creates a Lambda function. To create a function, you need a [deployment package](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html)
 and an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role).
 The deployment package is a .zip file archive or container image that contains your function
-code. The execution role grants the function permission to use Amazon Web Services, such as
-Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
+code. The execution role grants the function permission to use Amazon Web Services services,
+such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
 
 If the deployment package is a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html),
 then you set the package type to `Image`. For a container image, the code property must
@@ -570,12 +743,13 @@ the code package has a valid signature from a trusted publisher. The code-signin
 configuration includes set of signing profiles, which define the trusted publishers for this
 function.
 
-If another Amazon Web Services account or an Amazon Web Service invokes your function, use [`add_permission`](@ref)
-to grant permission by creating a resource-based Identity and Access Management (IAM)
-policy. You can grant permissions at the function level, on a version, or on an alias.
+If another Amazon Web Services account or an Amazon Web Services service invokes your
+function, use [`add_permission`](@ref) to grant permission by creating a resource-based
+Identity and Access Management (IAM) policy. You can grant permissions at the function
+level, on a version, or on an alias.
 
 To invoke your function directly, use [`invoke`](@ref). To invoke your function in response
-to events in other Amazon Web Services, create an event source mapping ([`create_event_source_mapping`](@ref)),
+to events in other Amazon Web Services services, create an event source mapping ([`create_event_source_mapping`](@ref)),
 or configure a function trigger in the other service. For more information, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html).
 
 # Arguments
@@ -603,6 +777,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string array with one of the valid values (arm64 or x86_64). The default value is
   `x86_64`.
 
+- `"CapacityProviderConfig"`: Configuration for the capacity provider that manages compute
+  resources for Lambda functions.
+
 - `"CodeSigningConfigArn"`: To enable code signing for this function, specify the ARN of a
   code-signing configuration. A code-signing configuration includes a set of signing
   profiles, which define the trusted publishers for this function.
@@ -613,13 +790,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the function.
 
+- `"DurableConfig"`: Configuration settings for durable functions. Enables creating
+  functions with durability that can remember their state and continue execution even after
+  interruptions.
+
 - `"Environment"`: Environment variables that are accessible from function code during
   execution.
 
 - `"EphemeralStorage"`: The size of the function's `/tmp` directory in MB. The default value
   is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 
-- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
+- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system or an Amazon S3
+  Files file system.
 
 - `"Handler"`: The name of the method within your code that Lambda calls to run your
   function. Handler is required if the deployment package is a .zip file archive. The format
@@ -630,13 +812,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that override the values in the container image Dockerfile.
 
 - `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
-  used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
-  When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html)
-  is activated, Lambda also uses this key is to encrypt your function's snapshot. If you
-  deploy your function using a container image, Lambda also uses this key to encrypt your
-  function when it's deployed. Note that this is not the same key that's used to protect
-  your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't
-  provide a customer managed key, Lambda uses a default service key.
+  used to encrypt the following resources:
+
+  - The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+  - The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html)
+    snapshots.
+  - When used with `SourceKMSKeyArn`, the unzipped version of the .zip deployment package
+    that's used for function invocations. For more information, see [Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+  - The optimized version of the container image that's used for function invocations. Note
+    that this is not the same key that's used to protect your container image in the Amazon
+    Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+
+  If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk)
+  or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
 - `"Layers"`: A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)
   to add to the function's execution environment. Specify each layer by its ARN, including
@@ -653,16 +841,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Publish"`: Set to true to publish the first version of the function during creation.
 
-- `"Runtime"`: The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
-  Runtime is required if the deployment package is a .zip file archive.
+- `"PublishTo"`: Specifies where to publish the function version or configuration.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+- `"Runtime"`: The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
+  Runtime is required if the deployment package is a .zip file archive. Specifying a runtime
+  results in an error if you're deploying a function using a container image.
+
+  The following list includes deprecated runtimes. Lambda blocks creating new functions and
+  updating existing functions shortly after each runtime is deprecated. For more
+  information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
 
 - `"SnapStart"`: The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html)
   setting.
 
 - `"Tags"`: A list of [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to
   apply to the function.
+
+- `"TenancyConfig"`: Configuration for multi-tenant applications that use Lambda functions.
+  Defines tenant isolation settings and resource allocations. Required for functions
+  supporting multiple tenants.
 
 - `"Timeout"`: The amount of time (in seconds) that Lambda allows a function to run before
   stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more
@@ -724,7 +923,7 @@ a dedicated HTTP(S) endpoint that you can use to invoke your function.
 
 - `auth_type`: The type of authentication that your function URL uses. Set to `AWS_IAM` if
   you want to restrict access to authenticated users only. Set to `NONE` if you want to
-  bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+  bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
 
 - `function_name`: The name or ARN of the Lambda function.
 
@@ -751,7 +950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     maximum payload size is 6 MB.
   - `RESPONSE_STREAM` – Your function streams payload results as they become available.
     Lambda invokes your function using the `InvokeWithResponseStream` API operation. The
-    maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    maximum response payload size is 200 MB.
 
 - `"Qualifier"`: The alias name.
 """
@@ -829,6 +1028,44 @@ function delete_alias(
     return lambda(
         "DELETE",
         "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_capacity_provider(capacity_provider_name)
+    delete_capacity_provider(capacity_provider_name, params::Dict{String,<:Any})
+
+Deletes a capacity provider. You cannot delete a capacity provider that is currently being
+used by Lambda functions.
+
+# Arguments
+
+- `capacity_provider_name`: The name of the capacity provider to delete.
+"""
+function delete_capacity_provider end
+
+function delete_capacity_provider(
+    CapacityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "DELETE",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_capacity_provider(
+    CapacityProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "DELETE",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -921,9 +1158,13 @@ Deletes a Lambda function. To delete a specific function version, use the `Quali
 parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to
 have explicit permissions for [`delete_alias`](@ref).
 
+!!! note
+    A deleted Lambda function cannot be recovered. Ensure that you specify the correct
+    function name and version before deleting.
+
 To delete Lambda event source mappings that invoke a function, use [`delete_event_source_mapping`](@ref).
-For Amazon Web Services and resources that invoke your function directly, delete the trigger
-in the service where you originally configured it.
+For Amazon Web Services services and resources that invoke your function directly, delete
+the trigger in the service where you originally configured it.
 
 # Arguments
 
@@ -1339,6 +1580,44 @@ function get_alias(
 end
 
 """
+    get_capacity_provider(capacity_provider_name)
+    get_capacity_provider(capacity_provider_name, params::Dict{String,<:Any})
+
+Retrieves information about a specific capacity provider, including its configuration,
+state, and associated resources.
+
+# Arguments
+
+- `capacity_provider_name`: The name of the capacity provider to retrieve.
+"""
+function get_capacity_provider end
+
+function get_capacity_provider(
+    CapacityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_capacity_provider(
+    CapacityProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_code_signing_config(code_signing_config_arn)
     get_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
@@ -1371,6 +1650,167 @@ function get_code_signing_config(
         "GET",
         "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_durable_execution(durable_execution_arn)
+    get_durable_execution(durable_execution_arn, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html),
+including its current status, input payload, result or error information, and execution
+metadata such as start time and usage statistics.
+
+# Arguments
+
+- `durable_execution_arn`: The Amazon Resource Name (ARN) of the durable execution.
+"""
+function get_durable_execution end
+
+function get_durable_execution(
+    DurableExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_durable_execution(
+    DurableExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_durable_execution_history(durable_execution_arn)
+    get_durable_execution_history(durable_execution_arn, params::Dict{String,<:Any})
+
+Retrieves the execution history for a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html),
+showing all the steps, callbacks, and events that occurred during the execution. This
+provides a detailed audit trail of the execution's progress over time.
+
+The history is available while the execution is running and for a retention period after it
+completes (1-90 days, default 30 days). You can control whether to include execution data
+such as step results and callback payloads.
+
+# Arguments
+
+- `durable_execution_arn`: The Amazon Resource Name (ARN) of the durable execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeExecutionData"`: Specifies whether to include execution data such as step results
+  and callback payloads in the history events. Set to `true` to include data, or `false` to
+  exclude it for a more compact response. The default is `true`.
+- `"Marker"`: If `NextMarker` was returned from a previous request, use this value to
+  retrieve the next page of results. Each pagination token expires after 24 hours.
+- `"MaxItems"`: The maximum number of history events to return per call. You can use
+  `Marker` to retrieve additional pages of results. The default is 100 and the maximum
+  allowed is 1000. A value of 0 uses the default.
+- `"ReverseOrder"`: When set to `true`, returns the history events in reverse chronological
+  order (newest first). By default, events are returned in chronological order (oldest
+  first).
+"""
+function get_durable_execution_history end
+
+function get_durable_execution_history(
+    DurableExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/history";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_durable_execution_history(
+    DurableExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/history",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_durable_execution_state(checkpoint_token, durable_execution_arn)
+    get_durable_execution_state(checkpoint_token, durable_execution_arn, params::Dict{String,<:Any})
+
+Retrieves the current execution state required for the replay process during [durable function](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html)
+execution. This API is used by the Lambda durable functions SDK to get state information
+needed for replay. You typically don't need to call this API directly as the SDK handles
+state management automatically.
+
+The response contains operations ordered by start sequence number in ascending order.
+Completed operations with children don't include child operation details since they don't
+need to be replayed.
+
+# Arguments
+
+- `checkpoint_token`: A checkpoint token that identifies the current state of the execution.
+  This token is provided by the Lambda runtime and ensures that state retrieval is
+  consistent with the current execution context.
+- `durable_execution_arn`: The Amazon Resource Name (ARN) of the durable execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: If `NextMarker` was returned from a previous request, use this value to
+  retrieve the next page of operations. Each pagination token expires after 24 hours.
+- `"MaxItems"`: The maximum number of operations to return per call. You can use `Marker` to
+  retrieve additional pages of results. The default is 100 and the maximum allowed is 1000.
+  A value of 0 uses the default.
+"""
+function get_durable_execution_state end
+
+function get_durable_execution_state(
+    CheckpointToken, DurableExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/state",
+        Dict{String,Any}("CheckpointToken" => CheckpointToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_durable_execution_state(
+    CheckpointToken,
+    DurableExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/state",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CheckpointToken" => CheckpointToken), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1664,6 +2104,87 @@ function get_function_event_invoke_config(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_function_recursion_config(function_name)
+    get_function_recursion_config(function_name, params::Dict{String,<:Any})
+
+Returns your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html)
+configuration.
+
+# Arguments
+
+- `function_name`: The name of the function.
+"""
+function get_function_recursion_config end
+
+function get_function_recursion_config(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_function_recursion_config(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_function_scaling_config(function_name, qualifier)
+    get_function_scaling_config(function_name, qualifier, params::Dict{String,<:Any})
+
+Retrieves the scaling configuration for a Lambda Managed Instances function.
+
+# Arguments
+
+- `function_name`: The name or ARN of the Lambda function.
+- `qualifier`: Specify a version or alias to get the scaling configuration for a published
+  version of the function.
+"""
+function get_function_scaling_config end
+
+function get_function_scaling_config(
+    FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/functions/$(FunctionName)/function-scaling-config",
+        Dict{String,Any}("Qualifier" => Qualifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_function_scaling_config(
+    FunctionName,
+    Qualifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/functions/$(FunctionName)/function-scaling-config",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2007,6 +2528,9 @@ the`InvocationType` is `RequestResponse`). To invoke a function asynchronously, 
 `InvocationType` to `Event`. Lambda passes the `ClientContext` object to your function for
 synchronous invocations only.
 
+For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations,
+the maximum payload size is 1 MB.
+
 For [synchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html),
 details about the function response, including errors, are included in the response body and
 headers. For either invocation type, you can find more information in the [execution log](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html)
@@ -2055,7 +2579,9 @@ action. For details on how to set up permissions for cross-account invocations, 
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Payload"`: The JSON that you want to provide to your Lambda function as input.
+- `"Payload"`: The JSON that you want to provide to your Lambda function as input. The
+  maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous
+  invocations.
 
   You can enter the JSON directly. For example, `--payload '{ "key": "value" }'`. You can
   also specify a file path. For example, `--payload file://payload.json`.
@@ -2065,6 +2591,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Client-Context"`: Up to 3,583 bytes of base64-encoded data about the invoking
   client to pass to the function in the context object. Lambda passes the `ClientContext`
   object to your function for synchronous invocations only.
+
+- `"X-Amz-Durable-Execution-Name"`: Optional unique name for the durable execution. When you
+  start your special function, you can give it a unique name to identify this specific
+  execution. It's like giving a nickname to a task.
 
 - `"X-Amz-Invocation-Type"`: Choose from the following options.
 
@@ -2079,6 +2609,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Log-Type"`: Set to `Tail` to include the execution log in the response. Applies to
   synchronously invoked functions only.
+
+- `"X-Amz-Tenant-Id"`: The identifier of the tenant in a multi-tenant Lambda function.
 """
 function invoke end
 
@@ -2109,10 +2641,13 @@ end
     invoke_async(function_name, invoke_args)
     invoke_async(function_name, invoke_args, params::Dict{String,<:Any})
 
-!!! important
+!!! note
     For asynchronous function invocation, use [`invoke`](@ref).
 
 Invokes a function asynchronously.
+
+!!! note
+    The payload limit is 256KB. For larger payloads, for up to 1MB, use [`invoke`](@ref).
 
 !!! note
     If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray
@@ -2212,6 +2747,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Log-Type"`: Set to `Tail` to include the execution log in the response. Applies to
   synchronously invoked functions only.
+
+- `"X-Amz-Tenant-Id"`: The identifier of the tenant in a multi-tenant Lambda function.
 """
 function invoke_with_response_stream end
 
@@ -2296,6 +2833,41 @@ function list_aliases(
 end
 
 """
+    list_capacity_providers()
+    list_capacity_providers(params::Dict{String,<:Any})
+
+Returns a list of capacity providers in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Specify the pagination token that's returned by a previous request to retrieve
+  the next page of results.
+- `"MaxItems"`: The maximum number of capacity providers to return.
+- `"State"`: Filter capacity providers by their current state.
+"""
+function list_capacity_providers end
+
+function list_capacity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lambda(
+        "GET", "/2025-11-30/capacity-providers"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_capacity_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/capacity-providers",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_code_signing_configs()
     list_code_signing_configs(params::Dict{String,<:Any})
 
@@ -2328,6 +2900,63 @@ function list_code_signing_configs(
     return lambda(
         "GET",
         "/2020-04-22/code-signing-configs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_durable_executions_by_function(function_name)
+    list_durable_executions_by_function(function_name, params::Dict{String,<:Any})
+
+Returns a list of [durable executions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html)
+for a specified Lambda function. You can filter the results by execution name, status, and
+start time range. This API supports pagination for large result sets.
+
+# Arguments
+
+- `function_name`: The name or ARN of the Lambda function. You can specify a function name,
+  a partial ARN, or a full ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DurableExecutionName"`: Filter executions by name. Only executions with names that
+  matches this string are returned.
+- `"Marker"`: Pagination token from a previous request to continue retrieving results.
+- `"MaxItems"`: Maximum number of executions to return (1-1000). Default is 100.
+- `"Qualifier"`: The function version or alias. If not specified, lists executions for the
+  \$LATEST version.
+- `"ReverseOrder"`: Set to true to return results in reverse chronological order (newest
+  first). Default is false.
+- `"StartedAfter"`: Filter executions that started after this timestamp (ISO 8601 format).
+- `"StartedBefore"`: Filter executions that started before this timestamp (ISO 8601 format).
+- `"Statuses"`: Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED,
+  TIMED_OUT, STOPPED.
+"""
+function list_durable_executions_by_function end
+
+function list_durable_executions_by_function(
+    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/functions/$(FunctionName)/durable-executions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_durable_executions_by_function(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-12-01/functions/$(FunctionName)/durable-executions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2510,6 +3139,51 @@ function list_function_url_configs(
 end
 
 """
+    list_function_versions_by_capacity_provider(capacity_provider_name)
+    list_function_versions_by_capacity_provider(capacity_provider_name, params::Dict{String,<:Any})
+
+Returns a list of function versions that are configured to use a specific capacity provider.
+
+# Arguments
+
+- `capacity_provider_name`: The name of the capacity provider to list function versions for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Specify the pagination token that's returned by a previous request to retrieve
+  the next page of results.
+- `"MaxItems"`: The maximum number of function versions to return in the response.
+"""
+function list_function_versions_by_capacity_provider end
+
+function list_function_versions_by_capacity_provider(
+    CapacityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)/function-versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_function_versions_by_capacity_provider(
+    CapacityProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "GET",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)/function-versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_functions()
     list_functions(params::Dict{String,<:Any})
 
@@ -2625,9 +3299,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CompatibleArchitecture"`: The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 
-- `"CompatibleRuntime"`: A runtime identifier. For example, `java21`.
+- `"CompatibleRuntime"`: A runtime identifier.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+  The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
 
 - `"Marker"`: A pagination token returned by a previous call.
 
@@ -2673,9 +3349,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CompatibleArchitecture"`: The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 
-- `"CompatibleRuntime"`: A runtime identifier. For example, `java21`.
+- `"CompatibleRuntime"`: A runtime identifier.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+  The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
 
 - `"Marker"`: A pagination token returned by a previous call.
 
@@ -2753,13 +3431,13 @@ end
     list_tags(resource)
     list_tags(resource, params::Dict{String,<:Any})
 
-Returns a function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You
-can also view tags with [`get_function`](@ref).
+Returns a function, event source mapping, or code signing configuration's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html).
+You can also view function tags with [`get_function`](@ref).
 
 # Arguments
 
-- `resource`: The function's Amazon Resource Name (ARN). Note: Lambda does not support
-  adding tags to aliases or versions.
+- `resource`: The resource's Amazon Resource Name (ARN). Note: Lambda does not support
+  adding tags to function aliases or versions.
 """
 function list_tags end
 
@@ -2940,6 +3618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output of `UpdateFunctionCode`.
 - `"Description"`: A description for the version to override the description in the function
   configuration.
+- `"PublishTo"`: Specifies where to publish the function version or configuration.
 - `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid publishing a version if the function configuration has
   changed since you last updated it.
@@ -3114,10 +3793,14 @@ error. It retains events in a queue for up to six hours. When an event fails all
 attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To
 retain discarded events, configure a dead-letter queue with [`update_function_configuration`](@ref).
 
-To send an invocation record to a queue, topic, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations).
+To send an invocation record to a queue, topic, S3 bucket, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations).
 You can configure separate destinations for successful invocations (on-success) and events
 that fail all processing attempts (on-failure). You can configure destinations in addition
 to or instead of a dead-letter queue.
+
+!!! note
+    S3 buckets are supported only for on-failure destinations. To retain records of
+    successful invocations, use another destination type.
 
 # Arguments
 
@@ -3144,8 +3827,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - **Function** - The Amazon Resource Name (ARN) of a Lambda function.
   - **Queue** - The ARN of a standard SQS queue.
+  - **Bucket** - The ARN of an Amazon S3 bucket.
   - **Topic** - The ARN of a standard SNS topic.
   - **Event Bus** - The ARN of an Amazon EventBridge event bus.
+
+  !!! note
+      S3 buckets are supported only for on-failure destinations. To retain records of
+      successful invocations, use another destination type.
 
 - `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a function
   for processing.
@@ -3177,6 +3865,140 @@ function put_function_event_invoke_config(
         "PUT",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_function_recursion_config(function_name, recursive_loop)
+    put_function_recursion_config(function_name, recursive_loop, params::Dict{String,<:Any})
+
+Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html)
+configuration.
+
+When you configure a Lambda function to output to the same service or resource that invokes
+the function, it's possible to create an infinite recursive loop. For example, a Lambda
+function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which
+then invokes the same function. This invocation causes the function to write another message
+to the queue, which in turn invokes the function again.
+
+Lambda can detect certain types of recursive loops shortly after they occur. When Lambda
+detects a recursive loop and your function's recursive loop detection configuration is set
+to `Terminate`, it stops your function being invoked and notifies you.
+
+# Arguments
+
+- `function_name`: The name or ARN of the Lambda function.
+
+  ## Name formats
+
+  - **Function name** – `my-function`.
+  - **Function ARN** – `arn:aws:lambda:us-west-2:123456789012:function:my-function`.
+  - **Partial ARN** – `123456789012:function:my-function`.
+
+  The length constraint applies only to the full ARN. If you specify only the function name,
+  it is limited to 64 characters in length.
+
+- `recursive_loop`: If you set your function's recursive loop detection configuration to
+  `Allow`, Lambda doesn't take any action when it detects your function being invoked as
+  part of a recursive loop. We recommend that you only use this setting if your design
+  intentionally uses a Lambda function to write data back to the same Amazon Web Services
+  resource that invokes it.
+
+  If you set your function's recursive loop detection configuration to `Terminate`, Lambda
+  stops your function being invoked and notifies you when it detects your function being
+  invoked as part of a recursive loop.
+
+  By default, Lambda sets your function's configuration to `Terminate`.
+
+  !!! important
+      If your design intentionally uses a Lambda function to write data back to the same
+      Amazon Web Services resource that invokes the function, then use caution and implement
+      suitable guard rails to prevent unexpected charges being billed to your Amazon Web
+      Services account. To learn more about best practices for using recursive invocation
+      patterns, see [Recursive patterns that cause run-away Lambda functions](https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway)
+      in Serverless Land.
+"""
+function put_function_recursion_config end
+
+function put_function_recursion_config(
+    FunctionName, RecursiveLoop; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config",
+        Dict{String,Any}("RecursiveLoop" => RecursiveLoop);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_function_recursion_config(
+    FunctionName,
+    RecursiveLoop,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2024-08-31/functions/$(FunctionName)/recursion-config",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RecursiveLoop" => RecursiveLoop), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_function_scaling_config(function_name, qualifier)
+    put_function_scaling_config(function_name, qualifier, params::Dict{String,<:Any})
+
+Sets the scaling configuration for a Lambda Managed Instances function. The scaling
+configuration defines the minimum and maximum number of execution environments that can be
+provisioned for the function, allowing you to control scaling behavior and resource
+allocation.
+
+# Arguments
+
+- `function_name`: The name or ARN of the Lambda function.
+- `qualifier`: Specify a version or alias to set the scaling configuration for a published
+  version of the function.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FunctionScalingConfig"`: The scaling configuration to apply to the function, including
+  minimum and maximum execution environment limits.
+"""
+function put_function_scaling_config end
+
+function put_function_scaling_config(
+    FunctionName, Qualifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2025-11-30/functions/$(FunctionName)/function-scaling-config",
+        Dict{String,Any}("Qualifier" => Qualifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_function_scaling_config(
+    FunctionName,
+    Qualifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2025-11-30/functions/$(FunctionName)/function-scaling-config",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Qualifier" => Qualifier), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3390,8 +4212,8 @@ end
     remove_permission(function_name, statement_id)
     remove_permission(function_name, statement_id, params::Dict{String,<:Any})
 
-Revokes function-use permission from an Amazon Web Service or another Amazon Web Services
-account. You can get the ID of the statement from the output of [`get_policy`](@ref).
+Revokes function-use permission from an Amazon Web Services service or another Amazon Web
+Services account. You can get the ID of the statement from the output of [`get_policy`](@ref).
 
 # Arguments
 
@@ -3447,15 +4269,188 @@ function remove_permission(
 end
 
 """
-    tag_resource(resource, tags)
-    tag_resource(resource, tags, params::Dict{String,<:Any})
+    send_durable_execution_callback_failure(callback_id)
+    send_durable_execution_callback_failure(callback_id, params::Dict{String,<:Any})
 
-Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function.
+Sends a failure response for a callback operation in a durable execution. Use this API when
+an external system cannot complete a callback operation successfully.
 
 # Arguments
 
-- `resource`: The function's Amazon Resource Name (ARN).
-- `tags`: A list of tags to apply to the function.
+- `callback_id`: The unique identifier for the callback operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Error"`: Error details describing why the callback operation failed.
+"""
+function send_durable_execution_callback_failure end
+
+function send_durable_execution_callback_failure(
+    CallbackId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/fail";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_durable_execution_callback_failure(
+    CallbackId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/fail",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_durable_execution_callback_heartbeat(callback_id)
+    send_durable_execution_callback_heartbeat(callback_id, params::Dict{String,<:Any})
+
+Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this
+API to extend the callback timeout period while the external operation is still in progress.
+
+# Arguments
+
+- `callback_id`: The unique identifier for the callback operation.
+"""
+function send_durable_execution_callback_heartbeat end
+
+function send_durable_execution_callback_heartbeat(
+    CallbackId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/heartbeat";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_durable_execution_callback_heartbeat(
+    CallbackId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/heartbeat",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_durable_execution_callback_success(callback_id)
+    send_durable_execution_callback_success(callback_id, params::Dict{String,<:Any})
+
+Sends a successful completion response for a callback operation in a durable execution. Use
+this API when an external system has successfully completed a callback operation.
+
+# Arguments
+
+- `callback_id`: The unique identifier for the callback operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Result"`: The result data from the successful callback operation. Maximum size is 256
+  KB.
+"""
+function send_durable_execution_callback_success end
+
+function send_durable_execution_callback_success(
+    CallbackId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/succeed";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_durable_execution_callback_success(
+    CallbackId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-execution-callbacks/$(CallbackId)/succeed",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_durable_execution(durable_execution_arn)
+    stop_durable_execution(durable_execution_arn, params::Dict{String,<:Any})
+
+Stops a running [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+The execution transitions to STOPPED status and cannot be resumed. Any in-progress
+operations are terminated.
+
+# Arguments
+
+- `durable_execution_arn`: The Amazon Resource Name (ARN) of the durable execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Error"`: Optional error details explaining why the execution is being stopped.
+"""
+function stop_durable_execution end
+
+function stop_durable_execution(
+    DurableExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_durable_execution(
+    DurableExecutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2025-12-01/durable-executions/$(DurableExecutionArn)/stop",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource, tags)
+    tag_resource(resource, tags, params::Dict{String,<:Any})
+
+Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function, event
+source mapping, or code signing configuration.
+
+# Arguments
+
+- `resource`: The resource's Amazon Resource Name (ARN).
+- `tags`: A list of tags to apply to the resource.
 """
 function tag_resource end
 
@@ -3488,12 +4483,13 @@ end
     untag_resource(resource, tag_keys)
     untag_resource(resource, tag_keys, params::Dict{String,<:Any})
 
-Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function.
+Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function,
+event source mapping, or code signing configuration.
 
 # Arguments
 
-- `resource`: The function's Amazon Resource Name (ARN).
-- `tag_keys`: A list of tag keys to remove from the function.
+- `resource`: The resource's Amazon Resource Name (ARN).
+- `tag_keys`: A list of tag keys to remove from the resource.
 """
 function untag_resource end
 
@@ -3585,6 +4581,50 @@ function update_alias(
 end
 
 """
+    update_capacity_provider(capacity_provider_name)
+    update_capacity_provider(capacity_provider_name, params::Dict{String,<:Any})
+
+Updates the configuration of an existing capacity provider.
+
+# Arguments
+
+- `capacity_provider_name`: The name of the capacity provider to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CapacityProviderScalingConfig"`: The updated scaling configuration for the capacity
+  provider.
+"""
+function update_capacity_provider end
+
+function update_capacity_provider(
+    CapacityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lambda(
+        "PUT",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_capacity_provider(
+    CapacityProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lambda(
+        "PUT",
+        "/2025-11-30/capacity-providers/$(CapacityProviderName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_code_signing_config(code_signing_config_arn)
     update_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
@@ -3648,18 +4688,22 @@ For details about how to configure different event sources, see the following to
 - [Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html)
 - [Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
 
-The following error handling options are available only for stream sources (DynamoDB and
-Kinesis):
+The following error handling options are available for stream sources (DynamoDB, Kinesis,
+Amazon MSK, and self-managed Apache Kafka):
 
 - `BisectBatchOnFunctionError` – If the function returns an error, split the batch in two
   and retry.
-- `DestinationConfig` – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
 - `MaximumRecordAgeInSeconds` – Discard records older than the specified age. The default
   value is infinite (-1). When set to infinite (-1), failed records are retried until the
   record expires
 - `MaximumRetryAttempts` – Discard records after the specified number of retries. The
   default value is infinite (-1). When set to infinite (-1), failed records are retried
   until the record expires.
+- `OnFailure` – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka
+  topic, or Amazon S3 bucket. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
+
+The following option is available only for DynamoDB and Kinesis event sources:
+
 - `ParallelizationFactor` – Process multiple batches from each shard concurrently.
 
 For information about which configuration parameters apply to each event source, see the
@@ -3681,6 +4725,8 @@ following topics.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AmazonManagedKafkaEventSourceConfig"`:
+
 - `"BatchSize"`: The maximum number of records in each batch that Lambda pulls from your
   stream or queue and sends to your function. Lambda passes all of the records in the batch
   to the function in a single call, up to the payload limit for synchronous invocation (6
@@ -3695,11 +4741,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **Amazon MQ (ActiveMQ and RabbitMQ)** – Default 100. Max 10,000.
   - **DocumentDB** – Default 100. Max 10,000.
 
-- `"BisectBatchOnFunctionError"`: (Kinesis and DynamoDB Streams only) If the function
-  returns an error, split the batch in two and retry.
+- `"BisectBatchOnFunctionError"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed
+  Apache Kafka) If the function returns an error, split the batch in two and retry.
 
-- `"DestinationConfig"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka
-  only) A configuration object that specifies the destination of an event after Lambda
+- `"DestinationConfig"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache
+  Kafka) A configuration object that specifies the destination of an event after Lambda
   processes it.
 
 - `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
@@ -3726,36 +4772,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The length constraint applies only to the full ARN. If you specify only the function name,
   it's limited to 64 characters in length.
 
-- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
-  response type enums applied to the event source mapping.
+- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache
+  Kafka, and Amazon SQS) A list of current response type enums applied to the event source
+  mapping.
+
+- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that
+  Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+  By default, Lambda does not encrypt your filter criteria object. Specify this property to
+  encrypt data using your own customer managed key.
+
+- `"LoggingConfig"`:
 
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   `MaximumBatchingWindowInSeconds` to any value from 0 seconds to 300 seconds in increments
   of seconds.
 
-  For streams and Amazon SQS event sources, the default batching window is 0 seconds. For
-  Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the
-  default batching window is 500 ms. Note that because you can only change
+  For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0
+  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
+  sources, the default batching window is 500 ms. Note that because you can only change
   `MaximumBatchingWindowInSeconds` in increments of seconds, you cannot revert back to the
   500 ms default batching window after you have changed it. To restore the default batching
 window, you must create a new event source mapping.
 
-  Related setting: For streams and Amazon SQS event sources, when you set `BatchSize` to a
-  value greater than 10, you must set `MaximumBatchingWindowInSeconds` to at least 1.
+  Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set
+  `BatchSize` to a value greater than 10, you must set `MaximumBatchingWindowInSeconds` to
+  at least 1.
 
-- `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
-  than the specified age. The default value is infinite (-1).
+- `"MaximumRecordAgeInSeconds"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed
+  Apache Kafka) Discard records older than the specified age. The default value is infinite
+  (-1).
 
-- `"MaximumRetryAttempts"`: (Kinesis and DynamoDB Streams only) Discard records after the
-  specified number of retries. The default value is infinite (-1). When set to infinite (-
-  1), failed records are retried until the record expires.
+- `"MaximumRetryAttempts"`: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache
+  Kafka) Discard records after the specified number of retries. The default value is
+  infinite (-1). When set to infinite (-1), failed records are retried until the record
+  expires.
+
+- `"MetricsConfig"`: The metrics configuration for your event source. For more information,
+  see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
 
 - `"ParallelizationFactor"`: (Kinesis and DynamoDB Streams only) The number of batches to
   process from each shard concurrently.
 
+- `"ProvisionedPollerConfig"`: (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only)
+  The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+
 - `"ScalingConfig"`: (Amazon SQS only) The scaling configuration for the event source. For
   more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+
+- `"SelfManagedKafkaEventSourceConfig"`:
 
 - `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
   required to secure your event source.
@@ -3841,6 +4906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   function defined with a .zip file archive.
 - `"Publish"`: Set to true to publish a new version of the function after updating the code.
   This has the same effect as calling `PublishVersion` separately.
+- `"PublishTo"`: Specifies where to publish the function version or configuration.
 - `"RevisionId"`: Update the function only if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
@@ -3851,6 +4917,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with a .zip file archive deployment package.
 - `"S3ObjectVersion"`: For versioned objects, the version of the deployment package object
   to use.
+- `"SourceKMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key
+  that's used to encrypt your function's .zip deployment package. If you don't provide a
+  customer managed key, Lambda uses an Amazon Web Services managed key.
 - `"ZipFile"`: The base64-encoded contents of the deployment package. Amazon Web Services
   SDK and CLI clients handle the encoding for you. Use only with a function defined with a
   .zip file archive deployment package.
@@ -3900,7 +4969,7 @@ version. You can't modify the configuration of a published version, only the unp
 version.
 
 To configure function concurrency, use [`put_function_concurrency`](@ref). To grant invoke
-permissions to an Amazon Web Services account or Amazon Web Service, use [`add_permission`](@ref).
+permissions to an Amazon Web Services account or Amazon Web Services service, use [`add_permission`](@ref).
 
 # Arguments
 
@@ -3919,11 +4988,17 @@ permissions to an Amazon Web Services account or Amazon Web Service, use [`add_p
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"CapacityProviderConfig"`: Configuration for the capacity provider that manages compute
+  resources for Lambda functions.
+
 - `"DeadLetterConfig"`: A dead-letter queue configuration that specifies the queue or topic
   where Lambda sends asynchronous events when they fail processing. For more information,
   see [Dead-letter queues](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
 
 - `"Description"`: A description of the function.
+
+- `"DurableConfig"`: Configuration settings for durable functions. Allows updating execution
+  timeout and retention period for functions with durability enabled.
 
 - `"Environment"`: Environment variables that are accessible from function code during
   execution.
@@ -3931,7 +5006,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EphemeralStorage"`: The size of the function's `/tmp` directory in MB. The default value
   is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
 
-- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
+- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system or an Amazon S3
+  Files file system.
 
 - `"Handler"`: The name of the method within your code that Lambda calls to run your
   function. Handler is required if the deployment package is a .zip file archive. The format
@@ -3942,13 +5018,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that override the values in the container image Docker file.
 
 - `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
-  used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
-  When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html)
-  is activated, Lambda also uses this key is to encrypt your function's snapshot. If you
-  deploy your function using a container image, Lambda also uses this key to encrypt your
-  function when it's deployed. Note that this is not the same key that's used to protect
-  your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't
-  provide a customer managed key, Lambda uses a default service key.
+  used to encrypt the following resources:
+
+  - The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+  - The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html)
+    snapshots.
+  - When used with `SourceKMSKeyArn`, the unzipped version of the .zip deployment package
+    that's used for function invocations. For more information, see [Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+  - The optimized version of the container image that's used for function invocations. Note
+    that this is not the same key that's used to protect your container image in the Amazon
+    Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+
+  If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk)
+  or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
 - `"Layers"`: A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)
   to add to the function's execution environment. Specify each layer by its ARN, including
@@ -3967,9 +5049,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
 
 - `"Runtime"`: The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
-  Runtime is required if the deployment package is a .zip file archive.
+  Runtime is required if the deployment package is a .zip file archive. Specifying a runtime
+  results in an error if you're deploying a function using a container image.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+  The following list includes deprecated runtimes. Lambda blocks creating new functions and
+  updating existing functions shortly after each runtime is deprecated. For more
+  information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
 
 - `"SnapStart"`: The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html)
   setting.
@@ -4045,8 +5132,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - **Function** - The Amazon Resource Name (ARN) of a Lambda function.
   - **Queue** - The ARN of a standard SQS queue.
+  - **Bucket** - The ARN of an Amazon S3 bucket.
   - **Topic** - The ARN of a standard SNS topic.
   - **Event Bus** - The ARN of an Amazon EventBridge event bus.
+
+  !!! note
+      S3 buckets are supported only for on-failure destinations. To retain records of
+      successful invocations, use another destination type.
 
 - `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a function
   for processing.
@@ -4108,7 +5200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AuthType"`: The type of authentication that your function URL uses. Set to `AWS_IAM` if
   you want to restrict access to authenticated users only. Set to `NONE` if you want to
-  bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+  bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
 
 - `"Cors"`: The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
   settings for your function URL.
@@ -4120,7 +5212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     maximum payload size is 6 MB.
   - `RESPONSE_STREAM` – Your function streams payload results as they become available.
     Lambda invokes your function using the `InvokeWithResponseStream` API operation. The
-    maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    maximum response payload size is 200 MB.
 
 - `"Qualifier"`: The alias name.
 """

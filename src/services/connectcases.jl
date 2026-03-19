@@ -5,6 +5,49 @@ using AWS.AWSServices: connectcases
 using AWS.UUIDs: uuid4
 
 """
+    batch_get_case_rule(case_rules, domain_id)
+    batch_get_case_rule(case_rules, domain_id, params::Dict{String,<:Any})
+
+Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as
+*case field conditions*. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+
+# Arguments
+
+- `case_rules`: A list of case rule identifiers.
+- `domain_id`: Unique identifier of a Cases domain.
+"""
+function batch_get_case_rule end
+
+function batch_get_case_rule(
+    caseRules, domainId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/rules-batch",
+        Dict{String,Any}("caseRules" => caseRules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_case_rule(
+    caseRules,
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/rules-batch",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("caseRules" => caseRules), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_field(domain_id, fields)
     batch_get_field(domain_id, fields, params::Dict{String,<:Any})
 
@@ -97,6 +140,9 @@ end
 Creates a case in the specified Cases domain. Case system and custom fields are taken as an
 array id/value pairs with a declared data types.
 
+When creating a case from a template that has tag propagation configurations, the specified
+tags are automatically applied to the case.
+
 The following fields are required when creating a case:
 
 - `customer_id` - You must provide the full customer profile ARN in this format:
@@ -118,6 +164,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"performedBy"`:
+- `"tags"`: A map of of key-value pairs that represent tags on a resource. Tags are used to
+  organize, track, or control access for this resource.
 """
 function create_case end
 
@@ -155,6 +203,57 @@ function create_case(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_case_rule(domain_id, name, rule)
+    create_case_rule(domain_id, name, rule, params::Dict{String,<:Any})
+
+Creates a new case rule. In the Amazon Connect admin website, case rules are known as *case
+field conditions*. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+
+# Arguments
+
+- `domain_id`: Unique identifier of a Cases domain.
+- `name`: Name of the case rule.
+- `rule`: Represents what rule type should take place, under what conditions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of a case rule.
+"""
+function create_case_rule end
+
+function create_case_rule(
+    domainId, name, rule; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/case-rules",
+        Dict{String,Any}("name" => name, "rule" => rule);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_case_rule(
+    domainId,
+    name,
+    rule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/case-rules",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "rule" => rule), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -220,6 +319,7 @@ Creates a field in the Cases domain. This field is used to define the case objec
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"attributes"`: Union of field attributes.
 - `"description"`: The description of the field.
 """
 function create_field end
@@ -314,13 +414,34 @@ end
 
 Creates a related item (comments, tasks, and contacts) and associates it with a case.
 
-!!! note
-    - A Related Item is a resource that is associated with a case. It may or may not have an
-      external identifier linking it to an external resource (for example, a `contactArn`).
-      All Related Items have their own internal identifier, the `relatedItemArn`. Examples
-      of related items include `comments` and `contacts`.
-    - If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
-      permission on the ARN of the user that you provide.
+There's a quota for the number of fields allowed in a Custom type related item. See [Amazon Connect Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas).
+
+**Use cases**
+
+Following are examples of related items that you may want to associate with a case:
+
+- Related contacts, such as calls, chats, emails tasks
+- Comments, for agent notes
+- SLAs, to capture target resolution goals
+- Cases, to capture related Amazon Connect Cases
+- Files, such as policy documentation or customer-provided attachments
+- Custom related items, which provide flexibility for you to define related items that such
+  as bookings, orders, products, notices, and more
+
+**Important things to know**
+
+- If you are associating a contact to a case by passing in `Contact` for a `type`, you must
+  have [DescribeContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeContact.html)
+  permission on the ARN of the contact that you provide in `content.contact.contactArn`.
+- A Related Item is a resource that is associated with a case. It may or may not have an
+  external identifier linking it to an external resource (for example, a `contactArn`). All
+  Related Items have their own internal identifier, the `relatedItemArn`. Examples of
+  related items include `comments` and `contacts`.
+- If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+  permission on the ARN of the user that you provide.
+- The `type` field is reserved for internal use only.
+
+**Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
 
 # Arguments
 
@@ -381,6 +502,13 @@ IDs. Additionally, multiple fields with same IDs are not allowed within the same
 template can be either Active or Inactive, as indicated by its status. Inactive templates
 cannot be used to create cases.
 
+Other template APIs are:
+
+- [DeleteTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html)
+- [GetTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html)
+- [ListTemplates](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html)
+- [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
+
 # Arguments
 
 - `domain_id`: The unique identifier of the Cases domain.
@@ -394,7 +522,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"layoutConfiguration"`: Configuration of layouts associated to the template.
 - `"requiredFields"`: A list of fields that must contain a value for a case to be
   successfully created with this template.
+- `"rules"`: A list of case rules (also known as [case field conditions](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html))
+  on a template.
 - `"status"`: The status of the template.
+- `"tagPropagationConfigurations"`: Defines tag propagation configuration for resources
+  created within a domain. Tags specified here will be automatically applied to resources
+  being created for the specified resource type.
 """
 function create_template end
 
@@ -418,6 +551,91 @@ function create_template(
         "POST",
         "/domains/$(domainId)/templates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_case(case_id, domain_id)
+    delete_case(case_id, domain_id, params::Dict{String,<:Any})
+
+The DeleteCase API permanently deletes a case and all its associated resources from the
+cases data store. After a successful deletion, you cannot:
+
+- Retrieve related items
+- Access audit history
+- Perform any operations that require the CaseID
+
+!!! important
+    This action is irreversible. After you delete a case, you cannot recover its data.
+
+# Arguments
+
+- `case_id`: A unique identifier of the case.
+- `domain_id`: A unique identifier of the Cases domain.
+"""
+function delete_case end
+
+function delete_case(caseId, domainId; aws_config::AbstractAWSConfig=current_aws_config())
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/cases/$(caseId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_case(
+    caseId,
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/cases/$(caseId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_case_rule(case_rule_id, domain_id)
+    delete_case_rule(case_rule_id, domain_id, params::Dict{String,<:Any})
+
+Deletes a case rule. In the Amazon Connect admin website, case rules are known as *case
+field conditions*. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+
+# Arguments
+
+- `case_rule_id`: Unique identifier of a case rule.
+- `domain_id`: Unique identifier of a Cases domain.
+"""
+function delete_case_rule end
+
+function delete_case_rule(
+    caseRuleId, domainId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/case-rules/$(caseRuleId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_case_rule(
+    caseRuleId,
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/case-rules/$(caseRuleId)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -464,7 +682,7 @@ end
     delete_field(domain_id, field_id)
     delete_field(domain_id, field_id, params::Dict{String,<:Any})
 
-Deletes a field from a cases template. You can delete up to 100 fields per domain.
+Deletes a field from a cases template.
 
 After a field is deleted:
 
@@ -473,8 +691,9 @@ After a field is deleted:
   `ValidationException`.
 - Deleted fields are not included in the `ListFields` response.
 - Calling `CreateCase` with a deleted field throws a `ValidationException` denoting which
-  field IDs in the request have been deleted.
-- Calling `GetCase` with a deleted field ID returns the deleted field's value if one exists.
+  field identifiers in the request have been deleted.
+- Calling `GetCase` with a deleted field identifier returns the deleted field's value if one
+  exists.
 - Calling `UpdateCase` with a deleted field ID throws a `ValidationException` if the case
   does not already contain a value for the deleted field. Otherwise it succeeds, allowing
   you to update or remove (using `emptyValue: {}`) the field's value from the case.
@@ -558,6 +777,52 @@ function delete_layout(
     return connectcases(
         "DELETE",
         "/domains/$(domainId)/layouts/$(layoutId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_related_item(case_id, domain_id, related_item_id)
+    delete_related_item(case_id, domain_id, related_item_id, params::Dict{String,<:Any})
+
+Deletes the related item resource under a case.
+
+!!! note
+    This API cannot be used on a FILE type related attachment. To delete this type of file,
+    use the [DeleteAttachedFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteAttachedFile.html)
+    API
+
+# Arguments
+
+- `case_id`: A unique identifier of the case.
+- `domain_id`: A unique identifier of the Cases domain.
+- `related_item_id`: A unique identifier of a related item.
+"""
+function delete_related_item end
+
+function delete_related_item(
+    caseId, domainId, relatedItemId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/cases/$(caseId)/related-items/$(relatedItemId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_related_item(
+    caseId,
+    domainId,
+    relatedItemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)/cases/$(caseId)/related-items/$(relatedItemId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -674,8 +939,8 @@ Returns the audit history about a specific case if it exists.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of audit events to return. The current maximum
-  supported value is 25. This is also the default when no other value is provided.
+- `"maxResults"`: The maximum number of audit events to return. When no value is provided,
+  25 is the default.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -813,7 +1078,12 @@ end
     get_template(domain_id, template_id)
     get_template(domain_id, template_id, params::Dict{String,<:Any})
 
-Returns the details for the requested template.
+Returns the details for the requested template. Other template APIs are:
+
+- [CreateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html)
+- [DeleteTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html)
+- [ListTemplates](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html)
+- [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
 
 # Arguments
 
@@ -842,6 +1112,50 @@ function get_template(
     return connectcases(
         "POST",
         "/domains/$(domainId)/templates/$(templateId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_case_rules(domain_id)
+    list_case_rules(domain_id, params::Dict{String,<:Any})
+
+Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are
+known as *case field conditions*. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+
+# Arguments
+
+- `domain_id`: Unique identifier of a Cases domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_case_rules end
+
+function list_case_rules(domainId; aws_config::AbstractAWSConfig=current_aws_config())
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/rules-list/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_case_rules(
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/rules-list/",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1095,6 +1409,13 @@ end
 Lists all of the templates in a Cases domain. Each list item is a condensed summary object
 of the template.
 
+Other template APIs are:
+
+- [CreateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html)
+- [DeleteTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html)
+- [GetTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html)
+- [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
+
 # Arguments
 
 - `domain_id`: The unique identifier of the Cases domain.
@@ -1179,6 +1500,80 @@ function put_case_event_configuration(
 end
 
 """
+    search_all_related_items(domain_id)
+    search_all_related_items(domain_id, params::Dict{String,<:Any})
+
+Searches for related items across all cases within a domain. This is a global search
+operation that returns related items from multiple cases, unlike the case-specific [SearchRelatedItems](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchRelatedItems.html)
+API.
+
+**Use cases**
+
+Following are common uses cases for this API:
+
+- Find cases with similar issues across the domain. For example, search for all cases
+  containing comments about "product defect" to identify patterns and existing solutions.
+- Locate all cases associated with specific contacts or orders. For example, find all cases
+  linked to a contactArn to understand the complete customer journey.
+- Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA
+  status to prioritize remediation efforts.
+
+**Important things to know**
+
+- This API returns case identifiers, not complete case objects. To retrieve full case
+  details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html)
+  API for each returned case ID.
+- This API searches across related items content, not case fields. Use the [SearchCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchCases.html)
+  API to search within case field values.
+
+**Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+
+# Arguments
+
+- `domain_id`: The unique identifier of the Cases domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: The list of types of related items and their parameters to use for filtering.
+  The filters work as an OR condition: caller gets back related items that match any of the
+  specified filter types.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"sorts"`: A structured set of sort terms to specify the order in which related items
+  should be returned. Supports sorting by association time or case ID. The sorts work in the
+  order specified: first sort term takes precedence over subsequent terms.
+"""
+function search_all_related_items end
+
+function search_all_related_items(
+    domainId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/related-items-search";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function search_all_related_items(
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/related-items-search",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_cases(domain_id)
     search_cases(domain_id, params::Dict{String,<:Any})
 
@@ -1199,8 +1594,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"fields"`: The list of field identifiers to be returned as part of the response.
 - `"filter"`: A list of filter objects.
-- `"maxResults"`: The maximum number of cases to return. The current maximum supported value
-  is 25. This is also the default value when no other value is provided.
+- `"maxResults"`: The maximum number of cases to return. When no value is provided, 25 is
+  the default.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"searchTerm"`: A word or phrase used to perform a quick search.
@@ -1418,6 +1813,54 @@ function update_case(
 end
 
 """
+    update_case_rule(case_rule_id, domain_id)
+    update_case_rule(case_rule_id, domain_id, params::Dict{String,<:Any})
+
+Updates a case rule. In the Amazon Connect admin website, case rules are known as *case
+field conditions*. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+
+# Arguments
+
+- `case_rule_id`: Unique identifier of a case rule.
+- `domain_id`: Unique identifier of a Cases domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: Description of a case rule.
+- `"name"`: Name of the case rule.
+- `"rule"`: Represents what rule type should take place, under what conditions.
+"""
+function update_case_rule end
+
+function update_case_rule(
+    caseRuleId, domainId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectcases(
+        "PUT",
+        "/domains/$(domainId)/case-rules/$(caseRuleId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_case_rule(
+    caseRuleId,
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "PUT",
+        "/domains/$(domainId)/case-rules/$(caseRuleId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_field(domain_id, field_id)
     update_field(domain_id, field_id, params::Dict{String,<:Any})
 
@@ -1432,6 +1875,7 @@ Updates the properties of an existing field.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"attributes"`: Union of field attributes.
 - `"description"`: The description of a field.
 - `"name"`: The name of the field.
 """
@@ -1517,6 +1961,78 @@ function update_layout(
 end
 
 """
+    update_related_item(case_id, content, domain_id, related_item_id)
+    update_related_item(case_id, content, domain_id, related_item_id, params::Dict{String,<:Any})
+
+Updates the content of a related item associated with a case. The following related item
+types are supported:
+
+- **Comment** - Update the text content of an existing comment
+- **Custom** - Update the fields of a custom related item. You can add, modify, and remove
+  fields from a custom related item. There's a quota for the number of fields allowed in a
+  Custom type related item. See [Amazon Connect Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas).
+
+**Important things to know**
+
+- When updating a Custom related item, all existing and new fields, and their associated
+  values should be included in the request. Fields not included as part of this request will
+  be removed.
+- If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+  permission on the ARN of the user that you provide.
+- [System case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html#system-case-fields)
+  cannot be used in a custom related item.
+
+**Endpoints**: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+
+# Arguments
+
+- `case_id`: A unique identifier of the case.
+- `content`: The content of a related item to be updated.
+- `domain_id`: The unique identifier of the Cases domain.
+- `related_item_id`: Unique identifier of a related item.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"performedBy"`: Represents the user who performed the update of the related item.
+"""
+function update_related_item end
+
+function update_related_item(
+    caseId,
+    content,
+    domainId,
+    relatedItemId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "PUT",
+        "/domains/$(domainId)/cases/$(caseId)/related-items/$(relatedItemId)",
+        Dict{String,Any}("content" => content);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_related_item(
+    caseId,
+    content,
+    domainId,
+    relatedItemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectcases(
+        "PUT",
+        "/domains/$(domainId)/cases/$(caseId)/related-items/$(relatedItemId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("content" => content), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_template(domain_id, template_id)
     update_template(domain_id, template_id, params::Dict{String,<:Any})
 
@@ -1524,6 +2040,13 @@ Updates the attributes of an existing template. The template attributes that can
 include `name`, `description`, `layoutConfiguration`, `requiredFields`, and `status`. At
 least one of these attributes must not be null. If a null value is provided for a given
 attribute, that attribute is ignored and its current value is preserved.
+
+Other template APIs are:
+
+- [CreateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html)
+- [DeleteTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html)
+- [GetTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html)
+- [ListTemplates](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html)
 
 # Arguments
 
@@ -1539,7 +2062,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the template. It must be unique per domain.
 - `"requiredFields"`: A list of fields that must contain a value for a case to be
   successfully created with this template.
+- `"rules"`: A list of case rules (also known as [case field conditions](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html))
+  on a template.
 - `"status"`: The status of the template.
+- `"tagPropagationConfigurations"`: Defines tag propagation configuration for resources
+  created within a domain. Tags specified here will be automatically applied to resources
+  being created for the specified resource type.
 """
 function update_template end
 

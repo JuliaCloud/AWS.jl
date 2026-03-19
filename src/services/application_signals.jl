@@ -10,9 +10,9 @@ using AWS.UUIDs: uuid4
 
 Use this operation to retrieve one or more *service level objective (SLO) budget reports*.
 
-An *error budget* is the amount of time in unhealthy periods that your service can
-accumulate during an interval before your overall SLO budget health is breached and the SLO
-is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly
+An *error budget* is the amount of time or requests in an unhealthy state that your service
+can accumulate during an interval before your overall SLO budget health is breached and the
+SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly
 interval translates to an error budget of 21.9 minutes of downtime in a 30-day month.
 
 Budget reports include a health indicator, the attainment value, and remaining budget.
@@ -62,8 +62,53 @@ function batch_get_service_level_objective_budget_report(
 end
 
 """
-    create_service_level_objective(name, sli_config)
-    create_service_level_objective(name, sli_config, params::Dict{String,<:Any})
+    batch_update_exclusion_windows(slo_ids)
+    batch_update_exclusion_windows(slo_ids, params::Dict{String,<:Any})
+
+Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
+
+# Arguments
+
+- `slo_ids`: The list of SLO IDs to add or remove exclusion windows from.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AddExclusionWindows"`: A list of exclusion windows to add to the specified SLOs. You can
+  add up to 10 exclusion windows per SLO.
+- `"RemoveExclusionWindows"`: A list of exclusion windows to remove from the specified SLOs.
+  The window configuration must match an existing exclusion window.
+"""
+function batch_update_exclusion_windows end
+
+function batch_update_exclusion_windows(
+    SloIds; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "PATCH",
+        "/exclusion-windows",
+        Dict{String,Any}("SloIds" => SloIds);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_update_exclusion_windows(
+    SloIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "PATCH",
+        "/exclusion-windows",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("SloIds" => SloIds), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_service_level_objective(name)
+    create_service_level_objective(name, params::Dict{String,<:Any})
 
 Creates a service level objective (SLO), which can help you ensure that your critical
 business operations are meeting customer expectations. Use SLOs to set and track specific
@@ -74,21 +119,53 @@ the level that you want.
 Create an SLO to set a target for a service or operation’s availability or latency.
 CloudWatch measures this target frequently you can find whether it has been breached.
 
-When you create an SLO, you set an *attainment goal* for it. An *attainment goal* is the
-ratio of good periods that meet the threshold requirements to the total periods within the
-interval. For example, an attainment goal of 99.9% means that within your interval, you are
-targeting 99.9% of the periods to be in healthy state.
+The target performance quality that is defined for an SLO is the *attainment goal*.
+
+You can set SLO targets for your applications that are discovered by Application Signals,
+using critical metrics such as latency and availability. You can also set SLOs against any
+CloudWatch metric or math expression that produces a time series.
+
+!!! note
+    You can't create an SLO for a service operation that was discovered by Application
+    Signals until after that operation has reported standard metrics to Application Signals.
+
+When you create an SLO, you specify whether it is a *period-based SLO* or a *request-based
+SLO*. Each type of SLO has a different way of evaluating your application's performance
+against its attainment goal.
+
+- A *period-based SLO* uses defined *periods* of time within a specified total time
+  interval. For each period of time, Application Signals determines whether the application
+  met its goal. The attainment rate is calculated as the
+  `number of good periods/number of total periods`.
+
+For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within
+your interval, your application must meet its performance goal during at least 99.9% of the
+time periods.
+- A *request-based SLO* doesn't use pre-defined periods of time. Instead, the SLO measures
+  `number of good requests/number of total requests` during the interval. At any time, you
+  can find the ratio of good requests to total requests for the interval up to the time
+  stamp that you specify, and measure that ratio against the goal set in your SLO.
 
 After you have created an SLO, you can retrieve error budget reports for it. An *error
-budget* is the number of periods or amount of time that your service can accumulate during
-an interval before your overall SLO budget health is breached and the SLO is considered to
-be unmet. for example, an SLO with a threshold that 99.95% of requests must be completed
-under 2000ms every month translates to an error budget of 21.9 minutes of downtime per
-month.
+budget* is the amount of time or amount of requests that your application can be non-
+compliant with the SLO's goal, and still have your application meet the goal.
 
-When you call this operation, Application Signals creates the
-*AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it doesn't already
-exist in your account. This service- linked role has the following permissions:
+- For a period-based SLO, the error budget starts at a number defined by the highest number
+  of periods that can fail to meet the threshold, while still meeting the overall goal. The
+  *remaining error budget* decreases with every failed period that is recorded. The error
+  budget within one interval can never increase.
+
+For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms
+every month translates to an error budget of 21.9 minutes of downtime per month.
+- For a request-based SLO, the remaining error budget is dynamic and can increase or
+  decrease, depending on the ratio of good requests to total requests.
+
+For more information about SLOs, see [Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
+
+When you perform a [`create_service_level_objective`](@ref) operation, Application Signals
+creates the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it
+doesn't already exist in your account. This service- linked role has the following
+permissions:
 
 - `xray:GetServiceGraph`
 - `logs:StartQuery`
@@ -98,26 +175,31 @@ exist in your account. This service- linked role has the following permissions:
 - `tag:GetResources`
 - `autoscaling:DescribeAutoScalingGroups`
 
-You can easily set SLO targets for your applications that are discovered by Application
-Signals, using critical metrics such as latency and availability. You can also set SLOs
-against any CloudWatch metric or math expression that produces a time series.
-
-For more information about SLOs, see [Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
-
 # Arguments
 
 - `name`: A name for this SLO.
-- `sli_config`: A structure that contains information about what service and what
-  performance metric that this SLO will monitor.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BurnRateConfigurations"`: Use this array to create *burn rates* for this SLO. Each burn
+  rate is a metric that indicates how fast the service is consuming the error budget,
+  relative to the attainment goal of the SLO.
+
 - `"Description"`: An optional description for this SLO.
 
-- `"Goal"`: A structure that contains the attributes that determine the goal of the SLO.
-  This includes the time period for evaluation and the attainment threshold.
+- `"Goal"`: This structure contains the attributes that determine the goal of the SLO.
+
+- `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
+  information about what performance metric this SLO will monitor.
+
+  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
+
+- `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
+  about what performance metric this SLO will monitor.
+
+  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
 
 - `"Tags"`: A list of key-value pairs to associate with the SLO. You can associate as many
   as 50 tags with an SLO. To be able to associate tags with the SLO when you create the SLO,
@@ -130,31 +212,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_service_level_objective end
 
 function create_service_level_objective(
-    Name, SliConfig; aws_config::AbstractAWSConfig=current_aws_config()
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
         "/slo",
-        Dict{String,Any}("Name" => Name, "SliConfig" => SliConfig);
+        Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_service_level_objective(
-    Name,
-    SliConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
         "/slo",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("Name" => Name, "SliConfig" => SliConfig), params
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_grouping_configuration()
+    delete_grouping_configuration(params::Dict{String,<:Any})
+
+Deletes the grouping configuration for this account. This removes all custom grouping
+attribute definitions that were previously configured.
+"""
+function delete_grouping_configuration end
+
+function delete_grouping_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_signals(
+        "DELETE", "/grouping-configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_grouping_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "DELETE",
+        "/grouping-configuration",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -199,6 +301,8 @@ Returns information about a service discovered by Application Signals.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
+  Your requested start time will be rounded to the nearest hour.
+
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -215,6 +319,8 @@ Returns information about a service discovered by Application Signals.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
 """
 function get_service end
 
@@ -287,6 +393,243 @@ function get_service_level_objective(
 end
 
 """
+    list_audit_findings(audit_targets, end_time, start_time)
+    list_audit_findings(audit_targets, end_time, start_time, params::Dict{String,<:Any})
+
+Returns a list of audit findings that provide automated analysis of service behavior and
+root cause analysis. These findings help identify the most significant observations about
+your services, including performance issues, anomalies, and potential problems. The findings
+are generated using heuristic algorithms based on established troubleshooting patterns.
+
+# Arguments
+
+- `audit_targets`: A list of audit targets to filter the findings by. You can specify
+  services, SLOs, or service operations to limit the audit findings to specific entities.
+- `end_time`: The end of the time period to retrieve audit findings for. When used in a raw
+  HTTP Query API, it is formatted as epoch time in seconds. For example, `1698778057`
+- `start_time`: The start of the time period to retrieve audit findings for. When used in a
+  raw HTTP Query API, it is formatted as epoch time in seconds. For example, `1698778057`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Auditors"`: A list of auditor names to filter the findings by. Only findings generated
+  by the specified auditors will be returned.
+
+  The following auditors are available for configuration:
+
+  - `slo` - SloAuditor: Identifies SLO violations and detects breached thresholds during the
+    Assessment phase.
+  - `operation_metric` - OperationMetricAuditor: Detects anomalies in service operation
+    metrics from Application Signals RED metrics during the Assessment phase
+
+    !!! note
+        Anomaly detection is not supported for sparse metrics (those missing more than 80%
+        of datapoints within the given time period).
+
+  - `service_quota` - ServiceQuotaAuditor: Monitors resource utilization against service
+    quotas during the Assessment phase
+  - `trace` - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating
+    traces with breached SLOs or abnormal RED metrics during the Analysis phase
+  - `dependency_metric` - CriticalPathAuditor: Analyzes service dependency impacts and maps
+    dependency relationships from Application Signals RED metrics during the Analysis phase
+  - `top_contributor` - TopContributorAuditor: Identifies infrastructure-level contributors
+    to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis
+    phase
+  - `log` - LogAuditor: Extracts insights from application logs, categorizing error types
+    and ranking severity by frequency during the Analysis phase
+
+  !!! note
+      `InitAuditor` and `Summarizer` auditors are not configurable as they are automatically
+      triggered during the audit process.
+
+- `"DetailLevel"`: The level of details of the audit findings. Supported values: `BRIEF`,
+  `DETAILED`.
+
+- `"MaxResults"`: The maximum number of audit findings to return in one operation. If you
+  omit this parameter, the default of 10 is used.
+
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of audit findings.
+"""
+function list_audit_findings end
+
+function list_audit_findings(
+    AuditTargets, EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "POST",
+        "/auditFindings",
+        Dict{String,Any}(
+            "AuditTargets" => AuditTargets, "EndTime" => EndTime, "StartTime" => StartTime
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_audit_findings(
+    AuditTargets,
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_signals(
+        "POST",
+        "/auditFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuditTargets" => AuditTargets,
+                    "EndTime" => EndTime,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_entity_events(end_time, entity, start_time)
+    list_entity_events(end_time, entity, start_time, params::Dict{String,<:Any})
+
+Returns a list of change events for a specific entity, such as deployments, configuration
+changes, or other state-changing activities. This operation helps track the history of
+changes that may have affected service performance.
+
+# Arguments
+
+- `end_time`: The end of the time period to retrieve change events for. When used in a raw
+  HTTP Query API, it is formatted as epoch time in seconds. For example: `1698778057`
+
+- `entity`: The entity for which to retrieve change events. This specifies the service,
+  resource, or other entity whose event history you want to examine.
+
+  This is a string-to-string map. It can include the following fields.
+
+  - `Type` designates the type of object this is.
+  - `ResourceType` specifies the type of the resource. This field is used only when the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Name` specifies the name of the object. This is used only if the value of the `Type`
+    field is `Service`, `RemoteService`, or `AWS::Service`.
+  - `Identifier` identifies the resource objects of this resource. This is used only if the
+    value of the `Type` field is `Resource` or `AWS::Resource`.
+  - `Environment` specifies the location where this object is hosted, or what it belongs to.
+  - `AwsAccountId` specifies the account where this object is in.
+
+  Below is an example of a service.
+
+  `{ "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" }`
+
+  Below is an example of a resource.
+
+  `{ "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Table", "Identifier": "Customers" }`
+
+- `start_time`: The start of the time period to retrieve change events for. When used in a
+  raw HTTP Query API, it is formatted as epoch time in seconds. For example: `1698778057`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of change events to return in one operation. If you
+  omit this parameter, the default of 50 is used.
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of change events.
+"""
+function list_entity_events end
+
+function list_entity_events(
+    EndTime, Entity, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "POST",
+        "/events",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "Entity" => Entity, "StartTime" => StartTime
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_entity_events(
+    EndTime,
+    Entity,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_signals(
+        "POST",
+        "/events",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime, "Entity" => Entity, "StartTime" => StartTime
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_grouping_attribute_definitions()
+    list_grouping_attribute_definitions(params::Dict{String,<:Any})
+
+Returns the current grouping configuration for this account, including all custom grouping
+attribute definitions that have been configured. These definitions determine how services
+are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined
+mappings.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AwsAccountId"`: The Amazon Web Services account ID to retrieve grouping attribute
+  definitions for. Use this when accessing grouping configurations from a different account
+  in cross-account monitoring scenarios.
+- `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
+  specify `true` to include grouping attributes from source accounts in the returned data.
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of grouping attribute definitions.
+"""
+function list_grouping_attribute_definitions end
+
+function list_grouping_attribute_definitions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "POST",
+        "/grouping-attribute-definitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_grouping_attribute_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "POST",
+        "/grouping-attribute-definitions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_service_dependencies(end_time, key_attributes, start_time)
     list_service_dependencies(end_time, key_attributes, start_time, params::Dict{String,<:Any})
 
@@ -299,6 +642,8 @@ services.
 
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested end time will be rounded to the nearest hour.
 
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
@@ -316,6 +661,8 @@ services.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -381,6 +728,8 @@ are instrumented with CloudWatch RUM app monitors.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
+  Your requested start time will be rounded to the nearest hour.
+
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -397,6 +746,8 @@ are instrumented with CloudWatch RUM app monitors.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -450,6 +801,47 @@ function list_service_dependents(
 end
 
 """
+    list_service_level_objective_exclusion_windows(id)
+    list_service_level_objective_exclusion_windows(id, params::Dict{String,<:Any})
+
+Retrieves all exclusion windows configured for a specific SLO.
+
+# Arguments
+
+- `id`: The ID of the SLO to list exclusion windows for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
+  parameter, the default of 50 is used.
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of service level objectives.
+"""
+function list_service_level_objective_exclusion_windows end
+
+function list_service_level_objective_exclusion_windows(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "GET", "/slo/$(Id)/exclusion-windows"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_service_level_objective_exclusion_windows(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "GET",
+        "/slo/$(Id)/exclusion-windows",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_service_level_objectives()
     list_service_level_objectives(params::Dict{String,<:Any})
 
@@ -458,6 +850,17 @@ Returns a list of SLOs created in this account.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DependencyConfig"`: Identifies the dependency using the `DependencyKeyAttributes` and
+  `DependencyOperationName`.
+
+- `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
+  specify `true` to include SLO from source accounts in the returned data.
+
+  When you are monitoring an account, you can use Amazon Web Services account ID in
+  `KeyAttribute` filter for service source account and `SloOwnerawsaccountID` for SLO source
+  account with `IncludeLinkedAccounts` to filter the returned data to only a single source
+  account.
 
 - `"KeyAttributes"`: You can use this optional field to specify which services you want to
   retrieve SLO information for.
@@ -476,10 +879,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
   parameter, the default of 50 is used.
 
+- `"MetricSource"`: Identifies the metric source to filter SLOs by.
+
+- `"MetricSourceTypes"`: Use this optional field to only include SLOs with the specified
+  metric source types in the output. Supported types are:
+
+  - Service operation
+  - Service dependency
+  - Service
+  - CloudWatch metric
+  - AppMonitor
+  - Canary
+
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service level objectives.
 
 - `"OperationName"`: The name of the operation that this SLO is associated with.
+
+- `"SloOwnerAwsAccountId"`: SLO's Amazon Web Services account ID.
 """
 function list_service_level_objectives end
 
@@ -507,6 +924,8 @@ Signals. Only the operations that were invoked during the specified time range a
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
+  Your requested end time will be rounded to the nearest hour.
+
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -523,6 +942,8 @@ Signals. Only the operations that were invoked during the specified time range a
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -576,6 +997,73 @@ function list_service_operations(
 end
 
 """
+    list_service_states(end_time, start_time)
+    list_service_states(end_time, start_time, params::Dict{String,<:Any})
+
+Returns information about the last deployment and other change states of services. This API
+provides visibility into recent changes that may have affected service performance, helping
+with troubleshooting and change correlation.
+
+# Arguments
+
+- `end_time`: The end of the time period to retrieve service state information for. When
+  used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example,
+  `1698778057`.
+- `start_time`: The start of the time period to retrieve service state information for. When
+  used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example,
+  `1698778057`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AttributeFilters"`: A list of attribute filters to narrow down the services. You can
+  filter by platform, environment, or other service attributes.
+- `"AwsAccountId"`: The Amazon Web Services account ID to filter service states by. Use this
+  to limit results to services from a specific account.
+- `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
+  specify `true` to include service states from source accounts in the returned data.
+- `"MaxResults"`: The maximum number of service states to return in one operation. If you
+  omit this parameter, the default of 20 is used.
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of service states.
+"""
+function list_service_states end
+
+function list_service_states(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "POST",
+        "/service/states",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_service_states(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_signals(
+        "POST",
+        "/service/states",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_services(end_time, start_time)
     list_services(end_time, start_time, params::Dict{String,<:Any})
 
@@ -587,13 +1075,21 @@ Services are discovered through Application Signals instrumentation.
 
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
+
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
+
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AwsAccountId"`: Amazon Web Services Account ID.
+- `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
+  specify `true` to include services from source accounts in the returned data.
 - `"MaxResults"`: The maximum number of results to return in one operation. If you omit this
   parameter, the default of 50 is used.
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
@@ -683,6 +1179,58 @@ function list_tags_for_resource(
 end
 
 """
+    put_grouping_configuration(grouping_attribute_definitions)
+    put_grouping_configuration(grouping_attribute_definitions, params::Dict{String,<:Any})
+
+Creates or updates the grouping configuration for this account. This operation allows you to
+define custom grouping attributes that determine how services are logically grouped based on
+telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping
+attributes can then be used to organize and filter services in the Application Signals
+console and APIs.
+
+# Arguments
+
+- `grouping_attribute_definitions`: An array of grouping attribute definitions that specify
+  how services should be grouped. Each definition includes a friendly name, source keys to
+  derive the grouping value from, and an optional default value.
+"""
+function put_grouping_configuration end
+
+function put_grouping_configuration(
+    GroupingAttributeDefinitions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
+        "PUT",
+        "/grouping-configuration",
+        Dict{String,Any}("GroupingAttributeDefinitions" => GroupingAttributeDefinitions);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_grouping_configuration(
+    GroupingAttributeDefinitions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return application_signals(
+        "PUT",
+        "/grouping-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GroupingAttributeDefinitions" => GroupingAttributeDefinitions
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_discovery()
     start_discovery(params::Dict{String,<:Any})
 
@@ -697,6 +1245,10 @@ service- linked role has the following permissions:
 - `cloudwatch:ListMetrics`
 - `tag:GetResources`
 - `autoscaling:DescribeAutoScalingGroups`
+
+A service-linked CloudTrail event channel is created to process CloudTrail events and return
+change event information. This includes last deployment time, userName, eventName, and other
+event metadata.
 
 After completing this step, you still need to instrument your Java and Python applications
 to send data to Application Signals. For more information, see [Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
@@ -845,6 +1397,9 @@ end
 Updates an existing service level objective (SLO). If you omit parameters, the previous
 values of those parameters are retained.
 
+You cannot change from a period-based SLO to a request-based SLO, or change from a request-
+based SLO to a period-based SLO.
+
 # Arguments
 
 - `id`: The Amazon Resource Name (ARN) or name of the service level objective that you want
@@ -854,11 +1409,22 @@ values of those parameters are retained.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BurnRateConfigurations"`: Use this array to create *burn rates* for this SLO. Each burn
+  rate is a metric that indicates how fast the service is consuming the error budget,
+  relative to the attainment goal of the SLO.
+
 - `"Description"`: An optional description for the SLO.
+
 - `"Goal"`: A structure that contains the attributes that determine the goal of the SLO.
   This includes the time period for evaluation and the attainment threshold.
-- `"SliConfig"`: A structure that contains information about what performance metric this
-  SLO will monitor.
+
+- `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
+  information about what performance metric this SLO will monitor.
+
+  You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same operation.
+
+- `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
+  about what performance metric this SLO will monitor.
 """
 function update_service_level_objective end
 

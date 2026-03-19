@@ -9,7 +9,7 @@ using AWS.UUIDs: uuid4
     convert_recovery_point_to_snapshot(recovery_point_id, snapshot_name, params::Dict{String,<:Any})
 
 Converts a recovery point to a snapshot. For more information about recovery points and
-snapshots, see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
+snapshots, see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery-points.html).
 
 # Arguments
 
@@ -265,6 +265,70 @@ function create_namespace(
 end
 
 """
+    create_reservation(capacity, offering_id)
+    create_reservation(capacity, offering_id, params::Dict{String,<:Any})
+
+Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a
+specified number of Redshift Processing Units (RPUs) for a year at a discount from
+Serverless on-demand (OD) rates.
+
+# Arguments
+
+- `capacity`: The number of Redshift Processing Units (RPUs) to reserve.
+- `offering_id`: The ID of the offering associated with the reservation. The offering
+  determines the payment schedule for the reservation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. This token must be a valid UUIDv4 value. For more information about idempotency,
+  see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+"""
+function create_reservation end
+
+function create_reservation(
+    capacity, offeringId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "CreateReservation",
+        Dict{String,Any}(
+            "capacity" => capacity,
+            "offeringId" => offeringId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_reservation(
+    capacity,
+    offeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "CreateReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "capacity" => capacity,
+                    "offeringId" => offeringId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_scheduled_action(namespace_name, role_arn, schedule, scheduled_action_name, target_action)
     create_scheduled_action(namespace_name, role_arn, schedule, scheduled_action_name, target_action, params::Dict{String,<:Any})
 
@@ -282,7 +346,7 @@ operation.
   snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
   see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
-  in the Amazon Redshift Cluster Management Guide
+  in the Amazon Redshift Management Guide
 
 - `schedule`: The schedule for a one-time (at timestamp format) or recurring (cron format)
   scheduled action. Schedule invocations must be separated by at least one hour. Times are
@@ -367,7 +431,7 @@ end
     create_snapshot(namespace_name, snapshot_name, params::Dict{String,<:Any})
 
 Creates a snapshot of all databases in a namespace. For more information about snapshots,
-see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
+see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery-points.html).
 
 # Arguments
 
@@ -548,6 +612,18 @@ end
 
 Creates an workgroup in Amazon Redshift Serverless.
 
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on,
+the following capabilities are blocked:
+
+- Creating a public access workgroup
+- Modifying a private workgroup to public
+- Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
+
 # Arguments
 
 - `namespace_name`: The name of the namespace to associate with the workgroup.
@@ -563,18 +639,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
   The options are `auto_mv`, `datestyle`, `enable_case_sensitive_identifier`,
   `enable_user_activity_logging`, `query_group`, `search_path`, `require_ssl`,
-  `use_fips_ssl`, and query monitoring metrics that let you define performance boundaries.
-  For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+  `use_fips_ssl`, and either `wlm_json_configuration` or query monitoring metrics that let
+  you define performance boundaries. You can either specify individual query monitoring
+  metrics (such as `max_scan_row_count`, `max_query_execution_time`) or use
+  `wlm_json_configuration` to define query queues with rules, but not both. If you're using
+  `wlm_json_configuration`, the maximum size of `parameterValue` is 8000 characters. For
+  more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
+
+- `"extraComputeForAutomaticOptimization"`: If `true`, allocates additional compute
+  resources for running automatic optimization operations.
+
+  Default: false
+
+- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
+  `ipv4` and `dualstack`.
 
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.
 
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
   5431-5455 and 8191-8215. The default is 5439.
+
+- `"pricePerformanceTarget"`: An object that represents the price performance target
+  settings for the workgroup.
 
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessed from
   a public network.
@@ -584,6 +675,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subnetIds"`: An array of VPC subnet IDs to associate with the workgroup.
 
 - `"tags"`: A array of tag instances.
+
+- `"trackName"`: An optional parameter for the name of the track for the workgroup. If you
+  don't provide a track name, the workgroup is assigned to the `current` track.
 """
 function create_workgroup end
 
@@ -1130,6 +1224,60 @@ function get_endpoint_access(
 end
 
 """
+    get_identity_center_auth_token(workgroup_names)
+    get_identity_center_auth_token(workgroup_names, params::Dict{String,<:Any})
+
+Returns an Identity Center authentication token for accessing Amazon Redshift Serverless
+workgroups.
+
+The token provides secure access to data within the specified workgroups using Identity
+Center identity propagation. The token expires after a specified duration and must be
+refreshed for continued access.
+
+The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken
+must have appropriate permissions to access the specified workgroups and Identity Center
+integration must be configured for the workgroups.
+
+# Arguments
+
+- `workgroup_names`: A list of workgroup names for which to generate the Identity Center
+  authentication token.
+
+  Constraints:
+
+  - Must contain between 1 and 20 workgroup names.
+  - Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier.
+  - All specified workgroups must have Identity Center integration enabled.
+"""
+function get_identity_center_auth_token end
+
+function get_identity_center_auth_token(
+    workgroupNames; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "GetIdentityCenterAuthToken",
+        Dict{String,Any}("workgroupNames" => workgroupNames);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_identity_center_auth_token(
+    workgroupNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "GetIdentityCenterAuthToken",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("workgroupNames" => workgroupNames), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_namespace(namespace_name)
     get_namespace(namespace_name, params::Dict{String,<:Any})
 
@@ -1200,6 +1348,83 @@ function get_recovery_point(
             mergewith(
                 _merge, Dict{String,Any}("recoveryPointId" => recoveryPointId), params
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_reservation(reservation_id)
+    get_reservation(reservation_id, params::Dict{String,<:Any})
+
+Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit
+to a specified number of Redshift Processing Units (RPUs) for a year at a discount from
+Serverless on-demand (OD) rates.
+
+# Arguments
+
+- `reservation_id`: The ID of the reservation to retrieve.
+"""
+function get_reservation end
+
+function get_reservation(reservationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless(
+        "GetReservation",
+        Dict{String,Any}("reservationId" => reservationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_reservation(
+    reservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "GetReservation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reservationId" => reservationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_reservation_offering(offering_id)
+    get_reservation_offering(offering_id, params::Dict{String,<:Any})
+
+Returns the reservation offering. The offering determines the payment schedule for the
+reservation.
+
+# Arguments
+
+- `offering_id`: The identifier for the offering..
+"""
+function get_reservation_offering end
+
+function get_reservation_offering(
+    offeringId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "GetReservationOffering",
+        Dict{String,Any}("offeringId" => offeringId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_reservation_offering(
+    offeringId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "GetReservationOffering",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("offeringId" => offeringId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1359,6 +1584,42 @@ function get_table_restore_status(
 end
 
 """
+    get_track(track_name)
+    get_track(track_name, params::Dict{String,<:Any})
+
+Get the Redshift Serverless version for a specified track.
+
+# Arguments
+
+- `track_name`: The name of the track of which its version is fetched.
+"""
+function get_track end
+
+function get_track(trackName; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless(
+        "GetTrack",
+        Dict{String,Any}("trackName" => trackName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_track(
+    trackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "GetTrack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("trackName" => trackName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_usage_limit(usage_limit_id)
     get_usage_limit(usage_limit_id, params::Dict{String,<:Any})
 
@@ -1505,6 +1766,40 @@ function list_endpoint_access(
 end
 
 """
+    list_managed_workgroups()
+    list_managed_workgroups(params::Dict{String,<:Any})
+
+Returns information about a list of specified managed workgroups in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to display the next page of results.
+- `"nextToken"`: If your initial ListManagedWorkgroups operation returns a nextToken, you
+  can include the returned nextToken in following ListManagedWorkgroups operations, which
+  returns results in the next page.
+- `"sourceArn"`: The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data
+  Catalog.
+"""
+function list_managed_workgroups end
+
+function list_managed_workgroups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless(
+        "ListManagedWorkgroups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_managed_workgroups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "ListManagedWorkgroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_namespaces()
     list_namespaces(params::Dict{String,<:Any})
 
@@ -1570,6 +1865,68 @@ function list_recovery_points(
 )
     return redshift_serverless(
         "ListRecoveryPoints", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_reservation_offerings()
+    list_reservation_offerings(params::Dict{String,<:Any})
+
+Returns the current reservation offerings in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
+- `"nextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+"""
+function list_reservation_offerings end
+
+function list_reservation_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless(
+        "ListReservationOfferings"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_reservation_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "ListReservationOfferings", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_reservations()
+    list_reservations(params::Dict{String,<:Any})
+
+Returns a list of Reservation objects.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
+- `"nextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+"""
+function list_reservations end
+
+function list_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless(
+        "ListReservations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "ListReservations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1752,6 +2109,38 @@ function list_tags_for_resource(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tracks()
+    list_tracks(params::Dict{String,<:Any})
+
+List the Amazon Redshift Serverless versions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"nextToken"`: If your initial `ListTracksRequest` operation returns a `nextToken`, you
+  can include the returned `nextToken` in following `ListTracksRequest` operations, which
+  returns results in the next page.
+"""
+function list_tracks end
+
+function list_tracks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift_serverless("ListTracks"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_tracks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "ListTracks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1957,7 +2346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownerAccount"`: The Amazon Web Services account that owns the snapshot.
 
 - `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to restore from. Required
-  if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be
+  if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be
   specified at the same time as `snapshotName`.
 
   The format of the ARN is
@@ -2365,6 +2754,70 @@ function update_endpoint_access(
 end
 
 """
+    update_lakehouse_configuration(namespace_name)
+    update_lakehouse_configuration(namespace_name, params::Dict{String,<:Any})
+
+Modifies the lakehouse configuration for a namespace. This operation allows you to manage
+Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted
+identity propagation.
+
+# Arguments
+
+- `namespace_name`: The name of the namespace whose lakehouse configuration you want to
+  modify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"catalogName"`: The name of the Glue Data Catalog that will be associated with the
+  namespace enabled with Amazon Redshift federated permissions.
+
+  Pattern: `^[a-z0-9_-]*[a-z]+[a-z0-9_-]*\$`
+
+- `"dryRun"`: A boolean value that, if `true`, validates the request without actually
+  updating the lakehouse configuration. Use this to check for errors before making changes.
+
+- `"lakehouseIdcApplicationArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
+  application used for enabling Amazon Web Services IAM Identity Center trusted identity
+  propagation on a namespace enabled with Amazon Redshift federated permissions.
+
+- `"lakehouseIdcRegistration"`: Modifies the Amazon Web Services IAM Identity Center trusted
+  identity propagation on a namespace enabled with Amazon Redshift federated permissions.
+  Valid values are `Associate` or `Disassociate`.
+
+- `"lakehouseRegistration"`: Specifies whether to register or deregister the namespace with
+  Amazon Redshift federated permissions. Valid values are `Register` or `Deregister`.
+"""
+function update_lakehouse_configuration end
+
+function update_lakehouse_configuration(
+    namespaceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift_serverless(
+        "UpdateLakehouseConfiguration",
+        Dict{String,Any}("namespaceName" => namespaceName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_lakehouse_configuration(
+    namespaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift_serverless(
+        "UpdateLakehouseConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_namespace(namespace_name)
     update_namespace(namespace_name, params::Dict{String,<:Any})
 
@@ -2461,7 +2914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
   see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
-  in the Amazon Redshift Cluster Management Guide
+  in the Amazon Redshift Management Guide
 
 - `"schedule"`: The schedule for a one-time (at timestamp format) or recurring (cron format)
   scheduled action. Schedule invocations must be separated by at least one hour. Times are
@@ -2660,6 +3113,18 @@ Updates a workgroup with the specified configuration settings. You can't update 
 parameters in one request. For example, you can update `baseCapacity` or `port` in a single
 request, but you can't update both in the same request.
 
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on,
+the following capabilities are blocked:
+
+- Creating a public access workgroup
+- Modifying a private workgroup to public
+- Adding a subnet with VPC BPA turned on to the workgroup when the workgroup is public
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
+
 # Arguments
 
 - `workgroup_name`: The name of the workgroup to update. You can't update the name of a
@@ -2675,12 +3140,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
   The options are `auto_mv`, `datestyle`, `enable_case_sensitive_identifier`,
   `enable_user_activity_logging`, `query_group`, `search_path`, `require_ssl`,
-  `use_fips_ssl`, and query monitoring metrics that let you define performance boundaries.
-  For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+  `use_fips_ssl`, and either `wlm_json_configuration` or query monitoring metrics that let
+  you define performance boundaries. You can either specify individual query monitoring
+  metrics (such as `max_scan_row_count`, `max_query_execution_time`) or use
+  `wlm_json_configuration` to define query queues with rules, but not both. If you're using
+  `wlm_json_configuration`, the maximum size of `parameterValue` is 8000 characters. For
+  more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.
+
+- `"extraComputeForAutomaticOptimization"`: If `true`, allocates additional compute
+  resources for running automatic optimization operations.
+
+  Default: false
+
+- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
+  `ipv4` and `dualstack`.
 
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.
@@ -2688,12 +3165,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
   5431-5455 and 8191-8215. The default is 5439.
 
+- `"pricePerformanceTarget"`: An object that represents the price performance target
+  settings for the workgroup.
+
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessible
   from a public network.
 
 - `"securityGroupIds"`: An array of security group IDs to associate with the workgroup.
 
 - `"subnetIds"`: An array of VPC subnet IDs to associate with the workgroup.
+
+- `"trackName"`: An optional parameter for the name of the track for the workgroup. If you
+  don't provide a track name, the workgroup is assigned to the `current` track.
 """
 function update_workgroup end
 

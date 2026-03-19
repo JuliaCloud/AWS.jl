@@ -5,6 +5,64 @@ using AWS.AWSServices: config_service
 using AWS.UUIDs: uuid4
 
 """
+    associate_resource_types(configuration_recorder_arn, resource_types)
+    associate_resource_types(configuration_recorder_arn, resource_types, params::Dict{String,<:Any})
+
+Adds all resource types specified in the `ResourceTypes` list to the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+of specified configuration recorder and includes those resource types when recording.
+
+For this operation, the specified configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
+
+# Arguments
+
+- `configuration_recorder_arn`: The Amazon Resource Name (ARN) of the specified
+  configuration recorder.
+- `resource_types`: The list of resource types you want to add to the recording group of the
+  specified configuration recorder.
+"""
+function associate_resource_types end
+
+function associate_resource_types(
+    ConfigurationRecorderArn,
+    ResourceTypes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "AssociateResourceTypes",
+        Dict{String,Any}(
+            "ConfigurationRecorderArn" => ConfigurationRecorderArn,
+            "ResourceTypes" => ResourceTypes,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_resource_types(
+    ConfigurationRecorderArn,
+    ResourceTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "AssociateResourceTypes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConfigurationRecorderArn" => ConfigurationRecorderArn,
+                    "ResourceTypes" => ResourceTypes,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers)
     batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers, params::Dict{String,<:Any})
 
@@ -175,6 +233,24 @@ request for the rule, you will receive a `ResourceInUseException`.
 
 You can check the state of a rule by using the `DescribeConfigRules` request.
 
+!!! note
+    **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type
+    from recording before deleting rules**
+
+    Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+    that can affect your costs for the configuration recorder. If you are deleting rules
+    which evaluate a large number of resource types, this can lead to a spike in the number
+    of CIs recorded.
+
+    To avoid the associated costs, you can opt to disable recording for the
+    `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable
+    recording after the rules have been deleted.
+
+    However, since deleting rules is an asynchronous process, it might take an hour or more
+    to complete. During the time when recording is disabled for
+    `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the
+    associated resource’s history.
+
 # Arguments
 
 - `config_rule_name`: The name of the Config rule that you want to delete.
@@ -256,21 +332,19 @@ end
     delete_configuration_recorder(configuration_recorder_name)
     delete_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
-Deletes the configuration recorder.
+Deletes the customer managed configuration recorder.
 
-After the configuration recorder is deleted, Config will not record resource configuration
-changes until you create a new configuration recorder.
-
-This action does not delete the configuration information that was previously recorded. You
-will be able to access the previously recorded information by using the
-`GetResourceConfigHistory` action, but you will not be able to access this information in
-the Config console until you create a new configuration recorder.
+This operation does not delete the configuration information that was previously recorded.
+You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html)
+operation, but you will not be able to access this information in the Config console until
+you have created a new customer managed configuration recorder.
 
 # Arguments
 
-- `configuration_recorder_name`: The name of the configuration recorder to be deleted. You
-  can retrieve the name of your configuration recorder by using the
-  `DescribeConfigurationRecorders` action.
+- `configuration_recorder_name`: The name of the customer managed configuration recorder
+  that you want to delete. You can retrieve the name of your configuration recorders by
+  using the [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html)
+  operation.
 """
 function delete_configuration_recorder end
 
@@ -314,6 +388,24 @@ all evaluation results within that conformance pack.
 Config sets the conformance pack to `DELETE_IN_PROGRESS` until the deletion is complete. You
 cannot update a conformance pack while it is in this state.
 
+!!! note
+    **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type
+    from recording before deleting rules**
+
+    Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+    that can affect your costs for the configuration recorder. If you are deleting rules
+    which evaluate a large number of resource types, this can lead to a spike in the number
+    of CIs recorded.
+
+    To avoid the associated costs, you can opt to disable recording for the
+    `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable
+    recording after the rules have been deleted.
+
+    However, since deleting rules is an asynchronous process, it might take an hour or more
+    to complete. During the time when recording is disabled for
+    `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the
+    associated resource’s history.
+
 # Arguments
 
 - `conformance_pack_name`: Name of the conformance pack you want to delete.
@@ -356,12 +448,13 @@ end
 
 Deletes the delivery channel.
 
-Before you can delete the delivery channel, you must stop the configuration recorder by
-using the [`stop_configuration_recorder`](@ref) action.
+Before you can delete the delivery channel, you must stop the customer managed configuration
+recorder. You can use the [`stop_configuration_recorder`](@ref) operation to stop the
+customer managed configuration recorder.
 
 # Arguments
 
-- `delivery_channel_name`: The name of the delivery channel to delete.
+- `delivery_channel_name`: The name of the delivery channel that you want to delete.
 """
 function delete_delivery_channel end
 
@@ -450,6 +543,24 @@ Organizations `ListDelegatedAdministrator` permissions are added.
 Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You
 cannot update a rule while it is in this state.
 
+!!! note
+    **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type
+    from recording before deleting rules**
+
+    Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+    that can affect your costs for the configuration recorder. If you are deleting rules
+    which evaluate a large number of resource types, this can lead to a spike in the number
+    of CIs recorded.
+
+    To avoid the associated costs, you can opt to disable recording for the
+    `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable
+    recording after the rules have been deleted.
+
+    However, since deleting rules is an asynchronous process, it might take an hour or more
+    to complete. During the time when recording is disabled for
+    `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the
+    associated resource’s history.
+
 # Arguments
 
 - `organization_config_rule_name`: The name of organization Config rule that you want to
@@ -502,6 +613,24 @@ Organizations `ListDelegatedAdministrator` permissions are added.
 
 Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is
 complete. You cannot update a conformance pack while it is in this state.
+
+!!! note
+    **Recommendation: Consider excluding the `AWS::Config::ResourceCompliance` resource type
+    from recording before deleting rules**
+
+    Deleting rules creates configuration items (CIs) for `AWS::Config::ResourceCompliance`
+    that can affect your costs for the configuration recorder. If you are deleting rules
+    which evaluate a large number of resource types, this can lead to a spike in the number
+    of CIs recorded.
+
+    To avoid the associated costs, you can opt to disable recording for the
+    `AWS::Config::ResourceCompliance` resource type before deleting rules, and re-enable
+    recording after the rules have been deleted.
+
+    However, since deleting rules is an asynchronous process, it might take an hour or more
+    to complete. During the time when recording is disabled for
+    `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the
+    associated resource’s history.
 
 # Arguments
 
@@ -792,6 +921,59 @@ function delete_retention_configuration(
 end
 
 """
+    delete_service_linked_configuration_recorder(service_principal)
+    delete_service_linked_configuration_recorder(service_principal, params::Dict{String,<:Any})
+
+Deletes an existing service-linked configuration recorder.
+
+This operation does not delete the configuration information that was previously recorded.
+You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html)
+operation, but you will not be able to access this information in the Config console until
+you have created a new service-linked configuration recorder for the same service.
+
+!!! note
+    **The recording scope determines if you receive configuration items**
+
+    The recording scope is set by the service that is linked to the configuration recorder
+    and determines whether you receive configuration items (CIs) in the delivery channel. If
+    the recording scope is internal, you will not receive CIs in the delivery channel.
+
+# Arguments
+
+- `service_principal`: The service principal of the Amazon Web Services service for the
+  service-linked configuration recorder that you want to delete.
+"""
+function delete_service_linked_configuration_recorder end
+
+function delete_service_linked_configuration_recorder(
+    ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return config_service(
+        "DeleteServiceLinkedConfigurationRecorder",
+        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_service_linked_configuration_recorder(
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "DeleteServiceLinkedConfigurationRecorder",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_stored_query(query_name)
     delete_stored_query(query_name, params::Dict{String,<:Any})
 
@@ -942,10 +1124,10 @@ end
     describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name)
     describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name, params::Dict{String,<:Any})
 
-Returns a list of the conformance packs and their associated compliance status with the
-count of compliant and noncompliant Config rules within each conformance pack. Also returns
-the total rule count which includes compliant rules, noncompliant rules, and rules that
-cannot be evaluated due to insufficient data.
+Returns a list of the existing and deleted conformance packs and their associated compliance
+status with the count of compliant and noncompliant Config rules within each conformance
+pack. Also returns the total rule count which includes compliant rules, noncompliant rules,
+and rules that cannot be evaluated due to insufficient data.
 
 !!! note
     The results can return an empty result page, but if you have a `nextToken`, the results
@@ -1040,7 +1222,8 @@ end
     describe_compliance_by_config_rule(params::Dict{String,<:Any})
 
 Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this
-action returns the number of Amazon Web Services resources that do not comply with the rule.
+operation returns the number of Amazon Web Services resources that do not comply with the
+rule.
 
 A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if
 any of these resources do not comply.
@@ -1093,8 +1276,8 @@ end
     describe_compliance_by_resource(params::Dict{String,<:Any})
 
 Indicates whether the specified Amazon Web Services resources are compliant. If a resource
-is noncompliant, this action returns the number of Config rules that the resource does not
-comply with.
+is noncompliant, this operation returns the number of Config rules that the resource does
+not comply with.
 
 A resource is compliant if it complies with all the Config rules that evaluate it. It is
 noncompliant if it does not comply with one or more of these rules.
@@ -1127,8 +1310,8 @@ default.
   information. You can specify only one resource ID. If you specify a resource ID, you must
   also specify a type for `ResourceType`.
 - `"ResourceType"`: The types of Amazon Web Services resources for which you want compliance
-  information (for example, `AWS::EC2::Instance`). For this action, you can specify that the
-  resource type is an Amazon Web Services account by specifying `AWS::::Account`.
+  information (for example, `AWS::EC2::Instance`). For this operation, you can specify that
+  the resource type is an Amazon Web Services account by specifying `AWS::::Account`.
 """
 function describe_compliance_by_resource end
 
@@ -1299,7 +1482,7 @@ end
     describe_configuration_aggregators(params::Dict{String,<:Any})
 
 Returns the details of one or more configuration aggregators. If the configuration
-aggregator is not specified, this action returns the details for all the configuration
+aggregator is not specified, this operation returns the details for all the configuration
 aggregators associated with the account.
 
 # Optional Parameters
@@ -1337,22 +1520,36 @@ end
     describe_configuration_recorder_status()
     describe_configuration_recorder_status(params::Dict{String,<:Any})
 
-Returns the current status of the specified configuration recorder as well as the status of
-the last recording event for the recorder. If a configuration recorder is not specified,
-this action returns the status of all configuration recorders associated with the account.
+Returns the current status of the configuration recorder you specify as well as the status
+of the last recording event for the configuration recorders.
+
+For a detailed status of recording events over time, add your Config events to Amazon
+CloudWatch metrics and use CloudWatch metrics.
+
+If a configuration recorder is not specified, this operation returns the status for the
+customer managed configuration recorder configured for the account, if applicable.
 
 !!! note
-    >You can specify only one configuration recorder for each Amazon Web Services Region for
-    each account. For a detailed status of recording events over time, add your Config
-    events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    When making a request to this operation, you can only specify one configuration
+    recorder.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConfigurationRecorderNames"`: The name(s) of the configuration recorder. If the name is
-  not specified, the action returns the current status of all the configuration recorders
-  associated with the account.
+- `"Arn"`: The Amazon Resource Name (ARN) of the configuration recorder that you want to
+  specify.
+
+- `"ConfigurationRecorderNames"`: The name of the configuration recorder. If the name is not
+  specified, the operation returns the status for the customer managed configuration
+  recorder configured for the account, if applicable.
+
+  !!! note
+      When making a request to this operation, you can only specify one configuration
+      recorder.
+
+- `"ServicePrincipal"`: For service-linked configuration recorders, you can use the service
+  principal of the linked Amazon Web Services service to specify the configuration recorder.
 """
 function describe_configuration_recorder_status end
 
@@ -1379,19 +1576,31 @@ end
     describe_configuration_recorders()
     describe_configuration_recorders(params::Dict{String,<:Any})
 
-Returns the details for the specified configuration recorders. If the configuration recorder
-is not specified, this action returns the details for all configuration recorders associated
-with the account.
+Returns details for the configuration recorder you specify.
+
+If a configuration recorder is not specified, this operation returns details for the
+customer managed configuration recorder configured for the account, if applicable.
 
 !!! note
-    You can specify only one configuration recorder for each Amazon Web Services Region for
-    each account.
+    When making a request to this operation, you can only specify one configuration
+    recorder.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConfigurationRecorderNames"`: A list of configuration recorder names.
+- `"Arn"`: The Amazon Resource Name (ARN) of the configuration recorder that you want to
+  specify.
+
+- `"ConfigurationRecorderNames"`: A list of names of the configuration recorders that you
+  want to specify.
+
+  !!! note
+      When making a request to this operation, you can only specify one configuration
+      recorder.
+
+- `"ServicePrincipal"`: For service-linked configuration recorders, you can use the service
+  principal of the linked Amazon Web Services service to specify the configuration recorder.
 """
 function describe_configuration_recorders end
 
@@ -1543,8 +1752,8 @@ end
     describe_delivery_channel_status(params::Dict{String,<:Any})
 
 Returns the current status of the specified delivery channel. If a delivery channel is not
-specified, this action returns the current status of all delivery channels associated with
-the account.
+specified, this operation returns the current status of all delivery channels associated
+with the account.
 
 !!! note
     Currently, you can specify only one delivery channel per region in your account.
@@ -1578,7 +1787,7 @@ end
     describe_delivery_channels(params::Dict{String,<:Any})
 
 Returns details about the specified delivery channel. If a delivery channel is not
-specified, this action returns the details of all delivery channels associated with the
+specified, this operation returns the details of all delivery channels associated with the
 account.
 
 !!! note
@@ -1971,7 +2180,7 @@ paginated response.
 
 # Arguments
 
-- `config_rule_name`: A list of Config rule names.
+- `config_rule_name`: The name of the Config rule.
 
 # Optional Parameters
 
@@ -2017,8 +2226,8 @@ end
     describe_retention_configurations(params::Dict{String,<:Any})
 
 Returns the details of one or more retention configurations. If the retention configuration
-name is not specified, this action returns the details for all the retention configurations
-for that account.
+name is not specified, this operation returns the details for all the retention
+configurations for that account.
 
 !!! note
     Currently, Config supports only one retention configuration per region in your account.
@@ -2054,6 +2263,64 @@ function describe_retention_configurations(
     return config_service(
         "DescribeRetentionConfigurations",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_resource_types(configuration_recorder_arn, resource_types)
+    disassociate_resource_types(configuration_recorder_arn, resource_types, params::Dict{String,<:Any})
+
+Removes all resource types specified in the `ResourceTypes` list from the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+of configuration recorder and excludes these resource types when recording.
+
+For this operation, the configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
+
+# Arguments
+
+- `configuration_recorder_arn`: The Amazon Resource Name (ARN) of the specified
+  configuration recorder.
+- `resource_types`: The list of resource types you want to remove from the recording group
+  of the specified configuration recorder.
+"""
+function disassociate_resource_types end
+
+function disassociate_resource_types(
+    ConfigurationRecorderArn,
+    ResourceTypes;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "DisassociateResourceTypes",
+        Dict{String,Any}(
+            "ConfigurationRecorderArn" => ConfigurationRecorderArn,
+            "ResourceTypes" => ResourceTypes,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_resource_types(
+    ConfigurationRecorderArn,
+    ResourceTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "DisassociateResourceTypes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConfigurationRecorderArn" => ConfigurationRecorderArn,
+                    "ResourceTypes" => ResourceTypes,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2337,6 +2604,9 @@ end
 
 Returns configuration item that is aggregated for your specific resource in a specific
 source account and region.
+
+!!! note
+    The API does not return results for deleted resources.
 
 # Arguments
 
@@ -2936,13 +3206,21 @@ end
 
 !!! important
     For accurate reporting on the compliance status, you must record the
-    `AWS::Config::ResourceCompliance` resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
+    `AWS::Config::ResourceCompliance` resource type.
 
-Returns a list of `ConfigurationItems` for the specified resource. The list contains details
-about each state of the resource during the specified time interval. If you specified a
-retention period to retain your `ConfigurationItems` between a minimum of 30 days and a
-maximum of 7 years (2557 days), Config returns the `ConfigurationItems` for the specified
+    For more information, see [Recording Amazon Web Services Resources](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html)
+    in the *Config Resources Developer Guide*.
+
+Returns a list of configurations items (CIs) for the specified resource.
+
+**Contents**
+
+The list contains details about each state of the resource during the specified time
+interval. If you specified a retention period to retain your CIs between a minimum of 30
+days and a maximum of 7 years (2557 days), Config returns the CIs for the specified
 retention period.
+
+**Pagination**
 
 The response is paginated. By default, Config returns a limit of 10 configuration items per
 page. You can customize this number with the `limit` parameter. The response includes a
@@ -3170,6 +3448,38 @@ function list_aggregate_discovered_resources(
 end
 
 """
+    list_configuration_recorders()
+    list_configuration_recorders(params::Dict{String,<:Any})
+
+Returns a list of configuration recorders depending on the filters you specify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters the results based on a list of `ConfigurationRecorderFilter` objects
+  that you specify.
+- `"MaxResults"`: The maximum number of results to include in the response.
+- `"NextToken"`: The `NextToken` string returned on a previous page that you use to get the
+  next page of results in a paginated response.
+"""
+function list_configuration_recorders end
+
+function list_configuration_recorders(; aws_config::AbstractAWSConfig=current_aws_config())
+    return config_service(
+        "ListConfigurationRecorders"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_configuration_recorders(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return config_service(
+        "ListConfigurationRecorders", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_conformance_pack_compliance_scores()
     list_conformance_pack_compliance_scores(params::Dict{String,<:Any})
 
@@ -3239,20 +3549,35 @@ end
     list_discovered_resources(resource_type)
     list_discovered_resources(resource_type, params::Dict{String,<:Any})
 
-Accepts a resource type and returns a list of resource identifiers for the resources of that
-type. A resource identifier includes the resource type, ID, and (if available) the custom
-resource name. The results consist of resources that Config has discovered, including those
-that Config is not currently recording. You can narrow the results to include only resources
-that have specific resource IDs or a resource name.
+Returns a list of resource resource identifiers for the specified resource types for the
+resources of that type. A *resource identifier* includes the resource type, ID, and (if
+available) the custom resource name.
+
+The results consist of resources that Config has *discovered*, including those that Config
+is not currently recording. You can narrow the results to include only resources that have
+specific resource IDs or a resource name.
 
 !!! note
     You can specify either resource IDs or a resource name, but not both, in the same
     request.
 
-The response is paginated. By default, Config lists 100 resource identifiers on each page.
-You can customize this number with the `limit` parameter. The response includes a
-`nextToken` string. To get the next page of results, run the request again and specify the
-string for the `nextToken` parameter.
+!!! important
+    *CloudFormation stack recording behavior in Config*
+
+    When a CloudFormation stack fails to create (for example, it enters the
+    `ROLLBACK_FAILED` state), Config does not record a configuration item (CI) for that
+    stack. Configuration items are only recorded for stacks that reach the following states:
+
+    - `CREATE_COMPLETE`
+    - `UPDATE_COMPLETE`
+    - `UPDATE_ROLLBACK_COMPLETE`
+    - `UPDATE_ROLLBACK_FAILED`
+    - `DELETE_FAILED`
+    - `DELETE_COMPLETE`
+
+    Because no CI is created for a failed stack creation, you won't see configuration
+    history for that stack in Config, even after the stack is deleted. This helps make sure
+    that Config only tracks resources that were successfully provisioned.
 
 # Arguments
 
@@ -3375,8 +3700,16 @@ List the tags for Config resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are `ConfigRule`,
-  `ConfigurationAggregator` and `AggregatorAuthorization`.
+  list the tags. The following resources are supported:
+
+  - `ConfigurationRecorder`
+  - `ConfigRule`
+  - `OrganizationConfigRule`
+  - `ConformancePack`
+  - `OrganizationConformancePack`
+  - `ConfigurationAggregator`
+  - `AggregationAuthorization`
+  - `StoredQuery`
 
 # Optional Parameters
 
@@ -3423,11 +3756,17 @@ Authorizes the aggregator account and region to collect data from the source acc
 region.
 
 !!! note
+    **Tags are added at creation and cannot be updated with this operation**
+
     `PutAggregationAuthorization` is an idempotent API. Subsequent requests won’t create a
     duplicate resource if one was already created. If a following request has different
     `tags` values, Config will ignore these differences and treat it as an idempotent
     request of the previous. In this case, `tags` will not be updated, even if they are
     different.
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
 
 # Arguments
 
@@ -3524,10 +3863,16 @@ For more information about developing and using Config rules, see [Evaluating Re
 in the *Config Developer Guide*.
 
 !!! note
+    **Tags are added at creation and cannot be updated with this operation**
+
     `PutConfigRule` is an idempotent API. Subsequent requests won’t create a duplicate
     resource if one was already created. If a following request has different `tags` values,
     Config will ignore these differences and treat it as an idempotent request of the
     previous. In this case, `tags` will not be updated, even if they are different.
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
 
 # Arguments
 
@@ -3591,11 +3936,17 @@ previous accounts and then append new ones.
     in the *Config developer guide*.
 
 !!! note
+    **Tags are added at creation and cannot be updated with this operation**
+
     `PutConfigurationAggregator` is an idempotent API. Subsequent requests won’t create a
     duplicate resource if one was already created. If a following request has different
     `tags` values, Config will ignore these differences and treat it as an idempotent
     request of the previous. In this case, `tags` will not be updated, even if they are
     different.
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
 
 # Arguments
 
@@ -3606,6 +3957,8 @@ previous accounts and then append new ones.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountAggregationSources"`: A list of AccountAggregationSource object.
+- `"AggregatorFilters"`: An object to filter configuration recorders in an aggregator.
+  Either `ResourceType` or `ServicePrincipal` is required.
 - `"OrganizationAggregationSource"`: An OrganizationAggregationSource object.
 - `"Tags"`: An array of tag object.
 """
@@ -3647,24 +4000,55 @@ end
     put_configuration_recorder(configuration_recorder)
     put_configuration_recorder(configuration_recorder, params::Dict{String,<:Any})
 
-Creates a new configuration recorder to record configuration changes for specified resource
-types.
+Creates or updates the customer managed configuration recorder.
 
-You can also use this action to change the `roleARN` or the `recordingGroup` of an existing
-recorder. For more information, see [**Managing the Configuration Recorder**](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html)
+You can use this operation to create a new customer managed configuration recorder or to
+update the `roleARN` and the `recordingGroup` for an existing customer managed configuration
+recorder.
+
+To start the customer managed configuration recorder and begin recording configuration
+changes for the resource types you specify, use the [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html)
+operation.
+
+For more information, see [**Working with the Configuration Recorder**](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html)
 in the *Config Developer Guide*.
 
 !!! note
-    You can specify only one configuration recorder for each Amazon Web Services Region for
-    each account.
+    **One customer managed configuration recorder per account per Region**
 
-    If the configuration recorder does not have the `recordingGroup` field specified, the
-    default is to record all supported resource types.
+    You can create only one customer managed configuration recorder for each account for
+    each Amazon Web Services Region.
+
+    **Default is to record all supported resource types, excluding the global IAM resource
+    types**
+
+    If you have not specified values for the `recordingGroup` field, the default for the
+    customer managed configuration recorder is to record all supported resource types,
+    excluding the global IAM resource types: `AWS::IAM::Group`, `AWS::IAM::Policy`,
+    `AWS::IAM::Role`, and `AWS::IAM::User`.
+
+    **Tags are added at creation and cannot be updated**
+
+    `PutConfigurationRecorder` is an idempotent API. Subsequent requests won’t create a
+    duplicate resource if one was already created. If a following request has different tags
+    values, Config will ignore these differences and treat it as an idempotent request of
+    the previous. In this case, tags will not be updated, even if they are different.
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
 
 # Arguments
 
-- `configuration_recorder`: An object for the configuration recorder to record configuration
-  changes for specified resource types.
+- `configuration_recorder`: An object for the configuration recorder. A configuration
+  recorder records configuration changes for the resource types in scope.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: The tags for the customer managed configuration recorder. Each tag consists of a
+  key and an optional value, both of which you define.
 """
 function put_configuration_recorder end
 
@@ -3707,12 +4091,35 @@ that can be easily deployed in an account and a region and across an organizatio
 information on how many conformance packs you can have per account, see [**Service Limits**](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html)
 in the *Config Developer Guide*.
 
+!!! important
+    When you use `PutConformancePack` to deploy conformance packs in your account, the
+    operation can create Config rules and remediation actions without requiring
+    `config:PutConfigRule` or `config:PutRemediationConfigurations` permissions in your
+    account IAM policies.
+
+    This API uses the `AWSServiceRoleForConfigConforms` service-linked role in your account
+    to create conformance pack resources. This service-linked role includes the permissions
+    to create Config rules and remediation configurations, even if your account IAM policies
+    explicitly deny these actions.
+
 This API creates a service-linked role `AWSServiceRoleForConfigConforms` in your account.
 The service-linked role is created only when the role does not exist in your account.
 
 !!! note
     You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or
     `TemplateSSMDocumentDetails`.
+
+!!! note
+    **Tags are added at creation and cannot be updated with this operation**
+
+    `PutConformancePack` is an idempotent API. Subsequent requests won't create a duplicate
+    resource if one was already created. If a following request has different `tags` values,
+    Config will ignore these differences and treat it as an idempotent request of the
+    previous. In this case, `tags` will not be updated, even if they are different.
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
 
 # Arguments
 
@@ -3735,7 +4142,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       This field is optional.
 
-- `"TemplateBody"`: A string containing the full conformance pack template body. The
+- `"Tags"`: The tags for the conformance pack. Each tag consists of a key and an optional
+  value, both of which you define.
+
+- `"TemplateBody"`: A string that contains the full conformance pack template body. The
   structure containing the template body has a minimum length of 1 byte and a maximum length
   of 51,200 bytes.
 
@@ -3794,24 +4204,25 @@ end
     put_delivery_channel(delivery_channel)
     put_delivery_channel(delivery_channel, params::Dict{String,<:Any})
 
-Creates a delivery channel object to deliver configuration information and other compliance
-information to an Amazon S3 bucket and Amazon SNS topic. For more information, see [Notifications that Config Sends to an Amazon SNS topic](https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html).
+Creates or updates a delivery channel to deliver configuration information and other
+compliance information.
 
-Before you can create a delivery channel, you must create a configuration recorder.
+You can use this operation to create a new delivery channel or to update the Amazon S3
+bucket and the Amazon SNS topic of an existing delivery channel.
 
-You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the
-existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this
-action and specify the changed values for the S3 bucket and the SNS topic. If you specify a
-different value for either the S3 bucket or the SNS topic, this action will keep the
-existing value for the parameter that is not changed.
+For more information, see [**Working with the Delivery Channel**](https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html)
+in the *Config Developer Guide.*
 
 !!! note
-    You can have only one delivery channel per region in your account.
+    **One delivery channel per account per Region**
+
+    You can have only one delivery channel for each account for each Amazon Web Services
+    Region.
 
 # Arguments
 
-- `delivery_channel`: The configuration delivery channel object that delivers the
-  configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
+- `delivery_channel`: An object for the delivery channel. A delivery channel sends
+  notifications and updated configuration states.
 """
 function put_delivery_channel end
 
@@ -3847,8 +4258,8 @@ end
     put_evaluations(result_token)
     put_evaluations(result_token, params::Dict{String,<:Any})
 
-Used by an Lambda function to deliver evaluation results to Config. This action is required
-in every Lambda function that is invoked by an Config rule.
+Used by an Lambda function to deliver evaluation results to Config. This operation is
+required in every Lambda function that is invoked by an Config rule.
 
 # Arguments
 
@@ -4080,6 +4491,17 @@ API with a delegated administrator, you must ensure Organizations
 `ListDelegatedAdministrator` permissions are added. An organization can have up to 3
 delegated administrators.
 
+!!! important
+    When you use `PutOrganizationConformancePack` to deploy conformance packs across member
+    accounts, the operation can create Config rules and remediation actions without
+    requiring `config:PutConfigRule` or `config:PutRemediationConfigurations` permissions in
+    member account IAM policies.
+
+    This API uses the `AWSServiceRoleForConfigConforms` service-linked role in each member
+    account to create conformance pack resources. This service-linked role includes the
+    permissions to create Config rules and remediation configurations, even if member
+    account IAM policies explicitly deny these actions.
+
 This API enables organization service access for `config-multiaccountsetup.amazonaws.com`
 through the `EnableAWSServiceAccess` action and creates a service-linked role
 `AWSServiceRoleForConfigMultiAccountSetup` in the management or delegated administrator
@@ -4125,9 +4547,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludedAccounts"`: A list of Amazon Web Services accounts to be excluded from an
   organization conformance pack while deploying a conformance pack.
 
-- `"TemplateBody"`: A string containing full conformance pack template body. Structure
-  containing the template body with a minimum length of 1 byte and a maximum length of
-  51,200 bytes.
+- `"TemplateBody"`: A string that contains the full conformance pack template body.
+  Structure containing the template body with a minimum length of 1 byte and a maximum
+  length of 51,200 bytes.
 
 - `"TemplateS3Uri"`: Location of file containing the template body. The uri must point to
   the conformance pack template (max size: 300 KB).
@@ -4288,6 +4710,12 @@ resource with a specified Config rule.
     remediation exception will not be generated. For more information on the conditions that
     initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules)
     in the *Config Developer Guide*.
+
+!!! note
+    **Exceptions cannot be placed on service-linked remediation actions**
+
+    You cannot place an exception on service-linked remediation actions, such as remediation
+    actions put by an organizational conformance pack.
 
 !!! note
     **Auto remediation can be initiated even for compliant resources**
@@ -4509,6 +4937,77 @@ function put_retention_configuration(
 end
 
 """
+    put_service_linked_configuration_recorder(service_principal)
+    put_service_linked_configuration_recorder(service_principal, params::Dict{String,<:Any})
+
+Creates a service-linked configuration recorder that is linked to a specific Amazon Web
+Services service based on the `ServicePrincipal` you specify.
+
+The configuration recorder's `name`, `recordingGroup`, `recordingMode`, and `recordingScope`
+is set by the service that is linked to the configuration recorder.
+
+For more information and a list of supported services/service principals, see [**Working with the Configuration Recorder**](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html)
+in the *Config Developer Guide*.
+
+This API creates a service-linked role `AWSServiceRoleForConfig` in your account. The
+service-linked role is created only when the role does not exist in your account.
+
+!!! note
+    **The recording scope determines if you receive configuration items**
+
+    The recording scope is set by the service that is linked to the configuration recorder
+    and determines whether you receive configuration items (CIs) in the delivery channel. If
+    the recording scope is internal, you will not receive CIs in the delivery channel.
+
+    **Tags are added at creation and cannot be updated with this operation**
+
+    Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html)
+    and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html)
+    to update tags after creation.
+
+# Arguments
+
+- `service_principal`: The service principal of the Amazon Web Services service for the
+  service-linked configuration recorder that you want to create.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: The tags for a service-linked configuration recorder. Each tag consists of a key
+  and an optional value, both of which you define.
+"""
+function put_service_linked_configuration_recorder end
+
+function put_service_linked_configuration_recorder(
+    ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return config_service(
+        "PutServiceLinkedConfigurationRecorder",
+        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_service_linked_configuration_recorder(
+    ServicePrincipal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return config_service(
+        "PutServiceLinkedConfigurationRecorder",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ServicePrincipal" => ServicePrincipal), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_stored_query(stored_query)
     put_stored_query(stored_query, params::Dict{String,<:Any})
 
@@ -4518,6 +5017,8 @@ upto 300 queries in a single Amazon Web Services account and a single Amazon Web
 Region.
 
 !!! note
+    **Tags are added at creation and cannot be updated**
+
     `PutStoredQuery` is an idempotent API. Subsequent requests won’t create a duplicate
     resource if one was already created. If a following request has different `tags` values,
     Config will ignore these differences and treat it as an idempotent request of the
@@ -4752,16 +5253,17 @@ end
     start_configuration_recorder(configuration_recorder_name)
     start_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
-Starts recording configurations of the Amazon Web Services resources you have selected to
-record in your Amazon Web Services account.
+Starts the customer managed configuration recorder. The customer managed configuration
+recorder will begin recording configuration changes for the resource types you specify.
 
-You must have created at least one delivery channel to successfully start the configuration
-recorder.
+You must have created a delivery channel to successfully start the customer managed
+configuration recorder. You can use the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html)
+operation to create a delivery channel.
 
 # Arguments
 
-- `configuration_recorder_name`: The name of the recorder object that records each
-  configuration change made to the resources.
+- `configuration_recorder_name`: The name of the customer managed configuration recorder
+  that you want to start.
 """
 function start_configuration_recorder end
 
@@ -4875,8 +5377,11 @@ proactive mode and resource type.
 
 # Arguments
 
-- `evaluation_mode`: The mode of an evaluation. The valid values for this API are
-  `DETECTIVE` and `PROACTIVE`.
+- `evaluation_mode`: The mode of an evaluation.
+
+  !!! note
+      The only valid value for this API is `PROACTIVE`.
+
 - `resource_details`: Returns a `ResourceDetails` object.
 
 # Optional Parameters
@@ -4941,13 +5446,14 @@ end
     stop_configuration_recorder(configuration_recorder_name)
     stop_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
-Stops recording configurations of the Amazon Web Services resources you have selected to
-record in your Amazon Web Services account.
+Stops the customer managed configuration recorder. The customer managed configuration
+recorder will stop recording configuration changes for the resource types you have
+specified.
 
 # Arguments
 
-- `configuration_recorder_name`: The name of the recorder object that records each
-  configuration change made to the resources.
+- `configuration_recorder_name`: The name of the customer managed configuration recorder
+  that you want to stop.
 """
 function stop_configuration_recorder end
 
@@ -4985,16 +5491,25 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associates the specified tags to a resource with the specified resourceArn. If existing tags
-on a resource are not specified in the request parameters, they are not changed. If existing
-tags are specified, however, then their values will be updated. When a resource is deleted,
-the tags associated with that resource are deleted as well.
+Associates the specified tags to a resource with the specified `ResourceArn`. If existing
+tags on a resource are not specified in the request parameters, they are not changed. If
+existing tags are specified, however, then their values will be updated. When a resource is
+deleted, the tags associated with that resource are deleted as well.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are `ConfigRule`,
-  `ConfigurationAggregator` and `AggregatorAuthorization`.
+  list the tags. The following resources are supported:
+
+  - `ConfigurationRecorder`
+  - `ConfigRule`
+  - `OrganizationConfigRule`
+  - `ConformancePack`
+  - `OrganizationConformancePack`
+  - `ConfigurationAggregator`
+  - `AggregationAuthorization`
+  - `StoredQuery`
+
 - `tags`: An array of tag object.
 """
 function tag_resource end
@@ -5037,8 +5552,17 @@ Deletes specified tags from a resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
-  list the tags. Currently, the supported resources are `ConfigRule`,
-  `ConfigurationAggregator` and `AggregatorAuthorization`.
+  list the tags. The following resources are supported:
+
+  - `ConfigurationRecorder`
+  - `ConfigRule`
+  - `OrganizationConfigRule`
+  - `ConformancePack`
+  - `OrganizationConformancePack`
+  - `ConfigurationAggregator`
+  - `AggregationAuthorization`
+  - `StoredQuery`
+
 - `tag_keys`: The keys of the tags to be removed.
 """
 function untag_resource end

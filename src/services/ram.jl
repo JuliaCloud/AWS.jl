@@ -72,10 +72,10 @@ end
     associate_resource_share(resource_share_arn)
     associate_resource_share(resource_share_arn, params::Dict{String,<:Any})
 
-Adds the specified list of principals and list of resources to a resource share. Principals
-that already have access to this resource share immediately receive access to the added
-resources. Newly added principals immediately receive access to the resources shared in this
-resource share.
+Adds the specified list of principals, resources, and source constraints to a resource
+share. Principals that already have access to this resource share immediately receive access
+to the added resources. Newly added principals immediately receive access to the resources
+shared in this resource share.
 
 # Arguments
 
@@ -114,6 +114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123`
   - An ARN of an IAM role, for example: `iam::123456789012:role/rolename`
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
+  - A service principal name, for example: `service-id.amazonaws.com`
 
   !!! note
       Not all resource types can be shared with IAM roles and users. For more information,
@@ -124,8 +125,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the resources that you want to share. This can be `null` if you want to add only
   principals.
 
-- `"sources"`: Specifies from which source accounts the service principal has access to the
-  resources in this resource share.
+- `"sources"`: Specifies source constraints (accounts, ARNs, organization IDs, or
+  organization paths) that limit when service principals can access resources in this
+  resource share. When a service principal attempts to access a shared resource, validation
+  is performed to ensure the request originates from one of the specified sources. This
+  helps prevent confused deputy attacks by applying constraints on where service principals
+  can access resources from.
 """
 function associate_resource_share end
 
@@ -289,9 +294,10 @@ operation.
 - `resource_type`: Specifies the name of the resource type that this customer managed
   permission applies to.
 
-  The format is `*<service-code>*:*<resource-type>*` and is not case sensitive. For example,
-  to specify an Amazon EC2 Subnet, you can use the string `ec2:subnet`. To see the list of
-  valid values for this parameter, query the `ListResourceTypes` operation.
+  The format is `*<service-code>*:*<resource-type>*` and is case sensitive. For example, to
+  specify an Amazon EC2 Subnet, you can use the string `ec2:Subnet`. To see the list of
+  valid values for this parameter, query the `ListResourceTypes` operation. This value must
+  match the display name of the resource (available in `ListResourceTypes`).
 
 # Optional Parameters
 
@@ -452,7 +458,8 @@ end
 
 Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
 for the resources that you want to share, a list of principals you want to share the
-resources with, and the permissions to grant those principals.
+resources with, the permissions to grant those principals, and optionally source constraints
+to enhance security for service principal sharing.
 
 !!! note
     Sharing a resource makes it available for use by principals outside of the Amazon Web
@@ -503,6 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123`
   - An ARN of an IAM role, for example: `iam::123456789012:role/rolename`
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
+  - A service principal name, for example: `service-id.amazonaws.com`
 
   !!! note
       Not all resource types can be shared with IAM roles and users. For more information,
@@ -512,8 +520,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArns"`: Specifies a list of one or more ARNs of the resources to associate with
   the resource share.
 
-- `"sources"`: Specifies from which source accounts the service principal has access to the
-  resources in this resource share.
+- `"resourceShareConfiguration"`: Specifies the configuration of this resource share.
+
+- `"sources"`: Specifies source constraints (accounts, ARNs, organization IDs, or
+  organization paths) that limit when service principals can access resources in this
+  resource share. When a service principal attempts to access a shared resource, validation
+  is performed to ensure the request originates from one of the specified sources. This
+  helps prevent confused deputy attacks by applying constraints on where service principals
+  can access resources from.
 
 - `"tags"`: Specifies one or more tags to attach to the resource share itself. It doesn't
   attach the tags to the resources associated with the resource share.
@@ -750,8 +764,8 @@ end
     disassociate_resource_share(resource_share_arn)
     disassociate_resource_share(resource_share_arn, params::Dict{String,<:Any})
 
-Removes the specified principals or resources from participating in the specified resource
-share.
+Removes the specified principals, resources, or source constraints from participating in the
+specified resource share.
 
 # Arguments
 
@@ -786,6 +800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123`
   - An ARN of an IAM role, for example: `iam::123456789012:role/rolename`
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
+  - A service principal name, for example: `service-id.amazonaws.com`
 
   !!! note
       Not all resource types can be shared with IAM roles and users. For more information,
@@ -797,8 +812,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation runs, these resources are no longer shared with principals associated with the
   resource share.
 
-- `"sources"`: Specifies from which source accounts the service principal no longer has
-  access to the resources in this resource share.
+- `"sources"`: Specifies source constraints (accounts, ARNs, organization IDs, or
+  organization paths) to remove from the resource share. This enables granular management of
+  source constraints while maintaining service principal associations. At least one source
+  must remain when service principals are present.
 """
 function disassociate_resource_share end
 
@@ -1001,6 +1018,12 @@ end
 
 Retrieves the resource policies for the specified resources that you own and have shared.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Arguments
 
 - `item`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -1059,6 +1082,12 @@ end
 
 Retrieves the lists of resources and principals that associated for resource shares that you
 own.
+
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 # Arguments
 
@@ -1142,6 +1171,12 @@ end
 
 Retrieves details about invitations that you have received for resource shares.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1193,6 +1228,12 @@ end
     get_resource_shares(resource_owner, params::Dict{String,<:Any})
 
 Retrieves details about the resource shares that you own or that are shared with you.
+
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 # Arguments
 
@@ -1276,6 +1317,12 @@ Lists the resources in a resource share that is shared with you but for which th
 is still `PENDING`. That means that you haven't accepted or rejected the invitation and the
 invitation hasn't expired.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Arguments
 
 - `resource_share_invitation_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -1353,6 +1400,12 @@ Lists information about the managed permission and its associations to any resou
 that use this managed permission. This lets you see which resource shares use which versions
 of the specified managed permission.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1420,6 +1473,12 @@ end
 
 Lists the available versions of the specified RAM permission.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Arguments
 
 - `permission_arn`: Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -1482,6 +1541,12 @@ end
 Retrieves a list of available RAM permissions that you can use for the supported resource
 types.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1537,6 +1602,12 @@ end
 Lists the principals that you are sharing resources with or that are sharing resources with
 you.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Arguments
 
 - `resource_owner`: Specifies that you want to list information for only resource shares
@@ -1576,6 +1647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123`
   - An ARN of an IAM role, for example: `iam::123456789012:role/rolename`
   - An ARN of an IAM user, for example: `iam::123456789012user/username`
+  - A service principal name, for example: `service-id.amazonaws.com`
 
   !!! note
       Not all resource types can be shared with IAM roles and users. For more information,
@@ -1627,6 +1699,12 @@ end
 
 Retrieves the current status of the asynchronous tasks performed by RAM when you perform the
 `ReplacePermissionAssociationsWork` operation.
+
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 # Optional Parameters
 
@@ -1683,6 +1761,12 @@ end
     list_resource_share_permissions(resource_share_arn, params::Dict{String,<:Any})
 
 Lists the RAM permissions that are associated with a resource share.
+
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 # Arguments
 
@@ -1793,6 +1877,12 @@ end
 Lists the resources that you added to a resource share or the resources that are shared with
 you.
 
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
+
 # Arguments
 
 - `resource_owner`: Specifies that you want to list only the resource shares that match the
@@ -1865,6 +1955,53 @@ function list_resources(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_source_associations()
+    list_source_associations(params::Dict{String,<:Any})
+
+Lists source associations for resource shares. Source associations control which sources can
+be used with service principals in resource shares. This operation provides visibility into
+source associations for resource share owners.
+
+You can filter the results by resource share Amazon Resource Name (ARN), source ID, source
+type, or association status. We recommend using pagination to ensure that the operation
+returns quickly and successfully.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"associationStatus"`: The status of the source associations that you want to retrieve.
+- `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned `nextToken` value.
+- `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
+- `"resourceShareArns"`: The Amazon Resource Names (ARNs) of the resource shares for which
+  you want to retrieve source associations.
+- `"sourceId"`: The identifier of the source for which you want to retrieve associations.
+  This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization
+  path.
+- `"sourceType"`: The type of source for which you want to retrieve associations.
+"""
+function list_source_associations end
+
+function list_source_associations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ram(
+        "POST", "/listsourceassociations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_source_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ram(
+        "POST",
+        "/listsourceassociations",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

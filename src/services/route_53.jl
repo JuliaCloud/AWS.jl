@@ -461,8 +461,8 @@ Note the following:
 
   - If you send a `CreateHealthCheck` request with the same `CallerReference` and settings
     as a previous request, and if the health check doesn't exist, Amazon Route 53 creates
-    the health check. If the health check does exist, Route 53 returns the settings for the
-    existing health check.
+    the health check. If the health check does exist, Route 53 returns the health check
+    configuration in the response.
   - If you send a `CreateHealthCheck` request with the same `CallerReference` as a deleted
     health check, regardless of the settings, Route 53 returns a `HealthCheckAlreadyExists`
     error.
@@ -804,7 +804,8 @@ There's a limit on the number of resource policies that you can create, so we re
 you use a consistent prefix so you can use the same resource policy for all the log groups
 that you create for query logging.
 2. Create a CloudWatch Logs resource policy, and give it the permissions that Route 53 needs
-   to create log streams and to send query logs to log streams. For the value of `Resource`,
+   to create log streams and to send query logs to log streams. You must create the
+   CloudWatch Logs resource policy in the us-east-1 region. For the value of `Resource`,
    specify the ARN for the log group that you created in the previous step. To use the same
    resource policy for all the CloudWatch Logs log groups that you created for query logging
    configurations, replace the hosted zone name with `*`, for example:
@@ -1423,11 +1424,11 @@ service. If the domain is registered with another registrar, use the method prov
 registrar to update name servers for the domain registration. For more information, perform
 an internet search on "free DNS service."
 
-You can delete a hosted zone only if it contains only the default SOA record and NS resource
-record sets. If the hosted zone contains other resource record sets, you must delete them
-before you can delete the hosted zone. If you try to delete a hosted zone that contains
-other resource record sets, the request fails, and Route 53 returns a `HostedZoneNotEmpty`
-error. For information about deleting records from your hosted zone, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html).
+You can delete a hosted zone only if it contains only the default SOA and NS records and has
+DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC enabled,
+you must delete the records and disable DNSSEC before deletion. Attempting to delete a
+hosted zone with additional records or DNSSEC enabled returns a `HostedZoneNotEmpty` error.
+For information about deleting records, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html).
 
 To verify that the hosted zone has been deleted, do one of the following:
 
@@ -2278,6 +2279,10 @@ end
 Gets information about a specified hosted zone including the four name servers assigned to
 the hosted zone.
 
+`` returns the VPCs associated with the specified hosted zone and does not reflect the VPC
+associations by Route 53 Profiles. To get the associations to a Profile, call the [ListProfileAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileAssociations.html)
+API.
+
 # Arguments
 
 - `id`: The ID of the hosted zone that you want to get information about.
@@ -3012,6 +3017,11 @@ which Amazon Web Services account or Amazon Web Services service owns the hosted
   and owns the hosted zone. For example, if a hosted zone was created by Amazon Elastic File
   System (Amazon EFS), the value of `Owner` is `efs.amazonaws.com`.
 
+`ListHostedZonesByVPC` returns the hosted zones associated with the specified VPC and does
+not reflect the hosted zone associations to VPCs via Route 53 Profiles. To get the
+associations to a Profile, call the [ListProfileResourceAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileResourceAssociations.html)
+API.
+
 !!! note
     When listing private hosted zones, the hosted zone and the Amazon VPC must belong to the
     same partition where the hosted zones were created. A partition is a group of Amazon Web
@@ -3185,6 +3195,9 @@ Amazon Route 53 returns the `InvalidInput` error.
 
 The results begin with the first resource record set in the list whose name is greater than
 or equal to `Name`, and whose type is greater than or equal to `Type`.
+
+!!! note
+    Type is only used to sort between records with the same record Name.
 **Resource record sets that are PENDING**
 
 This action returns the most current version of the records. This includes records that are
@@ -3974,8 +3987,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   After you disable a health check, Route 53 considers the status of the health check to
   always be healthy. If you configured DNS failover, Route 53 continues to route traffic to
-  the corresponding resources. If you want to stop routing traffic to a resource, change the
-  value of [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted).
+  the corresponding resources. Additionally, in disabled state, you can also invert the
+  status of the health check to route traffic differently. For more information, see [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted).
 
   Charges for a health check still apply when the health check is disabled. For more
   information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
@@ -4005,8 +4018,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html)
   in the *Amazon Route 53 Developer Guide*.
 
-  If you don't specify a value for `FailureThreshold`, the default value is three health
-  checks.
+  Otherwise, if you don't specify a value for `FailureThreshold`, the default value is three
+  health checks.
 
 - `"FullyQualifiedDomainName"`: Amazon Route 53 behavior depends on whether you specify a
   value for `IPAddress`.
@@ -4247,6 +4260,55 @@ function update_hosted_zone_comment(
     return route_53(
         "POST",
         "/2013-04-01/hostedzone/$(Id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_hosted_zone_features(hosted_zone_id)
+    update_hosted_zone_features(hosted_zone_id, params::Dict{String,<:Any})
+
+Updates the features configuration for a hosted zone. This operation allows you to enable or
+disable specific features for your hosted zone, such as accelerated recovery.
+
+Accelerated recovery enables you to update DNS records in your public hosted zone even when
+the us-east-1 region is unavailable.
+
+# Arguments
+
+- `hosted_zone_id`: The ID of the hosted zone for which you want to update features. This is
+  the unique identifier for your hosted zone.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EnableAcceleratedRecovery"`: Specifies whether to enable accelerated recovery for the
+  hosted zone. Set to `true` to enable accelerated recovery, or `false` to disable it.
+"""
+function update_hosted_zone_features end
+
+function update_hosted_zone_features(
+    HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/features";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_hosted_zone_features(
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route_53(
+        "POST",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/features",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

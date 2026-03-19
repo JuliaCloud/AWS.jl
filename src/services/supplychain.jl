@@ -25,7 +25,13 @@ creation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: An idempotency token.
+- `"clientToken"`: An idempotency token ensures the API request is only completed no more
+  than once. This way, retrying the request will not trigger the operation multiple times. A
+  client token is a unique, case-sensitive string of 33 to 128 ASCII characters. To make an
+  idempotent API request, specify a client token in the request. You should not reuse the
+  same client token for other requests. If you retry a successful request with the same
+  client token, the request will succeed with no further actions being taken, and you will
+  receive the same API response as the original successful request.
 """
 function create_bill_of_materials_import_job end
 
@@ -57,6 +63,423 @@ function create_bill_of_materials_import_job(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_integration_flow(instance_id, name, sources, target, transformation)
+    create_data_integration_flow(instance_id, name, sources, target, transformation, params::Dict{String,<:Any})
+
+Enables you to programmatically create a data pipeline to ingest data from source systems
+such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset
+(product, inbound_order) or a temporary dataset along with the data transformation query
+provided with the API.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+- `name`: Name of the DataIntegrationFlow.
+- `sources`: The source configurations for DataIntegrationFlow.
+- `target`: The target configurations for DataIntegrationFlow.
+- `transformation`: The transformation configurations for DataIntegrationFlow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: The tags of the DataIntegrationFlow to be created
+"""
+function create_data_integration_flow end
+
+function create_data_integration_flow(
+    instanceId,
+    name,
+    sources,
+    target,
+    transformation;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PUT",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)",
+        Dict{String,Any}(
+            "sources" => sources, "target" => target, "transformation" => transformation
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_integration_flow(
+    instanceId,
+    name,
+    sources,
+    target,
+    transformation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PUT",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sources" => sources,
+                    "target" => target,
+                    "transformation" => transformation,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_lake_dataset(instance_id, name, namespace)
+    create_data_lake_dataset(instance_id, name, namespace, params::Dict{String,<:Any})
+
+Enables you to programmatically create an Amazon Web Services Supply Chain data lake
+dataset. Developers can create the datasets using their pre-defined or custom schema for a
+given instance ID, namespace, and dataset name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+- `name`: The name of the dataset. For **asc** name space, the name must be one of the
+  supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+
+- `namespace`: The namespace of the dataset, besides the custom defined namespace, every
+  instance comes with below pre-defined namespaces:
+
+  - **asc** - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - For datasets with custom user-defined schemas.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the dataset.
+
+- `"partitionSpec"`: The partition specification of the dataset. Partitioning can
+  effectively improve the dataset query performance by reducing the amount of data scanned
+  during query execution. But partitioning or not will affect how data get ingested by data
+  ingestion methods, such as SendDataIntegrationEvent's dataset UPSERT will upsert records
+  within partition (instead of within whole dataset). For more details, refer to those data
+  ingestion documentations.
+
+- `"schema"`: The custom schema of the data lake dataset and required for dataset in
+  **default** and custom namespaces.
+
+- `"tags"`: The tags of the dataset.
+"""
+function create_data_lake_dataset end
+
+function create_data_lake_dataset(
+    instanceId, name, namespace; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "PUT",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_lake_dataset(
+    instanceId,
+    name,
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PUT",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_lake_namespace(instance_id, name)
+    create_data_lake_namespace(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically create an Amazon Web Services Supply Chain data lake
+namespace. Developers can create the namespaces for a given instance ID.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+- `name`: The name of the namespace. Noted you cannot create namespace with name starting
+  with **asc**, **default**, **scn**, **aws**, **amazon**, **amzn**
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the namespace.
+- `"tags"`: The tags of the namespace.
+"""
+function create_data_lake_namespace end
+
+function create_data_lake_namespace(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "PUT",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_lake_namespace(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PUT",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_instance()
+    create_instance(params::Dict{String,<:Any})
+
+Enables you to programmatically create an Amazon Web Services Supply Chain instance by
+applying KMS keys and relevant information associated with the API without using the Amazon
+Web Services console.
+
+This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web
+Services Supply Chain immediately returns the instance resource, instance ID, and the
+initializing state while simultaneously creating all required Amazon Web Services resources
+for an instance creation. You can use GetInstance to check the status of the instance. If
+the instance results in an unhealthy state, you need to check the error message, delete the
+current instance, and recreate a new one based on the mitigation from the error message.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: The client token for idempotency.
+- `"instanceDescription"`: The AWS Supply Chain instance description.
+- `"instanceName"`: The AWS Supply Chain instance name.
+- `"kmsKeyArn"`: The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
+  provide for encryption. This is required if you do not want to use the Amazon Web Services
+  owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web
+  Services owned KMS key.
+- `"tags"`: The Amazon Web Services tags of an instance to be created.
+- `"webAppDnsDomain"`: The DNS subdomain of the web app. This would be "example" in the URL
+  "example.scn.global.on.aws". You can set this to a custom value, as long as the domain
+  isn't already being used by someone else. The name may only include alphanumeric
+  characters and hyphens.
+"""
+function create_instance end
+
+function create_instance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain(
+        "POST",
+        "/api/instance",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "POST",
+        "/api/instance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_integration_flow(instance_id, name)
+    delete_data_integration_flow(instance_id, name, params::Dict{String,<:Any})
+
+Enable you to programmatically delete an existing data pipeline for the provided Amazon Web
+Services Supply Chain instance and DataIntegrationFlow name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+- `name`: The name of the DataIntegrationFlow to be deleted.
+"""
+function delete_data_integration_flow end
+
+function delete_data_integration_flow(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "DELETE",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_integration_flow(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "DELETE",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_lake_dataset(instance_id, name, namespace)
+    delete_data_lake_dataset(instance_id, name, namespace, params::Dict{String,<:Any})
+
+Enables you to programmatically delete an Amazon Web Services Supply Chain data lake
+dataset. Developers can delete the existing datasets for a given instance ID, namespace, and
+instance name.
+
+# Arguments
+
+- `instance_id`: The AWS Supply Chain instance identifier.
+
+- `name`: The name of the dataset. For **asc** namespace, the name must be one of the
+  supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+
+- `namespace`: The namespace of the dataset, besides the custom defined namespace, every
+  instance comes with below pre-defined namespaces:
+
+  - **asc** - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - For datasets with custom user-defined schemas.
+"""
+function delete_data_lake_dataset end
+
+function delete_data_lake_dataset(
+    instanceId, name, namespace; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "DELETE",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_lake_dataset(
+    instanceId,
+    name,
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "DELETE",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_lake_namespace(instance_id, name)
+    delete_data_lake_namespace(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically delete an Amazon Web Services Supply Chain data lake
+namespace and its underling datasets. Developers can delete the existing namespaces for a
+given instance ID and namespace name.
+
+# Arguments
+
+- `instance_id`: The AWS Supply Chain instance identifier.
+- `name`: The name of the namespace. Noted you cannot delete pre-defined namespace like
+  **asc**, **default** which are only deleted through instance deletion.
+"""
+function delete_data_lake_namespace end
+
+function delete_data_lake_namespace(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "DELETE",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_lake_namespace(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "DELETE",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_instance(instance_id)
+    delete_instance(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically delete an Amazon Web Services Supply Chain instance by
+deleting the KMS keys and relevant information associated with the API without using the
+Amazon Web Services console.
+
+This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web
+Services Supply Chain immediately returns a response with the instance resource, delete
+state while cleaning up all Amazon Web Services resources created during the instance
+creation process. You can use the GetInstance action to check the instance status.
+
+# Arguments
+
+- `instance_id`: The AWS Supply Chain instance identifier.
+"""
+function delete_instance end
+
+function delete_instance(instanceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain(
+        "DELETE", "/api/instance/$(instanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_instance(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "DELETE",
+        "/api/instance/$(instanceId)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -102,25 +525,637 @@ function get_bill_of_materials_import_job(
 end
 
 """
-    send_data_integration_event(data, event_group_id, event_type, instance_id)
-    send_data_integration_event(data, event_group_id, event_type, instance_id, params::Dict{String,<:Any})
+    get_data_integration_event(event_id, instance_id)
+    get_data_integration_event(event_id, instance_id, params::Dict{String,<:Any})
 
-Send transactional data events with real-time data for analysis or monitoring.
+Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration
+Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget,
+datasetLoadExecution.
 
 # Arguments
 
-- `data`: The data payload of the event.
-- `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
-  sharing or partitioning.
-- `event_type`: The data event type.
+- `event_id`: The unique event identifier.
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+"""
+function get_data_integration_event end
+
+function get_data_integration_event(
+    eventId, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-events/$(eventId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_integration_event(
+    eventId,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-events/$(eventId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_integration_flow(instance_id, name)
+    get_data_integration_flow(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically view a specific data pipeline for the provided Amazon Web
+Services Supply Chain instance and DataIntegrationFlow name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+- `name`: The name of the DataIntegrationFlow created.
+"""
+function get_data_integration_flow end
+
+function get_data_integration_flow(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_integration_flow(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_integration_flow_execution(execution_id, flow_name, instance_id)
+    get_data_integration_flow_execution(execution_id, flow_name, instance_id, params::Dict{String,<:Any})
+
+Get the flow execution.
+
+# Arguments
+
+- `execution_id`: The flow execution identifier.
+- `flow_name`: The flow name.
+- `instance_id`: The AWS Supply Chain instance identifier.
+"""
+function get_data_integration_flow_execution end
+
+function get_data_integration_flow_execution(
+    executionId, flowName, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-flows/$(flowName)/executions/$(executionId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_integration_flow_execution(
+    executionId,
+    flowName,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-flows/$(flowName)/executions/$(executionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_lake_dataset(instance_id, name, namespace)
+    get_data_lake_dataset(instance_id, name, namespace, params::Dict{String,<:Any})
+
+Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset.
+Developers can view the data lake dataset information such as namespace, schema, and so on
+for a given instance ID, namespace, and dataset name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+- `name`: The name of the dataset. For **asc** namespace, the name must be one of the
+  supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+
+- `namespace`: The namespace of the dataset, besides the custom defined namespace, every
+  instance comes with below pre-defined namespaces:
+
+  - **asc** - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - For datasets with custom user-defined schemas.
+"""
+function get_data_lake_dataset end
+
+function get_data_lake_dataset(
+    instanceId, name, namespace; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_lake_dataset(
+    instanceId,
+    name,
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_lake_namespace(instance_id, name)
+    get_data_lake_namespace(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically view an Amazon Web Services Supply Chain data lake
+namespace. Developers can view the data lake namespace information such as description for a
+given instance ID and namespace name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+- `name`: The name of the namespace. Besides the namespaces user created, you can also
+  specify the pre-defined namespaces:
+
+  - **asc** - Pre-defined namespace containing Amazon Web Services Supply Chain supported
+    datasets, see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - Pre-defined namespace containing datasets with custom user-defined
+    schemas.
+"""
+function get_data_lake_namespace end
+
+function get_data_lake_namespace(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_lake_namespace(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_instance(instance_id)
+    get_instance(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically retrieve the information related to an Amazon Web Services
+Supply Chain instance ID.
+
+# Arguments
+
+- `instance_id`: The AWS Supply Chain instance identifier
+"""
+function get_instance end
+
+function get_instance(instanceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain(
+        "GET", "/api/instance/$(instanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_instance(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/instance/$(instanceId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_integration_events(instance_id)
+    list_data_integration_events(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically list all data integration events for the provided Amazon Web
+Services Supply Chain instance.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"eventType"`: List data integration events for the specified eventType.
+- `"maxResults"`: Specify the maximum number of data integration events to fetch in one
+  paginated request.
+- `"nextToken"`: The pagination token to fetch the next page of the data integration events.
+"""
+function list_data_integration_events end
+
+function list_data_integration_events(
+    instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-events";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_integration_events(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-events",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_integration_flow_executions(flow_name, instance_id)
+    list_data_integration_flow_executions(flow_name, instance_id, params::Dict{String,<:Any})
+
+List flow executions.
+
+# Arguments
+
+- `flow_name`: The flow name.
 - `instance_id`: The AWS Supply Chain instance identifier.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientToken"`: The idempotent client token.
-- `"eventTimestamp"`: The event timestamp (in epoch seconds).
+- `"maxResults"`: The number to specify the max number of flow executions to fetch in this
+  paginated request.
+- `"nextToken"`: The pagination token to fetch next page of flow executions.
+"""
+function list_data_integration_flow_executions end
+
+function list_data_integration_flow_executions(
+    flowName, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-flows/$(flowName)/executions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_integration_flow_executions(
+    flowName,
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api-data/data-integration/instance/$(instanceId)/data-integration-flows/$(flowName)/executions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_integration_flows(instance_id)
+    list_data_integration_flows(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically list all data pipelines for the provided Amazon Web Services
+Supply Chain instance.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Specify the maximum number of DataIntegrationFlows to fetch in one
+  paginated request.
+- `"nextToken"`: The pagination token to fetch the next page of the DataIntegrationFlows.
+"""
+function list_data_integration_flows end
+
+function list_data_integration_flows(
+    instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_integration_flows(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_lake_datasets(instance_id, namespace)
+    list_data_lake_datasets(instance_id, namespace, params::Dict{String,<:Any})
+
+Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake
+datasets. Developers can view the datasets and the corresponding information such as
+namespace, schema, and so on for a given instance ID and namespace.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+- `namespace`: The namespace of the dataset, besides the custom defined namespace, every
+  instance comes with below pre-defined namespaces:
+
+  - **asc** - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - For datasets with custom user-defined schemas.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The max number of datasets to fetch in this paginated request.
+- `"nextToken"`: The pagination token to fetch next page of datasets.
+"""
+function list_data_lake_datasets end
+
+function list_data_lake_datasets(
+    instanceId, namespace; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_lake_datasets(
+    instanceId,
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_lake_namespaces(instance_id)
+    list_data_lake_namespaces(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake
+namespaces. Developers can view the namespaces and the corresponding information such as
+description for a given instance ID. Note that this API only return custom namespaces,
+instance pre-defined namespaces are not included.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The max number of namespaces to fetch in this paginated request.
+- `"nextToken"`: The pagination token to fetch next page of namespaces.
+"""
+function list_data_lake_namespaces end
+
+function list_data_lake_namespaces(
+    instanceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_lake_namespaces(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/datalake/instance/$(instanceId)/namespaces",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_instances()
+    list_instances(params::Dict{String,<:Any})
+
+List all Amazon Web Services Supply Chain instances for a specific account. Enables you to
+programmatically list all Amazon Web Services Supply Chain instances based on their account
+ID, instance name, and state of the instance (active or delete).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"instanceNameFilter"`: The filter to ListInstances based on their names.
+- `"instanceStateFilter"`: The filter to ListInstances based on their state.
+- `"maxResults"`: Specify the maximum number of instances to fetch in this paginated
+  request.
+- `"nextToken"`: The pagination token to fetch the next page of instances.
+"""
+function list_instances end
+
+function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain("GET", "/api/instance"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET", "/api/instance", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags
+added to a resource. By listing the tags, developers can view the tag level information on a
+resource and perform actions such as, deleting a resource associated with a particular tag.
+
+# Arguments
+
+- `resource_arn`: The Amazon Web Services Supply chain resource ARN that needs tags to be
+  listed.
+"""
+function list_tags_for_resource end
+
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "GET", "/api/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "GET",
+        "/api/tags/$(resourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_data_integration_event(data, event_group_id, event_type, instance_id)
+    send_data_integration_event(data, event_group_id, event_type, instance_id, params::Dict{String,<:Any})
+
+Send the data payload for the event with real-time data for analysis or monitoring. The
+real-time data events are stored in an Amazon Web Services service before being processed
+and stored in data lake.
+
+# Arguments
+
+- `data`: The data payload of the event, should follow the data schema of the target
+  dataset, or see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  To send single data record, use JsonObject format; to send multiple data records, use
+  JsonArray format.
+
+  Note that for AWS Supply Chain dataset under **asc** namespace, it has a connection_id
+  internal field that is not allowed to be provided by client directly, they will be auto
+  populated.
+
+- `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
+  sharding or partitioning. Noted under one eventGroupId of same eventType and instanceId,
+  events are processed sequentially in the order they are received by the server.
+
+- `event_type`: The data event type.
+
+  - **scn.data.dataset** - Send data directly to any specified dataset.
+  - **scn.data.supplyplan** - Send data to [supply_plan](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/supply-plan-entity.html)
+    dataset.
+  - **scn.data.shipmentstoporder** - Send data to [shipment_stop_order](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-stop-order-entity.html)
+    dataset.
+  - **scn.data.shipmentstop** - Send data to [shipment_stop](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-stop-entity.html)
+    dataset.
+  - **scn.data.shipment** - Send data to [shipment](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-shipment-entity.html)
+    dataset.
+  - **scn.data.reservation** - Send data to [reservation](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/planning-reservation-entity.html)
+    dataset.
+  - **scn.data.processproduct** - Send data to [process_product](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-product-entity.html)
+    dataset.
+  - **scn.data.processoperation** - Send data to [process_operation](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-operation-entity.html)
+    dataset.
+  - **scn.data.processheader** - Send data to [process_header](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/operation-process-header-entity.html)
+    dataset.
+  - **scn.data.forecast** - Send data to [forecast](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/forecast-forecast-entity.html)
+    dataset.
+  - **scn.data.inventorylevel** - Send data to [inv_level](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/inventory_mgmnt-inv-level-entity.html)
+    dataset.
+  - **scn.data.inboundorder** - Send data to [inbound_order](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-entity.html)
+    dataset.
+  - **scn.data.inboundorderline** - Send data to [inbound_order_line](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-line-entity.html)
+    dataset.
+  - **scn.data.inboundorderlineschedule** - Send data to [inbound_order_line_schedule](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/replenishment-inbound-order-line-schedule-entity.html)
+    dataset.
+  - **scn.data.outboundorderline** - Send data to [outbound_order_line](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/outbound-fulfillment-order-line-entity.html)
+    dataset.
+  - **scn.data.outboundshipment** - Send data to [outbound_shipment](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/outbound-fulfillment-shipment-entity.html)
+    dataset.
+
+- `instance_id`: The AWS Supply Chain instance identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: The idempotent client token. The token is active for 8 hours, and within
+  its lifetime, it ensures the request completes only once upon retry with same client
+  token. If omitted, the AWS SDK generates a unique value so that AWS SDK can safely retry
+  the request upon network errors.
+- `"datasetTarget"`: The target dataset configuration for **scn.data.dataset** event type.
+- `"eventTimestamp"`: The timestamp (in epoch seconds) associated with the event. If not
+  provided, it will be assigned with current timestamp.
 """
 function send_data_integration_event end
 
@@ -168,6 +1203,288 @@ function send_data_integration_event(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+You can create tags during or after creating a resource such as instance, data flow, or
+dataset in AWS Supply chain. During the data ingestion process, you can add tags such as
+dev, test, or prod to data flows created during the data ingestion process in the AWS Supply
+Chain datasets. You can use these tags to identify a group of resources or a single resource
+used by the developer.
+
+# Arguments
+
+- `resource_arn`: The Amazon Web Services Supply chain resource ARN that needs to be tagged.
+- `tags`: The tags of the Amazon Web Services Supply chain resource to be created.
+"""
+function tag_resource end
+
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain(
+        "POST",
+        "/api/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "POST",
+        "/api/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+You can delete tags for an Amazon Web Services Supply chain resource such as instance, data
+flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags
+such as dev, test, or prod to data flows created during the data ingestion process in the
+AWS Supply Chain datasets.
+
+# Arguments
+
+- `resource_arn`: The Amazon Web Services Supply chain resource ARN that needs to be
+  untagged.
+- `tag_keys`: The list of tag keys to be deleted for an Amazon Web Services Supply Chain
+  resource.
+"""
+function untag_resource end
+
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "DELETE",
+        "/api/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "DELETE",
+        "/api/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_integration_flow(instance_id, name)
+    update_data_integration_flow(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically update an existing data pipeline to ingest data from the
+source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain
+dataset (product, inbound_order) or a temporary dataset along with the data transformation
+query provided with the API.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Supply Chain instance identifier.
+- `name`: The name of the DataIntegrationFlow to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"sources"`: The new source configurations for the DataIntegrationFlow.
+- `"target"`: The new target configurations for the DataIntegrationFlow.
+- `"transformation"`: The new transformation configurations for the DataIntegrationFlow.
+"""
+function update_data_integration_flow end
+
+function update_data_integration_flow(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "PATCH",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_integration_flow(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PATCH",
+        "/api/data-integration/instance/$(instanceId)/data-integration-flows/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_lake_dataset(instance_id, name, namespace)
+    update_data_lake_dataset(instance_id, name, namespace, params::Dict{String,<:Any})
+
+Enables you to programmatically update an Amazon Web Services Supply Chain data lake
+dataset. Developers can update the description of a data lake dataset for a given instance
+ID, namespace, and dataset name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Chain instance identifier.
+
+- `name`: The name of the dataset. For **asc** namespace, the name must be one of the
+  supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+
+- `namespace`: The namespace of the dataset, besides the custom defined namespace, every
+  instance comes with below pre-defined namespaces:
+
+  - **asc** - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  - **default** - For datasets with custom user-defined schemas.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The updated description of the data lake dataset.
+"""
+function update_data_lake_dataset end
+
+function update_data_lake_dataset(
+    instanceId, name, namespace; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "PATCH",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_lake_dataset(
+    instanceId,
+    name,
+    namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PATCH",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(namespace)/datasets/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_lake_namespace(instance_id, name)
+    update_data_lake_namespace(instance_id, name, params::Dict{String,<:Any})
+
+Enables you to programmatically update an Amazon Web Services Supply Chain data lake
+namespace. Developers can update the description of a data lake namespace for a given
+instance ID and namespace name.
+
+# Arguments
+
+- `instance_id`: The Amazon Web Services Chain instance identifier.
+- `name`: The name of the namespace. Noted you cannot update namespace with name starting
+  with **asc**, **default**, **scn**, **aws**, **amazon**, **amzn**
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The updated description of the data lake namespace.
+"""
+function update_data_lake_namespace end
+
+function update_data_lake_namespace(
+    instanceId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return supplychain(
+        "PATCH",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_lake_namespace(
+    instanceId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PATCH",
+        "/api/datalake/instance/$(instanceId)/namespaces/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_instance(instance_id)
+    update_instance(instance_id, params::Dict{String,<:Any})
+
+Enables you to programmatically update an Amazon Web Services Supply Chain instance
+description by providing all the relevant information such as account ID, instance ID and so
+on without using the AWS console.
+
+# Arguments
+
+- `instance_id`: The AWS Supply Chain instance identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"instanceDescription"`: The AWS Supply Chain instance description.
+- `"instanceName"`: The AWS Supply Chain instance name.
+"""
+function update_instance end
+
+function update_instance(instanceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return supplychain(
+        "PATCH", "/api/instance/$(instanceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_instance(
+    instanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return supplychain(
+        "PATCH",
+        "/api/instance/$(instanceId)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

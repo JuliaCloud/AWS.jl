@@ -712,8 +712,8 @@ function create_dataset_group(
 end
 
 """
-    create_dataset_import_job(data_source, dataset_arn, job_name, role_arn)
-    create_dataset_import_job(data_source, dataset_arn, job_name, role_arn, params::Dict{String,<:Any})
+    create_dataset_import_job(data_source, dataset_arn, job_name)
+    create_dataset_import_job(data_source, dataset_arn, job_name, params::Dict{String,<:Any})
 
 Creates a job that imports training data from your data source (an Amazon S3 bucket) to an
 Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you
@@ -755,8 +755,6 @@ includes a `failureReason` key, which describes why the job failed.
 - `data_source`: The Amazon S3 bucket that contains the training data to import.
 - `dataset_arn`: The ARN of the dataset that receives the imported data.
 - `job_name`: The name for the dataset import job.
-- `role_arn`: The ARN of the IAM role that has permissions to read from the Amazon S3 data
-  source.
 
 # Optional Parameters
 
@@ -774,25 +772,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"publishAttributionMetricsToS3"`: If you created a metric attribution, specify whether to
   publish metrics for this import job to Amazon S3
 
+- `"roleArn"`: The ARN of the IAM role that has permissions to read from the Amazon S3 data
+  source.
+
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the dataset import job.
 """
 function create_dataset_import_job end
 
 function create_dataset_import_job(
-    dataSource,
-    datasetArn,
-    jobName,
-    roleArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    dataSource, datasetArn, jobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return personalize(
         "CreateDatasetImportJob",
         Dict{String,Any}(
-            "dataSource" => dataSource,
-            "datasetArn" => datasetArn,
-            "jobName" => jobName,
-            "roleArn" => roleArn,
+            "dataSource" => dataSource, "datasetArn" => datasetArn, "jobName" => jobName
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -803,7 +797,6 @@ function create_dataset_import_job(
     dataSource,
     datasetArn,
     jobName,
-    roleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -816,7 +809,6 @@ function create_dataset_import_job(
                     "dataSource" => dataSource,
                     "datasetArn" => datasetArn,
                     "jobName" => jobName,
-                    "roleArn" => roleArn,
                 ),
                 params,
             ),
@@ -1217,11 +1209,10 @@ end
     create_solution(dataset_group_arn, name, params::Dict{String,<:Any})
 
 !!! important
-    After you create a solution, you can’t change its configuration. By default, all new
-    solutions use automatic training. With automatic training, you incur training costs
-    while your solution is active. You can't stop automatic training for a solution. To
-    avoid unnecessary costs, make sure to delete the solution when you are finished. For
-    information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+    By default, all new solutions use automatic training. With automatic training, you incur
+    training costs while your solution is active. To avoid unnecessary costs, when you are
+    finished you can [update the solution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
+    to turn off automatic training. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
 
 Creates the configuration for training a model (creating a solution version). This
 configuration includes the recipe to use for model training and optional training
@@ -1229,9 +1220,9 @@ configuration, such as columns to use in training and feature transformation par
 more information about configuring a solution, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
 
 By default, new solutions use automatic training to create solution versions every 7 days.
-You can change the training frequency. Automatic solution version creation starts one hour
-after the solution is ACTIVE. If you manually create a solution version within the hour, the
-solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+You can change the training frequency. Automatic solution version creation starts within one
+hour after the solution is ACTIVE. If you manually create a solution version within the
+hour, the solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
 
 To turn off automatic training, set `performAutoTraining` to false. If you turn off
 automatic training, you must manually create a solution version by calling the [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html)
@@ -1263,6 +1254,7 @@ If you use manual training, the status must be ACTIVE before you call
 
 ## Related APIs
 
+- [UpdateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
 - [ListSolutions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutions.html)
 - [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html)
 - [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
@@ -1307,9 +1299,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifying a `schedulingExpression` in the `AutoTrainingConfig` as part of solution
   configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
 
-  Automatic solution version creation starts one hour after the solution is ACTIVE. If you
-  manually create a solution version within the hour, the solution skips the first automatic
-  training.
+  Automatic solution version creation starts within one hour after the solution is ACTIVE.
+  If you manually create a solution version within the hour, the solution skips the first
+  automatic training.
 
   After training starts, you can get the solution version's Amazon Resource Name (ARN) with
   the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html)
@@ -1321,11 +1313,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When performing AutoML, this parameter is always `true` and you should not set it to
   `false`.
 
+- `"performIncrementalUpdate"`: Whether to perform incremental training updates on your
+  model. When enabled, this allows the model to learn from new data more frequently without
+  requiring full retraining, which enables near real-time personalization. This parameter is
+  supported only for solutions that use the semantic-similarity recipe.
+
 - `"recipeArn"`: The Amazon Resource Name (ARN) of the recipe to use for model training.
   This is required when `performAutoML` is false. For information about different Amazon
   Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
 
-- `"solutionConfig"`: The configuration to use with the solution. When `performAutoML` is
+- `"solutionConfig"`: The configuration properties for the solution. When `performAutoML` is
   set to true, Amazon Personalize only evaluates the `autoMLConfig` section of the solution
   configuration.
 
@@ -1506,8 +1503,8 @@ end
     delete_dataset(dataset_arn, params::Dict{String,<:Any})
 
 Deletes a dataset. You can't delete a dataset if an associated `DatasetImportJob` or
-`SolutionVersion` is in the CREATE PENDING or IN PROGRESS state. For more information on
-datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
+`SolutionVersion` is in the CREATE PENDING or IN PROGRESS state. For more information about
+deleting datasets, see [Deleting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/delete-dataset.html).
 
 # Arguments
 
@@ -3602,6 +3599,75 @@ function update_recommender(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_solution(solution_arn)
+    update_solution(solution_arn, params::Dict{String,<:Any})
+
+Updates an Amazon Personalize solution to use a different automatic training configuration.
+When you update a solution, you can change whether the solution uses automatic training, and
+you can change the training frequency. For more information about updating a solution, see [Updating a solution](https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html).
+
+A solution update can be in one of the following states:
+
+CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+
+To get the status of a solution update, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
+API operation and find the status in the `latestSolutionUpdate`.
+
+# Arguments
+
+- `solution_arn`: The Amazon Resource Name (ARN) of the solution to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"performAutoTraining"`: Whether the solution uses automatic training to create new
+  solution versions (trained models). You can change the training frequency by specifying a
+  `schedulingExpression` in the `AutoTrainingConfig` as part of solution configuration.
+
+  If you turn on automatic training, the first automatic training starts within one hour
+  after the solution update completes. If you manually create a solution version within the
+  hour, the solution skips the first automatic training. For more information about
+  automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+
+  After training starts, you can get the solution version's Amazon Resource Name (ARN) with
+  the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html)
+  API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+
+- `"performIncrementalUpdate"`: Whether to perform incremental training updates on your
+  model. When enabled, this allows the model to learn from new data more frequently without
+  requiring full retraining, which enables near real-time personalization. This parameter is
+  supported only for solutions that use the semantic-similarity recipe.
+
+- `"solutionUpdateConfig"`: The new configuration details of the solution.
+"""
+function update_solution end
+
+function update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "UpdateSolution",
+        Dict{String,Any}("solutionArn" => solutionArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_solution(
+    solutionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return personalize(
+        "UpdateSolution",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

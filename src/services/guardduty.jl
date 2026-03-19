@@ -71,8 +71,14 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 # Arguments
 
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `invitation_id`: The value that is used to validate the administrator account to the
   member account.
+
 - `master_id`: The account ID of the GuardDuty administrator account whose invitation you're
   accepting.
 """
@@ -126,6 +132,11 @@ Archives GuardDuty findings that are specified by the list of finding IDs.
 
 - `detector_id`: The ID of the detector that specifies the GuardDuty service whose findings
   you want to archive.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `finding_ids`: The IDs of the findings that you want to archive.
 """
 function archive_findings end
@@ -244,8 +255,12 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
 
 # Arguments
 
-- `detector_id`: The ID of the detector belonging to the GuardDuty account that you want to
-  create a filter for.
+- `detector_id`: The detector ID associated with the GuardDuty account for which you want to
+  create a filter.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 - `finding_criteria`: Represents the criteria to be used in the filter for querying
   findings.
@@ -261,8 +276,10 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
   condition:
     - **Low**: `["1", "2", "3"]`
     - **Medium**: `["4", "5", "6"]`
-    - **High**: `["7", "8", "9"]`
-  For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+    - **High**: `["7", "8"]`
+    - **Critical**: `["9", "10"]`
+  For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html)
+  in the *Amazon GuardDuty User Guide*.
   - type
   - updatedAt
 
@@ -305,6 +322,7 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
   - service.action.awsApiCallAction.serviceName
   - service.action.dnsRequestAction.domain
   - service.action.dnsRequestAction.domainWithSuffix
+  - service.action.dnsRequestAction.vpcOwnerAccountId
   - service.action.networkConnectionAction.blocked
   - service.action.networkConnectionAction.connectionDirection
   - service.action.networkConnectionAction.localPortDetails.port
@@ -353,7 +371,7 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
   - resource.rdsDbInstanceDetails.tags.value
   - service.runtimeDetails.process.executableSha256
   - service.runtimeDetails.process.name
-  - service.runtimeDetails.process.name
+  - service.runtimeDetails.process.executablePath
   - resource.lambdaDetails.functionName
   - resource.lambdaDetails.functionArn
   - resource.lambdaDetails.tags.key
@@ -436,8 +454,12 @@ this operation.
 - `activate`: A Boolean value that indicates whether GuardDuty is to start using the
   uploaded IPSet.
 
-- `detector_id`: The unique ID of the detector of the GuardDuty account that you want to
-  create an IPSet for.
+- `detector_id`: The unique ID of the detector of the GuardDuty account for which you want
+  to create an IPSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 - `format`: The format of the file that contains the IPSet.
 
@@ -452,6 +474,8 @@ this operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The idempotency token for the create request.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
 - `"Tags"`: The tags to be added to a new IP set resource.
 """
 function create_ipset end
@@ -523,8 +547,8 @@ GuardDuty Malware Protection apply. For more information, see [Amazon Web Servic
 - `protected_resource`: Information about the protected resource that is associated with the
   created Malware Protection plan. Presently, `S3Bucket` is the only supported protected
   resource.
-- `role`: IAM role with permissions required to scan and add tags to the associated
-  protected resource.
+- `role`: Amazon Resource Name (ARN) of the IAM role that has the permissions to scan and
+  add tags to the associated protected resource.
 
 # Optional Parameters
 
@@ -610,8 +634,13 @@ association with these member accounts again only by calling the CreateMembers A
 
 - `account_details`: A list of account ID and email address pairs of the accounts that you
   want to associate with the GuardDuty administrator account.
-- `detector_id`: The unique ID of the detector of the GuardDuty account that you want to
-  associate member accounts with.
+
+- `detector_id`: The unique ID of the detector of the GuardDuty account for which you want
+  to associate member accounts.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function create_members end
 
@@ -648,23 +677,30 @@ end
     create_publishing_destination(destination_properties, destination_type, detector_id)
     create_publishing_destination(destination_properties, destination_type, detector_id, params::Dict{String,<:Any})
 
-Creates a publishing destination to export findings to. The resource to export findings to
-must exist before you use this operation.
+Creates a publishing destination where you can export your GuardDuty findings. Before you
+start exporting the findings, the destination resource must exist.
 
 # Arguments
 
 - `destination_properties`: The properties of the publishing destination, including the ARNs
   for the destination and the KMS key used for encryption.
+
 - `destination_type`: The type of resource for the publishing destination. Currently only
   Amazon S3 buckets are supported.
+
 - `detector_id`: The ID of the GuardDuty detector associated with the publishing
   destination.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The idempotency token for the request.
+- `"Tags"`: The tags to be added to a new publishing destination resource.
 """
 function create_publishing_destination end
 
@@ -723,7 +759,11 @@ types.
 
 # Arguments
 
-- `detector_id`: The ID of the detector to create sample findings for.
+- `detector_id`: The ID of the detector for which you need to create sample findings.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -759,6 +799,104 @@ function create_sample_findings(
 end
 
 """
+    create_threat_entity_set(activate, detector_id, format, location, name)
+    create_threat_entity_set(activate, detector_id, format, location, name, params::Dict{String,<:Any})
+
+Creates a new threat entity set. In a threat entity set, you can provide known malicious IP
+addresses and domains for your Amazon Web Services environment. GuardDuty generates findings
+based on the entries in the threat entity sets. Only users of the administrator account can
+manage entity sets, which automatically apply to member accounts.
+
+# Arguments
+
+- `activate`: A boolean value that indicates whether GuardDuty should start using the
+  uploaded threat entity set to generate findings.
+
+- `detector_id`: The unique ID of the detector of the GuardDuty account for which you want
+  to create a threat entity set.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `format`: The format of the file that contains the threat entity set.
+
+- `location`: The URI of the file that contains the threat entity set. The format of the
+  `Location` URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an
+  error, regardless of whether you activate the entity set or not. For more information
+  about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html)
+  in the *Amazon GuardDuty User Guide*.
+
+- `name`: A user-friendly name to identify the threat entity set.
+
+  The name of your list can include lowercase letters, uppercase letters, numbers, dash (-),
+  and underscore (_).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: The idempotency token for the create request.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
+- `"Tags"`: The tags to be added to a new threat entity set resource.
+"""
+function create_threat_entity_set end
+
+function create_threat_entity_set(
+    Activate,
+    DetectorId,
+    Format,
+    Location,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/threatentityset",
+        Dict{String,Any}(
+            "Activate" => Activate,
+            "Format" => Format,
+            "Location" => Location,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_threat_entity_set(
+    Activate,
+    DetectorId,
+    Format,
+    Location,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/threatentityset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Activate" => Activate,
+                    "Format" => Format,
+                    "Location" => Location,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_threat_intel_set(activate, detector_id, format, location, name)
     create_threat_intel_set(activate, detector_id, format, location, name, params::Dict{String,<:Any})
 
@@ -770,10 +908,18 @@ account can use this operation.
 
 - `activate`: A Boolean value that indicates whether GuardDuty is to start using the
   uploaded ThreatIntelSet.
-- `detector_id`: The unique ID of the detector of the GuardDuty account that you want to
-  create a threatIntelSet for.
+
+- `detector_id`: The unique ID of the detector of the GuardDuty account for which you want
+  to create a `threatIntelSet`.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `format`: The format of the file that contains the ThreatIntelSet.
+
 - `location`: The URI of the file that contains the ThreatIntelSet.
+
 - `name`: A user-friendly ThreatIntelSet name displayed in all findings that are generated
   by activity that involves IP addresses included in this ThreatIntelSet.
 
@@ -782,6 +928,8 @@ account can use this operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The idempotency token for the create request.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
 - `"Tags"`: The tags to be added to a new threat list resource.
 """
 function create_threat_intel_set end
@@ -821,6 +969,107 @@ function create_threat_intel_set(
     return guardduty(
         "POST",
         "/detector/$(DetectorId)/threatintelset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Activate" => Activate,
+                    "Format" => Format,
+                    "Location" => Location,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_trusted_entity_set(activate, detector_id, format, location, name)
+    create_trusted_entity_set(activate, detector_id, format, location, name, params::Dict{String,<:Any})
+
+Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses
+and domains that you believe are secure for communication in your Amazon Web Services
+environment. GuardDuty will not generate findings for the entries that are specified in a
+trusted entity set. At any given time, you can have only one trusted entity set.
+
+Only users of the administrator account can manage the entity sets, which automatically
+apply to member accounts.
+
+# Arguments
+
+- `activate`: A boolean value that indicates whether GuardDuty is to start using the
+  uploaded trusted entity set.
+
+- `detector_id`: The unique ID of the detector of the GuardDuty account for which you want
+  to create a trusted entity set.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `format`: The format of the file that contains the trusted entity set.
+
+- `location`: The URI of the file that contains the threat entity set. The format of the
+  `Location` URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an
+  error, regardless of whether you activate the entity set or not. For more information
+  about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html)
+  in the *Amazon GuardDuty User Guide*.
+
+- `name`: A user-friendly name to identify the trusted entity set.
+
+  The name of your list can include lowercase letters, uppercase letters, numbers, dash (-),
+  and underscore (_).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: The idempotency token for the create request.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
+- `"Tags"`: The tags to be added to a new trusted entity set resource.
+"""
+function create_trusted_entity_set end
+
+function create_trusted_entity_set(
+    Activate,
+    DetectorId,
+    Format,
+    Location,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/trustedentityset",
+        Dict{String,Any}(
+            "Activate" => Activate,
+            "Format" => Format,
+            "Location" => Location,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_trusted_entity_set(
+    Activate,
+    DetectorId,
+    Format,
+    Location,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/trustedentityset",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -888,6 +1137,10 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 # Arguments
 
 - `detector_id`: The unique ID of the detector that you want to delete.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function delete_detector end
 
@@ -919,7 +1172,12 @@ Deletes the filter specified by the filter name.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the filter is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the filter.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `filter_name`: The name of the filter that you want to delete.
 """
 function delete_filter end
@@ -1000,6 +1258,11 @@ console user interface.
 # Arguments
 
 - `detector_id`: The unique ID of the detector associated with the IPSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `ip_set_id`: The unique ID of the IPSet to delete.
 """
 function delete_ipset end
@@ -1085,8 +1348,13 @@ organization.
 
 - `account_ids`: A list of account IDs of the GuardDuty member accounts that you want to
   delete.
+
 - `detector_id`: The unique ID of the detector of the GuardDuty account whose members you
   want to delete.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function delete_members end
 
@@ -1128,8 +1396,13 @@ Deletes the publishing definition with the specified `destinationId`.
 # Arguments
 
 - `destination_id`: The ID of the publishing destination to delete.
+
 - `detector_id`: The unique ID of the detector associated with the publishing destination to
   delete.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function delete_publishing_destination end
 
@@ -1160,6 +1433,52 @@ function delete_publishing_destination(
 end
 
 """
+    delete_threat_entity_set(detector_id, threat_entity_set_id)
+    delete_threat_entity_set(detector_id, threat_entity_set_id, params::Dict{String,<:Any})
+
+Deletes the threat entity set that is associated with the specified `threatEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the detector associated with the threat entity set
+  resource.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `threat_entity_set_id`: The unique ID that helps GuardDuty identify which threat entity
+  set needs to be deleted.
+"""
+function delete_threat_entity_set end
+
+function delete_threat_entity_set(
+    DetectorId, ThreatEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "DELETE",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_threat_entity_set(
+    DetectorId,
+    ThreatEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "DELETE",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_threat_intel_set(detector_id, threat_intel_set_id)
     delete_threat_intel_set(detector_id, threat_intel_set_id, params::Dict{String,<:Any})
 
@@ -1167,7 +1486,12 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the threatIntelSet is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the threatIntelSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `threat_intel_set_id`: The unique ID of the threatIntelSet that you want to delete.
 """
 function delete_threat_intel_set end
@@ -1199,6 +1523,52 @@ function delete_threat_intel_set(
 end
 
 """
+    delete_trusted_entity_set(detector_id, trusted_entity_set_id)
+    delete_trusted_entity_set(detector_id, trusted_entity_set_id, params::Dict{String,<:Any})
+
+Deletes the trusted entity set that is associated with the specified `trustedEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the detector associated with the trusted entity set
+  resource.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `trusted_entity_set_id`: The unique ID that helps GuardDuty identify which trusted entity
+  set needs to be deleted.
+"""
+function delete_trusted_entity_set end
+
+function delete_trusted_entity_set(
+    DetectorId, TrustedEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "DELETE",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_trusted_entity_set(
+    DetectorId,
+    TrustedEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "DELETE",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_malware_scans(detector_id)
     describe_malware_scans(detector_id, params::Dict{String,<:Any})
 
@@ -1212,6 +1582,10 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 # Arguments
 
 - `detector_id`: The unique ID of the detector that the request is associated with.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -1267,8 +1641,12 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 # Arguments
 
-- `detector_id`: The ID of the detector to retrieve information about the delegated
-  administrator from.
+- `detector_id`: The detector ID of the delegated administrator for which you need to
+  retrieve the information.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -1315,8 +1693,13 @@ Returns information about the publishing destination specified by the provided
 # Arguments
 
 - `destination_id`: The ID of the publishing destination to retrieve.
+
 - `detector_id`: The unique ID of the detector associated with the publishing destination to
   retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function describe_publishing_destination end
 
@@ -1599,9 +1982,15 @@ end
 Provides the details of the GuardDuty administrator account associated with the current
 GuardDuty member account.
 
-!!! note
-    If the organization's management account or a delegated administrator runs this API, it
-    will return success (`HTTP 200`) but no content.
+Based on the type of account that runs this API, the following list shows how the API
+behavior varies:
+
+- When the GuardDuty administrator account runs this API, it will return success
+  (`HTTP 200`) but no content.
+- When a member account runs this API, it will return the details of the GuardDuty
+  administrator account that is associated with this calling member account.
+- When an individual account (not associated with an organization) runs this API, it will
+  return success (`HTTP 200`) but no content.
 
 # Arguments
 
@@ -1645,15 +2034,19 @@ agent running on their resources.
 
 # Arguments
 
-- `detector_id`: The unique ID of the GuardDuty detector associated to the coverage
-  statistics.
+- `detector_id`: The unique ID of the GuardDuty detector.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `statistics_type`: Represents the statistics type used to aggregate the coverage details.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FilterCriteria"`: Represents the criteria used to filter the coverage statistics
+- `"FilterCriteria"`: Represents the criteria used to filter the coverage statistics.
 """
 function get_coverage_statistics end
 
@@ -1690,7 +2083,7 @@ end
     get_detector(detector_id)
     get_detector(detector_id, params::Dict{String,<:Any})
 
-Retrieves an Amazon GuardDuty detector specified by the detectorId.
+Retrieves a GuardDuty detector specified by the detectorId.
 
 There might be regional differences because some data sources might not be available in all
 the Amazon Web Services Regions where GuardDuty is presently supported. For more
@@ -1699,6 +2092,10 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 # Arguments
 
 - `detector_id`: The unique ID of the detector that you want to get.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_detector end
 
@@ -1730,7 +2127,12 @@ Returns the details of the filter specified by the filter name.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the filter is associated with.
+- `detector_id`: The unique ID of the detector that is associated with this filter.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `filter_name`: The name of the filter you want to get.
 """
 function get_filter end
@@ -1771,6 +2173,11 @@ Describes Amazon GuardDuty findings specified by finding IDs.
 
 - `detector_id`: The ID of the detector that specifies the GuardDuty service whose findings
   you want to retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `finding_ids`: The IDs of the findings that you want to retrieve.
 
 # Optional Parameters
@@ -1811,35 +2218,53 @@ function get_findings(
 end
 
 """
-    get_findings_statistics(detector_id, finding_statistic_types)
-    get_findings_statistics(detector_id, finding_statistic_types, params::Dict{String,<:Any})
+    get_findings_statistics(detector_id)
+    get_findings_statistics(detector_id, params::Dict{String,<:Any})
 
-Lists Amazon GuardDuty findings statistics for the specified detector ID.
+Lists GuardDuty findings statistics for the specified detector ID.
+
+You must provide either `findingStatisticTypes` or `groupBy` parameter, and not both. You
+can use the `maxResults` and `orderBy` parameters only when using `groupBy`.
 
 There might be regional differences because some flags might not be available in all the
 Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
 
 # Arguments
 
-- `detector_id`: The ID of the detector that specifies the GuardDuty service whose findings'
-  statistics you want to retrieve.
-- `finding_statistic_types`: The types of finding statistics to retrieve.
+- `detector_id`: The ID of the detector whose findings statistics you want to retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FindingCriteria"`: Represents the criteria that is used for querying findings.
+
+- `"FindingStatisticTypes"`: The types of finding statistics to retrieve.
+
+- `"GroupBy"`: Displays the findings statistics grouped by one of the listed valid values.
+
+- `"MaxResults"`: The maximum number of results to be returned in the response. The default
+  value is 25.
+
+  You can use this parameter only with the `groupBy` parameter.
+
+- `"OrderBy"`: Displays the sorted findings in the requested order. The default value of
+  `orderBy` is `DESC`.
+
+  You can use this parameter only with the `groupBy` parameter.
 """
 function get_findings_statistics end
 
 function get_findings_statistics(
-    DetectorId, FindingStatisticTypes; aws_config::AbstractAWSConfig=current_aws_config()
+    DetectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
-        "/detector/$(DetectorId)/findings/statistics",
-        Dict{String,Any}("FindingStatisticTypes" => FindingStatisticTypes);
+        "/detector/$(DetectorId)/findings/statistics";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1847,20 +2272,13 @@ end
 
 function get_findings_statistics(
     DetectorId,
-    FindingStatisticTypes,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
         "/detector/$(DetectorId)/findings/statistics",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("FindingStatisticTypes" => FindingStatisticTypes),
-                params,
-            ),
-        );
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1897,7 +2315,12 @@ Retrieves the IPSet specified by the `ipSetId`.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the IPSet is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the IPSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `ip_set_id`: The unique ID of the IPSet to retrieve.
 """
 function get_ipset end
@@ -1965,6 +2388,44 @@ function get_malware_protection_plan(
 end
 
 """
+    get_malware_scan(scan_id)
+    get_malware_scan(scan_id, params::Dict{String,<:Any})
+
+Retrieves the detailed information for a specific malware scan. Each member account can view
+the malware scan details for their own account. An administrator can view malware scan
+details for all accounts in the organization.
+
+There might be regional differences because some data sources might not be available in all
+the Amazon Web Services Regions where GuardDuty is presently supported. For more
+information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+
+# Arguments
+
+- `scan_id`: A unique identifier that gets generated when you invoke the API without any
+  error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor
+  the status of your malware scan.
+"""
+function get_malware_scan end
+
+function get_malware_scan(ScanId; aws_config::AbstractAWSConfig=current_aws_config())
+    return guardduty(
+        "GET", "/malware-scan/$(ScanId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_malware_scan(
+    ScanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "GET",
+        "/malware-scan/$(ScanId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_malware_scan_settings(detector_id)
     get_malware_scan_settings(detector_id, params::Dict{String,<:Any})
 
@@ -1976,7 +2437,11 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the scan setting is associated with.
+- `detector_id`: The unique ID of the detector that is associated with this scan.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_malware_scan_settings end
 
@@ -2015,6 +2480,10 @@ GuardDuty member account.
 # Arguments
 
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_master_account end
 
@@ -2050,8 +2519,13 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 # Arguments
 
-- `account_ids`: The account ID of the member account.
+- `account_ids`: A list of member account IDs.
+
 - `detector_id`: The detector ID for the administrator account.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_member_detectors end
 
@@ -2095,8 +2569,13 @@ specified by the account IDs.
 
 - `account_ids`: A list of account IDs of the GuardDuty member accounts that you want to
   describe.
+
 - `detector_id`: The unique ID of the detector of the GuardDuty account whose members you
   want to retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_members end
 
@@ -2160,35 +2639,37 @@ function get_organization_statistics(
 end
 
 """
-    get_remaining_free_trial_days(detector_id)
-    get_remaining_free_trial_days(detector_id, params::Dict{String,<:Any})
+    get_remaining_free_trial_days(account_ids, detector_id)
+    get_remaining_free_trial_days(account_ids, detector_id, params::Dict{String,<:Any})
 
 Provides the number of days left for each data source used in the free trial period.
 
 # Arguments
 
+- `account_ids`: A list of account identifiers of the GuardDuty member account.
+
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AccountIds"`: A list of account identifiers of the GuardDuty member account.
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function get_remaining_free_trial_days end
 
 function get_remaining_free_trial_days(
-    DetectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountIds, DetectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
-        "/detector/$(DetectorId)/freeTrial/daysRemaining";
+        "/detector/$(DetectorId)/freeTrial/daysRemaining",
+        Dict{String,Any}("AccountIds" => AccountIds);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_remaining_free_trial_days(
+    AccountIds,
     DetectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2196,6 +2677,53 @@ function get_remaining_free_trial_days(
     return guardduty(
         "POST",
         "/detector/$(DetectorId)/freeTrial/daysRemaining",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_threat_entity_set(detector_id, threat_entity_set_id)
+    get_threat_entity_set(detector_id, threat_entity_set_id, params::Dict{String,<:Any})
+
+Retrieves the threat entity set associated with the specified `threatEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the detector associated with the threat entity set
+  resource.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `threat_entity_set_id`: The unique ID that helps GuardDuty identify the threat entity set.
+"""
+function get_threat_entity_set end
+
+function get_threat_entity_set(
+    DetectorId, ThreatEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_threat_entity_set(
+    DetectorId,
+    ThreatEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2210,7 +2738,12 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the threatIntelSet is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the threatIntelSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `threat_intel_set_id`: The unique ID of the threatIntelSet that you want to get.
 """
 function get_threat_intel_set end
@@ -2242,6 +2775,47 @@ function get_threat_intel_set(
 end
 
 """
+    get_trusted_entity_set(detector_id, trusted_entity_set_id)
+    get_trusted_entity_set(detector_id, trusted_entity_set_id, params::Dict{String,<:Any})
+
+Retrieves the trusted entity set associated with the specified `trustedEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the GuardDuty detector associated with this trusted entity
+  set.
+- `trusted_entity_set_id`: The unique ID that helps GuardDuty identify the trusted entity
+  set.
+"""
+function get_trusted_entity_set end
+
+function get_trusted_entity_set(
+    DetectorId, TrustedEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_trusted_entity_set(
+    DetectorId,
+    TrustedEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_usage_statistics(detector_id, usage_criteria, usage_statistic_type)
     get_usage_statistics(detector_id, usage_criteria, usage_statistic_type, params::Dict{String,<:Any})
 
@@ -2254,7 +2828,13 @@ usage over 30 days to provide a monthly cost estimate. For more information, see
 
 - `detector_id`: The ID of the detector that specifies the GuardDuty service whose usage
   statistics you want to retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `usage_criteria`: Represents the criteria used for querying usage.
+
 - `usage_statistic_type`: The type of usage statistics to retrieve.
 
 # Optional Parameters
@@ -2349,8 +2929,13 @@ association with these member accounts again only by calling the CreateMembers A
 
 - `account_ids`: A list of account IDs of the accounts that you want to invite to GuardDuty
   as members.
-- `detector_id`: The unique ID of the detector of the GuardDuty account that you want to
-  invite members with.
+
+- `detector_id`: The unique ID of the detector of the GuardDuty account with which you want
+  to invite members.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2405,6 +2990,10 @@ resources.
 # Arguments
 
 - `detector_id`: The unique ID of the detector whose coverage details you want to retrieve.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2482,7 +3071,11 @@ Returns a paginated list of the current filters.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the filter is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the filter.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2530,6 +3123,10 @@ Regions where GuardDuty is currently supported. For more information, see [Regio
 
 - `detector_id`: The ID of the detector that specifies the GuardDuty service whose findings
   you want to list.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2587,6 +3184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When this attribute is set to 'true', only archived findings are listed. When it's set to
   'false', only unarchived findings are listed. When this attribute is not set, all existing
   findings are listed.
+  - service.ebsVolumeScanDetails.scanId
   - service.resourceRole
   - severity
   - type
@@ -2671,7 +3269,11 @@ administrator account.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the IPSet is associated with.
+- `detector_id`: The unique ID of the detector that is associated with IPSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2720,7 +3322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
   parameter to null on your first call to the list action. For subsequent calls to the
   action, fill nextToken in the request with the value of `NextToken` from the previous
-  response to continue listing data.
+  response to continue listing data. The default page size is 100 plans.
 """
 function list_malware_protection_plans end
 
@@ -2743,6 +3345,40 @@ function list_malware_protection_plans(
 end
 
 """
+    list_malware_scans()
+    list_malware_scans(params::Dict{String,<:Any})
+
+Returns a list of malware scans. Each member account can view the malware scans for their
+own accounts. An administrator can view the malware scans for all of its members' accounts.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FilterCriteria"`: Represents the criteria used to filter the malware scan entries.
+- `"SortCriteria"`: Represents the criteria used for sorting malware scan entries.
+- `"maxResults"`: You can use this parameter to indicate the maximum number of items that
+  you want in the response. The default value is 50. The maximum value is 50.
+- `"nextToken"`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing results.
+"""
+function list_malware_scans end
+
+function list_malware_scans(; aws_config::AbstractAWSConfig=current_aws_config())
+    return guardduty("POST", "/malware-scan"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_malware_scans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "POST", "/malware-scan", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_members(detector_id)
     list_members(detector_id, params::Dict{String,<:Any})
 
@@ -2750,7 +3386,11 @@ Lists details about all member accounts for the current GuardDuty administrator 
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector the member is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the member.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2828,7 +3468,11 @@ Returns a list of publishing destinations associated with the specified `detecto
 
 # Arguments
 
-- `detector_id`: The ID of the detector to retrieve publishing destinations for.
+- `detector_id`: The detector ID for which you want to retrieve the publishing destination.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2900,6 +3544,61 @@ function list_tags_for_resource(
 end
 
 """
+    list_threat_entity_sets(detector_id)
+    list_threat_entity_sets(detector_id, params::Dict{String,<:Any})
+
+Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use
+this operation from a member account, the threat entity sets that are returned as a
+response, belong to the administrator account.
+
+# Arguments
+
+- `detector_id`: The unique ID of the GuardDuty detector that is associated with this threat
+  entity set.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: You can use this parameter to indicate the maximum number of items you
+  want in the response. The default value is 50.
+- `"nextToken"`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
+"""
+function list_threat_entity_sets end
+
+function list_threat_entity_sets(
+    DetectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/threatentityset";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_threat_entity_sets(
+    DetectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/threatentityset",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_threat_intel_sets(detector_id)
     list_threat_intel_sets(detector_id, params::Dict{String,<:Any})
 
@@ -2909,7 +3608,11 @@ account are returned.
 
 # Arguments
 
-- `detector_id`: The unique ID of the detector that the threatIntelSet is associated with.
+- `detector_id`: The unique ID of the detector that is associated with the threatIntelSet.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -2950,18 +3653,123 @@ function list_threat_intel_sets(
 end
 
 """
+    list_trusted_entity_sets(detector_id)
+    list_trusted_entity_sets(detector_id, params::Dict{String,<:Any})
+
+Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you
+use this operation from a member account, the trusted entity sets that are returned as a
+response, belong to the administrator account.
+
+# Arguments
+
+- `detector_id`: The unique ID of the GuardDuty detector that is associated with this threat
+  entity set.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: You can use this parameter to indicate the maximum number of items you
+  want in the response. The default value is 50.
+- `"nextToken"`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
+"""
+function list_trusted_entity_sets end
+
+function list_trusted_entity_sets(
+    DetectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/trustedentityset";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_trusted_entity_sets(
+    DetectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "GET",
+        "/detector/$(DetectorId)/trustedentityset",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_object_malware_scan()
+    send_object_malware_scan(params::Dict{String,<:Any})
+
+Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand
+malware scanning of individual objects in S3 buckets that have Malware Protection for S3
+enabled.
+
+When you use this API, the Amazon Web Services service terms for GuardDuty Malware
+Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"S3Object"`: The S3 object information for the object you want to scan. The bucket must
+  have a Malware Protection plan configured to use this API.
+"""
+function send_object_malware_scan end
+
+function send_object_malware_scan(; aws_config::AbstractAWSConfig=current_aws_config())
+    return guardduty(
+        "POST", "/object-malware-scan/send"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function send_object_malware_scan(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "POST",
+        "/object-malware-scan/send",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_malware_scan(resource_arn)
     start_malware_scan(resource_arn, params::Dict{String,<:Any})
 
 Initiates the malware scan. Invoking this API will automatically create the [Service-linked role](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html)
-in the corresponding account.
+in the corresponding account if the resourceArn belongs to an EC2 instance.
 
 When the malware scan starts, you can use the associated scan ID to track the status of the
-scan. For more information, see [DescribeMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeMalwareScans.html).
+scan. For more information, see [ListMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListMalwareScans.html)
+and [GetMalwareScan](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_GetMalwareScan.html).
+
+When you use this API, the Amazon Web Services service terms for GuardDuty Malware
+Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
 
 # Arguments
 
 - `resource_arn`: Amazon Resource Name (ARN) of the resource for which you invoked the API.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: The idempotency token for the create request.
+- `"ScanConfiguration"`: Contains information about the configuration to be used for the
+  malware scan.
 """
 function start_malware_scan end
 
@@ -2969,7 +3777,7 @@ function start_malware_scan(ResourceArn; aws_config::AbstractAWSConfig=current_a
     return guardduty(
         "POST",
         "/malware-scan/start",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
+        Dict{String,Any}("ResourceArn" => ResourceArn, "ClientToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2984,7 +3792,13 @@ function start_malware_scan(
         "POST",
         "/malware-scan/start",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3002,8 +3816,13 @@ operation.
 # Arguments
 
 - `account_ids`: A list of account IDs of the GuardDuty member accounts to start monitoring.
+
 - `detector_id`: The unique ID of the detector of the GuardDuty administrator account
   associated with the member accounts to monitor.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function start_monitoring_members end
 
@@ -3050,8 +3869,13 @@ organization.
 # Arguments
 
 - `account_ids`: A list of account IDs for the member accounts to stop monitoring.
+
 - `detector_id`: The unique ID of the detector associated with the GuardDuty administrator
   account that is monitoring member accounts.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 """
 function stop_monitoring_members end
 
@@ -3132,6 +3956,11 @@ Unarchives GuardDuty findings specified by the `findingIds`.
 # Arguments
 
 - `detector_id`: The ID of the detector associated with the findings to unarchive.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `finding_ids`: The IDs of the findings to unarchive.
 """
 function unarchive_findings end
@@ -3224,6 +4053,10 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 - `detector_id`: The unique ID of the detector to update.
 
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3273,6 +4106,11 @@ Updates the filter specified by the filter name.
 
 - `detector_id`: The unique ID of the detector that specifies the GuardDuty service where
   you want to update a filter.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `filter_name`: The name of the filter.
 
 # Optional Parameters
@@ -3326,8 +4164,15 @@ Marks the specified GuardDuty findings as useful or not useful.
 
 # Arguments
 
-- `detector_id`: The ID of the detector associated with the findings to update feedback for.
+- `detector_id`: The ID of the detector that is associated with the findings for which you
+  want to update the feedback.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `feedback`: The feedback for the finding.
+
 - `finding_ids`: The IDs of the findings that you want to mark as useful or not useful.
 
 # Optional Parameters
@@ -3382,6 +4227,11 @@ Updates the IPSet specified by the IPSet ID.
 
 - `detector_id`: The detectorID that specifies the GuardDuty service whose IPSet you want to
   update.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `ip_set_id`: The unique ID that specifies the IPSet that you want to update.
 
 # Optional Parameters
@@ -3389,6 +4239,8 @@ Updates the IPSet specified by the IPSet ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Activate"`: The updated Boolean value that specifies whether the IPSet is active or not.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
 - `"Location"`: The updated URI of the file that contains the IPSet.
 - `"Name"`: The unique ID that specifies the IPSet that you want to update.
 """
@@ -3440,8 +4292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProtectedResource"`: Information about the protected resource that is associated with
   the created Malware Protection plan. Presently, `S3Bucket` is the only supported protected
   resource.
-- `"Role"`: IAM role with permissions required to scan and add tags to the associated
-  protected resource.
+- `"Role"`: Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags
+  to the associated protected resource.
 """
 function update_malware_protection_plan end
 
@@ -3484,6 +4336,10 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 - `detector_id`: The unique ID of the detector that specifies the GuardDuty service where
   you want to update scan settings.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -3539,7 +4395,12 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 # Arguments
 
 - `account_ids`: A list of member account IDs to be updated.
+
 - `detector_id`: The detector ID of the administrator account.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -3599,12 +4460,18 @@ information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/l
 
 - `detector_id`: The ID of the detector that configures the delegated administrator.
 
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AutoEnable"`: Represents whether or not to automatically enable member accounts in the
-  organization.
+- `"AutoEnable"`: Represents whether to automatically enable member accounts in the
+  organization. This applies to only new member accounts, not the existing member accounts.
+  When a new account joins the organization, the chosen features will be enabled for them by
+  default.
 
   Even though this is still supported, we recommend using `AutoEnableOrganizationMembers` to
   achieve the similar results. You must provide a value for either
@@ -3669,8 +4536,13 @@ Updates information about the publishing destination specified by the `destinati
 # Arguments
 
 - `destination_id`: The ID of the publishing destination to update.
+
 - `detector_id`: The ID of the detector associated with the publishing destinations to
   update.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
 
 # Optional Parameters
 
@@ -3708,6 +4580,70 @@ function update_publishing_destination(
 end
 
 """
+    update_threat_entity_set(detector_id, threat_entity_set_id)
+    update_threat_entity_set(detector_id, threat_entity_set_id, params::Dict{String,<:Any})
+
+Updates the threat entity set associated with the specified `threatEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the GuardDuty detector associated with the threat entity
+  set that you want to update.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `threat_entity_set_id`: The ID returned by GuardDuty after updating the threat entity set
+  resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Activate"`: A boolean value that indicates whether GuardDuty is to start using this
+  updated threat entity set. After you update an entity set, you will need to activate it
+  again. It might take up to 15 minutes for the updated entity set to be effective.
+
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
+
+- `"Location"`: The URI of the file that contains the trusted entity set.
+
+- `"Name"`: A user-friendly name to identify the trusted entity set.
+
+  The name of your list can include lowercase letters, uppercase letters, numbers, dash (-),
+  and underscore (_).
+"""
+function update_threat_entity_set end
+
+function update_threat_entity_set(
+    DetectorId, ThreatEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_threat_entity_set(
+    DetectorId,
+    ThreatEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/threatentityset/$(ThreatEntitySetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_threat_intel_set(detector_id, threat_intel_set_id)
     update_threat_intel_set(detector_id, threat_intel_set_id, params::Dict{String,<:Any})
 
@@ -3717,6 +4653,11 @@ Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 - `detector_id`: The detectorID that specifies the GuardDuty service whose ThreatIntelSet
   you want to update.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
 - `threat_intel_set_id`: The unique ID that specifies the ThreatIntelSet that you want to
   update.
 
@@ -3726,6 +4667,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Activate"`: The updated Boolean value that specifies whether the ThreateIntelSet is
   active or not.
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
 - `"Location"`: The updated URI of the file that contains the ThreateIntelSet.
 - `"Name"`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
@@ -3751,6 +4694,70 @@ function update_threat_intel_set(
     return guardduty(
         "POST",
         "/detector/$(DetectorId)/threatintelset/$(ThreatIntelSetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_trusted_entity_set(detector_id, trusted_entity_set_id)
+    update_trusted_entity_set(detector_id, trusted_entity_set_id, params::Dict{String,<:Any})
+
+Updates the trusted entity set associated with the specified `trustedEntitySetId`.
+
+# Arguments
+
+- `detector_id`: The unique ID of the GuardDuty detector associated with the threat entity
+  set that you want to update.
+
+  To find the `detectorId` in the current Region, see the Settings page in the GuardDuty
+  console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+  API.
+
+- `trusted_entity_set_id`: The ID returned by GuardDuty after updating the trusted entity
+  set resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Activate"`: A boolean value that indicates whether GuardDuty is to start using this
+  updated trusted entity set. After you update an entity set, you will need to activate it
+  again. It might take up to 15 minutes for the updated entity set to be effective.
+
+- `"ExpectedBucketOwner"`: The Amazon Web Services account ID that owns the Amazon S3 bucket
+  specified in the **location** parameter.
+
+- `"Location"`: The URI of the file that contains the trusted entity set.
+
+- `"Name"`: A user-friendly name to identify the trusted entity set.
+
+  The name of your list can include lowercase letters, uppercase letters, numbers, dash (-),
+  and underscore (_).
+"""
+function update_trusted_entity_set end
+
+function update_trusted_entity_set(
+    DetectorId, TrustedEntitySetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_trusted_entity_set(
+    DetectorId,
+    TrustedEntitySetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(DetectorId)/trustedentityset/$(TrustedEntitySetId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -8,14 +8,11 @@ using AWS.UUIDs: uuid4
     associate_web_acl(resource_arn, web_aclarn)
     associate_web_acl(resource_arn, web_aclarn, params::Dict{String,<:Any})
 
-Associates a web ACL with a regional application resource, to protect the resource. A
-regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST
-API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an
-Amazon Web Services Verified Access instance.
+Associates a web ACL with a resource, to protect the resource.
 
-For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution
-configuration. To associate a web ACL, in the CloudFront call `UpdateDistribution`, set the
-web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
+Use this for all resource types except for Amazon CloudFront distributions. For Amazon
+CloudFront, call `UpdateDistribution` for the distribution and provide the Amazon Resource
+Name (ARN) of the web ACL in the web ACL ID. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
 in the *Amazon CloudFront Developer Guide*.
 
 **Required permissions for customer-managed IAM policies**
@@ -61,6 +58,8 @@ change propagation:
     `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
   - For an Amazon Web Services Verified Access instance:
     `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+  - For an Amplify application:
+    `arn:*partition*:amplify:*region*:*account-id*:apps/*app-id*`
 
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL that you want to associate
   with the resource.
@@ -118,10 +117,8 @@ in the *WAF Developer Guide*.
 
 - `rules`: An array of `Rule` that you're configuring to use in a rule group or web ACL.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -174,10 +171,8 @@ use in your JavaScript integration.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -269,10 +264,8 @@ those IP addresses.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -350,10 +343,8 @@ to have WAF inspect a web request component for the specified patterns.
 
 - `regular_expression_list`: Array of regular expression strings.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -441,10 +432,8 @@ rule group with confidence in its capacity requirements.
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -540,10 +529,10 @@ rule has a statement that defines what to look for in web requests and an action
 applies to requests that match the statement. In the web ACL, you assign a default action to
 take (allow, block) for any request that does not match any of the rules. The rules in a web
 ACL can be a combination of the types `Rule`, `RuleGroup`, and managed rule group. You can
-associate a web ACL with one or more Amazon Web Services resources to protect. The resources
-can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application
-Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service,
-or an Amazon Web Services Verified Access instance.
+associate a web ACL with one or more Amazon Web Services resources to protect. The resource
+types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load
+Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify
+application, and Amazon Web Services Verified Access instance.
 
 # Arguments
 
@@ -553,10 +542,8 @@ or an Amazon Web Services Verified Access instance.
 - `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -571,6 +558,10 @@ or an Amazon Web Services Verified Access instance.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplicationConfig"`: Configures the ability for the WAF console to store and retrieve
+  application attributes during the web ACL creation process. Application attributes help
+  WAF give recommendations for protection packs.
 
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.
@@ -606,7 +597,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 
+- `"DataProtectionConfig"`: Specifies data protection to apply to the web request data for
+  the web ACL. This is a web ACL level data protection option.
+
+  The data protection that you configure for the web ACL alters the data that's available
+  for any other data collection activity, including your WAF logging destinations, web ACL
+  request sampling, and Amazon Security Lake data collection and management. Your other
+  option for data protection is in the logging configuration, which only affects logging.
+
 - `"Description"`: A description of the web ACL that helps with identification.
+
+- `"OnSourceDDoSProtectionConfig"`: Specifies the type of DDoS protection to apply to web
+  request data for a web ACL. For most scenarios, it is recommended to use the default
+  protection level, `ACTIVE_UNDER_DDOS`. If a web ACL is associated with multiple
+  Application Load Balancers, the changes you make to DDoS protection in that web ACL will
+  apply to all associated Application Load Balancers.
 
 - `"Rules"`: The `Rule` statements used to identify the web requests that you want to
   manage. Each rule includes one top-level statement that WAF uses to identify matching web
@@ -689,10 +694,8 @@ regions.
 
 - `apikey`: The encrypted API key that you want to delete.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -734,9 +737,10 @@ end
     delete_firewall_manager_rule_groups(web_aclarn, web_acllock_token)
     delete_firewall_manager_rule_groups(web_aclarn, web_acllock_token, params::Dict{String,<:Any})
 
-Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.
+Deletes all rule groups that are managed by Firewall Manager from the specified `WebACL`.
 
-You can only use this if `ManagedByFirewallManager` is false in the specified `WebACL`.
+You can only use this if `ManagedByFirewallManager` and `RetrofittedByFirewallManager` are
+both false in the web ACL.
 
 # Arguments
 
@@ -807,10 +811,8 @@ Deletes the specified `IPSet`.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -880,6 +882,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Security Lake. You can use Security Lake to collect log and event data from various
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
+
+  The log scope `CLOUDWATCH_TELEMETRY_RULE_MANAGED` indicates a configuration that is
+  managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For
+  information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)
+  in the *Amazon CloudWatch Logs user guide*.
 
   Default: `CUSTOMER`
 
@@ -980,10 +987,8 @@ Deletes the specified `RegexPatternSet`.
 
 - `name`: The name of the set. You cannot change the name after you create the set.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1053,10 +1058,8 @@ Deletes the specified `RuleGroup`.
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1110,22 +1113,22 @@ end
 
 Deletes the specified `WebACL`.
 
-You can only use this if `ManagedByFirewallManager` is false in the specified `WebACL`.
+You can only use this if `ManagedByFirewallManager` is false in the web ACL.
 
 !!! note
     Before deleting any web ACL, first disassociate it from all resources.
 
     - To retrieve a list of the resources that are associated with a web ACL, use the
       following calls:
-      - For regional resources, call [`list_resources_for_web_acl`](@ref).
       - For Amazon CloudFront distributions, use the CloudFront call
         `ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
         in the *Amazon CloudFront API Reference*.
+      - For all other resources, call [`list_resources_for_web_acl`](@ref).
     - To disassociate a resource from a web ACL, use the following calls:
-      - For regional resources, call [`disassociate_web_acl`](@ref).
       - For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront
         call `UpdateDistribution`. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
         in the *Amazon CloudFront API Reference*.
+      - For all other resources, call [`disassociate_web_acl`](@ref).
 
 # Arguments
 
@@ -1143,10 +1146,8 @@ You can only use this if `ManagedByFirewallManager` is false in the specified `W
 - `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1203,10 +1204,8 @@ Amazon Web Services Marketplace managed rule groups.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1247,10 +1246,8 @@ Provides high-level information for the managed rule groups owned by a specific 
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1307,10 +1304,8 @@ rules.
 - `name`: The name of the managed rule group. You use this, along with the vendor name, to
   identify the rule group.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1370,15 +1365,11 @@ end
     disassociate_web_acl(resource_arn)
     disassociate_web_acl(resource_arn, params::Dict{String,<:Any})
 
-Disassociates the specified regional application resource from any existing web ACL
-association. A resource can have at most one web ACL association. A regional application can
-be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL
-API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified
-Access instance.
+Disassociates the specified resource from its web ACL association, if it has one.
 
-For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution
-configuration. To disassociate a web ACL, provide an empty web ACL ID in the CloudFront call
-`UpdateDistribution`. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
+Use this for all resource types except for Amazon CloudFront distributions. For Amazon
+CloudFront, call `UpdateDistribution` for the distribution and provide an empty web ACL ID.
+For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
 in the *Amazon CloudFront API Reference*.
 
 **Required permissions for customer-managed IAM policies**
@@ -1406,6 +1397,8 @@ in the *WAF Developer Guide*.
     `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
   - For an Amazon Web Services Verified Access instance:
     `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+  - For an Amplify application:
+    `arn:*partition*:amplify:*region*:*account-id*:apps/*app-id*`
 """
 function disassociate_web_acl end
 
@@ -1504,10 +1497,8 @@ in the *WAF Developer Guide*.
 
 - `apikey`: The encrypted API key.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1561,10 +1552,8 @@ Retrieves the specified `IPSet`.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1628,6 +1617,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
 
+  The log scope `CLOUDWATCH_TELEMETRY_RULE_MANAGED` indicates a configuration that is
+  managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For
+  information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)
+  in the *Amazon CloudWatch Logs user guide*.
+
   Default: `CUSTOMER`
 
 - `"LogType"`: Used to distinguish between various logging options. Currently, there is one
@@ -1689,10 +1683,8 @@ Retrieves the specified managed rule set.
   This name is assigned to the corresponding managed rule group, which your customers can
   access and use.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1858,10 +1850,8 @@ keys for this second usage completely independent of your first.
   defined inside a rule group that you're using in your web ACL, also provide the name of
   the rule group reference statement in the request parameter `RuleGroupRuleName`.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -1945,10 +1935,8 @@ Retrieves the specified `RegexPatternSet`.
 
 - `name`: The name of the set. You cannot change the name after you create the set.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2009,10 +1997,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 
-- `"Scope"`: Specifies whether this is for an Amazon CloudFront distribution or for a
-  regional application. A regional application can be an Application Load Balancer (ALB), an
-  Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App
-  Runner service, or an Amazon Web Services Verified Access instance.
+- `"Scope"`: Specifies whether this is for a global resource type, such as a Amazon
+  CloudFront distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2058,10 +2044,8 @@ requests in the sample.
 - `rule_metric_name`: The metric name assigned to the `Rule` or `RuleGroup` dimension for
   which you want a sample of requests.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2134,23 +2118,130 @@ function get_sampled_requests(
 end
 
 """
-    get_web_acl(id, name, scope)
-    get_web_acl(id, name, scope, params::Dict{String,<:Any})
+    get_top_path_statistics_by_traffic(limit, number_of_top_traffic_bots_per_path, scope, time_window, web_acl_arn)
+    get_top_path_statistics_by_traffic(limit, number_of_top_traffic_bots_per_path, scope, time_window, web_acl_arn, params::Dict{String,<:Any})
 
-Retrieves the specified `WebACL`.
+Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a
+specified web ACL and time window. You can use this operation to analyze which paths on your
+web application receive the most bot traffic and identify the specific bots accessing those
+paths. The operation supports filtering by bot category, organization, or name, and allows
+you to drill down into specific path prefixes to view detailed URI-level statistics.
 
 # Arguments
 
-- `id`: The unique identifier for the web ACL. This ID is returned in the responses to
+- `limit`: The maximum number of path statistics to return. Valid values are 1 to 100.
+- `number_of_top_traffic_bots_per_path`: The maximum number of top bots to include in the
+  statistics for each path. Valid values are 1 to 10.
+- `scope`: Specifies whether the web ACL is for an Amazon Web Services CloudFront
+  distribution or for a regional application. A regional application can be an Application
+  Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services
+  App Runner service, or an Amazon Web Services Verified Access instance.
+- `time_window`: The time window for which you want to retrieve path statistics. The time
+  window must be within the data retention period for your web ACL.
+- `web_acl_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to
+  retrieve path statistics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BotCategory"`: Filters the results to include only traffic from bots in the specified
+  category. For example, you can filter by `ai` to see only AI crawler traffic, or
+  `search_engine` to see only search engine bot traffic. When you apply this filter, the
+  `Source` field is populated in the response.
+
+- `"BotName"`: Filters the results to include only traffic from the specified bot. For
+  example, you can filter by `gptbot` or `googlebot`. When you apply this filter, the
+  `Source` field is populated in the response.
+
+- `"BotOrganization"`: Filters the results to include only traffic from bots belonging to
+  the specified organization. For example, you can filter by `openai` or `google`. When you
+  apply this filter, the `Source` field is populated in the response.
+
+- `"NextMarker"`: When you request a list of objects with a `Limit` setting, if the number
+  of objects that are still available for retrieval exceeds the limit, WAF returns a
+  `NextMarker` value in the response. To retrieve the next batch of objects, provide the
+  marker from the prior call in your next request.
+
+- `"UriPathPrefix"`: A URI path prefix to filter the results. When you specify this
+  parameter, the operation returns statistics for individual URIs within the specified path
+  prefix. For example, if you specify `/api`, the response includes statistics for paths
+  like `/api/v1/users` and `/api/v2/orders`. If you don't specify this parameter, the
+  operation returns top-level path statistics.
+"""
+function get_top_path_statistics_by_traffic end
+
+function get_top_path_statistics_by_traffic(
+    Limit,
+    NumberOfTopTrafficBotsPerPath,
+    Scope,
+    TimeWindow,
+    WebAclArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetTopPathStatisticsByTraffic",
+        Dict{String,Any}(
+            "Limit" => Limit,
+            "NumberOfTopTrafficBotsPerPath" => NumberOfTopTrafficBotsPerPath,
+            "Scope" => Scope,
+            "TimeWindow" => TimeWindow,
+            "WebAclArn" => WebAclArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_top_path_statistics_by_traffic(
+    Limit,
+    NumberOfTopTrafficBotsPerPath,
+    Scope,
+    TimeWindow,
+    WebAclArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return wafv2(
+        "GetTopPathStatisticsByTraffic",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Limit" => Limit,
+                    "NumberOfTopTrafficBotsPerPath" => NumberOfTopTrafficBotsPerPath,
+                    "Scope" => Scope,
+                    "TimeWindow" => TimeWindow,
+                    "WebAclArn" => WebAclArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_web_acl()
+    get_web_acl(params::Dict{String,<:Any})
+
+Retrieves the specified `WebACL`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ARN"`: The Amazon Resource Name (ARN) of the web ACL that you want to retrieve.
+
+- `"Id"`: The unique identifier for the web ACL. This ID is returned in the responses to
   create and list commands. You provide it to operations like update and delete.
 
-- `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
-  it.
+- `"Name"`: The name of the web ACL. You cannot change the name of a web ACL after you
+  create it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `"Scope"`: Specifies whether this is for a global resource type, such as a Amazon
+  CloudFront distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2161,34 +2252,14 @@ Retrieves the specified `WebACL`.
 """
 function get_web_acl end
 
-function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config())
-    return wafv2(
-        "GetWebACL",
-        Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function get_web_acl(; aws_config::AbstractAWSConfig=current_aws_config())
+    return wafv2("GetWebACL"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_web_acl(
-    Id,
-    Name,
-    Scope,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return wafv2(
-        "GetWebACL",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return wafv2("GetWebACL", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -2231,6 +2302,8 @@ in the *WAF Developer Guide*.
     `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
   - For an Amazon Web Services Verified Access instance:
     `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+  - For an Amplify application:
+    `arn:*partition*:amplify:*region*:*account-id*:apps/*app-id*`
 """
 function get_web_aclfor_resource end
 
@@ -2274,10 +2347,8 @@ in the *WAF Developer Guide*.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2331,10 +2402,8 @@ Returns a list of the available versions for the specified managed rule group.
 - `name`: The name of the managed rule group. You use this, along with the vendor name, to
   identify the rule group.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2404,10 +2473,8 @@ Services Marketplace managed rule groups that you're subscribed to.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2460,10 +2527,8 @@ Retrieves an array of `IPSetSummary` objects for the IP sets that you manage.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2514,10 +2579,8 @@ Retrieves an array of your `LoggingConfiguration` objects.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2541,6 +2604,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Security Lake. You can use Security Lake to collect log and event data from various
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
+
+  The log scope `CLOUDWATCH_TELEMETRY_RULE_MANAGED` indicates a configuration that is
+  managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For
+  information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)
+  in the *Amazon CloudWatch Logs user guide*.
 
   Default: `CUSTOMER`
 
@@ -2590,10 +2658,8 @@ Retrieves the managed rule sets that you own.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2701,10 +2767,8 @@ manage.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2751,8 +2815,8 @@ end
     list_resources_for_web_acl(web_aclarn)
     list_resources_for_web_acl(web_aclarn, params::Dict{String,<:Any})
 
-Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are
-associated with the specified web ACL.
+Retrieves an array of the Amazon Resource Names (ARNs) for the resources that are associated
+with the specified web ACL.
 
 For Amazon CloudFront, don't use this call. Instead, use the CloudFront call
 `ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
@@ -2772,10 +2836,11 @@ in the *WAF Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ResourceType"`: Used for web ACLs that are scoped for regional applications. A regional
-  application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an
-  AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web
-  Services Verified Access instance.
+- `"ResourceType"`: Retrieves the web ACLs that are used by the specified resource type.
+
+  For Amazon CloudFront, don't use this call. Instead, use the CloudFront call
+  `ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
+  in the *Amazon CloudFront API Reference*.
 
   !!! note
       If you don't provide a resource type, the call uses the resource type
@@ -2819,10 +2884,8 @@ Retrieves an array of `RuleGroupSummary` objects for the rule groups that you ma
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2931,10 +2994,8 @@ Retrieves an array of `WebACLSummary` objects for the web ACLs that you manage.
 
 # Arguments
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -2983,6 +3044,9 @@ end
 
 Enables the specified `LoggingConfiguration`, to start logging from a web ACL, according to
 the configuration provided.
+
+If you configure data protection for the web ACL, the protection applies to the data that
+WAF sends to the logs.
 
 !!! note
     This operation completely replaces any mutable specifications that you already have for
@@ -3099,10 +3163,8 @@ To initiate the expiration of a managed rule group version, use [`update_managed
   This name is assigned to the corresponding managed rule group, which your customers can
   access and use.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3163,10 +3225,10 @@ end
     put_permission_policy(policy, resource_arn)
     put_permission_policy(policy, resource_arn, params::Dict{String,<:Any})
 
-Attaches an IAM policy to the specified resource. Use this to share a rule group across
-accounts.
+Use this to share a rule group with other accounts.
 
-You must be the owner of the rule group to perform this operation.
+This action attaches an IAM policy to the specified resource. You must be the owner of the
+rule group to perform this operation.
 
 This action is subject to the following restrictions:
 
@@ -3174,6 +3236,10 @@ This action is subject to the following restrictions:
 - The ARN in the request must be a valid WAF `RuleGroup` ARN and the rule group must exist
   in the same Region.
 - The user making the request must be the owner of the rule group.
+
+If a rule group has been shared with your account, you can access it through the call
+`GetRuleGroup`, and you can reference it in `CreateWebACL` and `UpdateWebACL`. Rule groups
+that are shared with you don't appear in your WAF console rule groups listing.
 
 # Arguments
 
@@ -3401,10 +3467,8 @@ change propagation:
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3514,10 +3578,8 @@ the managed rule group.
   This name is assigned to the corresponding managed rule group, which your customers can
   access and use.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3637,10 +3699,8 @@ change propagation:
 
 - `regular_expression_list`:
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3763,10 +3823,8 @@ change propagation:
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3875,10 +3933,10 @@ rule has a statement that defines what to look for in web requests and an action
 applies to requests that match the statement. In the web ACL, you assign a default action to
 take (allow, block) for any request that does not match any of the rules. The rules in a web
 ACL can be a combination of the types `Rule`, `RuleGroup`, and managed rule group. You can
-associate a web ACL with one or more Amazon Web Services resources to protect. The resources
-can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application
-Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service,
-or an Amazon Web Services Verified Access instance.
+associate a web ACL with one or more Amazon Web Services resources to protect. The resource
+types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load
+Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify
+application, and Amazon Web Services Verified Access instance.
 
 **Temporary inconsistencies during updates**
 
@@ -3917,10 +3975,8 @@ change propagation:
 - `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
   it.
 
-- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a regional
-  application. A regional application can be an Application Load Balancer (ALB), an Amazon
-  API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner
-  service, or an Amazon Web Services Verified Access instance.
+- `scope`: Specifies whether this is for a global resource type, such as a Amazon CloudFront
+  distribution. For an Amplify application, use `CLOUDFRONT`.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
   follows:
@@ -3935,6 +3991,17 @@ change propagation:
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplicationConfig"`: Configures the ability for the WAF console to store and retrieve
+  application attributes. Application attributes help WAF give recommendations for
+  protection packs.
+
+  When using `UpdateWebACL`, `ApplicationConfig` follows these rules:
+
+  - If you omit `ApplicationConfig` from the request, all existing entries in the web ACL
+    are retained.
+  - If you include `ApplicationConfig`, entries must match the existing values exactly. Any
+    attempt to modify existing entries will result in an error.
 
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.
@@ -3970,7 +4037,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 
+- `"DataProtectionConfig"`: Specifies data protection to apply to the web request data for
+  the web ACL. This is a web ACL level data protection option.
+
+  The data protection that you configure for the web ACL alters the data that's available
+  for any other data collection activity, including your WAF logging destinations, web ACL
+  request sampling, and Amazon Security Lake data collection and management. Your other
+  option for data protection is in the logging configuration, which only affects logging.
+
 - `"Description"`: A description of the web ACL that helps with identification.
+
+- `"OnSourceDDoSProtectionConfig"`: Specifies the type of DDoS protection to apply to web
+  request data for a web ACL. For most scenarios, it is recommended to use the default
+  protection level, `ACTIVE_UNDER_DDOS`. If a web ACL is associated with multiple
+  Application Load Balancers, the changes you make to DDoS protection in that web ACL will
+  apply to all associated Application Load Balancers.
 
 - `"Rules"`: The `Rule` statements used to identify the web requests that you want to
   manage. Each rule includes one top-level statement that WAF uses to identify matching web

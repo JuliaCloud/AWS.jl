@@ -365,10 +365,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"copyPrivateIp"`: Copy private Ip.
 - `"copyTags"`: Copy tags.
 - `"enableMapAutoTagging"`: Enable map auto tagging.
+- `"enableParametersEncryption"`: Enable parameters encryption.
 - `"largeVolumeConf"`: Large volume config.
 - `"launchDisposition"`: Launch disposition.
 - `"licensing"`:
 - `"mapAutoTaggingMpeID"`: Launch configuration template map auto tagging MPE ID.
+- `"parametersEncryptionKey"`: Parameters encryption key.
 - `"postLaunchActions"`: Launch configuration template post launch actions.
 - `"smallVolumeConf"`: Small volume config.
 - `"smallVolumeMaxSize"`: Small volume maximum size.
@@ -395,6 +397,77 @@ function create_launch_configuration_template(
         "POST",
         "/CreateLaunchConfigurationTemplate",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_network_migration_definition(name, target_network, target_s3_configuration)
+    create_network_migration_definition(name, target_network, target_s3_configuration, params::Dict{String,<:Any})
+
+Creates a new network migration definition that specifies the source and target network
+configuration for a migration.
+
+# Arguments
+
+- `name`: The name of the network migration definition.
+- `target_network`: The target network configuration including topology and CIDR ranges.
+- `target_s3_configuration`: The S3 configuration for storing the target network artifacts.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A description of the network migration definition.
+- `"scopeTags"`: Scope tags for the network migration definition to control access and
+  organization.
+- `"sourceConfigurations"`: A list of source configurations for the network migration.
+- `"tags"`: Tags to assign to the network migration definition.
+- `"targetDeployment"`: The target deployment configuration for the migrated network.
+"""
+function create_network_migration_definition end
+
+function create_network_migration_definition(
+    name,
+    targetNetwork,
+    targetS3Configuration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/CreateNetworkMigrationDefinition",
+        Dict{String,Any}(
+            "name" => name,
+            "targetNetwork" => targetNetwork,
+            "targetS3Configuration" => targetS3Configuration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_network_migration_definition(
+    name,
+    targetNetwork,
+    targetS3Configuration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/CreateNetworkMigrationDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "targetNetwork" => targetNetwork,
+                    "targetS3Configuration" => targetS3Configuration,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -436,6 +509,9 @@ Creates a new ReplicationConfigurationTemplate.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ebsEncryptionKeyArn"`: Request to configure an EBS encryption key during Replication
+  Settings template creation.
+- `"internetProtocol"`: Request to configure the internet protocol to IPv4 or IPv6.
+- `"storeSnapshotOnLocalZone"`: Request to store snapshot on local zone during Replication
   Settings template creation.
 - `"tags"`: Request to configure tags during Replication Settings template creation.
 - `"useFipsEndpoint"`: Request to use Fips Endpoint during Replication Settings template
@@ -724,6 +800,54 @@ function delete_launch_configuration_template(
                 _merge,
                 Dict{String,Any}(
                     "launchConfigurationTemplateID" => launchConfigurationTemplateID
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_network_migration_definition(network_migration_definition_id)
+    delete_network_migration_definition(network_migration_definition_id, params::Dict{String,<:Any})
+
+Deletes a network migration definition. This operation removes the migration definition and
+all associated metadata.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition to delete.
+"""
+function delete_network_migration_definition end
+
+function delete_network_migration_definition(
+    networkMigrationDefinitionID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/DeleteNetworkMigrationDefinition",
+        Dict{String,Any}("networkMigrationDefinitionID" => networkMigrationDefinitionID);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_network_migration_definition(
+    networkMigrationDefinitionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/DeleteNetworkMigrationDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID
                 ),
                 params,
             ),
@@ -1396,6 +1520,121 @@ function get_launch_configuration(
 end
 
 """
+    get_network_migration_definition(network_migration_definition_id)
+    get_network_migration_definition(network_migration_definition_id, params::Dict{String,<:Any})
+
+Retrieves the details of a network migration definition including source and target
+configurations.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition to retrieve.
+"""
+function get_network_migration_definition end
+
+function get_network_migration_definition(
+    networkMigrationDefinitionID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/GetNetworkMigrationDefinition",
+        Dict{String,Any}("networkMigrationDefinitionID" => networkMigrationDefinitionID);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_network_migration_definition(
+    networkMigrationDefinitionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/GetNetworkMigrationDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_network_migration_mapper_segment_construct(construct_id, network_migration_definition_id, network_migration_execution_id, segment_id)
+    get_network_migration_mapper_segment_construct(construct_id, network_migration_definition_id, network_migration_execution_id, segment_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific construct within a mapper segment, including
+its properties and configuration data.
+
+# Arguments
+
+- `construct_id`: The unique identifier of the construct within the segment.
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+- `segment_id`: The unique identifier of the mapper segment.
+"""
+function get_network_migration_mapper_segment_construct end
+
+function get_network_migration_mapper_segment_construct(
+    constructID,
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/GetNetworkMigrationMapperSegmentConstruct",
+        Dict{String,Any}(
+            "constructID" => constructID,
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+            "segmentID" => segmentID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_network_migration_mapper_segment_construct(
+    constructID,
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/GetNetworkMigrationMapperSegmentConstruct",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "constructID" => constructID,
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                    "segmentID" => segmentID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_replication_configuration(source_server_id)
     get_replication_configuration(source_server_id, params::Dict{String,<:Any})
 
@@ -1635,6 +1874,43 @@ function list_import_errors(
 end
 
 """
+    list_import_file_enrichments()
+    list_import_file_enrichments(params::Dict{String,<:Any})
+
+Lists import file enrichment jobs with optional filtering by job IDs.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing import file enrichment jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_import_file_enrichments end
+
+function list_import_file_enrichments(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mgn(
+        "POST",
+        "/network-migration/ListImportFileEnrichments";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_import_file_enrichments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListImportFileEnrichments",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_imports()
     list_imports(params::Dict{String,<:Any})
 
@@ -1684,6 +1960,753 @@ function list_managed_accounts(
 )
     return mgn(
         "POST", "/ListManagedAccounts", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_network_migration_analyses(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_analyses(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists network migration analysis jobs for a specified execution. Returns information about
+analysis job status and results.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration execution
+  to list analyses for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing analysis jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_analyses end
+
+function list_network_migration_analyses(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationAnalyses",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_analyses(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationAnalyses",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_analysis_results(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_analysis_results(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists the results of network migration analyses, showing connectivity and compatibility
+findings for migrated resources.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing analysis results, such as VPC IDs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_analysis_results end
+
+function list_network_migration_analysis_results(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationAnalysisResults",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_analysis_results(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationAnalysisResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_code_generation_segments(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_code_generation_segments(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists code generation segments, which represent individual infrastructure components
+generated as code templates.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing code generation segments.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_code_generation_segments end
+
+function list_network_migration_code_generation_segments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationCodeGenerationSegments",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_code_generation_segments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationCodeGenerationSegments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_code_generations(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_code_generations(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists network migration code generation jobs, which convert network mappings into
+infrastructure-as-code templates.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing code generation jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_code_generations end
+
+function list_network_migration_code_generations(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationCodeGenerations",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_code_generations(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationCodeGenerations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_definitions()
+    list_network_migration_definitions(params::Dict{String,<:Any})
+
+Lists all network migration definitions in the account, with optional filtering.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing network migration definitions.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_definitions end
+
+function list_network_migration_definitions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDefinitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDefinitions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_deployed_stacks(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_deployed_stacks(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists CloudFormation stacks that have been deployed as part of the network migration.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_deployed_stacks end
+
+function list_network_migration_deployed_stacks(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDeployedStacks",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_deployed_stacks(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDeployedStacks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_deployments(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_deployments(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists network migration deployment jobs and their current status.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing deployment jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_deployments end
+
+function list_network_migration_deployments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDeployments",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_deployments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationDeployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_executions(network_migration_definition_id)
+    list_network_migration_executions(network_migration_definition_id, params::Dict{String,<:Any})
+
+Lists network migration execution instances for a given definition, showing the status and
+progress of each execution.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition to list executions for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing executions, such as status or execution ID.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_executions end
+
+function list_network_migration_executions(
+    networkMigrationDefinitionID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationExecutions",
+        Dict{String,Any}("networkMigrationDefinitionID" => networkMigrationDefinitionID);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_executions(
+    networkMigrationDefinitionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationExecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_mapper_segment_constructs(network_migration_definition_id, network_migration_execution_id, segment_id)
+    list_network_migration_mapper_segment_constructs(network_migration_definition_id, network_migration_execution_id, segment_id, params::Dict{String,<:Any})
+
+Lists constructs within a mapper segment, representing individual infrastructure components
+like VPCs, subnets, or security groups.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+- `segment_id`: The unique identifier of the segment to list constructs for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing constructs, such as construct type or ID.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_mapper_segment_constructs end
+
+function list_network_migration_mapper_segment_constructs(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMapperSegmentConstructs",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+            "segmentID" => segmentID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_mapper_segment_constructs(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMapperSegmentConstructs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                    "segmentID" => segmentID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_mapper_segments(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_mapper_segments(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists mapper segments, which represent logical groupings of network resources to be migrated
+together.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing segments.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_mapper_segments end
+
+function list_network_migration_mapper_segments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMapperSegments",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_mapper_segments(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMapperSegments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_mapping_updates(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_mapping_updates(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists mapping update jobs, which apply customer modifications to the generated network
+mappings.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing mapping update jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_mapping_updates end
+
+function list_network_migration_mapping_updates(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMappingUpdates",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_mapping_updates(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMappingUpdates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_network_migration_mappings(network_migration_definition_id, network_migration_execution_id)
+    list_network_migration_mappings(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Lists network migration mapping jobs, which analyze and create relationships between source
+and target network resources.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing mapping jobs.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_network_migration_mappings end
+
+function list_network_migration_mappings(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMappings",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_network_migration_mappings(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/ListNetworkMigrationMappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2378,6 +3401,7 @@ Start export.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"s3BucketOwner"`: Start export request s3 bucket owner.
+- `"tags"`: Start import request tags.
 """
 function start_export end
 
@@ -2425,6 +3449,7 @@ Start import.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Start import request client token.
+- `"tags"`: Start import request tags.
 """
 function start_import end
 
@@ -2463,10 +3488,380 @@ function start_import(
 end
 
 """
+    start_import_file_enrichment(s3_bucket_source, s3_bucket_target)
+    start_import_file_enrichment(s3_bucket_source, s3_bucket_target, params::Dict{String,<:Any})
+
+Starts an import file enrichment job to process and enrich network migration import files
+with additional metadata and IP assignment strategies.
+
+# Arguments
+
+- `s3_bucket_source`: The S3 configuration specifying the source location of the import file
+  to be enriched.
+- `s3_bucket_target`: The S3 configuration specifying the target location where the enriched
+  import file will be stored.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"ipAssignmentStrategy"`: The IP assignment strategy to use when enriching the import
+  file. Can be STATIC or DYNAMIC.
+"""
+function start_import_file_enrichment end
+
+function start_import_file_enrichment(
+    s3BucketSource, s3BucketTarget; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartImportFileEnrichment",
+        Dict{String,Any}(
+            "s3BucketSource" => s3BucketSource,
+            "s3BucketTarget" => s3BucketTarget,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_import_file_enrichment(
+    s3BucketSource,
+    s3BucketTarget,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartImportFileEnrichment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "s3BucketSource" => s3BucketSource,
+                    "s3BucketTarget" => s3BucketTarget,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_migration_analysis(network_migration_definition_id, network_migration_execution_id)
+    start_network_migration_analysis(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Starts a network migration analysis job to evaluate connectivity and compatibility of the
+migration mappings.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration execution
+  to analyze.
+"""
+function start_network_migration_analysis end
+
+function start_network_migration_analysis(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationAnalysis",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_network_migration_analysis(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_migration_code_generation(network_migration_definition_id, network_migration_execution_id)
+    start_network_migration_code_generation(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Starts a code generation job to convert network migration mappings into infrastructure-as-
+code templates.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"codeGenerationOutputFormatTypes"`: The output format types for code generation, such as
+  CloudFormation or Terraform.
+"""
+function start_network_migration_code_generation end
+
+function start_network_migration_code_generation(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationCodeGeneration",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_network_migration_code_generation(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationCodeGeneration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_migration_deployment(network_migration_definition_id, network_migration_execution_id)
+    start_network_migration_deployment(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Starts a deployment job to create the target network infrastructure based on the generated
+code templates.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+"""
+function start_network_migration_deployment end
+
+function start_network_migration_deployment(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationDeployment",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_network_migration_deployment(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_migration_mapping(network_migration_definition_id, network_migration_execution_id)
+    start_network_migration_mapping(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Starts the network migration mapping process for a given network migration execution.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"securityGroupMappingStrategy"`: The security group mapping strategy to use.
+"""
+function start_network_migration_mapping end
+
+function start_network_migration_mapping(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationMapping",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_network_migration_mapping(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_network_migration_mapping_update(network_migration_definition_id, network_migration_execution_id)
+    start_network_migration_mapping_update(network_migration_definition_id, network_migration_execution_id, params::Dict{String,<:Any})
+
+Starts a job to apply customer modifications to network migration mappings, such as changing
+properties.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"constructs"`: A list of construct updates to apply.
+- `"segments"`: A list of segment updates to apply.
+"""
+function start_network_migration_mapping_update end
+
+function start_network_migration_mapping_update(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationMappingUpdate",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_network_migration_mapping_update(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/StartNetworkMigrationMappingUpdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_replication(source_server_id)
     start_replication(source_server_id, params::Dict{String,<:Any})
 
-Starts replication for SNAPSHOT_SHIPPING agents.
+Start replication for source server irrespective of its replication type.
 
 # Arguments
 
@@ -2994,10 +4389,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"copyPrivateIp"`: Copy private Ip.
 - `"copyTags"`: Copy tags.
 - `"enableMapAutoTagging"`: Enable map auto tagging.
+- `"enableParametersEncryption"`: Enable parameters encryption.
 - `"largeVolumeConf"`: Large volume config.
 - `"launchDisposition"`: Launch disposition.
 - `"licensing"`:
 - `"mapAutoTaggingMpeID"`: Launch configuration template map auto tagging MPE ID.
+- `"parametersEncryptionKey"`: Parameters encryption key.
 - `"postLaunchActions"`: Post Launch Action to execute on the Test or Cutover instance.
 - `"smallVolumeConf"`: Small volume config.
 - `"smallVolumeMaxSize"`: Small volume maximum size.
@@ -3040,6 +4437,133 @@ function update_launch_configuration_template(
 end
 
 """
+    update_network_migration_definition(network_migration_definition_id)
+    update_network_migration_definition(network_migration_definition_id, params::Dict{String,<:Any})
+
+Updates an existing network migration definition with new source or target configurations.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The updated description of the network migration definition.
+- `"name"`: The updated name of the network migration definition.
+- `"scopeTags"`: The updated scope tags for the network migration definition.
+- `"sourceConfigurations"`: The updated list of source configurations.
+- `"targetDeployment"`: The updated target deployment configuration.
+- `"targetNetwork"`: The updated target network configuration.
+- `"targetS3Configuration"`: The updated S3 configuration for storing the target network
+  artifacts.
+"""
+function update_network_migration_definition end
+
+function update_network_migration_definition(
+    networkMigrationDefinitionID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mgn(
+        "POST",
+        "/network-migration/UpdateNetworkMigrationDefinition",
+        Dict{String,Any}("networkMigrationDefinitionID" => networkMigrationDefinitionID);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_network_migration_definition(
+    networkMigrationDefinitionID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/UpdateNetworkMigrationDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_network_migration_mapper_segment(network_migration_definition_id, network_migration_execution_id, segment_id)
+    update_network_migration_mapper_segment(network_migration_definition_id, network_migration_execution_id, segment_id, params::Dict{String,<:Any})
+
+Updates a mapper segment's configuration, such as changing its scope tags.
+
+# Arguments
+
+- `network_migration_definition_id`: The unique identifier of the network migration
+  definition.
+- `network_migration_execution_id`: The unique identifier of the network migration
+  execution.
+- `segment_id`: The unique identifier of the segment to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"scopeTags"`: The updated scope tags for the segment.
+"""
+function update_network_migration_mapper_segment end
+
+function update_network_migration_mapper_segment(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/UpdateNetworkMigrationMapperSegment",
+        Dict{String,Any}(
+            "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+            "networkMigrationExecutionID" => networkMigrationExecutionID,
+            "segmentID" => segmentID,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_network_migration_mapper_segment(
+    networkMigrationDefinitionID,
+    networkMigrationExecutionID,
+    segmentID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/network-migration/UpdateNetworkMigrationMapperSegment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkMigrationDefinitionID" => networkMigrationDefinitionID,
+                    "networkMigrationExecutionID" => networkMigrationExecutionID,
+                    "segmentID" => segmentID,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_replication_configuration(source_server_id)
     update_replication_configuration(source_server_id, params::Dict{String,<:Any})
 
@@ -3063,6 +4587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Staging Disk type request.
 - `"ebsEncryption"`: Update replication configuration EBS encryption request.
 - `"ebsEncryptionKeyArn"`: Update replication configuration EBS encryption key ARN request.
+- `"internetProtocol"`: Update replication configuration internet protocol.
 - `"name"`: Update replication configuration name request.
 - `"replicatedDisks"`: Update replication configuration replicated disks request.
 - `"replicationServerInstanceType"`: Update replication configuration Replication Server
@@ -3071,6 +4596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Server Security Groups IDs request.
 - `"stagingAreaSubnetId"`: Update replication configuration Staging Area subnet request.
 - `"stagingAreaTags"`: Update replication configuration Staging Area Tags request.
+- `"storeSnapshotOnLocalZone"`: Update replication configuration store snapshot on local
+  zone.
 - `"useDedicatedReplicationServer"`: Update replication configuration use dedicated
   Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration use Fips Endpoint.
@@ -3133,6 +4660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ebsEncryption"`: Update replication configuration template EBS encryption request.
 - `"ebsEncryptionKeyArn"`: Update replication configuration template EBS encryption key ARN
   request.
+- `"internetProtocol"`: Update replication configuration template internet protocol request.
 - `"replicationServerInstanceType"`: Update replication configuration template Replication
   Server instance type request.
 - `"replicationServersSecurityGroupsIDs"`: Update replication configuration template
@@ -3140,6 +4668,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stagingAreaSubnetId"`: Update replication configuration template Staging Area subnet ID
   request.
 - `"stagingAreaTags"`: Update replication configuration template Staging Area Tags request.
+- `"storeSnapshotOnLocalZone"`: Update replication configuration template store snapshot on
+  local zone request.
 - `"useDedicatedReplicationServer"`: Update replication configuration template use dedicated
   Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration template use Fips Endpoint request.
@@ -3236,6 +4766,8 @@ end
 
 Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING
 replication type.
+
+SNAPSHOT_SHIPPING should be used for agentless replication.
 
 # Arguments
 

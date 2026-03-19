@@ -12,7 +12,7 @@ Adds outputs to an existing bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
 - `outputs`: The outputs that you want to add to this bridge.
 """
 function add_bridge_outputs end
@@ -52,7 +52,7 @@ Adds sources to an existing bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
 - `sources`: The sources that you want to add to this bridge.
 """
 function add_bridge_sources end
@@ -135,8 +135,8 @@ Adds outputs to an existing flow. You can create up to 50 outputs per flow.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to add outputs to.
-- `outputs`: A list of outputs that you want to add.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to add outputs to.
+- `outputs`: A list of outputs that you want to add to the flow.
 """
 function add_flow_outputs end
 
@@ -171,12 +171,12 @@ end
     add_flow_sources(flow_arn, sources)
     add_flow_sources(flow_arn, sources, params::Dict{String,<:Any})
 
-Adds Sources to flow
+Adds sources to a flow.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to mutate.
-- `sources`: A list of sources that you want to add.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to update.
+- `sources`: A list of sources that you want to add to the flow.
 """
 function add_flow_sources end
 
@@ -211,12 +211,12 @@ end
     add_flow_vpc_interfaces(flow_arn, vpc_interfaces)
     add_flow_vpc_interfaces(flow_arn, vpc_interfaces, params::Dict{String,<:Any})
 
-Adds VPC interfaces to flow
+Adds VPC interfaces to a flow.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to mutate.
-- `vpc_interfaces`: A list of VPC interfaces that you want to add.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to update.
+- `vpc_interfaces`: A list of VPC interfaces that you want to add to the flow.
 """
 function add_flow_vpc_interfaces end
 
@@ -250,6 +250,114 @@ function add_flow_vpc_interfaces(
 end
 
 """
+    batch_get_router_input(arns)
+    batch_get_router_input(arns, params::Dict{String,<:Any})
+
+Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arns`: The Amazon Resource Names (ARNs) of the router inputs you want to retrieve
+  information about.
+"""
+function batch_get_router_input end
+
+function batch_get_router_input(arns; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "GET",
+        "/v1/routerInputs",
+        Dict{String,Any}("arns" => arns);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_router_input(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerInputs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_router_network_interface(arns)
+    batch_get_router_network_interface(arns, params::Dict{String,<:Any})
+
+Retrieves information about multiple router network interfaces in AWS Elemental
+MediaConnect.
+
+# Arguments
+
+- `arns`: The Amazon Resource Names (ARNs) of the router network interfaces you want to
+  retrieve information about.
+"""
+function batch_get_router_network_interface end
+
+function batch_get_router_network_interface(
+    arns; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerNetworkInterfaces",
+        Dict{String,Any}("arns" => arns);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_router_network_interface(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerNetworkInterfaces",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_router_output(arns)
+    batch_get_router_output(arns, params::Dict{String,<:Any})
+
+Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arns`: The Amazon Resource Names (ARNs) of the router outputs you want to retrieve
+  information about.
+"""
+function batch_get_router_output end
+
+function batch_get_router_output(arns; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "GET",
+        "/v1/routerOutputs",
+        Dict{String,Any}("arns" => arns);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_router_output(
+    arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerOutputs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arns" => arns), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_bridge(name, placement_arn, sources)
     create_bridge(name, placement_arn, sources, params::Dict{String,<:Any})
 
@@ -265,12 +373,10 @@ Creates a new bridge. The request must include one source.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EgressGatewayBridge"`: Create a bridge with the egress bridge type. An egress bridge is
-  a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is
-  delivered to your premises.
-- `"IngressGatewayBridge"`: Create a bridge with the ingress bridge type. An ingress bridge
-  is a ground-to-cloud bridge. The content originates at your premises and is delivered to
-  the cloud.
+- `"EgressGatewayBridge"`: An egress bridge is a cloud-to-ground bridge. The content comes
+  from an existing MediaConnect flow and is delivered to your premises.
+- `"IngressGatewayBridge"`: An ingress bridge is a ground-to-cloud bridge. The content
+  originates at your premises and is delivered to the cloud.
 - `"Outputs"`: The outputs that you want to add to this bridge.
 - `"SourceFailoverConfig"`: The settings for source failover.
 """
@@ -330,15 +436,23 @@ outputs (up to 50) and entitlements (up to 50).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AvailabilityZone"`: The Availability Zone that you want to create the flow in. These
-  options are limited to the Availability Zones within the current AWS Region.
+  options are limited to the Availability Zones within the current Amazon Web Services
+  Region.
+- `"EncodingConfig"`:
 - `"Entitlements"`: The entitlements that you want to grant on a flow.
-- `"Maintenance"`:
+- `"FlowSize"`: Determines the processing capacity and feature set of the flow. Set this
+  optional parameter to `LARGE` if you want to enable NDI sources or outputs on the flow.
+- `"FlowTags"`: The key-value pairs that can be used to tag and organize the flow.
+- `"Maintenance"`: The maintenance settings you want to use for the flow.
 - `"MediaStreams"`: The media streams that you want to add to the flow. You can associate
   these media streams with sources and outputs on the flow.
+- `"NdiConfig"`: Specifies the configuration settings for a flow's NDI source or output.
+  Required when the flow includes an NDI source or output.
 - `"Outputs"`: The outputs that you want to add to this flow.
-- `"Source"`:
-- `"SourceFailoverConfig"`:
-- `"Sources"`:
+- `"Source"`: The settings for the source that you want to use for the new flow.
+- `"SourceFailoverConfig"`: The settings for source failover.
+- `"SourceMonitoringConfig"`: The settings for source monitoring.
+- `"Sources"`: The sources that are assigned to the flow.
 - `"VpcInterfaces"`: The VPC interfaces you want on the flow.
 """
 function create_flow end
@@ -369,7 +483,7 @@ end
     create_gateway(egress_cidr_blocks, name, networks)
     create_gateway(egress_cidr_blocks, name, networks, params::Dict{String,<:Any})
 
-Creates a new gateway. The request must include at least one network (up to 4).
+Creates a new gateway. The request must include at least one network (up to four).
 
 # Arguments
 
@@ -379,7 +493,7 @@ Creates a new gateway. The request must include at least one network (up to 4).
   10.0.0.0/16.
 - `name`: The name of the gateway. This name can not be modified after the gateway is
   created.
-- `networks`: The list of networks that you want to add.
+- `networks`: The list of networks that you want to add to the gateway.
 """
 function create_gateway end
 
@@ -424,6 +538,246 @@ function create_gateway(
 end
 
 """
+    create_router_input(configuration, maximum_bitrate, name, routing_scope, tier)
+    create_router_input(configuration, maximum_bitrate, name, routing_scope, tier, params::Dict{String,<:Any})
+
+Creates a new router input in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `configuration`: The configuration settings for the router input, which can include the
+  protocol, network interface, and other details.
+- `maximum_bitrate`: The maximum bitrate for the router input.
+- `name`: The name of the router input.
+- `routing_scope`: Specifies whether the router input can be assigned to outputs in
+  different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL -
+  connects to outputs in any Region.
+- `tier`: The tier level for the router input.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The Availability Zone where you want to create the router input.
+  This must be a valid Availability Zone for the region specified by `regionName`, or the
+  current region if no `regionName` is provided.
+- `"ClientToken"`: A unique identifier for the request to ensure idempotency.
+- `"MaintenanceConfiguration"`: The maintenance configuration settings for the router input,
+  including preferred maintenance windows and schedules.
+- `"RegionName"`: The Amazon Web Services Region for the router input. Defaults to the
+  current region if not specified.
+- `"Tags"`: Key-value pairs that can be used to tag and organize this router input.
+- `"TransitEncryption"`: The transit encryption settings for the router input.
+"""
+function create_router_input end
+
+function create_router_input(
+    Configuration,
+    MaximumBitrate,
+    Name,
+    RoutingScope,
+    Tier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput",
+        Dict{String,Any}(
+            "Configuration" => Configuration,
+            "MaximumBitrate" => MaximumBitrate,
+            "Name" => Name,
+            "RoutingScope" => RoutingScope,
+            "Tier" => Tier,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_router_input(
+    Configuration,
+    MaximumBitrate,
+    Name,
+    RoutingScope,
+    Tier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Configuration" => Configuration,
+                    "MaximumBitrate" => MaximumBitrate,
+                    "Name" => Name,
+                    "RoutingScope" => RoutingScope,
+                    "Tier" => Tier,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_router_network_interface(configuration, name)
+    create_router_network_interface(configuration, name, params::Dict{String,<:Any})
+
+Creates a new router network interface in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `configuration`: The configuration settings for the router network interface.
+- `name`: The name of the router network interface.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique identifier for the request to ensure idempotency.
+- `"RegionName"`: The Amazon Web Services Region for the router network interface. Defaults
+  to the current region if not specified.
+- `"Tags"`: Key-value pairs that can be used to tag and organize this router network
+  interface.
+"""
+function create_router_network_interface end
+
+function create_router_network_interface(
+    Configuration, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerNetworkInterface",
+        Dict{String,Any}(
+            "Configuration" => Configuration,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_router_network_interface(
+    Configuration,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerNetworkInterface",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Configuration" => Configuration,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_router_output(configuration, maximum_bitrate, name, routing_scope, tier)
+    create_router_output(configuration, maximum_bitrate, name, routing_scope, tier, params::Dict{String,<:Any})
+
+Creates a new router output in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `configuration`: The configuration settings for the router output.
+- `maximum_bitrate`: The maximum bitrate for the router output.
+- `name`: The name of the router output.
+- `routing_scope`: Specifies whether the router output can take inputs that are in different
+  Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take
+  inputs from any Region.
+- `tier`: The tier level for the router output.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZone"`: The Availability Zone where you want to create the router output.
+  This must be a valid Availability Zone for the region specified by `regionName`, or the
+  current region if no `regionName` is provided.
+- `"ClientToken"`: A unique identifier for the request to ensure idempotency.
+- `"MaintenanceConfiguration"`: The maintenance configuration settings for the router
+  output, including preferred maintenance windows and schedules.
+- `"RegionName"`: The Amazon Web Services Region for the router output. Defaults to the
+  current region if not specified.
+- `"Tags"`: Key-value pairs that can be used to tag this router output.
+"""
+function create_router_output end
+
+function create_router_output(
+    Configuration,
+    MaximumBitrate,
+    Name,
+    RoutingScope,
+    Tier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput",
+        Dict{String,Any}(
+            "Configuration" => Configuration,
+            "MaximumBitrate" => MaximumBitrate,
+            "Name" => Name,
+            "RoutingScope" => RoutingScope,
+            "Tier" => Tier,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_router_output(
+    Configuration,
+    MaximumBitrate,
+    Name,
+    RoutingScope,
+    Tier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Configuration" => Configuration,
+                    "MaximumBitrate" => MaximumBitrate,
+                    "Name" => Name,
+                    "RoutingScope" => RoutingScope,
+                    "Tier" => Tier,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_bridge(bridge_arn)
     delete_bridge(bridge_arn, params::Dict{String,<:Any})
 
@@ -431,7 +785,7 @@ Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to delete.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to delete.
 """
 function delete_bridge end
 
@@ -463,7 +817,7 @@ Deletes a flow. Before you can delete a flow, you must stop the flow.
 
 # Arguments
 
-- `flow_arn`: The ARN of the flow that you want to delete.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to delete.
 """
 function delete_flow end
 
@@ -496,7 +850,7 @@ delete its bridges.
 
 # Arguments
 
-- `gateway_arn`: The ARN of the gateway that you want to delete.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway that you want to delete.
 """
 function delete_gateway end
 
@@ -514,6 +868,102 @@ function delete_gateway(
     return mediaconnect(
         "DELETE",
         "/v1/gateways/$(GatewayArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_router_input(arn)
+    delete_router_input(arn, params::Dict{String,<:Any})
+
+Deletes a router input from AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to delete.
+"""
+function delete_router_input end
+
+function delete_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "DELETE", "/v1/routerInput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/routerInput/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_router_network_interface(arn)
+    delete_router_network_interface(arn, params::Dict{String,<:Any})
+
+Deletes a router network interface from AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router network interface that you want to
+  delete.
+"""
+function delete_router_network_interface end
+
+function delete_router_network_interface(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/routerNetworkInterface/$(Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_router_network_interface(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/routerNetworkInterface/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_router_output(arn)
+    delete_router_output(arn, params::Dict{String,<:Any})
+
+Deletes a router output from AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to delete.
+"""
+function delete_router_output end
+
+function delete_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "DELETE", "/v1/routerOutput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/v1/routerOutput/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -575,7 +1025,7 @@ Displays the details of a bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to describe.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to describe.
 """
 function describe_bridge end
 
@@ -603,8 +1053,8 @@ end
     describe_flow(flow_arn)
     describe_flow(flow_arn, params::Dict{String,<:Any})
 
-Displays the details of a flow. The response includes the flow ARN, name, and Availability
-Zone, as well as details about the source, outputs, and entitlements.
+Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN),
+name, and Availability Zone, as well as details about the source, outputs, and entitlements.
 
 # Arguments
 
@@ -632,8 +1082,9 @@ end
     describe_flow_source_metadata(flow_arn)
     describe_flow_source_metadata(flow_arn, params::Dict{String,<:Any})
 
-Displays details of the flow's source stream. The response contains information about the
-contents of the stream and its programs.
+The `DescribeFlowSourceMetadata` API is used to view information about the flow's source
+transport stream and programs. This API displays status messages about the flow's source as
+well as details about the program's video, audio, and other data.
 
 # Arguments
 
@@ -667,15 +1118,52 @@ function describe_flow_source_metadata(
 end
 
 """
-    describe_gateway(gateway_arn)
-    describe_gateway(gateway_arn, params::Dict{String,<:Any})
+    describe_flow_source_thumbnail(flow_arn)
+    describe_flow_source_thumbnail(flow_arn, params::Dict{String,<:Any})
 
-Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR
-blocks, as well as details about the networks.
+Describes the thumbnail for the flow source.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway that you want to describe.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+"""
+function describe_flow_source_thumbnail end
+
+function describe_flow_source_thumbnail(
+    FlowArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(FlowArn)/source-thumbnail";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_flow_source_thumbnail(
+    FlowArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(FlowArn)/source-thumbnail",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_gateway(gateway_arn)
+    describe_gateway(gateway_arn, params::Dict{String,<:Any})
+
+Displays the details of a gateway. The response includes the gateway Amazon Resource Name
+(ARN), name, and CIDR blocks, as well as details about the networks.
+
+# Arguments
+
+- `gateway_arn`: The ARN of the gateway that you want to describe.
 """
 function describe_gateway end
 
@@ -746,7 +1234,7 @@ duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
 
 # Arguments
 
-- `offering_arn`: The Amazon Resource Name (ARN) of the offering.
+- `offering_arn`: The ARN of the offering.
 """
 function describe_offering end
 
@@ -780,7 +1268,7 @@ reservation (such as price, duration, and outbound bandwidth).
 
 # Arguments
 
-- `reservation_arn`: The Amazon Resource Name (ARN) of the reservation.
+- `reservation_arn`: The Amazon Resource Name (ARN) of the offering.
 """
 function describe_reservation end
 
@@ -810,6 +1298,170 @@ function describe_reservation(
 end
 
 """
+    get_router_input(arn)
+    get_router_input(arn, params::Dict{String,<:Any})
+
+Retrieves information about a specific router input in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input to retrieve information about.
+"""
+function get_router_input end
+
+function get_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "GET", "/v1/routerInput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET", "/v1/routerInput/$(Arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_router_input_source_metadata(arn)
+    get_router_input_source_metadata(arn, params::Dict{String,<:Any})
+
+Retrieves detailed metadata information about a specific router input source, including
+stream details and connection state.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input to retrieve metadata for.
+"""
+function get_router_input_source_metadata end
+
+function get_router_input_source_metadata(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerInput/$(Arn)/source-metadata";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_router_input_source_metadata(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerInput/$(Arn)/source-metadata",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_router_input_thumbnail(arn)
+    get_router_input_thumbnail(arn, params::Dict{String,<:Any})
+
+Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail
+  of.
+"""
+function get_router_input_thumbnail end
+
+function get_router_input_thumbnail(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "GET",
+        "/v1/routerInput/$(Arn)/thumbnail";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_router_input_thumbnail(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerInput/$(Arn)/thumbnail",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_router_network_interface(arn)
+    get_router_network_interface(arn, params::Dict{String,<:Any})
+
+Retrieves information about a specific router network interface in AWS Elemental
+MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router network interface that you want to
+  retrieve information about.
+"""
+function get_router_network_interface end
+
+function get_router_network_interface(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerNetworkInterface/$(Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_router_network_interface(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerNetworkInterface/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_router_output(arn)
+    get_router_output(arn, params::Dict{String,<:Any})
+
+Retrieves information about a specific router output in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to retrieve
+  information about.
+"""
+function get_router_output end
+
+function get_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "GET", "/v1/routerOutput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/routerOutput/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     grant_flow_entitlements(entitlements, flow_arn)
     grant_flow_entitlements(entitlements, flow_arn, params::Dict{String,<:Any})
 
@@ -818,7 +1470,8 @@ Grants entitlements to an existing flow.
 # Arguments
 
 - `entitlements`: The list of entitlements that you want to grant.
-- `flow_arn`: The flow that you want to grant entitlements on.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to grant entitlements
+  on.
 """
 function grant_flow_entitlements end
 
@@ -856,27 +1509,31 @@ end
     list_bridges(params::Dict{String,<:Any})
 
 Displays a list of bridges that are associated with this account and an optionally specified
-Arn. This request returns a paginated result.
+Amazon Resource Name (ARN). This request returns a paginated result.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filterArn"`: Filter the list results to display only the bridges associated with the
-  selected Amazon Resource Name (ARN).
+  selected ARN.
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListBridges request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListBridges request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListBridges request a second time and specify the NextToken
-  value.
+  For example, you submit a `ListBridges` request with `MaxResults` set at 5. Although 20
+  items match your request, the service returns no more than the first 5 items. (The service
+  also returns a `NextToken` value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListBridges` request with `MaxResults` set at 5. The service
+  returns the first batch of results (up to 5) and a `NextToken` value. To see the next
+  batch of results, you can submit the `ListBridges` request a second time and specify the
+  `NextToken` value.
 """
 function list_bridges end
 
@@ -903,18 +1560,22 @@ returns 20 results per page.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 20 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListEntitlements request with MaxResults set at 5. The service
-  returns the first batch of results (up to 5) and a NextToken value. To see the next batch
-  of results, you can submit the ListEntitlements request a second time and specify the
-  NextToken value.
+  For example, you submit a `ListEntitlements` request with set at 5. Although 20 items
+  match your request, the service returns no more than the first 5 items. (The service also
+  returns a NextToken value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 20 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListEntitlements` request with `MaxResults` set at 5. The
+  service returns the first batch of results (up to 5) and a `NextToken` value. To see the
+  next batch of results, you can submit the `ListEntitlements` request a second time and
+  specify the `NextToken` value.
 """
 function list_entitlements end
 
@@ -943,17 +1604,22 @@ paginated result.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListFlows request with MaxResults set at 5. Although 20 items match your request,
-  the service returns no more than the first 5 items. (The service also returns a NextToken
-  value that you can use to fetch the next batch of results.) The service might return fewer
-  results than the MaxResults value. If MaxResults is not included in the request, the
-  service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListFlows request with MaxResults set at 5. The service returns the
-  first batch of results (up to 5) and a NextToken value. To see the next batch of results,
-  you can submit the ListFlows request a second time and specify the NextToken value.
+  For example, you submit a `ListFlows` request with MaxResults set at 5. Although 20 items
+  match your request, the service returns no more than the first 5 items. (The service also
+  returns a `NextToken` value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListFlows` request with MaxResults set at 5. The service
+  returns the first batch of results (up to 5) and a `NextToken` value. To see the next
+  batch of results, you can submit the `ListFlows` request a second time and specify the
+  `NextToken` value.
 """
 function list_flows end
 
@@ -973,8 +1639,8 @@ end
     list_gateway_instances()
     list_gateway_instances(params::Dict{String,<:Any})
 
-Displays a list of instances associated with the AWS account. This request returns a
-paginated result. You can use the filterArn property to display only the instances
+Displays a list of instances associated with the Amazon Web Services account. This request
+returns a paginated result. You can use the filterArn property to display only the instances
 associated with the selected Gateway Amazon Resource Name (ARN).
 
 # Optional Parameters
@@ -982,20 +1648,24 @@ associated with the selected Gateway Amazon Resource Name (ARN).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filterArn"`: Filter the list results to display only the instances associated with the
-  selected Gateway Amazon Resource Name (ARN).
+  selected Gateway ARN.
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListInstances request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListInstances request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListInstances request a second time and specify the NextToken
-  value.
+  For example, you submit a ListInstances request with `MaxResults` set at 5. Although 20
+  items match your request, the service returns no more than the first 5 items. (The service
+  also returns a `NextToken` value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListInstances` request with `MaxResults` set at 5. The service
+  returns the first batch of results (up to 5) and a `NextToken` value. To see the next
+  batch of results, you can submit the `ListInstances` request a second time and specify the
+  `NextToken` value.
 """
 function list_gateway_instances end
 
@@ -1024,18 +1694,22 @@ paginated result.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListGateways request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListGateways request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListGateways request a second time and specify the NextToken
-  value.
+  For example, you submit a `ListGateways` request with `MaxResults` set at 5. Although 20
+  items match your request, the service returns no more than the first 5 items. (The service
+  also returns a `NextToken` value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListGateways` request with `MaxResults` set at 5. The service
+  returns the first batch of results (up to 5) and a `NextToken` value. To see the next
+  batch of results, you can submit the `ListGateways` request a second time and specify the
+  `NextToken` value.
 """
 function list_gateways end
 
@@ -1055,26 +1729,31 @@ end
     list_offerings()
     list_offerings(params::Dict{String,<:Any})
 
-Displays a list of all offerings that are available to this account in the current AWS
-Region. If you have an active reservation (which means you've purchased an offering that has
-already started and hasn't expired yet), your account isn't eligible for other offerings.
+Displays a list of all offerings that are available to this account in the current Amazon
+Web Services Region. If you have an active reservation (which means you've purchased an
+offering that has already started and hasn't expired yet), your account isn't eligible for
+other offerings.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListOfferings request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListOfferings request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListOfferings request a second time and specify the NextToken
-  value.
+  For example, you submit a `ListOfferings` request with `MaxResults` set at 5. Although 20
+  items match your request, the service returns no more than the first 5 items. (The service
+  also returns a `NextToken` value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListOfferings` request with `MaxResults` set at 5. The service
+  returns the first batch of results (up to 5) and a `NextToken` value. To see the next
+  batch of results, you can submit the `ListOfferings` request a second time and specify the
+  `NextToken` value.
 """
 function list_offerings end
 
@@ -1095,24 +1774,29 @@ end
     list_reservations(params::Dict{String,<:Any})
 
 Displays a list of all reservations that have been purchased by this account in the current
-AWS Region. This list includes all reservations in all states (such as active and expired).
+Amazon Web Services Region. This list includes all reservations in all states (such as
+active and expired).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListReservations request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+- `"maxResults"`: The maximum number of results to return per API request.
 
-- `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListReservations request with MaxResults set at 5. The service
-  returns the first batch of results (up to 5) and a NextToken value. To see the next batch
-  of results, you can submit the ListOfferings request a second time and specify the
-  NextToken value.
+  For example, you submit a `ListReservations` request with `MaxResults` set at 5. Although
+  20 items match your request, the service returns no more than the first 5 items. (The
+service also returns a NextToken value that you can use to fetch the next batch of results.)
+
+  The service might return fewer results than the `MaxResults` value. If `MaxResults` is not
+  included in the request, the service defaults to pagination with a maximum of 10 results
+  per page.
+
+- `"nextToken"`: The token that identifies the batch of results that you want to see.
+
+  For example, you submit a `ListReservations` request with `MaxResults` set at 5. The
+  service returns the first batch of results (up to 5) and a `NextToken` value. To see the
+  next batch of results, you can submit the `ListOfferings` request a second time and
+  specify the `NextToken` value.
 """
 function list_reservations end
 
@@ -1131,15 +1815,148 @@ function list_reservations(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_router_inputs()
+    list_router_inputs(params::Dict{String,<:Any})
 
-List all tags on an AWS Elemental MediaConnect resource
+Retrieves a list of router inputs in AWS Elemental MediaConnect.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters to apply when retrieving the list of router inputs.
+- `"maxResults"`: The maximum number of router inputs to return in the response.
+- `"nextToken"`: A token used to retrieve the next page of results.
+"""
+function list_router_inputs end
+
+function list_router_inputs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerInputs"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_router_inputs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST", "/v1/routerInputs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_router_network_interfaces()
+    list_router_network_interfaces(params::Dict{String,<:Any})
+
+Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters to apply when retrieving the list of router network interfaces.
+- `"maxResults"`: The maximum number of router network interfaces to return in the response.
+- `"nextToken"`: A token used to retrieve the next page of results.
+"""
+function list_router_network_interfaces end
+
+function list_router_network_interfaces(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST", "/v1/routerNetworkInterfaces"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_router_network_interfaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerNetworkInterfaces",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_router_outputs()
+    list_router_outputs(params::Dict{String,<:Any})
+
+Retrieves a list of router outputs in AWS Elemental MediaConnect.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters to apply when retrieving the list of router outputs.
+- `"maxResults"`: The maximum number of router outputs to return in the response.
+- `"nextToken"`: A token used to retrieve the next page of results.
+"""
+function list_router_outputs end
+
+function list_router_outputs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerOutputs"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_router_outputs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST", "/v1/routerOutputs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_tags_for_global_resource(resource_arn)
+    list_tags_for_global_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API
+supports the following global resources: router inputs, router outputs and router network
+interfaces.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) that identifies the AWS Elemental
-  MediaConnect resource for which to list the tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the global resource whose tags you want
+  to list.
+"""
+function list_tags_for_global_resource end
+
+function list_tags_for_global_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "GET", "/tags/global/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tags_for_global_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "GET",
+        "/tags/global/$(ResourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+List all tags on a MediaConnect resource in the current region.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) that identifies the MediaConnect resource
+  for which to list the tags.
 """
 function list_tags_for_resource end
 
@@ -1175,11 +1992,12 @@ can't purchase another offering.
 - `reservation_name`: The name that you want to use for the reservation.
 
 - `start`: The date and time that you want the reservation to begin, in Coordinated
-  Universal Time (UTC). You can specify any date and time between 12:00am on the first day
-  of the current month to the current time on today's date, inclusive. Specify the start in
-  a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are
-  literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-
-  05T23:30:00Z.
+  Universal Time (UTC).
+
+  You can specify any date and time between 12:00am on the first day of the current month to
+  the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use
+  the following format: `YYYY-MM-DDTHH:mm:SSZ`, where `T` and `Z` are literal characters.
+  For example, to specify 11:30pm on March 5, 2020, enter `2020-03-05T23:30:00Z`.
 """
 function purchase_offering end
 
@@ -1225,7 +2043,7 @@ Removes an output from a bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
 - `output_name`: The name of the bridge output that you want to remove.
 """
 function remove_bridge_output end
@@ -1264,7 +2082,7 @@ Removes a source from a bridge.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
 - `source_name`: The name of the bridge source that you want to remove.
 """
 function remove_bridge_source end
@@ -1304,7 +2122,7 @@ associated with a source or output.
 
 # Arguments
 
-- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to update.
 - `media_stream_name`: The name of the media stream that you want to remove.
 """
 function remove_flow_media_stream end
@@ -1346,7 +2164,8 @@ automatically removes the associated output.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to remove an output from.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to remove an output
+  from.
 - `output_arn`: The ARN of the output that you want to remove.
 """
 function remove_flow_output end
@@ -1386,7 +2205,8 @@ one source on the flow.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to remove a source from.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to remove a source
+  from.
 - `source_arn`: The ARN of the source that you want to remove.
 """
 function remove_flow_source end
@@ -1428,7 +2248,8 @@ longer reference the VPC interface.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to remove a VPC interface from.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to remove a VPC
+  interface from.
 - `vpc_interface_name`: The name of the VPC interface that you want to remove.
 """
 function remove_flow_vpc_interface end
@@ -1460,6 +2281,74 @@ function remove_flow_vpc_interface(
 end
 
 """
+    restart_router_input(arn)
+    restart_router_input(arn, params::Dict{String,<:Any})
+
+Restarts a router input. This operation can be used to recover from errors or refresh the
+input state.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to restart.
+"""
+function restart_router_input end
+
+function restart_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput/restart/$(Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function restart_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput/restart/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restart_router_output(arn)
+    restart_router_output(arn, params::Dict{String,<:Any})
+
+Restarts a router output. This operation can be used to recover from errors or refresh the
+output state.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to restart.
+"""
+function restart_router_output end
+
+function restart_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput/restart/$(Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function restart_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput/restart/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     revoke_flow_entitlement(entitlement_arn, flow_arn)
     revoke_flow_entitlement(entitlement_arn, flow_arn, params::Dict{String,<:Any})
 
@@ -1468,7 +2357,8 @@ unavailable to the subscriber and the associated output is removed.
 
 # Arguments
 
-- `entitlement_arn`: The ARN of the entitlement that you want to revoke.
+- `entitlement_arn`: The Amazon Resource Name (ARN) of the entitlement that you want to
+  revoke.
 - `flow_arn`: The flow that you want to revoke an entitlement from.
 """
 function revoke_flow_entitlement end
@@ -1507,7 +2397,7 @@ Starts a flow.
 
 # Arguments
 
-- `flow_arn`: The ARN of the flow that you want to start.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to start.
 """
 function start_flow end
 
@@ -1532,6 +2422,66 @@ function start_flow(
 end
 
 """
+    start_router_input(arn)
+    start_router_input(arn, params::Dict{String,<:Any})
+
+Starts a router input in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to start.
+"""
+function start_router_input end
+
+function start_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerInput/start/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput/start/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_router_output(arn)
+    start_router_output(arn, params::Dict{String,<:Any})
+
+Starts a router output in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to start.
+"""
+function start_router_output end
+
+function start_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerOutput/start/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput/start/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_flow(flow_arn)
     stop_flow(flow_arn, params::Dict{String,<:Any})
 
@@ -1539,7 +2489,7 @@ Stops a flow.
 
 # Arguments
 
-- `flow_arn`: The ARN of the flow that you want to stop.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to stop.
 """
 function stop_flow end
 
@@ -1564,17 +2514,119 @@ function stop_flow(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    stop_router_input(arn)
+    stop_router_input(arn, params::Dict{String,<:Any})
 
-Associates the specified tags to a resource with the specified resourceArn. If existing tags
-on a resource are not specified in the request parameters, they are not changed. When a
-resource is deleted, the tags associated with that resource are deleted as well.
+Stops a router input in AWS Elemental MediaConnect.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) that identifies the AWS Elemental
-  MediaConnect resource to which to add tags.
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to stop.
+"""
+function stop_router_input end
+
+function stop_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerInput/stop/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function stop_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerInput/stop/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_router_output(arn)
+    stop_router_output(arn, params::Dict{String,<:Any})
+
+Stops a router output in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to stop.
+"""
+function stop_router_output end
+
+function stop_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "POST", "/v1/routerOutput/stop/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function stop_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/v1/routerOutput/stop/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_global_resource(resource_arn, tags)
+    tag_global_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following
+global resources: router inputs, router outputs and router network interfaces.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the global resource to tag.
+- `tags`: A map of tag keys and values to add to the global resource.
+"""
+function tag_global_resource end
+
+function tag_global_resource(
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "POST",
+        "/tags/global/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_global_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "POST",
+        "/tags/global/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Associates the specified tags to a resource with the specified `resourceArn` in the current
+region. If existing tags on a resource are not specified in the request parameters, they are
+not changed. When a resource is deleted, the tags associated with that resource are deleted
+as well.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) that identifies the MediaConnect resource
+  to which to add tags.
 - `tags`: A map from tag keys to values. Tag keys can have a maximum character length of 128
   characters, and tag values can have a maximum length of 256 characters.
 """
@@ -1606,15 +2658,100 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    take_router_input(router_output_arn)
+    take_router_input(router_output_arn, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.
+Associates a router input with a router output in AWS Elemental MediaConnect.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) that identifies the AWS Elemental
-  MediaConnect resource from which to delete tags.
+- `router_output_arn`: The Amazon Resource Name (ARN) of the router output that you want to
+  associate with a router input.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RouterInputArn"`: The Amazon Resource Name (ARN) of the router input that you want to
+  associate with a router output.
+"""
+function take_router_input end
+
+function take_router_input(
+    RouterOutputArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/routerOutput/takeRouterInput/$(RouterOutputArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function take_router_input(
+    RouterOutputArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/routerOutput/takeRouterInput/$(RouterOutputArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_global_resource(resource_arn, tag_keys)
+    untag_global_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the
+following global resources: router inputs, router outputs and router network interfaces.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the global resource to remove tags from.
+- `tag_keys`: The keys of the tags to remove from the global resource.
+"""
+function untag_global_resource end
+
+function untag_global_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "DELETE",
+        "/tags/global/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_global_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconnect(
+        "DELETE",
+        "/tags/global/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Deletes specified tags from a resource in the current region.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to untag.
 - `tag_keys`: The keys of the tags to be removed.
 """
 function untag_resource end
@@ -1650,19 +2787,21 @@ end
     update_bridge(bridge_arn)
     update_bridge(bridge_arn, params::Dict{String,<:Any})
 
-Updates the bridge
+Updates the bridge.
 
 # Arguments
 
-- `bridge_arn`: The Amazon Resource Number (ARN) of the bridge that you want to update.
+- `bridge_arn`: TheAmazon Resource Name (ARN) of the bridge that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EgressGatewayBridge"`:
-- `"IngressGatewayBridge"`:
-- `"SourceFailoverConfig"`:
+- `"EgressGatewayBridge"`: A cloud-to-ground bridge. The content comes from an existing
+  MediaConnect flow and is delivered to your premises.
+- `"IngressGatewayBridge"`: A ground-to-cloud bridge. The content originates at your
+  premises and is delivered to the cloud.
+- `"SourceFailoverConfig"`: The settings for source failover.
 """
 function update_bridge end
 
@@ -1694,14 +2833,14 @@ Updates an existing bridge output.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
-- `output_name`: The name of the bridge output that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
+- `output_name`: Tname of the output that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NetworkOutput"`:
+- `"NetworkOutput"`: The network of the bridge output.
 """
 function update_bridge_output end
 
@@ -1739,15 +2878,15 @@ Updates an existing bridge source.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update.
 - `source_name`: The name of the source that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FlowSource"`:
-- `"NetworkSource"`:
+- `"FlowSource"`: The name of the flow that you want to update.
+- `"NetworkSource"`: The network for the bridge source.
 """
 function update_bridge_source end
 
@@ -1781,12 +2920,13 @@ end
     update_bridge_state(bridge_arn, desired_state)
     update_bridge_state(bridge_arn, desired_state, params::Dict{String,<:Any})
 
-Updates the bridge state
+Updates the bridge state.
 
 # Arguments
 
-- `bridge_arn`: The ARN of the bridge that you want to update.
-- `desired_state`:
+- `bridge_arn`: The Amazon Resource Name (ARN) of the bridge that you want to update the
+  state of.
+- `desired_state`: The desired state for the bridge.
 """
 function update_bridge_state end
 
@@ -1823,18 +2963,38 @@ end
     update_flow(flow_arn)
     update_flow(flow_arn, params::Dict{String,<:Any})
 
-Updates flow
+Updates an existing flow.
+
+!!! note
+    Because `UpdateFlowSources` and `UpdateFlow` are separate operations, you can't change
+    both the source type AND the flow size in a single request.
+
+    - If you have a `MEDIUM` flow and you want to change the flow source to NDI®:
+      - First, use the [`update_flow`](@ref) operation to upgrade the flow size to `LARGE`.
+      - After that, you can then use the [`update_flow_source`](@ref) operation to configure
+        the NDI source.
+    - If you're switching from an NDI source to a transport stream (TS) source and want to
+      downgrade the flow size:
+      - First, use the [`update_flow_source`](@ref) operation to change the flow source
+        type.
+      - After that, you can then use the [`update_flow`](@ref) operation to downgrade the
+        flow size to `MEDIUM`.
 
 # Arguments
 
-- `flow_arn`: The flow that you want to update.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Maintenance"`:
-- `"SourceFailoverConfig"`:
+- `"EncodingConfig"`:
+- `"FlowSize"`: Determines the processing capacity and feature set of the flow.
+- `"Maintenance"`: The maintenance setting of the flow.
+- `"NdiConfig"`: Specifies the configuration settings for a flow's NDI source or output.
+  Required when the flow includes an NDI source or output.
+- `"SourceFailoverConfig"`: The settings for source failover.
+- `"SourceMonitoringConfig"`: The settings for source monitoring.
 """
 function update_flow end
 
@@ -1858,30 +3018,32 @@ end
     update_flow_entitlement(entitlement_arn, flow_arn)
     update_flow_entitlement(entitlement_arn, flow_arn, params::Dict{String,<:Any})
 
-You can change an entitlement's description, subscribers, and encryption. If you change the
-subscribers, the service will remove the outputs that are are used by the subscribers that
-are removed.
+Updates an entitlement. You can change an entitlement's description, subscribers, and
+encryption. If you change the subscribers, the service will remove the outputs that are are
+used by the subscribers that are removed.
 
 # Arguments
 
-- `entitlement_arn`: The ARN of the entitlement that you want to update.
-- `flow_arn`: The flow that is associated with the entitlement that you want to update.
+- `entitlement_arn`: The Amazon Resource Name (ARN) of the entitlement that you want to
+  update.
+- `flow_arn`: The ARN of the flow that is associated with the entitlement that you want to
+  update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description of the entitlement. This description appears only on the
-  AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+  MediaConnect console and will not be seen by the subscriber or end user.
 - `"Encryption"`: The type of encryption that will be used on the output associated with
   this entitlement. Allowable encryption types: static-key, speke.
 - `"EntitlementStatus"`: An indication of whether you want to enable the entitlement to
   allow access, or disable it to stop streaming content to the subscriber’s flow
-  temporarily. If you don’t specify the entitlementStatus field in your request,
+  temporarily. If you don’t specify the `entitlementStatus` field in your request,
   MediaConnect leaves the value unchanged.
-- `"Subscribers"`: The AWS account IDs that you want to share your content with. The
-  receiving accounts (subscribers) will be allowed to create their own flow using your
-  content as the source.
+- `"Subscribers"`: The Amazon Web Services account IDs that you want to share your content
+  with. The receiving accounts (subscribers) will be allowed to create their own flow using
+  your content as the source.
 """
 function update_flow_entitlement end
 
@@ -1919,18 +3081,18 @@ Updates an existing media stream.
 
 # Arguments
 
-- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
-- `media_stream_name`: The name of the media stream that you want to update.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that is associated with the media
+  stream that you updated.
+- `media_stream_name`: The media stream that you updated.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Attributes"`: The attributes that you want to assign to the media stream.
-- `"ClockRate"`: The sample rate (in Hz) for the stream. If the media stream type is video
-  or ancillary data, set this value to 90000. If the media stream type is audio, set this
-  value to either 48000 or 96000.
-- `"Description"`: Description
+- `"ClockRate"`: The sample rate for the stream. This value in measured in kHz.
+- `"Description"`: A description that can help you quickly identify what your media stream
+  is used for.
 - `"MediaStreamType"`: The type of media stream.
 - `"VideoFormat"`: The resolution of the video.
 """
@@ -1970,7 +3132,8 @@ Updates an existing flow output.
 
 # Arguments
 
-- `flow_arn`: The flow that is associated with the output that you want to update.
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow that is associated with the output
+  that you want to update.
 - `output_arn`: The ARN of the output that you want to update.
 
 # Optional Parameters
@@ -1981,16 +3144,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests to this flow. These IP addresses should be in the form of a Classless Inter-
   Domain Routing (CIDR) block; for example, 10.0.0.0/16.
 
-- `"Description"`: A description of the output. This description appears only on the AWS
-  Elemental MediaConnect console and will not be seen by the end user.
+- `"Description"`: A description of the output. This description appears only on the
+  MediaConnect console and will not be seen by the end user.
 
 - `"Destination"`: The IP address where you want to send the output.
 
-- `"Encryption"`: The type of key used for the encryption. If no keyType is provided, the
+- `"Encryption"`: The type of key used for the encryption. If no `keyType` is provided, the
   service will use the default setting (static-key). Allowable encryption types: static-key.
 
 - `"MaxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
-  based, Zixi-based, and Fujitsu-based streams.
+  based and Zixi-based streams.
 
 - `"MediaStreamOutputConfigurations"`: The media streams that are associated with the
   output, and the parameters for those associations.
@@ -2001,11 +3164,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to the highest number between the sender’s minimum latency and the receiver’s minimum
   latency.
 
+- `"NdiProgramName"`: A suffix for the name of the NDI® sender that the flow creates. If a
+  custom name isn't specified, MediaConnect uses the output name.
+
+- `"NdiSpeedHqQuality"`: A quality setting for the NDI Speed HQ encoder.
+
+- `"OutputStatus"`: An indication of whether the output should transmit data or not. If you
+  don't specify the `outputStatus` field in your request, MediaConnect leaves the value
+  unchanged.
+
 - `"Port"`: The port to use when content is distributed to this output.
 
 - `"Protocol"`: The protocol to use for the output.
 
+  !!! note
+      Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is
+      maintained for legacy purposes only.
+
 - `"RemoteId"`: The remote ID for the Zixi-pull stream.
+
+- `"RouterIntegrationState"`: Indicates whether to enable or disable router integration for
+  this flow output.
+
+- `"RouterIntegrationTransitEncryption"`:
 
 - `"SenderControlPort"`: The port that the flow uses to send outbound requests to initiate
   connection with the sender.
@@ -2056,40 +3237,56 @@ end
 
 Updates the source of a flow.
 
+!!! note
+    Because `UpdateFlowSources` and `UpdateFlow` are separate operations, you can't change
+    both the source type AND the flow size in a single request.
+
+    - If you have a `MEDIUM` flow and you want to change the flow source to NDI®:
+      - First, use the [`update_flow`](@ref) operation to upgrade the flow size to `LARGE`.
+      - After that, you can then use the [`update_flow_source`](@ref) operation to configure
+        the NDI source.
+    - If you're switching from an NDI source to a transport stream (TS) source and want to
+      downgrade the flow size:
+      - First, use the [`update_flow_source`](@ref) operation to change the flow source
+        type.
+      - After that, you can then use the [`update_flow`](@ref) operation to downgrade the
+        flow size to `MEDIUM`.
+
 # Arguments
 
-- `flow_arn`: The flow that is associated with the source that you want to update.
+- `flow_arn`: The ARN of the flow that you want to update.
 - `source_arn`: The ARN of the source that you want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Decryption"`: The type of encryption used on the content ingested from this source.
-  Allowable encryption types: static-key.
+- `"Decryption"`: The type of encryption that is used on the content ingested from the
+  source.
 
-- `"Description"`: A description for the source. This value is not used or seen outside of
-  the current AWS Elemental MediaConnect account.
+- `"Description"`: A description of the source. This description is not visible outside of
+  the current Amazon Web Services account.
 
-- `"EntitlementArn"`: The ARN of the entitlement that allows you to subscribe to this flow.
-  The entitlement is set by the flow originator, and the ARN is generated as part of the
-  originator's flow.
+- `"EntitlementArn"`: The Amazon Resource Name (ARN) of the entitlement that allows you to
+  subscribe to the flow. The entitlement is set by the content originator, and the ARN is
+  generated as part of the originator's flow.
 
 - `"GatewayBridgeSource"`: The source configuration for cloud flows receiving a stream from
   a bridge.
 
-- `"IngestPort"`: The port that the flow will be listening on for incoming content.
+- `"IngestPort"`: The port that the flow listens on for incoming content. If the protocol of
+  the source is Zixi, the port must be set to 2088.
 
-- `"MaxBitrate"`: The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+- `"MaxBitrate"`: The maximum bitrate for RIST, RTP, and RTP-FEC streams.
 
 - `"MaxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
-  based, Zixi-based, and Fujitsu-based streams.
+  based and Zixi-based streams.
 
 - `"MaxSyncBuffer"`: The size of the buffer (in milliseconds) to use to sync incoming source
   data.
 
-- `"MediaStreamSourceConfigurations"`: The media streams that are associated with the
-  source, and the parameters for those associations.
+- `"MediaStreamSourceConfigurations"`: The media stream that is associated with the source,
+  and the parameters for that association.
 
 - `"MinLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams that
   use the SRT protocol, this value that you set on your MediaConnect source or output
@@ -2097,7 +3294,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to the highest number between the sender’s minimum latency and the receiver’s minimum
   latency.
 
-- `"Protocol"`: The protocol that is used by the source.
+- `"NdiSourceSettings"`: The settings for the NDI source. This includes the exact name of
+  the upstream NDI sender that you want to connect to your source.
+
+- `"Protocol"`: The protocol that the source uses to deliver the content to MediaConnect.
+
+  !!! note
+      Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is
+      maintained for legacy purposes only.
+
+- `"RouterIntegrationState"`: Indicates whether to enable or disable router integration for
+  this flow source.
+
+- `"RouterIntegrationTransitDecryption"`: The encryption configuration for the flow source
+  when router integration is enabled.
 
 - `"SenderControlPort"`: The port that the flow uses to send outbound requests to initiate
   connection with the sender.
@@ -2105,18 +3315,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SenderIpAddress"`: The IP address that the flow communicates with to initiate connection
   with the sender.
 
-- `"SourceListenerAddress"`: Source IP or domain name for SRT-caller protocol.
+- `"SourceListenerAddress"`: The source IP or domain name for SRT-caller protocol.
 
 - `"SourceListenerPort"`: Source port for SRT-caller protocol.
 
 - `"StreamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi and SRT caller-based streams.
 
-- `"VpcInterfaceName"`: The name of the VPC interface to use for this source.
+- `"VpcInterfaceName"`: The name of the VPC interface that you want to send your output to.
 
-- `"WhitelistCidr"`: The range of IP addresses that should be allowed to contribute content
-  to your source. These IP addresses should be in the form of a Classless Inter-Domain
-  Routing (CIDR) block; for example, 10.0.0.0/16.
+- `"WhitelistCidr"`: The range of IP addresses that are allowed to contribute content to
+  your source. Format the IP addresses as a Classless Inter-Domain Routing (CIDR) block; for
+  example, 10.0.0.0/16.
 """
 function update_flow_source end
 
@@ -2150,21 +3360,18 @@ end
     update_gateway_instance(gateway_instance_arn)
     update_gateway_instance(gateway_instance_arn, params::Dict{String,<:Any})
 
-Updates the configuration of an existing Gateway Instance.
+Updates an existing gateway instance.
 
 # Arguments
 
-- `gateway_instance_arn`: The Amazon Resource Name (ARN) of the instance that you want to
-  update.
+- `gateway_instance_arn`: The Amazon Resource Name (ARN) of the gateway instance that you
+  want to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"BridgePlacement"`: The availability of the instance to host new bridges. The
-  bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can
-  be deployed to this instance. If it is AVAILABLE, new bridges can be added to this
-  instance.
+- `"BridgePlacement"`: The state of the instance. `ACTIVE` or `INACTIVE`.
 """
 function update_gateway_instance end
 
@@ -2187,6 +3394,138 @@ function update_gateway_instance(
     return mediaconnect(
         "PUT",
         "/v1/gateway-instances/$(GatewayInstanceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_router_input(arn)
+    update_router_input(arn, params::Dict{String,<:Any})
+
+Updates the configuration of an existing router input in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router input that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Configuration"`: The updated configuration settings for the router input. Changing the
+  type of the configuration is not supported.
+- `"MaintenanceConfiguration"`: The updated maintenance configuration settings for the
+  router input, including any changes to preferred maintenance windows and schedules.
+- `"MaximumBitrate"`: The updated maximum bitrate for the router input.
+- `"Name"`: The updated name for the router input.
+- `"RoutingScope"`: Specifies whether the router input can be assigned to outputs in
+  different Regions. REGIONAL (default) - can be assigned only to outputs in the same
+  Region. GLOBAL - can be assigned to outputs in any Region.
+- `"Tier"`: The updated tier level for the router input.
+- `"TransitEncryption"`: The updated transit encryption settings for the router input.
+"""
+function update_router_input end
+
+function update_router_input(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "PUT", "/v1/routerInput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_router_input(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "PUT", "/v1/routerInput/$(Arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    update_router_network_interface(arn)
+    update_router_network_interface(arn, params::Dict{String,<:Any})
+
+Updates the configuration of an existing router network interface in AWS Elemental
+MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router network interface that you want to
+  update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Configuration"`: The updated configuration settings for the router network interface.
+  Changing the type of the configuration is not supported.
+- `"Name"`: The updated name for the router network interface.
+"""
+function update_router_network_interface end
+
+function update_router_network_interface(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/routerNetworkInterface/$(Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_router_network_interface(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/routerNetworkInterface/$(Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_router_output(arn)
+    update_router_output(arn, params::Dict{String,<:Any})
+
+Updates the configuration of an existing router output in AWS Elemental MediaConnect.
+
+# Arguments
+
+- `arn`: The Amazon Resource Name (ARN) of the router output that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Configuration"`: The updated configuration settings for the router output. Changing the
+  type of the configuration is not supported.
+- `"MaintenanceConfiguration"`: The updated maintenance configuration settings for the
+  router output, including any changes to preferred maintenance windows and schedules.
+- `"MaximumBitrate"`: The updated maximum bitrate for the router output.
+- `"Name"`: The updated name for the router output.
+- `"RoutingScope"`: Specifies whether the router output can take inputs that are in
+  different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL -
+  can take inputs from any Region.
+- `"Tier"`: The updated tier level for the router output.
+"""
+function update_router_output end
+
+function update_router_output(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconnect(
+        "PUT", "/v1/routerOutput/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_router_output(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconnect(
+        "PUT",
+        "/v1/routerOutput/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

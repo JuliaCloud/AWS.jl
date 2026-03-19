@@ -226,8 +226,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PrimaryAccountId"`: The account ID that serves as the main account in a billing group.
 - `"Tags"`: A map that contains tag keys and tag values that are attached to a billing
   group. This feature isn't available during the beta.
-- `"X-Amzn-Client-Token"`: The token that is needed to support idempotency. Idempotency
-  isn't currently supported, but will be implemented in a future update.
+- `"X-Amzn-Client-Token"`: A unique, case-sensitive identifier that you specify to ensure
+  idempotency of the request. Idempotency ensures that an API request completes no more than
+  one time. With an idempotent request, if the original request completes successfully, any
+  subsequent retries complete successfully without performing any further actions.
 """
 function create_billing_group end
 
@@ -303,10 +305,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountId"`: The Amazon Web Services account in which this custom line item will be
   applied to.
 - `"BillingPeriodRange"`: A time range for which the custom line item is effective.
+- `"ComputationRule"`: Specifies how the custom line item charges are computed.
+- `"PresentationDetails"`: Details controlling how the custom line item charges are
+  presented in the bill. Contains specifications for which service the charges will be shown
+  under.
 - `"Tags"`: A map that contains tag keys and tag values that are attached to a custom line
   item.
-- `"X-Amzn-Client-Token"`: The token that is needed to support idempotency. Idempotency
-  isn't currently supported, but will be implemented in a future update.
+- `"X-Amzn-Client-Token"`: A unique, case-sensitive identifier that you specify to ensure
+  idempotency of the request. Idempotency ensures that an API request completes no more than
+  one time. With an idempotent request, if the original request completes successfully, any
+  subsequent retries complete successfully without performing any further actions.
 """
 function create_custom_line_item end
 
@@ -380,8 +388,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingRuleArns"`: A list of Amazon Resource Names (ARNs) that define the pricing plan
   parameters.
 - `"Tags"`: A map that contains tag keys and tag values that are attached to a pricing plan.
-- `"X-Amzn-Client-Token"`: The token that is needed to support idempotency. Idempotency
-  isn't currently supported, but will be implemented in a future update.
+- `"X-Amzn-Client-Token"`: A unique, case-sensitive identifier that you specify to ensure
+  idempotency of the request. Idempotency ensures that an API request completes no more than
+  one time. With an idempotent request, if the original request completes successfully, any
+  subsequent retries complete successfully without performing any further actions.
 """
 function create_pricing_plan end
 
@@ -436,6 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The pricing rule description.
 
 - `"ModifierPercentage"`: A percentage modifier that's applied on the public pricing rates.
+  Your entry will be rounded to the nearest 2 decimal places.
 
 - `"Operation"`: Operation is the specific Amazon Web Services action covered by this line
   item. This describes the specific usage of the line item.
@@ -458,8 +469,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `PricingRule` is modifying. For example, `USW2-BoxUsage:m2.2xlarge` describes
   an`M2 High Memory Double Extra Large` instance in the US West (Oregon) Region.
 
-- `"X-Amzn-Client-Token"`: The token that's needed to support idempotency. Idempotency isn't
-  currently supported, but will be implemented in a future update.
+- `"X-Amzn-Client-Token"`: A unique, case-sensitive identifier that you specify to ensure
+  idempotency of the request. Idempotency ensures that an API request completes no more than
+  one time. With an idempotent request, if the original request completes successfully, any
+  subsequent retries complete successfully without performing any further actions.
 """
 function create_pricing_rule end
 
@@ -748,7 +761,7 @@ end
     get_billing_group_cost_report(arn, params::Dict{String,<:Any})
 
 Retrieves the margin summary report, which includes the Amazon Web Services cost and charged
-amount (pro forma cost) by Amazon Web Service for a specific billing group.
+amount (pro forma cost) by Amazon Web Services service for a specific billing group.
 
 # Arguments
 
@@ -762,7 +775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify up to 12 months.
 - `"GroupBy"`: A list of strings that specify the attributes that are used to break down
   costs in the margin summary reports for the billing group. For example, you can view your
-  costs by the Amazon Web Service name or the billing period.
+  costs by the Amazon Web Services service name or the billing period.
 - `"MaxResults"`: The maximum number of margin summary reports to retrieve.
 - `"NextToken"`: The pagination token used on subsequent calls to get reports.
 """
@@ -1464,7 +1477,8 @@ Updates an existing pricing rule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: The new description for the pricing rule.
-- `"ModifierPercentage"`: The new modifier to show pricing plan rates as a percentage.
+- `"ModifierPercentage"`: The new modifier to show pricing plan rates as a percentage. Your
+  entry will be rounded to the nearest 2 decimal places.
 - `"Name"`: The new name of the pricing rule. The name must be unique to each pricing rule.
 - `"Tiering"`: The set of tiering configurations for the pricing rule.
 - `"Type"`: The new pricing rule type.

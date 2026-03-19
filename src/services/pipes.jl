@@ -30,6 +30,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnrichmentParameters"`: The parameters required to set up enrichment on your pipe.
 
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt pipe data. The identifier can
+  be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt pipe data.
+
+  For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html)
+  in the *Key Management Service Developer Guide*.
+
 - `"LogConfiguration"`: The logging configuration settings for the pipe.
 
 - `"SourceParameters"`: The parameters required to set up a source for your pipe.
@@ -384,6 +394,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enrichment"`: The ARN of the enrichment resource.
 
 - `"EnrichmentParameters"`: The parameters required to set up enrichment on your pipe.
+
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt pipe data. The identifier can
+  be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+
+  To update a pipe that is using the default Amazon Web Services owned key to use a customer
+  managed key instead, or update a pipe that is using a customer managed key to use a
+  different customer managed key, specify a customer managed key identifier.
+
+  To update a pipe that is using a customer managed key to use the default Amazon Web
+  Services owned key, specify an empty string.
+
+  For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html)
+  in the *Key Management Service Developer Guide*.
 
 - `"LogConfiguration"`: The logging configuration settings for the pipe.
 

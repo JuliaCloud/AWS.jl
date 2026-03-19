@@ -117,7 +117,7 @@ end
     describe_savings_plan_rates(savings_plan_id)
     describe_savings_plan_rates(savings_plan_id, params::Dict{String,<:Any})
 
-Describes the rates for the specified Savings Plan.
+Describes the rates for a specific, existing Savings Plan.
 
 # Arguments
 
@@ -200,7 +200,7 @@ end
     describe_savings_plans_offering_rates()
     describe_savings_plans_offering_rates(params::Dict{String,<:Any})
 
-Describes the offering rates for the specified Savings Plans.
+Describes the offering rates for Savings Plans you might want to purchase.
 
 # Optional Parameters
 

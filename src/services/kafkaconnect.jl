@@ -51,6 +51,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"connectorDescription"`: A summary description of the connector.
 - `"logDelivery"`: Details about log delivery.
+- `"networkType"`: The network type of the connector. It gives connectors connectivity to
+  either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
 - `"tags"`: The tags you want to attach to the connector.
 - `"workerConfiguration"`: Specifies which worker configuration to use with the connector.
 """
@@ -392,6 +394,43 @@ function describe_connector(
 end
 
 """
+    describe_connector_operation(connector_operation_arn)
+    describe_connector_operation(connector_operation_arn, params::Dict{String,<:Any})
+
+Returns information about the specified connector's operations.
+
+# Arguments
+
+- `connector_operation_arn`: ARN of the connector operation to be described.
+"""
+function describe_connector_operation end
+
+function describe_connector_operation(
+    connectorOperationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectorOperations/$(connectorOperationArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_connector_operation(
+    connectorOperationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectorOperations/$(connectorOperationArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_custom_plugin(custom_plugin_arn)
     describe_custom_plugin(custom_plugin_arn, params::Dict{String,<:Any})
 
@@ -460,6 +499,52 @@ function describe_worker_configuration(
     return kafkaconnect(
         "GET",
         "/v1/worker-configurations/$(workerConfigurationArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connector_operations(connector_arn)
+    list_connector_operations(connector_arn, params::Dict{String,<:Any})
+
+Lists information about a connector's operation(s).
+
+# Arguments
+
+- `connector_arn`: The Amazon Resource Name (ARN) of the connector for which to list
+  operations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of connector operations to fetch in one get request.
+- `"nextToken"`: If the response is truncated, it includes a NextToken. Send this NextToken
+  in a subsequent request to continue listing from where it left off.
+"""
+function list_connector_operations end
+
+function list_connector_operations(
+    connectorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectors/$(connectorArn)/operations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_connector_operations(
+    connectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/connectors/$(connectorArn)/operations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -686,36 +771,40 @@ function untag_resource(
 end
 
 """
-    update_connector(capacity, connector_arn, current_version)
-    update_connector(capacity, connector_arn, current_version, params::Dict{String,<:Any})
+    update_connector(connector_arn, current_version)
+    update_connector(connector_arn, current_version, params::Dict{String,<:Any})
 
-Updates the specified connector.
+Updates the specified connector. For request body, specify only one parameter: either
+`capacity` or `connectorConfiguration`.
 
 # Arguments
 
-- `capacity`: The target capacity.
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to update.
 - `current_version`: The current version of the connector that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"capacity"`: The target capacity.
+- `"connectorConfiguration"`: A map of keys to values that represent the configuration for
+  the connector.
 """
 function update_connector end
 
 function update_connector(
-    capacity,
-    connectorArn,
-    currentVersion;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    connectorArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafkaconnect(
         "PUT",
         "/v1/connectors/$(connectorArn)",
-        Dict{String,Any}("capacity" => capacity, "currentVersion" => currentVersion);
+        Dict{String,Any}("currentVersion" => currentVersion);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_connector(
-    capacity,
     connectorArn,
     currentVersion,
     params::AbstractDict{String};
@@ -725,13 +814,7 @@ function update_connector(
         "PUT",
         "/v1/connectors/$(connectorArn)",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "capacity" => capacity, "currentVersion" => currentVersion
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

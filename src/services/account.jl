@@ -18,8 +18,8 @@ primary email address (also known as the root user email address) for the specif
   must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   This operation can only be called from the management account or the delegated
@@ -80,12 +80,12 @@ end
 
 Deletes the specified alternate contact from an Amazon Web Services account.
 
-For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+For complete details about how to use the alternate contact operations, see [Update the alternate contacts for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html).
 
 !!! note
     Before you can update the alternate contact information for an Amazon Web Services
     account that is managed by Organizations, you must first enable integration between
-    Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    Amazon Web Services Account Management and Organizations. For more information, see [Enable trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
 
 # Arguments
 
@@ -104,8 +104,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account, and the specified account ID must be a member
   account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -178,8 +178,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -243,8 +243,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -284,17 +284,70 @@ function enable_region(
 end
 
 """
+    get_account_information()
+    get_account_information(params::Dict{String,<:Any})
+
+Retrieves information about the specified account including its account name, account ID,
+and account creation date and time. To use this API, an IAM user or role must have the
+`account:GetAccountInformation` IAM permission.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation.
+
+  If you do not specify this parameter, it defaults to the Amazon Web Services account of
+  the identity used to call the operation.
+
+  To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account, and the specified account ID must be a member
+  account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
+  account assigned.
+
+  !!! note
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
+
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
+"""
+function get_account_information end
+
+function get_account_information(; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST", "/getAccountInformation"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_account_information(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return account(
+        "POST",
+        "/getAccountInformation",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_alternate_contact(alternate_contact_type)
     get_alternate_contact(alternate_contact_type, params::Dict{String,<:Any})
 
 Retrieves the specified alternate contact attached to an Amazon Web Services account.
 
-For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+For complete details about how to use the alternate contact operations, see [Update the alternate contacts for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html).
 
 !!! note
     Before you can update the alternate contact information for an Amazon Web Services
     account that is managed by Organizations, you must first enable integration between
-    Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    Amazon Web Services Account Management and Organizations. For more information, see [Enable trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
 
 # Arguments
 
@@ -313,8 +366,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account, and the specified account ID must be a member
   account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -365,7 +418,7 @@ end
 
 Retrieves the primary contact information of an Amazon Web Services account.
 
-For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+For complete details about how to use the primary contact operations, see [Update the primary contact for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html).
 
 # Optional Parameters
 
@@ -377,8 +430,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -410,6 +463,64 @@ function get_contact_information(
 end
 
 """
+    get_gov_cloud_account_information()
+    get_gov_cloud_account_information(params::Dict{String,<:Any})
+
+Retrieves information about the GovCloud account linked to the specified standard account
+(if it exists) including the GovCloud account ID and state. To use this API, an IAM user or
+role must have the `account:GetGovCloudAccountInformation` IAM permission.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StandardAccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation.
+
+  If you do not specify this parameter, it defaults to the Amazon Web Services account of
+  the identity used to call the operation.
+
+  To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account, and the specified account ID must be a member
+  account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
+  account assigned.
+
+  !!! note
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
+
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
+"""
+function get_gov_cloud_account_information end
+
+function get_gov_cloud_account_information(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return account(
+        "POST",
+        "/getGovCloudAccountInformation";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_gov_cloud_account_information(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return account(
+        "POST",
+        "/getGovCloudAccountInformation",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_primary_email(account_id)
     get_primary_email(account_id, params::Dict{String,<:Any})
 
@@ -422,8 +533,8 @@ Retrieves the primary email address for the specified account.
   must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   This operation can only be called from the management account or the delegated
@@ -482,8 +593,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -541,8 +652,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -584,17 +695,81 @@ function list_regions(
 end
 
 """
+    put_account_name(account_name)
+    put_account_name(account_name, params::Dict{String,<:Any})
+
+Updates the account name of the specified account. To use this API, IAM principals must have
+the `account:PutAccountName` IAM permission.
+
+# Arguments
+
+- `account_name`: The name of the account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation.
+
+  If you do not specify this parameter, it defaults to the Amazon Web Services account of
+  the identity used to call the operation.
+
+  To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
+  or a delegated administrator account, and the specified account ID must be a member
+  account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
+  account assigned.
+
+  !!! note
+      The management account can't specify its own `AccountId`; it must call the operation
+      in standalone context by not including the `AccountId` parameter.
+
+  To call this operation on an account that is not a member of an organization, then don't
+  specify this parameter, and call the operation using an identity belonging to the account
+  whose contacts you wish to retrieve or modify.
+"""
+function put_account_name end
+
+function put_account_name(AccountName; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST",
+        "/putAccountName",
+        Dict{String,Any}("AccountName" => AccountName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_account_name(
+    AccountName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return account(
+        "POST",
+        "/putAccountName",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountName" => AccountName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title)
     put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title, params::Dict{String,<:Any})
 
 Modifies the specified alternate contact attached to an Amazon Web Services account.
 
-For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+For complete details about how to use the alternate contact operations, see [Update the alternate contacts for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html).
 
 !!! note
     Before you can update the alternate contact information for an Amazon Web Services
     account that is managed by Organizations, you must first enable integration between
-    Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    Amazon Web Services Account Management and Organizations. For more information, see [Enable trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
 
 # Arguments
 
@@ -617,8 +792,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account, and the specified account ID must be a member
   account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -690,7 +865,7 @@ end
 
 Updates the primary contact information of an Amazon Web Services account.
 
-For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+For complete details about how to use the primary contact operations, see [Update the primary contact for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html).
 
 # Arguments
 
@@ -707,8 +882,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html)
+  enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   !!! note
@@ -764,8 +939,8 @@ Starts the process to update the primary email address for the specified account
   must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account)
   or a delegated administrator account. The specified account ID must be a member account in
   the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html),
-  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html)
-  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html)
+  and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+  enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin)
   account assigned.
 
   This operation can only be called from the management account or the delegated

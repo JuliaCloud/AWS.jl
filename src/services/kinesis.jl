@@ -23,13 +23,15 @@ tags that correspond to the specified tag keys.
 
 # Arguments
 
-- `tags`: A set of up to 10 key-value pairs to use to create the tags.
+- `tags`: A set of up to 50 key-value pairs to use to create the tags. A tag consists of a
+  required key and an optional value. You can add up to 50 tags per resource.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream.
 """
 function add_tags_to_stream end
@@ -67,6 +69,13 @@ You can create your data stream using either on-demand or provisioned capacity m
 streams with an on-demand mode require no capacity planning and automatically scale to
 handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis
 Data Streams automatically manages the shards in order to provide the necessary throughput.
+
+If you'd still like to proactively scale your on-demand data stream’s capacity, you can
+unlock the warm throughput feature for on-demand data streams by enabling
+`MinimumThroughputBillingCommitment` for your account. Once your account has
+`MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per
+second that your stream can support in writes.
+
 For the data streams with a provisioned mode, you must specify the number of shards for the
 data stream. Each shard can support reads up to five transactions per second, up to a
 maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000
@@ -89,13 +98,20 @@ do one of the following:
 - Have more than five streams in the `CREATING` state at any point in time.
 - Create more shards than are authorized for your account.
 
-For the default shard limit for an Amazon Web Services account, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
+For the default shard or on-demand throughput limits for an Amazon Web Services account, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
 in the *Amazon Kinesis Data Streams Developer Guide*. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
 You can use [`describe_stream_summary`](@ref) to check the stream status, which is returned
 in `StreamStatus`.
 
 [`create_stream`](@ref) has a limit of five transactions per second per account.
+
+You can add tags to the stream when making a `CreateStream` request by setting the `Tags`
+parameter. If you pass the `Tags` parameter, in addition to having the
+`kinesis:CreateStream` permission, you must also have the `kinesis:AddTagsToStream`
+permission for the stream that will be created. The `kinesis:TagResource` permission won’t
+work to tag streams on creation. Tags will take effect from the `CREATING` status of the
+stream, but you can't make any updates to the tags until the stream is in `ACTIVE` state.
 
 # Arguments
 
@@ -109,12 +125,19 @@ in `StreamStatus`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"MaxRecordSizeInKiB"`: The maximum record size of a single record in kibibyte (KiB) that
+  you can write to, and read from a stream.
 - `"ShardCount"`: The number of shards that the stream will use. The throughput of the
   stream is a function of the number of shards; more shards are required for greater
   provisioned throughput.
 - `"StreamModeDetails"`: Indicates the capacity mode of the data stream. Currently, in
   Kinesis Data Streams, you can choose between an **on-demand** capacity mode and a
   **provisioned** capacity mode for your data streams.
+- `"Tags"`: A set of up to 50 key-value pairs to use to create the tags. A tag consists of a
+  required key and an optional value.
+- `"WarmThroughputMiBps"`: The target warm throughput in MB/s that the stream should be
+  scaled to handle. This represents the throughput capacity that will be immediately
+  available for write operations.
 """
 function create_stream end
 
@@ -169,6 +192,7 @@ hours is inaccessible.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream to modify.
 """
 function decrease_stream_retention_period end
@@ -217,6 +241,12 @@ the following:
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the data stream or consumer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function delete_resource_policy end
 
@@ -284,6 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `false`, and the stream has registered consumers, the call to `DeleteStream` fails with a
   `ResourceInUseException`.
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream to delete.
 """
 function delete_stream end
@@ -326,6 +357,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StreamARN"`: The ARN of the Kinesis data stream that the consumer is registered with.
   For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function deregister_stream_consumer end
 
@@ -338,6 +371,31 @@ function deregister_stream_consumer(
 )
     return kinesis(
         "DeregisterStreamConsumer", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_account_settings()
+    describe_account_settings(params::Dict{String,<:Any})
+
+Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns
+information about the minimum throughput billing commitments and other account-level
+configurations.
+
+This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services
+account. TPS over 5 will initiate the `LimitExceededException`.
+"""
+function describe_account_settings end
+
+function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return kinesis("DescribeAccountSettings"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "DescribeAccountSettings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -413,6 +471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StreamARN"`: The ARN of the stream.
 
+- `"StreamId"`: Not Implemented. Reserved for future use.
+
 - `"StreamName"`: The name of the stream to describe.
 """
 function describe_stream end
@@ -453,6 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConsumerName"`: The name that you gave to the consumer.
 - `"StreamARN"`: The ARN of the Kinesis data stream that the consumer is registered with.
   For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function describe_stream_consumer end
 
@@ -491,6 +552,7 @@ shard count.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream to describe.
 """
 function describe_stream_summary end
@@ -541,6 +603,7 @@ Disables enhanced monitoring.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the Kinesis data stream for which to disable enhanced
   monitoring.
 """
@@ -608,6 +671,7 @@ Enables enhanced Kinesis data stream monitoring for shard-level metrics.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream for which to enable enhanced monitoring.
 """
 function enable_enhanced_monitoring end
@@ -718,6 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify a value that is greater than 10,000, `GetRecords` throws
   `InvalidArgumentException`. The default value is 10,000.
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function get_records end
 
@@ -759,6 +824,12 @@ one of the following:
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the data stream or consumer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function get_resource_policy end
 
@@ -866,6 +937,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StreamARN"`: The ARN of the stream.
 
+- `"StreamId"`: Not Implemented. Reserved for future use.
+
 - `"StreamName"`: The name of the Amazon Kinesis data stream.
 
 - `"Timestamp"`: The time stamp of the data record from which to start reading. Used with
@@ -940,6 +1013,7 @@ inaccessible to consumer applications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream to modify.
 """
 function increase_stream_retention_period end
@@ -1063,6 +1137,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You cannot specify this parameter if you specify the `NextToken` parameter.
 
+- `"StreamId"`: Not Implemented. Reserved for future use.
+
 - `"StreamName"`: The name of the data stream whose shards you want to list.
 
   You cannot specify this parameter if you specify the `NextToken` parameter.
@@ -1129,6 +1205,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify which of the two streams you want to list the consumers for.
 
   You can't specify this parameter if you specify the NextToken parameter.
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function list_stream_consumers end
 
@@ -1200,6 +1278,55 @@ function list_streams(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+List all tags added to the specified Kinesis resource. Each tag is a label consisting of a
+user-defined key and value. Tags can help you manage, identify, organize, search for, and
+filter resources.
+
+For more information about tagging Kinesis resources, see [Tag your Amazon Kinesis Data Streams resources](https://docs.aws.amazon.com/streams/latest/dev/tagging.html).
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the Kinesis resource for which to list
+  tags.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
+"""
+function list_tags_for_resource end
+
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_stream()
     list_tags_for_stream(params::Dict{String,<:Any})
 
@@ -1222,6 +1349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags associated with the stream, `HasMoreTags` is set to `true`. To list additional tags,
   set `ExclusiveStartTagKey` to the last key in the response.
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream.
 """
 function list_tags_for_stream end
@@ -1292,6 +1420,7 @@ If you try to operate on too many streams in parallel using [`create_stream`](@r
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream for the merge.
 """
 function merge_shards end
@@ -1339,7 +1468,7 @@ end
 Writes a single data record into an Amazon Kinesis data stream. Call `PutRecord` to send
 data into the stream for real-time ingestion and subsequent processing, one record at a
 time. Each shard can support writes up to 1,000 records per second, up to a maximum data
-write total of 1 MiB per second.
+write total of 10 MiB per second.
 
 !!! note
     When invoking this API, you must use either the `StreamARN` or the `StreamName`
@@ -1388,7 +1517,7 @@ to modify this retention period.
 
 - `data`: The data blob to put into the record, which is base64-encoded when the blob is
   serialized. When the data blob (the payload before base64-encoding) is added to the
-  partition key size, the total size must not exceed the maximum record size (1 MiB).
+  partition key size, the total size must not exceed the maximum record size (10 MiB).
 
 - `partition_key`: Determines which shard in the stream the data record is assigned to.
   Partition keys are Unicode strings with a maximum length limit of 256 characters for each
@@ -1412,6 +1541,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are coarsely ordered based on arrival time.
 
 - `"StreamARN"`: The ARN of the stream.
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 
 - `"StreamName"`: The name of the stream to put the data record into.
 """
@@ -1460,9 +1591,9 @@ ingestion and processing.
     you invoke this API.
 
 Each `PutRecords` request can support up to 500 records. Each record in the request can be
-as large as 1 MiB, up to a limit of 5 MiB for the entire request, including partition keys.
-Each shard can support writes up to 1,000 records per second, up to a maximum data write
-total of 1 MiB per second.
+as large as 10 MiB, up to a limit of 10 MiB for the entire request, including partition
+keys. Each shard can support writes up to 1,000 records per second, up to a maximum data
+write total of 1 MB per second.
 
 You must specify the name of the stream that captures, stores, and transports the data; and
 an array of request `Records`, with each record in the array requiring a partition key and
@@ -1526,6 +1657,7 @@ to modify this retention period.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The stream name associated with the request.
 """
 function put_records end
@@ -1577,6 +1709,12 @@ For more information, see [Controlling Access to Amazon Kinesis Data Streams Res
 - `policy`: Details of the resource policy. It must include the identity of the principal
   and the actions allowed on this resource. This is formatted as a JSON string.
 - `resource_arn`: The Amazon Resource Name (ARN) of the data stream or consumer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function put_resource_policy end
 
@@ -1620,10 +1758,18 @@ you register can then call [`subscribe_to_shard`](@ref) to receive data from the
 using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe
 to. This rate is unaffected by the total number of consumers that read from the same stream.
 
-You can register up to 20 consumers per stream. A given consumer can only be registered with
+You can add tags to the registered consumer when making a `RegisterStreamConsumer` request
+by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the
+`kinesis:RegisterStreamConsumer` permission, you must also have the `kinesis:TagResource`
+permission for the consumer that will be registered. Tags will take effect from the
+`CREATING` status of the consumer.
+
+With On-demand Advantage streams, you can register up to 50 consumers per stream to use
+Enhanced Fan-out. With On-demand Standard and Provisioned streams, you can register up to 20
+consumers per stream to use Enhanced Fan-out. A given consumer can only be registered with
 one stream at a time.
 
-For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
+For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
 
 The use of this operation has a limit of five transactions per second per account. Also,
 only 5 consumers can be created simultaneously. In other words, you cannot have more than 5
@@ -1636,6 +1782,14 @@ are 5 in a `CREATING` status results in a `LimitExceededException`.
   However, consumer names don't have to be unique across data streams.
 - `stream_arn`: The ARN of the Kinesis data stream that you want to register the consumer
   with. For more info, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
+- `"Tags"`: A set of up to 50 key-value pairs. A tag consists of a required key and an
+  optional value.
 """
 function register_stream_consumer end
 
@@ -1695,6 +1849,7 @@ If you specify a tag that does not exist, it is ignored.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream.
 """
 function remove_tags_from_stream end
@@ -1792,6 +1947,7 @@ and/or [`split_shard`](@ref), you receive a `LimitExceededException`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream for the shard split.
 """
 function split_shard end
@@ -1881,6 +2037,7 @@ that encryption is applied by inspecting the API response from `PutRecord` or `P
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream for which to start encrypting records.
 """
 function start_stream_encryption end
@@ -1965,6 +2122,7 @@ from `PutRecord` or `PutRecords`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream on which to stop encrypting records.
 """
 function stop_stream_encryption end
@@ -2025,7 +2183,7 @@ seconds of a successful call, you'll get a `ResourceInUseException`. If you call
 `SubscribeToShard` 5 seconds or more after a successful call, the second call takes over the
 subscription and the previous connection expires or fails with a `ResourceInUseException`.
 
-For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
+For an example of how to use this operation, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
 
 # Arguments
 
@@ -2035,6 +2193,12 @@ For an example of how to use this operations, see [Enhanced Fan-Out Using the Ki
   for a given stream, use `ListShards`.
 - `starting_position`: The starting position in the data stream from which to start
   streaming.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
 """
 function subscribe_to_shard end
 
@@ -2074,6 +2238,226 @@ function subscribe_to_shard(
                     "StartingPosition" => StartingPosition,
                 ),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a
+user-defined key and value. Tags can help you manage, identify, organize, search for, and
+filter resources. You can assign up to 50 tags to a Kinesis resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the Kinesis resource to which to add
+  tags.
+
+- `tags`: An array of tags to be added to the Kinesis resource. A tag consists of a required
+  key and an optional value. You can add up to 50 tags per resource.
+
+  Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = +
+  - @.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
+"""
+function tag_resource end
+
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return kinesis(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be
+recovered after this operation completes successfully.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the Kinesis resource from which to
+  remove tags.
+- `tag_keys`: A list of tag key-value pairs. Existing tags of the resource whose keys are
+  members of this list will be removed from the Kinesis resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
+"""
+function untag_resource end
+
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_account_settings(minimum_throughput_billing_commitment)
+    update_account_settings(minimum_throughput_billing_commitment, params::Dict{String,<:Any})
+
+Updates the account-level settings for Amazon Kinesis Data Streams.
+
+Updating account settings is a synchronous operation. Upon receiving the request, Kinesis
+Data Streams will return immediately with your account’s updated settings.
+
+**API limits**
+
+- Certain account configurations have minimum commitment windows. Attempting to update your
+  settings prior to the end of the minimum commitment window might have certain
+  restrictions.
+- This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services
+  account. TPS over 5 will initiate the `LimitExceededException`.
+
+# Arguments
+
+- `minimum_throughput_billing_commitment`: Specifies the minimum throughput billing
+  commitment configuration for your account.
+"""
+function update_account_settings end
+
+function update_account_settings(
+    MinimumThroughputBillingCommitment; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "UpdateAccountSettings",
+        Dict{String,Any}(
+            "MinimumThroughputBillingCommitment" => MinimumThroughputBillingCommitment
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_account_settings(
+    MinimumThroughputBillingCommitment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "UpdateAccountSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MinimumThroughputBillingCommitment" =>
+                        MinimumThroughputBillingCommitment,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_max_record_size(max_record_size_in_ki_b)
+    update_max_record_size(max_record_size_in_ki_b, params::Dict{String,<:Any})
+
+This allows you to update the `MaxRecordSize` of a single record that you can write to, and
+read from a stream. You can ingest and digest single records up to 10240 KiB.
+
+# Arguments
+
+- `max_record_size_in_ki_b`: The maximum record size of a single record in KiB that you can
+  write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10
+  MiB). If you specify a value that is out of this range, `UpdateMaxRecordSize` sends back
+  an `ValidationException` message.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for the `MaxRecordSize`
+  update.
+- `"StreamId"`: Not Implemented. Reserved for future use.
+"""
+function update_max_record_size end
+
+function update_max_record_size(
+    MaxRecordSizeInKiB; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "UpdateMaxRecordSize",
+        Dict{String,Any}("MaxRecordSizeInKiB" => MaxRecordSizeInKiB);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_max_record_size(
+    MaxRecordSizeInKiB,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "UpdateMaxRecordSize",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("MaxRecordSizeInKiB" => MaxRecordSizeInKiB), params
             ),
         );
         aws_config,
@@ -2144,6 +2528,7 @@ rate limit, the shard limit for this API, or your overall shard limit, use the [
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StreamARN"`: The ARN of the stream.
+- `"StreamId"`: Not Implemented. Reserved for future use.
 - `"StreamName"`: The name of the stream.
 """
 function update_shard_count end
@@ -2191,12 +2576,28 @@ Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams
 choose between an **on-demand** capacity mode and a **provisioned** capacity mode for your
 data stream.
 
+If you'd still like to proactively scale your on-demand data stream’s capacity, you can
+unlock the warm throughput feature for on-demand data streams by enabling
+`MinimumThroughputBillingCommitment` for your account. Once your account has
+`MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per
+second that your stream can support in writes.
+
 # Arguments
 
 - `stream_arn`: Specifies the ARN of the data stream whose capacity mode you want to update.
 - `stream_mode_details`: Specifies the capacity mode to which you want to set your data
   stream. Currently, in Kinesis Data Streams, you can choose between an **on-demand**
   capacity mode and a **provisioned** capacity mode for your data streams.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamId"`: Not Implemented. Reserved for future use.
+- `"WarmThroughputMiBps"`: The target warm throughput in MB/s that the stream should be
+  scaled to handle. This represents the throughput capacity that will be immediately
+  available for write operations. This field is only valid when the stream mode is being
+  updated to on-demand.
 """
 function update_stream_mode end
 
@@ -2227,6 +2628,87 @@ function update_stream_mode(
                 Dict{String,Any}(
                     "StreamARN" => StreamARN, "StreamModeDetails" => StreamModeDetails
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_stream_warm_throughput(warm_throughput_mi_bps)
+    update_stream_warm_throughput(warm_throughput_mi_bps, params::Dict{String,<:Any})
+
+Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-
+demand data stream. This operation allows you to proactively scale your on-demand data
+stream to a specified throughput level, enabling better performance for sudden traffic
+spikes.
+
+!!! note
+    When invoking this API, you must use either the `StreamARN` or the `StreamName`
+    parameter, or both. It is recommended that you use the `StreamARN` input parameter when
+    you invoke this API.
+
+Updating the warm throughput is an asynchronous operation. Upon receiving the request,
+Kinesis Data Streams returns immediately and sets the status of the stream to `UPDATING`.
+After the update is complete, Kinesis Data Streams sets the status of the stream back to
+`ACTIVE`. Depending on the size of the stream, the scaling action could take a few minutes
+to complete. You can continue to read and write data to your stream while its status is
+`UPDATING`.
+
+This operation is only supported for data streams with the on-demand capacity mode in
+accounts that have `MinimumThroughputBillingCommitment` enabled. Provisioned capacity mode
+streams do not support warm throughput configuration.
+
+This operation has the following default limits. By default, you cannot do the following:
+
+- Scale to more than 10 GiBps for an on-demand stream.
+- This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services
+  account. TPS over 5 will initiate the `LimitExceededException`.
+
+For the default limits for an Amazon Web Services account, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
+in the *Amazon Kinesis Data Streams Developer Guide*. To request an increase in the call
+rate limit, the shard limit for this API, or your overall shard limit, use the [limits form](https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis).
+
+# Arguments
+
+- `warm_throughput_mi_bps`: The target warm throughput in MB/s that the stream should be
+  scaled to handle. This represents the throughput capacity that will be immediately
+  available for write operations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamARN"`: The ARN of the stream to be updated.
+- `"StreamId"`: Not Implemented. Reserved for future use.
+- `"StreamName"`: The name of the stream to be updated.
+"""
+function update_stream_warm_throughput end
+
+function update_stream_warm_throughput(
+    WarmThroughputMiBps; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis(
+        "UpdateStreamWarmThroughput",
+        Dict{String,Any}("WarmThroughputMiBps" => WarmThroughputMiBps);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_stream_warm_throughput(
+    WarmThroughputMiBps,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "UpdateStreamWarmThroughput",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("WarmThroughputMiBps" => WarmThroughputMiBps),
                 params,
             ),
         );

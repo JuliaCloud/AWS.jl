@@ -5,6 +5,72 @@ using AWS.AWSServices: freetier
 using AWS.UUIDs: uuid4
 
 """
+    get_account_activity(activity_id)
+    get_account_activity(activity_id, params::Dict{String,<:Any})
+
+Returns a specific activity record that is available to the customer.
+
+# Arguments
+
+- `activity_id`: A unique identifier that identifies the activity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"languageCode"`: The language code used to return translated title and description
+  fields.
+"""
+function get_account_activity end
+
+function get_account_activity(
+    activityId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return freetier(
+        "GetAccountActivity",
+        Dict{String,Any}("activityId" => activityId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_account_activity(
+    activityId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return freetier(
+        "GetAccountActivity",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("activityId" => activityId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_plan_state()
+    get_account_plan_state(params::Dict{String,<:Any})
+
+This returns all of the information related to the state of the account plan related to Free
+Tier.
+"""
+function get_account_plan_state end
+
+function get_account_plan_state(; aws_config::AbstractAWSConfig=current_aws_config())
+    return freetier("GetAccountPlanState"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_account_plan_state(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return freetier(
+        "GetAccountPlanState", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_free_tier_usage()
     get_free_tier_usage(params::Dict{String,<:Any})
 
@@ -31,4 +97,79 @@ function get_free_tier_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return freetier("GetFreeTierUsage", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_account_activities()
+    list_account_activities(params::Dict{String,<:Any})
+
+Returns a list of activities that are available. This operation supports pagination and
+filtering by status.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filterActivityStatuses"`: The activity status filter. This field can be used to filter
+  the response by activities status.
+- `"languageCode"`: The language code used to return translated titles.
+- `"maxResults"`: The maximum number of items to return for this request. To get the next
+  page of items, make another request with the token returned in the output.
+- `"nextToken"`: A token from a previous paginated response. If this is specified, the
+  response includes records beginning from this token (inclusive), up to the number
+  specified by `maxResults`.
+"""
+function list_account_activities end
+
+function list_account_activities(; aws_config::AbstractAWSConfig=current_aws_config())
+    return freetier("ListAccountActivities"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_account_activities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return freetier(
+        "ListAccountActivities", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    upgrade_account_plan(account_plan_type)
+    upgrade_account_plan(account_plan_type, params::Dict{String,<:Any})
+
+The account plan type for the Amazon Web Services account.
+
+# Arguments
+
+- `account_plan_type`: The target account plan type. This makes it explicit about the change
+  and latest value of the `accountPlanType`.
+"""
+function upgrade_account_plan end
+
+function upgrade_account_plan(
+    accountPlanType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return freetier(
+        "UpgradeAccountPlan",
+        Dict{String,Any}("accountPlanType" => accountPlanType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function upgrade_account_plan(
+    accountPlanType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return freetier(
+        "UpgradeAccountPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("accountPlanType" => accountPlanType), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

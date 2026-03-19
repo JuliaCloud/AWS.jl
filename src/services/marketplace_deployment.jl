@@ -44,7 +44,7 @@ Creates or updates a deployment parameter and is targeted by `catalog` and `agre
 # Arguments
 
 - `agreement_id`: The unique identifier of the agreement.
-- `catalog`: The catalog related to the request. Fixed value: `AWS Marketplace`
+- `catalog`: The catalog related to the request. Fixed value: `AWSMarketplace`
 - `deployment_parameter`: The deployment parameter targeted to the acceptor of an agreement
   for which to create the AWS Secret Manager resource.
 - `product_id`: The product for which AWS Marketplace will save secrets for the buyer’s
@@ -56,8 +56,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: The idempotency token for deployment parameters. A unique identifier for
   the new version.
+
+  !!! note
+      This field is not required if you're calling using an AWS SDK. Otherwise, a
+      `clientToken` must be provided with the request.
+
 - `"expirationDate"`: The date when deployment parameters expire and are scheduled for
   deletion.
+
 - `"tags"`: A map of key-value pairs, where each pair represents a tag saved to the
   resource. Tags will only be applied for create operations, and they'll be ignored if the
   resource already exists.

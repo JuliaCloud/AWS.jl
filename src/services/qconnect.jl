@@ -5,6 +5,499 @@ using AWS.AWSServices: qconnect
 using AWS.UUIDs: uuid4
 
 """
+    activate_message_template(knowledge_base_id, message_template_id, version_number)
+    activate_message_template(knowledge_base_id, message_template_id, version_number, params::Dict{String,<:Any})
+
+Activates a specific version of the Amazon Q in Connect message template. After the version
+is activated, the previous active version will be deactivated automatically. You can use the
+`\$ACTIVE_VERSION` qualifier later to reference the version that is in active status.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+- `version_number`: The version number of the message template version to activate.
+"""
+function activate_message_template end
+
+function activate_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    versionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/activate",
+        Dict{String,Any}("versionNumber" => versionNumber);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function activate_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    versionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/activate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("versionNumber" => versionNumber), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiagent(assistant_id, configuration, name, type, visibility_status)
+    create_aiagent(assistant_id, configuration, name, type, visibility_status, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect AI Agent.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `configuration`: The configuration of the AI Agent.
+- `name`: The name of the AI Agent.
+- `type`: The type of the AI Agent.
+- `visibility_status`: The visibility status of the AI Agent.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"description"`: The description of the AI Agent.
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_aiagent end
+
+function create_aiagent(
+    assistantId,
+    configuration,
+    name,
+    type,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents",
+        Dict{String,Any}(
+            "configuration" => configuration,
+            "name" => name,
+            "type" => type,
+            "visibilityStatus" => visibilityStatus,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiagent(
+    assistantId,
+    configuration,
+    name,
+    type,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "name" => name,
+                    "type" => type,
+                    "visibilityStatus" => visibilityStatus,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiagent_version(ai_agent_id, assistant_id)
+    create_aiagent_version(ai_agent_id, assistant_id, params::Dict{String,<:Any})
+
+Creates and Amazon Q in Connect AI Agent version.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+
+- `"modifiedTime"`: The modification time of the AI Agent should be tracked for version
+  creation. This field should be specified to avoid version creation when simultaneous
+  update to the underlying AI Agent are possible. The value should be the modifiedTime
+  returned from the request to create or update an AI Agent so that version creation can
+  fail if an update to the AI Agent post the specified modification time has been made.
+"""
+function create_aiagent_version end
+
+function create_aiagent_version(
+    aiAgentId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiagent_version(
+    aiAgentId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiguardrail(assistant_id, blocked_input_messaging, blocked_outputs_messaging, name, visibility_status)
+    create_aiguardrail(assistant_id, blocked_input_messaging, blocked_outputs_messaging, name, visibility_status, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect AI Guardrail.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `blocked_input_messaging`: The message to return when the AI Guardrail blocks a prompt.
+- `blocked_outputs_messaging`: The message to return when the AI Guardrail blocks a model
+  response.
+- `name`: The name of the AI Guardrail.
+- `visibility_status`: The visibility status of the AI Guardrail.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"contentPolicyConfig"`: The content filter policies to configure for the AI Guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  create an AI Guardrail.
+- `"description"`: A description of the AI Guardrail.
+- `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
+  the AI Guardrail.
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+- `"topicPolicyConfig"`: The topic policies to configure for the AI Guardrail.
+- `"wordPolicyConfig"`: The word policy you configure for the AI Guardrail.
+"""
+function create_aiguardrail end
+
+function create_aiguardrail(
+    assistantId,
+    blockedInputMessaging,
+    blockedOutputsMessaging,
+    name,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails",
+        Dict{String,Any}(
+            "blockedInputMessaging" => blockedInputMessaging,
+            "blockedOutputsMessaging" => blockedOutputsMessaging,
+            "name" => name,
+            "visibilityStatus" => visibilityStatus,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiguardrail(
+    assistantId,
+    blockedInputMessaging,
+    blockedOutputsMessaging,
+    name,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "blockedInputMessaging" => blockedInputMessaging,
+                    "blockedOutputsMessaging" => blockedOutputsMessaging,
+                    "name" => name,
+                    "visibilityStatus" => visibilityStatus,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiguardrail_version(ai_guardrail_id, assistant_id)
+    create_aiguardrail_version(ai_guardrail_id, assistant_id, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect AI Guardrail version.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"modifiedTime"`: The time the AI Guardrail was last modified.
+"""
+function create_aiguardrail_version end
+
+function create_aiguardrail_version(
+    aiGuardrailId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiguardrail_version(
+    aiGuardrailId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiprompt(api_format, assistant_id, model_id, name, template_configuration, template_type, type, visibility_status)
+    create_aiprompt(api_format, assistant_id, model_id, name, template_configuration, template_type, type, visibility_status, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect AI Prompt.
+
+# Arguments
+
+- `api_format`: The API Format of the AI Prompt.
+
+  Recommended values: `MESSAGES | TEXT_COMPLETIONS`
+
+  !!! note
+      The values `ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS` will be
+      deprecated.
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+- `model_id`: The identifier of the model used for this AI Prompt.
+
+  !!! note
+      For information about which models are supported in each Amazon Web Services Region,
+      see [Supported models for system/custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+
+- `name`: The name of the AI Prompt.
+
+- `template_configuration`: The configuration of the prompt template for this AI Prompt.
+
+- `template_type`: The type of the prompt template for this AI Prompt.
+
+- `type`: The type of this AI Prompt.
+
+- `visibility_status`: The visibility status of the AI Prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"description"`: The description of the AI Prompt.
+- `"inferenceConfiguration"`: The inference configuration for the AI Prompt being created.
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_aiprompt end
+
+function create_aiprompt(
+    apiFormat,
+    assistantId,
+    modelId,
+    name,
+    templateConfiguration,
+    templateType,
+    type,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts",
+        Dict{String,Any}(
+            "apiFormat" => apiFormat,
+            "modelId" => modelId,
+            "name" => name,
+            "templateConfiguration" => templateConfiguration,
+            "templateType" => templateType,
+            "type" => type,
+            "visibilityStatus" => visibilityStatus,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiprompt(
+    apiFormat,
+    assistantId,
+    modelId,
+    name,
+    templateConfiguration,
+    templateType,
+    type,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "apiFormat" => apiFormat,
+                    "modelId" => modelId,
+                    "name" => name,
+                    "templateConfiguration" => templateConfiguration,
+                    "templateType" => templateType,
+                    "type" => type,
+                    "visibilityStatus" => visibilityStatus,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_aiprompt_version(ai_prompt_id, assistant_id)
+    create_aiprompt_version(ai_prompt_id, assistant_id, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect AI Prompt version.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI prompt.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"modifiedTime"`: The time the AI Prompt was last modified.
+"""
+function create_aiprompt_version end
+
+function create_aiprompt_version(
+    aiPromptId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aiprompt_version(
+    aiPromptId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_assistant(name, type)
     create_assistant(name, type, params::Dict{String,<:Any})
 
@@ -21,7 +514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 - `"description"`: The description of the assistant.
 
@@ -94,7 +587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_assistant_association end
@@ -168,7 +661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
   Amazon Q in Connect, you can store an external version identifier as metadata to utilize
@@ -219,6 +712,91 @@ function create_content(
 end
 
 """
+    create_content_association(association, association_type, content_id, knowledge_base_id)
+    create_content_association(association, association_type, content_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Creates an association between a content resource in a knowledge base and [step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
+Step-by-step guides offer instructions to agents for resolving common customer issues. You
+create a content association to integrate Amazon Q in Connect and step-by-step guides.
+
+After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a
+recommendation to an agent based on the intent that it's detected, it also provides them
+with the option to start the step-by-step guide that you have associated with the content.
+
+Note the following limitations:
+
+- You can create only one content association for each content resource in a knowledge base.
+- You can associate a step-by-step guide with multiple content resources.
+
+For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
+in the *Amazon Connect Administrator Guide*.
+
+# Arguments
+
+- `association`: The identifier of the associated resource.
+- `association_type`: The type of association.
+- `content_id`: The identifier of the content.
+- `knowledge_base_id`: The identifier of the knowledge base.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_content_association end
+
+function create_content_association(
+    association,
+    associationType,
+    contentId,
+    knowledgeBaseId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
+        Dict{String,Any}(
+            "association" => association,
+            "associationType" => associationType,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_content_association(
+    association,
+    associationType,
+    contentId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "association" => association,
+                    "associationType" => associationType,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_knowledge_base(knowledge_base_type, name)
     create_knowledge_base(knowledge_base_type, name, params::Dict{String,<:Any})
 
@@ -252,7 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 - `"description"`: The description.
 
@@ -268,9 +846,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
 
 - `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
-  for EXTERNAL knowledge bases.
+  for EXTERNAL or Managed knowledge bases.
 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
+
+- `"vectorIngestionConfiguration"`: Contains details about how to ingest the documents in a
+  data source.
 """
 function create_knowledge_base end
 
@@ -316,6 +897,221 @@ function create_knowledge_base(
 end
 
 """
+    create_message_template(channel_subtype, knowledge_base_id)
+    create_message_template(channel_subtype, knowledge_base_id, params::Dict{String,<:Any})
+
+Creates an Amazon Q in Connect message template. The name of the message template has to be
+unique for each knowledge base. The channel subtype of the message template is immutable and
+cannot be modified after creation. After the message template is created, you can use the
+`\$LATEST` qualifier to reference the created message template.
+
+# Arguments
+
+- `channel_subtype`: The channel subtype this message template applies to.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"content"`: The content of the message template.
+- `"defaultAttributes"`: An object that specifies the default values to use for variables in
+  the message template. This object contains different categories of key-value pairs. Each
+  key defines a variable or placeholder in the message template. The corresponding value
+  defines the default value for that variable.
+- `"description"`: The description of the message template.
+- `"groupingConfiguration"`:
+- `"language"`: The language code value for the language in which the quick response is
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`, `id_ID`,
+  `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
+- `"name"`: The name of the message template.
+- `"sourceConfiguration"`: The source configuration of the message template. Only set this
+  argument for WHATSAPP channel subtype.
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_message_template end
+
+function create_message_template(
+    channelSubtype, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates",
+        Dict{String,Any}(
+            "channelSubtype" => channelSubtype, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_message_template(
+    channelSubtype,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "channelSubtype" => channelSubtype, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_message_template_attachment(body, content_disposition, knowledge_base_id, message_template_id, name)
+    create_message_template_attachment(body, content_disposition, knowledge_base_id, message_template_id, name, params::Dict{String,<:Any})
+
+Uploads an attachment file to the specified Amazon Q in Connect message template. The name
+of the message template attachment has to be unique for each message template referenced by
+the `\$LATEST` qualifier. The body of the attachment file should be encoded using base64
+encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in
+response to download the uploaded file.
+
+# Arguments
+
+- `body`: The body of the attachment file being uploaded. It should be encoded using base64
+  encoding.
+- `content_disposition`: The presentation information for the attachment file.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+- `name`: The name of the attachment file being uploaded. The name should include the file
+  extension.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+"""
+function create_message_template_attachment end
+
+function create_message_template_attachment(
+    body,
+    contentDisposition,
+    knowledgeBaseId,
+    messageTemplateId,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/attachments",
+        Dict{String,Any}(
+            "body" => body, "contentDisposition" => contentDisposition, "name" => name
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_message_template_attachment(
+    body,
+    contentDisposition,
+    knowledgeBaseId,
+    messageTemplateId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "body" => body,
+                    "contentDisposition" => contentDisposition,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_message_template_version(knowledge_base_id, message_template_id)
+    create_message_template_version(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Creates a new Amazon Q in Connect message template version from the current content and
+configuration of a message template. Versions are immutable and monotonically increasing.
+Once a version is created, you can reference a specific version of the message template by
+passing in `&lt;message-template-id&gt;:&lt;versionNumber&gt;` as the message template
+identifier. An error is displayed if the supplied `messageTemplateContentSha256` is
+different from the `messageTemplateContentSha256` of the message template with `\$LATEST`
+qualifier. If multiple `CreateMessageTemplateVersion` requests are made while the message
+template remains the same, only the first invocation creates a new version and the
+succeeding requests will return the same response as the first invocation.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"messageTemplateContentSha256"`: The checksum value of the message template content that
+  is referenced by the `\$LATEST` qualifier. It can be returned in `MessageTemplateData` or
+  `ExtendedMessageTemplateData`. It’s calculated by content, language, `defaultAttributes`
+  and `Attachments` of the message template. If not supplied, the message template version
+  will be created based on the message template content that is referenced by the `\$LATEST`
+  qualifier by default.
+"""
+function create_message_template_version end
+
+function create_message_template_version(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_message_template_version(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_quick_response(content, knowledge_base_id, name)
     create_quick_response(content, knowledge_base_id, name, params::Dict{String,<:Any})
 
@@ -336,7 +1132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 - `"contentType"`: The media type of the quick response content.
 
@@ -419,10 +1215,19 @@ in Connect is enabled.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"aiAgentConfiguration"`: The configuration of the AI Agents (mapped by AI Agent Type to
+  AI Agent version) that should be used by Amazon Q in Connect for this Session.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"contactArn"`: The Amazon Resource Name (ARN) of the email contact in Amazon Connect.
+  Used to retrieve email content and establish session context for AI-powered email
+  assistance.
 - `"description"`: The description.
+- `"orchestratorConfigurationList"`: The list of orchestrator configurations for the session
+  being created.
+- `"removeOrchestratorConfigurationList"`: The list of orchestrator configurations to remove
+  from the session.
 - `"tagFilter"`: An object that can be used to specify Tag conditions.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
@@ -456,6 +1261,316 @@ function create_session(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deactivate_message_template(knowledge_base_id, message_template_id, version_number)
+    deactivate_message_template(knowledge_base_id, message_template_id, version_number, params::Dict{String,<:Any})
+
+Deactivates a specific version of the Amazon Q in Connect message template . After the
+version is deactivated, you can no longer use the `\$ACTIVE_VERSION` qualifier to reference
+the version in active status.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+- `version_number`: The version number of the message template version to deactivate.
+"""
+function deactivate_message_template end
+
+function deactivate_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    versionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/deactivate",
+        Dict{String,Any}("versionNumber" => versionNumber);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deactivate_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    versionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/deactivate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("versionNumber" => versionNumber), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiagent(ai_agent_id, assistant_id)
+    delete_aiagent(ai_agent_id, assistant_id, params::Dict{String,<:Any})
+
+Deletes an Amazon Q in Connect AI Agent.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or
+  the ARN. URLs cannot contain the ARN.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function delete_aiagent end
+
+function delete_aiagent(
+    aiAgentId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiagent(
+    aiAgentId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiagent_version(ai_agent_id, assistant_id, version_number)
+    delete_aiagent_version(ai_agent_id, assistant_id, version_number, params::Dict{String,<:Any})
+
+Deletes an Amazon Q in Connect AI Agent Version.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or
+  the ARN. URLs cannot contain the ARN.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `version_number`: The version number of the AI Agent version.
+"""
+function delete_aiagent_version end
+
+function delete_aiagent_version(
+    aiAgentId,
+    assistantId,
+    versionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions/$(versionNumber)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiagent_version(
+    aiAgentId,
+    assistantId,
+    versionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions/$(versionNumber)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiguardrail(ai_guardrail_id, assistant_id)
+    delete_aiguardrail(ai_guardrail_id, assistant_id, params::Dict{String,<:Any})
+
+Deletes an Amazon Q in Connect AI Guardrail.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail. Can be either
+  the ID or the ARN. URLs cannot contain the ARN.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function delete_aiguardrail end
+
+function delete_aiguardrail(
+    aiGuardrailId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiguardrail(
+    aiGuardrailId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiguardrail_version(ai_guardrail_id, assistant_id, version_number)
+    delete_aiguardrail_version(ai_guardrail_id, assistant_id, version_number, params::Dict{String,<:Any})
+
+Delete and Amazon Q in Connect AI Guardrail version.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `version_number`: The version number of the AI Guardrail version to be deleted.
+"""
+function delete_aiguardrail_version end
+
+function delete_aiguardrail_version(
+    aiGuardrailId,
+    assistantId,
+    versionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions/$(versionNumber)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiguardrail_version(
+    aiGuardrailId,
+    assistantId,
+    versionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions/$(versionNumber)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiprompt(ai_prompt_id, assistant_id)
+    delete_aiprompt(ai_prompt_id, assistant_id, params::Dict{String,<:Any})
+
+Deletes an Amazon Q in Connect AI Prompt.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI prompt. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function delete_aiprompt end
+
+function delete_aiprompt(
+    aiPromptId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiprompt(
+    aiPromptId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aiprompt_version(ai_prompt_id, assistant_id, version_number)
+    delete_aiprompt_version(ai_prompt_id, assistant_id, version_number, params::Dict{String,<:Any})
+
+Delete and Amazon Q in Connect AI Prompt version.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI prompt.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `version_number`: The version number of the AI Prompt version to be deleted.
+"""
+function delete_aiprompt_version end
+
+function delete_aiprompt_version(
+    aiPromptId,
+    assistantId,
+    versionNumber;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions/$(versionNumber)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aiprompt_version(
+    aiPromptId,
+    assistantId,
+    versionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions/$(versionNumber)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -577,6 +1692,54 @@ function delete_content(
 end
 
 """
+    delete_content_association(content_association_id, content_id, knowledge_base_id)
+    delete_content_association(content_association_id, content_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Deletes the content association.
+
+For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
+in the *Amazon Connect Administrator Guide*.
+
+# Arguments
+
+- `content_association_id`: The identifier of the content association. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `content_id`: The identifier of the content.
+- `knowledge_base_id`: The identifier of the knowledge base.
+"""
+function delete_content_association end
+
+function delete_content_association(
+    contentAssociationId,
+    contentId,
+    knowledgeBaseId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_content_association(
+    contentAssociationId,
+    contentId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_import_job(import_job_id, knowledge_base_id)
     delete_import_job(import_job_id, knowledge_base_id, params::Dict{String,<:Any})
 
@@ -662,6 +1825,99 @@ function delete_knowledge_base(
 end
 
 """
+    delete_message_template(knowledge_base_id, message_template_id)
+    delete_message_template(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Deletes an Amazon Q in Connect message template entirely or a specific version of the
+message template if version is supplied in the request. You can provide the message template
+identifier as `&lt;message-template-id&gt;:&lt;versionNumber&gt;` to delete a specific
+version of the message template. If it is not supplied, the message template and all
+available versions will be deleted.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN.
+"""
+function delete_message_template end
+
+function delete_message_template(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_message_template_attachment(attachment_id, knowledge_base_id, message_template_id)
+    delete_message_template_attachment(attachment_id, knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Deletes the attachment file from the Amazon Q in Connect message template that is referenced
+by `\$LATEST` qualifier. Attachments on available message template versions will remain
+unchanged.
+
+# Arguments
+
+- `attachment_id`: The identifier of the attachment file.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+"""
+function delete_message_template_attachment end
+
+function delete_message_template_attachment(
+    attachmentId,
+    knowledgeBaseId,
+    messageTemplateId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/attachments/$(attachmentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_message_template_attachment(
+    attachmentId,
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/attachments/$(attachmentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_quick_response(knowledge_base_id, quick_response_id)
     delete_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
 
@@ -695,6 +1951,127 @@ function delete_quick_response(
     return qconnect(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_aiagent(ai_agent_id, assistant_id)
+    get_aiagent(ai_agent_id, assistant_id, params::Dict{String,<:Any})
+
+Gets an Amazon Q in Connect AI Agent.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent (with or without a
+  version qualifier). Can be either the ID or the ARN. URLs cannot contain the ARN.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function get_aiagent end
+
+function get_aiagent(
+    aiAgentId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_aiagent(
+    aiAgentId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_aiguardrail(ai_guardrail_id, assistant_id)
+    get_aiguardrail(ai_guardrail_id, assistant_id, params::Dict{String,<:Any})
+
+Gets the Amazon Q in Connect AI Guardrail.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function get_aiguardrail end
+
+function get_aiguardrail(
+    aiGuardrailId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_aiguardrail(
+    aiGuardrailId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_aiprompt(ai_prompt_id, assistant_id)
+    get_aiprompt(ai_prompt_id, assistant_id, params::Dict{String,<:Any})
+
+Gets and Amazon Q in Connect AI Prompt.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI prompt.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+"""
+function get_aiprompt end
+
+function get_aiprompt(
+    aiPromptId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_aiprompt(
+    aiPromptId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -811,6 +2188,54 @@ function get_content(
     return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_content_association(content_association_id, content_id, knowledge_base_id)
+    get_content_association(content_association_id, content_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Returns the content association.
+
+For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
+in the *Amazon Connect Administrator Guide*.
+
+# Arguments
+
+- `content_association_id`: The identifier of the content association. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `content_id`: The identifier of the content.
+- `knowledge_base_id`: The identifier of the knowledge base.
+"""
+function get_content_association end
+
+function get_content_association(
+    contentAssociationId,
+    contentId,
+    knowledgeBaseId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_content_association(
+    contentAssociationId,
+    contentId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -936,6 +2361,101 @@ function get_knowledge_base(
 end
 
 """
+    get_message_template(knowledge_base_id, message_template_id)
+    get_message_template(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Retrieves the Amazon Q in Connect message template. The message template identifier can
+contain an optional qualifier, for example, `&lt;message-template-id&gt;:&lt;qualifier&gt;`,
+which is either an actual version number or an Amazon Q Connect managed qualifier
+`\$ACTIVE_VERSION` | `\$LATEST`. If it is not supplied, then `\$LATEST` is assumed
+implicitly.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN.
+"""
+function get_message_template end
+
+function get_message_template(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_next_message(assistant_id, next_message_token, session_id)
+    get_next_message(assistant_id, next_message_token, session_id, params::Dict{String,<:Any})
+
+Retrieves next message on an Amazon Q in Connect session.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant.
+- `next_message_token`: The token for the next message. Use the value returned in the
+  SendMessage or previous response in the next request to retrieve the next message.
+- `session_id`: The identifier of the Amazon Q in Connect session.
+"""
+function get_next_message end
+
+function get_next_message(
+    assistantId,
+    nextMessageToken,
+    sessionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/messages/next",
+        Dict{String,Any}("nextMessageToken" => nextMessageToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_next_message(
+    assistantId,
+    nextMessageToken,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/messages/next",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("nextMessageToken" => nextMessageToken), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_quick_response(knowledge_base_id, quick_response_id)
     get_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
 
@@ -1003,6 +2523,9 @@ query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/ama
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return per page.
+- `"nextChunkToken"`: The token for the next set of chunks. Use the value returned in the
+  previous response in the next request to retrieve the next set of chunks.
+- `"recommendationType"`: The type of recommendation being requested.
 - `"waitTimeSeconds"`: The duration (in seconds) for which the call waits for a
   recommendation to be made available before returning. If a recommendation is available,
   the call returns sooner than `WaitTimeSeconds`. If no messages are available and the wait
@@ -1071,6 +2594,297 @@ function get_session(
     return qconnect(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiagent_versions(ai_agent_id, assistant_id)
+    list_aiagent_versions(ai_agent_id, assistant_id, params::Dict{String,<:Any})
+
+List AI Agent versions.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent for which versions are
+  to be listed.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"origin"`: The origin of the AI Agent versions to be listed. `SYSTEM` for a default AI
+  Agent created by Q in Connect or `CUSTOMER` for an AI Agent created by calling AI Agent
+  creation APIs.
+"""
+function list_aiagent_versions end
+
+function list_aiagent_versions(
+    aiAgentId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiagent_versions(
+    aiAgentId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiagents(assistant_id)
+    list_aiagents(assistant_id, params::Dict{String,<:Any})
+
+Lists AI Agents.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"origin"`: The origin of the AI Agents to be listed. `SYSTEM` for a default AI Agent
+  created by Q in Connect or `CUSTOMER` for an AI Agent created by calling AI Agent creation
+  APIs.
+"""
+function list_aiagents end
+
+function list_aiagents(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiagents(
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiagents",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiguardrail_versions(ai_guardrail_id, assistant_id)
+    list_aiguardrail_versions(ai_guardrail_id, assistant_id, params::Dict{String,<:Any})
+
+Lists AI Guardrail versions.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail for which
+  versions are to be listed.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_aiguardrail_versions end
+
+function list_aiguardrail_versions(
+    aiGuardrailId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiguardrail_versions(
+    aiGuardrailId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiguardrails(assistant_id)
+    list_aiguardrails(assistant_id, params::Dict{String,<:Any})
+
+Lists the AI Guardrails available on the Amazon Q in Connect assistant.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_aiguardrails end
+
+function list_aiguardrails(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiguardrails(
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiguardrails",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiprompt_versions(ai_prompt_id, assistant_id)
+    list_aiprompt_versions(ai_prompt_id, assistant_id, params::Dict{String,<:Any})
+
+Lists AI Prompt versions.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI prompt for which versions are
+  to be listed.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"origin"`: The origin of the AI Prompt versions to be listed. `SYSTEM` for a default AI
+  Agent created by Q in Connect or `CUSTOMER` for an AI Agent created by calling AI Agent
+  creation APIs.
+"""
+function list_aiprompt_versions end
+
+function list_aiprompt_versions(
+    aiPromptId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiprompt_versions(
+    aiPromptId,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aiprompts(assistant_id)
+    list_aiprompts(assistant_id, params::Dict{String,<:Any})
+
+Lists the AI Prompts available on the Amazon Q in Connect assistant.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"origin"`: The origin of the AI Prompts to be listed. `SYSTEM` for a default AI Agent
+  created by Q in Connect or `CUSTOMER` for an AI Agent created by calling AI Agent creation
+  APIs.
+"""
+function list_aiprompts end
+
+function list_aiprompts(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_aiprompts(
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/aiprompts",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1148,6 +2962,56 @@ function list_assistants(
 )
     return qconnect(
         "GET", "/assistants", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_content_associations(content_id, knowledge_base_id)
+    list_content_associations(content_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Lists the content associations.
+
+For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
+in the *Amazon Connect Administrator Guide*.
+
+# Arguments
+
+- `content_id`: The identifier of the content.
+- `knowledge_base_id`: The identifier of the knowledge base.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_content_associations end
+
+function list_content_associations(
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_content_associations(
+    contentId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1271,6 +3135,150 @@ function list_knowledge_bases(
 end
 
 """
+    list_message_template_versions(knowledge_base_id, message_template_id)
+    list_message_template_versions(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Lists all the available versions for the specified Amazon Q in Connect message template.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_message_template_versions end
+
+function list_message_template_versions(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_message_template_versions(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_message_templates(knowledge_base_id)
+    list_message_templates(knowledge_base_id, params::Dict{String,<:Any})
+
+Lists all the available Amazon Q in Connect message templates for the specified knowledge
+base.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_message_templates end
+
+function list_message_templates(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_message_templates(
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_messages(assistant_id, session_id)
+    list_messages(assistant_id, session_id, params::Dict{String,<:Any})
+
+Lists messages on an Amazon Q in Connect session.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant.
+- `session_id`: The identifier of the Amazon Q in Connect session.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filter"`: The filter criteria for listing messages.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_messages end
+
+function list_messages(
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/messages";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_messages(
+    assistantId,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/messages",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_quick_responses(knowledge_base_id)
     list_quick_responses(knowledge_base_id, params::Dict{String,<:Any})
 
@@ -1310,6 +3318,53 @@ function list_quick_responses(
     return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_spans(assistant_id, session_id)
+    list_spans(assistant_id, session_id, params::Dict{String,<:Any})
+
+Retrieves AI agent execution traces for a session, providing granular visibility into agent
+orchestration flows, LLM interactions, and tool invocations.
+
+# Arguments
+
+- `assistant_id`: UUID or ARN of the Connect AI Assistant resource
+- `session_id`: UUID or ARN of the Connect AI Session resource
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of spans to return per page
+- `"nextToken"`: Pagination token for retrieving the next page of results
+"""
+function list_spans end
+
+function list_spans(
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/spans";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_spans(
+    assistantId,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/spans",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1464,8 +3519,8 @@ function put_feedback(
 end
 
 """
-    query_assistant(assistant_id, query_text)
-    query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
+    query_assistant(assistant_id)
+    query_assistant(assistant_id, params::Dict{String,<:Any})
 
 !!! important
     This API will be discontinued starting June 1, 2024. To receive generative responses
@@ -1480,7 +3535,6 @@ assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect
 
 - `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
   or the ARN. URLs cannot contain the ARN.
-- `query_text`: The text to search for.
 
 # Optional Parameters
 
@@ -1489,19 +3543,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+- `"overrideKnowledgeBaseSearchType"`: The search type to be used against the Knowledge Base
+  for this request. The values can be `SEMANTIC` which uses vector embeddings or `HYBRID`
+  which use vector embeddings and raw text.
 - `"queryCondition"`: Information about how to query content.
+- `"queryInputData"`: Information about the query.
+- `"queryText"`: The text to search for.
 - `"sessionId"`: The identifier of the Amazon Q in Connect session. Can be either the ID or
   the ARN. URLs cannot contain the ARN.
 """
 function query_assistant end
 
-function query_assistant(
-    assistantId, queryText; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function query_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
     return qconnect(
         "POST",
-        "/assistants/$(assistantId)/query",
-        Dict{String,Any}("queryText" => queryText);
+        "/assistants/$(assistantId)/query";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1509,15 +3565,62 @@ end
 
 function query_assistant(
     assistantId,
-    queryText,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return qconnect(
         "POST",
         "/assistants/$(assistantId)/query",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_assistant_aiagent(ai_agent_type, assistant_id)
+    remove_assistant_aiagent(ai_agent_type, assistant_id, params::Dict{String,<:Any})
+
+Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
+
+# Arguments
+
+- `ai_agent_type`: The type of the AI Agent being removed for use by default from the Amazon
+  Q in Connect Assistant.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"orchestratorUseCase"`: The orchestrator use case for the AI Agent being removed.
+"""
+function remove_assistant_aiagent end
+
+function remove_assistant_aiagent(
+    aiAgentType, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagentConfiguration",
+        Dict{String,Any}("aiAgentType" => aiAgentType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_assistant_aiagent(
+    aiAgentType,
+    assistantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/aiagentConfiguration",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryText" => queryText), params)
+            mergewith(_merge, Dict{String,Any}("aiAgentType" => aiAgentType), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1557,6 +3660,119 @@ function remove_knowledge_base_template_uri(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    render_message_template(attributes, knowledge_base_id, message_template_id)
+    render_message_template(attributes, knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Renders the Amazon Q in Connect message template based on the attribute values provided and
+generates the message content. For any variable present in the message template, if the
+attribute value is neither provided in the attribute request parameter nor the default
+attribute of the message template, the rendered message content will keep the variable
+placeholder as it is and return the attribute keys that are missing.
+
+# Arguments
+
+- `attributes`: An object that specifies the values to use for variables in the message
+  template. This object contains different categories of key-value pairs. Each key defines a
+  variable or placeholder in the message template. The corresponding value defines the value
+  for that variable.
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN.
+"""
+function render_message_template end
+
+function render_message_template(
+    attributes,
+    knowledgeBaseId,
+    messageTemplateId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/render",
+        Dict{String,Any}("attributes" => attributes);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function render_message_template(
+    attributes,
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/render",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("attributes" => attributes), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    retrieve(assistant_id, retrieval_configuration, retrieval_query)
+    retrieve(assistant_id, retrieval_configuration, retrieval_query, params::Dict{String,<:Any})
+
+Retrieves content from knowledge sources based on a query.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant for content retrieval.
+- `retrieval_configuration`: The configuration for the content retrieval operation.
+- `retrieval_query`: The query for content retrieval.
+"""
+function retrieve end
+
+function retrieve(
+    assistantId,
+    retrievalConfiguration,
+    retrievalQuery;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/retrieve",
+        Dict{String,Any}(
+            "retrievalConfiguration" => retrievalConfiguration,
+            "retrievalQuery" => retrievalQuery,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function retrieve(
+    assistantId,
+    retrievalConfiguration,
+    retrievalQuery,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/retrieve",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "retrievalConfiguration" => retrievalConfiguration,
+                    "retrievalQuery" => retrievalQuery,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1607,6 +3823,59 @@ function search_content(
     return qconnect(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/search",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("searchExpression" => searchExpression), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_message_templates(knowledge_base_id, search_expression)
+    search_message_templates(knowledge_base_id, search_expression, params::Dict{String,<:Any})
+
+Searches for Amazon Q in Connect message templates in the specified knowledge base.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `search_expression`: The search expression for querying the message template.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function search_message_templates end
+
+function search_message_templates(
+    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search/messageTemplates",
+        Dict{String,Any}("searchExpression" => searchExpression);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function search_message_templates(
+    knowledgeBaseId,
+    searchExpression,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search/messageTemplates",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
@@ -1720,6 +3989,80 @@ function search_sessions(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_message(assistant_id, message, session_id, type)
+    send_message(assistant_id, message, session_id, type, params::Dict{String,<:Any})
+
+Submits a message to the Amazon Q in Connect session.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant.
+- `message`: The message data to submit to the Amazon Q in Connect session.
+- `session_id`: The identifier of the Amazon Q in Connect session.
+- `type`: The message type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"aiAgentId"`: The identifier of the AI Agent to use for processing the message.
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the AWS SDK populates this field.For more
+  information about idempotency, see Making retries safe with idempotent APIs.
+- `"configuration"`: The configuration of the [SendMessage](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_SendMessage.html)
+  request.
+- `"conversationContext"`: The conversation context before the Amazon Q in Connect session.
+- `"metadata"`: Additional metadata for the message.
+- `"orchestratorUseCase"`: The orchestrator use case for message processing.
+- `"originRequestId"`: Request identifier from the origin system, used for end-to-end
+  tracing across spans.
+"""
+function send_message end
+
+function send_message(
+    assistantId,
+    message,
+    sessionId,
+    type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/message",
+        Dict{String,Any}(
+            "message" => message, "type" => type, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_message(
+    assistantId,
+    message,
+    sessionId,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/message",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "message" => message, "type" => type, "clientToken" => string(uuid4())
+                ),
+                params,
             ),
         );
         aws_config,
@@ -1942,6 +4285,295 @@ function untag_resource(
 end
 
 """
+    update_aiagent(ai_agent_id, assistant_id, visibility_status)
+    update_aiagent(ai_agent_id, assistant_id, visibility_status, params::Dict{String,<:Any})
+
+Updates an AI Agent.
+
+# Arguments
+
+- `ai_agent_id`: The identifier of the Amazon Q in Connect AI Agent.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `visibility_status`: The visbility status of the Amazon Q in Connect AI Agent.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"configuration"`: The configuration of the Amazon Q in Connect AI Agent.
+- `"description"`: The description of the Amazon Q in Connect AI Agent.
+"""
+function update_aiagent end
+
+function update_aiagent(
+    aiAgentId,
+    assistantId,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)",
+        Dict{String,Any}(
+            "visibilityStatus" => visibilityStatus, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_aiagent(
+    aiAgentId,
+    assistantId,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagents/$(aiAgentId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "visibilityStatus" => visibilityStatus, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_aiguardrail(ai_guardrail_id, assistant_id, blocked_input_messaging, blocked_outputs_messaging, visibility_status)
+    update_aiguardrail(ai_guardrail_id, assistant_id, blocked_input_messaging, blocked_outputs_messaging, visibility_status, params::Dict{String,<:Any})
+
+Updates an AI Guardrail.
+
+# Arguments
+
+- `ai_guardrail_id`: The identifier of the Amazon Q in Connect AI Guardrail.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `blocked_input_messaging`: The message to return when the AI Guardrail blocks a prompt.
+- `blocked_outputs_messaging`: The message to return when the AI Guardrail blocks a model
+  response.
+- `visibility_status`: The visibility status of the Amazon Q in Connect AI Guardrail.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+- `"contentPolicyConfig"`: The content filter policies to configure for the AI Guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  create an AI Guardrail.
+- `"description"`: A description of the AI Guardrail.
+- `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
+  the AI Guardrail.
+- `"topicPolicyConfig"`: The topic policies to configure for the AI Guardrail.
+- `"wordPolicyConfig"`: The word policy you configure for the AI Guardrail.
+"""
+function update_aiguardrail end
+
+function update_aiguardrail(
+    aiGuardrailId,
+    assistantId,
+    blockedInputMessaging,
+    blockedOutputsMessaging,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)",
+        Dict{String,Any}(
+            "blockedInputMessaging" => blockedInputMessaging,
+            "blockedOutputsMessaging" => blockedOutputsMessaging,
+            "visibilityStatus" => visibilityStatus,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_aiguardrail(
+    aiGuardrailId,
+    assistantId,
+    blockedInputMessaging,
+    blockedOutputsMessaging,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiguardrails/$(aiGuardrailId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "blockedInputMessaging" => blockedInputMessaging,
+                    "blockedOutputsMessaging" => blockedOutputsMessaging,
+                    "visibilityStatus" => visibilityStatus,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_aiprompt(ai_prompt_id, assistant_id, visibility_status)
+    update_aiprompt(ai_prompt_id, assistant_id, visibility_status, params::Dict{String,<:Any})
+
+Updates an AI Prompt.
+
+# Arguments
+
+- `ai_prompt_id`: The identifier of the Amazon Q in Connect AI Prompt.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `visibility_status`: The visibility status of the Amazon Q in Connect AI prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+
+- `"description"`: The description of the Amazon Q in Connect AI Prompt.
+
+- `"inferenceConfiguration"`: The updated inference configuration for the AI Prompt.
+
+- `"modelId"`: The identifier of the model used for this AI Prompt.
+
+  !!! note
+      For information about which models are supported in each Amazon Web Services Region,
+      see [Supported models for system/custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+
+- `"templateConfiguration"`: The configuration of the prompt template for this AI Prompt.
+"""
+function update_aiprompt end
+
+function update_aiprompt(
+    aiPromptId,
+    assistantId,
+    visibilityStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)",
+        Dict{String,Any}(
+            "visibilityStatus" => visibilityStatus, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_aiprompt(
+    aiPromptId,
+    assistantId,
+    visibilityStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiprompts/$(aiPromptId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "visibilityStatus" => visibilityStatus, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_assistant_aiagent(ai_agent_type, assistant_id, configuration)
+    update_assistant_aiagent(ai_agent_type, assistant_id, configuration, params::Dict{String,<:Any})
+
+Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
+
+# Arguments
+
+- `ai_agent_type`: The type of the AI Agent being updated for use by default on the Amazon Q
+  in Connect Assistant.
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `configuration`: The configuration of the AI Agent being updated for use by default on the
+  Amazon Q in Connect Assistant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"orchestratorUseCase"`: The orchestrator use case for the AI Agent being added.
+"""
+function update_assistant_aiagent end
+
+function update_assistant_aiagent(
+    aiAgentType,
+    assistantId,
+    configuration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagentConfiguration",
+        Dict{String,Any}("aiAgentType" => aiAgentType, "configuration" => configuration);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_assistant_aiagent(
+    aiAgentType,
+    assistantId,
+    configuration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/aiagentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aiAgentType" => aiAgentType, "configuration" => configuration
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_content(content_id, knowledge_base_id)
     update_content(content_id, knowledge_base_id, params::Dict{String,<:Any})
 
@@ -2056,6 +4688,118 @@ function update_knowledge_base_template_uri(
 end
 
 """
+    update_message_template(knowledge_base_id, message_template_id)
+    update_message_template(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Updates the Amazon Q in Connect message template. Partial update is supported. If any field
+is not supplied, it will remain unchanged for the message template that is referenced by the
+`\$LATEST` qualifier. Any modification will only apply to the message template that is
+referenced by the `\$LATEST` qualifier. The fields for all available versions will remain
+unchanged.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"content"`: The content of the message template.
+- `"defaultAttributes"`: An object that specifies the default values to use for variables in
+  the message template. This object contains different categories of key-value pairs. Each
+  key defines a variable or placeholder in the message template. The corresponding value
+  defines the default value for that variable.
+- `"language"`: The language code value for the language in which the quick response is
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`, `id_ID`,
+  `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
+- `"sourceConfiguration"`: The source configuration of the message template. Only set this
+  argument for WHATSAPP channel subtype.
+"""
+function update_message_template end
+
+function update_message_template(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_message_template(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_message_template_metadata(knowledge_base_id, message_template_id)
+    update_message_template_metadata(knowledge_base_id, message_template_id, params::Dict{String,<:Any})
+
+Updates the Amazon Q in Connect message template metadata. Note that any modification to the
+message template’s name, description and grouping configuration will applied to the message
+template pointed by the `\$LATEST` qualifier and all available versions. Partial update is
+supported. If any field is not supplied, it will remain unchanged for the message template.
+
+# Arguments
+
+- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
+  ARN. URLs cannot contain the ARN.
+- `message_template_id`: The identifier of the message template. Can be either the ID or the
+  ARN. It cannot contain any qualifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the message template.
+- `"groupingConfiguration"`:
+- `"name"`: The name of the message template.
+"""
+function update_message_template_metadata end
+
+function update_message_template_metadata(
+    knowledgeBaseId, messageTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/metadata";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_message_template_metadata(
+    knowledgeBaseId,
+    messageTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/messageTemplates/$(messageTemplateId)/metadata",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_quick_response(knowledge_base_id, quick_response_id)
     update_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
 
@@ -2151,7 +4895,13 @@ Amazon Q in Connect is enabled.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"aiAgentConfiguration"`: The configuration of the AI Agents (mapped by AI Agent Type to
+  AI Agent version) that should be used by Amazon Q in Connect for this Session.
 - `"description"`: The description.
+- `"orchestratorConfigurationList"`: The updated list of orchestrator configurations for the
+  session.
+- `"removeOrchestratorConfigurationList"`: The list of orchestrator configurations to remove
+  from the session.
 - `"tagFilter"`: An object that can be used to specify Tag conditions.
 """
 function update_session end
@@ -2177,6 +4927,57 @@ function update_session(
         "POST",
         "/assistants/$(assistantId)/sessions/$(sessionId)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_session_data(assistant_id, data, session_id)
+    update_session_data(assistant_id, data, session_id, params::Dict{String,<:Any})
+
+Updates the data stored on an Amazon Q in Connect Session.
+
+# Arguments
+
+- `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
+  or the ARN. URLs cannot contain the ARN.
+- `data`: The data stored on the Amazon Q in Connect Session.
+- `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
+  contain the ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"namespace"`: The namespace into which the session data is stored. Supported namespaces
+  are: Custom
+"""
+function update_session_data end
+
+function update_session_data(
+    assistantId, data, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
+        "PATCH",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/data",
+        Dict{String,Any}("data" => data);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_session_data(
+    assistantId,
+    data,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qconnect(
+        "PATCH",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/data",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("data" => data), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -350,7 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Defines an optional description of this specific job, for example
   `Important Photos 2016-08-11`.
 
-- `"DeviceConfiguration"`: Defines the device configuration for an Snowcone job.
+- `"DeviceConfiguration"`: Defines the device configuration for an Snowball Edge job.
 
   For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
   guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User

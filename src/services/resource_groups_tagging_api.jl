@@ -82,6 +82,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - For resource type strings, see [Example ARNs](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arns-syntax).
   - For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
+  !!! note
+      For the list of services whose resources you can tag using the Resource Groups Tagging
+      API, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
+      If an Amazon Web Services service isn't listed on that page, you might still be able
+      to tag that service's resources by using that service's native tagging operations
+      instead of using Resource Groups Tagging API operations. All tagged resources, whether
+      the tagging used the Resource Groups Tagging API or not, are returned by the `Get*`
+      operation.
+
   You can specify multiple resource types by using a comma separated array. The array can
   include up to 100 items. Note that the length constraint requirement applies to each
   resource type filter.
@@ -132,6 +141,12 @@ results available to return. Repeat the query, passing the `PaginationToken` res
 parameter value as an input to the next request until you recieve a `null` value. A null
 value for `PaginationToken` indicates that there are no more results waiting to be returned.
 
+!!! note
+    `GetResources` does not return untagged resources.
+
+    To find untagged resources in your account, use Amazon Web Services Resource Explorer
+    with a query that uses `tag:none`. For more information, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -152,9 +167,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   initial request.
 
 - `"ResourceARNList"`: Specifies a list of ARNs of resources for which you want to retrieve
-  tag data. You can't specify both this parameter and any of the pagination parameters
-  (`ResourcesPerPage`, `TagsPerPage`, `PaginationToken`) in the same request. If you specify
-  both, you get an `Invalid Parameter` exception.
+  tag data.
+
+  You can't specify both this parameter and the `ResourceTypeFilters` parameter in the same
+  request. If you do, you get an `Invalid Parameter` exception.
+
+  You can't specify both this parameter and the `TagFilters` parameter in the same request.
+  If you do, you get an `Invalid Parameter` exception.
+
+  You can't specify both this parameter and any of the pagination parameters
+  (`ResourcesPerPage`, `TagsPerPage`, `PaginationToken`) in the same request. If you do, you
+  get an `Invalid Parameter` exception.
 
   If a resource specified by this parameter doesn't exist, it doesn't generate an error; it
   simply isn't included in the response.
@@ -164,12 +187,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ResourceTypeFilters"`: Specifies the resource types that you want included in the
   response. The format of each resource type is `service[:resourceType]`. For example,
-  specifying a resource type of `ec2` returns all Amazon EC2 resources (which includes EC2
+  specifying a service of `ec2` returns all Amazon EC2 resources (which includes EC2
   instances). Specifying a resource type of `ec2:instance` returns only EC2 instances.
 
+  You can't specify both this parameter and the `ResourceArnList` parameter in the same
+  request. If you do, you get an `Invalid Parameter` exception.
+
   The string for each service name and resource type is the same as that embedded in a
-  resource's Amazon Resource Name (ARN). For the list of services whose resources you can
-  use in this parameter, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
+  resource's Amazon Resource Name (ARN).
+
+  !!! note
+      For the list of services whose resources you can tag using the Resource Groups Tagging
+      API, see [Services that support the Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html).
+      If an Amazon Web Services service isn't listed on that page, you might still be able
+      to tag that service's resources by using that service's native tagging operations
+      instead of using Resource Groups Tagging API operations. All tagged resources, whether
+      the tagging used the Resource Groups Tagging API or not, are returned by the `Get*`
+      operation.
 
   You can specify multiple resource types by using an array. The array can include up to 100
   items. Note that the length constraint requirement applies to each resource type filter.
@@ -188,11 +222,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified values. Each `TagFilter` must contain a key with values optional. A request can
   include up to 50 keys, and each key can include up to 20 values.
 
+  You can't specify both this parameter and the `ResourceArnList` parameter in the same
+  request. If you do, you get an `Invalid Parameter` exception.
+
   Note the following when deciding how to use TagFilters:
 
   - If you *don't* specify a `TagFilter`, the response includes all resources that are
-    currently tagged or ever had a tag. Resources that currently don't have tags are shown
-    with an empty tag set, like this: `"Tags": []`.
+    currently tagged or ever had a tag. Resources that were previously tagged, *but do not
+    currently* have tags, are shown with an empty tag set, like this: `"Tags": []`.
   - If you specify more than one filter in a single request, the response returns only those
     resources that satisfy all filters.
   - If you specify a filter that contains more than one value for a key, the response
@@ -200,8 +237,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If you don't specify a value for a key, the response returns all resources that are
     tagged with that key, with any or no value.
 
-  For example, for the following filters: `filter1= {keyA,{value1}}`,
-  `filter2={keyB,{value2,value3,value4}}`, `filter3= {keyC}`:
+  For example, for the following filters: `filter1= {key1,{value1}}`,
+  `filter2={key2,{value2,value3,value4}}`, `filter3= {key3}`:
     - `GetResources({filter1})` returns resources tagged with `key1=value1`
     - `GetResources({filter2})` returns resources tagged with `key2=value2` or `key2=value3`
       or `key2=value4`
@@ -330,6 +367,38 @@ function get_tag_values(
 end
 
 """
+    list_required_tags()
+    list_required_tags(params::Dict{String,<:Any})
+
+Lists the required tags for supported resource types in an Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of required tags.
+- `"NextToken"`: A token for requesting another page of required tags if the `NextToken`
+  response element indicates that more required tags are available. Use the value of the
+  returned `NextToken` element in your request until the token comes back as null. Pass null
+  if this is the first call.
+"""
+function list_required_tags end
+
+function list_required_tags(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups_tagging_api(
+        "ListRequiredTags"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_required_tags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups_tagging_api(
+        "ListRequiredTags", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     start_report_creation(s3_bucket)
     start_report_creation(s3_bucket, params::Dict{String,<:Any})
 
@@ -339,20 +408,29 @@ is refreshed daily. The report is generated asynchronously.
 
 The generated report is saved to the following location:
 
-`s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv`
+`s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv`
+
+For more information about evaluating resource compliance with tag policies, including the
+required permissions, review [Permissions for evaluating organization-wide compliance](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-permissions-org)
+in the *Tagging Amazon Web Services Resources and Tag Editor* user guide.
 
 You can call this operation only from the organization's management account and from the us-
 east-1 Region.
+
+If the account associated with the identity used to call `StartReportCreation` is different
+from the account that owns the Amazon S3 bucket, there must be a bucket policy attached to
+the bucket to provide access. For more information, review [Amazon S3 bucket policy for report storage](https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy)
+in the *Tagging Amazon Web Services Resources and Tag Editor* user guide.
 
 # Arguments
 
 - `s3_bucket`: The name of the Amazon S3 bucket where the report will be stored; for
   example:
 
-  `awsexamplebucket`
+  `amzn-s3-demo-bucket`
 
   For more information on S3 bucket requirements, including an example bucket policy, see
-  the example S3 bucket policy on this page.
+  the example Amazon S3 bucket policy on this page.
 """
 function start_report_creation end
 
@@ -398,6 +476,13 @@ Applies one or more tags to the specified resources. Note the following:
 - To add tags to a resource, you need the necessary permissions for the service that the
   resource belongs to as well as permissions for adding tags. For more information, see the
   documentation for each service.
+- When you use the [Amazon Web Services Resource Groups Tagging API](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/overview.html)
+  to update tags for Amazon Web Services CloudFormation stack sets, Amazon Web Services
+  calls the [Amazon Web Services CloudFormation `UpdateStack`](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html)
+  operation. This operation may initiate additional resource property updates in addition to
+  the desired tag updates. To avoid unexpected resource updates, Amazon Web Services
+  recommends that you only apply or update tags to your CloudFormation stack sets using
+  Amazon Web Services CloudFormation.
 
 !!! important
     Do not store personally identifiable information (PII) or other confidential or
@@ -411,8 +496,14 @@ have the tagging permission defined by the service that created the resource. Fo
 to tag an Amazon EC2 instance using the [`tag_resources`](@ref) operation, you must have
 both of the following permissions:
 
-- `tag:TagResource`
+- `tag:TagResources`
 - `ec2:CreateTags`
+
+!!! note
+    In addition, some services might have specific requirements for tagging some types of
+    resources. For example, to tag an Amazon S3 bucket, you must also have the
+    `s3:GetBucketTagging` permission. If the expected minimum permissions don't work, check
+    the documentation for that service's tagging APIs for more information.
 
 # Arguments
 
@@ -479,8 +570,14 @@ have the remove tags permission defined by the service that created the resource
 example, to remove the tags from an Amazon EC2 instance using the [`untag_resources`](@ref)
 operation, you must have both of the following permissions:
 
-- `tag:UntagResource`
+- `tag:UntagResources`
 - `ec2:DeleteTags`
+
+!!! note
+    In addition, some services might have specific requirements for untagging some types of
+    resources. For example, to untag Amazon Web Services Glue Connection, you must also have
+    the `glue:GetConnection` permission. If the expected minimum permissions don't work,
+    check the documentation for that service's tagging APIs for more information.
 
 # Arguments
 

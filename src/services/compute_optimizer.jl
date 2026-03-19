@@ -20,11 +20,8 @@ in the *Compute Optimizer User Guide*.
 - `resource_type`: The target resource type of the recommendation preference to delete.
 
   The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
-
-  !!! note
-      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
+  Amazon EC2 Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances
+  that are part of an Amazon EC2 Auto Scaling group.
 
 # Optional Parameters
 
@@ -134,15 +131,15 @@ end
     export_auto_scaling_group_recommendations(s3_destination_config)
     export_auto_scaling_group_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
-Exports optimization recommendations for Auto Scaling groups.
+Exports optimization recommendations for Amazon EC2 Auto Scaling groups.
 
 Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a
 JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service
 (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html)
 in the *Compute Optimizer User Guide*.
 
-You can have only one Auto Scaling group export job in progress per Amazon Web Services
-Region.
+You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web
+Services Region.
 
 # Arguments
 
@@ -161,8 +158,8 @@ Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export Auto
-  Scaling group recommendations.
+- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export Amazon EC2
+  Auto Scaling group recommendations.
 
   If your account is the management account of an organization, use this parameter to
   specify the member account for which you want to export recommendations.
@@ -184,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The only export file format currently supported is `Csv`.
 
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
-  Auto Scaling group recommendations.
+  Amazon EC2 Auto Scaling group recommendations.
 
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
   all member accounts of the organization if your account is the management account of an
@@ -203,8 +200,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 
-- `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
-  group recommendations to export.
+- `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
+  Auto Scaling group recommendations to export.
 """
 function export_auto_scaling_group_recommendations end
 
@@ -533,6 +530,98 @@ function export_ecsservice_recommendations(
 end
 
 """
+    export_idle_recommendations(s3_destination_config)
+    export_idle_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+Export optimization recommendations for your idle resources.
+
+Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a
+JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon
+S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html)
+in the *Compute Optimizer User Guide*.
+
+You can have only one idle resource export job in progress per Amazon Web Services Region.
+
+# Arguments
+
+- `s3_destination_config`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"accountIds"`: The Amazon Web Services account IDs for the export idle resource
+  recommendations.
+
+  If your account is the management account or the delegated administrator of an
+  organization, use this parameter to specify the member account you want to export
+  recommendations to.
+
+  This parameter can't be specified together with the include member accounts parameter. The
+  parameters are mutually exclusive.
+
+  If this parameter or the include member accounts parameter is omitted, the recommendations
+  for member accounts aren't included in the export.
+
+  You can specify multiple account IDs per request.
+
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
+  in the *Compute Optimizer User Guide*.
+
+- `"fileFormat"`: The format of the export file. The CSV file is the only export file format
+  currently supported.
+
+- `"filters"`: An array of objects to specify a filter that exports a more specific set of
+  idle resource recommendations.
+
+- `"includeMemberAccounts"`: If your account is the management account or the delegated
+  administrator of an organization, this parameter indicates whether to include
+  recommendations for resources in all member accounts of the organization.
+
+  The member accounts must also be opted in to Compute Optimizer, and trusted access for
+  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  in the *Compute Optimizer User Guide*.
+
+  If this parameter is omitted, recommendations for member accounts of the organization
+  aren't included in the export file.
+
+  If this parameter or the account ID parameter is omitted, recommendations for member
+  accounts aren't included in the export.
+"""
+function export_idle_recommendations end
+
+function export_idle_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "ExportIdleRecommendations",
+        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function export_idle_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportIdleRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     export_lambda_function_recommendations(s3_destination_config)
     export_lambda_function_recommendations(s3_destination_config, params::Dict{String,<:Any})
 
@@ -720,10 +809,107 @@ function export_license_recommendations(
 end
 
 """
+    export_rdsdatabase_recommendations(s3_destination_config)
+    export_rdsdatabase_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+Export optimization recommendations for your Amazon Aurora and Amazon Relational Database
+Service (Amazon RDS) databases.
+
+Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a
+JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon
+S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html)
+in the *Compute Optimizer User Guide*.
+
+You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services
+Region.
+
+# Arguments
+
+- `s3_destination_config`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"accountIds"`: The Amazon Web Services account IDs for the export Amazon Aurora and RDS
+  database recommendations.
+
+  If your account is the management account or the delegated administrator of an
+  organization, use this parameter to specify the member account you want to export
+  recommendations to.
+
+  This parameter can't be specified together with the include member accounts parameter. The
+  parameters are mutually exclusive.
+
+  If this parameter or the include member accounts parameter is omitted, the recommendations
+  for member accounts aren't included in the export.
+
+  You can specify multiple account IDs per request.
+
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
+  in the *Compute Optimizer User Guide*.
+
+- `"fileFormat"`: The format of the export file.
+
+  The CSV file is the only export file format currently supported.
+
+- `"filters"`: An array of objects to specify a filter that exports a more specific set of
+  Amazon Aurora and RDS recommendations.
+
+- `"includeMemberAccounts"`: If your account is the management account or the delegated
+  administrator of an organization, this parameter indicates whether to include
+  recommendations for resources in all member accounts of the organization.
+
+  The member accounts must also be opted in to Compute Optimizer, and trusted access for
+  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
+  in the *Compute Optimizer User Guide*.
+
+  If this parameter is omitted, recommendations for member accounts of the organization
+  aren't included in the export file.
+
+  If this parameter or the account ID parameter is omitted, recommendations for member
+  accounts aren't included in the export.
+
+- `"recommendationPreferences"`:
+"""
+function export_rdsdatabase_recommendations end
+
+function export_rdsdatabase_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "ExportRDSDatabaseRecommendations",
+        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function export_rdsdatabase_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "ExportRDSDatabaseRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_auto_scaling_group_recommendations()
     get_auto_scaling_group_recommendations(params::Dict{String,<:Any})
 
-Returns Auto Scaling group recommendations.
+Returns Amazon EC2 Auto Scaling group recommendations.
 
 Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a
 specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
@@ -733,32 +919,32 @@ in the *Compute Optimizer User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return Auto Scaling
-  group recommendations.
+- `"accountIds"`: The ID of the Amazon Web Services account for which to return Amazon EC2
+  Auto Scaling group recommendations.
 
   If your account is the management account of an organization, use this parameter to
-  specify the member account for which you want to return Auto Scaling group
+  specify the member account for which you want to return Amazon EC2 Auto Scaling group
   recommendations.
 
   Only one account ID can be specified per request.
 
-- `"autoScalingGroupArns"`: The Amazon Resource Name (ARN) of the Auto Scaling groups for
-  which to return recommendations.
+- `"autoScalingGroupArns"`: The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling
+  groups for which to return recommendations.
 
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
-  Auto Scaling group recommendations.
+  Amazon EC2 Auto Scaling group recommendations.
 
-- `"maxResults"`: The maximum number of Auto Scaling group recommendations to return with a
-  single request.
+- `"maxResults"`: The maximum number of Amazon EC2 Auto Scaling group recommendations to
+  return with a single request.
 
   To retrieve the remaining results, make another request with the returned `nextToken`
   value.
 
-- `"nextToken"`: The token to advance to the next page of Auto Scaling group
+- `"nextToken"`: The token to advance to the next page of Amazon EC2 Auto Scaling group
   recommendations.
 
-- `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
-  group recommendations to return in the response.
+- `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
+  Auto Scaling group recommendations to return in the response.
 """
 function get_auto_scaling_group_recommendations end
 
@@ -1119,8 +1305,8 @@ When you create a recommendation preference, you can set its status to `Active` 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to confirm
-  effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are
-  currently supported.
+  effective recommendation preferences. Only EC2 instance and Amazon EC2 Auto Scaling group
+  ARNs are currently supported.
 """
 function get_effective_recommendation_preferences end
 
@@ -1220,6 +1406,58 @@ function get_enrollment_statuses_for_organization(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_idle_recommendations()
+    get_idle_recommendations(params::Dict{String,<:Any})
+
+Returns idle resource recommendations. Compute Optimizer generates recommendations for idle
+resources that meet a specific set of requirements. For more information, see [Resource requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
+in the *Compute Optimizer User Guide*
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"accountIds"`: Return the idle resource recommendations to the specified Amazon Web
+  Services account IDs.
+
+  If your account is the management account or the delegated administrator of an
+  organization, use this parameter to return the idle resource recommendations to specific
+  member accounts.
+
+  You can only specify one account ID per request.
+
+- `"filters"`: An array of objects to specify a filter that returns a more specific list of
+  idle resource recommendations.
+
+- `"maxResults"`: The maximum number of idle resource recommendations to return with a
+  single request.
+
+  To retrieve the remaining results, make another request with the returned `nextToken`
+  value.
+
+- `"nextToken"`: The token to advance to the next page of idle resource recommendations.
+
+- `"orderBy"`: The order to sort the idle resource recommendations.
+
+- `"resourceArns"`: The ARN that identifies the idle resource.
+"""
+function get_idle_recommendations end
+
+function get_idle_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return compute_optimizer(
+        "GetIdleRecommendations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_idle_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetIdleRecommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1343,14 +1581,160 @@ function get_license_recommendations(
 end
 
 """
+    get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat)
+    get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat, params::Dict{String,<:Any})
+
+Returns the projected metrics of Aurora and RDS database recommendations.
+
+# Arguments
+
+- `end_time`: The timestamp of the last projected metrics data point to return.
+
+- `period`: The granularity, in seconds, of the projected metrics data points.
+
+- `resource_arn`: The ARN that identifies the Amazon Aurora or RDS database.
+
+  The following is the format of the ARN:
+
+  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
+
+- `start_time`: The timestamp of the first projected metrics data point to return.
+
+- `stat`: The statistic of the projected metrics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"recommendationPreferences"`:
+"""
+function get_rdsdatabase_recommendation_projected_metrics end
+
+function get_rdsdatabase_recommendation_projected_metrics(
+    endTime,
+    period,
+    resourceArn,
+    startTime,
+    stat;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "period" => period,
+            "resourceArn" => resourceArn,
+            "startTime" => startTime,
+            "stat" => stat,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_rdsdatabase_recommendation_projected_metrics(
+    endTime,
+    period,
+    resourceArn,
+    startTime,
+    stat,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendationProjectedMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "period" => period,
+                    "resourceArn" => resourceArn,
+                    "startTime" => startTime,
+                    "stat" => stat,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_rdsdatabase_recommendations()
+    get_rdsdatabase_recommendations(params::Dict{String,<:Any})
+
+Returns Amazon Aurora and RDS database recommendations.
+
+Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that meet a
+specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
+in the *Compute Optimizer User Guide*.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"accountIds"`: Return the Amazon Aurora and RDS database recommendations to the specified
+  Amazon Web Services account IDs.
+
+  If your account is the management account or the delegated administrator of an
+  organization, use this parameter to return the Amazon Aurora and RDS database
+  recommendations to specific member accounts.
+
+  You can only specify one account ID per request.
+
+- `"filters"`: An array of objects to specify a filter that returns a more specific list of
+  Amazon Aurora and RDS database recommendations.
+
+- `"maxResults"`: The maximum number of Amazon Aurora and RDS database recommendations to
+  return with a single request.
+
+  To retrieve the remaining results, make another request with the returned `nextToken`
+  value.
+
+- `"nextToken"`: The token to advance to the next page of Amazon Aurora and RDS database
+  recommendations.
+
+- `"recommendationPreferences"`:
+
+- `"resourceArns"`: The ARN that identifies the Amazon Aurora or RDS database.
+
+  The following is the format of the ARN:
+
+  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
+
+  The following is the format of a DB Cluster ARN:
+
+  `arn:aws:rds:{region}:{accountId}:cluster:{resourceName}`
+"""
+function get_rdsdatabase_recommendations end
+
+function get_rdsdatabase_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_rdsdatabase_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return compute_optimizer(
+        "GetRDSDatabaseRecommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_recommendation_preferences(resource_type)
     get_recommendation_preferences(resource_type, params::Dict{String,<:Any})
 
 Returns existing recommendation preferences, such as enhanced infrastructure metrics.
 
 Use the `scope` parameter to specify which preferences to return. You can specify to return
-preferences for an organization, a specific account ID, or a specific EC2 instance or Auto
-Scaling group Amazon Resource Name (ARN).
+preferences for an organization, a specific account ID, or a specific EC2 instance or Amazon
+EC2 Auto Scaling group Amazon Resource Name (ARN).
 
 For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html)
 in the *Compute Optimizer User Guide*.
@@ -1361,11 +1745,8 @@ in the *Compute Optimizer User Guide*.
   return preferences.
 
   The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
-
-  !!! note
-      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
+  Amazon EC2 Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances
+  that are part of an Amazon EC2 Auto Scaling group.
 
 # Optional Parameters
 
@@ -1424,11 +1805,15 @@ It returns the number of:
 
 - Amazon EC2 instances in an account that are `Underprovisioned`, `Overprovisioned`, or
   `Optimized`.
-- Auto Scaling groups in an account that are `NotOptimized`, or `Optimized`.
+- EC2Amazon EC2 Auto Scaling groups in an account that are `NotOptimized`, or `Optimized`.
 - Amazon EBS volumes in an account that are `NotOptimized`, or `Optimized`.
 - Lambda functions in an account that are `NotOptimized`, or `Optimized`.
 - Amazon ECS services in an account that are `Underprovisioned`, `Overprovisioned`, or
   `Optimized`.
+- Commercial software licenses in an account that are `InsufficientMetrics`, `NotOptimized`
+  or `Optimized`.
+- Amazon Aurora and Amazon RDS databases in an account that are `Underprovisioned`,
+  `Overprovisioned`, `Optimized`, or `NotOptimized`.
 
 # Optional Parameters
 
@@ -1481,11 +1866,8 @@ in the *Compute Optimizer User Guide*.
 - `resource_type`: The target resource type of the recommendation preference to create.
 
   The `Ec2Instance` option encompasses standalone instances and instances that are part of
-  Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
-  part of an Auto Scaling group.
-
-  !!! note
-      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
+  Amazon EC2 Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances
+  that are part of an Amazon EC2 Auto Scaling group.
 
 # Optional Parameters
 
@@ -1528,9 +1910,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the Amazon Web Services resource are analyzed. When this preference isn't specified, we
   use the default value `DAYS_14`.
 
+  You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling
+  group resource types.
+
   !!! note
-      You can only set this preference for the Amazon EC2 instance and Auto Scaling group
-      resource types.
+      - Amazon EC2 instance lookback preferences can be set at the organization, account,
+        and resource levels.
+      - Amazon EC2 Auto Scaling group lookback preferences can only be set at the resource
+        level.
 
 - `"preferredResources"`: The preference to control which resource type values are
   considered when generating rightsizing recommendations. You can specify this preference as
@@ -1538,8 +1925,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `excludeList`. If the preference is an empty set of resource type values, an error occurs.
 
   !!! note
-      You can only set this preference for the Amazon EC2 instance and Auto Scaling group
-      resource types.
+      You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto
+      Scaling group resource types.
 
 - `"savingsEstimationMode"`: The status of the savings estimation mode preference to create
   or update.
@@ -1561,14 +1948,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Compute Optimizer User Guide*.
 
   !!! note
-      You cannot create recommendation preferences for Auto Scaling groups at the
-      organization and account levels. You can create recommendation preferences for Auto
-      Scaling groups only at the resource level by specifying a scope name of `ResourceArn`
-      and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will
-      configure the preference for all instances that are part of the specified Auto Scaling
-      group. You also cannot create recommendation preferences at the resource level for
-      instances that are part of an Auto Scaling group. You can create recommendation
-      preferences at the resource level only for standalone instances.
+      You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the
+      organization and account levels. You can create recommendation preferences for Amazon
+      EC2 Auto Scaling groups only at the resource level by specifying a scope name of
+      `ResourceArn` and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource
+      Name (ARN). This will configure the preference for all instances that are part of the
+      specified Amazon EC2 Auto Scaling group. You also cannot create recommendation
+      preferences at the resource level for instances that are part of an Amazon EC2 Auto
+      Scaling group. You can create recommendation preferences at the resource level only
+      for standalone instances.
 
 - `"utilizationPreferences"`: The preference to control the resource’s CPU utilization
   threshold, CPU utilization headroom, and memory utilization headroom. When this preference

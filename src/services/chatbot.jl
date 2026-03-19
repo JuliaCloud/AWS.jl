@@ -5,28 +5,87 @@ using AWS.AWSServices: chatbot
 using AWS.UUIDs: uuid4
 
 """
+    associate_to_configuration(chat_configuration, resource)
+    associate_to_configuration(chat_configuration, resource, params::Dict{String,<:Any})
+
+Links a resource (for example, a custom action) to a channel configuration.
+
+# Arguments
+
+- `chat_configuration`: The channel configuration to associate with the resource.
+- `resource`: The resource Amazon Resource Name (ARN) to link.
+"""
+function associate_to_configuration end
+
+function associate_to_configuration(
+    ChatConfiguration, Resource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/associate-to-configuration",
+        Dict{String,Any}("ChatConfiguration" => ChatConfiguration, "Resource" => Resource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_to_configuration(
+    ChatConfiguration,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/associate-to-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChatConfiguration" => ChatConfiguration, "Resource" => Resource
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_chime_webhook_configuration(configuration_name, iam_role_arn, sns_topic_arns, webhook_description, webhook_url)
     create_chime_webhook_configuration(configuration_name, iam_role_arn, sns_topic_arns, webhook_description, webhook_url, params::Dict{String,<:Any})
 
-Creates Chime Webhook Configuration
+Creates an AWS Chatbot configuration for Amazon Chime.
 
 # Arguments
 
 - `configuration_name`: The name of the configuration.
-- `iam_role_arn`: This is a user-defined role that AWS Chatbot will assume. This is not the
-  service-linked role. For more information, see IAM Policies for AWS Chatbot.
-- `sns_topic_arns`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
-- `webhook_description`: Description of the webhook. Recommend using the convention
-  `RoomName/WebhookName`. See Chime setup tutorial for more details:
-  https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
-- `webhook_url`: URL for the Chime webhook.
+
+- `iam_role_arn`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `sns_topic_arns`: The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  notifications to AWS Chatbot.
+
+- `webhook_description`: A description of the webhook. We recommend using the convention
+  `RoomName/WebhookName`.
+
+  For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `webhook_url`: The URL for the Amazon Chime webhook.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
-- `"Tags"`: A list of tags to apply to the configuration.
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+- `"Tags"`: A map of tags assigned to a resource. A tag is a string-to-string map of key-
+  value pairs.
 """
 function create_chime_webhook_configuration end
 
@@ -84,22 +143,107 @@ function create_chime_webhook_configuration(
 end
 
 """
+    create_custom_action(action_name, definition)
+    create_custom_action(action_name, definition, params::Dict{String,<:Any})
+
+Creates a custom action that can be invoked as an alias or as a button on a notification.
+
+# Arguments
+
+- `action_name`: The name of the custom action. This name is included in the Amazon Resource
+  Name (ARN).
+- `definition`: The definition of the command to run when invoked as an alias or as an
+  action button.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AliasName"`: The name used to invoke this action in a chat channel. For example,
+  `@aws run my-alias`.
+
+- `"Attachments"`: Defines when this custom action button should be attached to a
+  notification.
+
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, subsequent
+  retries with the same client token returns the result from the original successful
+  request.
+
+  If you do not specify a client token, one is automatically generated by the SDK.
+
+- `"Tags"`: A map of tags assigned to a resource. A tag is a string-to-string map of key-
+  value pairs.
+"""
+function create_custom_action end
+
+function create_custom_action(
+    ActionName, Definition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/create-custom-action",
+        Dict{String,Any}(
+            "ActionName" => ActionName,
+            "Definition" => Definition,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_custom_action(
+    ActionName,
+    Definition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/create-custom-action",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActionName" => ActionName,
+                    "Definition" => Definition,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_microsoft_teams_channel_configuration(channel_id, configuration_name, iam_role_arn, team_id, tenant_id)
     create_microsoft_teams_channel_configuration(channel_id, configuration_name, iam_role_arn, team_id, tenant_id, params::Dict{String,<:Any})
 
-Creates MS Teams Channel Configuration
+Creates an AWS Chatbot configuration for Microsoft Teams.
 
 # Arguments
 
 - `channel_id`: The ID of the Microsoft Teams channel.
+
 - `configuration_name`: The name of the configuration.
-- `iam_role_arn`: The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  is a user-defined role that AWS Chatbot will assume. This is not the service-linked role.
-  For more information, see IAM Policies for AWS Chatbot.
-- `team_id`: The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID,
-  you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot
-  console. Then you can copy and paste the team ID from the console. For more details, see
-  steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+
+- `iam_role_arn`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `team_id`: The ID of the Microsoft Teams authorized with AWS Chatbot.
+
+  To get the team ID, you must perform the initial authorization flow with Microsoft Teams
+  in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For
+  more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup)
+  in the *AWS Chatbot Administrator Guide*.
+
 - `tenant_id`: The ID of the Microsoft Teams tenant.
 
 # Optional Parameters
@@ -108,11 +252,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ChannelName"`: The name of the Microsoft Teams channel.
 - `"GuardrailPolicyArns"`: The list of IAM policy ARNs that are applied as channel
-  guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is
+  guardrails. The AWS managed `AdministratorAccess` policy is applied by default if this is
   not set.
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
-- `"SnsTopicArns"`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
-- `"Tags"`: A list of tags to apply to the configuration.
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+- `"SnsTopicArns"`: The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  notifications to AWS Chatbot.
+- `"Tags"`: A map of tags assigned to a resource. A tag is a string-to-string map of key-
+  value pairs.
 - `"TeamName"`: The name of the Microsoft Teams Team.
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
@@ -176,17 +322,24 @@ end
     create_slack_channel_configuration(configuration_name, iam_role_arn, slack_channel_id, slack_team_id)
     create_slack_channel_configuration(configuration_name, iam_role_arn, slack_channel_id, slack_team_id, params::Dict{String,<:Any})
 
-Creates Slack Channel Configuration
+Creates an AWS Chatbot confugration for Slack.
 
 # Arguments
 
 - `configuration_name`: The name of the configuration.
-- `iam_role_arn`: The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  is a user-defined role that AWS Chatbot will assume. This is not the service-linked role.
-  For more information, see IAM Policies for AWS Chatbot.
-- `slack_channel_id`: The ID of the Slack channel. To get the ID, open Slack, right click on
-  the channel name in the left pane, then choose Copy Link. The channel ID is the 9-
-  character string at the end of the URL. For example, ABCBBLZZZ.
+
+- `iam_role_arn`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `slack_channel_id`: The ID of the Slack channel.
+
+  To get this ID, open Slack, right click on the channel name in the left pane, then choose
+  Copy Link. The channel ID is the 9-character string at the end of the URL. For example,
+  ABCBBLZZZ.
+
 - `slack_team_id`: The ID of the Slack workspace authorized with AWS Chatbot.
 
 # Optional Parameters
@@ -194,12 +347,14 @@ Creates Slack Channel Configuration
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"GuardrailPolicyArns"`: The list of IAM policy ARNs that are applied as channel
-  guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is
+  guardrails. The AWS managed `AdministratorAccess` policy is applied by default if this is
   not set.
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
-- `"SlackChannelName"`: The name of the Slack Channel.
-- `"SnsTopicArns"`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
-- `"Tags"`: A list of tags to apply to the configuration.
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+- `"SlackChannelName"`: The name of the Slack channel.
+- `"SnsTopicArns"`: The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  notifications to AWS Chatbot.
+- `"Tags"`: A map of tags assigned to a resource. A tag is a string-to-string map of key-
+  value pairs.
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
@@ -258,11 +413,12 @@ end
     delete_chime_webhook_configuration(chat_configuration_arn)
     delete_chime_webhook_configuration(chat_configuration_arn, params::Dict{String,<:Any})
 
-Deletes a Chime Webhook Configuration
+Deletes a Amazon Chime webhook configuration for AWS Chatbot.
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the ChimeWebhookConfiguration to delete.
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration
+  to delete.
 """
 function delete_chime_webhook_configuration end
 
@@ -299,14 +455,57 @@ function delete_chime_webhook_configuration(
 end
 
 """
-    delete_microsoft_teams_channel_configuration(chat_configuration_arn)
-    delete_microsoft_teams_channel_configuration(chat_configuration_arn, params::Dict{String,<:Any})
+    delete_custom_action(custom_action_arn)
+    delete_custom_action(custom_action_arn, params::Dict{String,<:Any})
 
-Deletes MS Teams Channel Configuration
+Deletes a custom action.
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the MicrosoftTeamsChannelConfiguration to delete.
+- `custom_action_arn`: The fully defined ARN of the custom action.
+"""
+function delete_custom_action end
+
+function delete_custom_action(
+    CustomActionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/delete-custom-action",
+        Dict{String,Any}("CustomActionArn" => CustomActionArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_custom_action(
+    CustomActionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/delete-custom-action",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CustomActionArn" => CustomActionArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_microsoft_teams_channel_configuration(chat_configuration_arn)
+    delete_microsoft_teams_channel_configuration(chat_configuration_arn, params::Dict{String,<:Any})
+
+Deletes a Microsoft Teams channel configuration for AWS Chatbot
+
+# Arguments
+
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the
+  MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
 """
 function delete_microsoft_teams_channel_configuration end
 
@@ -352,10 +551,12 @@ configured to remove it.
 
 # Arguments
 
-- `team_id`: The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID,
-  you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot
-  console. Then you can copy and paste the team ID from the console. For more details, see
-  steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+- `team_id`: The ID of the Microsoft Teams team authorized with AWS Chatbot.
+
+  To get the team ID, you must perform the initial authorization flow with Microsoft Teams
+  in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For
+  more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup)
+  in the *AWS Chatbot Administrator Guide*.
 """
 function delete_microsoft_teams_configured_team end
 
@@ -387,13 +588,13 @@ end
     delete_microsoft_teams_user_identity(chat_configuration_arn, user_id)
     delete_microsoft_teams_user_identity(chat_configuration_arn, user_id, params::Dict{String,<:Any})
 
-Deletes a Teams user identity
+Identifes a user level permission for a channel configuration.
 
 # Arguments
 
 - `chat_configuration_arn`: The ARN of the MicrosoftTeamsChannelConfiguration associated
   with the user identity to delete.
-- `user_id`: Id from Microsoft Teams for user.
+- `user_id`: The Microsoft Teams user ID.
 """
 function delete_microsoft_teams_user_identity end
 
@@ -438,11 +639,12 @@ end
     delete_slack_channel_configuration(chat_configuration_arn)
     delete_slack_channel_configuration(chat_configuration_arn, params::Dict{String,<:Any})
 
-Deletes Slack Channel Configuration
+Deletes a Slack channel configuration for AWS Chatbot
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the SlackChannelConfiguration to delete.
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the SlackChannelConfiguration
+  to delete.
 """
 function delete_slack_channel_configuration end
 
@@ -482,14 +684,14 @@ end
     delete_slack_user_identity(chat_configuration_arn, slack_team_id, slack_user_id)
     delete_slack_user_identity(chat_configuration_arn, slack_team_id, slack_user_id, params::Dict{String,<:Any})
 
-Deletes a Slack user identity
+Deletes a user level permission for a Slack channel configuration.
 
 # Arguments
 
 - `chat_configuration_arn`: The ARN of the SlackChannelConfiguration associated with the
   user identity to delete.
 - `slack_team_id`: The ID of the Slack workspace authorized with AWS Chatbot.
-- `slack_user_id`: The ID of the user in Slack.
+- `slack_user_id`: The ID of the user in Slack
 """
 function delete_slack_user_identity end
 
@@ -583,13 +785,14 @@ end
     describe_chime_webhook_configurations()
     describe_chime_webhook_configurations(params::Dict{String,<:Any})
 
-Lists Chime Webhook Configurations optionally filtered by ChatConfigurationArn
+Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ChatConfigurationArn"`: An optional ARN of a ChimeWebhookConfiguration to describe.
+- `"ChatConfigurationArn"`: An optional Amazon Resource Name (ARN) of a
+  ChimeWebhookConfiguration to describe.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -626,13 +829,14 @@ end
     describe_slack_channel_configurations()
     describe_slack_channel_configurations(params::Dict{String,<:Any})
 
-Lists Slack Channel Configurations optionally filtered by ChatConfigurationArn
+Lists Slack channel configurations optionally filtered by ChatConfigurationArn
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ChatConfigurationArn"`: An optional ARN of a SlackChannelConfiguration to describe.
+- `"ChatConfigurationArn"`: An optional Amazon Resource Name (ARN) of a
+  SlackChannelConfiguration to describe.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -675,8 +879,8 @@ Lists all Slack user identities with a mapped role.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ChatConfigurationArn"`: The ARN of the SlackChannelConfiguration associated with the
-  user identities to describe.
+- `"ChatConfigurationArn"`: The Amazon Resource Name (ARN) of the SlackChannelConfiguration
+  associated with the user identities to describe.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -713,7 +917,8 @@ end
     describe_slack_workspaces()
     describe_slack_workspaces(params::Dict{String,<:Any})
 
-Lists all authorized Slack Workspaces for AWS Account
+List all authorized Slack workspaces connected to the AWS Account onboarded with AWS
+Chatbot.
 
 # Optional Parameters
 
@@ -747,10 +952,59 @@ function describe_slack_workspaces(
 end
 
 """
+    disassociate_from_configuration(chat_configuration, resource)
+    disassociate_from_configuration(chat_configuration, resource, params::Dict{String,<:Any})
+
+Unlink a resource, for example a custom action, from a channel configuration.
+
+# Arguments
+
+- `chat_configuration`: The channel configuration the resource is being disassociated from.
+- `resource`: The resource (for example, a custom action) Amazon Resource Name (ARN) to
+  unlink.
+"""
+function disassociate_from_configuration end
+
+function disassociate_from_configuration(
+    ChatConfiguration, Resource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/disassociate-from-configuration",
+        Dict{String,Any}("ChatConfiguration" => ChatConfiguration, "Resource" => Resource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_from_configuration(
+    ChatConfiguration,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/disassociate-from-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChatConfiguration" => ChatConfiguration, "Resource" => Resource
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_account_preferences()
     get_account_preferences(params::Dict{String,<:Any})
 
-Get Chatbot account level preferences
+Returns AWS Chatbot account preferences.
 """
 function get_account_preferences end
 
@@ -773,14 +1027,58 @@ function get_account_preferences(
 end
 
 """
-    get_microsoft_teams_channel_configuration(chat_configuration_arn)
-    get_microsoft_teams_channel_configuration(chat_configuration_arn, params::Dict{String,<:Any})
+    get_custom_action(custom_action_arn)
+    get_custom_action(custom_action_arn, params::Dict{String,<:Any})
 
-Get a single MS Teams Channel Configurations
+Returns a custom action.
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the MicrosoftTeamsChannelConfiguration to retrieve.
+- `custom_action_arn`: Returns the fully defined Amazon Resource Name (ARN) of the custom
+  action.
+"""
+function get_custom_action end
+
+function get_custom_action(
+    CustomActionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/get-custom-action",
+        Dict{String,Any}("CustomActionArn" => CustomActionArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_custom_action(
+    CustomActionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/get-custom-action",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CustomActionArn" => CustomActionArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_microsoft_teams_channel_configuration(chat_configuration_arn)
+    get_microsoft_teams_channel_configuration(chat_configuration_arn, params::Dict{String,<:Any})
+
+Returns a Microsoft Teams channel configuration in an AWS account.
+
+# Arguments
+
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the
+  MicrosoftTeamsChannelConfiguration to retrieve.
 """
 function get_microsoft_teams_channel_configuration end
 
@@ -817,10 +1115,14 @@ function get_microsoft_teams_channel_configuration(
 end
 
 """
-    list_microsoft_teams_channel_configurations()
-    list_microsoft_teams_channel_configurations(params::Dict{String,<:Any})
+    list_associations(chat_configuration)
+    list_associations(chat_configuration, params::Dict{String,<:Any})
 
-Lists MS Teams Channel Configurations optionally filtered by TeamId
+Lists resources associated with a channel configuration.
+
+# Arguments
+
+- `chat_configuration`: The channel configuration to list associations for.
 
 # Optional Parameters
 
@@ -832,10 +1134,96 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An optional token returned from a prior request. Use this token for
   pagination of results from this action. If this parameter is specified, the response
   includes only results beyond the token, up to the value specified by MaxResults.
-- `"TeamId"`: The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID,
-  you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot
-  console. Then you can copy and paste the team ID from the console. For more details, see
-  steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
+"""
+function list_associations end
+
+function list_associations(
+    ChatConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/list-associations",
+        Dict{String,Any}("ChatConfiguration" => ChatConfiguration);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_associations(
+    ChatConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/list-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ChatConfiguration" => ChatConfiguration), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_custom_actions()
+    list_custom_actions(params::Dict{String,<:Any})
+
+Lists custom actions defined in this account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+"""
+function list_custom_actions end
+
+function list_custom_actions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return chatbot(
+        "POST", "/list-custom-actions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_custom_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST", "/list-custom-actions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_microsoft_teams_channel_configurations()
+    list_microsoft_teams_channel_configurations(params::Dict{String,<:Any})
+
+Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+
+- `"NextToken"`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+
+- `"TeamId"`: The ID of the Microsoft Teams authorized with AWS Chatbot.
+
+  To get the team ID, you must perform the initial authorization flow with Microsoft Teams
+  in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For
+  more information, see [Step 1: Configure a Microsoft Teams client](https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup)
+  in the *AWS Chatbot Administrator Guide*.
 """
 function list_microsoft_teams_channel_configurations end
 
@@ -866,7 +1254,7 @@ end
     list_microsoft_teams_configured_teams()
     list_microsoft_teams_configured_teams(params::Dict{String,<:Any})
 
-Lists all authorized MS teams for AWS Account
+Lists all authorized Microsoft Teams for an AWS Account
 
 # Optional Parameters
 
@@ -908,14 +1296,14 @@ end
     list_microsoft_teams_user_identities()
     list_microsoft_teams_user_identities(params::Dict{String,<:Any})
 
-Lists all Microsoft Teams user identities with a mapped role.
+A list all Microsoft Teams user identities with a mapped role.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ChatConfigurationArn"`: The ARN of the MicrosoftTeamsChannelConfiguration associated
-  with the user identities to list.
+- `"ChatConfigurationArn"`: The Amazon Resource Name (ARN) of the
+  MicrosoftTeamsChannelConfiguration associated with the user identities to list.
 - `"MaxResults"`: The maximum number of results to include in the response. If more results
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -952,11 +1340,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the list of tags applied to a configuration.
+Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The
+resource can be a user, server, or role.
 
 # Arguments
 
-- `resource_arn`: The ARN of the configuration.
+- `resource_arn`: The ARN of the resource to list tags for.
 """
 function list_tags_for_resource end
 
@@ -992,7 +1381,8 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies the supplied tags to a configuration.
+Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN).
+Resources are users, servers, roles, and other entities.
 
 # Arguments
 
@@ -1036,12 +1426,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the supplied tags from a configuration
+Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN).
+Resources are users, servers, roles, and other entities.
 
 # Arguments
 
-- `resource_arn`: The ARN of the configuration.
-- `tag_keys`: A list of tag keys to remove from the configuration.
+- `resource_arn`: The value of the resource that will have the tag removed. An Amazon
+  Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user,
+  or role.
+- `tag_keys`: TagKeys are key-value pairs assigned to ARNs that can be used to group and
+  search for resources by type. This metadata can be attached to resources for any purpose.
 """
 function untag_resource end
 
@@ -1082,20 +1476,21 @@ end
     update_account_preferences()
     update_account_preferences(params::Dict{String,<:Any})
 
-Update Chatbot account level preferences
+Updates AWS Chatbot account preferences.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"TrainingDataCollectionEnabled"`: Turns on training data collection. This helps improve
-  the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer
-  information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot
-  generated responses, and interaction data. This data helps us to continuously improve and
-  develop Artificial Intelligence (AI) technologies. Your data is not shared with any third
-  parties and is protected using sophisticated controls to prevent unauthorized access and
-  misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for
-  training AWS Chatbot’s AI technologies.
+- `"TrainingDataCollectionEnabled"`: Turns on training data collection.
+
+  This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use
+  your customer information, such as AWS Chatbot configurations, notifications, user inputs,
+  AWS Chatbot generated responses, and interaction data. This data helps us to continuously
+  improve and develop Artificial Intelligence (AI) technologies. Your data is not shared
+  with any third parties and is protected using sophisticated controls to prevent
+  unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat
+  channels with Amazon Q for training AI technologies for AWS Chatbot.
 
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
@@ -1124,25 +1519,34 @@ end
     update_chime_webhook_configuration(chat_configuration_arn)
     update_chime_webhook_configuration(chat_configuration_arn, params::Dict{String,<:Any})
 
-Updates a Chime Webhook Configuration
+Updates a Amazon Chime webhook configuration.
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the ChimeWebhookConfiguration to update.
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration
+  to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IamRoleArn"`: The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  is a user-defined role that AWS Chatbot will assume. This is not the service-linked role.
-  For more information, see IAM Policies for AWS Chatbot.
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
+- `"IamRoleArn"`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+
 - `"SnsTopicArns"`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
-- `"WebhookDescription"`: Description of the webhook. Recommend using the convention
-  `RoomName/WebhookName`. See Chime setup tutorial for more details:
-  https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
-- `"WebhookUrl"`: URL for the Chime webhook.
+
+- `"WebhookDescription"`: A description of the webhook. We recommend using the convention
+  `RoomName/WebhookName`.
+
+  For more information, see [Tutorial: Get started with Amazon Chime](https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `"WebhookUrl"`: The URL for the Amazon Chime webhook.
 """
 function update_chime_webhook_configuration end
 
@@ -1179,29 +1583,96 @@ function update_chime_webhook_configuration(
 end
 
 """
+    update_custom_action(custom_action_arn, definition)
+    update_custom_action(custom_action_arn, definition, params::Dict{String,<:Any})
+
+Updates a custom action.
+
+# Arguments
+
+- `custom_action_arn`: The fully defined Amazon Resource Name (ARN) of the custom action.
+- `definition`: The definition of the command to run when invoked as an alias or as an
+  action button.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AliasName"`: The name used to invoke this action in the chat channel. For example,
+  `@aws run my-alias`.
+- `"Attachments"`: Defines when this custom action button should be attached to a
+  notification.
+"""
+function update_custom_action end
+
+function update_custom_action(
+    CustomActionArn, Definition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chatbot(
+        "POST",
+        "/update-custom-action",
+        Dict{String,Any}("CustomActionArn" => CustomActionArn, "Definition" => Definition);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_custom_action(
+    CustomActionArn,
+    Definition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chatbot(
+        "POST",
+        "/update-custom-action",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CustomActionArn" => CustomActionArn, "Definition" => Definition
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_microsoft_teams_channel_configuration(channel_id, chat_configuration_arn)
     update_microsoft_teams_channel_configuration(channel_id, chat_configuration_arn, params::Dict{String,<:Any})
 
-Updates MS Teams Channel Configuration
+Updates an Microsoft Teams channel configuration.
 
 # Arguments
 
 - `channel_id`: The ID of the Microsoft Teams channel.
-- `chat_configuration_arn`: The ARN of the MicrosoftTeamsChannelConfiguration to update.
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the TeamsChannelConfiguration
+  to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ChannelName"`: The name of the Microsoft Teams channel.
+
 - `"GuardrailPolicyArns"`: The list of IAM policy ARNs that are applied as channel
-  guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is
+  guardrails. The AWS managed `AdministratorAccess` policy is applied by default if this is
   not set.
-- `"IamRoleArn"`: The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  is a user-defined role that AWS Chatbot will assume. This is not the service-linked role.
-  For more information, see IAM Policies for AWS Chatbot.
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
-- `"SnsTopicArns"`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+
+- `"IamRoleArn"`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+
+- `"SnsTopicArns"`: The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  notifications to AWS Chatbot.
+
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """
@@ -1248,28 +1719,40 @@ end
     update_slack_channel_configuration(chat_configuration_arn, slack_channel_id)
     update_slack_channel_configuration(chat_configuration_arn, slack_channel_id, params::Dict{String,<:Any})
 
-Updates Slack Channel Configuration
+Updates a Slack channel configuration.
 
 # Arguments
 
-- `chat_configuration_arn`: The ARN of the SlackChannelConfiguration to update.
-- `slack_channel_id`: The ID of the Slack channel. To get the ID, open Slack, right click on
-  the channel name in the left pane, then choose Copy Link. The channel ID is the 9-
-  character string at the end of the URL. For example, ABCBBLZZZ.
+- `chat_configuration_arn`: The Amazon Resource Name (ARN) of the SlackChannelConfiguration
+  to update.
+
+- `slack_channel_id`: The ID of the Slack channel.
+
+  To get this ID, open Slack, right click on the channel name in the left pane, then choose
+  Copy Link. The channel ID is the 9-character string at the end of the URL. For example,
+  ABCBBLZZZ.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"GuardrailPolicyArns"`: The list of IAM policy ARNs that are applied as channel
-  guardrails. The AWS managed 'AdministratorAccess' policy is applied by default if this is
+  guardrails. The AWS managed `AdministratorAccess` policy is applied by default if this is
   not set.
-- `"IamRoleArn"`: The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  is a user-defined role that AWS Chatbot will assume. This is not the service-linked role.
-  For more information, see IAM Policies for AWS Chatbot.
-- `"LoggingLevel"`: Logging levels include ERROR, INFO, or NONE.
-- `"SlackChannelName"`: The name of the Slack Channel.
-- `"SnsTopicArns"`: The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+
+- `"IamRoleArn"`: A user-defined role that AWS Chatbot assumes. This is not the service-
+  linked role.
+
+  For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html)
+  in the *AWS Chatbot Administrator Guide*.
+
+- `"LoggingLevel"`: Logging levels include `ERROR`, `INFO`, or `NONE`.
+
+- `"SlackChannelName"`: The name of the Slack channel.
+
+- `"SnsTopicArns"`: The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  notifications to AWS Chatbot.
+
 - `"UserAuthorizationRequired"`: Enables use of a user role requirement in your chat
   configuration.
 """

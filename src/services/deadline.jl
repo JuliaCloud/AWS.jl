@@ -481,6 +481,49 @@ function assume_queue_role_for_worker(
 end
 
 """
+    batch_get_job(identifiers)
+    batch_get_job(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple jobs in a single request. This is a batch version of the `GetJob` API.
+
+The result of getting each job is reported individually in the response. Because the batch
+request can result in a combination of successful and unsuccessful actions, you should check
+for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of job identifiers to retrieve. You can specify up to 100
+  identifiers per request.
+"""
+function batch_get_job end
+
+function batch_get_job(identifiers; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-job",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_job(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-job",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_job_entity(farm_id, fleet_id, identifiers, worker_id)
     batch_get_job_entity(farm_id, fleet_id, identifiers, worker_id, params::Dict{String,<:Any})
 
@@ -526,6 +569,334 @@ function batch_get_job_entity(
         "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_session(identifiers)
+    batch_get_session(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple sessions in a single request. This is a batch version of the `GetSession`
+API.
+
+The result of getting each session is reported individually in the response. Because the
+batch request can result in a combination of successful and unsuccessful actions, you should
+check for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of session identifiers to retrieve. You can specify up to 100
+  identifiers per request.
+"""
+function batch_get_session end
+
+function batch_get_session(identifiers; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-session",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_session(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-session",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_session_action(identifiers)
+    batch_get_session_action(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple session actions in a single request. This is a batch version of the
+`GetSessionAction` API.
+
+The result of getting each session action is reported individually in the response. Because
+the batch request can result in a combination of successful and unsuccessful actions, you
+should check for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of session action identifiers to retrieve. You can specify up to
+  100 identifiers per request.
+"""
+function batch_get_session_action end
+
+function batch_get_session_action(
+    identifiers; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-session-action",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_session_action(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-session-action",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_step(identifiers)
+    batch_get_step(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple steps in a single request. This is a batch version of the `GetStep` API.
+
+The result of getting each step is reported individually in the response. Because the batch
+request can result in a combination of successful and unsuccessful actions, you should check
+for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of step identifiers to retrieve. You can specify up to 100
+  identifiers per request.
+"""
+function batch_get_step end
+
+function batch_get_step(identifiers; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-step",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_step(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-step",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_task(identifiers)
+    batch_get_task(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple tasks in a single request. This is a batch version of the `GetTask` API.
+
+The result of getting each task is reported individually in the response. Because the batch
+request can result in a combination of successful and unsuccessful actions, you should check
+for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of task identifiers to retrieve. You can specify up to 100
+  identifiers per request.
+"""
+function batch_get_task end
+
+function batch_get_task(identifiers; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-task",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_task(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-task",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_worker(identifiers)
+    batch_get_worker(identifiers, params::Dict{String,<:Any})
+
+Retrieves multiple workers in a single request. This is a batch version of the `GetWorker`
+API.
+
+The result of getting each worker is reported individually in the response. Because the
+batch request can result in a combination of successful and unsuccessful actions, you should
+check for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `identifiers`: The list of worker identifiers to retrieve. You can specify up to 100
+  identifiers per request.
+"""
+function batch_get_worker end
+
+function batch_get_worker(identifiers; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-worker",
+        Dict{String,Any}("identifiers" => identifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_worker(
+    identifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/batch-get-worker",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_job(jobs)
+    batch_update_job(jobs, params::Dict{String,<:Any})
+
+Updates multiple jobs in a single request. This is a batch version of the `UpdateJob` API.
+
+The result of updating each job is reported individually in the response. Because the batch
+request can result in a combination of successful and unsuccessful actions, you should check
+for batch errors even when the call returns an HTTP status code of 200.
+
+When you change the status of a job to `ARCHIVED`, the job can't be scheduled or archived.
+
+!!! important
+    An archived job and its steps and tasks are deleted after 120 days. The job can't be
+    recovered.
+
+# Arguments
+
+- `jobs`: The list of jobs to update. You can specify up to 100 jobs per request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+"""
+function batch_update_job end
+
+function batch_update_job(jobs; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "PATCH",
+        "/2023-10-12/batch-update-job",
+        Dict{String,Any}("jobs" => jobs, "X-Amz-Client-Token" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_update_job(
+    jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "PATCH",
+        "/2023-10-12/batch-update-job",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("jobs" => jobs, "X-Amz-Client-Token" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_task(tasks)
+    batch_update_task(tasks, params::Dict{String,<:Any})
+
+Updates multiple tasks in a single request. This is a batch version of the `UpdateTask` API.
+
+The result of updating each task is reported individually in the response. Because the batch
+request can result in a combination of successful and unsuccessful actions, you should check
+for batch errors even when the call returns an HTTP status code of 200.
+
+# Arguments
+
+- `tasks`: The list of tasks to update. You can specify up to 100 tasks per request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+"""
+function batch_update_task end
+
+function batch_update_task(tasks; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "PATCH",
+        "/2023-10-12/batch-update-task",
+        Dict{String,Any}("tasks" => tasks, "X-Amz-Client-Token" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_update_task(
+    tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "PATCH",
+        "/2023-10-12/batch-update-task",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("tasks" => tasks, "X-Amz-Client-Token" => string(uuid4())),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -594,10 +965,19 @@ Creates a budget to set spending thresholds for your rendering activity.
 # Arguments
 
 - `actions`: The budget actions to specify what happens when the budget runs out.
+
 - `approximate_dollar_limit`: The dollar limit based on consumed usage.
+
 - `display_name`: The display name of the budget.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID to include in this budget.
+
 - `schedule`: The schedule to associate with this budget.
+
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
 
 # Optional Parameters
@@ -606,7 +986,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"description"`: The description of the budget.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
+  required, but tag values can be empty strings.
 """
 function create_budget end
 
@@ -680,14 +1068,29 @@ for large projects.
 
 - `display_name`: The display name of the farm.
 
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
+- `"costScaleFactor"`: A multiplier applied to the farm's calculated costs for usage data
+  and budget tracking. A value less than 1 represents a discount, a value greater than 1
+  represents a premium, and a value of 1 represents no adjustment. The default value is 1.
+
 - `"description"`: The description of the farm.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
+
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
 """
@@ -739,9 +1142,24 @@ managed by Deadline Cloud.
 
 - `configuration`: The configuration settings for the fleet. Customer managed fleets are
   self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
+
 - `display_name`: The display name of the fleet.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the fleet.
+
 - `max_worker_count`: The maximum number of workers for the fleet.
+
+  Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum
+  worker count. The service maintains eventual consistency for the worker count. If you make
+  multiple rapid calls to `CreateWorker` before the field updates, you might exceed your
+  fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you
+  currently have 9 workers, making two quick `CreateWorker` calls might successfully create
+  2 workers instead of 1, resulting in 11 total workers.
+
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
 
 # Optional Parameters
@@ -750,8 +1168,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"description"`: The description of the fleet.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"hostConfiguration"`: Provides a script that runs as a worker is starting up that you can
+  use to provide additional configuration for workers in your fleet.
+
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
+
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
@@ -811,19 +1239,18 @@ function create_fleet(
 end
 
 """
-    create_job(farm_id, priority, queue_id, template, template_type)
-    create_job(farm_id, priority, queue_id, template, template_type, params::Dict{String,<:Any})
+    create_job(farm_id, priority, queue_id)
+    create_job(farm_id, priority, queue_id, params::Dict{String,<:Any})
 
-Creates a job. A job is a render submission submitted by a user. It contains specific job
-properties outlined as steps and tasks.
+Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run
+work on available workers. For more information, see [Deadline Cloud jobs](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/deadline-cloud-jobs.html).
 
 # Arguments
 
 - `farm_id`: The farm ID of the farm to connect to the job.
-- `priority`: The priority of the job on a scale of 1 to 100. The highest priority is 1.
+- `priority`: The priority of the job. The highest priority (first scheduled) is 100. When
+  two jobs have the same priority, the oldest job is scheduled first.
 - `queue_id`: The ID of the queue that the job is submitted to.
-- `template`: The job template to use for this job.
-- `template_type`: The file type for the job template.
 
 # Optional Parameters
 
@@ -831,37 +1258,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"attachments"`: The attachments for the job. Attach files required for the job to run to
   a render job.
+
+- `"descriptionOverride"`: A custom description to override the job description derived from
+  the job template.
+
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as `FAILED`.
-- `"maxRetriesPerTask"`: The maximum number of retries for a job.
+
+- `"maxRetriesPerTask"`: The maximum number of retries for each task.
+
+- `"maxWorkerCount"`: The maximum number of worker hosts that can concurrently process a
+  job. When the `maxWorkerCount` is reached, no more workers will be assigned to process the
+  job, even if the fleets assigned to the job's queue has available workers.
+
+  You can't set the `maxWorkerCount` to 0. If you set it to -1, there is no maximum number
+  of workers.
+
+  If you don't specify the `maxWorkerCount`, Deadline Cloud won't throttle the number of
+  workers used to process the job.
+
+- `"nameOverride"`: A custom name to override the job name derived from the job template.
+
 - `"parameters"`: The parameters for the job.
+
+- `"sourceJobId"`: The job ID for the source job.
+
 - `"storageProfileId"`: The storage profile ID for the storage profile to connect to the
   job.
-- `"targetTaskRunStatus"`: The initial status of the job's tasks when they are created.
-  Tasks that are created with a `SUSPENDED` status will not run until you update their
-  status.
+
+- `"tags"`: The tags to add to your job. Each tag consists of a tag key and a tag value. Tag
+  keys and values are both required, but tag values can be empty strings.
+
+- `"targetTaskRunStatus"`: The initial job status when it is created. Jobs that are created
+  with a `SUSPENDED` status will not run until manually requeued.
+
+- `"template"`: The job template to use for this job.
+
+- `"templateType"`: The file type for the job template.
 """
 function create_job end
 
 function create_job(
-    farmId,
-    priority,
-    queueId,
-    template,
-    templateType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    farmId, priority, queueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return deadline(
         "POST",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs",
-        Dict{String,Any}(
-            "priority" => priority,
-            "template" => template,
-            "templateType" => templateType,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
+        Dict{String,Any}("priority" => priority, "X-Amz-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -871,8 +1317,6 @@ function create_job(
     farmId,
     priority,
     queueId,
-    template,
-    templateType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -883,10 +1327,7 @@ function create_job(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "priority" => priority,
-                    "template" => template,
-                    "templateType" => templateType,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "priority" => priority, "X-Amz-Client-Token" => string(uuid4())
                 ),
                 params,
             ),
@@ -965,6 +1406,102 @@ function create_license_endpoint(
 end
 
 """
+    create_limit(amount_requirement_name, display_name, farm_id, max_count)
+    create_limit(amount_requirement_name, display_name, farm_id, max_count, params::Dict{String,<:Any})
+
+Creates a limit that manages the distribution of shared resources, such as floating
+licenses. A limit can throttle work assignments, help manage workloads, and track current
+usage. Before you use a limit, you must associate the limit with one or more queues.
+
+You must add the `amountRequirementName` to a step in a job template to declare the limit
+requirement.
+
+# Arguments
+
+- `amount_requirement_name`: The value that you specify as the `name` in the `amounts` field
+  of the `hostRequirements` in a step of a job template to declare the limit requirement.
+
+- `display_name`: The display name of the limit.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `farm_id`: The farm ID of the farm that contains the limit.
+
+- `max_count`: The maximum number of resources constrained by this limit. When all of the
+  resources are in use, steps that require the limit won't be scheduled until the resource
+  is available.
+
+  The `maxCount` must not be 0. If the value is -1, there is no restriction on the number of
+  resources that can be acquired for this limit.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
+  same request.
+
+- `"description"`: A description of the limit. A description helps you identify the purpose
+  of the limit.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+"""
+function create_limit end
+
+function create_limit(
+    amountRequirementName,
+    displayName,
+    farmId,
+    maxCount;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/farms/$(farmId)/limits",
+        Dict{String,Any}(
+            "amountRequirementName" => amountRequirementName,
+            "displayName" => displayName,
+            "maxCount" => maxCount,
+            "X-Amz-Client-Token" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_limit(
+    amountRequirementName,
+    displayName,
+    farmId,
+    maxCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "POST",
+        "/2023-10-12/farms/$(farmId)/limits",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "amountRequirementName" => amountRequirementName,
+                    "displayName" => displayName,
+                    "maxCount" => maxCount,
+                    "X-Amz-Client-Token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_monitor(display_name, identity_center_instance_arn, role_arn, subdomain)
     create_monitor(display_name, identity_center_instance_arn, role_arn, subdomain, params::Dict{String,<:Any})
 
@@ -976,11 +1513,18 @@ steps that make up the job, and then download the job's results.
 
 - `display_name`: The name that you give the monitor that is displayed in the Deadline Cloud
   console.
-- `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `identity_center_instance_arn`: The Amazon Resource Name of the IAM Identity Center
   instance that authenticates monitor users.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
-  connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity
-  Center uses this role to access Deadline Cloud resources.
+
+- `role_arn`: The Amazon Resource Name of the IAM role that the monitor uses to connect to
+  Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses
+  this role to access Deadline Cloud resources.
+
 - `subdomain`: The subdomain to use when creating the monitor URL. The full URL of the
   monitor is subdomain.Region.deadlinecloud.amazonaws.com.
 
@@ -990,6 +1534,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+- `"identityCenterRegion"`: The AWS region where IAM Identity Center is enabled. Required
+  when Identity Center is in a different region than the monitor.
+- `"tags"`: The tags to add to your monitor. Each tag consists of a tag key and a tag value.
+  Tag keys and values are both required, but tag values can be empty strings.
 """
 function create_monitor end
 
@@ -1054,6 +1602,11 @@ specify where to pull resources and indicate where to output completed jobs.
 # Arguments
 
 - `display_name`: The display name of the queue.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
 # Optional Parameters
@@ -1062,16 +1615,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"allowedStorageProfileIds"`: The storage profile IDs to include in the queue.
+
 - `"defaultBudgetAction"`: The default action to take on a queue if a budget isn't
   configured.
+
 - `"description"`: The description of the queue.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the Amazon
   S3 bucket name and the Amazon S3 prefix.
+
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
+
 - `"requiredFileSystemLocationNames"`: The file system location name to include in the
   queue.
+
 - `"roleArn"`: The IAM role ARN that workers will use while running jobs for this queue.
+
+- `"schedulingConfiguration"`: The scheduling configuration for the queue. This
+  configuration determines how workers are assigned to jobs in the queue.
+
+  If not specified, the queue defaults to the `priorityFifo` scheduling configuration.
+
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
@@ -1124,8 +1694,8 @@ Creates an environment for a queue that defines how jobs in the queue run.
 
 - `farm_id`: The farm ID of the farm to connect to the environment.
 - `priority`: Sets the priority of the environments in the queue from 0 to 10,000, where 0
-  is the highest priority. If two environments share the same priority value, the
-  environment created first takes higher priority.
+  is the highest priority (activated first and deactivated last). If two environments share
+  the same priority value, the environment created first takes higher priority.
 - `queue_id`: The queue ID to connect the queue and environment.
 - `template`: The environment template to use in the queue.
 - `template_type`: The template's file type, `JSON` or `YAML`.
@@ -1237,6 +1807,55 @@ function create_queue_fleet_association(
 end
 
 """
+    create_queue_limit_association(farm_id, limit_id, queue_id)
+    create_queue_limit_association(farm_id, limit_id, queue_id, params::Dict{String,<:Any})
+
+Associates a limit with a particular queue. After the limit is associated, all workers for
+jobs that specify the limit associated with the queue are subject to the limit. You can't
+associate two limits with the same `amountRequirementName` to the same queue.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the queue and limit to
+  associate.
+- `limit_id`: The unique identifier of the limit to associate with the queue.
+- `queue_id`: The unique identifier of the queue to associate with the limit.
+"""
+function create_queue_limit_association end
+
+function create_queue_limit_association(
+    farmId, limitId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "PUT",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations",
+        Dict{String,Any}("limitId" => limitId, "queueId" => queueId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_queue_limit_association(
+    farmId,
+    limitId,
+    queueId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "PUT",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("limitId" => limitId, "queueId" => queueId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_storage_profile(display_name, farm_id, os_family)
     create_storage_profile(display_name, farm_id, os_family, params::Dict{String,<:Any})
 
@@ -1246,7 +1865,13 @@ of resources used on a farm.
 # Arguments
 
 - `display_name`: The display name of the storage profile.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
+
 - `os_family`: The type of operating system (OS) for the storage profile.
 
 # Optional Parameters
@@ -1310,6 +1935,13 @@ Creates a worker. A worker tells your instance how much processing power (vCPU),
 specify certain instance types to use, or let the worker know which instances types to
 exclude.
 
+Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum
+worker count. The service maintains eventual consistency for the worker count. If you make
+multiple rapid calls to `CreateWorker` before the field updates, you might exceed your
+fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently
+have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers
+instead of 1, resulting in 11 total workers.
+
 # Arguments
 
 - `farm_id`: The farm ID of the farm to connect to the worker.
@@ -1322,6 +1954,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
 - `"hostProperties"`: The IP address and host name of the worker.
+- `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
+  required, but tag values can be empty strings.
 """
 function create_worker end
 
@@ -1508,6 +2142,44 @@ function delete_license_endpoint(
 end
 
 """
+    delete_limit(farm_id, limit_id)
+    delete_limit(farm_id, limit_id, params::Dict{String,<:Any})
+
+Removes a limit from the specified farm. Before you delete a limit you must use the [`delete_queue_limit_association`](@ref)
+operation to remove the association with any queues.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the limit to delete.
+- `limit_id`: The unique identifier of the limit to delete.
+"""
+function delete_limit end
+
+function delete_limit(farmId, limitId; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "DELETE",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_limit(
+    farmId,
+    limitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "DELETE",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_metered_product(license_endpoint_id, product_id)
     delete_metered_product(license_endpoint_id, product_id, params::Dict{String,<:Any})
 
@@ -1589,6 +2261,10 @@ end
     delete_queue(farm_id, queue_id, params::Dict{String,<:Any})
 
 Deletes a queue.
+
+!!! important
+    You can't recover the jobs in a queue if you delete the queue. Deleting the queue also
+    deletes the jobs in that queue.
 
 # Arguments
 
@@ -1697,6 +2373,51 @@ function delete_queue_fleet_association(
     return deadline(
         "DELETE",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_queue_limit_association(farm_id, limit_id, queue_id)
+    delete_queue_limit_association(farm_id, limit_id, queue_id, params::Dict{String,<:Any})
+
+Removes the association between a queue and a limit. You must use the [`update_queue_limit_association`](@ref)
+operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or
+`STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the [`get_queue_limit_association`](@ref)
+operation to see if the status changed to `STOPPED` before deleting the association.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the queue and limit to
+  disassociate.
+- `limit_id`: The unique identifier of the limit to disassociate.
+- `queue_id`: The unique identifier of the queue to disassociate.
+"""
+function delete_queue_limit_association end
+
+function delete_queue_limit_association(
+    farmId, limitId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "DELETE",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_queue_limit_association(
+    farmId,
+    limitId,
+    queueId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "DELETE",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2128,6 +2849,43 @@ function get_license_endpoint(
 end
 
 """
+    get_limit(farm_id, limit_id)
+    get_limit(farm_id, limit_id, params::Dict{String,<:Any})
+
+Gets information about a specific limit.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the limit.
+- `limit_id`: The unique identifier of the limit to return.
+"""
+function get_limit end
+
+function get_limit(farmId, limitId; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_limit(
+    farmId,
+    limitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_monitor(monitor_id)
     get_monitor(monitor_id, params::Dict{String,<:Any})
 
@@ -2276,6 +3034,47 @@ function get_queue_fleet_association(
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_queue_limit_association(farm_id, limit_id, queue_id)
+    get_queue_limit_association(farm_id, limit_id, queue_id, params::Dict{String,<:Any})
+
+Gets information about a specific association between a queue and a limit.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the associated queue and limit.
+- `limit_id`: The unique identifier of the limit associated with the queue.
+- `queue_id`: The unique identifier of the queue associated with the limit.
+"""
+function get_queue_limit_association end
+
+function get_queue_limit_association(
+    farmId, limitId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_queue_limit_association(
+    farmId,
+    limitId,
+    queueId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2858,11 +3657,19 @@ Lists fleets.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"displayName"`: The display names of a list of fleets.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   `NextToken` to get results as a set of sequential pages.
+
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
+
 - `"principalId"`: The principal ID of the members to include in the fleet.
+
 - `"status"`: The status of the fleet.
 """
 function list_fleets end
@@ -2932,6 +3739,56 @@ function list_job_members(
     return deadline(
         "GET",
         "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_job_parameter_definitions(farm_id, job_id, queue_id)
+    list_job_parameter_definitions(farm_id, job_id, queue_id, params::Dict{String,<:Any})
+
+Lists parameter definitions of a job.
+
+# Arguments
+
+- `farm_id`: The farm ID of the job to list.
+- `job_id`: The job ID to include on the list.
+- `queue_id`: The queue ID to include on the list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return. Use this parameter with
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
+"""
+function list_job_parameter_definitions end
+
+function list_job_parameter_definitions(
+    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/parameter-definitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_job_parameter_definitions(
+    farmId,
+    jobId,
+    queueId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/parameter-definitions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3014,6 +3871,47 @@ function list_license_endpoints(
     return deadline(
         "GET",
         "/2023-10-12/license-endpoints",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_limits(farm_id)
+    list_limits(farm_id, params::Dict{String,<:Any})
+
+Gets a list of limits defined in the specified farm.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the limits.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of limits to return in each page of results.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
+"""
+function list_limits end
+
+function list_limits(farmId; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/limits";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_limits(
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/limits",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3192,6 +4090,55 @@ function list_queue_fleet_associations(
 end
 
 """
+    list_queue_limit_associations(farm_id)
+    list_queue_limit_associations(farm_id, params::Dict{String,<:Any})
+
+Gets a list of the associations between queues and limits defined in a farm.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the limits and associations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"limitId"`: Specifies that the operation should return only the queue limit associations
+  for the specified limit. If you specify both the `queueId` and the `limitId`, only the
+  specified limit is returned if it exists.
+- `"maxResults"`: The maximum number of associations to return in each page of results.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
+- `"queueId"`: Specifies that the operation should return only the queue limit associations
+  for the specified queue. If you specify both the `queueId` and the `limitId`, only the
+  specified limit is returned if it exists.
+"""
+function list_queue_limit_associations end
+
+function list_queue_limit_associations(
+    farmId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_queue_limit_associations(
+    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "GET",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_queue_members(farm_id, queue_id)
     list_queue_members(farm_id, queue_id, params::Dict{String,<:Any})
 
@@ -3259,8 +4206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
 
-- `"principalId"`: The principal ID. This filter is only valid when using Nimble Studio
-  credentials and should match the user ID in the credentials of the caller.
+- `"principalId"`: The principal IDs to include in the list of queues.
 
 - `"status"`: The status of the queues listed.
 
@@ -3870,17 +4816,15 @@ Searches for jobs.
 # Arguments
 
 - `farm_id`: The farm ID of the job.
-- `item_offset`: Defines how far into the scrollable list to start the return of results.
+- `item_offset`: The offset for the search results.
 - `queue_ids`: The queue ID to use in the job search.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis `()`.
-- `"pageSize"`: Specifies the number of items per page for the resource.
+- `"filterExpressions"`: The search terms for a resource.
+- `"pageSize"`: Specifies the number of results to return.
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_jobs end
@@ -3928,18 +4872,16 @@ Searches for steps.
 # Arguments
 
 - `farm_id`: The farm ID to use for the step search.
-- `item_offset`: Defines how far into the scrollable list to start the return of results.
+- `item_offset`: The offset for the search results.
 - `queue_ids`: The queue IDs in the step search.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis `()`.
+- `"filterExpressions"`: The search terms for a resource.
 - `"jobId"`: The job ID to use in the step search.
-- `"pageSize"`: Specifies the number of items per page for the resource.
+- `"pageSize"`: Specifies the number of results to return.
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_steps end
@@ -3987,18 +4929,16 @@ Searches for tasks.
 # Arguments
 
 - `farm_id`: The farm ID of the task.
-- `item_offset`: Defines how far into the scrollable list to start the return of results.
+- `item_offset`: The offset for the search results.
 - `queue_ids`: The queue IDs to include in the search.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis `()`.
+- `"filterExpressions"`: The search terms for a resource.
 - `"jobId"`: The job ID for the task search.
-- `"pageSize"`: Specifies the number of items per page for the resource.
+- `"pageSize"`: Specifies the number of results to return.
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_tasks end
@@ -4047,16 +4987,14 @@ Searches for workers.
 
 - `farm_id`: The farm ID in the workers search.
 - `fleet_ids`: The fleet ID of the workers to search for.
-- `item_offset`: Defines how far into the scrollable list to start the return of results.
+- `item_offset`: The offset for the search results.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis `()`.
-- `"pageSize"`: Specifies the number of items per page for the resource.
+- `"filterExpressions"`: The search terms for a resource.
+- `"pageSize"`: Specifies the number of results to return.
 - `"sortExpressions"`: The search terms for a resource.
 """
 function search_workers end
@@ -4100,8 +5038,10 @@ end
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
 Starts an asynchronous request for getting aggregated statistics about queues and farms. Get
-the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. Statistics
-are available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
+the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. You can
+only have one running aggregation for your Deadline Cloud farm. Call the [`get_sessions_statistics_aggregation`](@ref)
+operation and check the `status` field to see if an aggregation is running. Statistics are
+available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
 operation.
 
 # Arguments
@@ -4288,7 +5228,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description of the budget to update.
 
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the budget to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 
 - `"schedule"`: The schedule to update.
 
@@ -4343,8 +5291,21 @@ Updates a farm.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"costScaleFactor"`: A multiplier applied to the farm's calculated costs for usage data
+  and budget tracking. A value less than 1 represents a discount, a value greater than 1
+  represents a premium, and a value of 1 represents no adjustment.
+
 - `"description"`: The description of the farm to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the farm to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
 """
 function update_farm end
 
@@ -4383,11 +5344,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"configuration"`: The fleet configuration to update.
+
 - `"description"`: The description of the fleet to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the fleet to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"hostConfiguration"`: Provides a script that runs as a worker is starting up that you can
+  use to provide additional configuration for workers in your fleet.
+
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
+
+  Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum
+  worker count. The service maintains eventual consistency for the worker count. If you make
+  multiple rapid calls to `CreateWorker` before the field updates, you might exceed your
+  fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you
+  currently have 9 workers, making two quick `CreateWorker` calls might successfully create
+  2 workers instead of 1, resulting in 11 total workers.
+
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
+
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
 """
 function update_fleet end
@@ -4427,6 +5412,12 @@ end
 
 Updates a job.
 
+When you change the status of the job to `ARCHIVED`, the job can't be scheduled or archived.
+
+!!! important
+    An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
+    recovered.
+
 # Arguments
 
 - `farm_id`: The farm ID of the job to update.
@@ -4439,11 +5430,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
-- `"lifecycleStatus"`: The status of a job in its lifecycle.
+
+- `"description"`: The updated job description.
+
+- `"lifecycleStatus"`: The status of a job in its lifecycle. When you change the status of
+  the job to `ARCHIVED`, the job can't be scheduled or archived.
+
+  !!! important
+      An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
+      recovered.
+
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as `FAILED`.
+
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
-- `"priority"`: The job priority to update.
+
+- `"maxWorkerCount"`: The maximum number of worker hosts that can concurrently process a
+  job. When the `maxWorkerCount` is reached, no more workers will be assigned to process the
+  job, even if the fleets assigned to the job's queue has available workers.
+
+  You can't set the `maxWorkerCount` to 0. If you set it to -1, there is no maximum number
+  of workers.
+
+  If you don't specify the `maxWorkerCount`, the default is -1.
+
+  The maximum number of workers that can process tasks in the job.
+
+- `"name"`: The updated job name.
+
+- `"priority"`: The updated job priority.
+
 - `"targetTaskRunStatus"`: The task status to update the job's tasks to.
 """
 function update_job end
@@ -4481,6 +5497,69 @@ function update_job(
 end
 
 """
+    update_limit(farm_id, limit_id)
+    update_limit(farm_id, limit_id, params::Dict{String,<:Any})
+
+Updates the properties of the specified limit.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the limit.
+- `limit_id`: The unique identifier of the limit to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The new description of the limit.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"displayName"`: The new display name of the limit.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"maxCount"`: The maximum number of resources constrained by this limit. When all of the
+  resources are in use, steps that require the limit won't be scheduled until the resource
+  is available.
+
+  If more than the new maximum number is currently in use, running jobs finish but no new
+  jobs are started until the number of resources in use is below the new maximum number.
+
+  The `maxCount` must not be 0. If the value is -1, there is no restriction on the number of
+  resources that can be acquired for this limit.
+"""
+function update_limit end
+
+function update_limit(farmId, limitId; aws_config::AbstractAWSConfig=current_aws_config())
+    return deadline(
+        "PATCH",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_limit(
+    farmId,
+    limitId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "PATCH",
+        "/2023-10-12/farms/$(farmId)/limits/$(limitId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_monitor(monitor_id)
     update_monitor(monitor_id, params::Dict{String,<:Any})
 
@@ -4496,7 +5575,13 @@ settings when you call `UpdateMonitor`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"displayName"`: The new value to use for the monitor's display name.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
+- `"roleArn"`: The Amazon Resource Name of the new IAM role to use with the monitor.
+
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
 function update_monitor end
@@ -4540,19 +5625,44 @@ Updates a queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: The idempotency token to update in the queue.
+
 - `"allowedStorageProfileIdsToAdd"`: The storage profile IDs to add.
+
 - `"allowedStorageProfileIdsToRemove"`: The storage profile ID to remove.
+
 - `"defaultBudgetAction"`: The default action to take for a queue update if a budget isn't
   configured.
+
 - `"description"`: The description of the queue to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the queue to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
+
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
+
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
   to the queue.
+
 - `"requiredFileSystemLocationNamesToRemove"`: The required file system location names to
   remove from the queue.
+
 - `"roleArn"`: The IAM role ARN that's used to run jobs from this queue.
+
+- `"schedulingConfiguration"`: The scheduling configuration for the queue. This
+  configuration determines how workers are assigned to jobs in the queue.
+
+  When updating the scheduling configuration, the entire configuration is replaced.
+
+  In-progress tasks run to completion before the new scheduling configuration takes effect.
 """
 function update_queue end
 
@@ -4679,6 +5789,54 @@ function update_queue_fleet_association(
     return deadline(
         "PATCH",
         "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_queue_limit_association(farm_id, limit_id, queue_id, status)
+    update_queue_limit_association(farm_id, limit_id, queue_id, status, params::Dict{String,<:Any})
+
+Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*`
+values, there will be a delay before the status transitions to the `STOPPED` state.
+
+# Arguments
+
+- `farm_id`: The unique identifier of the farm that contains the associated queues and
+  limits.
+- `limit_id`: The unique identifier of the limit associated to the queue.
+- `queue_id`: The unique identifier of the queue associated to the limit.
+- `status`: Sets the status of the limit. You can mark the limit active, or you can stop
+  usage of the limit and either complete existing tasks or cancel any existing tasks
+  immediately.
+"""
+function update_queue_limit_association end
+
+function update_queue_limit_association(
+    farmId, limitId, queueId, status; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return deadline(
+        "PATCH",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)",
+        Dict{String,Any}("status" => status);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_queue_limit_association(
+    farmId,
+    limitId,
+    queueId,
+    status,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return deadline(
+        "PATCH",
+        "/2023-10-12/farms/$(farmId)/queue-limit-associations/$(queueId)/$(limitId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4842,9 +6000,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of the
   same request.
+
 - `"displayName"`: The display name of the storage profile to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+      on a webpage or any other system that might interpret the content of this field.
+
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
+
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
+
 - `"osFamily"`: The OS system to update.
 """
 function update_storage_profile end

@@ -256,8 +256,8 @@ function batch_get_rum_metric_definitions(
 end
 
 """
-    create_app_monitor(domain, name)
-    create_app_monitor(domain, name, params::Dict{String,<:Any})
+    create_app_monitor(name)
+    create_app_monitor(name, params::Dict{String,<:Any})
 
 Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your
 application and sends that data to RUM. The data includes performance and reliability
@@ -272,8 +272,6 @@ code snippet to add to your web application. For more information, see [How do I
 
 # Arguments
 
-- `domain`: The top-level internet domain name for which your application has administrative
-  authority.
 - `name`: A name for the app monitor.
 
 # Optional Parameters
@@ -301,6 +299,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you omit this parameter, the default is `false`.
 
+- `"DeobfuscationConfiguration"`: A structure that contains the configuration for how an app
+  monitor can deobfuscate stack traces.
+
+- `"Domain"`: The top-level internet domain name for which your application has
+  administrative authority.
+
+- `"DomainList"`: List the domain names for which your application has administrative
+  authority. The `CreateAppMonitor` requires either the domain or the domain list.
+
+- `"Platform"`: The platform type for the app monitor. Valid values are `Web` for web
+  applications, `Android` for Android applications, and `iOS` for IOS applications. If you
+  omit this parameter, the default is `Web`.
+
 - `"Tags"`: Assigns one or more tags (key-value pairs) to the app monitor.
 
   Tags can help you organize and categorize your resources. You can also use them to scope
@@ -316,30 +327,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_app_monitor end
 
-function create_app_monitor(
-    Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST",
         "/appmonitor",
-        Dict{String,Any}("Domain" => Domain, "Name" => Name);
+        Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_app_monitor(
-    Domain,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "POST",
         "/appmonitor",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Domain" => Domain, "Name" => Name), params)
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -366,6 +370,45 @@ function delete_app_monitor(
 )
     return rum(
         "DELETE", "/appmonitor/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_resource_policy(name)
+    delete_resource_policy(name, params::Dict{String,<:Any})
+
+Removes the association of a resource-based policy from an app monitor.
+
+# Arguments
+
+- `name`: The app monitor that you want to remove the resource policy from.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"policyRevisionId"`: Specifies a specific policy revision to delete. Provide a
+  `PolicyRevisionId` to ensure an atomic delete operation. If the revision ID that you
+  provide doesn't match the latest policy revision ID, the request will be rejected with an
+  `InvalidPolicyRevisionIdException` error.
+"""
+function delete_resource_policy end
+
+function delete_resource_policy(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "DELETE", "/appmonitor/$(Name)/policy"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_resource_policy(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
+        "DELETE",
+        "/appmonitor/$(Name)/policy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -501,6 +544,38 @@ function get_app_monitor_data(
 end
 
 """
+    get_resource_policy(name)
+    get_resource_policy(name, params::Dict{String,<:Any})
+
+Use this operation to retrieve information about a resource-based policy that is attached to
+an app monitor.
+
+# Arguments
+
+- `name`: The name of the app monitor that is associated with the resource-based policy that
+  you want to view.
+"""
+function get_resource_policy end
+
+function get_resource_policy(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "GET", "/appmonitor/$(Name)/policy"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_resource_policy(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
+        "GET",
+        "/appmonitor/$(Name)/policy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_app_monitors()
     list_app_monitors(params::Dict{String,<:Any})
 
@@ -609,6 +684,65 @@ function list_tags_for_resource(
 end
 
 """
+    put_resource_policy(name, policy_document)
+    put_resource_policy(name, policy_document, params::Dict{String,<:Any})
+
+Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to
+control access to it. Each app monitor can have one resource-based policy. The maximum size
+of the policy is 4 KB. To learn more about using resource policies with RUM, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
+
+# Arguments
+
+- `name`: The name of the app monitor that you want to apply this resource-based policy to.
+  To find the names of your app monitors, you can use the [ListAppMonitors](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_ListAppMonitors.html)
+  operation.
+- `policy_document`: The JSON to use as the resource policy. The document can be up to 4 KB
+  in size. For more information about the contents and syntax for this policy, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"PolicyRevisionId"`: A string value that you can use to conditionally update your policy.
+  You can provide the revision ID of your existing policy to make mutating requests against
+  that policy.
+
+  When you assign a policy revision ID, then later requests about that policy will be
+  rejected with an `InvalidPolicyRevisionIdException` error if they don't provide the
+  correct current revision ID.
+"""
+function put_resource_policy end
+
+function put_resource_policy(
+    Name, PolicyDocument; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
+        "PUT",
+        "/appmonitor/$(Name)/policy",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_resource_policy(
+    Name,
+    PolicyDocument,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return rum(
+        "PUT",
+        "/appmonitor/$(Name)/policy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyDocument" => PolicyDocument), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_rum_events(app_monitor_details, batch_id, id, rum_events, user_details)
     put_rum_events(app_monitor_details, batch_id, id, rum_events, user_details, params::Dict{String,<:Any})
 
@@ -627,6 +761,14 @@ Each [`put_rum_events`](@ref) operation can send a batch of events from one user
 - `rum_events`: An array of structures that contain the telemetry event data.
 - `user_details`: A structure that contains information about the user session that this
   batch of events was collected from.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Alias"`: If the app monitor uses a resource-based policy that requires `PutRumEvents`
+  requests to specify a certain alias, specify that alias here. This alias will be compared
+  to the `rum:alias` context key in the resource-based policy. For more information, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
 """
 function put_rum_events end
 
@@ -883,8 +1025,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Logs in your account. This enables you to keep the telemetry data for more than 30 days,
   but it does incur Amazon CloudWatch Logs charges.
 
+- `"DeobfuscationConfiguration"`: A structure that contains the configuration for how an app
+  monitor can deobfuscate stack traces.
+
 - `"Domain"`: The top-level internet domain name for which your application has
   administrative authority.
+
+- `"DomainList"`: List the domain names for which your application has administrative
+  authority. The `UpdateAppMonitor` allows either the domain or the domain list.
 """
 function update_app_monitor end
 

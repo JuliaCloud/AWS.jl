@@ -93,10 +93,12 @@ Creates a logging configuration that allows clients to store and record sent mes
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Logging-configuration name. The value does not need to be unique.
+
 - `"tags"`: Tags to attach to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat
+  has no constraints on tags beyond what is documented there.
 """
 function create_logging_configuration end
 
@@ -144,17 +146,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
   to the room.
+
 - `"maximumMessageLength"`: Maximum number of characters in a single message. Messages are
   expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count,
   not number of bytes. Default: 500.
+
 - `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent to
   the room (by all clients). Default: 10.
+
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
+
 - `"name"`: Room name. The value does not need to be unique.
+
 - `"tags"`: Tags to attach to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat
+  has no constraints beyond what is documented there.
 """
 function create_room end
 
@@ -602,10 +610,12 @@ Adds or updates tags for the AWS resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be tagged. The ARN must be URL-encoded.
+
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat
+  has no constraints beyond what is documented there.
 """
 function tag_resource end
 
@@ -643,10 +653,12 @@ Removes tags from the resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
+
 - `tag_keys`: Array of tags to be removed. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging Amazon Web Services Resources and Tag Editor* for details, including
+  restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat
+  has no constraints beyond what is documented there.
 """
 function untag_resource end
 

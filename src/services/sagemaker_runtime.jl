@@ -8,15 +8,15 @@ using AWS.UUIDs: uuid4
     invoke_endpoint(body, endpoint_name)
     invoke_endpoint(body, endpoint_name, params::Dict{String,<:Any})
 
-After you deploy a model into production using Amazon SageMaker hosting services, your
+After you deploy a model into production using Amazon SageMaker AI hosting services, your
 client applications use this API to get inferences from the model hosted at the specified
 endpoint.
 
-For an overview of Amazon SageMaker, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
+For an overview of Amazon SageMaker AI, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
-might add additional headers. You should not rely on the behavior of headers outside those
-enumerated in the request syntax.
+Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon
+SageMaker AI might add additional headers. You should not rely on the behavior of headers
+outside those enumerated in the request syntax.
 
 Calls to `InvokeEndpoint` are authenticated by using Amazon Web Services Signature Version
 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -29,13 +29,13 @@ set to be 70 seconds.
 
 !!! note
     Endpoints are scoped to an individual account, and are not public. The URL does not
-    contain the account ID, but Amazon SageMaker determines the account ID from the
+    contain the account ID, but Amazon SageMaker AI determines the account ID from the
     authentication token that is supplied by the caller.
 
 # Arguments
 
 - `body`: Provides input data, in the format specified in the `ContentType` request header.
-  Amazon SageMaker passes all of the data in the body to the model.
+  Amazon SageMaker AI passes all of the data in the body to the model.
 
   For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
 
@@ -52,7 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Type"`: The MIME type of the input data in the request body.
 
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
-  for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
+  for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The
   information is an opaque value that is forwarded verbatim. You could use this value, for
   example, to provide an ID that you can use to track a request or to provide other metadata
   that a service endpoint was programmed to process. The value must consist of no more than
@@ -65,7 +65,7 @@ of the Hypertext Transfer Protocol (HTTP/1.1).
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
   This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
-  SageMaker Python SDK.
+  SageMaker AI Python SDK.
 
 - `"X-Amzn-SageMaker-Enable-Explanations"`: An optional JMESPath expression used to override
   the `EnableExplanations` parameter of the `ClarifyExplainerConfig` API. See the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable)
@@ -76,6 +76,19 @@ of the Hypertext Transfer Protocol (HTTP/1.1).
 
 - `"X-Amzn-SageMaker-Inference-Id"`: If you provide a value, it is added to the captured
   data when you enable data capture on the endpoint. For information about data capture, see [Capture Data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
+
+- `"X-Amzn-SageMaker-Session-Id"`: Creates a stateful session or identifies an existing one.
+  You can do one of the following:
+
+  - Create a stateful session by specifying the value `NEW_SESSION`.
+  - Send your request to an existing stateful session by specifying the ID of that session.
+
+  With a stateful session, you can send multiple requests to a stateful model. When you
+  create a session with a stateful model, the model must create the session ID and set the
+  expiration time. The model must also provide that information in the response to your
+  request. You can get the ID and timestamp from the `NewSessionId` response parameter. For
+  any subsequent request where you specify that session ID, SageMaker AI routes the request
+  to the same instance that supports the session.
 
 - `"X-Amzn-SageMaker-Target-Container-Hostname"`: If the endpoint hosts multiple containers
   and is configured to use direct invocation, this parameter specifies the host name of the
@@ -124,7 +137,7 @@ end
     invoke_endpoint_async(endpoint_name, x-_amzn-_sage_maker-_input_location)
     invoke_endpoint_async(endpoint_name, x-_amzn-_sage_maker-_input_location, params::Dict{String,<:Any})
 
-After you deploy a model into production using Amazon SageMaker hosting services, your
+After you deploy a model into production using Amazon SageMaker AI hosting services, your
 client applications use this API to get inferences from the model hosted at the specified
 endpoint in an asynchronous manner.
 
@@ -133,9 +146,9 @@ of the inference request may or may not complete before you receive a response f
 API. The response from this API will not contain the result of the inference request but
 contain information about where you can locate it.
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
-might add additional headers. You should not rely on the behavior of headers outside those
-enumerated in the request syntax.
+Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon
+SageMaker AI might add additional headers. You should not rely on the behavior of headers
+outside those enumerated in the request syntax.
 
 Calls to `InvokeEndpointAsync` are authenticated by using Amazon Web Services Signature
 Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -159,7 +172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-SageMaker-Content-Type"`: The MIME type of the input data in the request body.
 
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
-  for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
+  for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The
   information is an opaque value that is forwarded verbatim. You could use this value, for
   example, to provide an ID that you can use to track a request or to provide other metadata
   that a service endpoint was programmed to process. The value must consist of no more than
@@ -172,10 +185,14 @@ of the Hypertext Transfer Protocol (HTTP/1.1).
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
   This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
-  SageMaker Python SDK.
+  SageMaker AI Python SDK.
+
+- `"X-Amzn-SageMaker-Filename"`: The filename for the inference response payload stored in
+  Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the
+  inference ID.
 
 - `"X-Amzn-SageMaker-Inference-Id"`: The identifier for the inference request. Amazon
-  SageMaker will generate an identifier for you if none is specified.
+  SageMaker AI will generate an identifier for you if none is specified.
 
 - `"X-Amzn-SageMaker-InvocationTimeoutSeconds"`: Maximum amount of time in seconds a request
   can be processed before it is marked as expired. The default is 15 minutes, or 900
@@ -183,6 +200,9 @@ of the Hypertext Transfer Protocol (HTTP/1.1).
 
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
   queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
+
+- `"X-Amzn-SageMaker-S3OutputPathExtension"`: The path extension that is appended to the
+  Amazon S3 output path where the inference response payload is stored.
 """
 function invoke_endpoint_async end
 
@@ -237,23 +257,23 @@ end
 Invokes a model at the specified endpoint to return the inference response as a stream. The
 inference stream provides the response payload incrementally as a series of parts. Before
 you can get an inference stream, you must have access to a model that's deployed using
-Amazon SageMaker hosting services, and the container for that model must support inference
-streaming.
+Amazon SageMaker AI hosting services, and the container for that model must support
+inference streaming.
 
 For more information that can help you use this API, see the following sections in the
-*Amazon SageMaker Developer Guide*:
+*Amazon SageMaker AI Developer Guide*:
 
 - For information about how to add streaming support to a model, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-code-how-containe-serves-requests).
 - For information about how to process the streaming response, see [Invoke real-time endpoints](https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints-test-endpoints.html).
 
 Before you can use this operation, your IAM permissions must allow the
-`sagemaker:InvokeEndpoint` action. For more information about Amazon SageMaker actions for
-IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html)
+`sagemaker:InvokeEndpoint` action. For more information about Amazon SageMaker AI actions
+for IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker AI](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html)
 in the *IAM Service Authorization Reference*.
 
-Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker
-might add additional headers. You should not rely on the behavior of headers outside those
-enumerated in the request syntax.
+Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon
+SageMaker AI might add additional headers. You should not rely on the behavior of headers
+outside those enumerated in the request syntax.
 
 Calls to `InvokeEndpointWithResponseStream` are authenticated by using Amazon Web Services
 Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html)
@@ -262,7 +282,7 @@ in the *Amazon S3 API Reference*.
 # Arguments
 
 - `body`: Provides input data, in the format specified in the `ContentType` request header.
-  Amazon SageMaker passes all of the data in the body to the model.
+  Amazon SageMaker AI passes all of the data in the body to the model.
 
   For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
 
@@ -280,7 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model container.
 
 - `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
-  for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
+  for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The
   information is an opaque value that is forwarded verbatim. You could use this value, for
   example, to provide an ID that you can use to track a request or to provide other metadata
   that a service endpoint was programmed to process. The value must consist of no more than
@@ -293,13 +313,20 @@ of the Hypertext Transfer Protocol (HTTP/1.1).
   prepend the custom attribute with `Trace ID:` in your post-processing function.
 
   This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon
-  SageMaker Python SDK.
+  SageMaker AI Python SDK.
 
 - `"X-Amzn-SageMaker-Inference-Component"`: If the endpoint hosts one or more inference
   components, this parameter specifies the name of inference component to invoke for a
   streaming response.
 
 - `"X-Amzn-SageMaker-Inference-Id"`: An identifier that you assign to your request.
+
+- `"X-Amzn-SageMaker-Session-Id"`: The ID of a stateful session to handle your request.
+
+  You can't create a stateful session by using the `InvokeEndpointWithResponseStream`
+  action. Instead, you can create one by using the ``InvokeEndpoint`` action. In your
+  request, you specify `NEW_SESSION` for the `session_id` request parameter. The response to
+  that request provides the session ID for the `NewSessionId` response parameter.
 
 - `"X-Amzn-SageMaker-Target-Container-Hostname"`: If the endpoint hosts multiple containers
   and is configured to use direct invocation, this parameter specifies the host name of the

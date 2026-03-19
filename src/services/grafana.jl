@@ -111,6 +111,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To get a list of supported versions, use the `ListVersions` operation.
 
+- `"kmsKeyId"`: The ID or ARN of the Key Management Service key to use for encrypting
+  workspace data.
+
 - `"networkAccessControl"`: Configuration for network access to your workspace.
 
   When this is configured, only listed IP addresses and VPC endpoints will be able to access
@@ -953,7 +956,7 @@ end
     list_workspaces(params::Dict{String,<:Any})
 
 Returns a list of Amazon Managed Grafana workspaces in the account, with some information
-about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/AAMG/latest/APIReference/API_DescribeWorkspace.html).
+about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/grafana/latest/APIReference/API_DescribeWorkspace.html).
 
 # Optional Parameters
 

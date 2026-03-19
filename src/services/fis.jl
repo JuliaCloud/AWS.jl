@@ -39,6 +39,8 @@ in the *Fault Injection Service User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"experimentOptions"`: The experiment options for the experiment template.
+- `"experimentReportConfiguration"`: The experiment report configuration for the experiment
+  template.
 - `"logConfiguration"`: The configuration for experiment logging.
 - `"tags"`: The tags to apply to the experiment template.
 - `"targets"`: The targets for the experiment.
@@ -341,6 +343,30 @@ function get_experiment_template(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_safety_lever(id)
+    get_safety_lever(id, params::Dict{String,<:Any})
+
+Gets information about the specified safety lever.
+
+# Arguments
+
+- `id`: The ID of the safety lever.
+"""
+function get_safety_lever end
+
+function get_safety_lever(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return fis("GET", "/safetyLevers/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_safety_lever(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fis(
+        "GET", "/safetyLevers/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -868,6 +894,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actions"`: The actions for the experiment.
 - `"description"`: A description for the template.
 - `"experimentOptions"`: The experiment options for the experiment template.
+- `"experimentReportConfiguration"`: The experiment report configuration for the experiment
+  template.
 - `"logConfiguration"`: The configuration for experiment logging.
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
   permission to perform service actions on your behalf.
@@ -889,6 +917,46 @@ function update_experiment_template(
         "PATCH",
         "/experimentTemplates/$(id)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_safety_lever_state(id, state)
+    update_safety_lever_state(id, state, params::Dict{String,<:Any})
+
+Updates the specified safety lever state.
+
+# Arguments
+
+- `id`: The ID of the safety lever.
+- `state`: The state of the safety lever.
+"""
+function update_safety_lever_state end
+
+function update_safety_lever_state(
+    id, state; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fis(
+        "PATCH",
+        "/safetyLevers/$(id)/state",
+        Dict{String,Any}("state" => state);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_safety_lever_state(
+    id,
+    state,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fis(
+        "PATCH",
+        "/safetyLevers/$(id)/state",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("state" => state), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

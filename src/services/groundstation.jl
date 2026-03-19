@@ -8,7 +8,12 @@ using AWS.UUIDs: uuid4
     cancel_contact(contact_id)
     cancel_contact(contact_id, params::Dict{String,<:Any})
 
-Cancels a contact with a specified contact ID.
+Cancels or stops a contact with a specified contact ID based on its position in the [contact lifecycle](https://docs.aws.amazon.com/ground-station/latest/ug/contacts.lifecycle.html).
+
+For contacts that:
+
+- Have yet to start, the contact will be cancelled.
+- Have started but have yet to finish, the contact will be stopped.
 
 # Arguments
 
@@ -101,20 +106,23 @@ When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` mus
 
 # Arguments
 
-- `endpoint_details`: Endpoint details of each endpoint in the dataflow endpoint group.
+- `endpoint_details`: Endpoint details of each endpoint in the dataflow endpoint group. All
+  dataflow endpoints within a single dataflow endpoint group must be of the same type. You
+  cannot mix [AWS Ground Station Agent endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_AwsGroundStationAgentEndpoint.html)
+  with [Dataflow endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_DataflowEndpoint.html)
+  in the same group. If your use case requires both types of endpoints, you must create
+  separate dataflow endpoint groups for each type.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends that
-  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A Ground Station
-  Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint
-  Group enters and exits the `POSTPASS` state.
+  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html)
+  will be emitted when the Dataflow Endpoint Group enters and exits the `POSTPASS` state.
 - `"contactPrePassDurationSeconds"`: Amount of time, in seconds, before a contact starts
-  that the Ground Station Dataflow Endpoint Group will be in a `PREPASS` state. A Ground
-  Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow
-  Endpoint Group enters and exits the `PREPASS` state.
+  that the Ground Station Dataflow Endpoint Group will be in a `PREPASS` state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html)
+  will be emitted when the Dataflow Endpoint Group enters and exits the `PREPASS` state.
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group end
@@ -150,72 +158,117 @@ function create_dataflow_endpoint_group(
 end
 
 """
-    create_ephemeris(name, satellite_id)
-    create_ephemeris(name, satellite_id, params::Dict{String,<:Any})
+    create_dataflow_endpoint_group_v2(endpoints)
+    create_dataflow_endpoint_group_v2(endpoints, params::Dict{String,<:Any})
 
-Creates an Ephemeris with the specified `EphemerisData`.
+Creates a `DataflowEndpoint` group containing the specified list of Ground Station Agent
+based endpoints.
+
+The `name` field in each endpoint is used in your mission profile `DataflowEndpointConfig`
+to specify which endpoints to use during a contact.
+
+When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a
+`DataflowEndpoint` in the same group.
 
 # Arguments
 
-- `name`: A name string associated with the ephemeris. Used as a human-readable identifier
-  for the ephemeris.
-- `satellite_id`: AWS Ground Station satellite ID for this ephemeris.
+- `endpoints`: Dataflow endpoint group's endpoint definitions
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"enabled"`: Whether to set the ephemeris status to `ENABLED` after validation.
+- `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends that
+  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html)
+  will be emitted when the Dataflow Endpoint Group enters and exits the `POSTPASS` state.
+- `"contactPrePassDurationSeconds"`: Amount of time, in seconds, before a contact starts
+  that the Ground Station Dataflow Endpoint Group will be in a `PREPASS` state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html)
+  will be emitted when the Dataflow Endpoint Group enters and exits the `PREPASS` state.
+- `"tags"`: Tags of a V2 dataflow endpoint group.
+"""
+function create_dataflow_endpoint_group_v2 end
 
-  Setting this to false will set the ephemeris status to `DISABLED` after validation.
+function create_dataflow_endpoint_group_v2(
+    endpoints; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "POST",
+        "/dataflowEndpointGroupV2",
+        Dict{String,Any}("endpoints" => endpoints);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_dataflow_endpoint_group_v2(
+    endpoints,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "POST",
+        "/dataflowEndpointGroupV2",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("endpoints" => endpoints), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ephemeris(name)
+    create_ephemeris(name, params::Dict{String,<:Any})
+
+Create an ephemeris with your specified `EphemerisData`.
+
+# Arguments
+
+- `name`: A name that you can use to identify the ephemeris.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"enabled"`: Set to `true` to enable the ephemeris after validation. Set to `false` to
+  keep it disabled.
 
 - `"ephemeris"`: Ephemeris data.
 
 - `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
   will become `EXPIRED`.
 
-- `"kmsKeyArn"`: The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+- `"kmsKeyArn"`: The ARN of the KMS key to use for encrypting the ephemeris.
 
-- `"priority"`: Customer-provided priority score to establish the order in which overlapping
-  ephemerides should be used.
+- `"priority"`: A priority score that determines which ephemeris to use when multiple
+  ephemerides overlap.
 
-  The default for customer-provided ephemeris priority is 1, and higher numbers take
-  precedence.
+  Higher numbers take precedence. The default is 1. Must be 1 or greater.
 
-  Priority must be 1 or greater
+- `"satelliteId"`: The satellite ID that associates this ephemeris with a satellite in AWS
+  Ground Station.
 
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris end
 
-function create_ephemeris(
-    name, satelliteId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_ephemeris(name; aws_config::AbstractAWSConfig=current_aws_config())
     return groundstation(
         "POST",
         "/ephemeris",
-        Dict{String,Any}("name" => name, "satelliteId" => satelliteId);
+        Dict{String,Any}("name" => name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_ephemeris(
-    name,
-    satelliteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
         "/ephemeris",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "satelliteId" => satelliteId),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -251,6 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"tags"`: Tags assigned to a mission profile.
+- `"telemetrySinkConfigArn"`: ARN of a telemetry sink `Config`.
 """
 function create_mission_profile end
 
@@ -384,7 +438,7 @@ end
     delete_ephemeris(ephemeris_id)
     delete_ephemeris(ephemeris_id, params::Dict{String,<:Any})
 
-Deletes an ephemeris
+Delete an ephemeris.
 
 # Arguments
 
@@ -481,7 +535,7 @@ end
     describe_ephemeris(ephemeris_id)
     describe_ephemeris(ephemeris_id, params::Dict{String,<:Any})
 
-Describes an existing ephemeris.
+Retrieve information about an existing ephemeris.
 
 # Arguments
 
@@ -543,6 +597,48 @@ function get_agent_configuration(
     return groundstation(
         "GET",
         "/agent/$(agentId)/configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agent_task_response_url(agent_id, task_id)
+    get_agent_task_response_url(agent_id, task_id, params::Dict{String,<:Any})
+
+!!! note
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Gets a presigned URL for uploading agent task response logs.
+
+# Arguments
+
+- `agent_id`: UUID of agent requesting the response URL.
+- `task_id`: GUID of the agent task for which the response URL is being requested.
+"""
+function get_agent_task_response_url end
+
+function get_agent_task_response_url(
+    agentId, taskId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return groundstation(
+        "GET",
+        "/agentResponseUrl/$(agentId)/$(taskId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_agent_task_response_url(
+    agentId,
+    taskId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return groundstation(
+        "GET",
+        "/agentResponseUrl/$(agentId)/$(taskId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -783,6 +879,7 @@ If `statusList` contains AVAILABLE, the request must include `groundStation`,
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ephemeris"`: Filter for selecting contacts that use a specific ephemeris".
 - `"groundStation"`: Name of a ground station.
 - `"maxResults"`: Maximum number of contacts returned.
 - `"missionProfileArn"`: ARN of a mission profile.
@@ -863,38 +960,38 @@ function list_dataflow_endpoint_groups(
 end
 
 """
-    list_ephemerides(end_time, satellite_id, start_time)
-    list_ephemerides(end_time, satellite_id, start_time, params::Dict{String,<:Any})
+    list_ephemerides(end_time, start_time)
+    list_ephemerides(end_time, start_time, params::Dict{String,<:Any})
 
-List existing ephemerides.
+List your existing ephemerides.
 
 # Arguments
 
-- `end_time`: The end time to list in UTC. The operation will return an ephemeris if its
-  expiration time is within the time range defined by the `startTime` and `endTime`.
-- `satellite_id`: The AWS Ground Station satellite ID to list ephemeris for.
-- `start_time`: The start time to list in UTC. The operation will return an ephemeris if its
-  expiration time is within the time range defined by the `startTime` and `endTime`.
+- `end_time`: The end time for the list operation in UTC. Returns ephemerides with
+  expiration times within your specified time range.
+- `start_time`: The start time for the list operation in UTC. Returns ephemerides with
+  expiration times within your specified time range.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ephemerisType"`: Filter ephemerides by type. If not specified, all ephemeris types will
+  be returned.
 - `"maxResults"`: Maximum number of ephemerides to return.
 - `"nextToken"`: Pagination token.
+- `"satelliteId"`: The AWS Ground Station satellite ID to list ephemeris for.
 - `"statusList"`: The list of ephemeris status to return.
 """
 function list_ephemerides end
 
 function list_ephemerides(
-    endTime, satelliteId, startTime; aws_config::AbstractAWSConfig=current_aws_config()
+    endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return groundstation(
         "POST",
         "/ephemerides",
-        Dict{String,Any}(
-            "endTime" => endTime, "satelliteId" => satelliteId, "startTime" => startTime
-        );
+        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -902,7 +999,6 @@ end
 
 function list_ephemerides(
     endTime,
-    satelliteId,
     startTime,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -913,11 +1009,7 @@ function list_ephemerides(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "satelliteId" => satelliteId,
-                    "startTime" => startTime,
-                ),
+                Dict{String,Any}("endTime" => endTime, "startTime" => startTime),
                 params,
             ),
         );
@@ -1058,6 +1150,12 @@ Registers a new agent with AWS Ground Station.
 
 - `agent_details`: Detailed information about the agent being registered.
 - `discovery_data`: Data for associating an agent with the capabilities it is managing.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: Tags assigned to an `Agent`.
 """
 function register_agent end
 
@@ -1097,8 +1195,8 @@ function register_agent(
 end
 
 """
-    reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time)
-    reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time, params::Dict{String,<:Any})
+    reserve_contact(end_time, ground_station, mission_profile_arn, start_time)
+    reserve_contact(end_time, ground_station, mission_profile_arn, start_time, params::Dict{String,<:Any})
 
 Reserves a contact using specified parameters.
 
@@ -1107,14 +1205,15 @@ Reserves a contact using specified parameters.
 - `end_time`: End time of a contact in UTC.
 - `ground_station`: Name of a ground station.
 - `mission_profile_arn`: ARN of a mission profile.
-- `satellite_arn`: ARN of a satellite
 - `start_time`: Start time of a contact in UTC.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"satelliteArn"`: ARN of a satellite
 - `"tags"`: Tags assigned to a contact.
+- `"trackingOverrides"`: Tracking configuration overrides for the contact.
 """
 function reserve_contact end
 
@@ -1122,7 +1221,6 @@ function reserve_contact(
     endTime,
     groundStation,
     missionProfileArn,
-    satelliteArn,
     startTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1133,7 +1231,6 @@ function reserve_contact(
             "endTime" => endTime,
             "groundStation" => groundStation,
             "missionProfileArn" => missionProfileArn,
-            "satelliteArn" => satelliteArn,
             "startTime" => startTime,
         );
         aws_config,
@@ -1145,7 +1242,6 @@ function reserve_contact(
     endTime,
     groundStation,
     missionProfileArn,
-    satelliteArn,
     startTime,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1160,7 +1256,6 @@ function reserve_contact(
                     "endTime" => endTime,
                     "groundStation" => groundStation,
                     "missionProfileArn" => missionProfileArn,
-                    "satelliteArn" => satelliteArn,
                     "startTime" => startTime,
                 ),
                 params,
@@ -1373,28 +1468,24 @@ end
     update_ephemeris(enabled, ephemeris_id)
     update_ephemeris(enabled, ephemeris_id, params::Dict{String,<:Any})
 
-Updates an existing ephemeris
+Update an existing ephemeris.
 
 # Arguments
 
-- `enabled`: Whether the ephemeris is enabled or not. Changing this value will not require
-  the ephemeris to be re-validated.
+- `enabled`: Enable or disable the ephemeris. Changing this value doesn't require re-
+  validation.
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"name"`: A name string associated with the ephemeris. Used as a human-readable identifier
-  for the ephemeris.
+- `"name"`: A name that you can use to identify the ephemeris.
 
-- `"priority"`: Customer-provided priority score to establish the order in which overlapping
-  ephemerides should be used.
+- `"priority"`: A priority score that determines which ephemeris to use when multiple
+  ephemerides overlap.
 
-  The default for customer-provided ephemeris priority is 1, and higher numbers take
-  precedence.
-
-  Priority must be 1 or greater
+  Higher numbers take precedence. The default is 1. Must be 1 or greater.
 """
 function update_ephemeris end
 
@@ -1454,6 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Name of a mission profile.
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
+- `"telemetrySinkConfigArn"`: ARN of a telemetry sink `Config`.
 - `"trackingConfigArn"`: ARN of a tracking `Config`.
 """
 function update_mission_profile end

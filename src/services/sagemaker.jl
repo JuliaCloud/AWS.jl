@@ -185,6 +185,200 @@ function associate_trial_component(
 end
 
 """
+    attach_cluster_node_volume(cluster_arn, node_id, volume_id)
+    attach_cluster_node_volume(cluster_arn, node_id, volume_id, params::Dict{String,<:Any})
+
+Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS
+orchestrated HyperPod cluster.
+
+This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface
+(CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster
+  containing the target node. Your cluster must use EKS as the orchestration and be in the
+  `InService` state.
+- `node_id`: The unique identifier of the cluster node to which you want to attach the
+  volume. The node must belong to your specified HyperPod cluster and cannot be part of a
+  Restricted Instance Group (RIG).
+- `volume_id`: The unique identifier of your EBS volume to attach. The volume must be in the
+  `available` state.
+"""
+function attach_cluster_node_volume end
+
+function attach_cluster_node_volume(
+    ClusterArn, NodeId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "AttachClusterNodeVolume",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn, "NodeId" => NodeId, "VolumeId" => VolumeId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function attach_cluster_node_volume(
+    ClusterArn,
+    NodeId,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "AttachClusterNodeVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterArn" => ClusterArn, "NodeId" => NodeId, "VolumeId" => VolumeId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_add_cluster_nodes(cluster_name, nodes_to_add)
+    batch_add_cluster_nodes(cluster_name, nodes_to_add, params::Dict{String,<:Any})
+
+Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance
+groups. This operation returns a unique `NodeLogicalId` for each node being added, which can
+be used to track the provisioning status of the node. This API provides a safer alternative
+to `UpdateCluster` for scaling operations by avoiding unintended configuration changes.
+
+!!! note
+    This API is only supported for clusters using `Continuous` as the
+    `NodeProvisioningMode`.
+
+# Arguments
+
+- `cluster_name`: The name of the HyperPod cluster to which you want to add nodes.
+- `nodes_to_add`: A list of instance groups and the number of nodes to add to each. You can
+  specify up to 5 instance groups in a single request, with a maximum of 50 nodes total
+  across all instance groups.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. This token is valid for 8 hours. If you retry the request with
+  the same client token within this timeframe and the same parameters, the API returns the
+  same set of `NodeLogicalIds` with their latest status.
+"""
+function batch_add_cluster_nodes end
+
+function batch_add_cluster_nodes(
+    ClusterName, NodesToAdd; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "BatchAddClusterNodes",
+        Dict{String,Any}(
+            "ClusterName" => ClusterName,
+            "NodesToAdd" => NodesToAdd,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_add_cluster_nodes(
+    ClusterName,
+    NodesToAdd,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "BatchAddClusterNodes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterName" => ClusterName,
+                    "NodesToAdd" => NodesToAdd,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_delete_cluster_nodes(cluster_name)
+    batch_delete_cluster_nodes(cluster_name, params::Dict{String,<:Any})
+
+Deletes specific nodes within a SageMaker HyperPod cluster. `BatchDeleteClusterNodes`
+accepts a cluster name and a list of node IDs.
+
+!!! important
+    - To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file
+      system before invoking the API on a worker node group. This will help prevent any
+      potential data loss from the instance root volume. For more information about backup,
+      see [Use the backup script provided by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup).
+    - If you want to invoke this API on an existing cluster, you'll first need to patch the
+      cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html).
+      For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
+
+# Arguments
+
+- `cluster_name`: The name of the SageMaker HyperPod cluster from which to delete the
+  specified nodes.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NodeIds"`: A list of node IDs to be deleted from the specified cluster.
+
+  !!! note
+      - For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove
+        instances that are configured as Slurm controller nodes.
+      - If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/)
+        for assistance.
+
+- `"NodeLogicalIds"`: A list of `NodeLogicalIds` identifying the nodes to be deleted. You
+  can specify up to 50 `NodeLogicalIds`. You must specify either `NodeLogicalIds`,
+  `InstanceIds`, or both, with a combined maximum of 50 identifiers.
+"""
+function batch_delete_cluster_nodes end
+
+function batch_delete_cluster_nodes(
+    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "BatchDeleteClusterNodes",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_delete_cluster_nodes(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "BatchDeleteClusterNodes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_describe_model_package(model_package_arn_list)
     batch_describe_model_package(model_package_arn_list, params::Dict{String,<:Any})
 
@@ -221,6 +415,179 @@ function batch_describe_model_package(
                 Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_reboot_cluster_nodes(cluster_name)
+    batch_reboot_cluster_nodes(cluster_name, params::Dict{String,<:Any})
+
+Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism.
+`BatchRebootClusterNodes` performs a graceful reboot of the specified nodes by calling the
+Amazon Elastic Compute Cloud `RebootInstances` API, which attempts to cleanly shut down the
+operating system before restarting the instance.
+
+This operation is useful for recovering from transient issues or applying certain
+configuration changes that require a restart.
+
+!!! note
+    - Rebooting a node may cause temporary service interruption for workloads running on
+      that node. Ensure your workloads can handle node restarts or use appropriate
+      scheduling to minimize impact.
+    - You can reboot up to 25 nodes in a single request.
+    - For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting
+      nodes will not disrupt critical cluster operations.
+
+# Arguments
+
+- `cluster_name`: The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster
+  containing the nodes to reboot.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NodeIds"`: A list of EC2 instance IDs to reboot using soft recovery. You can specify
+  between 1 and 25 instance IDs.
+
+  !!! note
+      - Either `NodeIds` or `NodeLogicalIds` must be provided (or both), but at least one is
+        required.
+      - Each instance ID must follow the pattern `i-` followed by 17 hexadecimal characters
+        (for example, `i-0123456789abcdef0`).
+
+- `"NodeLogicalIds"`: A list of logical node IDs to reboot using soft recovery. You can
+  specify between 1 and 25 logical node IDs.
+
+  The `NodeLogicalId` is a unique identifier that persists throughout the node's lifecycle
+  and can be used to track nodes that are still being provisioned and don't yet have an EC2
+  instance ID assigned.
+
+  !!! important
+      - This parameter is only supported for clusters using `Continuous` as the
+        `NodeProvisioningMode`. For clusters using the default provisioning mode, use
+        `NodeIds` instead.
+      - Either `NodeIds` or `NodeLogicalIds` must be provided (or both), but at least one is
+        required.
+"""
+function batch_reboot_cluster_nodes end
+
+function batch_reboot_cluster_nodes(
+    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "BatchRebootClusterNodes",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_reboot_cluster_nodes(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "BatchRebootClusterNodes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_replace_cluster_nodes(cluster_name)
+    batch_replace_cluster_nodes(cluster_name, params::Dict{String,<:Any})
+
+Replaces specific nodes within a SageMaker HyperPod cluster with new hardware.
+`BatchReplaceClusterNodes` terminates the specified instances and provisions new replacement
+instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and
+instance configuration remain the same.
+
+This operation is useful for recovering from hardware failures or persistent issues that
+cannot be resolved through a reboot.
+
+!!! important
+    - **Data Loss Warning:** Replacing nodes destroys all instance volumes, including both
+      root and secondary volumes. All data stored on these volumes will be permanently lost
+      and cannot be recovered.
+    - To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file
+      system before invoking the API on a worker node group. This will help prevent any
+      potential data loss from the instance root volume. For more information about backup,
+      see [Use the backup script provided by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup).
+    - If you want to invoke this API on an existing cluster, you'll first need to patch the
+      cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html).
+      For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
+    - You can replace up to 25 nodes in a single request.
+
+# Arguments
+
+- `cluster_name`: The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster
+  containing the nodes to replace.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NodeIds"`: A list of EC2 instance IDs to replace with new hardware. You can specify
+  between 1 and 25 instance IDs.
+
+  !!! important
+      Replace operations destroy all instance volumes (root and secondary). Ensure you have
+      backed up any important data before proceeding.
+
+  !!! note
+      - Either `NodeIds` or `NodeLogicalIds` must be provided (or both), but at least one is
+        required.
+      - Each instance ID must follow the pattern `i-` followed by 17 hexadecimal characters
+        (for example, `i-0123456789abcdef0`).
+      - For SageMaker HyperPod clusters using the Slurm workload manager, you cannot replace
+        instances that are configured as Slurm controller nodes.
+
+- `"NodeLogicalIds"`: A list of logical node IDs to replace with new hardware. You can
+  specify between 1 and 25 logical node IDs.
+
+  The `NodeLogicalId` is a unique identifier that persists throughout the node's lifecycle
+  and can be used to track nodes that are still being provisioned and don't yet have an EC2
+  instance ID assigned.
+
+  !!! important
+      - Replace operations destroy all instance volumes (root and secondary). Ensure you
+        have backed up any important data before proceeding.
+      - This parameter is only supported for clusters using `Continuous` as the
+        `NodeProvisioningMode`. For clusters using the default provisioning mode, use
+        `NodeIds` instead.
+      - Either `NodeIds` or `NodeLogicalIds` must be provided (or both), but at least one is
+        required.
+"""
+function batch_replace_cluster_nodes end
+
+function batch_replace_cluster_nodes(
+    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "BatchReplaceClusterNodes",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_replace_cluster_nodes(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "BatchReplaceClusterNodes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -385,8 +752,9 @@ end
     create_app(app_name, app_type, domain_id, params::Dict{String,<:Any})
 
 Creates a running app for the specified UserProfile. This operation is automatically invoked
-by Amazon SageMaker upon access to the associated Domain, and when new kernel configurations
-are selected by the user. A user may have multiple Apps active simultaneously.
+by Amazon SageMaker AI upon access to the associated Domain, and when new kernel
+configurations are selected by the user. A user may have multiple Apps active
+simultaneously.
 
 # Arguments
 
@@ -398,7 +766,9 @@ are selected by the user. A user may have multiple Apps active simultaneously.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ResourceSpec"`: The instance type and the Amazon Resource Name (ARN) of the SageMaker
+- `"RecoveryMode"`: Indicates whether the application is launched in recovery mode.
+
+- `"ResourceSpec"`: The instance type and the Amazon Resource Name (ARN) of the SageMaker AI
   image created on the instance.
 
   !!! note
@@ -459,7 +829,7 @@ end
     create_app_image_config(app_image_config_name)
     create_app_image_config(app_image_config_name, params::Dict{String,<:Any})
 
-Creates a configuration for running a SageMaker image as a KernelGateway app. The
+Creates a configuration for running a SageMaker AI image as a KernelGateway app. The
 configuration specifies the Amazon Elastic File System storage volume on the image, and a
 list of the kernels in the image.
 
@@ -574,6 +944,21 @@ end
 
 Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.
 
+An AutoML job in SageMaker AI is a fully automated process that allows you to build machine
+learning models with minimal effort and machine learning expertise. When initiating an
+AutoML job, you provide your data and optionally specify parameters tailored to your use
+case. SageMaker AI then automates the entire model development lifecycle, including data
+preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify
+and accelerate the model building process by automating various tasks and exploring
+different combinations of machine learning algorithms, data preprocessing techniques, and
+hyperparameter values. The output of an AutoML job comprises one or more trained models
+ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a
+candidate model leaderboard, allowing you to select the best-performing model for
+deployment.
+
+For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
+in the SageMaker AI developer guide.
+
 !!! note
     We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html)
     and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html),
@@ -675,6 +1060,25 @@ end
 
 Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.
 
+An AutoML job in SageMaker AI is a fully automated process that allows you to build machine
+learning models with minimal effort and machine learning expertise. When initiating an
+AutoML job, you provide your data and optionally specify parameters tailored to your use
+case. SageMaker AI then automates the entire model development lifecycle, including data
+preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify
+and accelerate the model building process by automating various tasks and exploring
+different combinations of machine learning algorithms, data preprocessing techniques, and
+hyperparameter values. The output of an AutoML job comprises one or more trained models
+ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a
+candidate model leaderboard, allowing you to select the best-performing model for
+deployment.
+
+For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
+in the SageMaker AI developer guide.
+
+AutoML jobs V2 support various problem types such as regression, binary, and multiclass
+classification with tabular data, text and image classification, time-series forecasting,
+and fine-tuning of large language models (LLMs) for text generation.
+
 !!! note
     [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html)
     and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html)
@@ -719,6 +1123,8 @@ You can find the best-performing model after you run an AutoML job V2 by calling
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AutoMLComputeConfig"`: Specifies the compute configuration for the AutoML job V2.
 
 - `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
   job. If not specified, the default objective metric depends on the problem type. For the
@@ -811,37 +1217,96 @@ function create_auto_mljob_v2(
 end
 
 """
-    create_cluster(cluster_name, instance_groups)
-    create_cluster(cluster_name, instance_groups, params::Dict{String,<:Any})
+    create_cluster(cluster_name)
+    create_cluster(cluster_name, params::Dict{String,<:Any})
 
-Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for
-creating and managing persistent clusters for developing large machine learning models, such
-as large language models (LLMs) and diffusion models. To learn more, see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
+Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of
+SageMaker for creating and managing persistent clusters for developing large machine
+learning models, such as large language models (LLMs) and diffusion models. To learn more,
+see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html)
 in the *Amazon SageMaker Developer Guide*.
 
 # Arguments
 
 - `cluster_name`: The name for the new SageMaker HyperPod cluster.
-- `instance_groups`: The instance groups to be created in the SageMaker HyperPod cluster.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AutoScaling"`: The autoscaling configuration for the cluster. Enables automatic scaling
+  of cluster nodes based on workload demand using a Karpenter-based system.
+
+- `"ClusterRole"`: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to
+  perform cluster autoscaling operations. This role must have permissions for
+  `sagemaker:BatchAddClusterNodes` and `sagemaker:BatchDeleteClusterNodes`. This is only
+  required when autoscaling is enabled and when HyperPod is performing autoscaling
+  operations.
+
+- `"InstanceGroups"`: The instance groups to be created in the SageMaker HyperPod cluster.
+
+- `"NodeProvisioningMode"`: The mode for provisioning nodes in the cluster. You can specify
+  the following modes:
+
+  - **Continuous**: Scaling behavior that enables 1) concurrent operation execution within
+    instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced
+    customer visibility into cluster events through detailed event streams, 4) partial
+    provisioning capabilities. Your clusters and instance groups remain `InService` while
+    scaling. This mode is only supported for EKS orchestrated clusters.
+
+- `"NodeRecovery"`: The node recovery mode for the SageMaker HyperPod cluster. When set to
+  `Automatic`, SageMaker HyperPod will automatically reboot or replace faulty nodes when
+  issues are detected. When set to `None`, cluster administrators will need to manually
+  manage any faulty cluster instances.
+
+- `"Orchestrator"`: The type of orchestrator to use for the SageMaker HyperPod cluster.
+  Currently, supported values are `"Eks"` and `"Slurm"`, which is to use an Amazon Elastic
+  Kubernetes Service or Slurm cluster as the orchestrator.
+
+  !!! note
+      If you specify the `Orchestrator` field, you must provide exactly one orchestrator
+      configuration: either `Eks` or `Slurm`. Specifying both or providing an empty
+      configuration returns a validation error.
+
+- `"RestrictedInstanceGroups"`: The specialized instance groups for training models like
+  Amazon Nova to be created in the SageMaker HyperPod cluster.
+
 - `"Tags"`: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web
   Services resource. You can add tags to your cluster in the same way you add them in other
   Amazon Web Services services that support tagging. To learn more about tagging Amazon Web
   Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
-- `"VpcConfig"`:
+
+- `"TieredStorageConfig"`: The configuration for managed tier checkpointing on the HyperPod
+  cluster. When enabled, this feature uses a multi-tier storage approach for storing model
+  checkpoints, providing faster checkpoint operations and improved fault tolerance across
+  cluster nodes.
+
+- `"VpcConfig"`: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with
+  the Amazon SageMaker HyperPod cluster. You can control access to and from your resources
+  by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+
+  !!! note
+      When your Amazon VPC and subnets support IPv6, network communications differ based on
+      the cluster orchestration platform:
+
+      - Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4
+        addresses, allowing immediate IPv6 network communications.
+      - In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods
+        can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For
+        information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+
+      Additional resources for IPv6 configuration:
+
+      - For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+      - For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+      - To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
 """
 function create_cluster end
 
-function create_cluster(
-    ClusterName, InstanceGroups; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "CreateCluster",
-        Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
+        Dict{String,Any}("ClusterName" => ClusterName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -849,17 +1314,71 @@ end
 
 function create_cluster(
     ClusterName,
-    InstanceGroups,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
         "CreateCluster",
         Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cluster_scheduler_config(cluster_arn, name, scheduler_config)
+    create_cluster_scheduler_config(cluster_arn, name, scheduler_config, params::Dict{String,<:Any})
+
+Create cluster policy configuration. This policy is used for task prioritization and fair-
+share allocation of idle compute. This helps prioritize critical workloads and distributes
+idle compute across entities.
+
+# Arguments
+
+- `cluster_arn`: ARN of the cluster.
+- `name`: Name for the cluster policy.
+- `scheduler_config`: Configuration about the monitoring schedule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: Description of the cluster policy.
+- `"Tags"`: Tags of the cluster policy.
+"""
+function create_cluster_scheduler_config end
+
+function create_cluster_scheduler_config(
+    ClusterArn, Name, SchedulerConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreateClusterSchedulerConfig",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn, "Name" => Name, "SchedulerConfig" => SchedulerConfig
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_cluster_scheduler_config(
+    ClusterArn,
+    Name,
+    SchedulerConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateClusterSchedulerConfig",
+        Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups
+                    "ClusterArn" => ClusterArn,
+                    "Name" => Name,
+                    "SchedulerConfig" => SchedulerConfig,
                 ),
                 params,
             ),
@@ -873,9 +1392,9 @@ end
     create_code_repository(code_repository_name, git_config)
     create_code_repository(code_repository_name, git_config, params::Dict{String,<:Any})
 
-Creates a Git repository as a resource in your SageMaker account. You can associate the
+Creates a Git repository as a resource in your SageMaker AI account. You can associate the
 repository with notebook instances so that you can use Git source control for the notebooks
-you create. The Git repository is a resource in your SageMaker account, so it can be
+you create. The Git repository is a resource in your SageMaker AI account, so it can be
 associated with more than one notebook instance, and it persists independently from the
 lifecycle of any notebook instances it is associated with.
 
@@ -939,11 +1458,11 @@ end
     create_compilation_job(compilation_job_name, output_config, role_arn, stopping_condition)
     create_compilation_job(compilation_job_name, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
 
-Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves
+Starts a model compilation job. After the model has been compiled, Amazon SageMaker AI saves
 the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that
 you specify.
 
-If you choose to host your model using Amazon SageMaker hosting services, you can use the
+If you choose to host your model using Amazon SageMaker AI hosting services, you can use the
 resulting model artifacts as part of the model. You can also use the artifacts with Amazon
 Web Services IoT Greengrass. In that case, deploy them as an ML resource.
 
@@ -952,7 +1471,7 @@ In the request body, you provide the following:
 - A name for the compilation job
 - Information about the input model artifacts
 - The output location for the compiled model and the device (target) that the model runs on
-- The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform
+- The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker AI assumes to perform
   the model compilation job.
 
 You can also provide a `Tag` to track the model compilation job's resource use and costs.
@@ -970,10 +1489,10 @@ To get information about multiple model compilation jobs, use [ListCompilationJo
 - `output_config`: Provides information about the output location for the compiled model and
   the target device the model runs on.
 
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
-  perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI
+  to perform tasks on your behalf.
 
-  During model compilation, Amazon SageMaker needs your permission to:
+  During model compilation, Amazon SageMaker AI needs your permission to:
 
   - Read input data from an S3 bucket
   - Write model artifacts to an S3 bucket
@@ -981,12 +1500,12 @@ To get information about multiple model compilation jobs, use [ListCompilationJo
   - Publish metrics to Amazon CloudWatch
 
   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon
-  SageMaker, the caller of this API must have the `iam:PassRole` permission. For more
-  information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+  SageMaker AI, the caller of this API must have the `iam:PassRole` permission. For more
+  information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
 
 - `stopping_condition`: Specifies a limit to how long a model compilation job can run. When
-  the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to
-  cap model training costs.
+  the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API
+  to cap model training costs.
 
 # Optional Parameters
 
@@ -1046,6 +1565,84 @@ function create_compilation_job(
                     "OutputConfig" => OutputConfig,
                     "RoleArn" => RoleArn,
                     "StoppingCondition" => StoppingCondition,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_compute_quota(cluster_arn, compute_quota_config, compute_quota_target, name)
+    create_compute_quota(cluster_arn, compute_quota_config, compute_quota_target, name, params::Dict{String,<:Any})
+
+Create compute allocation definition. This defines how compute is allocated, shared, and
+borrowed for specified entities. Specifically, how to lend and borrow idle compute and
+assign a fair-share weight to the specified entities.
+
+# Arguments
+
+- `cluster_arn`: ARN of the cluster.
+- `compute_quota_config`: Configuration of the compute allocation definition. This includes
+  the resource sharing option, and the setting to preempt low priority tasks.
+- `compute_quota_target`: The target entity to allocate compute resources to.
+- `name`: Name to the compute allocation definition.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ActivationState"`: The state of the compute allocation being described. Use to enable or
+  disable compute allocation.
+
+  Default is `Enabled`.
+
+- `"Description"`: Description of the compute allocation definition.
+
+- `"Tags"`: Tags of the compute allocation definition.
+"""
+function create_compute_quota end
+
+function create_compute_quota(
+    ClusterArn,
+    ComputeQuotaConfig,
+    ComputeQuotaTarget,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateComputeQuota",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn,
+            "ComputeQuotaConfig" => ComputeQuotaConfig,
+            "ComputeQuotaTarget" => ComputeQuotaTarget,
+            "Name" => Name,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_compute_quota(
+    ClusterArn,
+    ComputeQuotaConfig,
+    ComputeQuotaTarget,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateComputeQuota",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterArn" => ClusterArn,
+                    "ComputeQuotaConfig" => ComputeQuotaConfig,
+                    "ComputeQuotaTarget" => ComputeQuotaTarget,
+                    "Name" => Name,
                 ),
                 params,
             ),
@@ -1123,7 +1720,7 @@ end
     create_data_quality_job_definition(data_quality_app_specification, data_quality_job_input, data_quality_job_output_config, job_definition_name, job_resources, role_arn, params::Dict{String,<:Any})
 
 Creates a definition for a job that monitors data quality and drift. For information about
-model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
+model monitor, see [Amazon SageMaker AI Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
 
 # Arguments
 
@@ -1133,8 +1730,8 @@ model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/
 - `data_quality_job_output_config`:
 - `job_definition_name`: The name for the monitoring job definition.
 - `job_resources`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
-  to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can
+  assume to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -1271,8 +1868,8 @@ function create_device_fleet(
 end
 
 """
-    create_domain(auth_mode, default_user_settings, domain_name, subnet_ids, vpc_id)
-    create_domain(auth_mode, default_user_settings, domain_name, subnet_ids, vpc_id, params::Dict{String,<:Any})
+    create_domain(auth_mode, default_user_settings, domain_name)
+    create_domain(auth_mode, default_user_settings, domain_name, params::Dict{String,<:Any})
 
 Creates a `Domain`. A domain consists of an associated Amazon Elastic File System volume, a
 list of authorized users, and a variety of security, application, policy, and Amazon Virtual
@@ -1285,8 +1882,8 @@ When a domain is created, an EFS volume is created for use by all of the users w
 domain. Each user receives a private home directory within the EFS volume for notebooks, Git
 repositories, and data files.
 
-SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to
-encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by
+SageMaker AI uses the Amazon Web Services Key Management Service (Amazon Web Services KMS)
+to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by
 default. For more control, you can specify a customer managed key. For more information, see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html).
 
 **VPC configuration**
@@ -1296,21 +1893,21 @@ subnets. For other traffic, you can specify the `AppNetworkAccessType` parameter
 `AppNetworkAccessType` corresponds to the network access type that you choose when you
 onboard to the domain. The following options are available:
 
-- `PublicInternetOnly` - Non-EFS traffic goes through a VPC managed by Amazon SageMaker,
+- `PublicInternetOnly` - Non-EFS traffic goes through a VPC managed by Amazon SageMaker AI,
   which allows internet access. This is the default value.
 - `VpcOnly` - All traffic is through the specified VPC and subnets. Internet access is
   disabled by default. To allow internet access, you must specify a NAT gateway.
 
-When internet access is disabled, you won't be able to run a Amazon SageMaker Studio
+When internet access is disabled, you won't be able to run a Amazon SageMaker AI Studio
 notebook or to train or host models unless your VPC has an interface endpoint to the
-SageMaker API and runtime or a NAT gateway and your security groups allow outbound
+SageMaker AI API and runtime or a NAT gateway and your security groups allow outbound
 connections.
 
 !!! important
     NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules
-    in order to launch a Amazon SageMaker Studio app successfully.
+    in order to launch a Amazon SageMaker AI Studio app successfully.
 
-For more information, see [Connect Amazon SageMaker Studio Notebooks to Resources in a VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html).
+For more information, see [Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html).
 
 # Arguments
 
@@ -1325,11 +1922,6 @@ For more information, see [Connect Amazon SageMaker Studio Notebooks to Resource
 
 - `domain_name`: A name for the domain.
 
-- `subnet_ids`: The VPC subnets that the domain uses for communication.
-
-- `vpc_id`: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
-  communication.
-
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1337,7 +1929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic. The default value is
   `PublicInternetOnly`.
 
-  - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker,
+  - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI,
     which allows direct internet access
   - `VpcOnly` - All traffic is through the specified VPC and subnets
 
@@ -1347,29 +1939,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided. If
   setting up the domain for use with RStudio, this value must be set to `Service`.
 
-- `"DefaultSpaceSettings"`: The default settings used to create a space.
+- `"DefaultSpaceSettings"`: The default settings for shared spaces that users create in the
+  domain.
 
 - `"DomainSettings"`: A collection of `Domain` settings.
 
 - `"HomeEfsFileSystemKmsKeyId"`: Use `KmsKeyId`.
 
-- `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes
+- `"KmsKeyId"`: SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes
   attached to the domain with an Amazon Web Services managed key by default. For more
   control, specify a customer managed key.
+
+- `"SubnetIds"`: The VPC subnets that the domain uses for communication.
+
+  The field is optional when the `AppNetworkAccessType` parameter is set to
+  `PublicInternetOnly` for domains created from Amazon SageMaker Unified Studio.
+
+- `"TagPropagation"`: Indicates whether custom tag propagation is supported for the domain.
+  Defaults to `DISABLED`.
 
 - `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
   value. Tag keys must be unique per resource. Tags are searchable using the `Search` API.
 
   Tags that you specify for the Domain are also added to all Apps that the Domain launches.
+
+- `"VpcId"`: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
+  communication.
+
+  The field is optional when the `AppNetworkAccessType` parameter is set to
+  `PublicInternetOnly` for domains created from Amazon SageMaker Unified Studio.
 """
 function create_domain end
 
 function create_domain(
     AuthMode,
     DefaultUserSettings,
-    DomainName,
-    SubnetIds,
-    VpcId;
+    DomainName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
@@ -1378,8 +1983,6 @@ function create_domain(
             "AuthMode" => AuthMode,
             "DefaultUserSettings" => DefaultUserSettings,
             "DomainName" => DomainName,
-            "SubnetIds" => SubnetIds,
-            "VpcId" => VpcId,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1390,8 +1993,6 @@ function create_domain(
     AuthMode,
     DefaultUserSettings,
     DomainName,
-    SubnetIds,
-    VpcId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1404,8 +2005,6 @@ function create_domain(
                     "AuthMode" => AuthMode,
                     "DefaultUserSettings" => DefaultUserSettings,
                     "DomainName" => DomainName,
-                    "SubnetIds" => SubnetIds,
-                    "VpcId" => VpcId,
                 ),
                 params,
             ),
@@ -1794,11 +2393,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model containers.
 
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker
-  can assume to perform actions on your behalf. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+  AI can assume to perform actions on your behalf. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
-      To be able to pass this role to Amazon SageMaker, the caller of this action must have
-      the `iam:PassRole` permission.
+      To be able to pass this role to Amazon SageMaker AI, the caller of this action must
+      have the `iam:PassRole` permission.
 
 - `"ExplainerConfig"`: A member of `CreateEndpointConfig` that enables explainers.
 
@@ -1829,6 +2428,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes).
 
       For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
+
+- `"MetricsConfig"`: The configuration parameters for utilization metrics.
 
 - `"ShadowProductionVariants"`: An array of `ProductionVariant` objects, one for each model
   that you want to host at this endpoint in shadow mode with production traffic replicated
@@ -2192,9 +2793,6 @@ end
 
 Create a hub.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `hub_description`: A description of the hub.
@@ -2234,6 +2832,144 @@ function create_hub(
             mergewith(
                 _merge,
                 Dict{String,Any}("HubDescription" => HubDescription, "HubName" => HubName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_hub_content_presigned_urls(hub_content_name, hub_content_type, hub_name)
+    create_hub_content_presigned_urls(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
+
+Creates presigned URLs for accessing hub content artifacts. This operation generates time-
+limited, secure URLs that allow direct download of model artifacts and associated files from
+Amazon SageMaker hub content, including gated models that require end-user license agreement
+acceptance.
+
+# Arguments
+
+- `hub_content_name`: The name of the hub content for which to generate presigned URLs. This
+  identifies the specific model or content within the hub.
+- `hub_content_type`: The type of hub content to access. Valid values include `Model`,
+  `Notebook`, and `ModelReference`.
+- `hub_name`: The name or Amazon Resource Name (ARN) of the hub that contains the content.
+  For public content, use `SageMakerPublicHub`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccessConfig"`: Configuration settings for accessing the hub content, including end-user
+  license agreement acceptance for gated models and expected S3 URL validation.
+- `"HubContentVersion"`: The version of the hub content. If not specified, the latest
+  version is used.
+- `"MaxResults"`: The maximum number of presigned URLs to return in the response. Default
+  value is 100. Large models may contain hundreds of files, requiring pagination to retrieve
+  all URLs.
+- `"NextToken"`: A token for pagination. Use this token to retrieve the next set of
+  presigned URLs when the response is truncated.
+"""
+function create_hub_content_presigned_urls end
+
+function create_hub_content_presigned_urls(
+    HubContentName,
+    HubContentType,
+    HubName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateHubContentPresignedUrls",
+        Dict{String,Any}(
+            "HubContentName" => HubContentName,
+            "HubContentType" => HubContentType,
+            "HubName" => HubName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_hub_content_presigned_urls(
+    HubContentName,
+    HubContentType,
+    HubName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateHubContentPresignedUrls",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HubContentName" => HubContentName,
+                    "HubContentType" => HubContentType,
+                    "HubName" => HubName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_hub_content_reference(hub_name, sage_maker_public_hub_content_arn)
+    create_hub_content_reference(hub_name, sage_maker_public_hub_content_arn, params::Dict{String,<:Any})
+
+Create a hub content reference in order to add a model in the JumpStart public hub to a
+private hub.
+
+# Arguments
+
+- `hub_name`: The name of the hub to add the hub content reference to.
+- `sage_maker_public_hub_content_arn`: The ARN of the public hub content to reference.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"HubContentName"`: The name of the hub content to reference.
+- `"MinVersion"`: The minimum version of the hub content to reference.
+- `"Tags"`: Any tags associated with the hub content to reference.
+"""
+function create_hub_content_reference end
+
+function create_hub_content_reference(
+    HubName,
+    SageMakerPublicHubContentArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateHubContentReference",
+        Dict{String,Any}(
+            "HubName" => HubName,
+            "SageMakerPublicHubContentArn" => SageMakerPublicHubContentArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_hub_content_reference(
+    HubName,
+    SageMakerPublicHubContentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateHubContentReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HubName" => HubName,
+                    "SageMakerPublicHubContentArn" => SageMakerPublicHubContentArn,
+                ),
                 params,
             ),
         );
@@ -2313,9 +3049,11 @@ trial components for each training job that it runs. You can view these entities
 SageMaker Studio. For more information, see [View Experiments, Trials, and Trial Components](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments-view-compare.html#experiments-view).
 
 !!! important
-    Do not include any security-sensitive information including account access IDs, secrets
-    or tokens in any hyperparameter field. If the use of security-sensitive credentials are
-    detected, SageMaker will reject your training job request and return an exception error.
+    Do not include any security-sensitive information including account access IDs, secrets,
+    or tokens in any hyperparameter fields. As part of the shared responsibility model, you
+    are responsible for any potential exposure, unauthorized access, or compromise of your
+    sensitive data if caused by any security-sensitive information included in the request
+    hyperparameter variable or plain text fields..
 
 # Arguments
 
@@ -2431,14 +3169,14 @@ end
     create_image(image_name, role_arn)
     create_image(image_name, role_arn, params::Dict{String,<:Any})
 
-Creates a custom SageMaker image. A SageMaker image is a set of image versions. Each image
-version represents a container image stored in Amazon ECR. For more information, see [Bring your own SageMaker image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
+Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each
+image version represents a container image stored in Amazon ECR. For more information, see [Bring your own SageMaker AI image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
 
 # Arguments
 
 - `image_name`: The name of the image. Must be unique to your account.
-- `role_arn`: The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your
-  behalf.
+- `role_arn`: The ARN of an IAM role that enables Amazon SageMaker AI to perform tasks on
+  your behalf.
 
 # Optional Parameters
 
@@ -2485,7 +3223,7 @@ end
     create_image_version(base_image, client_token, image_name)
     create_image_version(base_image, client_token, image_name, params::Dict{String,<:Any})
 
-Creates a version of the SageMaker image specified by `ImageName`. The version represents
+Creates a version of the SageMaker AI image specified by `ImageName`. The version represents
 the Amazon ECR container image specified by `BaseImage`.
 
 # Arguments
@@ -2493,7 +3231,7 @@ the Amazon ECR container image specified by `BaseImage`.
 - `base_image`: The registry path of the container image to use as the starting point for
   this version. The path is an Amazon ECR URI in the following format:
 
-  `<acct-id>.dkr.ecr.<region>.amazonaws.com/<repo-name[:tag] or [@digest]>`
+  `&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;`
 
 - `client_token`: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web
   Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
@@ -2508,11 +3246,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Horovod"`: Indicates Horovod compatibility.
 
-- `"JobType"`: Indicates SageMaker job type compatibility.
+- `"JobType"`: Indicates SageMaker AI job type compatibility.
 
-  - `TRAINING`: The image version is compatible with SageMaker training jobs.
-  - `INFERENCE`: The image version is compatible with SageMaker inference jobs.
-  - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker notebook kernels.
+  - `TRAINING`: The image version is compatible with SageMaker AI training jobs.
+  - `INFERENCE`: The image version is compatible with SageMaker AI inference jobs.
+  - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker AI notebook kernels.
 
 - `"MLFramework"`: The machine learning framework vended in the image version.
 
@@ -2575,10 +3313,10 @@ function create_image_version(
 end
 
 """
-    create_inference_component(endpoint_name, inference_component_name, runtime_config, specification, variant_name)
-    create_inference_component(endpoint_name, inference_component_name, runtime_config, specification, variant_name, params::Dict{String,<:Any})
+    create_inference_component(endpoint_name, inference_component_name)
+    create_inference_component(endpoint_name, inference_component_name, params::Dict{String,<:Any})
 
-Creates an inference component, which is a SageMaker hosting object that you can use to
+Creates an inference component, which is a SageMaker AI hosting object that you can use to
 deploy a model to an endpoint. In the inference component settings, you specify the model,
 the endpoint, and how the model utilizes the resources that the endpoint hosts. You can
 optimize resource utilization by tailoring how the required CPU cores, accelerators, and
@@ -2591,38 +3329,30 @@ associated model when you use the InvokeEndpoint API action.
 
 - `endpoint_name`: The name of an existing endpoint where you host the inference component.
 - `inference_component_name`: A unique name to assign to the inference component.
-- `runtime_config`: Runtime settings for a model that is deployed with an inference
-  component.
-- `specification`: Details about the resources to deploy with this inference component,
-  including the model, container, and compute resources.
-- `variant_name`: The name of an existing production variant where you host the inference
-  component.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"RuntimeConfig"`: Runtime settings for a model that is deployed with an inference
+  component.
+- `"Specification"`: Details about the resources to deploy with this inference component,
+  including the model, container, and compute resources.
 - `"Tags"`: A list of key-value pairs associated with the model. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
+- `"VariantName"`: The name of an existing production variant where you host the inference
+  component.
 """
 function create_inference_component end
 
 function create_inference_component(
-    EndpointName,
-    InferenceComponentName,
-    RuntimeConfig,
-    Specification,
-    VariantName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    EndpointName, InferenceComponentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
         "CreateInferenceComponent",
         Dict{String,Any}(
             "EndpointName" => EndpointName,
             "InferenceComponentName" => InferenceComponentName,
-            "RuntimeConfig" => RuntimeConfig,
-            "Specification" => Specification,
-            "VariantName" => VariantName,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2632,9 +3362,6 @@ end
 function create_inference_component(
     EndpointName,
     InferenceComponentName,
-    RuntimeConfig,
-    Specification,
-    VariantName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -2646,9 +3373,6 @@ function create_inference_component(
                 Dict{String,Any}(
                     "EndpointName" => EndpointName,
                     "InferenceComponentName" => InferenceComponentName,
-                    "RuntimeConfig" => RuntimeConfig,
-                    "Specification" => Specification,
-                    "VariantName" => VariantName,
                 ),
                 params,
             ),
@@ -2961,12 +3685,11 @@ see [Create a Streaming Labeling Job](https://docs.aws.amazon.com/sagemaker/late
   to the object. The `LabelAttributeName` must meet the following requirements.
 
   - The name can't end with "-metadata".
-  - If you are using one of the following [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html),
-    the attribute name *must* end with "-ref". If the task type you are using is not listed
-    below, the attribute name *must not* end with "-ref".
-    - Image semantic segmentation (`SemanticSegmentation)`, and adjustment
-      (`AdjustmentSemanticSegmentation`) and verification
-      (`VerificationSemanticSegmentation`) labeling jobs for this task type.
+  - If you are using one of the [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html)
+    or one of the following, the attribute name *must* end with "-ref".
+    - Image semantic segmentation (`SemanticSegmentation)` and adjustment
+      (`AdjustmentSemanticSegmentation`) labeling jobs for this task type. One exception is
+      that verification (`VerificationSemanticSegmentation`) *must not* end with -"ref".
     - Video frame object detection (`VideoObjectDetection`), and adjustment and verification
       (`AdjustmentVideoObjectDetection`) labeling jobs for this task type.
     - Video frame object tracking (`VideoObjectTracking`), and adjustment and verification
@@ -3010,7 +3733,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For named entity recognition jobs, in addition to `"labels"`, you must provide worker
   instructions in the label category configuration file using the `"instructions"`
   parameter:
-  `"instructions": {"shortInstruction":"<h1>Add header</h1><p>Add Instructions", "fullInstruction":"Add additional instructions.</p>"}`.
+  `"instructions": {"shortInstruction":"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;", "fullInstruction":"&lt;p&gt;Add additional instructions.&lt;/p&gt;"}`.
   For details and an example, see [Create a Named Entity Recognition Labeling Job (API)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api).
 
   For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html)
@@ -3096,6 +3819,184 @@ function create_labeling_job(
                     "LabelingJobName" => LabelingJobName,
                     "OutputConfig" => OutputConfig,
                     "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_mlflow_app(artifact_store_uri, name, role_arn)
+    create_mlflow_app(artifact_store_uri, name, role_arn, params::Dict{String,<:Any})
+
+Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact
+store.
+
+# Arguments
+
+- `artifact_store_uri`: The S3 URI for a general purpose bucket to use as the MLflow App
+  artifact store.
+- `name`: A string identifying the MLflow app name. This string is not part of the tracking
+  server ARN.
+- `role_arn`: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow
+  App uses to access the artifact store in Amazon S3. The role should have the
+  `AmazonS3FullAccess` permission.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountDefaultStatus"`: Indicates whether this MLflow app is the default for the entire
+  account.
+
+- `"DefaultDomainIdList"`: List of SageMaker domain IDs for which this MLflow App is used as
+  the default.
+
+- `"ModelRegistrationMode"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `AutoModelRegistrationEnabled`. To disable automatic model registration, set
+  this value to `AutoModelRegistrationDisabled`. If not specified,
+  `AutomaticModelRegistration` defaults to `AutoModelRegistrationDisabled`.
+
+- `"Tags"`: Tags consisting of key-value pairs used to manage metadata for the MLflow App.
+
+- `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
+  Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For
+  example: TUE:03:30.
+"""
+function create_mlflow_app end
+
+function create_mlflow_app(
+    ArtifactStoreUri, Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreateMlflowApp",
+        Dict{String,Any}(
+            "ArtifactStoreUri" => ArtifactStoreUri, "Name" => Name, "RoleArn" => RoleArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_mlflow_app(
+    ArtifactStoreUri,
+    Name,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateMlflowApp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ArtifactStoreUri" => ArtifactStoreUri,
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_mlflow_tracking_server(artifact_store_uri, role_arn, tracking_server_name)
+    create_mlflow_tracking_server(artifact_store_uri, role_arn, tracking_server_name, params::Dict{String,<:Any})
+
+Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact
+store. For more information, see [Create an MLflow Tracking Server](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server.html).
+
+# Arguments
+
+- `artifact_store_uri`: The S3 URI for a general purpose bucket to use as the MLflow
+  Tracking Server artifact store.
+- `role_arn`: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow
+  Tracking Server uses to access the artifact store in Amazon S3. The role should have
+  `AmazonS3FullAccess` permissions. For more information on IAM permissions for tracking
+  server creation, see [Set up IAM permissions for MLflow](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html).
+- `tracking_server_name`: A unique string identifying the tracking server name. This string
+  is part of the tracking server ARN.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `True`. To disable automatic model registration, set this value to `False`.
+  If not specified, `AutomaticModelRegistration` defaults to `False`.
+
+- `"MlflowVersion"`: The version of MLflow that the tracking server uses. To see which
+  MLflow versions are available to use, see [How it works](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow.html#mlflow-create-tracking-server-how-it-works).
+
+- `"S3BucketOwnerAccountId"`: Expected Amazon Web Services account ID that owns the Amazon
+  S3 bucket for artifact storage. Defaults to caller's account ID if not provided.
+
+- `"S3BucketOwnerVerification"`: Enable Amazon S3 Ownership checks when interacting with
+  Amazon S3 buckets from a SageMaker Managed MLflow Tracking Server. Defaults to `True` if
+  not provided.
+
+- `"Tags"`: Tags consisting of key-value pairs used to manage metadata for the tracking
+  server.
+
+- `"TrackingServerSize"`: The size of the tracking server you want to create. You can choose
+  between `"Small"`, `"Medium"`, and `"Large"`. The default MLflow Tracking Server
+  configuration size is `"Small"`. You can choose a size depending on the projected use of
+  the tracking server such as the volume of data logged, number of users, and frequency of
+  use.
+
+  We recommend using a small tracking server for teams of up to 25 users, a medium tracking
+  server for teams of up to 50 users, and a large tracking server for teams of up to 100
+  users.
+
+- `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
+  Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For
+  example: TUE:03:30.
+"""
+function create_mlflow_tracking_server end
+
+function create_mlflow_tracking_server(
+    ArtifactStoreUri,
+    RoleArn,
+    TrackingServerName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateMlflowTrackingServer",
+        Dict{String,Any}(
+            "ArtifactStoreUri" => ArtifactStoreUri,
+            "RoleArn" => RoleArn,
+            "TrackingServerName" => TrackingServerName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_mlflow_tracking_server(
+    ArtifactStoreUri,
+    RoleArn,
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ArtifactStoreUri" => ArtifactStoreUri,
+                    "RoleArn" => RoleArn,
+                    "TrackingServerName" => TrackingServerName,
                 ),
                 params,
             ),
@@ -3211,8 +4112,8 @@ Creates the definition for a model bias job.
   container image.
 - `model_bias_job_input`: Inputs for the model bias job.
 - `model_bias_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
-  to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can
+  assume to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -3438,8 +4339,8 @@ Creates the definition for a model explainability job.
   specified Docker container image.
 - `model_explainability_job_input`: Inputs for the model explainability job.
 - `model_explainability_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
-  to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can
+  assume to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -3583,6 +4484,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
   For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
 
+- `"ModelLifeCycle"`: A structure describing the current state of the model in its life
+  cycle.
+
 - `"ModelMetrics"`: A structure that contains model metrics reports.
 
 - `"ModelPackageDescription"`: A description of the model package.
@@ -3597,6 +4501,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This parameter is required for unversioned models. It is not applicable to versioned
   models.
+
+- `"ModelPackageRegistrationType"`: The package registration type of the model package
+  input.
 
 - `"SamplePayloadUrl"`: The Amazon Simple Storage Service (Amazon S3) path where the sample
   payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz
@@ -3714,7 +4621,7 @@ end
     create_model_quality_job_definition(job_definition_name, job_resources, model_quality_app_specification, model_quality_job_input, model_quality_job_output_config, role_arn, params::Dict{String,<:Any})
 
 Creates a definition for a job that monitors model quality and drift. For information about
-model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
+model monitor, see [Amazon SageMaker AI Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
 
 # Arguments
 
@@ -3724,8 +4631,8 @@ model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/
 - `model_quality_job_input`: A list of the inputs that are monitored. Currently endpoints
   are supported.
 - `model_quality_job_output_config`:
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume
-  to perform tasks on your behalf.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can
+  assume to perform tasks on your behalf.
 
 # Optional Parameters
 
@@ -3799,8 +4706,8 @@ end
     create_monitoring_schedule(monitoring_schedule_config, monitoring_schedule_name)
     create_monitoring_schedule(monitoring_schedule_config, monitoring_schedule_name, params::Dict{String,<:Any})
 
-Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the
-data captured for an Amazon SageMaker Endpoint.
+Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the
+data captured for an Amazon SageMaker AI Endpoint.
 
 # Arguments
 
@@ -3861,35 +4768,35 @@ end
     create_notebook_instance(instance_type, notebook_instance_name, role_arn)
     create_notebook_instance(instance_type, notebook_instance_name, role_arn, params::Dict{String,<:Any})
 
-Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML)
+Creates an SageMaker AI notebook instance. A notebook instance is a machine learning (ML)
 compute instance running on a Jupyter notebook.
 
 In a `CreateNotebookInstance` request, specify the type of ML compute instance that you want
-to run. SageMaker launches the instance, installs common libraries that you can use to
+to run. SageMaker AI launches the instance, installs common libraries that you can use to
 explore datasets for model training, and attaches an ML storage volume to the notebook
 instance.
 
-SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use
-SageMaker with a specific algorithm or with a machine learning framework.
+SageMaker AI also provides a set of example notebooks. Each notebook demonstrates how to use
+SageMaker AI with a specific algorithm or with a machine learning framework.
 
-After receiving the request, SageMaker does the following:
+After receiving the request, SageMaker AI does the following:
 
-1. Creates a network interface in the SageMaker VPC.
-2. (Option) If you specified `SubnetId`, SageMaker creates a network interface in your own
-   VPC, which is inferred from the subnet ID that you provide in the input. When creating
-   this network interface, SageMaker attaches the security group that you specified in the
-   request to the network interface that it creates in your VPC.
-3. Launches an EC2 instance of the type specified in the request in the SageMaker VPC. If
-   you specified `SubnetId` of your VPC, SageMaker specifies both network interfaces when
+1. Creates a network interface in the SageMaker AI VPC.
+2. (Option) If you specified `SubnetId`, SageMaker AI creates a network interface in your
+   own VPC, which is inferred from the subnet ID that you provide in the input. When
+   creating this network interface, SageMaker AI attaches the security group that you
+   specified in the request to the network interface that it creates in your VPC.
+3. Launches an EC2 instance of the type specified in the request in the SageMaker AI VPC. If
+   you specified `SubnetId` of your VPC, SageMaker AI specifies both network interfaces when
    launching this instance. This enables inbound traffic from your own VPC to the notebook
    instance, assuming that the security groups allow it.
 
-After creating the notebook instance, SageMaker returns its Amazon Resource Name (ARN). You
-can't change the name of a notebook instance after you create it.
+After creating the notebook instance, SageMaker AI returns its Amazon Resource Name (ARN).
+You can't change the name of a notebook instance after you create it.
 
-After SageMaker creates the notebook instance, you can connect to the Jupyter server and
+After SageMaker AI creates the notebook instance, you can connect to the Jupyter server and
 work in Jupyter notebooks. For example, you can write code to explore a dataset that you can
-use for model training, train a model, host models by creating SageMaker endpoints, and
+use for model training, train a model, host models by creating SageMaker AI endpoints, and
 validate hosted models.
 
 For more information, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
@@ -3901,39 +4808,41 @@ For more information, see [How It Works](https://docs.aws.amazon.com/sagemaker/l
 - `notebook_instance_name`: The name of the new notebook instance.
 
 - `role_arn`: When you send any requests to Amazon Web Services resources from the notebook
-  instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this
-  role necessary permissions so SageMaker can perform these tasks. The policy must allow the
-  SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For
-  more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+  instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant
+  this role necessary permissions so SageMaker AI can perform these tasks. The policy must
+  allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume
+  this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
-      To be able to pass this role to SageMaker, the caller of this API must have the
+      To be able to pass this role to SageMaker AI, the caller of this API must have the
       `iam:PassRole` permission.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AcceleratorTypes"`: A list of Elastic Inference (EI) instance types to associate with
-  this notebook instance. Currently, only one instance type can be associated with a
-  notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+- `"AcceleratorTypes"`: This parameter is no longer supported. Elastic Inference (EI) is no
+  longer available.
+
+  This parameter was used to specify a list of EI instance types to associate with this
+  notebook instance.
 
 - `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate with
   the notebook instance. These can be either the names of Git repositories stored as
   resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. These repositories are cloned at the same level as the
-  default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+  default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
 - `"DefaultCodeRepository"`: A Git repository to associate with the notebook instance as its
   default code repository. This can be either the name of a Git repository stored as a
   resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. When you open a notebook instance, it opens in the
-  directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+  directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
-- `"DirectInternetAccess"`: Sets whether SageMaker provides internet access to the notebook
-  instance. If you set this to `Disabled` this notebook instance is able to access resources
-  only in your VPC, and is not be able to connect to SageMaker training and endpoint
-  services unless you configure a NAT Gateway in your VPC.
+- `"DirectInternetAccess"`: Sets whether SageMaker AI provides internet access to the
+  notebook instance. If you set this to `Disabled` this notebook instance is able to access
+  resources only in your VPC, and is not be able to connect to SageMaker AI training and
+  endpoint services unless you configure a NAT Gateway in your VPC.
 
   For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
   You can set the value of this parameter to `Disabled` only if you set a value for the
@@ -3942,8 +4851,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceMetadataServiceConfiguration"`: Information on the IMDS configuration of the
   notebook instance
 
+- `"IpAddressType"`: The IP address type for the notebook instance. Specify `ipv4` for IPv4-
+  only connectivity or `dualstack` for both IPv4 and IPv6 connectivity. When you specify
+  `dualstack`, the subnet must support IPv6 CIDR blocks. If not specified, defaults to
+  `ipv4`.
+
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
-  Service key that SageMaker uses to encrypt data on the storage volume attached to your
+  Service key that SageMaker AI uses to encrypt data on the storage volume attached to your
   notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html)
   in the *Amazon Web Services Key Management Service Developer Guide*.
 
@@ -3951,7 +4865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
 - `"PlatformIdentifier"`: The platform identifier of the notebook instance runtime
-  environment.
+  environment. The default value is `notebook-al2-v2`.
 
 - `"RootAccess"`: Whether root access is enabled or disabled for users of the notebook
   instance. The default value is `Enabled`.
@@ -4041,6 +4955,11 @@ longer than 5 minutes, it fails and the notebook instance is not created or star
 
 For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
+!!! note
+    Lifecycle configuration scripts execute with root access and the notebook instance's IAM
+    execution role privileges. Grant this permission only to trusted principals. See [Customize a Notebook Instance Using a Lifecycle Configuration Script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
+    for security best practices.
+
 # Arguments
 
 - `notebook_instance_lifecycle_config_name`: The name of the lifecycle configuration.
@@ -4053,6 +4972,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shell script must be a base64-encoded string.
 - `"OnStart"`: A shell script that runs every time you start a notebook instance, including
   when you create the notebook instance. The shell script must be a base64-encoded string.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
 """
 function create_notebook_instance_lifecycle_config end
 
@@ -4086,6 +5008,254 @@ function create_notebook_instance_lifecycle_config(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition)
+    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
+
+Creates a job that optimizes a model for inference performance. To create the job, you
+provide the location of a source model, and you provide the settings for the optimization
+techniques that you want the job to apply. When the job completes successfully, SageMaker
+uploads the new optimized model to the output destination that you specify.
+
+For more information about how to use this action, and about the supported optimization
+techniques, see [Optimize model inference with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/model-optimize.html).
+
+# Arguments
+
+- `deployment_instance_type`: The type of instance that hosts the optimized model that you
+  create with the optimization job.
+
+- `model_source`: The location of the source model to optimize with an optimization job.
+
+- `optimization_configs`: Settings for each of the optimization techniques that the job
+  applies.
+
+- `optimization_job_name`: A custom name for the new optimization job.
+
+- `output_config`: Details for where to store the optimized model that you create with the
+  optimization job.
+
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI
+  to perform tasks on your behalf.
+
+  During model optimization, Amazon SageMaker AI needs your permission to:
+
+  - Read input data from an S3 bucket
+  - Write model artifacts to an S3 bucket
+  - Write logs to Amazon CloudWatch Logs
+  - Publish metrics to Amazon CloudWatch
+
+  You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon
+  SageMaker AI, the caller of this API must have the `iam:PassRole` permission. For more
+  information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+
+- `stopping_condition`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxInstanceCount"`: The maximum number of instances to use for the optimization job.
+- `"OptimizationEnvironment"`: The environment variables to set in the model container.
+- `"Tags"`: A list of key-value pairs associated with the optimization job. For more
+  information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference Guide*.
+- `"VpcConfig"`: A VPC in Amazon VPC that your optimized model has access to.
+"""
+function create_optimization_job end
+
+function create_optimization_job(
+    DeploymentInstanceType,
+    ModelSource,
+    OptimizationConfigs,
+    OptimizationJobName,
+    OutputConfig,
+    RoleArn,
+    StoppingCondition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateOptimizationJob",
+        Dict{String,Any}(
+            "DeploymentInstanceType" => DeploymentInstanceType,
+            "ModelSource" => ModelSource,
+            "OptimizationConfigs" => OptimizationConfigs,
+            "OptimizationJobName" => OptimizationJobName,
+            "OutputConfig" => OutputConfig,
+            "RoleArn" => RoleArn,
+            "StoppingCondition" => StoppingCondition,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_optimization_job(
+    DeploymentInstanceType,
+    ModelSource,
+    OptimizationConfigs,
+    OptimizationJobName,
+    OutputConfig,
+    RoleArn,
+    StoppingCondition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeploymentInstanceType" => DeploymentInstanceType,
+                    "ModelSource" => ModelSource,
+                    "OptimizationConfigs" => OptimizationConfigs,
+                    "OptimizationJobName" => OptimizationJobName,
+                    "OutputConfig" => OutputConfig,
+                    "RoleArn" => RoleArn,
+                    "StoppingCondition" => StoppingCondition,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_partner_app(auth_type, execution_role_arn, name, tier, type)
+    create_partner_app(auth_type, execution_role_arn, name, tier, type, params::Dict{String,<:Any})
+
+Creates an Amazon SageMaker Partner AI App.
+
+# Arguments
+
+- `auth_type`: The authorization type that users use to access the SageMaker Partner AI App.
+- `execution_role_arn`: The ARN of the IAM role that the partner application uses.
+- `name`: The name to give the SageMaker Partner AI App.
+- `tier`: Indicates the instance type and size of the cluster attached to the SageMaker
+  Partner AI App.
+- `type`: The type of SageMaker Partner AI App to create. Must be one of the following:
+  `lakera-guard`, `comet`, `deepchecks-llm-evaluation`, or `fiddler`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplicationConfig"`: Configuration settings for the SageMaker Partner AI App.
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+- `"EnableAutoMinorVersionUpgrade"`: When set to `TRUE`, the SageMaker Partner AI App is
+  automatically upgraded to the latest minor version during the next scheduled maintenance
+  window, if one is available. Default is `FALSE`.
+- `"EnableIamSessionBasedIdentity"`: When set to `TRUE`, the SageMaker Partner AI App sets
+  the Amazon Web Services IAM session name or the authenticated IAM user as the identity of
+  the SageMaker Partner AI App user.
+- `"KmsKeyId"`: SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at
+  rest using an Amazon Web Services managed key by default. For more control, specify a
+  customer managed key.
+- `"MaintenanceConfig"`: Maintenance configuration settings for the SageMaker Partner AI
+  App.
+- `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
+  resource.
+"""
+function create_partner_app end
+
+function create_partner_app(
+    AuthType,
+    ExecutionRoleArn,
+    Name,
+    Tier,
+    Type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreatePartnerApp",
+        Dict{String,Any}(
+            "AuthType" => AuthType,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "Name" => Name,
+            "Tier" => Tier,
+            "Type" => Type,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_partner_app(
+    AuthType,
+    ExecutionRoleArn,
+    Name,
+    Tier,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreatePartnerApp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthType" => AuthType,
+                    "ExecutionRoleArn" => ExecutionRoleArn,
+                    "Name" => Name,
+                    "Tier" => Tier,
+                    "Type" => Type,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_partner_app_presigned_url(arn)
+    create_partner_app_presigned_url(arn, params::Dict{String,<:Any})
+
+Creates a presigned URL to access an Amazon SageMaker Partner AI App.
+
+# Arguments
+
+- `arn`: The ARN of the SageMaker Partner AI App to create the presigned URL for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExpiresInSeconds"`: The time that will pass before the presigned URL expires.
+- `"SessionExpirationDurationInSeconds"`: Indicates how long the Amazon SageMaker Partner AI
+  App session can be accessed for after logging in.
+"""
+function create_partner_app_presigned_url end
+
+function create_partner_app_presigned_url(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreatePartnerAppPresignedUrl",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_partner_app_presigned_url(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreatePartnerAppPresignedUrl",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4179,14 +5349,16 @@ authorization policies for this API are also enforced for every HTTP request and
 frame that attempts to connect to the app.
 
 You can restrict access to this API and to the URL that it returns to a list of IP
-addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see [Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-interface-endpoint.html)
+addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see [Connect to Amazon SageMaker AI Studio Through an Interface VPC Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-interface-endpoint.html)
 .
 
 !!! note
-    The URL that you get from a call to `CreatePresignedDomainUrl` has a default timeout of
-    5 minutes. You can configure this value using `ExpiresInSeconds`. If you try to use the
-URL after the timeout limit expires, you are directed to the Amazon Web Services console
-sign-in page.
+    - The URL that you get from a call to `CreatePresignedDomainUrl` has a default timeout
+      of 5 minutes. You can configure this value using `ExpiresInSeconds`. If you try to use
+      the URL after the timeout limit expires, you are directed to the Amazon Web Services
+      console sign-in page.
+    - The JupyterLab session default expiration time is 12 hours. You can configure this
+      value using SessionExpirationDurationInSeconds.
 
 # Arguments
 
@@ -4257,13 +5429,107 @@ function create_presigned_domain_url(
 end
 
 """
+    create_presigned_mlflow_app_url(arn)
+    create_presigned_mlflow_app_url(arn, params::Dict{String,<:Any})
+
+Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow
+App. For more information, see [Launch the MLflow UI using a presigned URL](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html).
+
+# Arguments
+
+- `arn`: The ARN of the MLflow App to connect to your MLflow UI.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExpiresInSeconds"`: The duration in seconds that your presigned URL is valid. The
+  presigned URL can be used only once.
+- `"SessionExpirationDurationInSeconds"`: The duration in seconds that your presigned URL is
+  valid. The presigned URL can be used only once.
+"""
+function create_presigned_mlflow_app_url end
+
+function create_presigned_mlflow_app_url(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreatePresignedMlflowAppUrl",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_presigned_mlflow_app_url(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreatePresignedMlflowAppUrl",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_presigned_mlflow_tracking_server_url(tracking_server_name)
+    create_presigned_mlflow_tracking_server_url(tracking_server_name, params::Dict{String,<:Any})
+
+Returns a presigned URL that you can use to connect to the MLflow UI attached to your
+tracking server. For more information, see [Launch the MLflow UI using a presigned URL](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html).
+
+# Arguments
+
+- `tracking_server_name`: The name of the tracking server to connect to your MLflow UI.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExpiresInSeconds"`: The duration in seconds that your presigned URL is valid. The
+  presigned URL can be used only once.
+- `"SessionExpirationDurationInSeconds"`: The duration in seconds that your MLflow UI
+  session is valid.
+"""
+function create_presigned_mlflow_tracking_server_url end
+
+function create_presigned_mlflow_tracking_server_url(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "CreatePresignedMlflowTrackingServerUrl",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_presigned_mlflow_tracking_server_url(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreatePresignedMlflowTrackingServerUrl",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_presigned_notebook_instance_url(notebook_instance_name)
     create_presigned_notebook_instance_url(notebook_instance_name, params::Dict{String,<:Any})
 
 Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In
-the SageMaker console, when you choose `Open` next to a notebook instance, SageMaker opens a
-new tab showing the Jupyter server home page from the notebook instance. The console uses
-this API to get the URL and show the page.
+the SageMaker AI console, when you choose `Open` next to a notebook instance, SageMaker AI
+opens a new tab showing the Jupyter server home page from the notebook instance. The console
+uses this API to get the URL and show the page.
 
 The IAM role or user used to call this API defines the permissions to access the notebook
 instance. Once the presigned URL is created, no additional permission is required to access
@@ -4347,16 +5613,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Environment"`: The environment variables to set in the Docker container. Up to 100 key
   and values entries in the map are supported.
+
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any environment fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by security-sensitive information included
+      in the request environment variable or plain text fields.
+
 - `"ExperimentConfig"`:
+
 - `"NetworkConfig"`: Networking options for a processing job, such as whether to allow
   inbound and outbound network calls to and from processing containers, and the VPC subnets
   and security groups to use for VPC-enabled processing jobs.
+
 - `"ProcessingInputs"`: An array of inputs configuring the data to download into the
   processing container.
+
 - `"ProcessingOutputConfig"`: Output configuration for the processing job.
+
 - `"StoppingCondition"`: The time limit for how long the processing job is allowed to run.
+
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL)
   in the *Amazon Web Services Billing and Cost Management User Guide*.
+
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any tags. As part of the shared responsibility model, you are
+      responsible for any potential exposure, unauthorized access, or compromise of your
+      sensitive data if caused by security-sensitive information included in the request tag
+      variable or plain text fields.
 """
 function create_processing_job end
 
@@ -4408,8 +5694,8 @@ function create_processing_job(
 end
 
 """
-    create_project(project_name, service_catalog_provisioning_details)
-    create_project(project_name, service_catalog_provisioning_details, params::Dict{String,<:Any})
+    create_project(project_name)
+    create_project(project_name, params::Dict{String,<:Any})
 
 Creates a machine learning (ML) project that can contain one or more templates that set up
 an ML pipeline from training to deploying an approved model.
@@ -4417,33 +5703,28 @@ an ML pipeline from training to deploying an approved model.
 # Arguments
 
 - `project_name`: The name of the project.
-- `service_catalog_provisioning_details`: The product ID and provisioning artifact ID to
-  provision a service catalog. The provisioning artifact ID will default to the latest
-  provisioning artifact ID of the product, if you don't provide the provisioning artifact
-  ID. For more information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ProjectDescription"`: A description for the project.
+- `"ServiceCatalogProvisioningDetails"`: The product ID and provisioning artifact ID to
+  provision a service catalog. The provisioning artifact ID will default to the latest
+  provisioning artifact ID of the product, if you don't provide the provisioning artifact
+  ID. For more information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
 - `"Tags"`: An array of key-value pairs that you want to use to organize and track your
   Amazon Web Services resource costs. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference Guide*.
+- `"TemplateProviders"`: An array of template provider configurations for creating
+  infrastructure resources for the project.
 """
 function create_project end
 
-function create_project(
-    ProjectName,
-    ServiceCatalogProvisioningDetails;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
+function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "CreateProject",
-        Dict{String,Any}(
-            "ProjectName" => ProjectName,
-            "ServiceCatalogProvisioningDetails" => ServiceCatalogProvisioningDetails,
-        );
+        Dict{String,Any}("ProjectName" => ProjectName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4451,22 +5732,13 @@ end
 
 function create_project(
     ProjectName,
-    ServiceCatalogProvisioningDetails,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
         "CreateProject",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ProjectName" => ProjectName,
-                    "ServiceCatalogProvisioningDetails" =>
-                        ServiceCatalogProvisioningDetails,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ProjectName" => ProjectName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4533,15 +5805,15 @@ end
     create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name)
     create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Creates a new Amazon SageMaker Studio Lifecycle Configuration.
+Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
 
 # Arguments
 
 - `studio_lifecycle_config_app_type`: The App type that the Lifecycle Configuration is
   attached to.
-- `studio_lifecycle_config_content`: The content of your Amazon SageMaker Studio Lifecycle
-  Configuration script. This content must be base64 encoded.
-- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+- `studio_lifecycle_config_content`: The content of your Amazon SageMaker AI Studio
+  Lifecycle Configuration script. This content must be base64 encoded.
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker AI Studio Lifecycle
   Configuration to create.
 
 # Optional Parameters
@@ -4598,8 +5870,8 @@ function create_studio_lifecycle_config(
 end
 
 """
-    create_training_job(algorithm_specification, output_data_config, resource_config, role_arn, stopping_condition, training_job_name)
-    create_training_job(algorithm_specification, output_data_config, resource_config, role_arn, stopping_condition, training_job_name, params::Dict{String,<:Any})
+    create_training_job(output_data_config, role_arn, training_job_name)
+    create_training_job(output_data_config, role_arn, training_job_name, params::Dict{String,<:Any})
 
 Starts a model training job. After training completes, SageMaker saves the resulting model
 artifacts to an Amazon S3 location that you specify.
@@ -4618,9 +5890,10 @@ In the request body, you provide the following:
 
   !!! important
       Do not include any security-sensitive information including account access IDs,
-      secrets or tokens in any hyperparameter field. If the use of security-sensitive
-      credentials are detected, SageMaker will reject your training job request and return
-      an exception error.
+      secrets, or tokens in any hyperparameter fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by security-sensitive information included
+      in the request hyperparameter variable or plain text fields.
 
 - `InputDataConfig` - Describes the input required by the training job and the Amazon S3,
   EFS, or FSx location where it is stored.
@@ -4637,6 +5910,14 @@ In the request body, you provide the following:
   limit for training. Use `MaxWaitTimeInSeconds` to specify how long a managed spot training
   job has to complete.
 - `Environment` - The environment variables to set in the Docker container.
+
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any environment fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by security-sensitive information included
+      in the request environment variable or plain text fields.
+
 - `RetryStrategy` - The number of times to retry the job when the job fails due to an
   `InternalServerError`.
 
@@ -4644,22 +5925,8 @@ For more information about SageMaker, see [How It Works](https://docs.aws.amazon
 
 # Arguments
 
-- `algorithm_specification`: The registry path of the Docker image that contains the
-  training algorithm and algorithm-specific metadata, including the input mode. For more
-  information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
-  For information about providing your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
-
 - `output_data_config`: Specifies the path to the S3 location where you want to store model
   artifacts. SageMaker creates subfolders for the artifacts.
-
-- `resource_config`: The resources, including the ML compute instances and ML storage
-  volumes, to use for model training.
-
-  ML storage volumes store model artifacts and incremental states. Training algorithms might
-  also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage
-  volume to store the training data, choose `File` as the `TrainingInputMode` in the
-  algorithm specification. For distributed training algorithms, specify an instance count
-  greater than 1.
 
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to
   perform tasks on your behalf.
@@ -4673,20 +5940,17 @@ For more information about SageMaker, see [How It Works](https://docs.aws.amazon
       To be able to pass this role to SageMaker, the caller of this API must have the
       `iam:PassRole` permission.
 
-- `stopping_condition`: Specifies a limit to how long a model training job can run. It also
-  specifies how long a managed Spot training job has to complete. When the job reaches the
-  time limit, SageMaker ends the training job. Use this API to cap model training costs.
-
-  To stop a job, SageMaker sends the algorithm the `SIGTERM` signal, which delays job
-  termination for 120 seconds. Algorithms can use this 120-second window to save the model
-  artifacts, so the results of training are not lost.
-
 - `training_job_name`: The name of the training job. The name must be unique within an
   Amazon Web Services Region in an Amazon Web Services account.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AlgorithmSpecification"`: The registry path of the Docker image that contains the
+  training algorithm and algorithm-specific metadata, including the input mode. For more
+  information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
+  For information about providing your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
 
 - `"CheckpointConfig"`: Contains information about the output location for managed spot
   training checkpoint data.
@@ -4720,6 +5984,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Environment"`: The environment variables to set in the Docker container.
 
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any environment fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by security-sensitive information included
+      in the request environment variable or plain text fields.
+
 - `"ExperimentConfig"`:
 
 - `"HyperParameters"`: Algorithm-specific parameters that influence the quality of the
@@ -4731,9 +6002,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       Do not include any security-sensitive information including account access IDs,
-      secrets or tokens in any hyperparameter field. If the use of security-sensitive
-      credentials are detected, SageMaker will reject your training job request and return
-      an exception error.
+      secrets, or tokens in any hyperparameter fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by any security-sensitive information
+      included in the request hyperparameter variable or plain text fields.
 
 - `"InfraCheckConfig"`: Contains information about the infrastructure health check
   configuration for the training job.
@@ -4754,6 +6026,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Your input must be in the same Amazon Web Services region as your training job.
 
+- `"MlflowConfig"`: The MLflow configuration using SageMaker managed MLflow.
+
+- `"ModelPackageConfig"`: The configuration for the model package.
+
 - `"ProfilerConfig"`:
 
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
@@ -4762,15 +6038,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoteDebugConfig"`: Configuration for remote debugging. To learn more about the remote
   debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
 
+- `"ResourceConfig"`: The resources, including the ML compute instances and ML storage
+  volumes, to use for model training.
+
+  ML storage volumes store model artifacts and incremental states. Training algorithms might
+  also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage
+  volume to store the training data, choose `File` as the `TrainingInputMode` in the
+  algorithm specification. For distributed training algorithms, specify an instance count
+  greater than 1.
+
 - `"RetryStrategy"`: The number of times to retry the job when the job fails due to an
   `InternalServerError`.
+
+- `"ServerlessJobConfig"`: The configuration for serverless training jobs.
 
 - `"SessionChainingConfig"`: Contains information about attribute-based access control
   (ABAC) for the training job.
 
+- `"StoppingCondition"`: Specifies a limit to how long a model training job can run. It also
+  specifies how long a managed Spot training job has to complete. When the job reaches the
+  time limit, SageMaker ends the training job. Use this API to cap model training costs.
+
+  To stop a job, SageMaker sends the algorithm the `SIGTERM` signal, which delays job
+  termination for 120 seconds. Algorithms can use this 120-second window to save the model
+  artifacts, so the results of training are not lost.
+
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any tags. As part of the shared responsibility model, you are
+      responsible for any potential exposure, unauthorized access, or compromise of your
+      sensitive data if caused by any security-sensitive information included in the request
+      tag variable or plain text fields.
 
 - `"TensorBoardOutputConfig"`:
 
@@ -4782,22 +6084,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_training_job end
 
 function create_training_job(
-    AlgorithmSpecification,
     OutputDataConfig,
-    ResourceConfig,
     RoleArn,
-    StoppingCondition,
     TrainingJobName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
         "CreateTrainingJob",
         Dict{String,Any}(
-            "AlgorithmSpecification" => AlgorithmSpecification,
             "OutputDataConfig" => OutputDataConfig,
-            "ResourceConfig" => ResourceConfig,
             "RoleArn" => RoleArn,
-            "StoppingCondition" => StoppingCondition,
             "TrainingJobName" => TrainingJobName,
         );
         aws_config,
@@ -4806,11 +6102,8 @@ function create_training_job(
 end
 
 function create_training_job(
-    AlgorithmSpecification,
     OutputDataConfig,
-    ResourceConfig,
     RoleArn,
-    StoppingCondition,
     TrainingJobName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -4821,12 +6114,105 @@ function create_training_job(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AlgorithmSpecification" => AlgorithmSpecification,
                     "OutputDataConfig" => OutputDataConfig,
-                    "ResourceConfig" => ResourceConfig,
                     "RoleArn" => RoleArn,
-                    "StoppingCondition" => StoppingCondition,
                     "TrainingJobName" => TrainingJobName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_training_plan(training_plan_name, training_plan_offering_id)
+    create_training_plan(training_plan_name, training_plan_offering_id, params::Dict{String,<:Any})
+
+Creates a new training plan in SageMaker to reserve compute capacity.
+
+Amazon SageMaker Training Plan is a capability within SageMaker that allows customers to
+reserve and manage GPU capacity for large-scale AI model training. It provides a way to
+secure predictable access to computational resources within specific timelines and budgets,
+without the need to manage underlying infrastructure.
+
+**How it works**
+
+Plans can be created for specific resources such as SageMaker Training Jobs or SageMaker
+HyperPod clusters, automatically provisioning resources, setting up infrastructure,
+executing workloads, and handling infrastructure failures.
+
+**Plan creation workflow**
+
+- Users search for available plan offerings based on their requirements (e.g., instance
+  type, count, start time, duration) using the
+  `[SearchTrainingPlanOfferings](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchTrainingPlanOfferings.html)`
+  API operation.
+- They create a plan that best matches their needs using the ID of the plan offering they
+  want to use.
+- After successful upfront payment, the plan's status becomes `Scheduled`.
+- The plan can be used to:
+  - Queue training jobs.
+  - Allocate to an instance group of a SageMaker HyperPod cluster.
+- When the plan start date arrives, it becomes `Active`. Based on available reserved
+  capacity:
+  - Training jobs are launched.
+  - Instance groups are provisioned.
+
+**Plan composition**
+
+A plan can consist of one or more Reserved Capacities, each defined by a specific instance
+type, quantity, Availability Zone, duration, and start and end times. For more information
+about Reserved Capacity, see
+`[ReservedCapacitySummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ReservedCapacitySummary.html)`.
+
+# Arguments
+
+- `training_plan_name`: The name of the training plan to create.
+- `training_plan_offering_id`: The unique identifier of the training plan offering to use
+  for creating this plan.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SpareInstanceCountPerUltraServer"`: Number of spare instances to reserve per UltraServer
+  for enhanced resiliency. Default is 1.
+- `"Tags"`: An array of key-value pairs to apply to this training plan.
+"""
+function create_training_plan end
+
+function create_training_plan(
+    TrainingPlanName,
+    TrainingPlanOfferingId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateTrainingPlan",
+        Dict{String,Any}(
+            "TrainingPlanName" => TrainingPlanName,
+            "TrainingPlanOfferingId" => TrainingPlanOfferingId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_training_plan(
+    TrainingPlanName,
+    TrainingPlanOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "CreateTrainingPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TrainingPlanName" => TrainingPlanName,
+                    "TrainingPlanOfferingId" => TrainingPlanOfferingId,
                 ),
                 params,
             ),
@@ -4857,7 +6243,8 @@ In the request body, you provide the following:
   where it is stored.
 - `TransformOutput` - Identifies the Amazon S3 location where you want Amazon SageMaker to
   save the results from the transform job.
-- `TransformResources` - Identifies the ML compute instances for the transform job.
+- `TransformResources` - Identifies the ML compute instances and AMI image versions for the
+  transform job.
 
 For more information about how batch transformation works, see [Batch Transform](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html).
 
@@ -4878,8 +6265,8 @@ For more information about how batch transformation works, see [Batch Transform]
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BatchStrategy"`: Specifies the number of records to include in a mini-batch for an HTTP
-  inference request. A *record* ** is a single unit of input data that inference can be made
-  on. For example, a single line in a CSV file is a record.
+  inference request. A *record* <i/> is a single unit of input data that inference can be
+  made on. For example, a single line in a CSV file is a record.
 
   To enable the batch strategy, you must set the `SplitType` property to `Line`, `RecordIO`,
   or `TFRecord`.
@@ -4899,8 +6286,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to include input data relevant to interpreting the predictions in the output from the job.
   For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
 
-- `"Environment"`: The environment variables to set in the Docker container. We support up
-  to 16 key and values entries in the map.
+- `"Environment"`: The environment variables to set in the Docker container. Don't include
+  any sensitive data in your environment variables. We support up to 16 key and values
+  entries in the map.
 
 - `"ExperimentConfig"`:
 
@@ -5243,6 +6631,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single Cognito workforce is created using and corresponds to a single [Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
   Do not use `OidcConfig` if you specify values for `CognitoConfig`.
+
+- `"IpAddressType"`: Use this parameter to specify whether you want `IPv4` only or
+  `dualstack` (`IPv4` and `IPv6`) to support your labeling workforce.
 
 - `"OidcConfig"`: Use this parameter to configure a private workforce using your own OIDC
   Identity Provider.
@@ -5659,6 +7050,48 @@ function delete_cluster(
 end
 
 """
+    delete_cluster_scheduler_config(cluster_scheduler_config_id)
+    delete_cluster_scheduler_config(cluster_scheduler_config_id, params::Dict{String,<:Any})
+
+Deletes the cluster policy of the cluster.
+
+# Arguments
+
+- `cluster_scheduler_config_id`: ID of the cluster policy.
+"""
+function delete_cluster_scheduler_config end
+
+function delete_cluster_scheduler_config(
+    ClusterSchedulerConfigId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteClusterSchedulerConfig",
+        Dict{String,Any}("ClusterSchedulerConfigId" => ClusterSchedulerConfigId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_cluster_scheduler_config(
+    ClusterSchedulerConfigId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteClusterSchedulerConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterSchedulerConfigId" => ClusterSchedulerConfigId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_code_repository(code_repository_name)
     delete_code_repository(code_repository_name, params::Dict{String,<:Any})
 
@@ -5703,9 +7136,9 @@ end
     delete_compilation_job(compilation_job_name, params::Dict{String,<:Any})
 
 Deletes the specified compilation job. This action deletes only the compilation job resource
-in Amazon SageMaker. It doesn't delete other resources that are related to that job, such as
-the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled
-model, or the IAM role.
+in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such
+as the model artifacts that the job creates, the compilation logs in CloudWatch, the
+compiled model, or the IAM role.
 
 You can delete a compilation job only if its current status is `COMPLETED`, `FAILED`, or
 `STOPPED`. If the job status is `STARTING` or `INPROGRESS`, stop the job, and then delete it
@@ -5739,6 +7172,44 @@ function delete_compilation_job(
             mergewith(
                 _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_compute_quota(compute_quota_id)
+    delete_compute_quota(compute_quota_id, params::Dict{String,<:Any})
+
+Deletes the compute allocation from the cluster.
+
+# Arguments
+
+- `compute_quota_id`: ID of the compute allocation definition.
+"""
+function delete_compute_quota end
+
+function delete_compute_quota(
+    ComputeQuotaId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteComputeQuota",
+        Dict{String,Any}("ComputeQuotaId" => ComputeQuotaId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_compute_quota(
+    ComputeQuotaId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteComputeQuota",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ComputeQuotaId" => ComputeQuotaId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6229,9 +7700,6 @@ end
 
 Delete a hub.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `hub_name`: The name of the hub to delete.
@@ -6265,9 +7733,6 @@ end
     delete_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name, params::Dict{String,<:Any})
 
 Delete the contents of a hub.
-
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -6315,6 +7780,64 @@ function delete_hub_content(
                     "HubContentName" => HubContentName,
                     "HubContentType" => HubContentType,
                     "HubContentVersion" => HubContentVersion,
+                    "HubName" => HubName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_hub_content_reference(hub_content_name, hub_content_type, hub_name)
+    delete_hub_content_reference(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
+
+Delete a hub content reference in order to remove a model from a private hub.
+
+# Arguments
+
+- `hub_content_name`: The name of the hub content to delete.
+- `hub_content_type`: The type of hub content reference to delete. The only supported type
+  of hub content reference to delete is `ModelReference`.
+- `hub_name`: The name of the hub to delete the hub content reference from.
+"""
+function delete_hub_content_reference end
+
+function delete_hub_content_reference(
+    HubContentName,
+    HubContentType,
+    HubName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteHubContentReference",
+        Dict{String,Any}(
+            "HubContentName" => HubContentName,
+            "HubContentType" => HubContentType,
+            "HubName" => HubName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_hub_content_reference(
+    HubContentName,
+    HubContentType,
+    HubName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteHubContentReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HubContentName" => HubContentName,
+                    "HubContentType" => HubContentType,
                     "HubName" => HubName,
                 ),
                 params,
@@ -6422,7 +7945,7 @@ end
     delete_image(image_name)
     delete_image(image_name, params::Dict{String,<:Any})
 
-Deletes a SageMaker image and all versions of the image. The container images aren't
+Deletes a SageMaker AI image and all versions of the image. The container images aren't
 deleted.
 
 # Arguments
@@ -6459,7 +7982,7 @@ end
     delete_image_version(image_name)
     delete_image_version(image_name, params::Dict{String,<:Any})
 
-Deletes a version of a SageMaker image. The container image the version represents isn't
+Deletes a version of a SageMaker AI image. The container image the version represents isn't
 deleted.
 
 # Arguments
@@ -6580,6 +8103,78 @@ function delete_inference_experiment(
 end
 
 """
+    delete_mlflow_app(arn)
+    delete_mlflow_app(arn, params::Dict{String,<:Any})
+
+Deletes an MLflow App.
+
+# Arguments
+
+- `arn`: The ARN of the MLflow App to delete.
+"""
+function delete_mlflow_app end
+
+function delete_mlflow_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "DeleteMlflowApp",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_mlflow_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteMlflowApp",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_mlflow_tracking_server(tracking_server_name)
+    delete_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
+
+Deletes an MLflow Tracking Server. For more information, see [Clean up MLflow resources](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-cleanup.html.html).
+
+# Arguments
+
+- `tracking_server_name`: The name of the the tracking server to delete.
+"""
+function delete_mlflow_tracking_server end
+
+function delete_mlflow_tracking_server(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteMlflowTrackingServer",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_mlflow_tracking_server(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_model(model_name)
     delete_model(model_name, params::Dict{String,<:Any})
 
@@ -6621,7 +8216,7 @@ end
     delete_model_bias_job_definition(job_definition_name)
     delete_model_bias_job_definition(job_definition_name, params::Dict{String,<:Any})
 
-Deletes an Amazon SageMaker model bias job definition.
+Deletes an Amazon SageMaker AI model bias job definition.
 
 # Arguments
 
@@ -6699,7 +8294,7 @@ end
     delete_model_explainability_job_definition(job_definition_name)
     delete_model_explainability_job_definition(job_definition_name, params::Dict{String,<:Any})
 
-Deletes an Amazon SageMaker model explainability job definition.
+Deletes an Amazon SageMaker AI model explainability job definition.
 
 # Arguments
 
@@ -6954,17 +8549,17 @@ end
     delete_notebook_instance(notebook_instance_name)
     delete_notebook_instance(notebook_instance_name, params::Dict{String,<:Any})
 
-Deletes an SageMaker notebook instance. Before you can delete a notebook instance, you must
-call the `StopNotebookInstance` API.
+Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you
+must call the `StopNotebookInstance` API.
 
 !!! important
-    When you delete a notebook instance, you lose all of your data. SageMaker removes the ML
-    compute instance, and deletes the ML storage volume and the network interface associated
-    with the notebook instance.
+    When you delete a notebook instance, you lose all of your data. SageMaker AI removes the
+    ML compute instance, and deletes the ML storage volume and the network interface
+    associated with the notebook instance.
 
 # Arguments
 
-- `notebook_instance_name`: The name of the SageMaker notebook instance to delete.
+- `notebook_instance_name`: The name of the SageMaker AI notebook instance to delete.
 """
 function delete_notebook_instance end
 
@@ -7047,6 +8642,92 @@ function delete_notebook_instance_lifecycle_config(
 end
 
 """
+    delete_optimization_job(optimization_job_name)
+    delete_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Deletes an optimization job.
+
+# Arguments
+
+- `optimization_job_name`: The name that you assigned to the optimization job.
+"""
+function delete_optimization_job end
+
+function delete_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_partner_app(arn)
+    delete_partner_app(arn, params::Dict{String,<:Any})
+
+Deletes a SageMaker Partner AI App.
+
+# Arguments
+
+- `arn`: The ARN of the SageMaker Partner AI App to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+"""
+function delete_partner_app end
+
+function delete_partner_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "DeletePartnerApp",
+        Dict{String,Any}("Arn" => Arn, "ClientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_partner_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeletePartnerApp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Arn" => Arn, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_pipeline(client_request_token, pipeline_name)
     delete_pipeline(client_request_token, pipeline_name, params::Dict{String,<:Any})
 
@@ -7091,6 +8772,50 @@ function delete_pipeline(
                     "PipelineName" => PipelineName,
                 ),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_processing_job(processing_job_name)
+    delete_processing_job(processing_job_name, params::Dict{String,<:Any})
+
+Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the
+metadata for the processing job is lost. You can delete only processing jobs that are in a
+terminal state (`Stopped`, `Failed`, or `Completed`). You cannot delete a job that is in the
+`InProgress` or `Stopping` state. After deleting the job, you can reuse its name to create
+another processing job.
+
+# Arguments
+
+- `processing_job_name`: The name of the processing job to delete.
+"""
+function delete_processing_job end
+
+function delete_processing_job(
+    ProcessingJobName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteProcessingJob",
+        Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_processing_job(
+    ProcessingJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteProcessingJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ProcessingJobName" => ProcessingJobName), params
             ),
         );
         aws_config,
@@ -7182,14 +8907,14 @@ end
     delete_studio_lifecycle_config(studio_lifecycle_config_name)
     delete_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to delete the
+Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the
 Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration.
 You must also remove the Lifecycle Configuration from UserSettings in all Domains and
 UserProfiles.
 
 # Arguments
 
-- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker AI Studio Lifecycle
   Configuration to delete.
 """
 function delete_studio_lifecycle_config end
@@ -7274,6 +8999,50 @@ function delete_tags(
                 _merge,
                 Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_training_job(training_job_name)
+    delete_training_job(training_job_name, params::Dict{String,<:Any})
+
+Deletes a training job. After SageMaker deletes a training job, all of the metadata for the
+training job is lost. You can delete only training jobs that are in a terminal state
+(`Stopped`, `Failed`, or `Completed`) and don't retain an `Available` [managed warm pool](https://docs.aws.amazon.com/sagemaker/latest/dg/train-warm-pools.html).
+You cannot delete a job that is in the `InProgress` or `Stopping` state. After deleting the
+job, you can reuse its name to create another training job.
+
+# Arguments
+
+- `training_job_name`: The name of the training job to delete.
+"""
+function delete_training_job end
+
+function delete_training_job(
+    TrainingJobName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DeleteTrainingJob",
+        Dict{String,Any}("TrainingJobName" => TrainingJobName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_training_job(
+    TrainingJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DeleteTrainingJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrainingJobName" => TrainingJobName), params
             ),
         );
         aws_config,
@@ -7422,7 +9191,7 @@ to create a new workforce.
 !!! important
     If a private workforce contains one or more work teams, you must use the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html)
     operation to delete all work teams before you delete the workforce. If you try to delete
-    a workforce that contains one or more work teams, you will recieve a `ResourceInUse`
+    a workforce that contains one or more work teams, you will receive a `ResourceInUse`
     error.
 
 # Arguments
@@ -7867,8 +9636,55 @@ function describe_cluster(
 end
 
 """
-    describe_cluster_node(cluster_name, node_id)
-    describe_cluster_node(cluster_name, node_id, params::Dict{String,<:Any})
+    describe_cluster_event(cluster_name, event_id)
+    describe_cluster_event(cluster_name, event_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific event for a given HyperPod cluster. This
+functionality is only supported when the `NodeProvisioningMode` is set to `Continuous`.
+
+# Arguments
+
+- `cluster_name`: The name or Amazon Resource Name (ARN) of the HyperPod cluster associated
+  with the event.
+- `event_id`: The unique identifier (UUID) of the event to describe. This ID can be obtained
+  from the `ListClusterEvents` operation.
+"""
+function describe_cluster_event end
+
+function describe_cluster_event(
+    ClusterName, EventId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeClusterEvent",
+        Dict{String,Any}("ClusterName" => ClusterName, "EventId" => EventId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_cluster_event(
+    ClusterName,
+    EventId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeClusterEvent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterName" => ClusterName, "EventId" => EventId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster_node(cluster_name)
+    describe_cluster_node(cluster_name, params::Dict{String,<:Any})
 
 Retrieves information of a node (also called a *instance* interchangeably) of a SageMaker
 HyperPod cluster.
@@ -7877,16 +9693,24 @@ HyperPod cluster.
 
 - `cluster_name`: The string name or the Amazon Resource Name (ARN) of the SageMaker
   HyperPod cluster in which the node is.
-- `node_id`: The ID of the SageMaker HyperPod cluster node.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NodeId"`: The ID of the SageMaker HyperPod cluster node.
+- `"NodeLogicalId"`: The logical identifier of the node to describe. You can specify either
+  `NodeLogicalId` or `InstanceId`, but not both. `NodeLogicalId` can be used to describe
+  nodes that are still being provisioned and don't yet have an `InstanceId` assigned.
 """
 function describe_cluster_node end
 
 function describe_cluster_node(
-    ClusterName, NodeId; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker(
         "DescribeClusterNode",
-        Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId);
+        Dict{String,Any}("ClusterName" => ClusterName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -7894,16 +9718,61 @@ end
 
 function describe_cluster_node(
     ClusterName,
-    NodeId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
         "DescribeClusterNode",
         Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster_scheduler_config(cluster_scheduler_config_id)
+    describe_cluster_scheduler_config(cluster_scheduler_config_id, params::Dict{String,<:Any})
+
+Description of the cluster policy. This policy is used for task prioritization and fair-
+share allocation. This helps prioritize critical workloads and distributes idle compute
+across entities.
+
+# Arguments
+
+- `cluster_scheduler_config_id`: ID of the cluster policy.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClusterSchedulerConfigVersion"`: Version of the cluster policy.
+"""
+function describe_cluster_scheduler_config end
+
+function describe_cluster_scheduler_config(
+    ClusterSchedulerConfigId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeClusterSchedulerConfig",
+        Dict{String,Any}("ClusterSchedulerConfigId" => ClusterSchedulerConfigId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_cluster_scheduler_config(
+    ClusterSchedulerConfigId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeClusterSchedulerConfig",
+        Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId),
+                Dict{String,Any}("ClusterSchedulerConfigId" => ClusterSchedulerConfigId),
                 params,
             ),
         );
@@ -7990,6 +9859,50 @@ function describe_compilation_job(
             mergewith(
                 _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_compute_quota(compute_quota_id)
+    describe_compute_quota(compute_quota_id, params::Dict{String,<:Any})
+
+Description of the compute allocation definition.
+
+# Arguments
+
+- `compute_quota_id`: ID of the compute allocation definition.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ComputeQuotaVersion"`: Version of the compute allocation definition.
+"""
+function describe_compute_quota end
+
+function describe_compute_quota(
+    ComputeQuotaId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeComputeQuota",
+        Dict{String,Any}("ComputeQuotaId" => ComputeQuotaId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_compute_quota(
+    ComputeQuotaId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeComputeQuota",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ComputeQuotaId" => ComputeQuotaId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8549,10 +10462,7 @@ end
     describe_hub(hub_name)
     describe_hub(hub_name, params::Dict{String,<:Any})
 
-Describe a hub.
-
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
+Describes a hub.
 
 # Arguments
 
@@ -8587,9 +10497,6 @@ end
     describe_hub_content(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
 Describe the content of a hub.
-
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -8739,7 +10646,7 @@ end
     describe_image(image_name)
     describe_image(image_name, params::Dict{String,<:Any})
 
-Describes a SageMaker image.
+Describes a SageMaker AI image.
 
 # Arguments
 
@@ -8775,7 +10682,7 @@ end
     describe_image_version(image_name)
     describe_image_version(image_name, params::Dict{String,<:Any})
 
-Describes a version of a SageMaker image.
+Describes a version of a SageMaker AI image.
 
 # Arguments
 
@@ -9004,6 +10911,78 @@ function describe_lineage_group(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_mlflow_app(arn)
+    describe_mlflow_app(arn, params::Dict{String,<:Any})
+
+Returns information about an MLflow App.
+
+# Arguments
+
+- `arn`: The ARN of the MLflow App for which to get information.
+"""
+function describe_mlflow_app end
+
+function describe_mlflow_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "DescribeMlflowApp",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_mlflow_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeMlflowApp",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_mlflow_tracking_server(tracking_server_name)
+    describe_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
+
+Returns information about an MLflow Tracking Server.
+
+# Arguments
+
+- `tracking_server_name`: The name of the MLflow Tracking Server to describe.
+"""
+function describe_mlflow_tracking_server end
+
+function describe_mlflow_tracking_server(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeMlflowTrackingServer",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_mlflow_tracking_server(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
         aws_config,
@@ -9489,6 +11468,87 @@ function describe_notebook_instance_lifecycle_config(
 end
 
 """
+    describe_optimization_job(optimization_job_name)
+    describe_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Provides the properties of the specified optimization job.
+
+# Arguments
+
+- `optimization_job_name`: The name that you assigned to the optimization job.
+"""
+function describe_optimization_job end
+
+function describe_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_partner_app(arn)
+    describe_partner_app(arn, params::Dict{String,<:Any})
+
+Gets information about a SageMaker Partner AI App.
+
+# Arguments
+
+- `arn`: The ARN of the SageMaker Partner AI App to describe.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeAvailableUpgrade"`: When set to `TRUE`, the response includes available upgrade
+  information for the SageMaker Partner AI App. Default is `FALSE`.
+"""
+function describe_partner_app end
+
+function describe_partner_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "DescribePartnerApp",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_partner_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribePartnerApp",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_pipeline(pipeline_name)
     describe_pipeline(pipeline_name, params::Dict{String,<:Any})
 
@@ -9497,6 +11557,12 @@ Describes the details of a pipeline.
 # Arguments
 
 - `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline to describe.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"PipelineVersionId"`: The ID of the pipeline version to describe.
 """
 function describe_pipeline end
 
@@ -9686,6 +11752,48 @@ function describe_project(
 end
 
 """
+    describe_reserved_capacity(reserved_capacity_arn)
+    describe_reserved_capacity(reserved_capacity_arn, params::Dict{String,<:Any})
+
+Retrieves details about a reserved capacity.
+
+# Arguments
+
+- `reserved_capacity_arn`: ARN of the reserved capacity to describe.
+"""
+function describe_reserved_capacity end
+
+function describe_reserved_capacity(
+    ReservedCapacityArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeReservedCapacity",
+        Dict{String,Any}("ReservedCapacityArn" => ReservedCapacityArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_reserved_capacity(
+    ReservedCapacityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeReservedCapacity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedCapacityArn" => ReservedCapacityArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_space(domain_id, space_name)
     describe_space(domain_id, space_name, params::Dict{String,<:Any})
 
@@ -9733,11 +11841,11 @@ end
     describe_studio_lifecycle_config(studio_lifecycle_config_name)
     describe_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Describes the Amazon SageMaker Studio Lifecycle Configuration.
+Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
 
 # Arguments
 
-- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker AI Studio Lifecycle
   Configuration to describe.
 """
 function describe_studio_lifecycle_config end
@@ -9849,6 +11957,96 @@ function describe_training_job(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("TrainingJobName" => TrainingJobName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_training_plan(training_plan_name)
+    describe_training_plan(training_plan_name, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific training plan.
+
+# Arguments
+
+- `training_plan_name`: The name of the training plan to describe.
+"""
+function describe_training_plan end
+
+function describe_training_plan(
+    TrainingPlanName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeTrainingPlan",
+        Dict{String,Any}("TrainingPlanName" => TrainingPlanName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_training_plan(
+    TrainingPlanName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeTrainingPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrainingPlanName" => TrainingPlanName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_training_plan_extension_history(training_plan_arn)
+    describe_training_plan_extension_history(training_plan_arn, params::Dict{String,<:Any})
+
+Retrieves the extension history for a specified training plan. The response includes details
+about each extension, such as the offering ID, start and end dates, status, payment status,
+and cost information.
+
+# Arguments
+
+- `training_plan_arn`: The Amazon Resource Name (ARN); of the training plan to retrieve
+  extension history for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of extensions to return in the response.
+- `"NextToken"`: A token to continue pagination if more results are available.
+"""
+function describe_training_plan_extension_history end
+
+function describe_training_plan_extension_history(
+    TrainingPlanArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DescribeTrainingPlanExtensionHistory",
+        Dict{String,Any}("TrainingPlanArn" => TrainingPlanArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_training_plan_extension_history(
+    TrainingPlanArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DescribeTrainingPlanExtensionHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrainingPlanArn" => TrainingPlanArn), params
             ),
         );
         aws_config,
@@ -10067,7 +12265,7 @@ end
     describe_workteam(workteam_name)
     describe_workteam(workteam_name, params::Dict{String,<:Any})
 
-Gets information about a specific work team. You can see information such as the create
+Gets information about a specific work team. You can see information such as the creation
 date, the last updated date, membership information, and the work team's Amazon Resource
 Name (ARN).
 
@@ -10095,6 +12293,64 @@ function describe_workteam(
         "DescribeWorkteam",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("WorkteamName" => WorkteamName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    detach_cluster_node_volume(cluster_arn, node_id, volume_id)
+    detach_cluster_node_volume(cluster_arn, node_id, volume_id, params::Dict{String,<:Any})
+
+Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS
+orchestrated SageMaker HyperPod cluster.
+
+This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface
+(CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster
+  containing the target node. Your cluster must use EKS as the orchestration and be in the
+  `InService` state.
+- `node_id`: The unique identifier of the cluster node from which you want to detach the
+  volume.
+- `volume_id`: The unique identifier of your EBS volume that you want to detach. Your volume
+  must be currently attached to the specified node.
+"""
+function detach_cluster_node_volume end
+
+function detach_cluster_node_volume(
+    ClusterArn, NodeId, VolumeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "DetachClusterNodeVolume",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn, "NodeId" => NodeId, "VolumeId" => VolumeId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function detach_cluster_node_volume(
+    ClusterArn,
+    NodeId,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "DetachClusterNodeVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterArn" => ClusterArn, "NodeId" => NodeId, "VolumeId" => VolumeId
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -10211,6 +12467,64 @@ function enable_sagemaker_servicecatalog_portfolio(
     return sagemaker(
         "EnableSagemakerServicecatalogPortfolio",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    extend_training_plan(training_plan_extension_offering_id)
+    extend_training_plan(training_plan_extension_offering_id, params::Dict{String,<:Any})
+
+Extends an existing training plan by purchasing an extension offering. This allows you to
+add additional compute capacity time to your training plan without creating a new plan or
+reconfiguring your workloads.
+
+To find available extension offerings, use the
+`[SearchTrainingPlanOfferings](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchTrainingPlanOfferings.html)`
+API with the `TrainingPlanArn` parameter.
+
+To view the history of extensions for a training plan, use the
+`[DescribeTrainingPlanExtensionHistory](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingPlanExtensionHistory.html)`
+API.
+
+# Arguments
+
+- `training_plan_extension_offering_id`: The unique identifier of the extension offering to
+  purchase. You can retrieve this ID from the `TrainingPlanExtensionOfferings` in the
+  response of the `SearchTrainingPlanOfferings` API.
+"""
+function extend_training_plan end
+
+function extend_training_plan(
+    TrainingPlanExtensionOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ExtendTrainingPlan",
+        Dict{String,Any}(
+            "TrainingPlanExtensionOfferingId" => TrainingPlanExtensionOfferingId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function extend_training_plan(
+    TrainingPlanExtensionOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "ExtendTrainingPlan",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TrainingPlanExtensionOfferingId" => TrainingPlanExtensionOfferingId
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -10493,9 +12807,6 @@ end
 
 Import hub content.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `document_schema_version`: The version of the hub content schema to import.
@@ -10515,6 +12826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string can include links, tables, and standard markdown formating.
 - `"HubContentSearchKeywords"`: The searchable keywords of the hub content.
 - `"HubContentVersion"`: The version of the hub content to import.
+- `"SupportStatus"`: The status of the hub content resource.
 - `"Tags"`: Any tags associated with the hub content.
 """
 function import_hub_content end
@@ -10938,6 +13250,70 @@ function list_candidates_for_auto_mljob(
 end
 
 """
+    list_cluster_events(cluster_name)
+    list_cluster_events(cluster_name, params::Dict{String,<:Any})
+
+Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports
+filtering, sorting, and pagination of results. This functionality is only supported when the
+`NodeProvisioningMode` is set to `Continuous`.
+
+# Arguments
+
+- `cluster_name`: The name or Amazon Resource Name (ARN) of the HyperPod cluster for which
+  to list events.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EventTimeAfter"`: The start of the time range for filtering events. Only events that
+  occurred after this time are included in the results.
+- `"EventTimeBefore"`: The end of the time range for filtering events. Only events that
+  occurred before this time are included in the results.
+- `"InstanceGroupName"`: The name of the instance group to filter events. If specified, only
+  events related to this instance group are returned.
+- `"MaxResults"`: The maximum number of events to return in the response. Valid range is 1
+  to 100.
+- `"NextToken"`: A token to retrieve the next set of results. This token is obtained from
+  the output of a previous `ListClusterEvents` call.
+- `"NodeId"`: The EC2 instance ID to filter events. If specified, only events related to
+  this instance are returned.
+- `"ResourceType"`: The type of resource for which to filter events. Valid values are
+  `Cluster`, `InstanceGroup`, or `Instance`.
+- `"SortBy"`: The field to use for sorting the event list. Currently, the only supported
+  value is `EventTime`.
+- `"SortOrder"`: The order in which to sort the results. Valid values are `Ascending` or
+  `Descending` (the default is `Descending`).
+"""
+function list_cluster_events end
+
+function list_cluster_events(
+    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListClusterEvents",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_cluster_events(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "ListClusterEvents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_cluster_nodes(cluster_name)
     list_cluster_nodes(cluster_name, params::Dict{String,<:Any})
 
@@ -10971,6 +13347,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created before the specified time. The acceptable formats are the same as the timestamp
   formats for `CreationTimeAfter`. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
+
+- `"IncludeNodeLogicalIds"`: Specifies whether to include nodes that are still being
+  provisioned in the response. When set to true, the response includes all nodes regardless
+  of their provisioning status. When set to `False` (default), only nodes with assigned
+  `InstanceIds` are returned.
 
 - `"InstanceGroupNameContains"`: A filter that returns the instance groups whose name
   contain a specified string.
@@ -11012,6 +13393,49 @@ function list_cluster_nodes(
 end
 
 """
+    list_cluster_scheduler_configs()
+    list_cluster_scheduler_configs(params::Dict{String,<:Any})
+
+List the cluster policy configurations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClusterArn"`: Filter for ARN of the cluster.
+- `"CreatedAfter"`: Filter for after this creation time. The input for this parameter is a
+  Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"CreatedBefore"`: Filter for before this creation time. The input for this parameter is a
+  Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"MaxResults"`: The maximum number of cluster policies to list.
+- `"NameContains"`: Filter for name containing this string.
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+- `"SortBy"`: Filter for sorting the list by a given value. For example, sort by name,
+  creation time, or status.
+- `"SortOrder"`: The order of the list. By default, listed in `Descending` order according
+  to by `SortBy`. To change the list order, you can specify `SortOrder` to be `Ascending`.
+- `"Status"`: Filter for status.
+"""
+function list_cluster_scheduler_configs end
+
+function list_cluster_scheduler_configs(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListClusterSchedulerConfigs"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_cluster_scheduler_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListClusterSchedulerConfigs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
@@ -11041,7 +13465,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   formats for `CreationTimeAfter`. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   in the *Amazon Web Services Command Line Interface User Guide*.
 
-- `"MaxResults"`: Set the maximum number of SageMaker HyperPod clusters to list.
+- `"MaxResults"`: Specifies the maximum number of clusters to evaluate for the operation
+  (not necessarily the number of matching items). After SageMaker processes the number of
+  clusters up to `MaxResults`, it stops the operation and returns the matching clusters up
+  to that point. If all the matching clusters are desired, SageMaker will go through all the
+  clusters until `NextToken` is empty.
 
 - `"NameContains"`: Set the maximum number of instances to print in the list.
 
@@ -11050,6 +13478,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field by which to sort results. The default value is `CREATION_TIME`.
 
 - `"SortOrder"`: The sort order for results. The default value is `Ascending`.
+
+- `"TrainingPlanArn"`: The Amazon Resource Name (ARN); of the training plan to filter
+  clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod
+  clusters using Amazon SageMaker Training Plan, see
+  `[CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html)`.
 """
 function list_clusters end
 
@@ -11151,6 +13584,45 @@ function list_compilation_jobs(
 end
 
 """
+    list_compute_quotas()
+    list_compute_quotas(params::Dict{String,<:Any})
+
+List the resource allocation definitions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClusterArn"`: Filter for ARN of the cluster.
+- `"CreatedAfter"`: Filter for after this creation time. The input for this parameter is a
+  Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"CreatedBefore"`: Filter for before this creation time. The input for this parameter is a
+  Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"MaxResults"`: The maximum number of compute allocation definitions to list.
+- `"NameContains"`: Filter for name containing this string.
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+- `"SortBy"`: Filter for sorting the list by a given value. For example, sort by name,
+  creation time, or status.
+- `"SortOrder"`: The order of the list. By default, listed in `Descending` order according
+  to by `SortBy`. To change the list order, you can specify `SortOrder` to be `Ascending`.
+- `"Status"`: Filter for status.
+"""
+function list_compute_quotas end
+
+function list_compute_quotas(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker("ListComputeQuotas"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_compute_quotas(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListComputeQuotas", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_contexts()
     list_contexts(params::Dict{String,<:Any})
 
@@ -11208,7 +13680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string.
 - `"NextToken"`: If the result of the previous `ListDataQualityJobDefinitions` request was
   truncated, the response includes a `NextToken`. To retrieve the next set of transform
-  jobs, use the token in the next request.>
+  jobs, use the token in the next request.&gt;
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: Whether to sort the results in `Ascending` or `Descending` order. The
   default is `Descending`.
@@ -11596,9 +14068,6 @@ end
 
 List hub content versions.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `hub_content_name`: The name of the hub content.
@@ -11673,9 +14142,6 @@ end
 
 List the contents of a hub.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `hub_content_type`: The type of hub content to list.
@@ -11734,9 +14200,6 @@ end
     list_hubs(params::Dict{String,<:Any})
 
 List all existing hubs.
-
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
 
 # Optional Parameters
 
@@ -12284,6 +14747,93 @@ function list_lineage_groups(
 )
     return sagemaker(
         "ListLineageGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_mlflow_apps()
+    list_mlflow_apps(params::Dict{String,<:Any})
+
+Lists all MLflow Apps
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountDefaultStatus"`: Filter for MLflow Apps with the specified
+  `AccountDefaultStatus`.
+- `"CreatedAfter"`: Use the `CreatedAfter` filter to only list MLflow Apps created after a
+  specific date and time. Listed MLflow Apps are shown with a date and time such as
+  `"2024-03-16T01:46:56+00:00"`. The `CreatedAfter` parameter takes in a Unix timestamp.
+- `"CreatedBefore"`: Use the `CreatedBefore` filter to only list MLflow Apps created before
+  a specific date and time. Listed MLflow Apps are shown with a date and time such as
+  `"2024-03-16T01:46:56+00:00"`. The `CreatedAfter` parameter takes in a Unix timestamp.
+- `"DefaultForDomainId"`: Filter for MLflow Apps with the specified default SageMaker Domain
+  ID.
+- `"MaxResults"`: The maximum number of MLflow Apps to list.
+- `"MlflowVersion"`: Filter for Mlflow Apps with the specified version.
+- `"NextToken"`: If the previous response was truncated, use this token in your next request
+  to receive the next set of results.
+- `"SortBy"`: Filter for MLflow Apps sorting by name, creation time, or creation status.
+- `"SortOrder"`: Change the order of the listed MLflow Apps. By default, MLflow Apps are
+  listed in `Descending` order by creation time. To change the list order, specify
+  `SortOrder` to be `Ascending`.
+- `"Status"`: Filter for Mlflow apps with a specific creation status.
+"""
+function list_mlflow_apps end
+
+function list_mlflow_apps(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker("ListMlflowApps"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_mlflow_apps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker("ListMlflowApps", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_mlflow_tracking_servers()
+    list_mlflow_tracking_servers(params::Dict{String,<:Any})
+
+Lists all MLflow Tracking Servers.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CreatedAfter"`: Use the `CreatedAfter` filter to only list tracking servers created
+  after a specific date and time. Listed tracking servers are shown with a date and time
+  such as `"2024-03-16T01:46:56+00:00"`. The `CreatedAfter` parameter takes in a Unix
+  timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"CreatedBefore"`: Use the `CreatedBefore` filter to only list tracking servers created
+  before a specific date and time. Listed tracking servers are shown with a date and time
+  such as `"2024-03-16T01:46:56+00:00"`. The `CreatedBefore` parameter takes in a Unix
+  timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+- `"MaxResults"`: The maximum number of tracking servers to list.
+- `"MlflowVersion"`: Filter for tracking servers using the specified MLflow version.
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+- `"SortBy"`: Filter for trackings servers sorting by name, creation time, or creation
+  status.
+- `"SortOrder"`: Change the order of the listed tracking servers. By default, tracking
+  servers are listed in `Descending` order by creation time. To change the list order, you
+  can specify `SortOrder` to be `Ascending`.
+- `"TrackingServerStatus"`: Filter for tracking servers with a specified creation status.
+"""
+function list_mlflow_tracking_servers end
+
+function list_mlflow_tracking_servers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "ListMlflowTrackingServers"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_mlflow_tracking_servers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListMlflowTrackingServers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -12983,8 +15533,8 @@ end
     list_notebook_instances()
     list_notebook_instances(params::Dict{String,<:Any})
 
-Returns a list of the SageMaker notebook instances in the requester's account in an Amazon
-Web Services Region.
+Returns a list of the SageMaker AI notebook instances in the requester's account in an
+Amazon Web Services Region.
 
 # Optional Parameters
 
@@ -13046,6 +15596,86 @@ function list_notebook_instances(
     return sagemaker(
         "ListNotebookInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
+
+"""
+    list_optimization_jobs()
+    list_optimization_jobs(params::Dict{String,<:Any})
+
+Lists the optimization jobs in your account and their properties.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CreationTimeAfter"`: Filters the results to only those optimization jobs that were
+  created after the specified time.
+- `"CreationTimeBefore"`: Filters the results to only those optimization jobs that were
+  created before the specified time.
+- `"LastModifiedTimeAfter"`: Filters the results to only those optimization jobs that were
+  updated after the specified time.
+- `"LastModifiedTimeBefore"`: Filters the results to only those optimization jobs that were
+  updated before the specified time.
+- `"MaxResults"`: The maximum number of optimization jobs to return in the response. The
+  default is 50.
+- `"NameContains"`: Filters the results to only those optimization jobs with a name that
+  contains the specified string.
+- `"NextToken"`: A token that you use to get the next set of results following a truncated
+  response. If the response to the previous request was truncated, that response provides
+  the value for this token.
+- `"OptimizationContains"`: Filters the results to only those optimization jobs that apply
+  the specified optimization techniques. You can specify either `Quantization` or
+  `Compilation`.
+- `"SortBy"`: The field by which to sort the optimization jobs in the response. The default
+  is `CreationTime`
+- `"SortOrder"`: The sort order for results. The default is `Ascending`
+- `"StatusEquals"`: Filters the results to only those optimization jobs with the specified
+  status.
+"""
+function list_optimization_jobs end
+
+function list_optimization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker("ListOptimizationJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_optimization_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListOptimizationJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_partner_apps()
+    list_partner_apps(params::Dict{String,<:Any})
+
+Lists all of the SageMaker Partner AI Apps in an account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: This parameter defines the maximum number of results that can be returned
+  in a single response. The `MaxResults` parameter is an upper bound, not a target. If there
+  are more results available than the value specified, a `NextToken` is provided in the
+  response. The `NextToken` indicates that the user should get the next set of results by
+  providing this token as a part of a subsequent call. The default value for `MaxResults` is
+  10.
+
+- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
+  in your next request to receive the next set of results.
+"""
+function list_partner_apps end
+
+function list_partner_apps(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker("ListPartnerApps"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_partner_apps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker("ListPartnerApps", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -13179,6 +15809,58 @@ function list_pipeline_parameters_for_execution(
                 Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_pipeline_versions(pipeline_name)
+    list_pipeline_versions(pipeline_name, params::Dict{String,<:Any})
+
+Gets a list of all versions of the pipeline.
+
+# Arguments
+
+- `pipeline_name`: The Amazon Resource Name (ARN) of the pipeline.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CreatedAfter"`: A filter that returns the pipeline versions that were created after a
+  specified time.
+- `"CreatedBefore"`: A filter that returns the pipeline versions that were created before a
+  specified time.
+- `"MaxResults"`: The maximum number of pipeline versions to return in the response.
+- `"NextToken"`: If the result of the previous `ListPipelineVersions` request was truncated,
+  the response includes a `NextToken`. To retrieve the next set of pipeline versions, use
+  this token in your next request.
+- `"SortOrder"`: The sort order for the results.
+"""
+function list_pipeline_versions end
+
+function list_pipeline_versions(
+    PipelineName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListPipelineVersions",
+        Dict{String,Any}("PipelineName" => PipelineName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_pipeline_versions(
+    PipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "ListPipelineVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PipelineName" => PipelineName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -13436,7 +16118,7 @@ end
     list_studio_lifecycle_configs()
     list_studio_lifecycle_configs(params::Dict{String,<:Any})
 
-Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services
+Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services
 Account.
 
 # Optional Parameters
@@ -13603,6 +16285,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: The sort order for results. The default is `Ascending`.
 - `"StatusEquals"`: A filter that retrieves only training jobs with a specific status.
+- `"TrainingPlanArnEquals"`: The Amazon Resource Name (ARN); of the training plan to filter
+  training jobs by. For more information about reserving GPU capacity for your SageMaker
+  training jobs using Amazon SageMaker Training Plan, see
+  `[CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html)`.
 - `"WarmPoolStatusEquals"`: A filter that retrieves only training jobs with a specific warm
   pool status.
 """
@@ -13682,6 +16368,40 @@ function list_training_jobs_for_hyper_parameter_tuning_job(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_training_plans()
+    list_training_plans(params::Dict{String,<:Any})
+
+Retrieves a list of training plans for the current account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Additional filters to apply to the list of training plans.
+- `"MaxResults"`: The maximum number of results to return in the response.
+- `"NextToken"`: A token to continue pagination if more results are available.
+- `"SortBy"`: The training plan field to sort the results by (e.g., StartTime, Status).
+- `"SortOrder"`: The order to sort the results (Ascending or Descending).
+- `"StartTimeAfter"`: Filter to list only training plans with an actual start time after
+  this date.
+- `"StartTimeBefore"`: Filter to list only training plans with an actual start time before
+  this date.
+"""
+function list_training_plans end
+
+function list_training_plans(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker("ListTrainingPlans"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_training_plans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListTrainingPlans", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13813,6 +16533,57 @@ function list_trials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker("ListTrials", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_ultra_servers_by_reserved_capacity(reserved_capacity_arn)
+    list_ultra_servers_by_reserved_capacity(reserved_capacity_arn, params::Dict{String,<:Any})
+
+Lists all UltraServers that are part of a specified reserved capacity.
+
+# Arguments
+
+- `reserved_capacity_arn`: The ARN of the reserved capacity to list UltraServers for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of UltraServers to return in the response. The default
+  value is 10.
+- `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
+  your next request to receive the next set of results.
+"""
+function list_ultra_servers_by_reserved_capacity end
+
+function list_ultra_servers_by_reserved_capacity(
+    ReservedCapacityArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "ListUltraServersByReservedCapacity",
+        Dict{String,Any}("ReservedCapacityArn" => ReservedCapacityArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_ultra_servers_by_reserved_capacity(
+    ReservedCapacityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "ListUltraServersByReservedCapacity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedCapacityArn" => ReservedCapacityArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -14271,6 +17042,82 @@ function search(
 end
 
 """
+    search_training_plan_offerings()
+    search_training_plan_offerings(params::Dict{String,<:Any})
+
+Searches for available training plan offerings based on specified criteria.
+
+- Users search for available plan offerings based on their requirements (e.g., instance
+  type, count, start time, duration).
+- And then, they create a plan that best matches their needs using the ID of the plan
+  offering they want to use.
+
+For more information about how to reserve GPU capacity for your SageMaker training jobs or
+SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see
+`[CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html)`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DurationHours"`: The desired duration in hours for the training plan offerings.
+
+- `"EndTimeBefore"`: A filter to search for reserved capacity offerings with an end time
+  before a specified date.
+
+- `"InstanceCount"`: The number of instances you want to reserve in the training plan
+  offerings. This allows you to specify the quantity of compute resources needed for your
+  SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity
+  offerings that match your requirements.
+
+- `"InstanceType"`: The type of instance you want to search for in the available training
+  plan offerings. This field allows you to filter the search results based on the specific
+  compute resources you require for your SageMaker training jobs or SageMaker HyperPod
+  clusters. When searching for training plan offerings, specifying the instance type helps
+  you find Reserved Instances that match your computational needs.
+
+- `"StartTimeAfter"`: A filter to search for training plan offerings with a start time after
+  a specified date.
+
+- `"TargetResources"`: The target resources (e.g., SageMaker Training Jobs, SageMaker
+  HyperPod, SageMaker Endpoints) to search for in the offerings.
+
+  Training plans are specific to their target resource.
+
+  - A training plan designed for SageMaker training jobs can only be used to schedule and
+    run training jobs.
+  - A training plan for HyperPod clusters can be used exclusively to provide compute
+    resources to a cluster's instance group.
+  - A training plan for SageMaker endpoints can be used exclusively to provide compute
+    resources to SageMaker endpoints for model deployment.
+
+- `"TrainingPlanArn"`: The Amazon Resource Name (ARN); of an existing training plan to
+  search for extension offerings. When specified, the API returns extension offerings that
+  can be used to extend the specified training plan.
+
+- `"UltraServerCount"`: The number of UltraServers to search for.
+
+- `"UltraServerType"`: The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
+"""
+function search_training_plan_offerings end
+
+function search_training_plan_offerings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "SearchTrainingPlanOfferings"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function search_training_plan_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "SearchTrainingPlanOfferings", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     send_pipeline_execution_step_failure(callback_token)
     send_pipeline_execution_step_failure(callback_token, params::Dict{String,<:Any})
 
@@ -14468,6 +17315,46 @@ function start_inference_experiment(
 end
 
 """
+    start_mlflow_tracking_server(tracking_server_name)
+    start_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
+
+Programmatically start an MLflow Tracking Server.
+
+# Arguments
+
+- `tracking_server_name`: The name of the tracking server to start.
+"""
+function start_mlflow_tracking_server end
+
+function start_mlflow_tracking_server(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "StartMlflowTrackingServer",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_mlflow_tracking_server(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "StartMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_monitoring_schedule(monitoring_schedule_name)
     start_monitoring_schedule(monitoring_schedule_name, params::Dict{String,<:Any})
 
@@ -14518,7 +17405,7 @@ end
     start_notebook_instance(notebook_instance_name, params::Dict{String,<:Any})
 
 Launches an ML compute instance with the latest version of the libraries and attaches your
-ML storage volume. After configuring the notebook instance, SageMaker sets the notebook
+ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook
 instance status to `InService`. A notebook instance's status must be `InService` before you
 can connect to your Jupyter notebook.
 
@@ -14574,11 +17461,13 @@ Starts a pipeline execution.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"MlflowExperimentName"`: The MLflow experiment name of the pipeline execution.
 - `"ParallelismConfiguration"`: This configuration, if specified, overrides the parallelism
   configuration of the parent pipeline for this specific run.
 - `"PipelineExecutionDescription"`: The description of the pipeline execution.
 - `"PipelineExecutionDisplayName"`: The display name of the pipeline execution.
 - `"PipelineParameters"`: Contains a list of pipeline parameters. This list can be empty.
+- `"PipelineVersionId"`: The ID of the pipeline version to start execution from.
 - `"SelectiveExecutionConfig"`: The selective execution configuration applied to the
   pipeline run.
 """
@@ -14613,6 +17502,49 @@ function start_pipeline_execution(
                     "PipelineName" => PipelineName,
                 ),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_session(resource_identifier)
+    start_session(resource_identifier, params::Dict{String,<:Any})
+
+Initiates a remote connection session between a local integrated development environments
+(IDEs) and a remote SageMaker space.
+
+# Arguments
+
+- `resource_identifier`: The Amazon Resource Name (ARN) of the resource to which the remote
+  connection will be established. For example, this identifies the specific ARN space
+  application you want to connect to from your local IDE.
+"""
+function start_session end
+
+function start_session(
+    ResourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "StartSession",
+        Dict{String,Any}("ResourceIdentifier" => ResourceIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_session(
+    ResourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "StartSession",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ResourceIdentifier" => ResourceIdentifier), params
             ),
         );
         aws_config,
@@ -14662,10 +17594,10 @@ end
 
 Stops a model compilation job.
 
-To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully
+To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully
 shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal.
 
-When it receives a `StopCompilationJob` request, Amazon SageMaker changes the
+When it receives a `StopCompilationJob` request, Amazon SageMaker AI changes the
 `CompilationJobStatus` of the job to `Stopping`. After Amazon SageMaker stops the job, it
 sets the `CompilationJobStatus` to `Stopped`.
 
@@ -14991,6 +17923,46 @@ function stop_labeling_job(
 end
 
 """
+    stop_mlflow_tracking_server(tracking_server_name)
+    stop_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
+
+Programmatically stop an MLflow Tracking Server.
+
+# Arguments
+
+- `tracking_server_name`: The name of the tracking server to stop.
+"""
+function stop_mlflow_tracking_server end
+
+function stop_mlflow_tracking_server(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "StopMlflowTrackingServer",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_mlflow_tracking_server(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "StopMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_monitoring_schedule(monitoring_schedule_name)
     stop_monitoring_schedule(monitoring_schedule_name, params::Dict{String,<:Any})
 
@@ -15036,9 +18008,10 @@ end
     stop_notebook_instance(notebook_instance_name)
     stop_notebook_instance(notebook_instance_name, params::Dict{String,<:Any})
 
-Terminates the ML compute instance. Before terminating the instance, SageMaker disconnects
-the ML storage volume from it. SageMaker preserves the ML storage volume. SageMaker stops
-charging you for the ML compute instance when you call `StopNotebookInstance`.
+Terminates the ML compute instance. Before terminating the instance, SageMaker AI
+disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume.
+SageMaker AI stops charging you for the ML compute instance when you call
+`StopNotebookInstance`.
 
 To access data on the ML storage volume for a notebook instance that has been terminated,
 call the `StartNotebookInstance` API. `StartNotebookInstance` launches another ML compute
@@ -15073,6 +18046,48 @@ function stop_notebook_instance(
             mergewith(
                 _merge,
                 Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_optimization_job(optimization_job_name)
+    stop_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Ends a running inference optimization job.
+
+# Arguments
+
+- `optimization_job_name`: The name that you assigned to the optimization job.
+"""
+function stop_optimization_job end
+
+function stop_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "StopOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "StopOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
@@ -15425,24 +18440,53 @@ function update_artifact(
 end
 
 """
-    update_cluster(cluster_name, instance_groups)
-    update_cluster(cluster_name, instance_groups, params::Dict{String,<:Any})
+    update_cluster(cluster_name)
+    update_cluster(cluster_name, params::Dict{String,<:Any})
 
 Updates a SageMaker HyperPod cluster.
 
 # Arguments
 
 - `cluster_name`: Specify the name of the SageMaker HyperPod cluster you want to update.
-- `instance_groups`: Specify the instance groups to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AutoScaling"`: Updates the autoscaling configuration for the cluster. Use to enable or
+  disable automatic node scaling.
+
+- `"ClusterRole"`: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for
+  cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
+
+- `"InstanceGroups"`: Specify the instance groups to update.
+
+- `"InstanceGroupsToDelete"`: Specify the names of the instance groups to delete. Use a
+  single `,` as the separator between multiple names.
+
+- `"NodeProvisioningMode"`: Determines how instance provisioning is handled during cluster
+  operations. In `Continuous` mode, the cluster provisions available instances incrementally
+  and retries until the target count is reached. The cluster becomes operational once
+  cluster-level resources are ready. Use `CurrentCount` and `TargetCount` in
+  `DescribeCluster` to track provisioning progress.
+
+- `"NodeRecovery"`: The node recovery mode to be applied to the SageMaker HyperPod cluster.
+
+- `"Orchestrator"`:
+
+- `"RestrictedInstanceGroups"`: The specialized instance groups for training models like
+  Amazon Nova to be created in the SageMaker HyperPod cluster.
+
+- `"TieredStorageConfig"`: Updates the configuration for managed tier checkpointing on the
+  HyperPod cluster. For example, you can enable or disable the feature and modify the
+  percentage of cluster memory allocated for checkpoint storage.
 """
 function update_cluster end
 
-function update_cluster(
-    ClusterName, InstanceGroups; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker(
         "UpdateCluster",
-        Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
+        Dict{String,Any}("ClusterName" => ClusterName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -15450,17 +18494,69 @@ end
 
 function update_cluster(
     ClusterName,
-    InstanceGroups,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker(
         "UpdateCluster",
         Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cluster_scheduler_config(cluster_scheduler_config_id, target_version)
+    update_cluster_scheduler_config(cluster_scheduler_config_id, target_version, params::Dict{String,<:Any})
+
+Update the cluster policy configuration.
+
+# Arguments
+
+- `cluster_scheduler_config_id`: ID of the cluster policy.
+- `target_version`: Target version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: Description of the cluster policy.
+- `"SchedulerConfig"`: Cluster policy configuration.
+"""
+function update_cluster_scheduler_config end
+
+function update_cluster_scheduler_config(
+    ClusterSchedulerConfigId,
+    TargetVersion;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateClusterSchedulerConfig",
+        Dict{String,Any}(
+            "ClusterSchedulerConfigId" => ClusterSchedulerConfigId,
+            "TargetVersion" => TargetVersion,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_cluster_scheduler_config(
+    ClusterSchedulerConfigId,
+    TargetVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateClusterSchedulerConfig",
+        Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups
+                    "ClusterSchedulerConfigId" => ClusterSchedulerConfigId,
+                    "TargetVersion" => TargetVersion,
                 ),
                 params,
             ),
@@ -15477,10 +18573,43 @@ end
 Updates the platform software of a SageMaker HyperPod cluster for security patching. To
 learn how to use this API, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
 
+!!! important
+    The `UpgradeClusterSoftware` API call may impact your SageMaker HyperPod cluster uptime
+    and availability. Plan accordingly to mitigate potential disruptions to your workloads.
+
 # Arguments
 
 - `cluster_name`: Specify the name or the Amazon Resource Name (ARN) of the SageMaker
   HyperPod cluster you want to update for security patching.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DeploymentConfig"`: The configuration to use when updating the AMI versions.
+
+- `"ImageId"`: When configuring your HyperPod cluster, you can specify an image ID using one
+  of the following options:
+
+  - `HyperPodPublicAmiId`: Use a HyperPod public AMI
+  - `CustomAmiId`: Use your custom AMI
+  - `default`: Use the default latest system image
+
+  If you choose to use a custom AMI (`CustomAmiId`), ensure it meets the following
+  requirements:
+
+  - Encryption: The custom AMI must be unencrypted.
+  - Ownership: The custom AMI must be owned by the same Amazon Web Services account that is
+    creating the HyperPod cluster.
+  - Volume support: Only the primary AMI snapshot volume is supported; additional AMI
+    volumes are not supported.
+
+  When updating the instance group's AMI through the `UpdateClusterSoftware` operation, if
+  an instance group uses a custom AMI, you must provide an `ImageId` or use the default as
+  input. Note that if you don't specify an instance group in your `UpdateClusterSoftware`
+  request, then all of the instance groups are patched with the specified image.
+
+- `"InstanceGroups"`: The array of instance groups for which to update AMI versions.
 """
 function update_cluster_software end
 
@@ -15554,6 +18683,70 @@ function update_code_repository(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_compute_quota(compute_quota_id, target_version)
+    update_compute_quota(compute_quota_id, target_version, params::Dict{String,<:Any})
+
+Update the compute allocation definition.
+
+# Arguments
+
+- `compute_quota_id`: ID of the compute allocation definition.
+- `target_version`: Target version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ActivationState"`: The state of the compute allocation being described. Use to enable or
+  disable compute allocation.
+
+  Default is `Enabled`.
+
+- `"ComputeQuotaConfig"`: Configuration of the compute allocation definition. This includes
+  the resource sharing option, and the setting to preempt low priority tasks.
+
+- `"ComputeQuotaTarget"`: The target entity to allocate compute resources to.
+
+- `"Description"`: Description of the compute allocation definition.
+"""
+function update_compute_quota end
+
+function update_compute_quota(
+    ComputeQuotaId, TargetVersion; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "UpdateComputeQuota",
+        Dict{String,Any}(
+            "ComputeQuotaId" => ComputeQuotaId, "TargetVersion" => TargetVersion
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_compute_quota(
+    ComputeQuotaId,
+    TargetVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateComputeQuota",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ComputeQuotaId" => ComputeQuotaId, "TargetVersion" => TargetVersion
+                ),
+                params,
             ),
         );
         aws_config,
@@ -15730,7 +18923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic.
 
-  - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker,
+  - `PublicInternetOnly` - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI,
     which allows direct internet access.
   - `VpcOnly` - All Studio traffic is through the specified VPC and subnets.
 
@@ -15746,7 +18939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn` is provided. If
   setting up the domain for use with RStudio, this value must be set to `Service`.
 
-- `"DefaultSpaceSettings"`: The default settings used to create a space within the domain.
+- `"DefaultSpaceSettings"`: The default settings for shared spaces that users create in the
+  domain.
 
 - `"DefaultUserSettings"`: A collection of settings.
 
@@ -15757,6 +18951,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If removing subnets, ensure there are no apps in the `InService`, `Pending`, or `Deleting`
   state.
+
+- `"TagPropagation"`: Indicates whether custom tag propagation is supported for the domain.
+  Defaults to `DISABLED`.
+
+- `"VpcId"`: The identifier for the VPC used by the domain for network communication. Use
+  this field only when adding VPC configuration to a SageMaker AI domain used in Amazon
+  SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't
+  automatically apply VPC updates to existing applications. Stop and restart your
+  applications to apply the changes.
 """
 function update_domain end
 
@@ -16108,9 +19311,6 @@ end
 
 Update a hub.
 
-!!! note
-    Hub APIs are only callable through SageMaker Studio.
-
 # Arguments
 
 - `hub_name`: The name of the hub to update.
@@ -16148,10 +19348,181 @@ function update_hub(
 end
 
 """
+    update_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name)
+    update_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name, params::Dict{String,<:Any})
+
+Updates SageMaker hub content (either a `Model` or `Notebook` resource).
+
+You can update the metadata that describes the resource. In addition to the required request
+fields, specify at least one of the following fields to update:
+
+- `HubContentDescription`
+- `HubContentDisplayName`
+- `HubContentMarkdown`
+- `HubContentSearchKeywords`
+- `SupportStatus`
+
+For more information about hubs, see [Private curated hubs for foundation model access control in JumpStart](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html).
+
+!!! note
+    If you want to update a `ModelReference` resource in your hub, use the
+    `UpdateHubContentResource` API instead.
+
+# Arguments
+
+- `hub_content_name`: The name of the hub content resource that you want to update.
+- `hub_content_type`: The content type of the resource that you want to update. Only specify
+  a `Model` or `Notebook` resource for this API. To update a `ModelReference`, use the
+  `UpdateHubContentReference` API instead.
+- `hub_content_version`: The hub content version that you want to update. For example, if
+  you have two versions of a resource in your hub, you can update the second version.
+- `hub_name`: The name of the SageMaker hub that contains the hub content you want to
+  update. You can optionally use the hub ARN instead.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"HubContentDescription"`: The description of the hub content.
+- `"HubContentDisplayName"`: The display name of the hub content.
+- `"HubContentMarkdown"`: A string that provides a description of the hub content. This
+  string can include links, tables, and standard markdown formatting.
+- `"HubContentSearchKeywords"`: The searchable keywords of the hub content.
+- `"SupportStatus"`: Indicates the current status of the hub content resource.
+"""
+function update_hub_content end
+
+function update_hub_content(
+    HubContentName,
+    HubContentType,
+    HubContentVersion,
+    HubName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateHubContent",
+        Dict{String,Any}(
+            "HubContentName" => HubContentName,
+            "HubContentType" => HubContentType,
+            "HubContentVersion" => HubContentVersion,
+            "HubName" => HubName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_hub_content(
+    HubContentName,
+    HubContentType,
+    HubContentVersion,
+    HubName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateHubContent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HubContentName" => HubContentName,
+                    "HubContentType" => HubContentType,
+                    "HubContentVersion" => HubContentVersion,
+                    "HubName" => HubName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_hub_content_reference(hub_content_name, hub_content_type, hub_name)
+    update_hub_content_reference(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
+
+Updates the contents of a SageMaker hub for a `ModelReference` resource. A `ModelReference`
+allows you to access public SageMaker JumpStart models from within your private hub.
+
+When using this API, you can update the `MinVersion` field for additional flexibility in the
+model version. You shouldn't update any additional fields when using this API, because the
+metadata in your private hub should match the public JumpStart model's metadata.
+
+!!! note
+    If you want to update a `Model` or `Notebook` resource in your hub, use the
+    `UpdateHubContent` API instead.
+
+For more information about adding model references to your hub, see [Add models to a private hub](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs-admin-guide-add-models.html).
+
+# Arguments
+
+- `hub_content_name`: The name of the hub content resource that you want to update.
+- `hub_content_type`: The content type of the resource that you want to update. Only specify
+  a `ModelReference` resource for this API. To update a `Model` or `Notebook` resource, use
+  the `UpdateHubContent` API instead.
+- `hub_name`: The name of the SageMaker hub that contains the hub content you want to
+  update. You can optionally use the hub ARN instead.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MinVersion"`: The minimum hub content version of the referenced model that you want to
+  use. The minimum version must be older than the latest available version of the referenced
+  model. To support all versions of a model, set the value to `1.0.0`.
+"""
+function update_hub_content_reference end
+
+function update_hub_content_reference(
+    HubContentName,
+    HubContentType,
+    HubName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateHubContentReference",
+        Dict{String,Any}(
+            "HubContentName" => HubContentName,
+            "HubContentType" => HubContentType,
+            "HubName" => HubName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_hub_content_reference(
+    HubContentName,
+    HubContentType,
+    HubName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateHubContentReference",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HubContentName" => HubContentName,
+                    "HubContentType" => HubContentType,
+                    "HubName" => HubName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_image(image_name)
     update_image(image_name, params::Dict{String,<:Any})
 
-Updates the properties of a SageMaker image. To change the image's tags, use the [AddTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AddTags.html)
+Updates the properties of a SageMaker AI image. To change the image's tags, use the [AddTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AddTags.html)
 and [DeleteTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteTags.html)
 APIs.
 
@@ -16167,8 +19538,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `DisplayName` properties can be deleted.
 - `"Description"`: The new description for the image.
 - `"DisplayName"`: The new display name for the image.
-- `"RoleArn"`: The new ARN for the IAM role that enables Amazon SageMaker to perform tasks
-  on your behalf.
+- `"RoleArn"`: The new ARN for the IAM role that enables Amazon SageMaker AI to perform
+  tasks on your behalf.
 """
 function update_image end
 
@@ -16200,7 +19571,7 @@ end
     update_image_version(image_name)
     update_image_version(image_name, params::Dict{String,<:Any})
 
-Updates the properties of a SageMaker image version.
+Updates the properties of a SageMaker AI image version.
 
 # Arguments
 
@@ -16218,11 +19589,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Horovod"`: Indicates Horovod compatibility.
 
-- `"JobType"`: Indicates SageMaker job type compatibility.
+- `"JobType"`: Indicates SageMaker AI job type compatibility.
 
-  - `TRAINING`: The image version is compatible with SageMaker training jobs.
-  - `INFERENCE`: The image version is compatible with SageMaker inference jobs.
-  - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker notebook kernels.
+  - `TRAINING`: The image version is compatible with SageMaker AI training jobs.
+  - `INFERENCE`: The image version is compatible with SageMaker AI inference jobs.
+  - `NOTEBOOK_KERNEL`: The image version is compatible with SageMaker AI notebook kernels.
 
 - `"MLFramework"`: The machine learning framework vended in the image version.
 
@@ -16286,6 +19657,8 @@ Updates an inference component.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DeploymentConfig"`: The deployment configuration for the inference component. The
+  configuration contains the desired deployment strategy and rollback settings.
 - `"RuntimeConfig"`: Runtime settings for a model that is deployed with an inference
   component.
 - `"Specification"`: Details about the resources to deploy with this inference component,
@@ -16436,6 +19809,122 @@ function update_inference_experiment(
 end
 
 """
+    update_mlflow_app(arn)
+    update_mlflow_app(arn, params::Dict{String,<:Any})
+
+Updates an MLflow App.
+
+# Arguments
+
+- `arn`: The ARN of the MLflow App to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountDefaultStatus"`: Indicates whether this this MLflow App is the default for the
+  account.
+
+- `"ArtifactStoreUri"`: The new S3 URI for the general purpose bucket to use as the artifact
+  store for the MLflow App.
+
+- `"DefaultDomainIdList"`: List of SageMaker Domain IDs for which this MLflow App is the
+  default.
+
+- `"ModelRegistrationMode"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `AutoModelRegistrationEnabled`. To disable automatic model registration, set
+  this value to `AutoModelRegistrationDisabled`. If not specified,
+  `AutomaticModelRegistration` defaults to `AutoModelRegistrationEnabled`
+
+- `"Name"`: The name of the MLflow App to update.
+
+- `"WeeklyMaintenanceWindowStart"`: The new weekly maintenance window start day and time to
+  update. The maintenance window day and time should be in Coordinated Universal Time (UTC)
+  24-hour standard time. For example: TUE:03:30.
+"""
+function update_mlflow_app end
+
+function update_mlflow_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "UpdateMlflowApp",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_mlflow_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "UpdateMlflowApp",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_mlflow_tracking_server(tracking_server_name)
+    update_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
+
+Updates properties of an existing MLflow Tracking Server.
+
+# Arguments
+
+- `tracking_server_name`: The name of the MLflow Tracking Server to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ArtifactStoreUri"`: The new S3 URI for the general purpose bucket to use as the artifact
+  store for the MLflow Tracking Server.
+- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
+  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
+  this value to `True`. To disable automatic model registration, set this value to `False`.
+  If not specified, `AutomaticModelRegistration` defaults to `False`
+- `"S3BucketOwnerAccountId"`: The new expected Amazon Web Services account ID that owns the
+  Amazon S3 bucket for artifact storage.
+- `"S3BucketOwnerVerification"`: Whether to enable or disable Amazon S3 Bucket Owenrship
+  Verifaction whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+- `"TrackingServerSize"`: The new size for the MLflow Tracking Server.
+- `"WeeklyMaintenanceWindowStart"`: The new weekly maintenance window start day and time to
+  update. The maintenance window day and time should be in Coordinated Universal Time (UTC)
+  24-hour standard time. For example: TUE:03:30.
+"""
+function update_mlflow_tracking_server end
+
+function update_mlflow_tracking_server(
+    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "UpdateMlflowTrackingServer",
+        Dict{String,Any}("TrackingServerName" => TrackingServerName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_mlflow_tracking_server(
+    TrackingServerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdateMlflowTrackingServer",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_model_card(model_card_name)
     update_model_card(model_card_name, params::Dict{String,<:Any})
 
@@ -16517,6 +20006,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ApprovalDescription"`: A description for the approval status of the model.
 
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+
 - `"CustomerMetadataProperties"`: The metadata properties associated with the model package
   versions.
 
@@ -16540,6 +20031,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `model_overview` is composed of the `model_creator` and `model_artifact` properties. For
   more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
   For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+
+- `"ModelLifeCycle"`: A structure describing the current state of the model in its life
+  cycle.
+
+- `"ModelPackageRegistrationType"`: The package registration type of the model package
+  input.
 
 - `"SourceUri"`: The URI of the source for the model package.
 """
@@ -16699,6 +20196,13 @@ Updates a notebook instance. NotebookInstance updates include upgrading or downg
 ML compute instance used for your notebook instance to accommodate changes in your workload
 requirements.
 
+!!! note
+    This API can attach lifecycle configurations to notebook instances. Lifecycle
+    configuration scripts execute with root access and the notebook instance's IAM execution
+    role privileges. Principals with this permission and access to lifecycle configurations
+    can execute code with the execution role's credentials. See [Customize a Notebook Instance Using a Lifecycle Configuration Script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
+    for security best practices.
+
 # Arguments
 
 - `notebook_instance_name`: The name of the notebook instance to update.
@@ -16707,26 +20211,29 @@ requirements.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AcceleratorTypes"`: A list of the Elastic Inference (EI) instance types to associate
-  with this notebook instance. Currently only one EI instance type can be associated with a
-  notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+- `"AcceleratorTypes"`: This parameter is no longer supported. Elastic Inference (EI) is no
+  longer available.
+
+  This parameter was used to specify a list of the EI instance types to associate with this
+  notebook instance.
 
 - `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate with
   the notebook instance. These can be either the names of Git repositories stored as
   resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. These repositories are cloned at the same level as the
-  default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+  default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
 - `"DefaultCodeRepository"`: The Git repository to associate with the notebook instance as
   its default code repository. This can be either the name of a Git repository stored as a
   resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
   or in any other Git repository. When you open a notebook instance, it opens in the
-  directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+  directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
-- `"DisassociateAcceleratorTypes"`: A list of the Elastic Inference (EI) instance types to
-  remove from this notebook instance. This operation is idempotent. If you specify an
-  accelerator type that is not associated with the notebook instance when you call this
-  method, it does not throw an error.
+- `"DisassociateAcceleratorTypes"`: This parameter is no longer supported. Elastic Inference
+  (EI) is no longer available.
+
+  This parameter was used to specify a list of the EI instance types to remove from this
+  notebook instance.
 
 - `"DisassociateAdditionalCodeRepositories"`: A list of names or URLs of the default Git
   repositories to remove from this notebook instance. This operation is idempotent. If you
@@ -16748,14 +20255,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceType"`: The Amazon ML compute instance type.
 
+- `"IpAddressType"`: The IP address type for the notebook instance. Specify `ipv4` for IPv4-
+  only connectivity or `dualstack` for both IPv4 and IPv6 connectivity. The notebook
+  instance must be stopped before updating this setting. When you specify `dualstack`, the
+  subnet must support IPv6 addressing.
+
 - `"LifecycleConfigName"`: The name of a lifecycle configuration to associate with the
   notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
 
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to
-  access the notebook instance. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
+- `"PlatformIdentifier"`: The platform identifier of the notebook instance runtime
+  environment.
+
+- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume
+  to access the notebook instance. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
   !!! note
-      To be able to pass this role to SageMaker, the caller of this API must have the
+      To be able to pass this role to SageMaker AI, the caller of this API must have the
       `iam:PassRole` permission.
 
 - `"RootAccess"`: Whether root access is enabled or disabled for users of the notebook
@@ -16766,8 +20281,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       but lifecycle configuration scripts still run with root permissions.
 
 - `"VolumeSizeInGB"`: The size, in GB, of the ML storage volume to attach to the notebook
-  instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't
-  determine the amount of available free space on the volume. Because of this, you can
+  instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI
+  can't determine the amount of available free space on the volume. Because of this, you can
   increase the volume size when you update a notebook instance, but you can't decrease the
   volume size. If you want to decrease the size of the ML storage volume in use, create a
   new notebook instance with the desired size.
@@ -16810,6 +20325,13 @@ end
 
 Updates a notebook instance lifecycle configuration created with the [CreateNotebookInstanceLifecycleConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html)
 API.
+
+!!! note
+    Updates to lifecycle configurations affect all notebook instances using that
+    configuration upon their next start. Lifecycle configuration scripts execute with root
+    access and the notebook instance's IAM execution role privileges. Grant this permission
+    only to trusted principals. See [Customize a Notebook Instance Using a Lifecycle Configuration Script](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
+    for security best practices.
 
 # Arguments
 
@@ -16854,6 +20376,66 @@ function update_notebook_instance_lifecycle_config(
                     "NotebookInstanceLifecycleConfigName" =>
                         NotebookInstanceLifecycleConfigName,
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_partner_app(arn)
+    update_partner_app(arn, params::Dict{String,<:Any})
+
+Updates all of the SageMaker Partner AI Apps in an account.
+
+# Arguments
+
+- `arn`: The ARN of the SageMaker Partner AI App to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AppVersion"`: The semantic version to upgrade the SageMaker Partner AI App to. Must be
+  the same semantic version returned in the `AvailableUpgrade` field from
+  `DescribePartnerApp`. Version skipping and downgrades are not supported.
+- `"ApplicationConfig"`: Configuration settings for the SageMaker Partner AI App.
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
+- `"EnableAutoMinorVersionUpgrade"`: When set to `TRUE`, the SageMaker Partner AI App is
+  automatically upgraded to the latest minor version during the next scheduled maintenance
+  window, if one is available.
+- `"EnableIamSessionBasedIdentity"`: When set to `TRUE`, the SageMaker Partner AI App sets
+  the Amazon Web Services IAM session name or the authenticated IAM user as the identity of
+  the SageMaker Partner AI App user.
+- `"MaintenanceConfig"`: Maintenance configuration settings for the SageMaker Partner AI
+  App.
+- `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
+  resource.
+- `"Tier"`: Indicates the instance type and size of the cluster attached to the SageMaker
+  Partner AI App.
+"""
+function update_partner_app end
+
+function update_partner_app(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker(
+        "UpdatePartnerApp",
+        Dict{String,Any}("Arn" => Arn, "ClientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_partner_app(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "UpdatePartnerApp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Arn" => Arn, "ClientToken" => string(uuid4())),
                 params,
             ),
         );
@@ -16963,6 +20545,61 @@ function update_pipeline_execution(
 end
 
 """
+    update_pipeline_version(pipeline_arn, pipeline_version_id)
+    update_pipeline_version(pipeline_arn, pipeline_version_id, params::Dict{String,<:Any})
+
+Updates a pipeline version.
+
+# Arguments
+
+- `pipeline_arn`: The Amazon Resource Name (ARN) of the pipeline.
+- `pipeline_version_id`: The pipeline version ID to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"PipelineVersionDescription"`: The description of the pipeline version.
+- `"PipelineVersionDisplayName"`: The display name of the pipeline version.
+"""
+function update_pipeline_version end
+
+function update_pipeline_version(
+    PipelineArn, PipelineVersionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker(
+        "UpdatePipelineVersion",
+        Dict{String,Any}(
+            "PipelineArn" => PipelineArn, "PipelineVersionId" => PipelineVersionId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_pipeline_version(
+    PipelineArn,
+    PipelineVersionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sagemaker(
+        "UpdatePipelineVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PipelineArn" => PipelineArn, "PipelineVersionId" => PipelineVersionId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_project(project_name)
     update_project(project_name, params::Dict{String,<:Any})
 
@@ -16994,6 +20631,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
   In addition, the project must have tag update constraints set in order to include this
   parameter in the request. For more information, see [Amazon Web Services Service Catalog Tag Update Constraints](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/constraints-resourceupdate.html).
+
+- `"TemplateProvidersToUpdate"`: The template providers to update in the project.
 """
 function update_project end
 
@@ -17026,6 +20665,9 @@ end
     update_space(domain_id, space_name, params::Dict{String,<:Any})
 
 Updates the settings of a space.
+
+!!! note
+    You can't edit the app type of a space in the `SpaceSettings`.
 
 # Arguments
 
@@ -17303,8 +20945,12 @@ By default, a workforce isn't restricted to specific IP addresses. If you specif
 IP addresses, workers who attempt to access tasks using any IP address outside the specified
 range are denied and get a `Not Found` error message on the worker portal.
 
-To restrict access to all the workers in public internet, add the `SourceIpConfig` CIDR
-value as "10.0.0.0/16".
+To restrict public internet access for all workers, configure the `SourceIpConfig` CIDR
+value. For example, when using `SourceIpConfig` with an `IpAddressType` of `IPv4`, you can
+restrict access to the IPv4 CIDR block "10.0.0.0/16". When using an `IpAddressType` of
+`dualstack`, you can specify both the IPv4 and IPv6 CIDR blocks, such as "10.0.0.0/16" for
+IPv4 only, "2001:db8:1234:1a00::/56" for IPv6 only, or "10.0.0.0/16" and
+"2001:db8:1234:1a00::/56" for dual stack.
 
 !!! important
     Amazon SageMaker does not support Source Ip restriction for worker portals in VPC.
@@ -17332,6 +20978,9 @@ operation.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IpAddressType"`: Use this parameter to specify whether you want `IPv4` only or
+  `dualstack` (`IPv4` and `IPv6`) to support your labeling workforce.
 
 - `"OidcConfig"`: Use this parameter to update your OIDC Identity Provider (IdP)
   configuration for a workforce made using your own IdP.

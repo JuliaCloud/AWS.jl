@@ -10,7 +10,12 @@ using AWS.UUIDs: uuid4
 
 Associates one or more faces with an existing UserID. Takes an array of `FaceIds`. Each
 `FaceId` that are present in the `FaceIds` list is associated with the provided UserID. The
-maximum number of total `FaceIds` per UserID is 100.
+number of FaceIds that can be used as input in a single request is limited to 100.
+
+Note that the total number of faces that can be associated with a single `UserID` is also
+limited to 100. Once a `UserID` has 100 faces associated with it, no additional faces can be
+added. If more API calls are made after the limit is reached, a
+`ServiceQuotaExceededException` will result.
 
 The `UserMatchThreshold` parameter specifies the minimum user match confidence required for
 the face to be associated with a UserID that has at least one `FaceID` already associated.
@@ -451,6 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
   manifest file. If you don't specify `datasetSource`, an empty dataset is created. To add
   labeled images to the dataset, You can use the console or call `UpdateDatasetEntries`.
+- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset end
 
@@ -554,6 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Content Moderation. Applicable only to adapters.
 - `"Feature"`: Specifies feature that is being customized. If no value is provided
   CUSTOM_LABELS is used as a default.
+- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project.
 """
 function create_project end
 
@@ -1541,8 +1548,7 @@ For each object that the model version detects on an image, the API returns a
 (`CustomLabel`) object in an array (`CustomLabels`). Each `CustomLabel` object provides the
 label name (`Name`), the level of confidence that the image contains the object
 (`Confidence`), and object location information, if it exists, for the label on the image
-(`Geometry`). Note that for the `DetectCustomLabelsLabels` operation, `Polygons` are not
-returned in the `Geometry` section of the response.
+(`Geometry`).
 
 To filter labels that are returned, specify a value for `MinConfidence`.
 `DetectCustomLabelsLabels` only returns labels with a confidence that's higher than the
@@ -2642,6 +2648,9 @@ a pagination token for getting the next set of results. To get the next page of 
 call `GetlabelDetection` and populate the `next_token` request parameter with the token
 value returned from the previous call to `GetLabelDetection`.
 
+If you are retrieving results while using the Amazon Simple Notification Service, note that
+you will receive an "ERROR" notification if the job encounters an issue.
+
 # Arguments
 
 - `job_id`: Job identifier for the label detection operation for which you want results
@@ -2723,6 +2732,11 @@ end
 """
     get_person_tracking(job_id)
     get_person_tracking(job_id, params::Dict{String,<:Any})
+
+!!! note
+    *End of support notice:* On October 31, 2025, AWS will discontinue support for Amazon
+    Rekognition People Pathing. After October 31, 2025, you will no longer be able to use
+    the Rekognition People Pathing capability. For more information, visit this [blog post](https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/).
 
 Gets the path tracking results of a Amazon Rekognition Video analysis started by [`start_person_tracking`](@ref).
 
@@ -4432,6 +4446,11 @@ end
 """
     start_person_tracking(video)
     start_person_tracking(video, params::Dict{String,<:Any})
+
+!!! note
+    *End of support notice:* On October 31, 2025, AWS will discontinue support for Amazon
+    Rekognition People Pathing. After October 31, 2025, you will no longer be able to use
+    the Rekognition People Pathing capability. For more information, visit this [blog post](https://aws.amazon.com/blogs/machine-learning/transitioning-from-amazon-rekognition-people-pathing-exploring-other-alternatives/).
 
 Starts the asynchronous tracking of a person's path in a stored video.
 

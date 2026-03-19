@@ -5,6 +5,57 @@ using AWS.AWSServices: iam
 using AWS.UUIDs: uuid4
 
 """
+    accept_delegation_request(delegation_request_id)
+    accept_delegation_request(delegation_request_id, params::Dict{String,<:Any})
+
+Accepts a delegation request, granting the requested temporary access.
+
+Once the delegation request is accepted, it is eligible to send the exchange token to the
+partner. The [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html)
+API has to be explicitly called to send the delegation token.
+
+At the time of acceptance, IAM records the details and the state of the identity that called
+this API. This is the identity that gets mapped to the delegated credential.
+
+An accepted request may be rejected before the exchange token is sent to the partner.
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request to accept.
+"""
+function accept_delegation_request end
+
+function accept_delegation_request(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "AcceptDelegationRequest",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function accept_delegation_request(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "AcceptDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn)
     add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn, params::Dict{String,<:Any})
 
@@ -20,7 +71,8 @@ client ID to the provider.
   provider resource.
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
   (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs
-  by using the `ListOpenIDConnectProviders` operation.
+  by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html)
+  operation.
 """
 function add_client_idto_open_idconnect_provider end
 
@@ -75,6 +127,15 @@ or you can stop your instance and then restart it.
 !!! note
     The caller of this operation must be granted the `PassRole` permission on the IAM role
     by a permissions policy.
+
+!!! important
+    When using the [iam:AssociatedResourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#available-keys-for-iam)
+    condition in a policy to restrict the [PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html)
+    IAM action, special considerations apply if the policy is intended to define access for
+    the `AddRoleToInstanceProfile` action. In this case, you cannot specify a Region or
+    instance ID in the EC2 instance ARN. The ARN value must be
+    `arn:aws:ec2:*:CallerAccountId:instance/*`. Using any other ARN value may lead to
+    unexpected evaluation results.
 
 For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 in the *IAM User Guide*. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html)
@@ -176,6 +237,62 @@ function add_user_to_group(
             mergewith(
                 _merge,
                 Dict{String,Any}("GroupName" => GroupName, "UserName" => UserName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_delegation_request(delegation_request_id)
+    associate_delegation_request(delegation_request_id, params::Dict{String,<:Any})
+
+Associates a delegation request with the current identity.
+
+If the partner that created the delegation request has specified the owner account during
+creation, only an identity from that owner account can call the `AssociateDelegationRequest`
+API for the specified delegation request. Once the `AssociateDelegationRequest` API call is
+successful, the ARN of the current calling identity will be stored as the `ownerId` of the
+request.
+
+If the partner that created the delegation request has not specified the owner account
+during creation, any caller from any account can call the `AssociateDelegationRequest` API
+for the delegation request. Once this API call is successful, the ARN of the current calling
+identity will be stored as the `ownerId` and the Amazon Web Services account ID of the
+current calling identity will be stored as the `ownerAccount` of the request.
+
+For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request to associate.
+"""
+function associate_delegation_request end
+
+function associate_delegation_request(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "AssociateDelegationRequest",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_delegation_request(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "AssociateDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
                 params,
             ),
         );
@@ -381,9 +498,9 @@ performed using the CLI, the Amazon Web Services API, or the **My Security Crede
 page in the Amazon Web Services Management Console. The Amazon Web Services account root
 user password is not affected by this operation.
 
-Use [`update_login_profile`](@ref) to use the CLI, the Amazon Web Services API, or the
-**Users** page in the IAM console to change the password for any IAM user. For more
-information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
+Use [UpdateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateLoginProfile.html)
+to use the CLI, the Amazon Web Services API, or the **Users** page in the IAM console to
+change the password for any IAM user. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -525,6 +642,129 @@ function create_account_alias(
 end
 
 """
+    create_delegation_request(description, notification_channel, permissions, requestor_workflow_id, session_duration)
+    create_delegation_request(description, notification_channel, permissions, requestor_workflow_id, session_duration, params::Dict{String,<:Any})
+
+Creates an IAM delegation request for temporary access delegation.
+
+This API is not available for general use. In order to use this API, a caller first need to
+go through an onboarding process described in the [partner onboarding documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html).
+
+# Arguments
+
+- `description`: A description of the delegation request.
+
+- `notification_channel`: The notification channel for updates about the delegation request.
+
+  At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a
+  resource policy granting `SNS:Publish` permission to the IAM service principal
+  (`iam.amazonaws.com`). See [partner onboarding documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation-partner-guide.html)
+  for more details.
+
+- `permissions`: The permissions to be delegated in this delegation request.
+
+- `requestor_workflow_id`: The workflow ID associated with the requestor.
+
+  This is the unique identifier on the partner side that can be used to track the progress
+  of the request.
+
+  IAM maintains a uniqueness check on this workflow id for each request - if a workflow id
+  for an existing request is passed, this API call will fail.
+
+- `session_duration`: The duration for which the delegated session should remain active, in
+  seconds.
+
+  The active time window for the session starts when the customer calls the [SendDelegationToken](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SendDelegationToken.html)
+  API.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"OnlySendByOwner"`: Specifies whether the delegation token should only be sent by the
+  owner.
+
+  This flag prevents any party other than the owner from calling `SendDelegationToken` API
+  for this delegation request. This behavior becomes useful when the delegation request
+  owner needs to be present for subsequent partner interactions, but the delegation request
+  was sent to a more privileged user for approval due to the owner lacking sufficient
+  delegation permissions.
+
+- `"OwnerAccountId"`: The Amazon Web Services account ID this delegation request is targeted
+  to.
+
+  If the account ID is not known, this parameter can be omitted, resulting in a request that
+  can be associated by any account. If the account ID passed, then the created delegation
+  request can only be associated with an identity of that target account.
+
+- `"RedirectUrl"`: The URL to redirect to after the delegation request is processed.
+
+  This URL is used by the IAM console to show a link to the customer to re-load the partner
+  workflow.
+
+- `"RequestMessage"`: A message explaining the reason for the delegation request.
+
+  Requesters can utilize this field to add a custom note to the delegation request. This
+  field is different from the description such that this is to be utilized for a custom
+  messaging on a case-by-case basis.
+
+  For example, if the current delegation request is in response to a previous request being
+  rejected, this explanation can be added to the request via this field.
+"""
+function create_delegation_request end
+
+function create_delegation_request(
+    Description,
+    NotificationChannel,
+    Permissions,
+    RequestorWorkflowId,
+    SessionDuration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "CreateDelegationRequest",
+        Dict{String,Any}(
+            "Description" => Description,
+            "NotificationChannel" => NotificationChannel,
+            "Permissions" => Permissions,
+            "RequestorWorkflowId" => RequestorWorkflowId,
+            "SessionDuration" => SessionDuration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_delegation_request(
+    Description,
+    NotificationChannel,
+    Permissions,
+    RequestorWorkflowId,
+    SessionDuration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "CreateDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "NotificationChannel" => NotificationChannel,
+                    "Permissions" => Permissions,
+                    "RequestorWorkflowId" => RequestorWorkflowId,
+                    "SessionDuration" => SessionDuration,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_group(group_name)
     create_group(group_name, params::Dict{String,<:Any})
 
@@ -658,23 +898,28 @@ function create_instance_profile(
 end
 
 """
-    create_login_profile(password, user_name)
-    create_login_profile(password, user_name, params::Dict{String,<:Any})
+    create_login_profile()
+    create_login_profile(params::Dict{String,<:Any})
 
 Creates a password for the specified IAM user. A password allows an IAM user to access
 Amazon Web Services services through the Amazon Web Services Management Console.
 
 You can use the CLI, the Amazon Web Services API, or the **Users** page in the IAM console
-to create a password for any IAM user. Use [`change_password`](@ref) to update your own
-existing password in the **My Security Credentials** page in the Amazon Web Services
-Management Console.
+to create a password for any IAM user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html)
+to update your own existing password in the **My Security Credentials** page in the Amazon
+Web Services Management Console.
 
 For more information about managing passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
 in the *IAM User Guide*.
 
-# Arguments
+# Optional Parameters
 
-- `password`: The new password for the user.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Password"`: The new password for the user.
+
+  This parameter must be omitted when you make the request with an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+  session. It is required in all other cases.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this
   parameter is a string of characters. That string can include almost any printable ASCII
@@ -684,51 +929,30 @@ in the *IAM User Guide*.
   many tools, such as the Amazon Web Services Management Console, might restrict the ability
   to type certain characters because they have special meaning within that tool.
 
-- `user_name`: The name of the IAM user to create a password for. The user must already
+- `"PasswordResetRequired"`: Specifies whether the user is required to set a new password on
+  next sign-in.
+
+- `"UserName"`: The name of the IAM user to create a password for. The user must already
   exist.
+
+  This parameter is optional. If no user name is included, it defaults to the principal
+  making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+  session to omit the user name.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"PasswordResetRequired"`: Specifies whether the user is required to set a new password on
-  next sign-in.
 """
 function create_login_profile end
 
-function create_login_profile(
-    Password, UserName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iam(
-        "CreateLoginProfile",
-        Dict{String,Any}("Password" => Password, "UserName" => UserName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function create_login_profile(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iam("CreateLoginProfile"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function create_login_profile(
-    Password,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "CreateLoginProfile",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Password" => Password, "UserName" => UserName),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("CreateLoginProfile", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -759,16 +983,15 @@ You get all of this information from the OIDC IdP you want to use to access Amaz
 Services.
 
 !!! note
-    Amazon Web Services secures communication with some OIDC identity providers (IdPs)
-    through our library of trusted root certificate authorities (CAs) instead of using a
-    certificate thumbprint to verify your IdP server certificate. In these cases, your
-    legacy thumbprint remains in your configuration, but is no longer used for validation.
-    These OIDC IdPs include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
-    bucket to host a JSON Web Key Set (JWKS) endpoint.
+    Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
+    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
+    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
+    signed by one of these trusted CAs, only then we secure communication using the
+    thumbprints set in the IdP's configuration.
 
 !!! note
     The trust for the OIDC provider is derived from the IAM provider that this operation
-    creates. Therefore, it is best to limit access to the [`create_open_idconnect_provider`](@ref)
+    creates. Therefore, it is best to limit access to the [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html)
     operation to highly privileged users.
 
 # Arguments
@@ -978,7 +1201,7 @@ end
 
 Creates a new version of the specified managed policy. To update a managed policy, you
 create a new policy version. A managed policy can have up to five versions. If the policy
-has five versions, you must delete an existing version using [`delete_policy_version`](@ref)
+has five versions, you must delete an existing version using [DeletePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html)
 before you create a new version.
 
 Optionally, you can set the new version as the policy's default version. The default version
@@ -1242,6 +1465,12 @@ in the *IAM User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AddPrivateKey"`: The private key generated from your external identity provider. The
+  private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to
+  decrypt SAML assertions.
+
+- `"AssertionEncryptionMode"`: Specifies the encryption setting for the SAML provider.
+
 - `"Tags"`: A list of tags that you want to attach to the new IAM SAML provider. Each tag
   consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html)
   in the *IAM User Guide*.
@@ -1366,12 +1595,12 @@ be used only for the specified service.
 You can have a maximum of two sets of service-specific credentials for each supported
 service per user.
 
-You can create service-specific credentials for CodeCommit and Amazon Keyspaces (for Apache
-Cassandra).
+You can create service-specific credentials for Amazon Bedrock, Amazon CloudWatch Logs,
+CodeCommit and Amazon Keyspaces (for Apache Cassandra).
 
-You can reset the password to a new service-generated value by calling [`reset_service_specific_credential`](@ref).
+You can reset the password to a new service-generated value by calling [ResetServiceSpecificCredential](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html).
 
-For more information about service-specific credentials, see [Using IAM with CodeCommit: Git credentials, SSH keys, and Amazon Web Services access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html)
+For more information about service-specific credentials, see [Service-specific credentials for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_bedrock.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -1387,6 +1616,14 @@ in the *IAM User Guide*.
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: _+=,.@-
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CredentialAgeDays"`: The number of days until the service specific credential expires.
+  This field is only valid for Bedrock and CloudWatch Logs API keys and must be a positive
+  integer. When not specified, the credential will not expire.
 """
 function create_service_specific_credential end
 
@@ -1504,8 +1741,9 @@ end
     create_virtual_mfadevice(virtual_mfadevice_name, params::Dict{String,<:Any})
 
 Creates a new virtual MFA device for the Amazon Web Services account. After creating the
-virtual MFA, use [`enable_mfadevice`](@ref) to attach the MFA device to an IAM user. For
-more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html)
+virtual MFA, use [EnableMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_EnableMFADevice.html)
+to attach the MFA device to an IAM user. For more information about creating and working
+with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html)
 in the *IAM User Guide*.
 
 For information about the maximum number of MFA devices you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html)
@@ -1584,8 +1822,8 @@ function create_virtual_mfadevice(
 end
 
 """
-    deactivate_mfadevice(serial_number, user_name)
-    deactivate_mfadevice(serial_number, user_name, params::Dict{String,<:Any})
+    deactivate_mfadevice(serial_number)
+    deactivate_mfadevice(serial_number, params::Dict{String,<:Any})
 
 Deactivates the specified MFA device and removes it from association with the user name for
 which it was originally enabled.
@@ -1602,7 +1840,15 @@ in the *IAM User Guide*.
   string of characters consisting of upper and lowercase alphanumeric characters with no
   spaces. You can also include any of the following characters: =,.@:/-
 
-- `user_name`: The name of the user whose MFA device you want to deactivate.
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"UserName"`: The name of the user whose MFA device you want to deactivate.
+
+  This parameter is optional. If no user name is included, it defaults to the principal
+  making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+  session to omit the user name.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -1611,11 +1857,11 @@ in the *IAM User Guide*.
 function deactivate_mfadevice end
 
 function deactivate_mfadevice(
-    SerialNumber, UserName; aws_config::AbstractAWSConfig=current_aws_config()
+    SerialNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "DeactivateMFADevice",
-        Dict{String,Any}("SerialNumber" => SerialNumber, "UserName" => UserName);
+        Dict{String,Any}("SerialNumber" => SerialNumber);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1623,18 +1869,13 @@ end
 
 function deactivate_mfadevice(
     SerialNumber,
-    UserName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iam(
         "DeactivateMFADevice",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SerialNumber" => SerialNumber, "UserName" => UserName),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1811,7 +2052,8 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM group.
 
 A group can also have managed policies attached to it. To detach a managed policy from a
-group, use [`detach_group_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+group, use [DetachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachGroupPolicy.html).
+For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -1918,25 +2160,32 @@ function delete_instance_profile(
 end
 
 """
-    delete_login_profile(user_name)
-    delete_login_profile(user_name, params::Dict{String,<:Any})
+    delete_login_profile()
+    delete_login_profile(params::Dict{String,<:Any})
 
-Deletes the password for the specified IAM user, For more information, see [Managing passwords for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html).
+Deletes the password for the specified IAM user or root user, For more information, see [Managing passwords for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html).
 
 You can use the CLI, the Amazon Web Services API, or the **Users** page in the IAM console
-to delete a password for any IAM user. You can use [`change_password`](@ref) to update, but
-not delete, your own password in the **My Security Credentials** page in the Amazon Web
-Services Management Console.
+to delete a password for any IAM user. You can use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html)
+to update, but not delete, your own password in the **My Security Credentials** page in the
+Amazon Web Services Management Console.
 
 !!! important
     Deleting a user's password does not prevent a user from accessing Amazon Web Services
     through the command line interface or the API. To prevent all user access, you must also
     either make any access keys inactive or delete them. For more information about making
-    keys inactive or deleting them, see [`update_access_key`](@ref) and [`delete_access_key`](@ref).
+    keys inactive or deleting them, see [UpdateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccessKey.html)
+    and [DeleteAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html).
 
-# Arguments
+# Optional Parameters
 
-- `user_name`: The name of the user whose password you want to delete.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"UserName"`: The name of the user whose password you want to delete.
+
+  This parameter is optional. If no user name is included, it defaults to the principal
+  making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+  session to omit the user name.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -1944,28 +2193,14 @@ Services Management Console.
 """
 function delete_login_profile end
 
-function delete_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "DeleteLoginProfile",
-        Dict{String,Any}("UserName" => UserName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function delete_login_profile(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iam("DeleteLoginProfile"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_login_profile(
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "DeleteLoginProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("DeleteLoginProfile", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -1985,7 +2220,8 @@ for a provider that does not exist.
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
   provider resource object to delete. You can get a list of OpenID Connect provider resource
-  ARNs by using the `ListOpenIDConnectProviders` operation.
+  ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html)
+  operation.
 """
 function delete_open_idconnect_provider end
 
@@ -2029,11 +2265,12 @@ Before you can delete a managed policy, you must first detach the policy from al
 groups, and roles that it is attached to. In addition, you must delete all the policy's
 versions. The following steps describe the process for deleting a managed policy:
 
-- Detach the policy from all users, groups, and roles that the policy is attached to, using [`detach_user_policy`](@ref), [`detach_group_policy`](@ref),
-  or [`detach_role_policy`](@ref). To list all the users, groups, and roles that a policy is
-  attached to, use [`list_entities_for_policy`](@ref).
-- Delete all versions of the policy using [`delete_policy_version`](@ref). To list the
-  policy's versions, use [`list_policy_versions`](@ref). You cannot use [`delete_policy_version`](@ref)
+- Detach the policy from all users, groups, and roles that the policy is attached to, using [DetachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html), [DetachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachGroupPolicy.html),
+  or [DetachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html).
+  To list all the users, groups, and roles that a policy is attached to, use [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html).
+- Delete all versions of the policy using [DeletePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html).
+  To list the policy's versions, use [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html).
+  You cannot use [DeletePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicyVersion.html)
   to delete the version that is marked as the default version. You delete the policy's
   default version in the next step of the process.
 - Delete the policy (this automatically deletes the policy's default version) using this
@@ -2082,8 +2319,8 @@ end
 Deletes the specified version from the specified managed policy.
 
 You cannot delete the default version from a policy using this operation. To delete the
-default version from a policy, use [`delete_policy`](@ref). To find out which version of a
-policy is marked as the default version, use [`list_policy_versions`](@ref).
+default version from a policy, use [DeletePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html).
+To find out which version of a policy is marked as the default version, use [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html).
 
 For information about versions for managed policies, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
 in the *IAM User Guide*.
@@ -2147,10 +2384,10 @@ delete a role programmatically, you must delete the items attached to the role m
 the deletion fails. For more information, see [Deleting an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_delete.html#roles-managingrole-deleting-cli).
 Before attempting to delete a role, remove the following attached items:
 
-- Inline policies ([`delete_role_policy`](@ref))
-- Attached managed policies ([`detach_role_policy`](@ref))
-- Instance profile ([`remove_role_from_instance_profile`](@ref))
-- Optional – Delete instance profile after detaching from role for resource clean up ([`delete_instance_profile`](@ref))
+- Inline policies ([DeleteRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html))
+- Attached managed policies ([DetachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html))
+- Instance profile ([RemoveRoleFromInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_RemoveRoleFromInstanceProfile.html))
+- Optional – Delete instance profile after detaching from role for resource clean up ([DeleteInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteInstanceProfile.html))
 
 !!! important
     Make sure that you do not have any Amazon EC2 instances running with the role you are
@@ -2244,7 +2481,8 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM role.
 
 A role can also have managed policies attached to it. To detach a managed policy from a
-role, use [`detach_role_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+role, use [DetachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachRolePolicy.html).
+For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2413,7 +2651,7 @@ an earlier deletion task is not complete, then the `DeletionTaskId` of the earli
 is returned.
 
 If you submit a deletion request for a service-linked role whose linked service is still
-accessing a resource, then the deletion task fails. If it fails, the [`get_service_linked_role_deletion_status`](@ref)
+accessing a resource, then the deletion task fails. If it fails, the [GetServiceLinkedRoleDeletionStatus](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html)
 operation returns the reason for the failure, usually including the resources that must be
 deleted. To delete the service-linked role, you must first remove those resources from the
 linked service and then submit the deletion request again. Resources are specific to the
@@ -2465,7 +2703,7 @@ Deletes the specified service-specific credential.
 # Arguments
 
 - `service_specific_credential_id`: The unique identifier of the service-specific
-  credential. You can get this value by calling `ListServiceSpecificCredentials`.
+  credential. You can get this value by calling [ListServiceSpecificCredentials](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServiceSpecificCredentials.html).
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters that can consist of any upper or lowercased letter or digit.
@@ -2641,15 +2879,15 @@ delete a user programmatically, you must delete the items attached to the user m
 the deletion fails. For more information, see [Deleting an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli).
 Before attempting to delete a user, remove the following items:
 
-- Password ([`delete_login_profile`](@ref))
-- Access keys ([`delete_access_key`](@ref))
-- Signing certificate ([`delete_signing_certificate`](@ref))
-- SSH public key ([`delete_sshpublic_key`](@ref))
-- Git credentials ([`delete_service_specific_credential`](@ref))
-- Multi-factor authentication (MFA) device ([`deactivate_mfadevice`](@ref), [`delete_virtual_mfadevice`](@ref))
-- Inline policies ([`delete_user_policy`](@ref))
-- Attached managed policies ([`detach_user_policy`](@ref))
-- Group memberships ([`remove_user_from_group`](@ref))
+- Password ([DeleteLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteLoginProfile.html))
+- Access keys ([DeleteAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteAccessKey.html))
+- Signing certificate ([DeleteSigningCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteSigningCertificate.html))
+- SSH public key ([DeleteSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteSSHPublicKey.html))
+- Git credentials ([DeleteServiceSpecificCredential](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceSpecificCredential.html))
+- Multi-factor authentication (MFA) device ([DeactivateMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html), [DeleteVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteVirtualMFADevice.html))
+- Inline policies ([DeleteUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPolicy.html))
+- Attached managed policies ([DetachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html))
+- Group memberships ([RemoveUserFromGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_RemoveUserFromGroup.html))
 
 # Arguments
 
@@ -2735,7 +2973,8 @@ end
 Deletes the specified inline policy that is embedded in the specified IAM user.
 
 A user can also have managed policies attached to it. To detach a managed policy from a
-user, use [`detach_user_policy`](@ref). For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+user, use [DetachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DetachUserPolicy.html).
+For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 # Arguments
@@ -2794,7 +3033,7 @@ Deletes a virtual MFA device.
 
 !!! note
     You must deactivate a user's virtual MFA device before you can delete it. For
-    information about deactivating MFA devices, see [`deactivate_mfadevice`](@ref).
+    information about deactivating MFA devices, see [DeactivateMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeactivateMFADevice.html).
 
 # Arguments
 
@@ -2839,7 +3078,7 @@ end
 
 Removes the specified managed policy from the specified IAM group.
 
-A group can also have inline policies embedded with it. To delete an inline policy, use [`delete_group_policy`](@ref).
+A group can also have inline policies embedded with it. To delete an inline policy, use [DeleteGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroupPolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -2896,7 +3135,7 @@ end
 
 Removes the specified managed policy from the specified role.
 
-A role can also have inline policies embedded with it. To delete an inline policy, use [`delete_role_policy`](@ref).
+A role can also have inline policies embedded with it. To delete an inline policy, use [DeleteRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteRolePolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -2952,7 +3191,7 @@ end
 
 Removes the specified managed policy from the specified user.
 
-A user can also have inline policies embedded with it. To delete an inline policy, use [`delete_user_policy`](@ref).
+A user can also have inline policies embedded with it. To delete an inline policy, use [DeleteUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteUserPolicy.html).
 For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
@@ -2997,6 +3236,98 @@ function detach_user_policy(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disable_organizations_root_credentials_management()
+    disable_organizations_root_credentials_management(params::Dict{String,<:Any})
+
+Disables the management of privileged root user credentials across member accounts in your
+organization. When you disable this feature, the management account and the delegated
+administrator for IAM can no longer manage root user credentials for member accounts in your
+organization.
+"""
+function disable_organizations_root_credentials_management end
+
+function disable_organizations_root_credentials_management(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOrganizationsRootCredentialsManagement";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disable_organizations_root_credentials_management(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOrganizationsRootCredentialsManagement",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disable_organizations_root_sessions()
+    disable_organizations_root_sessions(params::Dict{String,<:Any})
+
+Disables root user sessions for privileged tasks across member accounts in your
+organization. When you disable this feature, the management account and the delegated
+administrator for IAM can no longer perform privileged tasks on member accounts in your
+organization.
+"""
+function disable_organizations_root_sessions end
+
+function disable_organizations_root_sessions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOrganizationsRootSessions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function disable_organizations_root_sessions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOrganizationsRootSessions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disable_outbound_web_identity_federation()
+    disable_outbound_web_identity_federation(params::Dict{String,<:Any})
+
+Disables the outbound identity federation feature for your Amazon Web Services account. When
+disabled, IAM principals in the account cannot use the `GetWebIdentityToken` API to obtain
+JSON Web Tokens (JWTs) for authentication with external services. This operation does not
+affect tokens that were issued before the feature was disabled.
+"""
+function disable_outbound_web_identity_federation end
+
+function disable_outbound_web_identity_federation(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOutboundWebIdentityFederation"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function disable_outbound_web_identity_federation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "DisableOutboundWebIdentityFederation",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3097,6 +3428,113 @@ function enable_mfadevice(
 end
 
 """
+    enable_organizations_root_credentials_management()
+    enable_organizations_root_credentials_management(params::Dict{String,<:Any})
+
+Enables the management of privileged root user credentials across member accounts in your
+organization. When you enable root credentials management for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management),
+the management account and the delegated administrator for IAM can manage root user
+credentials for member accounts in your organization.
+
+Before you enable centralized root access, you must have an account configured with the
+following settings:
+
+- You must manage your Amazon Web Services accounts in [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
+- Enable trusted access for Identity and Access Management in Organizations. For details,
+  see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-iam.html)
+  in the *Organizations User Guide*.
+"""
+function enable_organizations_root_credentials_management end
+
+function enable_organizations_root_credentials_management(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOrganizationsRootCredentialsManagement";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function enable_organizations_root_credentials_management(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOrganizationsRootCredentialsManagement",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_organizations_root_sessions()
+    enable_organizations_root_sessions(params::Dict{String,<:Any})
+
+Allows the management account or delegated administrator to perform privileged tasks on
+member accounts in your organization. For more information, see [Centrally manage root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management)
+in the *Identity and Access Management User Guide*.
+
+Before you enable this feature, you must have an account configured with the following
+settings:
+
+- You must manage your Amazon Web Services accounts in [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
+- Enable trusted access for Identity and Access Management in Organizations. For details,
+  see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html)
+  in the *Organizations User Guide*.
+"""
+function enable_organizations_root_sessions end
+
+function enable_organizations_root_sessions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOrganizationsRootSessions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function enable_organizations_root_sessions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOrganizationsRootSessions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_outbound_web_identity_federation()
+    enable_outbound_web_identity_federation(params::Dict{String,<:Any})
+
+Enables the outbound identity federation feature for your Amazon Web Services account. When
+enabled, IAM principals in your account can use the `GetWebIdentityToken` API to obtain JSON
+Web Tokens (JWTs) for secure authentication with external services. This operation also
+generates a unique issuer URL for your Amazon Web Services account.
+"""
+function enable_outbound_web_identity_federation end
+
+function enable_outbound_web_identity_federation(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOutboundWebIdentityFederation"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function enable_outbound_web_identity_federation(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "EnableOutboundWebIdentityFederation",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     generate_credential_report()
     generate_credential_report(params::Dict{String,<:Any})
 
@@ -3147,20 +3585,22 @@ troubleshooting, and supported Regions see [Reducing permissions using service l
 in the *IAM User Guide*.
 
 !!! important
-    The data includes all attempts to access Amazon Web Services, not just the successful
+    The data includes all attempts to access Amazon Web Services, not just the successful
     ones. This includes all attempts that were made using the Amazon Web Services Management
     Console, the Amazon Web Services API through any of the SDKs, or any of the command line
     tools. An unexpected entry in the service last accessed data does not mean that an
     account has been compromised, because the request might have been denied. Refer to your
     CloudTrail logs as the authoritative source for information about all API calls and
-    whether they were successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
+    whether they were successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
     in the *IAM User Guide*.
 
 This operation returns a `JobId`. Use this parameter in the
-`[`get_organizations_access_report`](@ref)` operation to check the status of the report
-generation. To check the status of this request, use the `JobId` parameter in the
-`[`get_organizations_access_report`](@ref)` operation and test the `JobStatus` response
-parameter. When the job is complete, you can retrieve the report.
+`[GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html)`
+operation to check the status of the report generation. To check the status of this request,
+use the `JobId` parameter in the
+`[GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html)`
+operation and test the `JobStatus` response parameter. When the job is complete, you can
+retrieve the report.
 
 To generate a service last accessed data report for entities, specify an entity path without
 specifying the optional Organizations policy ID. The type of entity that you specify
@@ -3280,35 +3720,35 @@ For more information about services and actions for which action last accessed i
 is displayed, see [IAM action last accessed information services and actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html).
 
 !!! important
-    The service last accessed data includes all attempts to access an Amazon Web Services
+    The service last accessed data includes all attempts to access an Amazon Web Services
     API, not just the successful ones. This includes all attempts that were made using the
     Amazon Web Services Management Console, the Amazon Web Services API through any of the
     SDKs, or any of the command line tools. An unexpected entry in the service last accessed
     data does not mean that your account has been compromised, because the request might
     have been denied. Refer to your CloudTrail logs as the authoritative source for
     information about all API calls and whether they were successful or denied access. For
-    more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
+    more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html)
     in the *IAM User Guide*.
 
 The [`generate_service_last_accessed_details`](@ref) operation returns a `JobId`. Use this
 parameter in the following operations to retrieve the following details from your report:
 
-- [`get_service_last_accessed_details`](@ref) – Use this operation for users, groups, roles,
-  or policies to list every Amazon Web Services service that the resource could access using
-  permissions policies. For each service, the response includes information about the most
-  recent access attempt.
+- [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html)
+  – Use this operation for users, groups, roles, or policies to list every Amazon Web
+  Services service that the resource could access using permissions policies. For each
+  service, the response includes information about the most recent access attempt.
 
 The `JobId` returned by `GenerateServiceLastAccessedDetail` must be used by the same role
 within a session, or by the same user when used to call `GetServiceLastAccessedDetail`.
-- [`get_service_last_accessed_details_with_entities`](@ref) – Use this operation for groups
-  and policies to list information about the associated entities (users or roles) that
-  attempted to access a specific Amazon Web Services service.
+- [GetServiceLastAccessedDetailsWithEntities](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html)
+  – Use this operation for groups and policies to list information about the associated
+  entities (users or roles) that attempted to access a specific Amazon Web Services service.
 
 To check the status of the `GenerateServiceLastAccessedDetails` request, use the `JobId`
 parameter in the same operations and test the `JobStatus` response parameter.
 
 For additional information about the permissions policies that allow an identity (user,
-group, or role) to access specific services, use the [`list_policies_granting_service_access`](@ref)
+group, or role) to access specific services, use the [ListPoliciesGrantingServiceAccess](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html)
 operation.
 
 !!! note
@@ -3418,7 +3858,8 @@ your account.
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
 You can optionally filter the results using the `Filter` parameter. You can paginate the
 results using the `MaxItems` and `Marker` parameters.
@@ -3518,12 +3959,12 @@ end
 
 Gets a list of all of the context keys referenced in the input policies. The policies are
 supplied as a list of one or more strings. To get the context keys from policies associated
-with an IAM user, group, or role, use [`get_context_keys_for_principal_policy`](@ref).
+with an IAM user, group, or role, use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html).
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. Context keys can be evaluated by testing
 against a value specified in an IAM policy. Use `GetContextKeysForCustomPolicy` to
-understand what key names and values you must supply when you call [`simulate_custom_policy`](@ref).
+understand what key names and values you must supply when you call [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html).
 Note that all parameters are shown in unencoded form here for clarity but must be URL
 encoded to be included as a part of a real HTML request.
 
@@ -3583,17 +4024,17 @@ user, then the request also includes all of the policies attached to groups that
 a member of.
 
 You can optionally include a list of one or more additional policies, specified as strings.
-If you want to include *only* a list of policies by string, use [`get_context_keys_for_custom_policy`](@ref)
+If you want to include *only* a list of policies by string, use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html)
 instead.
 
 **Note:** This operation discloses information about the permissions granted to other users.
-If you do not want users to see other user's permissions, then consider allowing them to use [`get_context_keys_for_custom_policy`](@ref)
+If you do not want users to see other user's permissions, then consider allowing them to use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html)
 instead.
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. Context keys can be evaluated by testing
-against a value in an IAM policy. Use [`get_context_keys_for_principal_policy`](@ref) to
-understand what key names and values you must supply when you call [`simulate_principal_policy`](@ref).
+against a value in an IAM policy. Use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html)
+to understand what key names and values you must supply when you call [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
 
 # Arguments
 
@@ -3676,6 +4117,69 @@ function get_credential_report(
 end
 
 """
+    get_delegation_request(delegation_request_id)
+    get_delegation_request(delegation_request_id, params::Dict{String,<:Any})
+
+Retrieves information about a specific delegation request.
+
+If a delegation request has no owner or owner account, `GetDelegationRequest` for that
+delegation request can be called by any account. If the owner account is assigned but there
+is no owner id, only identities within that owner account can call `GetDelegationRequest`
+for the delegation request. Once the delegation request is fully owned, the owner of the
+request gets a default permission to get that delegation request. For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request to retrieve.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DelegationPermissionCheck"`: Specifies whether to perform a permission check for the
+  delegation request.
+
+  If set to true, the `GetDelegationRequest` API call will start a permission check process.
+  This process calculates whether the caller has sufficient permissions to cover the asks
+  from this delegation request.
+
+  Setting this parameter to true does not guarantee an answer in the response. See the
+  `PermissionCheckStatus` and the `PermissionCheckResult` response attributes for further
+  details.
+"""
+function get_delegation_request end
+
+function get_delegation_request(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "GetDelegationRequest",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_delegation_request(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "GetDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_group(group_name)
     get_group(group_name, params::Dict{String,<:Any})
 
@@ -3743,11 +4247,13 @@ Retrieves the specified inline policy document that is embedded in the specified
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
 An IAM group can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a group, use [`get_policy`](@ref) to determine the policy's
-default version, then use [`get_policy_version`](@ref) to retrieve the policy document.
+document that is attached to a group, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html)
+to determine the policy's default version, then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html)
+to retrieve the policy document.
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -3793,6 +4299,66 @@ function get_group_policy(
                 Dict{String,Any}("GroupName" => GroupName, "PolicyName" => PolicyName),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_human_readable_summary(entity_arn)
+    get_human_readable_summary(entity_arn, params::Dict{String,<:Any})
+
+Retrieves a human readable summary for a given entity. At this time, the only supported
+entity type is `delegation-request`
+
+This method uses a Large Language Model (LLM) to generate the summary.
+
+If a delegation request has no owner or owner account, `GetHumanReadableSummary` for that
+delegation request can be called by any account. If the owner account is assigned but there
+is no owner id, only identities within that owner account can call `GetHumanReadableSummary`
+for the delegation request to retrieve a summary of that request. Once the delegation
+request is fully owned, the owner of the request gets a default permission to get that
+delegation request. For more details, read default permissions granted to delegation
+requests. These rules are identical to [GetDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html)
+API behavior, such that a party who has permissions to call [GetDelegationRequest](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetDelegationRequest.html)
+for a given delegation request will always be able to retrieve the human readable summary
+for that request.
+
+# Arguments
+
+- `entity_arn`: Arn of the entity to be summarized. At this time, the only supported entity
+  type is `delegation-request`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Locale"`: A string representing the locale to use for the summary generation. The
+  supported locale strings are based on the [Supported languages of the Amazon Web Services Management Console](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/change-language.html#supported-languages).
+"""
+function get_human_readable_summary end
+
+function get_human_readable_summary(
+    EntityArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "GetHumanReadableSummary",
+        Dict{String,Any}("EntityArn" => EntityArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_human_readable_summary(
+    EntityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "GetHumanReadableSummary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EntityArn" => EntityArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3848,8 +4414,8 @@ function get_instance_profile(
 end
 
 """
-    get_login_profile(user_name)
-    get_login_profile(user_name, params::Dict{String,<:Any})
+    get_login_profile()
+    get_login_profile(params::Dict{String,<:Any})
 
 Retrieves the user name for the specified IAM user. A login profile is created when you
 create a password for the user to access the Amazon Web Services Management Console. If the
@@ -3865,9 +4431,15 @@ initial password creation date. A user with programmatic access does not have a 
 profile unless you create a password for the user to access the Amazon Web Services
 Management Console.
 
-# Arguments
+# Optional Parameters
 
-- `user_name`: The name of the user whose login profile you want to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"UserName"`: The name of the user whose login profile you want to retrieve.
+
+  This parameter is optional. If no user name is included, it defaults to the principal
+  making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+  session to omit the user name.
 
   This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a
   string of characters consisting of upper and lowercase alphanumeric characters with no
@@ -3875,28 +4447,14 @@ Management Console.
 """
 function get_login_profile end
 
-function get_login_profile(UserName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iam(
-        "GetLoginProfile",
-        Dict{String,Any}("UserName" => UserName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function get_login_profile(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iam("GetLoginProfile"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_login_profile(
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iam(
-        "GetLoginProfile",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+    return iam("GetLoginProfile", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3953,7 +4511,8 @@ IAM.
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the OIDC provider
   resource object in IAM to get information for. You can get a list of OIDC provider
-  resource ARNs by using the `ListOpenIDConnectProviders` operation.
+  resource ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html)
+  operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -3995,11 +4554,12 @@ end
     get_organizations_access_report(job_id, params::Dict{String,<:Any})
 
 Retrieves the service last accessed data report for Organizations that was previously
-generated using the `[`generate_organizations_access_report`](@ref)` operation. This
-operation retrieves the status of your report job and the report contents.
+generated using the
+`[GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html)`
+operation. This operation retrieves the status of your report job and the report contents.
 
 Depending on the parameters that you passed when you generated the report, the data returned
-could include different information. For details, see [`generate_organizations_access_report`](@ref).
+could include different information. For details, see [GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html).
 
 To call this operation, you must be signed in to the management account in your
 organization. SCPs must be enabled for your organization root. You must have permissions to
@@ -4015,8 +4575,8 @@ By default, the list is sorted by service namespace.
 
 # Arguments
 
-- `job_id`: The identifier of the request generated by the
-  `GenerateOrganizationsAccessReport` operation.
+- `job_id`: The identifier of the request generated by the [GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html)
+  operation.
 
 # Optional Parameters
 
@@ -4064,18 +4624,50 @@ function get_organizations_access_report(
 end
 
 """
+    get_outbound_web_identity_federation_info()
+    get_outbound_web_identity_federation_info(params::Dict{String,<:Any})
+
+Retrieves the configuration information for the outbound identity federation feature in your
+Amazon Web Services account. The response includes the unique issuer URL for your Amazon Web
+Services account and the current enabled/disabled status of the feature. Use this operation
+to obtain the issuer URL that you need to configure trust relationships with external
+services.
+"""
+function get_outbound_web_identity_federation_info end
+
+function get_outbound_web_identity_federation_info(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "GetOutboundWebIdentityFederationInfo"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_outbound_web_identity_federation_info(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "GetOutboundWebIdentityFederationInfo",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_policy(policy_arn)
     get_policy(policy_arn, params::Dict{String,<:Any})
 
 Retrieves information about the specified managed policy, including the policy's default
 version and the total number of IAM users, groups, and roles to which the policy is
 attached. To retrieve the list of the specific users, groups, and roles that the policy is
-attached to, use [`list_entities_for_policy`](@ref). This operation returns metadata about
-the policy. To retrieve the actual policy document for a specific version of the policy, use [`get_policy_version`](@ref).
+attached to, use [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html).
+This operation returns metadata about the policy. To retrieve the actual policy document for
+a specific version of the policy, use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html).
 
 This operation retrieves information about managed policies. To retrieve information about
-an inline policy that is embedded with an IAM user, group, or role, use [`get_user_policy`](@ref), [`get_group_policy`](@ref),
-or [`get_role_policy`](@ref).
+an inline policy that is embedded with an IAM user, group, or role, use [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html), [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html),
+or [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html).
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -4125,13 +4717,14 @@ the policy document.
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
-To list the available versions for a policy, use [`list_policy_versions`](@ref).
+To list the available versions for a policy, use [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html).
 
 This operation retrieves information about managed policies. To retrieve information about
-an inline policy that is embedded in a user, group, or role, use [`get_user_policy`](@ref), [`get_group_policy`](@ref),
-or [`get_role_policy`](@ref).
+an inline policy that is embedded in a user, group, or role, use [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html), [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html),
+or [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html).
 
 For more information about the types of policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -4199,7 +4792,8 @@ in the *IAM User Guide*.
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
 # Arguments
 
@@ -4245,11 +4839,13 @@ Retrieves the specified inline policy document that is embedded with the specifi
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
 An IAM role can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a role, use [`get_policy`](@ref) to determine the policy's
-default version, then use [`get_policy_version`](@ref) to retrieve the policy document.
+document that is attached to a role, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html)
+to determine the policy's default version, then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html)
+to retrieve the policy document.
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -4451,7 +5047,7 @@ in the *IAM User Guide*.
 
 # Arguments
 
-- `job_id`: The ID of the request generated by the `GenerateServiceLastAccessedDetails`
+- `job_id`: The ID of the request generated by the [GenerateServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html)
   operation. The `JobId` returned by `GenerateServiceLastAccessedDetail` must be used by the
   same role within a session, or by the same user when used to call
   `GetServiceLastAccessedDetail`.
@@ -4533,7 +5129,7 @@ listed first.
   in the *IAM User Guide*. Choose the name of the service to view details for that service.
   In the first paragraph, find the service prefix. For example, `(service prefix: a4b)`. For
   more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
-  in the *Amazon Web Services General Reference*.
+  in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
 
@@ -4589,7 +5185,7 @@ end
     get_service_linked_role_deletion_status(deletion_task_id)
     get_service_linked_role_deletion_status(deletion_task_id, params::Dict{String,<:Any})
 
-Retrieves the status of your service-linked role deletion. After you use [`delete_service_linked_role`](@ref)
+Retrieves the status of your service-linked role deletion. After you use [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html)
 to submit a service-linked role for deletion, you can use the `DeletionTaskId` parameter in
 `GetServiceLinkedRoleDeletionStatus` to check the status of the deletion. If the deletion
 fails, this operation returns the reason that it failed, if that information is returned by
@@ -4597,8 +5193,8 @@ the service.
 
 # Arguments
 
-- `deletion_task_id`: The deletion task identifier. This identifier is returned by the
-  `DeleteServiceLinkedRole` operation in the format
+- `deletion_task_id`: The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html)
+  operation in the format
   `task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid>`.
 """
 function get_service_linked_role_deletion_status end
@@ -4742,11 +5338,13 @@ Retrieves the specified inline policy document that is embedded in the specified
     Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986).
     You can use a URL decoding method to convert the policy back to plain JSON text. For
     example, if you use Java, you can use the `decode` method of the `java.net.URLDecoder`
-    utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+    utility class in the Java SDK. Other languages and SDKs provide similar functionality,
+    and some SDKs do this decoding automatically.
 
 An IAM user can also have managed policies attached to it. To retrieve a managed policy
-document that is attached to a user, use [`get_policy`](@ref) to determine the policy's
-default version. Then use [`get_policy_version`](@ref) to retrieve the policy document.
+document that is attached to a user, use [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html)
+to determine the policy's default version. Then use [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html)
+to retrieve the policy document.
 
 For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -4861,8 +5459,8 @@ end
     list_account_aliases(params::Dict{String,<:Any})
 
 Lists the account alias associated with the Amazon Web Services account (Note: you can have
-only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html)
-in the *Amazon Web Services Sign-In User Guide*.
+only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias)
+in the *IAM User Guide*.
 
 # Optional Parameters
 
@@ -4900,7 +5498,8 @@ end
 Lists all managed policies that are attached to the specified IAM group.
 
 An IAM group can also have inline policies embedded with it. To list the inline policies for
-a group, use [`list_group_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+a group, use [ListGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -4978,7 +5577,8 @@ end
 Lists all managed policies that are attached to the specified IAM role.
 
 An IAM role can also have inline policies embedded with it. To list the inline policies for
-a role, use [`list_role_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+a role, use [ListRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -5055,7 +5655,8 @@ end
 Lists all managed policies that are attached to the specified IAM user.
 
 An IAM user can also have inline policies embedded with it. To list the inline policies for
-a user, use [`list_user_policies`](@ref). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+a user, use [ListUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html).
+For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. You can use the
@@ -5126,6 +5727,50 @@ function list_attached_user_policies(
 end
 
 """
+    list_delegation_requests()
+    list_delegation_requests(params::Dict{String,<:Any})
+
+Lists delegation requests based on the specified criteria.
+
+If a delegation request has no owner, even if it is assigned to a specific account, it will
+not be part of the `ListDelegationRequests` output for that account.
+
+For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the `Marker`
+  element in the response that you received to indicate where the next call should start.
+
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the `IsTruncated` response element is `true`.
+
+  If you do not include this parameter, the number of items defaults to 100. Note that IAM
+  may return fewer results, even when there are more results available. In that case, the
+  `IsTruncated` response element returns `true`, and `Marker` contains a value to include in
+  the subsequent call that tells the service where to continue from.
+
+- `"OwnerId"`: The owner ID to filter delegation requests by.
+"""
+function list_delegation_requests end
+
+function list_delegation_requests(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iam("ListDelegationRequests"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_delegation_requests(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "ListDelegationRequests", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_entities_for_policy(policy_arn)
     list_entities_for_policy(policy_arn, params::Dict{String,<:Any})
 
@@ -5180,9 +5825,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PolicyUsageFilter"`: The policy usage method to use for filtering the results.
 
-  To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To list
-  only the policies used to set permissions boundaries, set the value
-  to `PermissionsBoundary`.
+  To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To list
+  only the policies used to set permissions boundaries, set the value to
+  `PermissionsBoundary`.
 
   This parameter is optional. If it is not included, all policies are returned.
 """
@@ -5221,8 +5866,8 @@ end
 Lists the names of the inline policies that are embedded in the specified IAM group.
 
 An IAM group can also have managed policies attached to it. To list the managed policies
-that are attached to a group, use [`list_attached_group_policies`](@ref). For more
-information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+that are attached to a group, use [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html).
+For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -5463,7 +6108,7 @@ in the *IAM User Guide*.
     IAM resource-listing operations return a subset of the available attributes for the
     resource. For example, this operation does not return tags, even though they are an
     attribute of the returned object. To view all of the information for an instance
-    profile, see [`get_instance_profile`](@ref).
+    profile, see [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html).
 
 You can paginate the results using the `MaxItems` and `Marker` parameters.
 
@@ -5758,7 +6403,7 @@ the Amazon Web Services account.
     IAM resource-listing operations return a subset of the available attributes for the
     resource. For example, this operation does not return tags, even though they are an
     attribute of the returned object. To view all of the information for an OIDC provider,
-    see [`get_open_idconnect_provider`](@ref).
+    see [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html).
 """
 function list_open_idconnect_providers end
 
@@ -5771,6 +6416,27 @@ function list_open_idconnect_providers(
 )
     return iam(
         "ListOpenIDConnectProviders", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_organizations_features()
+    list_organizations_features(params::Dict{String,<:Any})
+
+Lists the centralized root access features enabled for your organization. For more
+information, see [Centrally manage root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+"""
+function list_organizations_features end
+
+function list_organizations_features(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iam("ListOrganizationsFeatures"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_organizations_features(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "ListOrganizationsFeatures", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5796,7 +6462,7 @@ in the *IAM User Guide*.
     IAM resource-listing operations return a subset of the available attributes for the
     resource. For example, this operation does not return tags, even though they are an
     attribute of the returned object. To view all of the information for a customer manged
-    policy, see [`get_policy`](@ref).
+    policy, see [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html).
 
 # Optional Parameters
 
@@ -5831,9 +6497,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PolicyUsageFilter"`: The policy usage method to use for filtering the results.
 
-  To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To list
-  only the policies used to set permissions boundaries, set the value
-  to `PermissionsBoundary`.
+  To list only permissions policies, set `PolicyUsageFilter` to `PermissionsPolicy`. To list
+  only the policies used to set permissions boundaries, set the value to
+  `PermissionsBoundary`.
 
   This parameter is optional. If it is not included, all policies are returned.
 
@@ -5891,7 +6557,9 @@ in the *IAM User Guide*.
 
 Policies that are attached to users and roles as permissions boundaries are not returned. To
 view which managed policy is currently used to set the permissions boundary for a user or
-role, use the [`get_user`](@ref) or [`get_role`](@ref) operations.
+role, use the [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html)
+or [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html)
+operations.
 
 # Arguments
 
@@ -5904,7 +6572,7 @@ role, use the [`get_user`](@ref) or [`get_role`](@ref) operations.
   in the *IAM User Guide*. Choose the name of the service to view details for that service.
   In the first paragraph, find the service prefix. For example, `(service prefix: a4b)`. For
   more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
-  in the *Amazon Web Services General Reference*.
+  in the *Amazon Web Services General Reference*.
 
 # Optional Parameters
 
@@ -6074,8 +6742,8 @@ end
 Lists the names of the inline policies that are embedded in the specified IAM role.
 
 An IAM role can also have managed policies attached to it. To list the managed policies that
-are attached to a role, use [`list_attached_role_policies`](@ref). For more information
-about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+are attached to a role, use [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html).
+For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -6208,7 +6876,7 @@ in the *IAM User Guide*.
     - RoleLastUsed
     - Tags
 
-    To view all of the information for a role, see [`get_role`](@ref).
+    To view all of the information for a role, see [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html).
 
 You can paginate the results using the `MaxItems` and `Marker` parameters.
 
@@ -6325,7 +6993,7 @@ end
 Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing
 operations return a subset of the available attributes for the resource. For example, this
 operation does not return tags, even though they are an attribute of the returned object. To
-view all of the information for a SAML provider, see [`get_samlprovider`](@ref).
+view all of the information for a SAML provider, see [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html).
 
 !!! important
     This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
@@ -6431,7 +7099,7 @@ that can use the server certificates that you manage with IAM.
     IAM resource-listing operations return a subset of the available attributes for the
     resource. For example, this operation does not return tags, even though they are an
     attribute of the returned object. To view all of the information for a
-    servercertificate, see [`get_server_certificate`](@ref).
+    servercertificate, see [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html).
 
 # Optional Parameters
 
@@ -6489,6 +7157,18 @@ in the CodeCommit User Guide.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AllUsers"`: A flag indicating whether to list service specific credentials for all
+  users. This parameter cannot be specified together with UserName. When true, returns all
+  credentials associated with the specified service.
+
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker from
+  the response that you received to indicate where the next call should start.
+
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true.
 
 - `"ServiceName"`: Filters the returned results to only those for the specified Amazon Web
   Services service. If not specified, then Amazon Web Services returns service-specific
@@ -6635,8 +7315,8 @@ end
 Lists the names of the inline policies embedded in the specified IAM user.
 
 An IAM user can also have managed policies attached to it. To list the managed policies that
-are attached to a user, use [`list_attached_user_policies`](@ref). For more information
-about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
+are attached to a user, use [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html).
+For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
 
 You can paginate the results using the `MaxItems` and `Marker` parameters. If there are no
@@ -6768,7 +7448,7 @@ operation returns an empty list.
     - PermissionsBoundary
     - Tags
 
-    To view all of the information for a user, see [`get_user`](@ref).
+    To view all of the information for a user, see [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html).
 
 You can paginate the results using the `MaxItems` and `Marker` parameters.
 
@@ -6823,7 +7503,7 @@ virtual MFA devices. Assignment status can be `Assigned`, `Unassigned`, or `Any`
 !!! note
     IAM resource-listing operations return a subset of the available attributes for the
     resource. For example, this operation does not return tags, even though they are an
-    attribute of the returned object. To view tag information for a virtual MFA device, see [`list_mfadevice_tags`](@ref).
+    attribute of the returned object. To view tag information for a virtual MFA device, see [ListMFADeviceTags](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADeviceTags.html).
 
 You can paginate the results using the `MaxItems` and `Marker` parameters.
 
@@ -7292,6 +7972,62 @@ function put_user_policy(
 end
 
 """
+    reject_delegation_request(delegation_request_id)
+    reject_delegation_request(delegation_request_id, params::Dict{String,<:Any})
+
+Rejects a delegation request, denying the requested temporary access.
+
+Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire
+after 7 days.
+
+When rejecting a request, an optional explanation can be added using the `notes` request
+parameter.
+
+For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request to reject.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Notes"`: Optional notes explaining the reason for rejecting the delegation request.
+"""
+function reject_delegation_request end
+
+function reject_delegation_request(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "RejectDelegationRequest",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reject_delegation_request(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "RejectDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_client_idfrom_open_idconnect_provider(client_id, open_idconnect_provider_arn)
     remove_client_idfrom_open_idconnect_provider(client_id, open_idconnect_provider_arn, params::Dict{String,<:Any})
 
@@ -7304,11 +8040,12 @@ client ID that does not exist.
 # Arguments
 
 - `client_id`: The client ID (also known as audience) to remove from the IAM OIDC provider
-  resource. For more information about client IDs, see `CreateOpenIDConnectProvider`.
+  resource. For more information about client IDs, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
   resource to remove the client ID from. You can get a list of OIDC provider ARNs by using
-  the `ListOpenIDConnectProviders` operation.
+  the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html)
+  operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -7616,6 +8353,59 @@ function resync_mfadevice(
 end
 
 """
+    send_delegation_token(delegation_request_id)
+    send_delegation_token(delegation_request_id, params::Dict{String,<:Any})
+
+Sends the exchange token for an accepted delegation request.
+
+The exchange token is sent to the partner via an asynchronous notification channel,
+established by the partner.
+
+The delegation request must be in the `ACCEPTED` state when calling this API. After the
+`SendDelegationToken` API call is successful, the request transitions to a `FINALIZED` state
+and cannot be rolled back. However, a user may reject an accepted request before the
+`SendDelegationToken` API is called.
+
+For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request for which to send
+  the token.
+"""
+function send_delegation_token end
+
+function send_delegation_token(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "SendDelegationToken",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_delegation_token(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "SendDelegationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     set_default_policy_version(policy_arn, version_id)
     set_default_policy_version(policy_arn, version_id, params::Dict{String,<:Any})
 
@@ -7623,7 +8413,7 @@ Sets the specified version of the specified policy as the policy's default (oper
 version.
 
 This operation affects all users, groups, and roles that the policy is attached to. To list
-the users, groups, and roles that the policy is attached to, use [`list_entities_for_policy`](@ref).
+the users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html).
 
 For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
 in the *IAM User Guide*.
@@ -7696,7 +8486,8 @@ might affect systems where you temporarily store tokens. For information, see [A
 in the *IAM User Guide*.
 
 To view the current session token version, see the `GlobalEndpointTokenVersion` entry in the
-response of the [`get_account_summary`](@ref) operation.
+response of the [GetAccountSummary](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html)
+operation.
 
 # Arguments
 
@@ -7756,12 +8547,13 @@ determine if the simulated policies allow or deny the operations. You can simula
 that don't exist in your account.
 
 If you want to simulate existing policies that are attached to an IAM user, group, or role,
-use [`simulate_principal_policy`](@ref) instead.
+use [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html)
+instead.
 
 Context keys are variables that are maintained by Amazon Web Services and its services and
 which provide details about the context of an API query request. You can use the `Condition`
 element of an IAM policy to evaluate context keys. To get the list of context keys that the
-policies require for correct simulation, use [`get_context_keys_for_custom_policy`](@ref).
+policies require for correct simulation, use [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html).
 
 If the output is long, you can use `MaxItems` and `Marker` parameters to paginate the
 results.
@@ -7985,7 +8777,7 @@ simulation also includes all of the policies that are attached to groups that th
 belongs to. You can simulate resources that don't exist in your account.
 
 You can optionally include a list of one or more additional policies specified as strings to
-include in the simulation. If you want to simulate only policies specified as strings, use [`simulate_custom_policy`](@ref)
+include in the simulation. If you want to simulate only policies specified as strings, use [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html)
 instead.
 
 You can also optionally include one resource-based policy to be evaluated with each of the
@@ -7995,13 +8787,13 @@ The simulation does not perform the API operations; it only checks the authoriza
 determine if the simulated policies allow or deny the operations.
 
 **Note:** This operation discloses information about the permissions granted to other users.
-If you do not want users to see other user's permissions, then consider allowing them to use [`simulate_custom_policy`](@ref)
+If you do not want users to see other user's permissions, then consider allowing them to use [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html)
 instead.
 
 Context keys are variables maintained by Amazon Web Services and its services that provide
 details about the context of an API query request. You can use the `Condition` element of an
 IAM policy to evaluate context keys. To get the list of context keys that the policies
-require for correct simulation, use [`get_context_keys_for_principal_policy`](@ref).
+require for correct simulation, use [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html).
 
 If the output is long, you can use the `MaxItems` and `Marker` parameters to paginate the
 results.
@@ -9511,6 +10303,58 @@ function update_assume_role_policy(
 end
 
 """
+    update_delegation_request(delegation_request_id)
+    update_delegation_request(delegation_request_id, params::Dict{String,<:Any})
+
+Updates an existing delegation request with additional information. When the delegation
+request is updated, it reaches the `PENDING_APPROVAL` state.
+
+Once a delegation request has an owner, that owner gets a default permission to update the
+delegation request. For more details, see [Managing Permissions for Delegation Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-temporary-delegation.html#temporary-delegation-managing-permissions).
+
+# Arguments
+
+- `delegation_request_id`: The unique identifier of the delegation request to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Notes"`: Additional notes or comments to add to the delegation request.
+"""
+function update_delegation_request end
+
+function update_delegation_request(
+    DelegationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iam(
+        "UpdateDelegationRequest",
+        Dict{String,Any}("DelegationRequestId" => DelegationRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_delegation_request(
+    DelegationRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iam(
+        "UpdateDelegationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DelegationRequestId" => DelegationRequestId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_group(group_name)
     update_group(group_name, params::Dict{String,<:Any})
 
@@ -9588,8 +10432,9 @@ end
 
 Changes the password for the specified IAM user. You can use the CLI, the Amazon Web
 Services API, or the **Users** page in the IAM console to change the password for any IAM
-user. Use [`change_password`](@ref) to change your own password in the **My Security
-Credentials** page in the Amazon Web Services Management Console.
+user. Use [ChangePassword](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ChangePassword.html)
+to change your own password in the **My Security Credentials** page in the Amazon Web
+Services Management Console.
 
 For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
 in the *IAM User Guide*.
@@ -9619,8 +10464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     (`\\u000D`)
 
   However, the format can be further restricted by the account administrator by setting a
-  password policy on the Amazon Web Services account. For more information, see
-  `UpdateAccountPasswordPolicy`.
+  password policy on the Amazon Web Services account. For more information, see [UpdateAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccountPasswordPolicy.html).
 
 - `"PasswordResetRequired"`: Allows this new password to be used only once by requiring the
   specified IAM user to set a new password on next sign-in.
@@ -9667,12 +10511,11 @@ attempt to assume an IAM role that specifies the OIDC provider as a principal fa
 the certificate thumbprint is updated.
 
 !!! note
-    Amazon Web Services secures communication with some OIDC identity providers (IdPs)
-    through our library of trusted root certificate authorities (CAs) instead of using a
-    certificate thumbprint to verify your IdP server certificate. In these cases, your
-    legacy thumbprint remains in your configuration, but is no longer used for validation.
-    These OIDC IdPs include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
-    bucket to host a JSON Web Key Set (JWKS) endpoint.
+    Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
+    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
+    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
+    signed by one of these trusted CAs, only then we secure communication using the
+    thumbprints set in the IdP's configuration.
 
 !!! note
     Trust for the OIDC provider is derived from the provider certificate and is validated by
@@ -9683,14 +10526,14 @@ the certificate thumbprint is updated.
 
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
   resource object for which you want to update the thumbprint. You can get a list of OIDC
-  provider ARNs by using the `ListOpenIDConnectProviders` operation.
+  provider ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html)
+  operation.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
 
 - `thumbprint_list`: A list of certificate thumbprints that are associated with the
-  specified IAM OpenID Connect provider. For more information, see
-  `CreateOpenIDConnectProvider`.
+  specified IAM OpenID Connect provider. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
 """
 function update_open_idconnect_provider_thumbprint end
 
@@ -9796,7 +10639,8 @@ end
     update_role_description(description, role_name)
     update_role_description(description, role_name, params::Dict{String,<:Any})
 
-Use [`update_role`](@ref) instead.
+Use [UpdateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateRole.html)
+instead.
 
 Modifies only the description of a role. This operation performs the same function as the
 `Description` parameter in the [`update_role`](@ref) operation.
@@ -9840,47 +10684,52 @@ function update_role_description(
 end
 
 """
-    update_samlprovider(samlmetadata_document, samlprovider_arn)
-    update_samlprovider(samlmetadata_document, samlprovider_arn, params::Dict{String,<:Any})
+    update_samlprovider(samlprovider_arn)
+    update_samlprovider(samlprovider_arn, params::Dict{String,<:Any})
 
-Updates the metadata document for an existing SAML provider resource object.
-
-!!! note
-    This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+Updates the metadata document, SAML encryption settings, and private keys for an existing
+SAML provider. To rotate private keys, add your new private key and then remove the old key
+in a separate request.
 
 # Arguments
-
-- `samlmetadata_document`: An XML document generated by an identity provider (IdP) that
-  supports SAML 2.0. The document includes the issuer's name, expiration information, and
-  keys that can be used to validate the SAML authentication response (assertions) that are
-  received from the IdP. You must generate the metadata document using the identity
-  management software that is used as your organization's IdP.
 
 - `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider to update.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AddPrivateKey"`: Specifies the new private key from your external identity provider. The
+  private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to
+  decrypt SAML assertions.
+
+- `"AssertionEncryptionMode"`: Specifies the encryption setting for the SAML provider.
+
+- `"RemovePrivateKey"`: The Key ID of the private key to remove.
+
+- `"SAMLMetadataDocument"`: An XML document generated by an identity provider (IdP) that
+  supports SAML 2.0. The document includes the issuer's name, expiration information, and
+  keys that can be used to validate the SAML authentication response (assertions) that are
+  received from the IdP. You must generate the metadata document using the identity
+  management software that is used as your IdP.
 """
 function update_samlprovider end
 
 function update_samlprovider(
-    SAMLMetadataDocument,
-    SAMLProviderArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    SAMLProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iam(
         "UpdateSAMLProvider",
-        Dict{String,Any}(
-            "SAMLMetadataDocument" => SAMLMetadataDocument,
-            "SAMLProviderArn" => SAMLProviderArn,
-        );
+        Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_samlprovider(
-    SAMLMetadataDocument,
     SAMLProviderArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -9889,12 +10738,7 @@ function update_samlprovider(
         "UpdateSAMLProvider",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SAMLMetadataDocument" => SAMLMetadataDocument,
-                    "SAMLProviderArn" => SAMLProviderArn,
-                ),
-                params,
+                _merge, Dict{String,Any}("SAMLProviderArn" => SAMLProviderArn), params
             ),
         );
         aws_config,

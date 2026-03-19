@@ -422,7 +422,8 @@ to associate your App Runner service to a custom Amazon Virtual Private Cloud (A
   Runner determines the Amazon VPC from the subnets you specify.
 
   !!! note
-      App Runner currently only provides support for IPv4.
+      App Runner only supports subnets of IP address type *IPv4* and *dual stack* (IPv4 and
+      IPv6).
 
 - `vpc_connector_name`: A name for the VPC connector.
 

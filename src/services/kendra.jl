@@ -421,6 +421,11 @@ object. If you use an S3 bucket as a data source, you update the `.metadata.json
 only supports access control configuration for S3 data sources and documents indexed using
 the `BatchPutDocument` API.
 
+!!! important
+    You can't configure access control using `CreateAccessControlConfiguration` for an
+    Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a
+    `ValidationException` error for a `Gen_AI_ENTERPRISE_EDITION` index.
+
 # Arguments
 
 - `index_id`: The identifier of the index to create an access control configuration for your
@@ -679,7 +684,7 @@ For an example of adding an FAQ to an index using Python and Java SDKs, see [Usi
 - `index_id`: The identifier of the index for the FAQ.
 - `name`: A name for the FAQ.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role with permission to access the S3
-  bucket that contains the FAQs. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+  bucket that contains the FAQ file. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 - `s3_path`: The path to the FAQ file in S3.
 
 # Optional Parameters
@@ -870,13 +875,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Edition"`: The Amazon Kendra edition to use for the index. Choose `DEVELOPER_EDITION`
   for indexes intended for development, testing, or proof of concept. Use
-  `ENTERPRISE_EDITION` for production. Once you set the edition for an index, it can't be
-  changed.
+  `ENTERPRISE_EDITION` for production. Use `GEN_AI_ENTERPRISE_EDITION` for creating
+  generative AI applications. Once you set the edition for an index, it can't be changed.
 
   The `Edition` parameter is optional. If you don't supply a value, the default is
   `ENTERPRISE_EDITION`.
 
-  For more information on quota limits for Enterprise and Developer editions, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
+  For more information on quota limits for Gen AI Enterprise Edition, Enterprise Edition,
+  and Developer Edition indices, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
 
 - `"ServerSideEncryptionConfiguration"`: The identifier of the KMS customer managed key
   (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
@@ -887,6 +893,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 
 - `"UserContextPolicy"`: The user context policy.
+
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
+      `ATTRIBUTE_FILTER` to filter search results by user context. If you're using an Amazon
+      Kendra Gen AI Enterprise Edition index and you try to use `USER_TOKEN` to configure
+      user context policy, Amazon Kendra returns a `ValidationException` error.
 
   ### ATTRIBUTE_FILTER
 
@@ -905,7 +917,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is useful for user context filtering, where search results are filtered based on the
   user or their group access to documents.
 
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+      `UserGroupResolutionConfiguration` isn't supported.
+
 - `"UserTokenConfigurations"`: The user token configuration.
+
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use
+      `UserTokenConfigurations` to configure user context policy, Amazon Kendra returns a
+      `ValidationException` error.
 """
 function create_index end
 
@@ -1249,7 +1270,7 @@ end
     delete_faq(id, index_id)
     delete_faq(id, index_id, params::Dict{String,<:Any})
 
-Removes an FAQ from an index.
+Removes a FAQ from an index.
 
 # Arguments
 
@@ -1321,8 +1342,8 @@ end
     delete_principal_mapping(group_id, index_id)
     delete_principal_mapping(group_id, index_id, params::Dict{String,<:Any})
 
-Deletes a group so that all users and sub groups that belong to the group can no longer
-access documents only available to that group.
+Deletes a group so that all users that belong to the group can no longer access documents
+only available to that group.
 
 For example, after deleting the group "Summer Interns", all interns who belonged to that
 group no longer see intern-only documents in their search results.
@@ -1612,7 +1633,7 @@ end
     describe_faq(id, index_id)
     describe_faq(id, index_id, params::Dict{String,<:Any})
 
-Gets information about an FAQ list.
+Gets information about a FAQ.
 
 # Arguments
 
@@ -2458,11 +2479,11 @@ end
     list_faqs(index_id)
     list_faqs(index_id, params::Dict{String,<:Any})
 
-Gets a list of FAQ lists associated with an index.
+Gets a list of FAQs associated with an index.
 
 # Arguments
 
-- `index_id`: The index that contains the FAQ lists.
+- `index_id`: The index for the FAQs.
 
 # Optional Parameters
 
@@ -2692,13 +2713,15 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources
-can have tags associated with them.
+Gets a list of tags associated with a resource. Indexes, FAQs, data sources, and other
+resources can have tags associated with them.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a
-  list of tags for.
+- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  resource to get a list of tags for. For example, the ARN of an index is constructed as
+  follows: *arn:aws:kendra:your-region:your-account-id:index/index-id* For information on
+  how to construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
 """
 function list_tags_for_resource end
 
@@ -2794,10 +2817,10 @@ is thrown.
 
 - `group_id`: The identifier of the group you want to map its users to.
 
-- `group_members`: The list that contains your users or sub groups that belong the same
-  group.
+- `group_members`: The list that contains your users that belong the same group. This can
+  include sub groups that belong to a group.
 
-  For example, the group "Company" includes the user "CEO" and the sub groups "Research",
+  For example, the group "Company A" includes the user "CEO" and the sub groups "Research",
   "Engineering", and "Sales and Marketing".
 
   If you have more than 1000 users and/or sub groups for a single group, you need to provide
@@ -2819,7 +2842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs
   access to customer-related documents stored in Salesforce.
 
-- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra does not
+- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra doesn't
   override the latest `PUT` action with previous actions. The highest number ID, which is
   the ordering ID, is the latest action you want to process and apply on top of other
   actions with lower number IDs. This prevents previous actions with lower number IDs from
@@ -2833,8 +2856,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default ordering ID is the current Unix time in milliseconds that the action was
   received by Amazon Kendra.
 
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role that has access to the S3 file that
-  contains your list of users or sub groups that belong to a group.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file
+  that contains your list of users that belong to a group.
 
   For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds).
 """
@@ -2909,6 +2932,12 @@ You can specify that the query return only one type of result using the
 filter result type to only question-answers, a maximum of four results are returned. If you
 filter result type to only answers, a maximum of three results are returned.
 
+!!! important
+    If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
+    `ATTRIBUTE_FILTER` to filter search results by user context. If you're using an Amazon
+    Kendra Gen AI Enterprise Edition index and you try to use `USER_TOKEN` to configure user
+    context policy, Amazon Kendra returns a `ValidationException` error.
+
 # Arguments
 
 - `index_id`: The identifier of the index for the search.
@@ -2923,6 +2952,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The `AttributeFilter` parameter means you can create a set of filtering rules that a
   document must satisfy to be included in the query results.
+
+  !!! note
+      For Amazon Kendra Gen AI Enterprise Edition indices use `AttributeFilter` to enable
+      document filtering for end users using `_email_id` or include public documents
+      (`_email_id=null`).
 
 - `"CollapseConfiguration"`: Provides configuration to determine how to group results by
   document attribute value, and how to display them (collapsed or expanded) under a
@@ -3049,6 +3083,12 @@ The `Retrieve` API shares the number of [query capacity units](https://docs.aws.
 that you set for your index. For more information on what's included in a single capacity
 unit and the default base capacity for an index, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
 
+!!! important
+    If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
+    `ATTRIBUTE_FILTER` to filter search results by user context. If you're using an Amazon
+    Kendra Gen AI Enterprise Edition index and you try to use `USER_TOKEN` to configure user
+    context policy, Amazon Kendra returns a `ValidationException` error.
+
 # Arguments
 
 - `index_id`: The identifier of the index to retrieve relevant passages for the search.
@@ -3070,6 +3110,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The `AttributeFilter` parameter means you can create a set of filtering rules that a
   document must satisfy to be included in the query results.
+
+  !!! note
+      For Amazon Kendra Gen AI Enterprise Edition indices use `AttributeFilter` to enable
+      document filtering for end users using `_email_id` or include public documents
+      (`_email_id=null`).
 
 - `"DocumentRelevanceOverrideConfigurations"`: Overrides relevance tuning configurations of
   fields/attributes set at the index level.
@@ -3273,14 +3318,17 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds the specified tag to the specified index, FAQ, or data source resource. If the tag
-already exists, the existing value is replaced with the new value.
+Adds the specified tag to the specified index, FAQ, data source, or other resource. If the
+tag already exists, the existing value is replaced with the new value.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
-- `tags`: A list of tag keys to add to the index, FAQ, or data source. If a tag already
-  exists, the existing value is replaced with the new value.
+- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  resource to add a tag. For example, the ARN of an index is constructed as follows:
+  *arn:aws:kendra:your-region:your-account-id:index/index-id* For information on how to
+  construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
+- `tags`: A list of tag keys to add to the index, FAQ, data source, or other resource. If a
+  tag already exists, the existing value is replaced with the new value.
 """
 function tag_resource end
 
@@ -3317,14 +3365,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes a tag from an index, FAQ, or a data source.
+Removes a tag from an index, FAQ, data source, or other resource.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove
-  the tag from.
-- `tag_keys`: A list of tag keys to remove from the index, FAQ, or data source. If a tag key
-  does not exist on the resource, it is ignored.
+- `resource_arn`: The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  resource to remove a tag. For example, the ARN of an index is constructed as follows:
+  *arn:aws:kendra:your-region:your-account-id:index/index-id* For information on how to
+  construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
+- `tag_keys`: A list of tag keys to remove from the index, FAQ, data source, or other
+  resource. If a tag key doesn't exist for the resource, it is ignored.
 """
 function untag_resource end
 
@@ -3383,6 +3433,11 @@ object. If you use an S3 bucket as a data source, you synchronize your data sour
 the `AccessControlConfigurationId` in the `.metadata.json` file. Amazon Kendra currently
 only supports access control configuration for S3 data sources and documents indexed using
 the `BatchPutDocument` API.
+
+!!! important
+    You can't configure access control using `CreateAccessControlConfiguration` for an
+    Amazon Kendra Gen AI Enterprise Edition index. Amazon Kendra will return a
+    `ValidationException` error for a `Gen_AI_ENTERPRISE_EDITION` index.
 
 # Arguments
 
@@ -3463,8 +3518,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: A new name for the data source connector.
 
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
-  source and required resources. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
+  data source and required resources. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 
 - `"Schedule"`: The sync schedule you want to update for the data source connector.
 
@@ -3518,9 +3573,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experience.
 - `"Description"`: A new description for your Amazon Kendra experience.
 - `"Name"`: A new name for your Amazon Kendra experience.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access `Query`
-  API, `QuerySuggestions` API, `SubmitFeedback` API, and IAM Identity Center that stores
-  your user and group information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
+  `Query` API, `QuerySuggestions` API, `SubmitFeedback` API, and IAM Identity Center that
+  stores your users and groups information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 """
 function update_experience end
 
@@ -3651,12 +3706,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"UserContextPolicy"`: The user context policy.
 
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use
+      `ATTRIBUTE_FILTER` to filter search results by user context. If you're using an Amazon
+      Kendra Gen AI Enterprise Edition index and you try to use `USER_TOKEN` to configure
+      user context policy, Amazon Kendra returns a `ValidationException` error.
+
 - `"UserGroupResolutionConfiguration"`: Gets users and groups from IAM Identity Center
   identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
   This is useful for user context filtering, where search results are filtered based on the
   user or their group access to documents.
 
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+      `UserGroupResolutionConfiguration` isn't supported.
+
 - `"UserTokenConfigurations"`: The user token configuration.
+
+  !!! important
+      If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use
+      `UserTokenConfigurations` to configure user context policy, Amazon Kendra returns a
+      `ValidationException` error.
 """
 function update_index end
 

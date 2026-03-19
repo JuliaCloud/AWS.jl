@@ -5,12 +5,76 @@ using AWS.AWSServices: connectparticipant
 using AWS.UUIDs: uuid4
 
 """
+    cancel_participant_authentication(session_id, x-_amz-_bearer)
+    cancel_participant_authentication(session_id, x-_amz-_bearer, params::Dict{String,<:Any})
+
+Cancels the authentication session. The opted out branch of the Authenticate Customer flow
+block will be taken.
+
+!!! note
+    The current supported channel is chat. This API is not supported for Apple Messages for
+    Business, WhatsApp, or SMS chats.
+
+!!! note
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+
+# Arguments
+
+- `session_id`: The `sessionId` provided in the `authenticationInitiated` event.
+- `x-_amz-_bearer`: The authentication token associated with the participant's connection.
+"""
+function cancel_participant_authentication end
+
+function cancel_participant_authentication(
+    SessionId, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectparticipant(
+        "POST",
+        "/participant/cancel-authentication",
+        Dict{String,Any}(
+            "SessionId" => SessionId,
+            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_participant_authentication(
+    SessionId,
+    X_Amz_Bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectparticipant(
+        "POST",
+        "/participant/cancel-authentication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SessionId" => SessionId,
+                    "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer)
     complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer, params::Dict{String,<:Any})
 
 Allows you to confirm that the attachment has been uploaded using the pre-signed URL
 provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment
 with that identifier is already being uploaded.
+
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
 
 !!! note
     `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
@@ -78,14 +142,22 @@ end
 
 Creates the participant's connection.
 
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
+For WebRTC security recommendations, see [Amazon Connect WebRTC security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-webrtc-security).
+
 !!! note
     `ParticipantToken` is used for invoking this API instead of `ConnectionToken`.
 
 The participant token is valid for the lifetime of the participant – until they are part of
-a contact.
+a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new
+participant needs to be created using the [CreateParticipant](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateParticipant.html)
+API.
 
-The response URL for `WEBSOCKET` Type has a connect expiry timeout of 100s. Clients must
-manually connect to the returned websocket URL and subscribe to the desired topic.
+**For `WEBSOCKET` Type**:
+
+The response URL for has a connect expiry timeout of 100s. Clients must manually connect to
+the returned websocket URL and subscribe to the desired topic.
 
 For chat, you need to publish the following on the established websocket connection:
 
@@ -95,13 +167,36 @@ Upon websocket URL expiry, as specified in the response ConnectionExpiry paramet
 need to call this API again to obtain a new websocket URL and perform the same steps as
 before.
 
+The expiry time for the connection token is different than the `ChatDurationInMinutes`.
+Expiry time for the connection token is 1 day.
+
+**For `WEBRTC_CONNECTION` Type**:
+
+The response includes connection data required for the client application to join the call
+using the Amazon Chime SDK client libraries. The WebRTCConnection response contains Meeting
+and Attendee information needed to establish the media connection.
+
+The attendee join token in WebRTCConnection response is valid for the lifetime of the
+participant in the call. If a participant leaves or is disconnected for 60 seconds, their
+participant credentials will no longer be valid, and a new participant will need to be
+created to rejoin the call.
+
 **Message streaming support**: This API can also be used together with the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html)
 API to create a participant connection for chat contacts that are not using a websocket. For
 more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html)
 in the *Amazon Connect Administrator Guide*.
 
+**Multi-user web, in-app, video calling support**:
+
+For WebRTC calls, this API is used in conjunction with the CreateParticipant API to enable
+multi-party calling. The StartWebRTCContact API creates the initial contact and routes it to
+an agent, while CreateParticipant adds additional participants to the ongoing call. For more
+information about multi-party WebRTC calls, see [Enable multi-user web, in-app, and video calling](https://docs.aws.amazon.com/connect/latest/adminguide/enable-multiuser-inapp.html)
+in the *Amazon Connect Administrator Guide*.
+
 **Feature specifications**: For information about feature specifications, such as the
-allowed number of open websocket connections per participant, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits)
+allowed number of open websocket connections per participant or maximum number of WebRTC
+participants, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits)
 in the *Amazon Connect Administrator Guide*.
 
 !!! note
@@ -166,6 +261,8 @@ end
 
 Retrieves the view for the specified view token.
 
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
 # Arguments
 
 - `view_token`: An encrypted token originating from the interactive message of a ShowView
@@ -214,6 +311,8 @@ end
     disconnect_participant(x-_amz-_bearer, params::Dict{String,<:Any})
 
 Disconnects a participant.
+
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
 
 !!! note
     `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
@@ -279,8 +378,13 @@ end
 Provides a pre-signed URL for download of a completed attachment. This is an asynchronous
 API for use with active contacts.
 
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
 !!! note
-    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+    - The participant role `CUSTOM_BOT` is not permitted to access attachments customers may
+      upload. An `AccessDeniedException` can indicate that the participant may be a
+      CUSTOM_BOT, and it doesn't have access to attachments.
+    - `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
 
 The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
@@ -288,6 +392,13 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
 
 - `attachment_id`: A unique identifier for the attachment.
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"UrlExpiryInSeconds"`: The expiration time of the URL in ISO timestamp. It's specified in
+  ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
 """
 function get_attachment end
 
@@ -331,18 +442,92 @@ function get_attachment(
 end
 
 """
+    get_authentication_url(redirect_uri, session_id, x-_amz-_bearer)
+    get_authentication_url(redirect_uri, session_id, x-_amz-_bearer, params::Dict{String,<:Any})
+
+Retrieves the AuthenticationUrl for the current authentication session for the
+AuthenticateCustomer flow block.
+
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
+!!! note
+    - This API can only be called within one minute of receiving the authenticationInitiated
+      event.
+    - The current supported channel is chat. This API is not supported for Apple Messages
+      for Business, WhatsApp, or SMS chats.
+
+!!! note
+    `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
+
+The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+
+# Arguments
+
+- `redirect_uri`: The URL where the customer will be redirected after Amazon Cognito
+  authorizes the user.
+- `session_id`: The sessionId provided in the authenticationInitiated event.
+- `x-_amz-_bearer`: The authentication token associated with the participant's connection.
+"""
+function get_authentication_url end
+
+function get_authentication_url(
+    RedirectUri, SessionId, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return connectparticipant(
+        "POST",
+        "/participant/authentication-url",
+        Dict{String,Any}(
+            "RedirectUri" => RedirectUri,
+            "SessionId" => SessionId,
+            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_authentication_url(
+    RedirectUri,
+    SessionId,
+    X_Amz_Bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return connectparticipant(
+        "POST",
+        "/participant/authentication-url",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RedirectUri" => RedirectUri,
+                    "SessionId" => SessionId,
+                    "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_transcript(x-_amz-_bearer)
     get_transcript(x-_amz-_bearer, params::Dict{String,<:Any})
 
 Retrieves a transcript of the session, including details about any attachments. For
 information about accessing past chat contact transcripts for a persistent chat, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
 
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
 If you have a process that consumes events in the transcript of an chat that has ended, note
 that chat transcripts contain the following event content types if the event has occurred
 during the chat session:
 
-- `application/vnd.amazonaws.connect.event.participant.left`
+- `application/vnd.amazonaws.connect.event.participant.invited`
 - `application/vnd.amazonaws.connect.event.participant.joined`
+- `application/vnd.amazonaws.connect.event.participant.left`
 - `application/vnd.amazonaws.connect.event.chat.ended`
 - `application/vnd.amazonaws.connect.event.transfer.succeeded`
 - `application/vnd.amazonaws.connect.event.transfer.failed`
@@ -409,13 +594,15 @@ end
     send_event(content_type, x-_amz-_bearer, params::Dict{String,<:Any})
 
 !!! note
-    The `application/vnd.amazonaws.connect.event.connection.acknowledged` ContentType will
-    no longer be supported starting December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
+    The `application/vnd.amazonaws.connect.event.connection.acknowledged` ContentType is no
+    longer maintained since December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html)
     API using the `ConnectParticipant` field.
 
 Sends an event. Message receipts are not supported when there are more than two active
 participants in the chat. Using the SendEvent API for message receipts when a supervisor is
 barged-in will result in a conflict exception.
+
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
 
 !!! note
     `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
@@ -427,8 +614,8 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
 - `content_type`: The content type of the request. Supported types are:
 
   - application/vnd.amazonaws.connect.event.typing
-  - application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on
-    December 31, 2024)
+  - application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained
+    since December 31, 2024)
   - application/vnd.amazonaws.connect.event.message.delivered
   - application/vnd.amazonaws.connect.event.message.read
 
@@ -496,6 +683,8 @@ end
 
 Sends a message.
 
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
+
 !!! note
     `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.
 
@@ -511,9 +700,14 @@ The Amazon Connect Participant Service APIs do not use [Signature Version 4 auth
   - For `application/vnd.amazonaws.connect.message.interactive.response`, the Length
     Constraints are Minimum of 1, Maximum of 12288.
 
-- `content_type`: The type of the content. Supported types are `text/plain`,
-  `text/markdown`, `application/json`, and
-  `application/vnd.amazonaws.connect.message.interactive.response`.
+- `content_type`: The type of the content. Possible types are `text/plain`, `text/markdown`,
+  `application/json`, and `application/vnd.amazonaws.connect.message.interactive.response`.
+
+  Supported types on the contact are configured through `SupportedMessagingContentTypes` on [StartChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html)
+  and [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html).
+
+  For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only
+  `text/plain` is supported.
 
 - `x-_amz-_bearer`: The authentication token associated with the connection.
 
@@ -576,6 +770,8 @@ end
     start_attachment_upload(attachment_name, attachment_size_in_bytes, client_token, content_type, x-_amz-_bearer, params::Dict{String,<:Any})
 
 Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.
+
+For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
 
 !!! note
     `ConnectionToken` is used for invoking this API instead of `ParticipantToken`.

@@ -348,7 +348,8 @@ cluster snapshot.
 # Arguments
 
 - `source_dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to copy.
-  This parameter is not case-sensitive.
+  This parameter is not case-sensitive. If the source DB cluster snapshot is in a different
+  region or owned by another account, specify the snapshot ARN.
 
   Constraints:
 
@@ -609,7 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineVersion"`: The version number of the database engine to use for the new DB
   cluster.
 
-  Example: `1.0.2.1`
+  Example: `1.2.1.0`
 
 - `"GlobalClusterIdentifier"`: The ID of the Neptune global database to which this new DB
   cluster should be added.
@@ -687,20 +688,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StorageEncrypted"`: Specifies whether the DB cluster is encrypted.
 
-- `"StorageType"`: The storage type to associate with the DB cluster.
+- `"StorageType"`: The storage type for the new DB cluster.
 
   Valid Values:
 
-  - `standard | iopt1`
+  - **`standard`** – ( *the default* ) Configures cost-effective database storage for
+    applications with moderate to small I/O usage. When set to `standard`, the storage type
+    is not returned in the response.
+  - **`iopt1`** – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage)
+    that's designed to meet the needs of I/O-intensive graph workloads that require
+    predictable pricing with low I/O latency and consistent I/O throughput.
 
-  Default:
-
-  - `standard`
-
-  !!! note
-      When you create a Neptune cluster with the storage type set to `iopt1`, the storage
-      type is returned in the response. The storage type isn't returned when you set it to
-      `standard`.
+  Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
 
 - `"Tags"`: The tags to assign to the new DB cluster.
 
@@ -1179,7 +1178,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values: 0 - 15
 
-- `"PubliclyAccessible"`: This flag should no longer be used.
+- `"PubliclyAccessible"`: Indicates whether the DB instance is publicly accessible.
+
+  When the DB instance is publicly accessible and you connect from outside of the DB
+  instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to
+  the public IP address. When you connect from within the same VPC as the DB instance, the
+  endpoint resolves to the private IP address. Access to the DB instance is ultimately
+  controlled by the security group it uses. That public access isn't permitted if the
+  security group assigned to the DB cluster doesn't permit it.
+
+  When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
+  name that resolves to a private IP address.
 
 - `"StorageEncrypted"`: Specifies whether the DB instance is encrypted.
 
@@ -1188,9 +1197,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: false
 
-- `"StorageType"`: Specifies the storage type to be associated with the DB instance.
-
-  Not applicable. Storage is managed by the DB Cluster.
+- `"StorageType"`: Not applicable. In Neptune the storage type is managed at the DB Cluster
+  level.
 
 - `"Tags"`: The tags to assign to the new instance.
 
@@ -1551,6 +1559,8 @@ operation to become the primary cluster of the global database.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DatabaseName"`: The name for the new global database (up to 64 alpha-numeric characters.
+
 - `"DeletionProtection"`: The deletion protection setting for the new global database. The
   global database can't be deleted when deletion protection is enabled.
 
@@ -1566,6 +1576,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Neptune DB cluster to use as the primary cluster of the new global database.
 
 - `"StorageEncrypted"`: The storage encryption setting for the new global database cluster.
+
+- `"Tags"`: Tags to assign to the global cluster.
 """
 function create_global_cluster end
 
@@ -3329,6 +3341,22 @@ full read/write capabilities for the Neptune global database.
 
 - `target_db_cluster_identifier`: The Amazon Resource Name (ARN) of the secondary Neptune DB
   cluster that you want to promote to primary for the global database.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AllowDataLoss"`: Specifies whether to allow data loss for this global database cluster
+  operation. Allowing data loss triggers a global failover operation.
+
+  If you don't specify `AllowDataLoss`, the global database cluster operation defaults to a
+  switchover.
+
+  Constraints:Can't be specified together with the `Switchover` parameter.
+
+- `"Switchover"`: Specifies whether to switch over this global database cluster.
+
+  Constraints:Can't be specified together with the `AllowDataLoss` parameter.
 """
 function failover_global_cluster end
 
@@ -3562,11 +3590,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values:
 
-  - `standard | iopt1`
+  - **`standard`** – ( *the default* ) Configures cost-effective database storage for
+    applications with moderate to small I/O usage.
+  - **`iopt1`** – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage)
+    that's designed to meet the needs of I/O-intensive graph workloads that require
+    predictable pricing with low I/O latency and consistent I/O throughput.
 
-  Default:
-
-  - `standard`
+  Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
 
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
 """
@@ -4048,9 +4078,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values: 0 - 15
 
-- `"PubliclyAccessible"`: This flag should no longer be used.
+- `"PubliclyAccessible"`: Indicates whether the DB instance is publicly accessible.
 
-- `"StorageType"`: Not supported.
+  When the DB instance is publicly accessible and you connect from outside of the DB
+  instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to
+  the public IP address. When you connect from within the same VPC as the DB instance, the
+  endpoint resolves to the private IP address. Access to the DB instance is ultimately
+  controlled by the security group it uses. That public access isn't permitted if the
+  security group assigned to the DB cluster doesn't permit it.
+
+  When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
+  name that resolves to a private IP address.
+
+- `"StorageType"`: Not applicable. In Neptune the storage type is managed at the DB Cluster
+  level.
 
 - `"TdeCredentialArn"`: The ARN from the key store with which to associate the instance for
   TDE encryption.
@@ -5273,6 +5314,76 @@ function stop_dbcluster(
             mergewith(
                 _merge,
                 Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
+    switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
+
+Switches over the specified secondary DB cluster to be the new primary DB cluster in the
+global database cluster. Switchover operations were previously called "managed planned
+failovers."
+
+Promotes the specified secondary cluster to assume full read/write capabilities and demotes
+the current primary cluster to a secondary (read-only) cluster, maintaining the original
+replication topology. All secondary clusters are synchronized with the primary at the
+beginning of the process so the new primary continues operations for the global database
+without losing any data. Your database is unavailable for a short time while the primary and
+selected secondary clusters are assuming their new roles.
+
+!!! note
+    This operation is intended for controlled environments, for operations such as "regional
+    rotation" or to fall back to the original primary after a global database failover.
+
+# Arguments
+
+- `global_cluster_identifier`: The identifier of the global database cluster to switch over.
+  This parameter isn't case-sensitive.
+
+  Constraints: Must match the identifier of an existing global database cluster.
+
+- `target_db_cluster_identifier`: The Amazon Resource Name (ARN) of the secondary Neptune DB
+  cluster that you want to promote to primary for the global database.
+"""
+function switchover_global_cluster end
+
+function switchover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune(
+        "SwitchoverGlobalCluster",
+        Dict{String,Any}(
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function switchover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune(
+        "SwitchoverGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+                    "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+                ),
                 params,
             ),
         );

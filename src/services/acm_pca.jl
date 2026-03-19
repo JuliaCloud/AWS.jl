@@ -27,7 +27,7 @@ CA.
     see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies).
 
 Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with
-encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption).
+encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption).
 
 # Arguments
 
@@ -49,36 +49,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate authorities.
 
 - `"KeyStorageSecurityStandard"`: Specifies a cryptographic key management compliance
-  standard used for handling CA keys.
+  standard for handling and protecting CA keys.
 
   Default: FIPS_140_2_LEVEL_3_OR_HIGHER
 
   !!! note
-      Some Amazon Web Services Regions do not support the default. When creating a CA in
-      these Regions, you must provide `FIPS_140_2_LEVEL_2_OR_HIGHER` as the argument for
-      `KeyStorageSecurityStandard`. Failure to do this results in an `InvalidArgsException`
-      with the message, "A certificate authority cannot be created in this region with the
-      specified security standard."
+      Some Amazon Web Services Regions don't support the default value. When you create a CA
+      in these Regions, you must use `CCPC_LEVEL_1_OR_HIGHER` for the
+      `KeyStorageSecurityStandard` parameter. If you don't, the operation returns an
+      `InvalidArgsException` with this message: "A certificate authority cannot be created
+      in this region with the specified security standard."
 
-      For information about security standard support in various Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
+      For information about security standard support in different Amazon Web Services
+      Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
 
-- `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
-  Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
-  to enable neither. The default is for both certificate validation mechanisms to be
-  disabled.
+- `"RevocationConfiguration"`: Contains information to enable support for Online Certificate
+  Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. By
+  default, both certificate validation mechanisms are disabled.
 
-  !!! note
-      The following requirements apply to revocation configurations.
+  The following requirements apply to revocation configurations.
 
-      - A configuration disabling CRLs or OCSP must contain only the `Enabled=False`
-        parameter, and will fail if other parameters such as `CustomCname` or
-        `ExpirationInDays` are included.
-      - In a CRL configuration, the `S3BucketName` parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
-      - A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or
-        OCSP must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on
-        the use of special characters in a CNAME.
-      - In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
-        protocol prefix such as "http://" or "https://".
+  - A configuration disabling CRLs or OCSP must contain only the `Enabled=False` parameter,
+    and will fail if other parameters such as `CustomCname` or `ExpirationInDays` are
+    included.
+  - In a CRL configuration, the `S3BucketName` parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+  - A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or OCSP
+    must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use
+    of special characters in a CNAME.
+  - In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
+    protocol prefix such as "http://" or "https://".
 
   For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html)
   and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html)
@@ -141,16 +140,14 @@ end
     create_certificate_authority_audit_report(audit_report_response_format, certificate_authority_arn, s3_bucket_name)
     create_certificate_authority_audit_report(audit_report_response_format, certificate_authority_arn, s3_bucket_name, params::Dict{String,<:Any})
 
-Creates an audit report that lists every time that your CA private key is used. The report
-is saved in the Amazon S3 bucket that you specify on input. The [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html)
+Creates an audit report that lists every time that your CA private key is used to issue a
+certificate. The [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html)
 and [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html)
 actions use the private key.
 
-!!! note
-    Both Amazon Web Services Private CA and the IAM principal must have permission to write
-    to the S3 bucket that you specify. If the IAM principal making the call does not have
-    permission to write to the bucket, then an exception is thrown. For more information,
-    see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies).
+To save the audit report to your designated Amazon S3 bucket, you must create a bucket
+policy that grants Amazon Web Services Private CA permission to access and write to it. For
+an example policy, see [Prepare an Amazon S3 bucket for audit reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#s3-access).
 
 Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with
 encryption. For more information, see [Encrypting Your Audit Reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption).
@@ -332,6 +329,15 @@ the parameter from 7 to 30 days. The [DescribeCertificateAuthority](https://docs
 action returns the time remaining in the restoration window of a private CA in the `DELETED`
 state. To restore an eligible CA, call the [RestoreCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RestoreCertificateAuthority.html)
 action.
+
+!!! important
+    A private CA can be deleted if it is in the `PENDING_CERTIFICATE`, `CREATING`,
+    `EXPIRED`, `DISABLED`, or `FAILED` state. To delete a CA in the `ACTIVE` state, you must
+    first disable it, or else the delete request results in an exception. If you are
+    deleting a private CA in the `PENDING_CERTIFICATE` or `DISABLED` state, you can set the
+    length of its restoration period to 7-30 days. The default is 30. During this time, the
+    status is set to `DELETED` and the CA can be restored. A private CA deleted in the
+    `CREATING` or `FAILED` state has no assigned restoration period and cannot be restored.
 
 # Arguments
 
@@ -658,7 +664,7 @@ Retrieves a certificate from your private CA or one that has been shared with yo
 of the certificate is returned when you call the [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html)
 action. You must specify both the ARN of your private CA and the ARN of the issued
 certificate when calling the **GetCertificate** action. You can retrieve the certificate if
-it is in the **ISSUED** state. You can call the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html)
+it is in the **ISSUED**, **EXPIRED**, or **REVOKED** state. You can call the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html)
 action to create a report that contains information about all of the certificates issued and
 revoked by your private CA.
 
@@ -912,28 +918,30 @@ The following additional requirements apply when you import a CA certificate.
 Amazon Web Services Private CA allows the following extensions to be marked critical in the
 imported CA certificate or chain.
 
-- Basic constraints (*must* be marked critical)
-- Subject alternative names
-- Key usage
-- Extended key usage
 - Authority key identifier
-- Subject key identifier
-- Issuer alternative name
-- Subject directory attributes
-- Subject information access
+- Basic constraints (*must* be marked critical)
 - Certificate policies
-- Policy mappings
+- Extended key usage
 - Inhibit anyPolicy
+- Issuer alternative name
+- Key usage
+- Name constraints
+- Policy mappings
+- Subject alternative name
+- Subject directory attributes
+- Subject key identifier
+- Subject information access
 
 Amazon Web Services Private CA rejects the following extensions when they are marked
 critical in an imported CA certificate or chain.
 
-- Name constraints
-- Policy constraints
-- CRL distribution points
 - Authority information access
+- CRL distribution points
 - Freshest CRL
-- Any other extension
+- Policy constraints
+
+Amazon Web Services Private Certificate Authority will also reject any other extension
+marked as critical not contained on the preceding list of allowed extensions.
 
 # Arguments
 
@@ -1700,25 +1708,35 @@ again.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
-  Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
-  to enable neither. If this parameter is not supplied, existing capibilites remain
-  unchanged. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html)
+- `"RevocationConfiguration"`: Contains information to enable support for Online Certificate
+  Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. If
+  you don't supply this parameter, existing capibilites remain unchanged. For more
+  information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html)
   and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html)
   types.
 
-  !!! note
-      The following requirements apply to revocation configurations.
+  The following requirements apply to revocation configurations.
 
-      - A configuration disabling CRLs or OCSP must contain only the `Enabled=False`
-        parameter, and will fail if other parameters such as `CustomCname` or
-        `ExpirationInDays` are included.
-      - In a CRL configuration, the `S3BucketName` parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
-      - A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or
-        OCSP must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on
-        the use of special characters in a CNAME.
-      - In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
-        protocol prefix such as "http://" or "https://".
+  - A configuration disabling CRLs or OCSP must contain only the `Enabled=False` parameter,
+    and will fail if other parameters such as `CustomCname` or `ExpirationInDays` are
+    included.
+  - In a CRL configuration, the `S3BucketName` parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+  - A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or OCSP
+    must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use
+    of special characters in a CNAME.
+  - In a CRL or OCSP configuration, the value of a CNAME parameter must not include a
+    protocol prefix such as "http://" or "https://".
+
+  !!! important
+      If you update the `S3BucketName` of [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html),
+      you can break revocation for existing certificates. In other words, if you call [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html)
+      to update the CRL configuration's S3 bucket name, Amazon Web Services Private CA only
+      writes CRLs to the new S3 bucket. Certificates issued prior to this point will have
+      the old S3 bucket name in your CRL Distribution Point (CDP) extension, essentially
+      breaking revocation. If you must update the S3 bucket, you'll need to reissue old
+      certificates to keep the revocation working. Alternatively, you can use a [CustomCname](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-CustomCname)
+      in your CRL configuration if you might need to change the S3 bucket name in the
+      future.
 
 - `"Status"`: Status of your private CA.
 """

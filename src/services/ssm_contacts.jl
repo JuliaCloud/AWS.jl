@@ -135,10 +135,16 @@ escalation plans that Incident Manager uses to engage contacts in phases during 
 
 - `alias`: The short name to quickly identify a contact or escalation plan. The contact
   alias must be unique and identifiable.
+
 - `plan`: A list of stages. A contact has an engagement plan with stages that contact
   specified contact channels. An escalation plan uses stages that contact specified
   contacts.
-- `type`: To create an escalation plan use `ESCALATION`. To create a contact use `PERSONAL`.
+
+- `type`: The type of contact to create.
+
+  - `PERSONAL`: A single, individual contact.
+  - `ESCALATION`: An escalation plan.
+  - `ONCALL_SCHEDULE`: An on-call schedule.
 
 # Optional Parameters
 
@@ -292,6 +298,10 @@ Creates a rotation in an on-call schedule.
 
 - `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
 
+  !!! note
+      Only the `PERSONAL` contact type is supported. The contact types `ESCALATION` and
+      `ONCALL_SCHEDULE` are not supported for this operation.
+
   The order that you list the contacts in is their shift order in the rotation schedule. To
   change the order of the contact's shifts, use the `UpdateRotation` operation.
 
@@ -307,7 +317,7 @@ Creates a rotation in an on-call schedule.
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time rules, such as
-      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+      Pacific Standard Time (PST), are not supported.
 
 # Optional Parameters
 
@@ -492,10 +502,11 @@ end
     delete_contact(contact_id)
     delete_contact(contact_id, params::Dict{String,<:Any})
 
-To remove a contact from Incident Manager, you can delete the contact. Deleting a contact
-removes them from all escalation plans and related response plans. Deleting an escalation
-plan removes it from all related response plans. You will have to recreate the contact and
-its contact channels before you can use it again.
+To remove a contact from Incident Manager, you can delete the contact. However, deleting a
+contact does not remove it from escalation plans and related response plans. Deleting an
+escalation plan also does not remove it from all related response plans. To modify an
+escalation plan, we recommend using the [`update_contact`](@ref) action to specify a
+different existing contact.
 
 # Arguments
 
@@ -531,10 +542,10 @@ end
     delete_contact_channel(contact_channel_id)
     delete_contact_channel(contact_channel_id, params::Dict{String,<:Any})
 
-To no longer receive engagements on a contact channel, you can delete the channel from a
-contact. Deleting the contact channel removes it from the contact's engagement plan. If you
-delete the only contact channel for a contact, you won't be able to engage that contact
-during an incident.
+To stop receiving engagements on a contact channel, you can delete the channel from a
+contact. Deleting the contact channel does not remove it from the contact's engagement plan,
+but the stage that includes the channel will be ignored. If you delete the only contact
+channel for a contact, you'll no longer be able to engage that contact during an incident.
 
 # Arguments
 
@@ -985,8 +996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AliasPrefix"`: Used to list only contacts who's aliases start with the specified prefix.
 - `"MaxResults"`: The maximum number of contacts and escalation plans per page of results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
-- `"Type"`: The type of contact. A contact is type `PERSONAL` and an escalation plan is type
-  `ESCALATION`.
+- `"Type"`: The type of contact.
 """
 function list_contacts end
 
@@ -1436,11 +1446,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags of an escalation plan or contact.
+Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
+- `resource_arn`: The Amazon Resource Name (ARN) of the contact, escalation plan, rotation,
+  or on-call schedule.
 """
 function list_tags_for_resource end
 
@@ -1876,6 +1887,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the updated
   rotation.
 
+  !!! note
+      Only the `PERSONAL` contact type is supported. The contact types `ESCALATION` and
+      `ONCALL_SCHEDULE` are not supported for this operation.
+
   The order in which you list the contacts is their shift order in the rotation schedule.
 
 - `"StartTime"`: The date and time the rotation goes into effect.
@@ -1887,7 +1902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time Rules, such as
-      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+      Pacific Standard Time (PST), aren't supported.
 """
 function update_rotation end
 

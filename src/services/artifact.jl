@@ -169,6 +169,84 @@ function get_term_for_report(
 end
 
 """
+    list_customer_agreements()
+    list_customer_agreements(params::Dict{String,<:Any})
+
+List active customer-agreements applicable to calling identity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of resources to return in the paginated response.
+- `"nextToken"`: Pagination token to request the next page of resources.
+"""
+function list_customer_agreements end
+
+function list_customer_agreements(; aws_config::AbstractAWSConfig=current_aws_config())
+    return artifact(
+        "GET", "/v1/customer-agreement/list"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_customer_agreements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return artifact(
+        "GET",
+        "/v1/customer-agreement/list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_report_versions(report_id)
+    list_report_versions(report_id, params::Dict{String,<:Any})
+
+List available report versions for a given report.
+
+# Arguments
+
+- `report_id`: Unique resource ID for the report resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of resources to return in the paginated response.
+- `"nextToken"`: Pagination token to request the next page of resources.
+"""
+function list_report_versions end
+
+function list_report_versions(reportId; aws_config::AbstractAWSConfig=current_aws_config())
+    return artifact(
+        "GET",
+        "/v1/report/listVersions",
+        Dict{String,Any}("reportId" => reportId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_report_versions(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return artifact(
+        "GET",
+        "/v1/report/listVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_reports()
     list_reports(params::Dict{String,<:Any})
 

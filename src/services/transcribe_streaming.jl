@@ -5,8 +5,49 @@ using AWS.AWSServices: transcribe_streaming
 using AWS.UUIDs: uuid4
 
 """
-    start_call_analytics_stream_transcription(audio_stream, x-amzn-transcribe-language-code, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate)
-    start_call_analytics_stream_transcription(audio_stream, x-amzn-transcribe-language-code, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate, params::Dict{String,<:Any})
+    get_medical_scribe_stream(session_id)
+    get_medical_scribe_stream(session_id, params::Dict{String,<:Any})
+
+Provides details about the specified Amazon Web Services HealthScribe streaming session. To
+view the status of the streaming session, check the `StreamStatus` field in the response. To
+get the details of post-stream analytics, including its status, check the
+`PostStreamAnalyticsResult` field in the response.
+
+# Arguments
+
+- `session_id`: The identifier of the HealthScribe streaming session you want information
+  about.
+"""
+function get_medical_scribe_stream end
+
+function get_medical_scribe_stream(
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe_streaming(
+        "GET",
+        "/medical-scribe-stream/$(SessionId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_medical_scribe_stream(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transcribe_streaming(
+        "GET",
+        "/medical-scribe-stream/$(SessionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_call_analytics_stream_transcription(audio_stream, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate)
+    start_call_analytics_stream_transcription(audio_stream, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate, params::Dict{String,<:Any})
 
 Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon
 Transcribe and the transcription results are streamed to your application. Use this
@@ -15,7 +56,7 @@ transcriptions.
 
 The following parameters are required:
 
-- `language-code`
+- `language-code` or `identify-language`
 - `media-encoding`
 - `sample-rate`
 
@@ -23,16 +64,10 @@ For more information on streaming with Amazon Transcribe, see [Transcribing stre
 
 # Arguments
 
-- `audio_stream`:
+- `audio_stream`: An encoded stream of audio blobs. Audio streams are encoded as either
+  HTTP/2 or WebSocket data frames.
 
-- `x-amzn-transcribe-language-code`: Specify the language code that represents the language
-  spoken in your audio.
-
-  If you're unsure of the language spoken in your audio, consider using `IdentifyLanguage`
-  to enable automatic language identification.
-
-  For a list of languages supported with streaming Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
-  table.
+  For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
 
 - `x-amzn-transcribe-media-encoding`: Specify the encoding of your input audio. Supported
   formats are:
@@ -56,7 +91,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) identified in your transcript.
 
   Content identification is performed at the segment level; PII specified in
-  `PiiEntityTypes` is flagged upon complete transcription of an audio segment.
+  `PiiEntityTypes` is flagged upon complete transcription of an audio segment. If you don't
+  include `PiiEntityTypes` in your request, all PII is identified.
 
   You can’t set `ContentIdentificationType` and `ContentRedactionType` in the same request.
   If you set both, your request returns a `BadRequestException`.
@@ -67,7 +103,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) identified in your transcript.
 
   Content redaction is performed at the segment level; PII specified in `PiiEntityTypes` is
-  redacted upon complete transcription of an audio segment.
+  redacted upon complete transcription of an audio segment. If you don't include
+  `PiiEntityTypes` in your request, all PII is redacted.
 
   You can’t set `ContentRedactionType` and `ContentIdentificationType` in the same request.
   If you set both, your request returns a `BadRequestException`.
@@ -78,6 +115,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stabilization for your transcription. Partial result stabilization can reduce latency in
   your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
 
+- `"x-amzn-transcribe-identify-language"`: Enables automatic language identification for
+  your Call Analytics transcription.
+
+  If you include `IdentifyLanguage`, you must include a list of language codes, using
+  `LanguageOptions`, that you think may be present in your audio stream. You must provide a
+  minimum of two language selections.
+
+  You can also include a preferred language using `PreferredLanguage`. Adding a preferred
+  language can help Amazon Transcribe identify the language faster than if you omit this
+  parameter.
+
+  Note that you must include either `LanguageCode` or `IdentifyLanguage` in your request. If
+  you include both parameters, your transcription job fails.
+
+- `"x-amzn-transcribe-language-code"`: Specify the language code that represents the
+  language spoken in your audio.
+
+  For a list of languages supported with real-time Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+  table.
+
 - `"x-amzn-transcribe-language-model-name"`: Specify the name of the custom language model
   that you want to use when processing your transcription. Note that language model names
   are case sensitive.
@@ -87,6 +144,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied. There are no errors or warnings associated with a language mismatch.
 
   For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
+
+- `"x-amzn-transcribe-language-options"`: Specify two or more language codes that represent
+  the languages you think may be present in your media.
+
+  Including language options can improve the accuracy of language identification.
+
+  If you include `LanguageOptions` in your request, you must also include
+  `IdentifyLanguage`.
+
+  For a list of languages supported with Call Analytics streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+  table.
+
+  !!! important
+      You can only include one language dialect per language per stream. For example, you
+      cannot include `en-US` and `en-AU` in the same request.
 
 - `"x-amzn-transcribe-partial-results-stability"`: Specify the level of stability to use
   when you enable partial results stabilization (`EnablePartialResultsStabilization`).
@@ -100,18 +172,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) you want to redact in your transcript. You can include as many types as
   you'd like, or you can select `ALL`.
 
-  To include `PiiEntityTypes` in your Call Analytics request, you must also include either
+  Values must be comma-separated and can include: `ADDRESS`, `BANK_ACCOUNT_NUMBER`,
+  `BANK_ROUTING`, `CREDIT_DEBIT_CVV`, `CREDIT_DEBIT_EXPIRY`, `CREDIT_DEBIT_NUMBER`, `EMAIL`,
+  `NAME`, `PHONE`, `PIN`, `SSN`, or `ALL`.
+
+  Note that if you include `PiiEntityTypes` in your request, you must also include
   `ContentIdentificationType` or `ContentRedactionType`.
 
-  Values must be comma-separated and can include: `BANK_ACCOUNT_NUMBER`, `BANK_ROUTING`,
-  `CREDIT_DEBIT_NUMBER`, `CREDIT_DEBIT_CVV`, `CREDIT_DEBIT_EXPIRY`, `PIN`, `EMAIL`,
-  `ADDRESS`, `NAME`, `PHONE`, `SSN`, or `ALL`.
+  If you include `ContentRedactionType` or `ContentIdentificationType` in your request, but
+  do not include `PiiEntityTypes`, all PII is redacted or identified.
+
+- `"x-amzn-transcribe-preferred-language"`: Specify a preferred language from the subset of
+  languages codes you specified in `LanguageOptions`.
+
+  You can only use this parameter if you've included `IdentifyLanguage` and
+  `LanguageOptions` in your request.
 
 - `"x-amzn-transcribe-session-id"`: Specify a name for your Call Analytics transcription
   session. If you don't include this parameter in your request, Amazon Transcribe generates
   an ID and returns it in the response.
-
-  You can use a session ID to retry a streaming session.
 
 - `"x-amzn-transcribe-vocabulary-filter-method"`: Specify how you want your vocabulary
   filter applied to your transcript.
@@ -131,6 +210,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
 
+- `"x-amzn-transcribe-vocabulary-filter-names"`: Specify the names of the custom vocabulary
+  filters that you want to use when processing your Call Analytics transcription. Note that
+  vocabulary filter names are case sensitive.
+
+  These filters serve to customize the transcript output.
+
+  !!! important
+      This parameter is only intended for use **with** the `IdentifyLanguage` parameter. If
+      you're **not** including `IdentifyLanguage` in your request and want to use a custom
+      vocabulary filter with your transcription, use the `VocabularyFilterName` parameter
+      instead.
+
+  For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
+
 - `"x-amzn-transcribe-vocabulary-name"`: Specify the name of the custom vocabulary that you
   want to use when processing your transcription. Note that vocabulary names are case
   sensitive.
@@ -139,12 +232,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in your media, the custom vocabulary is not applied to your transcription.
 
   For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
+
+- `"x-amzn-transcribe-vocabulary-names"`: Specify the names of the custom vocabularies that
+  you want to use when processing your Call Analytics transcription. Note that vocabulary
+  names are case sensitive.
+
+  If the custom vocabulary's language doesn't match the identified media language, it won't
+  be applied to the transcription.
+
+  !!! important
+      This parameter is only intended for use **with** the `IdentifyLanguage` parameter. If
+      you're **not** including `IdentifyLanguage` in your request and want to use a custom
+      vocabulary with your transcription, use the `VocabularyName` parameter instead.
+
+  For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
 """
 function start_call_analytics_stream_transcription end
 
 function start_call_analytics_stream_transcription(
     AudioStream,
-    x_amzn_transcribe_language_code,
     x_amzn_transcribe_media_encoding,
     x_amzn_transcribe_sample_rate;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -155,7 +261,6 @@ function start_call_analytics_stream_transcription(
         Dict{String,Any}(
             "AudioStream" => AudioStream,
             "headers" => Dict{String,Any}(
-                "x-amzn-transcribe-language-code" => x_amzn_transcribe_language_code,
                 "x-amzn-transcribe-media-encoding" => x_amzn_transcribe_media_encoding,
                 "x-amzn-transcribe-sample-rate" => x_amzn_transcribe_sample_rate,
             ),
@@ -167,7 +272,6 @@ end
 
 function start_call_analytics_stream_transcription(
     AudioStream,
-    x_amzn_transcribe_language_code,
     x_amzn_transcribe_media_encoding,
     x_amzn_transcribe_sample_rate,
     params::AbstractDict{String};
@@ -181,6 +285,126 @@ function start_call_analytics_stream_transcription(
                 _merge,
                 Dict{String,Any}(
                     "AudioStream" => AudioStream,
+                    "headers" => Dict{String,Any}(
+                        "x-amzn-transcribe-media-encoding" =>
+                            x_amzn_transcribe_media_encoding,
+                        "x-amzn-transcribe-sample-rate" =>
+                            x_amzn_transcribe_sample_rate,
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_medical_scribe_stream(input_stream, x-amzn-transcribe-language-code, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate)
+    start_medical_scribe_stream(input_stream, x-amzn-transcribe-language-code, x-amzn-transcribe-media-encoding, x-amzn-transcribe-sample-rate, params::Dict{String,<:Any})
+
+Starts a bidirectional HTTP/2 stream, where audio is streamed to Amazon Web Services
+HealthScribe and the transcription results are streamed to your application.
+
+When you start a stream, you first specify the stream configuration in a
+`MedicalScribeConfigurationEvent`. This event includes channel definitions, encryption
+settings, medical scribe context, and post-stream analytics settings, such as the output
+configuration for aggregated transcript and clinical note generation. These are additional
+streaming session configurations beyond those provided in your initial start request
+headers. Whether you are starting a new session or resuming an existing session, your first
+event must be a `MedicalScribeConfigurationEvent`.
+
+After you send a `MedicalScribeConfigurationEvent`, you start `AudioEvents` and Amazon Web
+Services HealthScribe responds with real-time transcription results. When you are finished,
+to start processing the results with the post-stream analytics, send a
+`MedicalScribeSessionControlEvent` with a `Type` of `END_OF_SESSION` and Amazon Web Services
+HealthScribe starts the analytics.
+
+You can pause or resume streaming. To pause streaming, complete the input stream without
+sending the `MedicalScribeSessionControlEvent`. To resume streaming, call the
+`StartMedicalScribeStream` and specify the same SessionId you used to start the stream.
+
+The following parameters are required:
+
+- `language-code`
+- `media-encoding`
+- `media-sample-rate-hertz`
+
+For more information on streaming with Amazon Web Services HealthScribe, see [Amazon Web Services HealthScribe](https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe-streaming.html).
+
+# Arguments
+
+- `input_stream`: Specify the input stream where you will send events in real time.
+
+  The first element of the input stream must be a `MedicalScribeConfigurationEvent`.
+
+- `x-amzn-transcribe-language-code`: Specify the language code for your HealthScribe
+  streaming session.
+
+- `x-amzn-transcribe-media-encoding`: Specify the encoding used for the input audio.
+
+  Supported formats are:
+
+  - FLAC
+  - OPUS-encoded audio in an Ogg container
+  - PCM (only signed 16-bit little-endian audio formats, which does not include WAV)
+
+  For more information, see [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio).
+
+- `x-amzn-transcribe-sample-rate`: Specify the sample rate of the input audio (in hertz).
+  Amazon Web Services HealthScribe supports a range from 16,000 Hz to 48,000 Hz. The sample
+  rate you specify must match that of your audio.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"x-amzn-transcribe-session-id"`: Specify an identifier for your streaming session (in
+  UUID format). If you don't include a SessionId in your request, Amazon Web Services
+  HealthScribe generates an ID and returns it in the response.
+"""
+function start_medical_scribe_stream end
+
+function start_medical_scribe_stream(
+    InputStream,
+    x_amzn_transcribe_language_code,
+    x_amzn_transcribe_media_encoding,
+    x_amzn_transcribe_sample_rate;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transcribe_streaming(
+        "POST",
+        "/medical-scribe-stream",
+        Dict{String,Any}(
+            "InputStream" => InputStream,
+            "headers" => Dict{String,Any}(
+                "x-amzn-transcribe-language-code" => x_amzn_transcribe_language_code,
+                "x-amzn-transcribe-media-encoding" => x_amzn_transcribe_media_encoding,
+                "x-amzn-transcribe-sample-rate" => x_amzn_transcribe_sample_rate,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_medical_scribe_stream(
+    InputStream,
+    x_amzn_transcribe_language_code,
+    x_amzn_transcribe_media_encoding,
+    x_amzn_transcribe_sample_rate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transcribe_streaming(
+        "POST",
+        "/medical-scribe-stream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InputStream" => InputStream,
                     "headers" => Dict{String,Any}(
                         "x-amzn-transcribe-language-code" =>
                             x_amzn_transcribe_language_code,
@@ -263,16 +487,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you have multi-channel audio and do not enable channel identification, your audio is
   transcribed in a continuous manner and your transcript is not separated by channel.
 
+  If you include `EnableChannelIdentification` in your request, you must also include
+  `NumberOfChannels`.
+
   For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
 
 - `"x-amzn-transcribe-number-of-channels"`: Specify the number of channels in your audio
-  stream. Up to two channels are supported.
+  stream. This value must be `2`, as only two channels are supported. If your audio doesn't
+  contain multiple channels, do not include this parameter in your request.
+
+  If you include `NumberOfChannels` in your request, you must also include
+  `EnableChannelIdentification`.
 
 - `"x-amzn-transcribe-session-id"`: Specify a name for your transcription session. If you
   don't include this parameter in your request, Amazon Transcribe Medical generates an ID
   and returns it in the response.
-
-  You can use a session ID to retry a streaming session.
 
 - `"x-amzn-transcribe-show-speaker-label"`: Enables speaker partitioning (diarization) in
   your transcription output. Speaker partitioning labels the speech from individual speakers
@@ -394,7 +623,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) identified in your transcript.
 
   Content identification is performed at the segment level; PII specified in
-  `PiiEntityTypes` is flagged upon complete transcription of an audio segment.
+  `PiiEntityTypes` is flagged upon complete transcription of an audio segment. If you don't
+  include `PiiEntityTypes` in your request, all PII is identified.
 
   You can’t set `ContentIdentificationType` and `ContentRedactionType` in the same request.
   If you set both, your request returns a `BadRequestException`.
@@ -405,7 +635,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) identified in your transcript.
 
   Content redaction is performed at the segment level; PII specified in `PiiEntityTypes` is
-  redacted upon complete transcription of an audio segment.
+  redacted upon complete transcription of an audio segment. If you don't include
+  `PiiEntityTypes` in your request, all PII is redacted.
 
   You can’t set `ContentRedactionType` and `ContentIdentificationType` in the same request.
   If you set both, your request returns a `BadRequestException`.
@@ -421,6 +652,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you have multi-channel audio and do not enable channel identification, your audio is
   transcribed in a continuous manner and your transcript is not separated by channel.
 
+  If you include `EnableChannelIdentification` in your request, you must also include
+  `NumberOfChannels`.
+
   For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
 
 - `"x-amzn-transcribe-enable-partial-results-stabilization"`: Enables partial result
@@ -430,9 +664,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amzn-transcribe-identify-language"`: Enables automatic language identification for
   your transcription.
 
-  If you include `IdentifyLanguage`, you can optionally include a list of language codes,
-  using `LanguageOptions`, that you think may be present in your audio stream. Including
-  language options can improve transcription accuracy.
+  If you include `IdentifyLanguage`, you must include a list of language codes, using
+  `LanguageOptions`, that you think may be present in your audio stream.
 
   You can also include a preferred language using `PreferredLanguage`. Adding a preferred
   language can help Amazon Transcribe identify the language faster than if you omit this
@@ -454,10 +687,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains more than one language. If your stream contains only one language, use
   IdentifyLanguage instead.
 
-  If you include `IdentifyMultipleLanguages`, you can optionally include a list of language
-  codes, using `LanguageOptions`, that you think may be present in your stream. Including
-  `LanguageOptions` restricts `IdentifyMultipleLanguages` to only the language options that
-  you specify, which can improve transcription accuracy.
+  If you include `IdentifyMultipleLanguages`, you must include a list of language codes,
+  using `LanguageOptions`, that you think may be present in your stream.
 
   If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic
   multiple language identification request, include `VocabularyNames` or
@@ -488,12 +719,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"x-amzn-transcribe-language-options"`: Specify two or more language codes that represent
   the languages you think may be present in your media; including more than five is not
-  recommended. If you're unsure what languages are present, do not include this parameter.
+  recommended.
 
   Including language options can improve the accuracy of language identification.
 
-  If you include `LanguageOptions` in your request, you must also include
-  `IdentifyLanguage`.
+  If you include `LanguageOptions` in your request, you must also include `IdentifyLanguage`
+  or `IdentifyMultipleLanguages`.
 
   For a list of languages supported with Amazon Transcribe streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
   table.
@@ -503,7 +734,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       cannot include `en-US` and `en-AU` in the same request.
 
 - `"x-amzn-transcribe-number-of-channels"`: Specify the number of channels in your audio
-  stream. Up to two channels are supported.
+  stream. This value must be `2`, as only two channels are supported. If your audio doesn't
+  contain multiple channels, do not include this parameter in your request.
+
+  If you include `NumberOfChannels` in your request, you must also include
+  `EnableChannelIdentification`.
 
 - `"x-amzn-transcribe-partial-results-stability"`: Specify the level of stability to use
   when you enable partial results stabilization (`EnablePartialResultsStabilization`).
@@ -517,12 +752,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information (PII) you want to redact in your transcript. You can include as many types as
   you'd like, or you can select `ALL`.
 
-  To include `PiiEntityTypes` in your request, you must also include either
+  Values must be comma-separated and can include: `ADDRESS`, `BANK_ACCOUNT_NUMBER`,
+  `BANK_ROUTING`, `CREDIT_DEBIT_CVV`, `CREDIT_DEBIT_EXPIRY`, `CREDIT_DEBIT_NUMBER`, `EMAIL`,
+  `NAME`, `PHONE`, `PIN`, `SSN`, `AGE`, `DATE_TIME`, `LICENSE_PLATE`, `PASSPORT_NUMBER`,
+  `PASSWORD`, `USERNAME`, `VEHICLE_IDENTIFICATION_NUMBER`, or `ALL`.
+
+  Note that if you include `PiiEntityTypes` in your request, you must also include
   `ContentIdentificationType` or `ContentRedactionType`.
 
-  Values must be comma-separated and can include: `BANK_ACCOUNT_NUMBER`, `BANK_ROUTING`,
-  `CREDIT_DEBIT_NUMBER`, `CREDIT_DEBIT_CVV`, `CREDIT_DEBIT_EXPIRY`, `PIN`, `EMAIL`,
-  `ADDRESS`, `NAME`, `PHONE`, `SSN`, or `ALL`.
+  If you include `ContentRedactionType` or `ContentIdentificationType` in your request, but
+  do not include `PiiEntityTypes`, all PII is redacted or identified.
 
 - `"x-amzn-transcribe-preferred-language"`: Specify a preferred language from the subset of
   languages codes you specified in `LanguageOptions`.
@@ -534,7 +773,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't include this parameter in your request, Amazon Transcribe generates an ID and
   returns it in the response.
 
-  You can use a session ID to retry a streaming session.
+- `"x-amzn-transcribe-session-resume-window"`: Specify the time window, in minutes, during
+  which your transcription session can be resumed, measured from the stream start time. This
+  optional parameter accepts integer values from 1 to 300 (5 hours).
+
+  For example, if your stream starts at 1 PM and you specify a `SessionResumeWindow` of 30
+  minutes, you can reconnect to the session as many times as you want until 1:30 PM.
 
 - `"x-amzn-transcribe-show-speaker-label"`: Enables speaker partitioning (diarization) in
   your transcription output. Speaker partitioning labels the speech from individual speakers

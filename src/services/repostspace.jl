@@ -5,6 +5,263 @@ using AWS.AWSServices: repostspace
 using AWS.UUIDs: uuid4
 
 """
+    batch_add_channel_role_to_accessors(accessor_ids, channel_id, channel_role, space_id)
+    batch_add_channel_role_to_accessors(accessor_ids, channel_id, channel_role, space_id, params::Dict{String,<:Any})
+
+Add role to multiple users or groups in a private re:Post channel.
+
+# Arguments
+
+- `accessor_ids`: The user or group identifiers to add the role to.
+- `channel_id`: The unique ID of the private re:Post channel.
+- `channel_role`: The channel role to add to the users or groups.
+- `space_id`: The unique ID of the private re:Post.
+"""
+function batch_add_channel_role_to_accessors end
+
+function batch_add_channel_role_to_accessors(
+    accessorIds,
+    channelId,
+    channelRole,
+    spaceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/channels/$(channelId)/roles",
+        Dict{String,Any}("accessorIds" => accessorIds, "channelRole" => channelRole);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_add_channel_role_to_accessors(
+    accessorIds,
+    channelId,
+    channelRole,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/channels/$(channelId)/roles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accessorIds" => accessorIds, "channelRole" => channelRole
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_add_role(accessor_ids, role, space_id)
+    batch_add_role(accessor_ids, role, space_id, params::Dict{String,<:Any})
+
+Add a role to multiple users or groups in a private re:Post.
+
+# Arguments
+
+- `accessor_ids`: The user or group accessor identifiers to add the role to.
+- `role`: The role to add to the users or groups.
+- `space_id`: The unique ID of the private re:Post.
+"""
+function batch_add_role end
+
+function batch_add_role(
+    accessorIds, role, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/roles",
+        Dict{String,Any}("accessorIds" => accessorIds, "role" => role);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_add_role(
+    accessorIds,
+    role,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/roles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("accessorIds" => accessorIds, "role" => role),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_remove_channel_role_from_accessors(accessor_ids, channel_id, channel_role, space_id)
+    batch_remove_channel_role_from_accessors(accessor_ids, channel_id, channel_role, space_id, params::Dict{String,<:Any})
+
+Remove a role from multiple users or groups in a private re:Post channel.
+
+# Arguments
+
+- `accessor_ids`: The users or groups identifiers to remove the role from.
+- `channel_id`: The unique ID of the private re:Post channel.
+- `channel_role`: The channel role to remove from the users or groups.
+- `space_id`: The unique ID of the private re:Post.
+"""
+function batch_remove_channel_role_from_accessors end
+
+function batch_remove_channel_role_from_accessors(
+    accessorIds,
+    channelId,
+    channelRole,
+    spaceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "PATCH",
+        "/spaces/$(spaceId)/channels/$(channelId)/roles",
+        Dict{String,Any}("accessorIds" => accessorIds, "channelRole" => channelRole);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_remove_channel_role_from_accessors(
+    accessorIds,
+    channelId,
+    channelRole,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "PATCH",
+        "/spaces/$(spaceId)/channels/$(channelId)/roles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accessorIds" => accessorIds, "channelRole" => channelRole
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_remove_role(accessor_ids, role, space_id)
+    batch_remove_role(accessor_ids, role, space_id, params::Dict{String,<:Any})
+
+Remove a role from multiple users or groups in a private re:Post.
+
+# Arguments
+
+- `accessor_ids`: The user or group accessor identifiers to remove the role from.
+- `role`: The role to remove from the users or groups.
+- `space_id`: The unique ID of the private re:Post.
+"""
+function batch_remove_role end
+
+function batch_remove_role(
+    accessorIds, role, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return repostspace(
+        "PATCH",
+        "/spaces/$(spaceId)/roles",
+        Dict{String,Any}("accessorIds" => accessorIds, "role" => role);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_remove_role(
+    accessorIds,
+    role,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "PATCH",
+        "/spaces/$(spaceId)/roles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("accessorIds" => accessorIds, "role" => role),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_channel(channel_name, space_id)
+    create_channel(channel_name, space_id, params::Dict{String,<:Any})
+
+Creates a channel in an AWS re:Post Private private re:Post.
+
+# Arguments
+
+- `channel_name`: The name for the channel. This must be unique per private re:Post.
+- `space_id`: The unique ID of the private re:Post.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"channelDescription"`: A description for the channel. This is used only to help you
+  identify this channel.
+"""
+function create_channel end
+
+function create_channel(
+    channelName, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/channels",
+        Dict{String,Any}("channelName" => channelName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_channel(
+    channelName,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "POST",
+        "/spaces/$(spaceId)/channels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelName" => channelName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_space(name, subdomain, tier)
     create_space(name, subdomain, tier, params::Dict{String,<:Any})
 
@@ -27,6 +284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert
   unanswered questions into AWS support tickets.
+- `"supportedEmailDomains"`:
 - `"tags"`: The list of tags associated with the private re:Post.
 - `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
   provide a key, your data is encrypted by default with a key that AWS owns and manages for
@@ -136,6 +394,43 @@ function deregister_admin(
 end
 
 """
+    get_channel(channel_id, space_id)
+    get_channel(channel_id, space_id, params::Dict{String,<:Any})
+
+Displays information about a channel in a private re:Post.
+
+# Arguments
+
+- `channel_id`: The unique ID of the private re:Post channel.
+- `space_id`: The unique ID of the private re:Post.
+"""
+function get_channel end
+
+function get_channel(channelId, spaceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return repostspace(
+        "GET",
+        "/spaces/$(spaceId)/channels/$(channelId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_channel(
+    channelId,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "GET",
+        "/spaces/$(spaceId)/channels/$(channelId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_space(space_id)
     get_space(space_id, params::Dict{String,<:Any})
 
@@ -160,6 +455,47 @@ function get_space(
 )
     return repostspace(
         "GET", "/spaces/$(spaceId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_channels(space_id)
+    list_channels(space_id, params::Dict{String,<:Any})
+
+Returns the list of channel within a private re:Post with some information about each
+channel.
+
+# Arguments
+
+- `space_id`: The unique ID of the private re:Post.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of channels to include in the results.
+- `"nextToken"`: The token for the next set of channel to return. You receive this token
+  from a previous ListChannels operation.
+"""
+function list_channels end
+
+function list_channels(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
+    return repostspace(
+        "GET", "/spaces/$(spaceId)/channels"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_channels(
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "GET",
+        "/spaces/$(spaceId)/channels",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -399,6 +735,57 @@ function untag_resource(
 end
 
 """
+    update_channel(channel_id, channel_name, space_id)
+    update_channel(channel_id, channel_name, space_id, params::Dict{String,<:Any})
+
+Modifies an existing channel.
+
+# Arguments
+
+- `channel_id`: The unique ID of the private re:Post channel.
+- `channel_name`: The name for the channel. This must be unique per private re:Post.
+- `space_id`: The unique ID of the private re:Post.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"channelDescription"`: A description for the channel. This is used only to help you
+  identify this channel.
+"""
+function update_channel end
+
+function update_channel(
+    channelId, channelName, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return repostspace(
+        "PUT",
+        "/spaces/$(spaceId)/channels/$(channelId)",
+        Dict{String,Any}("channelName" => channelName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_channel(
+    channelId,
+    channelName,
+    spaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return repostspace(
+        "PUT",
+        "/spaces/$(spaceId)/channels/$(channelId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("channelName" => channelName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_space(space_id)
     update_space(space_id, params::Dict{String,<:Any})
 
@@ -416,6 +803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert
   unanswered questions into AWS support tickets.
+- `"supportedEmailDomains"`:
 - `"tier"`: The pricing tier of this private re:Post.
 """
 function update_space end

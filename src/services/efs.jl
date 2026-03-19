@@ -13,13 +13,14 @@ file system that applies an operating system user and group, and a file system p
 file system request made through the access point. The operating system user and group
 override any identity information provided by the NFS client. The file system path is
 exposed as the access point's root directory. Applications using the access point can only
-access data in the application's own directory and any subdirectories. To learn more, see [Mounting a file system using EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html).
+access data in the application's own directory and any subdirectories. A file system can
+have a maximum of 10,000 access points unless you request an increase. To learn more, see [Mounting a file system using EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html).
 
 !!! note
     If multiple requests to create access points on the same file system are sent in quick
-    succession, and the file system is near the limit of 1,000 access points, you may
-    experience a throttling response for these requests. This is to ensure that the file
-    system does not exceed the stated access point limit.
+    succession, and the file system is near the limit of access points, you may experience a
+    throttling response for these requests. This is to ensure that the file system does not
+    exceed the stated access point limit.
 
 This operation requires permissions for the `elasticfilesystem:CreateAccessPoint` action.
 
@@ -130,17 +131,12 @@ in the *Amazon EFS User Guide*.
     operation, which among other things returns the file system state.
 
 This operation accepts an optional `PerformanceMode` parameter that you choose for your file
-system. We recommend `generalPurpose` performance mode for all file systems. File systems
-using the `maxIO` mode is a previous generation performance type that is designed for highly
-parallelized workloads that can tolerate higher latencies than the General Purpose mode. Max
-I/O mode is not supported for One Zone file systems or file systems that use Elastic
-throughput.
+system. We recommend `generalPurpose` `PerformanceMode` for all file systems. The `maxIO`
+mode is a previous generation performance type that is designed for highly parallelized
+workloads that can tolerate higher latencies than the `generalPurpose` mode. `MaxIO` mode is
+not supported for One Zone file systems or file systems that use Elastic throughput.
 
-!!! important
-    Due to the higher per-operation latencies with Max I/O, we recommend using General
-    Purpose performance mode for all file systems.
-
-The performance mode can't be changed after the file system has been created. For more
+The `PerformanceMode` can't be changed after the file system has been created. For more
 information, see [Amazon EFS performance modes](https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html).
 
 You can set the throughput mode for the file system using the `ThroughputMode` parameter.
@@ -166,10 +162,9 @@ the `elasticfilesystem:TagResource` action. For more information, see [Granting 
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AvailabilityZoneName"`: Used to create a One Zone file system. It specifies the Amazon
-  Web Services Availability Zone in which to create the file system. Use the format
-  `us-east-1a` to specify the Availability Zone. For more information about One Zone file
-  systems, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html)
+- `"AvailabilityZoneName"`: For One Zone file systems, specify the Amazon Web Services
+  Availability Zone in which to create the file system. Use the format `us-east-1a` to
+  specify the Availability Zone. For more information about One Zone file systems, see [EFS file system types](https://docs.aws.amazon.com/efs/latest/ug/availability-durability.html#file-system-type)
   in the *Amazon EFS User Guide*.
 
   !!! note
@@ -214,7 +209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with Amazon
       EFS file systems.
 
-- `"PerformanceMode"`: The Performance mode of the file system. We recommend
+- `"PerformanceMode"`: The performance mode of the file system. We recommend
   `generalPurpose` performance mode for all file systems. File systems using the `maxIO`
   performance mode can scale to higher levels of aggregate throughput and operations per
   second with a tradeoff of slightly higher latencies for most file operations. The
@@ -230,8 +225,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisionedThroughputInMibps"`: The throughput, measured in mebibytes per second
   (MiBps), that you want to provision for a file system that you're creating. Required if
   `ThroughputMode` is set to `provisioned`. Valid values are 1-3414 MiBps, with the upper
-  limit depending on Region. To increase this limit, contact Amazon Web Services Support.
-  For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits)
+  limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For
+  more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits)
   in the *Amazon EFS User Guide*.
 
 - `"Tags"`: Use to create one or more tags associated with the file system. Each tag is a
@@ -356,7 +351,7 @@ operation fails.
 
 We recommend that you create a mount target in each of the Availability Zones. There are
 cost considerations for using a file system in an Availability Zone through a mount target
-created in another Availability Zone. For more information, see [Amazon EFS](http://aws.amazon.com/efs/).
+created in another Availability Zone. For more information, see [Amazon EFS pricing](http://aws.amazon.com/efs/pricing/).
 In addition, by always using a mount target local to the instance's Availability Zone, you
 eliminate a partial failure scenario. If the Availability Zone in which your mount target is
 created goes down, then you can't access your file system through that mount target.
@@ -381,9 +376,27 @@ This operation also requires permissions for the following Amazon EC2 actions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IpAddress"`: Valid IPv4 address within the address range of the specified subnet.
-- `"SecurityGroups"`: Up to five VPC security group IDs, of the form `sg-xxxxxxxx`. These
-  must be for the same VPC as subnet specified.
+- `"IpAddress"`: If the IP address type for the mount target is IPv4, then specify the IPv4
+  address within the address range of the specified subnet.
+
+- `"IpAddressType"`: Specify the type of IP address of the mount target you are creating.
+  Options are IPv4, dual stack, or IPv6. If you don’t specify an IpAddressType, then IPv4 is
+  used.
+
+  - IPV4_ONLY – Create mount target with IPv4 only subnet or dual-stack subnet.
+  - DUAL_STACK – Create mount target with dual-stack subnet.
+  - IPV6_ONLY – Create mount target with IPv6 only subnet.
+
+  !!! note
+      Creating IPv6 mount target only ENI in dual-stack subnet is not supported.
+
+- `"Ipv6Address"`: If the IP address type for the mount target is IPv6, then specify the
+  IPv6 address within the address range of the specified subnet.
+
+- `"SecurityGroups"`: VPC security group IDs, of the form `sg-xxxxxxxx`. These must be for
+  the same VPC as the subnet specified. The maximum number of security groups depends on
+  account quota. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html)
+  in the *Amazon VPC User Guide* (see the **Security Groups** table).
 """
 function create_mount_target end
 
@@ -424,55 +437,25 @@ end
     create_replication_configuration(destinations, source_file_system_id)
     create_replication_configuration(destinations, source_file_system_id, params::Dict{String,<:Any})
 
-Creates a replication configuration that replicates an existing EFS file system to a new,
-read-only file system. For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html)
+Creates a replication conﬁguration to either a new or existing EFS file system. For more
+information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html)
 in the *Amazon EFS User Guide*. The replication configuration specifies the following:
 
-- **Source file system** – The EFS file system that you want replicated. The source file
-  system cannot be a destination file system in an existing replication configuration.
-- **Amazon Web Services Region** – The Amazon Web Services Region in which the destination
-  file system is created. Amazon EFS replication is available in all Amazon Web Services
-  Regions in which EFS is available. The Region must be enabled. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable)
-  in the *Amazon Web Services General Reference Reference Guide*.
-- **Destination file system configuration** – The configuration of the destination file
-  system to which the source file system will be replicated. There can only be one
-  destination file system in a replication configuration.
+- **Source file system** – The EFS file system that you want to replicate.
+- **Destination file system** – The destination file system to which the source file system
+  is replicated. There can only be one destination file system in a replication
+  configuration.
 
-Parameters for the replication configuration include:
-  - **File system ID** – The ID of the destination file system for the replication. If no ID
-    is provided, then EFS creates a new file system with the default settings. For existing
-    file systems, the file system's replication overwrite protection must be disabled. For
-    more information, see [Replicating to an existing file system](https://docs.aws.amazon.com/efs/latest/ug/efs-replication#replicate-existing-destination).
-  - **Availability Zone** – If you want the destination file system to use One Zone storage,
-    you must specify the Availability Zone to create the file system in. For more
-    information, see [EFS file system types](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html)
-    in the *Amazon EFS User Guide*.
-  - **Encryption** – All destination file systems are created with encryption at rest
-    enabled. You can specify the Key Management Service (KMS) key that is used to encrypt
-    the destination file system. If you don't specify a KMS key, your service-managed KMS
-    key for Amazon EFS is used.
+  !!! note
+      A file system can be part of only one replication configuration.
 
-    !!! note
-        After the file system is created, you cannot change the KMS key.
+  The destination parameters for the replication configuration depend on whether you are
+  replicating to a new file system or to an existing file system, and if you are replicating
+  across Amazon Web Services accounts. See `DestinationToCreate` for more information.
 
-!!! note
-    After the file system is created, you cannot change the KMS key.
-
-For new destination file systems, the following properties are set by default:
-
-- **Performance mode** - The destination file system's performance mode matches that of the
-  source file system, unless the destination file system uses EFS One Zone storage. In that
-  case, the General Purpose performance mode is used. The performance mode cannot be
-  changed.
-- **Throughput mode** - The destination file system's throughput mode matches that of the
-  source file system. After the file system is created, you can modify the throughput mode.
-
-- **Lifecycle management** – Lifecycle management is not enabled on the destination file
-  system. After the destination file system is created, you can enable lifecycle management.
-- **Automatic backups** – Automatic daily backups are enabled on the destination file
-  system. After the file system is created, you can change this setting.
-
-For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html)
+This operation requires permissions for the
+`elasticfilesystem:CreateReplicationConfiguration` action. Additionally, other permissions
+are required depending on how you are replicating file systems. For more information, see [Required permissions for replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html#efs-replication-permissions)
 in the *Amazon EFS User Guide*.
 
 # Arguments
@@ -616,7 +599,7 @@ EFS file system. This step is performed for you when you use the Amazon Web Serv
 to delete a file system.
 
 !!! note
-    You cannot delete a file system that is part of an EFS Replication configuration. You
+    You cannot delete a file system that is part of an EFS replication configuration. You
     need to delete the replication configuration first.
 
 You can't delete a file system that is in use. That is, if the file system has any mount
@@ -781,6 +764,27 @@ This operation requires permissions for the
 
 - `source_file_system_id`: The ID of the source file system in the replication
   configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"deletionMode"`: When replicating across Amazon Web Services accounts or across Amazon
+  Web Services Regions, Amazon EFS deletes the replication configuration from both the
+  source and destination account or Region (`ALL_CONFIGURATIONS`) by default. If there's a
+  configuration or permissions issue that prevents Amazon EFS from deleting the replication
+  configuration from both sides, you can use the `LOCAL_CONFIGURATION_ONLY` mode to delete
+  the replication configuration from only the local side (the account or Region from which
+  the delete is performed).
+
+  !!! note
+      Only use the `LOCAL_CONFIGURATION_ONLY` mode in the case that Amazon EFS is unable to
+      delete the replication configuration in both the source and destination account or
+      Region. Deleting the local configuration leaves the configuration in the other account
+      or Region unrecoverable.
+
+      Additionally, do not use this mode for same-account, same-region replication as doing
+      so results in a BadRequest exception error.
 """
 function delete_replication_configuration end
 
@@ -1088,10 +1092,10 @@ end
     describe_lifecycle_configuration(file_system_id)
     describe_lifecycle_configuration(file_system_id, params::Dict{String,<:Any})
 
-Returns the current `LifecycleConfiguration` object for the specified Amazon EFS file
-system. Lifecycle management uses the `LifecycleConfiguration` object to identify when to
-move files between storage classes. For a file system without a `LifecycleConfiguration`
-object, the call returns an empty array in the response.
+Returns the current `LifecycleConfiguration` object for the specified EFS file system.
+Lifecycle management uses the `LifecycleConfiguration` object to identify when to move files
+between storage classes. For a file system without a `LifecycleConfiguration` object, the
+call returns an empty array in the response.
 
 This operation requires permissions for the
 `elasticfilesystem:DescribeLifecycleConfiguration` operation.
@@ -1238,7 +1242,9 @@ Amazon Web Services Region are retrieved.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FileSystemId"`: You can retrieve the replication configuration for a specific file
-  system by providing its file system ID.
+  system by providing its file system ID. For cross-account,cross-region replication, an
+  account can only describe the replication configuration for a file system in its own
+  Region.
 - `"MaxResults"`: (Optional) To limit the number of objects returned in a response, you can
   specify the `MaxItems` parameter. The default value is 100.
 - `"NextToken"`: `NextToken` is present if the response is paginated. You can use
@@ -1400,7 +1406,7 @@ The operation requires permissions for the following actions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"SecurityGroups"`: An array of up to five VPC security group IDs.
+- `"SecurityGroups"`: An array of VPC security group IDs.
 """
 function modify_mount_target_security_groups end
 
@@ -1538,7 +1544,7 @@ is an IAM resource-based policy and can contain multiple policy statements. A fi
 always has exactly one file system policy, which can be the default policy or an explicit
 policy set or updated using this API operation. EFS file system policies have a 20,000
 character limit. When an explicit policy is set, it overrides the default policy. For more
-information about the default file system policy, see [Default EFS File System Policy](https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy).
+information about the default file system policy, see [Default EFS file system policy](https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy).
 
 !!! note
     EFS file system policies have a 20,000 character limit.
@@ -1551,7 +1557,7 @@ This operation requires permissions for the `elasticfilesystem:PutFileSystemPoli
   `FileSystemPolicy` for.
 - `policy`: The `FileSystemPolicy` that you're creating. Accepts a JSON formatted policy
   definition. EFS file system policies have a 20,000 character limit. To find out more about
-  the elements that make up a file system policy, see [EFS Resource-based Policies](https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies).
+  the elements that make up a file system policy, see [Resource-based policies within Amazon EFS](https://docs.aws.amazon.com/efs/latest/ug/security_iam_service-with-iam.html#security_iam_service-with-iam-resource-based-policies).
 
 # Optional Parameters
 
@@ -1611,7 +1617,7 @@ Therefore, TransitionToArchive must either not be set or must be later than Tran
 
 !!! note
     The Archive storage class is available only for file systems that use the Elastic
-    Throughput mode and the General Purpose Performance mode.
+    throughput mode and the General Purpose performance mode.
 
 - **`TransitionToPrimaryStorageClass`** – Whether to move files in the file system back to
   primary storage (Standard storage class) after they are accessed in IA or Archive storage.
@@ -1624,7 +1630,7 @@ file system, a `PutLifecycleConfiguration` call modifies the existing configurat
 `PutLifecycleConfiguration` call with an empty `LifecyclePolicies` array in the request body
 deletes any existing `LifecycleConfiguration`. In the request, specify the following:
 
-- The ID for the file system for which you are enabling, disabling, or modifying Lifecycle
+- The ID for the file system for which you are enabling, disabling, or modifying lifecycle
   management.
 - A `LifecyclePolicies` array of `LifecyclePolicy` objects that define when to move files to
   IA storage, to Archive storage, and back to primary storage.
@@ -1647,7 +1653,7 @@ Key Management Service permissions as when you created the encrypted file system
   `LifecycleConfiguration` object (String).
 
 - `lifecycle_policies`: An array of `LifecyclePolicy` objects that define the file system's
-  `LifecycleConfiguration` object. A `LifecycleConfiguration` object informs EFS Lifecycle
+  `LifecycleConfiguration` object. A `LifecycleConfiguration` object informs lifecycle
   management of the following:
 
   - **`TransitionToIA`** – When to move files in the file system from primary storage
@@ -1661,7 +1667,7 @@ Key Management Service permissions as when you created the encrypted file system
 
   !!! note
       The Archive storage class is available only for file systems that use the Elastic
-      Throughput mode and the General Purpose Performance mode.
+      throughput mode and the General Purpose performance mode.
 
   - **`TransitionToPrimaryStorageClass`** – Whether to move files in the file system back to
     primary storage (Standard storage class) after they are accessed in IA or Archive
@@ -1811,8 +1817,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisionedThroughputInMibps"`: (Optional) The throughput, measured in mebibytes per
   second (MiBps), that you want to provision for a file system that you're creating.
   Required if `ThroughputMode` is set to `provisioned`. Valid values are 1-3414 MiBps, with
-  the upper limit depending on Region. To increase this limit, contact Amazon Web Services
-  Support. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits)
+  the upper limit depending on Region. To increase this limit, contact Amazon Web
+  ServicesSupport. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits)
   in the *Amazon EFS User Guide*.
 
 - `"ThroughputMode"`: (Optional) Updates the file system's throughput mode. If you're not
@@ -1877,7 +1883,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     replication.
 
   If the replication configuration is deleted, the file system's replication overwrite
-  protection is re-enabled, the file system becomes writeable.
+  protection is re-enabled and the file system becomes writeable.
 """
 function update_file_system_protection end
 

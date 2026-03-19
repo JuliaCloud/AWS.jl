@@ -18,9 +18,9 @@ in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
+- `listener_identifier`: The ID or ARN of the listener.
 - `rules`: The rules for the specified listener.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 """
 function batch_update_rule end
 
@@ -71,8 +71,7 @@ in the *Amazon VPC Lattice User Guide*.
 - `destination_arn`: The Amazon Resource Name (ARN) of the destination. The supported
   destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and
   Amazon S3 buckets.
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
-  service.
+- `resource_identifier`: The ID or ARN of the service network or service.
 
 # Optional Parameters
 
@@ -82,6 +81,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If you retry a request that completed successfully using the
   same client token and parameters, the retry succeeds without performing any actions. If
   the parameters aren't identical, the retry fails.
+- `"serviceNetworkLogType"`: The type of log that monitors your Amazon VPC Lattice service
+  networks.
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription end
@@ -144,7 +145,7 @@ in the *Amazon VPC Lattice User Guide*.
   valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or
   last character, or immediately after another hyphen.
 - `protocol`: The listener protocol.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -210,6 +211,193 @@ function create_listener(
 end
 
 """
+    create_resource_configuration(name, type)
+    create_resource_configuration(name, type, params::Dict{String,<:Any})
+
+Creates a resource configuration. A resource configuration defines a specific resource. You
+can associate a resource configuration with a service network or a VPC endpoint.
+
+# Arguments
+
+- `name`: The name of the resource configuration. The name must be unique within the
+  account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the
+  first or last character, or immediately after another hyphen.
+
+- `type`: The type of resource configuration. A resource configuration can be one of the
+  following types:
+
+  - **SINGLE** - A single resource.
+  - **GROUP** - A group of resources. You must create a group resource configuration before
+    you create a child resource configuration.
+  - **CHILD** - A single resource that is part of a group resource configuration.
+  - **ARN** - An Amazon Web Services resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allowAssociationToShareableServiceNetwork"`: (SINGLE, GROUP, ARN) Specifies whether the
+  resource configuration can be associated with a sharable service network. The default is
+  false.
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+
+- `"customDomainName"`: A custom domain name for your resource configuration. Additionally,
+  provide a DomainVerificationID to prove your ownership of a domain.
+
+- `"domainVerificationIdentifier"`: The domain verification ID of your verified custom
+  domain name. If you don't provide an ID, you must configure the DNS settings yourself.
+
+- `"groupDomain"`: (GROUP) The group domain for a group resource configuration. Any domains
+  that you create for the child resource are subdomains of the group domain. Child resources
+  inherit the verification status of the domain.
+
+- `"portRanges"`: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to
+  access a resource configuration (for example: 1-65535). You can separate port ranges using
+  commas (for example: 1,2,22-30).
+
+- `"protocol"`: (SINGLE, GROUP) The protocol accepted by the resource configuration.
+
+- `"resourceConfigurationDefinition"`: Identifies the resource configuration in one of the
+  following ways:
+
+  - **Amazon Resource Name (ARN)** - Supported resource-types that are provisioned by Amazon
+    Web Services services, such as RDS databases, can be identified by their ARN.
+  - **Domain name** - Any domain name that is publicly resolvable.
+  - **IP address** - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+
+- `"resourceConfigurationGroupIdentifier"`: (CHILD) The ID or ARN of the parent resource
+  configuration of type `GROUP`. This is used to associate a child resource configuration
+  with a group resource configuration.
+
+- `"resourceGatewayIdentifier"`: (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway
+  used to connect to the resource configuration. For a child resource configuration, this
+  value is inherited from the parent resource configuration.
+
+- `"tags"`: The tags for the resource configuration.
+"""
+function create_resource_configuration end
+
+function create_resource_configuration(
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "POST",
+        "/resourceconfigurations",
+        Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_resource_configuration(
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "POST",
+        "/resourceconfigurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name, "type" => type, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_resource_gateway(name)
+    create_resource_gateway(name, params::Dict{String,<:Any})
+
+A resource gateway is a point of ingress into the VPC where a resource resides. It spans
+multiple Availability Zones. For your resource to be accessible from all Availability Zones,
+you should create your resource gateways to span as many Availability Zones as possible. A
+VPC can have multiple resource gateways.
+
+# Arguments
+
+- `name`: The name of the resource gateway.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+
+- `"ipAddressType"`: A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP
+  address type of a resource gateway must be compatible with the subnets of the resource
+  gateway and the IP address type of the resource, as described here:
+
+  - **IPv4**Assign IPv4 addresses to your resource gateway network interfaces. This option
+    is supported only if all selected subnets have IPv4 address ranges, and the resource
+    also has an IPv4 address.
+  - **IPv6**Assign IPv6 addresses to your resource gateway network interfaces. This option
+    is supported only if all selected subnets are IPv6 only subnets, and the resource also
+    has an IPv6 address.
+  - **Dualstack**Assign both IPv4 and IPv6 addresses to your resource gateway network
+    interfaces. This option is supported only if all selected subnets have both IPv4 and
+    IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.
+
+  The IP address type of the resource gateway is independent of the IP address type of the
+  client or the VPC endpoint through which the resource is accessed.
+
+- `"ipv4AddressesPerEni"`: The number of IPv4 addresses in each ENI for the resource
+  gateway.
+
+- `"securityGroupIds"`: The IDs of the security groups to apply to the resource gateway. The
+  security groups must be in the same VPC.
+
+- `"subnetIds"`: The IDs of the VPC subnets in which to create the resource gateway.
+
+- `"tags"`: The tags for the resource gateway.
+
+- `"vpcIdentifier"`: The ID of the VPC for the resource gateway.
+"""
+function create_resource_gateway end
+
+function create_resource_gateway(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return vpc_lattice(
+        "POST",
+        "/resourcegateways",
+        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_resource_gateway(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "POST",
+        "/resourcegateways",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_rule(action, listener_identifier, match, name, priority, service_identifier)
     create_rule(action, listener_identifier, match, name, priority, service_identifier, params::Dict{String,<:Any})
 
@@ -221,14 +409,14 @@ in the *Amazon VPC Lattice User Guide*.
 # Arguments
 
 - `action`: The action for the default rule.
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
+- `listener_identifier`: The ID or ARN of the listener.
 - `match`: The rule match.
 - `name`: The name of the rule. The name must be unique within the listener. The valid
   characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
   character, or immediately after another hyphen.
 - `priority`: The priority assigned to the rule. Each rule for a specific listener must have
   a unique priority. The lower the priority number the higher the priority.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -395,6 +583,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same client token and parameters, the retry succeeds without performing any actions. If
   the parameters aren't identical, the retry fails.
 
+- `"sharingConfig"`: Specify if the service network should be enabled for sharing.
+
 - `"tags"`: The tags for the service network.
 """
 function create_service_network end
@@ -428,10 +618,83 @@ function create_service_network(
 end
 
 """
+    create_service_network_resource_association(resource_configuration_identifier, service_network_identifier)
+    create_service_network_resource_association(resource_configuration_identifier, service_network_identifier, params::Dict{String,<:Any})
+
+Associates the specified service network with the specified resource configuration. This
+allows the resource configuration to receive connections through the service network,
+including through a service network VPC endpoint.
+
+# Arguments
+
+- `resource_configuration_identifier`: The ID of the resource configuration to associate
+  with the service network.
+- `service_network_identifier`: The ID of the service network to associate with the resource
+  configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+- `"privateDnsEnabled"`: Indicates if private DNS is enabled for the service network
+  resource association.
+- `"tags"`: A key-value pair to associate with a resource.
+"""
+function create_service_network_resource_association end
+
+function create_service_network_resource_association(
+    resourceConfigurationIdentifier,
+    serviceNetworkIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "POST",
+        "/servicenetworkresourceassociations",
+        Dict{String,Any}(
+            "resourceConfigurationIdentifier" => resourceConfigurationIdentifier,
+            "serviceNetworkIdentifier" => serviceNetworkIdentifier,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_service_network_resource_association(
+    resourceConfigurationIdentifier,
+    serviceNetworkIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "POST",
+        "/servicenetworkresourceassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceConfigurationIdentifier" => resourceConfigurationIdentifier,
+                    "serviceNetworkIdentifier" => serviceNetworkIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_service_network_service_association(service_identifier, service_network_identifier)
     create_service_network_service_association(service_identifier, service_network_identifier, params::Dict{String,<:Any})
 
-Associates a service with a service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations)
+Associates the specified service with the specified service network. For more information,
+see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations)
 in the *Amazon VPC Lattice User Guide*.
 
 You can't use this operation if the service and service network are already associated or if
@@ -446,10 +709,9 @@ the association owner account.
 
 # Arguments
 
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
-  You must use the ARN if the resources specified in the operation are in different
-  accounts.
+- `service_identifier`: The ID or ARN of the service.
+- `service_network_identifier`: The ID or ARN of the service network. You must use an ARN if
+  the resources are in different accounts.
 
 # Optional Parameters
 
@@ -528,9 +790,8 @@ recreate it without security groups.
 
 # Arguments
 
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
-  You must use the ARN when the resources specified in the operation are in different
-  accounts.
+- `service_network_identifier`: The ID or ARN of the service network. You must use an ARN if
+  the resources are in different accounts.
 - `vpc_identifier`: The ID of the VPC.
 
 # Optional Parameters
@@ -541,6 +802,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If you retry a request that completed successfully using the
   same client token and parameters, the retry succeeds without performing any actions. If
   the parameters aren't identical, the retry fails.
+
+- `"dnsOptions"`: DNS options for the service network VPC association.
+
+- `"privateDnsEnabled"`: Indicates if private DNS is enabled for the VPC association.
 
 - `"securityGroupIds"`: The IDs of the security groups. Security groups aren't added by
   default. You can add a security group to apply network level controls to control which
@@ -666,8 +931,7 @@ Deletes the specified access log subscription.
 
 # Arguments
 
-- `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
-  log subscription.
+- `access_log_subscription_identifier`: The ID or ARN of the access log subscription.
 """
 function delete_access_log_subscription end
 
@@ -707,7 +971,7 @@ is set, all requests are denied.
 
 # Arguments
 
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the resource.
+- `resource_identifier`: The ID or ARN of the resource.
 """
 function delete_auth_policy end
 
@@ -737,6 +1001,43 @@ function delete_auth_policy(
 end
 
 """
+    delete_domain_verification(domain_verification_identifier)
+    delete_domain_verification(domain_verification_identifier, params::Dict{String,<:Any})
+
+Deletes the specified domain verification.
+
+# Arguments
+
+- `domain_verification_identifier`: The ID of the domain verification to delete.
+"""
+function delete_domain_verification end
+
+function delete_domain_verification(
+    domainVerificationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "DELETE",
+        "/domainverifications/$(domainVerificationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_domain_verification(
+    domainVerificationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/domainverifications/$(domainVerificationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_listener(listener_identifier, service_identifier)
     delete_listener(listener_identifier, service_identifier, params::Dict{String,<:Any})
 
@@ -744,8 +1045,8 @@ Deletes the specified listener.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `listener_identifier`: The ID or ARN of the listener.
+- `service_identifier`: The ID or ARN of the service.
 """
 function delete_listener end
 
@@ -771,6 +1072,118 @@ function delete_listener(
     return vpc_lattice(
         "DELETE",
         "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_configuration(resource_configuration_identifier)
+    delete_resource_configuration(resource_configuration_identifier, params::Dict{String,<:Any})
+
+Deletes the specified resource configuration.
+
+# Arguments
+
+- `resource_configuration_identifier`: The ID or ARN of the resource configuration.
+"""
+function delete_resource_configuration end
+
+function delete_resource_configuration(
+    resourceConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_configuration(
+    resourceConfigurationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_endpoint_association(resource_endpoint_association_identifier)
+    delete_resource_endpoint_association(resource_endpoint_association_identifier, params::Dict{String,<:Any})
+
+Disassociates the resource configuration from the resource VPC endpoint.
+
+# Arguments
+
+- `resource_endpoint_association_identifier`: The ID or ARN of the association.
+"""
+function delete_resource_endpoint_association end
+
+function delete_resource_endpoint_association(
+    resourceEndpointAssociationIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourceendpointassociations/$(resourceEndpointAssociationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_endpoint_association(
+    resourceEndpointAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourceendpointassociations/$(resourceEndpointAssociationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_gateway(resource_gateway_identifier)
+    delete_resource_gateway(resource_gateway_identifier, params::Dict{String,<:Any})
+
+Deletes the specified resource gateway.
+
+# Arguments
+
+- `resource_gateway_identifier`: The ID or ARN of the resource gateway.
+"""
+function delete_resource_gateway end
+
+function delete_resource_gateway(
+    resourceGatewayIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourcegateways/$(resourceGatewayIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_gateway(
+    resourceGatewayIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/resourcegateways/$(resourceGatewayIdentifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -828,9 +1241,9 @@ in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `rule_identifier`: The ID or Amazon Resource Name (ARN) of the rule.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `listener_identifier`: The ID or ARN of the listener.
+- `rule_identifier`: The ID or ARN of the rule.
+- `service_identifier`: The ID or ARN of the service.
 """
 function delete_rule end
 
@@ -876,7 +1289,7 @@ in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 """
 function delete_service end
 
@@ -917,7 +1330,7 @@ in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `service_network_identifier`: The Amazon Resource Name (ARN) or ID of the service network.
+- `service_network_identifier`: The ID or ARN of the service network.
 """
 function delete_service_network end
 
@@ -947,16 +1360,53 @@ function delete_service_network(
 end
 
 """
-    delete_service_network_service_association(service_network_service_association_identifier)
-    delete_service_network_service_association(service_network_service_association_identifier, params::Dict{String,<:Any})
+    delete_service_network_resource_association(service_network_resource_association_identifier)
+    delete_service_network_resource_association(service_network_resource_association_identifier, params::Dict{String,<:Any})
 
-Deletes the association between a specified service and the specific service network. This
-operation fails if an association is still in progress.
+Deletes the association between a service network and a resource configuration.
 
 # Arguments
 
-- `service_network_service_association_identifier`: The ID or Amazon Resource Name (ARN) of
-  the association.
+- `service_network_resource_association_identifier`: The ID of the association.
+"""
+function delete_service_network_resource_association end
+
+function delete_service_network_resource_association(
+    serviceNetworkResourceAssociationIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/servicenetworkresourceassociations/$(serviceNetworkResourceAssociationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_service_network_resource_association(
+    serviceNetworkResourceAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "DELETE",
+        "/servicenetworkresourceassociations/$(serviceNetworkResourceAssociationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_service_network_service_association(service_network_service_association_identifier)
+    delete_service_network_service_association(service_network_service_association_identifier, params::Dict{String,<:Any})
+
+Deletes the association between a service and a service network. This operation fails if an
+association is still in progress.
+
+# Arguments
+
+- `service_network_service_association_identifier`: The ID or ARN of the association.
 """
 function delete_service_network_service_association end
 
@@ -995,8 +1445,7 @@ create or update association in progress.
 
 # Arguments
 
-- `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
-  association.
+- `service_network_vpc_association_identifier`: The ID or ARN of the association.
 """
 function delete_service_network_vpc_association end
 
@@ -1035,7 +1484,7 @@ if the target group creation is in progress.
 
 # Arguments
 
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 """
 function delete_target_group end
 
@@ -1072,7 +1521,7 @@ Deregisters the specified targets from the specified target group.
 
 # Arguments
 
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 - `targets`: The targets to deregister.
 """
 function deregister_targets end
@@ -1112,8 +1561,7 @@ Retrieves information about the specified access log subscription.
 
 # Arguments
 
-- `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
-  log subscription.
+- `access_log_subscription_identifier`: The ID or ARN of the access log subscription.
 """
 function get_access_log_subscription end
 
@@ -1150,8 +1598,7 @@ Retrieves information about the auth policy for the specified service or service
 
 # Arguments
 
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
-  service.
+- `resource_identifier`: The ID or ARN of the service network or service.
 """
 function get_auth_policy end
 
@@ -1181,6 +1628,43 @@ function get_auth_policy(
 end
 
 """
+    get_domain_verification(domain_verification_identifier)
+    get_domain_verification(domain_verification_identifier, params::Dict{String,<:Any})
+
+Retrieves information about a domain verification.ß
+
+# Arguments
+
+- `domain_verification_identifier`: The ID or ARN of the domain verification to retrieve.
+"""
+function get_domain_verification end
+
+function get_domain_verification(
+    domainVerificationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/domainverifications/$(domainVerificationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_domain_verification(
+    domainVerificationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/domainverifications/$(domainVerificationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_listener(listener_identifier, service_identifier)
     get_listener(listener_identifier, service_identifier, params::Dict{String,<:Any})
 
@@ -1188,8 +1672,8 @@ Retrieves information about the specified listener for the specified service.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `listener_identifier`: The ID or ARN of the listener.
+- `service_identifier`: The ID or ARN of the service.
 """
 function get_listener end
 
@@ -1222,11 +1706,85 @@ function get_listener(
 end
 
 """
+    get_resource_configuration(resource_configuration_identifier)
+    get_resource_configuration(resource_configuration_identifier, params::Dict{String,<:Any})
+
+Retrieves information about the specified resource configuration.
+
+# Arguments
+
+- `resource_configuration_identifier`: The ID of the resource configuration.
+"""
+function get_resource_configuration end
+
+function get_resource_configuration(
+    resourceConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_configuration(
+    resourceConfigurationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_gateway(resource_gateway_identifier)
+    get_resource_gateway(resource_gateway_identifier, params::Dict{String,<:Any})
+
+Retrieves information about the specified resource gateway.
+
+# Arguments
+
+- `resource_gateway_identifier`: The ID of the resource gateway.
+"""
+function get_resource_gateway end
+
+function get_resource_gateway(
+    resourceGatewayIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/resourcegateways/$(resourceGatewayIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_gateway(
+    resourceGatewayIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/resourcegateways/$(resourceGatewayIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_resource_policy(resource_arn)
     get_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Retrieves information about the resource policy. The resource policy is an IAM policy
-created on behalf of the resource owner when they share a resource.
+Retrieves information about the specified resource policy. The resource policy is an IAM
+policy created on behalf of the resource owner when they share a resource.
 
 # Arguments
 
@@ -1260,15 +1818,15 @@ end
     get_rule(listener_identifier, rule_identifier, service_identifier)
     get_rule(listener_identifier, rule_identifier, service_identifier, params::Dict{String,<:Any})
 
-Retrieves information about listener rules. You can also retrieve information about the
-default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules)
+Retrieves information about the specified listener rules. You can also retrieve information
+about the default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules)
 in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `rule_identifier`: The ID or Amazon Resource Name (ARN) of the listener rule.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `listener_identifier`: The ID or ARN of the listener.
+- `rule_identifier`: The ID or ARN of the listener rule.
+- `service_identifier`: The ID or ARN of the service.
 """
 function get_rule end
 
@@ -1310,7 +1868,7 @@ Retrieves information about the specified service.
 
 # Arguments
 
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 """
 function get_service end
 
@@ -1342,7 +1900,7 @@ Retrieves information about the specified service network.
 
 # Arguments
 
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
+- `service_network_identifier`: The ID or ARN of the service network.
 """
 function get_service_network end
 
@@ -1372,6 +1930,45 @@ function get_service_network(
 end
 
 """
+    get_service_network_resource_association(service_network_resource_association_identifier)
+    get_service_network_resource_association(service_network_resource_association_identifier, params::Dict{String,<:Any})
+
+Retrieves information about the specified association between a service network and a
+resource configuration.
+
+# Arguments
+
+- `service_network_resource_association_identifier`: The ID of the association.
+"""
+function get_service_network_resource_association end
+
+function get_service_network_resource_association(
+    serviceNetworkResourceAssociationIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkresourceassociations/$(serviceNetworkResourceAssociationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_service_network_resource_association(
+    serviceNetworkResourceAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkresourceassociations/$(serviceNetworkResourceAssociationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_service_network_service_association(service_network_service_association_identifier)
     get_service_network_service_association(service_network_service_association_identifier, params::Dict{String,<:Any})
 
@@ -1380,8 +1977,7 @@ service.
 
 # Arguments
 
-- `service_network_service_association_identifier`: The ID or Amazon Resource Name (ARN) of
-  the association.
+- `service_network_service_association_identifier`: The ID or ARN of the association.
 """
 function get_service_network_service_association end
 
@@ -1415,12 +2011,11 @@ end
     get_service_network_vpc_association(service_network_vpc_association_identifier)
     get_service_network_vpc_association(service_network_vpc_association_identifier, params::Dict{String,<:Any})
 
-Retrieves information about the association between a service network and a VPC.
+Retrieves information about the specified association between a service network and a VPC.
 
 # Arguments
 
-- `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
-  association.
+- `service_network_vpc_association_identifier`: The ID or ARN of the association.
 """
 function get_service_network_vpc_association end
 
@@ -1458,7 +2053,7 @@ Retrieves information about the specified target group.
 
 # Arguments
 
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 """
 function get_target_group end
 
@@ -1491,12 +2086,11 @@ end
     list_access_log_subscriptions(resource_identifier)
     list_access_log_subscriptions(resource_identifier, params::Dict{String,<:Any})
 
-Lists all access log subscriptions for the specified service network or service.
+Lists the access log subscriptions for the specified service network or service.
 
 # Arguments
 
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
-  service.
+- `resource_identifier`: The ID or ARN of the service network or service.
 
 # Optional Parameters
 
@@ -1538,6 +2132,35 @@ function list_access_log_subscriptions(
 end
 
 """
+    list_domain_verifications()
+    list_domain_verifications(params::Dict{String,<:Any})
+
+Lists the domain verifications.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: A pagination token for the next page of results.
+"""
+function list_domain_verifications end
+
+function list_domain_verifications(; aws_config::AbstractAWSConfig=current_aws_config())
+    return vpc_lattice(
+        "GET", "/domainverifications"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_domain_verifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET", "/domainverifications", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_listeners(service_identifier)
     list_listeners(service_identifier, params::Dict{String,<:Any})
 
@@ -1545,7 +2168,7 @@ Lists the listeners for the specified service.
 
 # Arguments
 
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -1582,15 +2205,142 @@ function list_listeners(
 end
 
 """
-    list_rules(listener_identifier, service_identifier)
-    list_rules(listener_identifier, service_identifier, params::Dict{String,<:Any})
+    list_resource_configurations()
+    list_resource_configurations(params::Dict{String,<:Any})
 
-Lists the rules for the listener.
+Lists the resource configurations owned by or shared with this account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainVerificationIdentifier"`: The domain verification ID.
+- `"maxResults"`: The maximum page size.
+- `"nextToken"`: A pagination token for the next page of results.
+- `"resourceConfigurationGroupIdentifier"`: The ID of the resource configuration of type
+  `Group`.
+- `"resourceGatewayIdentifier"`: The ID of the resource gateway for the resource
+  configuration.
+"""
+function list_resource_configurations end
+
+function list_resource_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return vpc_lattice(
+        "GET", "/resourceconfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_resource_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/resourceconfigurations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_endpoint_associations(resource_configuration_identifier)
+    list_resource_endpoint_associations(resource_configuration_identifier, params::Dict{String,<:Any})
+
+Lists the associations for the specified VPC endpoint.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `resource_configuration_identifier`: The ID for the resource configuration associated with
+  the VPC endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum page size.
+- `"nextToken"`: A pagination token for the next page of results.
+- `"resourceEndpointAssociationIdentifier"`: The ID of the association.
+- `"vpcEndpointId"`: The ID of the VPC endpoint in the association.
+- `"vpcEndpointOwner"`: The owner of the VPC endpoint in the association.
+"""
+function list_resource_endpoint_associations end
+
+function list_resource_endpoint_associations(
+    resourceConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/resourceendpointassociations",
+        Dict{String,Any}(
+            "resourceConfigurationIdentifier" => resourceConfigurationIdentifier
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_resource_endpoint_associations(
+    resourceConfigurationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/resourceendpointassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceConfigurationIdentifier" => resourceConfigurationIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_gateways()
+    list_resource_gateways(params::Dict{String,<:Any})
+
+Lists the resource gateways that you own or that were shared with you.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum page size.
+- `"nextToken"`: If there are additional results, a pagination token for the next page of
+  results.
+"""
+function list_resource_gateways end
+
+function list_resource_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
+    return vpc_lattice(
+        "GET", "/resourcegateways"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_resource_gateways(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET", "/resourcegateways", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_rules(listener_identifier, service_identifier)
+    list_rules(listener_identifier, service_identifier, params::Dict{String,<:Any})
+
+Lists the rules for the specified listener.
+
+# Arguments
+
+- `listener_identifier`: The ID or ARN of the listener.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -1630,18 +2380,66 @@ function list_rules(
 end
 
 """
+    list_service_network_resource_associations()
+    list_service_network_resource_associations(params::Dict{String,<:Any})
+
+Lists the associations between a service network and a resource configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includeChildren"`: Include service network resource associations of the child resource
+  configuration with the grouped resource configuration.
+
+  The type is boolean and the default value is false.
+
+- `"maxResults"`: The maximum page size.
+
+- `"nextToken"`: If there are additional results, a pagination token for the next page of
+  results.
+
+- `"resourceConfigurationIdentifier"`: The ID of the resource configuration.
+
+- `"serviceNetworkIdentifier"`: The ID of the service network.
+"""
+function list_service_network_resource_associations end
+
+function list_service_network_resource_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkresourceassociations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_service_network_resource_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkresourceassociations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_service_network_service_associations()
     list_service_network_service_associations(params::Dict{String,<:Any})
 
-Lists the associations between the service network and the service. You can filter the list
+Lists the associations between a service network and a service. You can filter the list
 either by service or service network. You must provide either the service network identifier
 or the service identifier.
 
-Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such
-as when a service network is associated with a VPC or when a service is associated with a
-service network. If the association is for a resource that is shared with another account,
-the association includes the local account ID as the prefix in the ARN for each account the
-resource is shared with.
+Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as
+when a service network is associated with a VPC or when a service is associated with a
+service network. If the association is for a resource is shared with another account, the
+association includes the local account ID as the prefix in the ARN.
 
 # Optional Parameters
 
@@ -1649,8 +2447,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
-- `"serviceIdentifier"`: The ID or Amazon Resource Name (ARN) of the service.
-- `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
+- `"serviceIdentifier"`: The ID or ARN of the service.
+- `"serviceNetworkIdentifier"`: The ID or ARN of the service network.
 """
 function list_service_network_service_associations end
 
@@ -1681,9 +2479,9 @@ end
     list_service_network_vpc_associations()
     list_service_network_vpc_associations(params::Dict{String,<:Any})
 
-Lists the service network and VPC associations. You can filter the list either by VPC or
-service network. You must provide either the service network identifier or the VPC
-identifier.
+Lists the associations between a service network and a VPC. You can filter the list either
+by VPC or service network. You must provide either the ID of the service network identifier
+or the ID of the VPC.
 
 # Optional Parameters
 
@@ -1691,8 +2489,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
-- `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
-- `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
+- `"serviceNetworkIdentifier"`: The ID or ARN of the service network.
+- `"vpcIdentifier"`: The ID or ARN of the VPC.
 """
 function list_service_network_vpc_associations end
 
@@ -1717,11 +2515,64 @@ function list_service_network_vpc_associations(
 end
 
 """
+    list_service_network_vpc_endpoint_associations(service_network_identifier)
+    list_service_network_vpc_endpoint_associations(service_network_identifier, params::Dict{String,<:Any})
+
+Lists the associations between a service network and a VPC endpoint.
+
+# Arguments
+
+- `service_network_identifier`: The ID of the service network associated with the VPC
+  endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum page size.
+- `"nextToken"`: If there are additional results, a pagination token for the next page of
+  results.
+"""
+function list_service_network_vpc_endpoint_associations end
+
+function list_service_network_vpc_endpoint_associations(
+    serviceNetworkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkvpcendpointassociations",
+        Dict{String,Any}("serviceNetworkIdentifier" => serviceNetworkIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_service_network_vpc_endpoint_associations(
+    serviceNetworkIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "GET",
+        "/servicenetworkvpcendpointassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("serviceNetworkIdentifier" => serviceNetworkIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_service_networks()
     list_service_networks(params::Dict{String,<:Any})
 
-Lists the service networks owned by the caller account or shared with the caller account.
-Also includes the account ID in the ARN to show which account owns the service network.
+Lists the service networks owned by or shared with this account. The account ID in the ARN
+shows which account owns the service network.
 
 # Optional Parameters
 
@@ -1817,7 +2668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 - `"targetGroupType"`: The target group type.
-- `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
+- `"vpcIdentifier"`: The ID or ARN of the VPC.
 """
 function list_target_groups end
 
@@ -1842,7 +2693,7 @@ this API to check the health status of targets. You can also ﬁlter the results
 
 # Arguments
 
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 
 # Optional Parameters
 
@@ -1893,8 +2744,8 @@ in the *Amazon VPC Lattice User Guide*.
 
 - `policy`: The auth policy. The policy string in JSON must not contain newlines or blank
   lines.
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
-  service for which the policy is created.
+- `resource_identifier`: The ID or ARN of the service network or service for which the
+  policy is created.
 """
 function put_auth_policy end
 
@@ -1937,8 +2788,8 @@ Manager permission for sharing services and service networks.
 
 - `policy`: An IAM policy. The policy string in JSON must not contain newlines or blank
   lines.
-- `resource_arn`: The ID or Amazon Resource Name (ARN) of the service network or service for
-  which the policy is created.
+- `resource_arn`: The ID or ARN of the service network or service for which the policy is
+  created.
 """
 function put_resource_policy end
 
@@ -1978,7 +2829,7 @@ target in a target group.
 
 # Arguments
 
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 - `targets`: The targets.
 """
 function register_targets end
@@ -2005,6 +2856,62 @@ function register_targets(
         "POST",
         "/targetgroups/$(targetGroupIdentifier)/registertargets",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("targets" => targets), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_domain_verification(domain_name)
+    start_domain_verification(domain_name, params::Dict{String,<:Any})
+
+Starts the domain verification process for a custom domain name.
+
+# Arguments
+
+- `domain_name`: The domain name to verify ownership for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If you retry a request that completed successfully using the
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
+- `"tags"`: The tags for the domain verification.
+"""
+function start_domain_verification end
+
+function start_domain_verification(
+    domainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "POST",
+        "/domainverifications",
+        Dict{String,Any}("domainName" => domainName, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_domain_verification(
+    domainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "POST",
+        "/domainverifications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domainName" => domainName, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2096,8 +3003,7 @@ Updates the specified access log subscription.
 
 # Arguments
 
-- `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
-  log subscription.
+- `access_log_subscription_identifier`: The ID or ARN of the access log subscription.
 - `destination_arn`: The Amazon Resource Name (ARN) of the access log destination.
 """
 function update_access_log_subscription end
@@ -2142,8 +3048,8 @@ Updates the specified listener for the specified service.
 # Arguments
 
 - `default_action`: The action for the default rule.
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `listener_identifier`: The ID or ARN of the listener.
+- `service_identifier`: The ID or ARN of the service.
 """
 function update_listener end
 
@@ -2181,17 +3087,115 @@ function update_listener(
 end
 
 """
-    update_rule(listener_identifier, rule_identifier, service_identifier)
-    update_rule(listener_identifier, rule_identifier, service_identifier, params::Dict{String,<:Any})
+    update_resource_configuration(resource_configuration_identifier)
+    update_resource_configuration(resource_configuration_identifier, params::Dict{String,<:Any})
 
-Updates a rule for the listener. You can't modify a default listener rule. To modify a
-default listener rule, use `UpdateListener`.
+Updates the specified resource configuration.
 
 # Arguments
 
-- `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
-- `rule_identifier`: The ID or Amazon Resource Name (ARN) of the rule.
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `resource_configuration_identifier`: The ID of the resource configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allowAssociationToShareableServiceNetwork"`: Indicates whether to add the resource
+  configuration to service networks that are shared with other accounts.
+
+- `"portRanges"`: The TCP port ranges that a consumer can use to access a resource
+  configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+
+- `"resourceConfigurationDefinition"`: Identifies the resource configuration in one of the
+  following ways:
+
+  - **Amazon Resource Name (ARN)** - Supported resource-types that are provisioned by Amazon
+    Web Services services, such as RDS databases, can be identified by their ARN.
+  - **Domain name** - Any domain name that is publicly resolvable.
+  - **IP address** - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+"""
+function update_resource_configuration end
+
+function update_resource_configuration(
+    resourceConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "PATCH",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_resource_configuration(
+    resourceConfigurationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "PATCH",
+        "/resourceconfigurations/$(resourceConfigurationIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_resource_gateway(resource_gateway_identifier)
+    update_resource_gateway(resource_gateway_identifier, params::Dict{String,<:Any})
+
+Updates the specified resource gateway.
+
+# Arguments
+
+- `resource_gateway_identifier`: The ID or ARN of the resource gateway.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"securityGroupIds"`: The IDs of the security groups associated with the resource gateway.
+"""
+function update_resource_gateway end
+
+function update_resource_gateway(
+    resourceGatewayIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return vpc_lattice(
+        "PATCH",
+        "/resourcegateways/$(resourceGatewayIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_resource_gateway(
+    resourceGatewayIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return vpc_lattice(
+        "PATCH",
+        "/resourcegateways/$(resourceGatewayIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_rule(listener_identifier, rule_identifier, service_identifier)
+    update_rule(listener_identifier, rule_identifier, service_identifier, params::Dict{String,<:Any})
+
+Updates a specified rule for the listener. You can't modify a default listener rule. To
+modify a default listener rule, use `UpdateListener`.
+
+# Arguments
+
+- `listener_identifier`: The ID or ARN of the listener.
+- `rule_identifier`: The ID or ARN of the rule.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -2242,7 +3246,7 @@ Updates the specified service.
 
 # Arguments
 
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
+- `service_identifier`: The ID or ARN of the service.
 
 # Optional Parameters
 
@@ -2297,7 +3301,7 @@ Updates the specified service network.
   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled and
     an auth policy is required.
 
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
+- `service_network_identifier`: The ID or ARN of the service network.
 """
 function update_service_network end
 
@@ -2335,16 +3339,14 @@ end
     update_service_network_vpc_association(security_group_ids, service_network_vpc_association_identifier, params::Dict{String,<:Any})
 
 Updates the service network and VPC association. If you add a security group to the service
-network and VPC association, the association must continue to always have at least one
-security group. You can add or edit security groups at any time. However, to remove all
-security groups, you must first delete the association and recreate it without security
-groups.
+network and VPC association, the association must continue to have at least one security
+group. You can add or edit security groups at any time. However, to remove all security
+groups, you must first delete the association and then recreate it without security groups.
 
 # Arguments
 
 - `security_group_ids`: The IDs of the security groups.
-- `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
-  association.
+- `service_network_vpc_association_identifier`: The ID or ARN of the association.
 """
 function update_service_network_vpc_association end
 
@@ -2390,7 +3392,7 @@ Updates the specified target group.
 # Arguments
 
 - `health_check`: The health check configuration.
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
+- `target_group_identifier`: The ID or ARN of the target group.
 """
 function update_target_group end
 

@@ -14,7 +14,7 @@ Adds cross-account permissions to a signing profile.
 
 - `action`: For cross-account signing. Grant a designated account permission to perform one
   or more of the following actions. Each action is associated with a specific API's
-  operations. For more information about cross-account signing, see [Using cross-account signing with signing profiles](https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html)
+  operations. For more information about cross-account signing, see [Using cross-account signing with signing profiles](http://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html)
   in the *AWS Signer Developer Guide*.
 
   You can designate the following actions to an account.
@@ -93,7 +93,8 @@ end
 
 Changes the state of an `ACTIVE` signing profile to `CANCELED`. A canceled profile is still
 viewable with the [`list_signing_profiles`](@ref) operation, but it cannot perform new
-signing jobs, and is deleted two years after cancelation.
+signing jobs. See [Data Retention](https://docs.aws.amazon.com/signer/latest/developerguide/retention.html)
+for more information on scheduled deletion of a canceled signing profile.
 
 # Arguments
 
@@ -627,7 +628,7 @@ end
     revoke_signature(job_id, reason)
     revoke_signature(job_id, reason, params::Dict{String,<:Any})
 
-Changes the state of a signing job to REVOKED. This indicates that the signature is no
+Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
 longer valid.
 
 # Arguments
@@ -672,8 +673,11 @@ end
     revoke_signing_profile(effective_time, profile_name, profile_version, reason)
     revoke_signing_profile(effective_time, profile_name, profile_version, reason, params::Dict{String,<:Any})
 
-Changes the state of a signing profile to REVOKED. This indicates that signatures generated
-using the signing profile after an effective start date are no longer valid.
+Changes the state of a signing profile to `REVOKED`. This indicates that signatures
+generated using the signing profile after an effective start date are no longer valid. A
+revoked profile is still viewable with the [`list_signing_profiles`](@ref) operation, but it
+cannot perform new signing jobs. See [Data Retention](https://docs.aws.amazon.com/signer/latest/developerguide/retention.html)
+for more information on scheduled deletion of a revoked signing profile.
 
 # Arguments
 
@@ -801,8 +805,7 @@ end
     start_signing_job(client_request_token, destination, profile_name, source, params::Dict{String,<:Any})
 
 Initiates a signing job to be performed on the code provided. Signing jobs are viewable by
-the [`list_signing_jobs`](@ref) operation for two years after they are performed. Note the
-following requirements:
+the [`list_signing_jobs`](@ref) operation. Note the following requirements:
 
 - You must create an Amazon S3 source bucket. For more information, see [Creating a Bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
   in the *Amazon S3 Getting Started Guide*.

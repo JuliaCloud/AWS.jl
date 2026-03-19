@@ -183,7 +183,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: An optional description of the cluster.
 
-- `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
+- `"Engine"`: The name of the engine to be used for the cluster.
+
+- `"EngineVersion"`: The version number of the Redis OSS engine to be used for the cluster.
+
+- `"IpDiscovery"`: The mechanism for discovering IP addresses for the cluster discovery
+  protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery
+  functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses
+  for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6
+  addresses for cluster nodes. The value must be compatible with the NetworkType parameter.
+  If not specified, the default is 'ipv4'.
 
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 
@@ -202,6 +211,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `sat`
 
   Example: `sun:23:00-mon:01:30`
+
+- `"MultiRegionClusterName"`: The name of the multi-Region cluster to be created.
+
+- `"NetworkType"`: Specifies the IP address type for the cluster. Valid values are 'ipv4',
+  'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4
+  addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses.
+  When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses.
+  If not specified, the default is 'ipv4'.
 
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
@@ -274,6 +291,77 @@ function create_cluster(
                 Dict{String,Any}(
                     "ACLName" => ACLName,
                     "ClusterName" => ClusterName,
+                    "NodeType" => NodeType,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_multi_region_cluster(multi_region_cluster_name_suffix, node_type)
+    create_multi_region_cluster(multi_region_cluster_name_suffix, node_type, params::Dict{String,<:Any})
+
+Creates a new multi-Region cluster.
+
+# Arguments
+
+- `multi_region_cluster_name_suffix`: A suffix to be added to the Multi-Region cluster name.
+  Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is
+  created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name
+  created in the US-West-1 region will begin with "virxk", along with the suffix name you
+  provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple
+  regions.
+
+- `node_type`: The node type to be used for the multi-Region cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description for the multi-Region cluster.
+- `"Engine"`: The name of the engine to be used for the multi-Region cluster.
+- `"EngineVersion"`: The version of the engine to be used for the multi-Region cluster.
+- `"MultiRegionParameterGroupName"`: The name of the multi-Region parameter group to be
+  associated with the cluster.
+- `"NumShards"`: The number of shards for the multi-Region cluster.
+- `"TLSEnabled"`: Whether to enable TLS encryption for the multi-Region cluster.
+- `"Tags"`: A list of tags to be applied to the multi-Region cluster.
+"""
+function create_multi_region_cluster end
+
+function create_multi_region_cluster(
+    MultiRegionClusterNameSuffix,
+    NodeType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "CreateMultiRegionCluster",
+        Dict{String,Any}(
+            "MultiRegionClusterNameSuffix" => MultiRegionClusterNameSuffix,
+            "NodeType" => NodeType,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_multi_region_cluster(
+    MultiRegionClusterNameSuffix,
+    NodeType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "CreateMultiRegionCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MultiRegionClusterNameSuffix" => MultiRegionClusterNameSuffix,
                     "NodeType" => NodeType,
                 ),
                 params,
@@ -531,7 +619,7 @@ it can be deleted. For more information, see [Authenticating users with Access C
 
 # Arguments
 
-- `aclname`: The name of the Access Control List to delete
+- `aclname`: The name of the Access Control List to delete.
 """
 function delete_acl end
 
@@ -561,7 +649,11 @@ end
     delete_cluster(cluster_name)
     delete_cluster(cluster_name, params::Dict{String,<:Any})
 
-Deletes a cluster. It also deletes all associated nodes and node endpoints
+Deletes a cluster. It also deletes all associated nodes and node endpoints.
+
+!!! note
+    `CreateSnapshot` permission is required to create a final snapshot. Without this
+    permission, the API call will fail with an `Access Denied` exception.
 
 # Arguments
 
@@ -574,6 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FinalSnapshotName"`: The user-supplied name of a final cluster snapshot. This is the
   unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes
   the cluster immediately afterward.
+- `"MultiRegionClusterName"`: The name of the multi-Region cluster to be deleted.
 """
 function delete_cluster end
 
@@ -595,6 +688,48 @@ function delete_cluster(
         "DeleteCluster",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_multi_region_cluster(multi_region_cluster_name)
+    delete_multi_region_cluster(multi_region_cluster_name, params::Dict{String,<:Any})
+
+Deletes an existing multi-Region cluster.
+
+# Arguments
+
+- `multi_region_cluster_name`: The name of the multi-Region cluster to be deleted.
+"""
+function delete_multi_region_cluster end
+
+function delete_multi_region_cluster(
+    MultiRegionClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DeleteMultiRegionCluster",
+        Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_multi_region_cluster(
+    MultiRegionClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "DeleteMultiRegionCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -653,7 +788,7 @@ operation.
 
 # Arguments
 
-- `snapshot_name`: The name of the snapshot to delete
+- `snapshot_name`: The name of the snapshot to delete.
 """
 function delete_snapshot end
 
@@ -690,7 +825,7 @@ with any clusters.
 
 # Arguments
 
-- `subnet_group_name`: The name of the subnet group to delete
+- `subnet_group_name`: The name of the subnet group to delete.
 """
 function delete_subnet_group end
 
@@ -763,13 +898,13 @@ end
     describe_acls()
     describe_acls(params::Dict{String,<:Any})
 
-Returns a list of ACLs
+Returns a list of ACLs.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ACLName"`: The name of the ACL
+- `"ACLName"`: The name of the ACL.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -801,7 +936,7 @@ about a specific cluster if a cluster name is supplied.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClusterName"`: The name of the cluster
+- `"ClusterName"`: The name of the cluster.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -828,7 +963,7 @@ end
     describe_engine_versions()
     describe_engine_versions(params::Dict{String,<:Any})
 
-Returns a list of the available Redis engine versions.
+Returns a list of the available Redis OSS engine versions.
 
 # Optional Parameters
 
@@ -836,7 +971,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
-- `"EngineVersion"`: The Redis engine version
+- `"Engine"`: The name of the engine for which to list available versions.
+- `"EngineVersion"`: The Redis OSS engine version
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -901,6 +1037,136 @@ function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return memorydb("DescribeEvents", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    describe_multi_region_clusters()
+    describe_multi_region_clusters(params::Dict{String,<:Any})
+
+Returns details about one or more multi-Region clusters.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"MultiRegionClusterName"`: The name of a specific multi-Region cluster to describe.
+- `"NextToken"`: A token to specify where to start paginating.
+- `"ShowClusterDetails"`: Details about the multi-Region cluster.
+"""
+function describe_multi_region_clusters end
+
+function describe_multi_region_clusters(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DescribeMultiRegionClusters"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_multi_region_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DescribeMultiRegionClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_multi_region_parameter_groups()
+    describe_multi_region_parameter_groups(params::Dict{String,<:Any})
+
+Returns a list of multi-region parameter groups.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `"MultiRegionParameterGroupName"`: The request for information on a specific multi-region
+  parameter group.
+- `"NextToken"`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+"""
+function describe_multi_region_parameter_groups end
+
+function describe_multi_region_parameter_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DescribeMultiRegionParameterGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_multi_region_parameter_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DescribeMultiRegionParameterGroups",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_multi_region_parameters(multi_region_parameter_group_name)
+    describe_multi_region_parameters(multi_region_parameter_group_name, params::Dict{String,<:Any})
+
+Returns the detailed parameter list for a particular multi-region parameter group.
+
+# Arguments
+
+- `multi_region_parameter_group_name`: The name of the multi-region parameter group to
+  return details for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+- `"Source"`: The parameter types to return. Valid values: user | system | engine-default
+"""
+function describe_multi_region_parameters end
+
+function describe_multi_region_parameters(
+    MultiRegionParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "DescribeMultiRegionParameters",
+        Dict{String,Any}("MultiRegionParameterGroupName" => MultiRegionParameterGroupName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_multi_region_parameters(
+    MultiRegionParameterGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "DescribeMultiRegionParameters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MultiRegionParameterGroupName" => MultiRegionParameterGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1082,13 +1348,13 @@ end
     describe_service_updates()
     describe_service_updates(params::Dict{String,<:Any})
 
-Returns details of the service updates
+Returns details of the service updates.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClusterNames"`: The list of cluster names to identify service updates to apply
+- `"ClusterNames"`: The list of cluster names to identify service updates to apply.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -1097,7 +1363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ServiceUpdateName"`: The unique ID of the service update to describe.
-- `"Status"`: The status(es) of the service updates to filter on
+- `"Status"`: The status(es) of the service updates to filter on.
 """
 function describe_service_updates end
 
@@ -1208,7 +1474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
-- `"UserName"`: The name of the user
+- `"UserName"`: The name of the user.
 """
 function describe_users end
 
@@ -1233,8 +1499,8 @@ certain conditions such as large scale operational events, Amazon may block this
 
 # Arguments
 
-- `cluster_name`: The cluster being failed over
-- `shard_name`: The name of the shard
+- `cluster_name`: The cluster being failed over.
+- `shard_name`: The name of the shard.
 """
 function failover_shard end
 
@@ -1261,6 +1527,48 @@ function failover_shard(
             mergewith(
                 _merge,
                 Dict{String,Any}("ClusterName" => ClusterName, "ShardName" => ShardName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_allowed_multi_region_cluster_updates(multi_region_cluster_name)
+    list_allowed_multi_region_cluster_updates(multi_region_cluster_name, params::Dict{String,<:Any})
+
+Lists the allowed updates for a multi-Region cluster.
+
+# Arguments
+
+- `multi_region_cluster_name`: The name of the multi-Region cluster.
+"""
+function list_allowed_multi_region_cluster_updates end
+
+function list_allowed_multi_region_cluster_updates(
+    MultiRegionClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "ListAllowedMultiRegionClusterUpdates",
+        Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_allowed_multi_region_cluster_updates(
+    MultiRegionClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "ListAllowedMultiRegionClusterUpdates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName),
                 params,
             ),
         );
@@ -1317,12 +1625,16 @@ end
 
 Lists all tags currently on a named resource. A tag is a key-value pair where the key and
 value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.
-For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
+For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
+
+When you add or remove tags from multi region clusters, you might not immediately see the
+latest effective tags in the ListTags API response due to it being eventually consistent
+specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want the list
-  of tags
+  of tags.
 """
 function list_tags end
 
@@ -1459,20 +1771,24 @@ end
     tag_resource(resource_arn, tag)
     tag_resource(resource_arn, tag, params::Dict{String,<:Any})
 
-A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
-categorize and track all your MemoryDB resources. When you add or remove tags on clusters,
-those actions will be replicated to all nodes in the cluster. For more information, see [Resource-level permissions](https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html).
+Use this operation to add tags to a resource. A tag is a key-value pair where the key and
+value are case-sensitive. You can use tags to categorize and track all your MemoryDB
+resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
 
-For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a
-cost allocation report as a comma-separated value (CSV) file with your usage and costs
-aggregated by your tags. You can apply tags that represent business categories (such as cost
-centers, application names, or owners) to organize your costs across multiple services. For
-more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
+When you add tags to multi region clusters, you might not immediately see the latest
+effective tags in the ListTags API response due to it being eventually consistent
+specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
+
+You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost
+allocation report as a comma-separated value (CSV) file with your usage and costs aggregated
+by your tags. You can apply tags that represent business categories (such as cost centers,
+application names, or owners) to organize your costs across multiple services. For more
+information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tags are to be
-  added
+  added.
 - `tag`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
   must be accompanied by a tag value, although null is accepted.
 
@@ -1516,13 +1832,25 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Use this operation to remove tags on a resource
+Use this operation to remove tags on a resource. A tag is a key-value pair where the key and
+value are case-sensitive. You can use tags to categorize and track all your MemoryDB
+resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
+
+When you remove tags from multi region clusters, you might not immediately see the latest
+effective tags in the ListTags API response due to it being eventually consistent
+specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
+
+You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost
+allocation report as a comma-separated value (CSV) file with your usage and costs aggregated
+by your tags. You can apply tags that represent business categories (such as cost centers,
+application names, or owners) to organize your costs across multiple services. For more
+information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tags are to be
-  removed
-- `tag_keys`: The list of keys of the tags that are to be removed
+  removed.
+- `tag_keys`: The list of keys of the tags that are to be removed.
 """
 function untag_resource end
 
@@ -1565,14 +1893,14 @@ Changes the list of users that belong to the Access Control List.
 
 # Arguments
 
-- `aclname`: The name of the Access Control List
+- `aclname`: The name of the Access Control List.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"UserNamesToAdd"`: The list of users to add to the Access Control List
-- `"UserNamesToRemove"`: The list of users to remove from the Access Control List
+- `"UserNamesToAdd"`: The list of users to add to the Access Control List.
+- `"UserNamesToRemove"`: The list of users to remove from the Access Control List.
 """
 function update_acl end
 
@@ -1607,20 +1935,29 @@ cluster configuration settings by specifying the settings and the new values.
 
 # Arguments
 
-- `cluster_name`: The name of the cluster to update
+- `cluster_name`: The name of the cluster to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ACLName"`: The Access Control List that is associated with the cluster
+- `"ACLName"`: The Access Control List that is associated with the cluster.
 
-- `"Description"`: The description of the cluster to update
+- `"Description"`: The description of the cluster to update.
+
+- `"Engine"`: The name of the engine to be used for the cluster.
 
 - `"EngineVersion"`: The upgraded version of the engine to be run on the nodes. You can
   upgrade to a newer engine version, but you cannot downgrade to an earlier engine version.
   If you want to use an earlier engine version, you must delete the existing cluster and
   create it anew with the earlier engine version.
+
+- `"IpDiscovery"`: The mechanism for discovering IP addresses for the cluster discovery
+  protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery
+  functions such as cluster slots, cluster shards, and cluster nodes will return IPv4
+  addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return
+  IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType
+  parameter. If not specified, the default is 'ipv4'.
 
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
@@ -1640,13 +1977,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 
-- `"ParameterGroupName"`: The name of the parameter group to update
+- `"ParameterGroupName"`: The name of the parameter group to update.
 
-- `"ReplicaConfiguration"`: The number of replicas that will reside in each shard
+- `"ReplicaConfiguration"`: The number of replicas that will reside in each shard.
 
-- `"SecurityGroupIds"`: The SecurityGroupIds to update
+- `"SecurityGroupIds"`: The SecurityGroupIds to update.
 
-- `"ShardConfiguration"`: The number of shards in the cluster
+- `"ShardConfiguration"`: The number of shards in the cluster.
 
 - `"SnapshotRetentionLimit"`: The number of days for which MemoryDB retains automatic
   cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to
@@ -1655,7 +1992,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
   daily snapshot of your cluster.
 
-- `"SnsTopicArn"`: The SNS topic ARN to update
+- `"SnsTopicArn"`: The SNS topic ARN to update.
 
 - `"SnsTopicStatus"`: The status of the Amazon SNS notification topic. Notifications are
   sent only if the status is active.
@@ -1680,6 +2017,61 @@ function update_cluster(
         "UpdateCluster",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_multi_region_cluster(multi_region_cluster_name)
+    update_multi_region_cluster(multi_region_cluster_name, params::Dict{String,<:Any})
+
+Updates the configuration of an existing multi-Region cluster.
+
+# Arguments
+
+- `multi_region_cluster_name`: The name of the multi-Region cluster to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A new description for the multi-Region cluster.
+- `"EngineVersion"`: The new engine version to be used for the multi-Region cluster.
+- `"MultiRegionParameterGroupName"`: The new multi-Region parameter group to be associated
+  with the cluster.
+- `"NodeType"`: The new node type to be used for the multi-Region cluster.
+- `"ShardConfiguration"`:
+- `"UpdateStrategy"`: The strategy to use for the update operation. Supported values are
+  "coordinated" or "uncoordinated".
+"""
+function update_multi_region_cluster end
+
+function update_multi_region_cluster(
+    MultiRegionClusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return memorydb(
+        "UpdateMultiRegionCluster",
+        Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_multi_region_cluster(
+    MultiRegionClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return memorydb(
+        "UpdateMultiRegionCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("MultiRegionClusterName" => MultiRegionClusterName),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

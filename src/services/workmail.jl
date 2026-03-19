@@ -420,6 +420,64 @@ function create_group(
 end
 
 """
+    create_identity_center_application(instance_arn, name)
+    create_identity_center_application(instance_arn, name, params::Dict{String,<:Any})
+
+Creates the WorkMail application in IAM Identity Center that can be used later in the
+WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This
+action does not affect the authentication settings for any WorkMail organizations.
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the instance.
+- `name`: The name of the IAM Identity Center application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: The idempotency token associated with the request.
+"""
+function create_identity_center_application end
+
+function create_identity_center_application(
+    InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workmail(
+        "CreateIdentityCenterApplication",
+        Dict{String,Any}(
+            "InstanceArn" => InstanceArn, "Name" => Name, "ClientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_identity_center_application(
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "CreateIdentityCenterApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_impersonation_role(name, organization_id, rules, type)
     create_impersonation_role(name, organization_id, rules, type, params::Dict{String,<:Any})
 
@@ -713,6 +771,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the user will be hidden
   from the address book.
 
+- `"IdentityProviderUserId"`: User ID from the IAM Identity Center. If this parameter is
+  empty it will be updated automatically when the user logs in for the first time to the
+  mailbox associated with WorkMail.
+
 - `"LastName"`: The last name of the new user.
 
 - `"Password"`: The password for the new user.
@@ -1003,6 +1065,85 @@ function delete_group(
 end
 
 """
+    delete_identity_center_application(application_arn)
+    delete_identity_center_application(application_arn, params::Dict{String,<:Any})
+
+Deletes the IAM Identity Center application from WorkMail. This action does not affect the
+authentication settings for any WorkMail organizations.
+
+# Arguments
+
+- `application_arn`: The Amazon Resource Name (ARN) of the application.
+"""
+function delete_identity_center_application end
+
+function delete_identity_center_application(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workmail(
+        "DeleteIdentityCenterApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_identity_center_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "DeleteIdentityCenterApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_identity_provider_configuration(organization_id)
+    delete_identity_provider_configuration(organization_id, params::Dict{String,<:Any})
+
+Disables the integration between IdC and WorkMail. Authentication will continue with the
+directory as it was before the IdC integration. You might have to reset your directory
+passwords and reconfigure your desktop and mobile email clients.
+
+# Arguments
+
+- `organization_id`: The Organization ID.
+"""
+function delete_identity_provider_configuration end
+
+function delete_identity_provider_configuration(
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workmail(
+        "DeleteIdentityProviderConfiguration",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_identity_provider_configuration(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "DeleteIdentityProviderConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_impersonation_role(impersonation_role_id, organization_id)
     delete_impersonation_role(impersonation_role_id, organization_id, params::Dict{String,<:Any})
 
@@ -1266,6 +1407,8 @@ in the *WorkMail Administrator Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The idempotency token associated with the request.
+- `"DeleteIdentityCenterApplication"`: Deletes IAM Identity Center application for WorkMail.
+  This action does not affect authentication settings for any organization.
 - `"ForceDelete"`: Deletes a WorkMail organization even if the organization has enabled
   users.
 """
@@ -1301,6 +1444,58 @@ function delete_organization(
                     "DeleteDirectory" => DeleteDirectory,
                     "OrganizationId" => OrganizationId,
                     "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_personal_access_token(organization_id, personal_access_token_id)
+    delete_personal_access_token(organization_id, personal_access_token_id, params::Dict{String,<:Any})
+
+Deletes the Personal Access Token from the provided WorkMail Organization.
+
+# Arguments
+
+- `organization_id`: The Organization ID.
+- `personal_access_token_id`: The Personal Access Token ID.
+"""
+function delete_personal_access_token end
+
+function delete_personal_access_token(
+    OrganizationId,
+    PersonalAccessTokenId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "DeletePersonalAccessToken",
+        Dict{String,Any}(
+            "OrganizationId" => OrganizationId,
+            "PersonalAccessTokenId" => PersonalAccessTokenId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_personal_access_token(
+    OrganizationId,
+    PersonalAccessTokenId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "DeletePersonalAccessToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OrganizationId" => OrganizationId,
+                    "PersonalAccessTokenId" => PersonalAccessTokenId,
                 ),
                 params,
             ),
@@ -1702,6 +1897,44 @@ function describe_group(
                 Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_identity_provider_configuration(organization_id)
+    describe_identity_provider_configuration(organization_id, params::Dict{String,<:Any})
+
+Returns detailed information on the current IdC setup for the WorkMail organization.
+
+# Arguments
+
+- `organization_id`: The Organization ID.
+"""
+function describe_identity_provider_configuration end
+
+function describe_identity_provider_configuration(
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workmail(
+        "DescribeIdentityProviderConfiguration",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_identity_provider_configuration(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "DescribeIdentityProviderConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2506,6 +2739,58 @@ function get_mobile_device_access_override(
 end
 
 """
+    get_personal_access_token_metadata(organization_id, personal_access_token_id)
+    get_personal_access_token_metadata(organization_id, personal_access_token_id, params::Dict{String,<:Any})
+
+Requests details of a specific Personal Access Token within the WorkMail organization.
+
+# Arguments
+
+- `organization_id`: The Organization ID.
+- `personal_access_token_id`: The Personal Access Token ID.
+"""
+function get_personal_access_token_metadata end
+
+function get_personal_access_token_metadata(
+    OrganizationId,
+    PersonalAccessTokenId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "GetPersonalAccessTokenMetadata",
+        Dict{String,Any}(
+            "OrganizationId" => OrganizationId,
+            "PersonalAccessTokenId" => PersonalAccessTokenId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_personal_access_token_metadata(
+    OrganizationId,
+    PersonalAccessTokenId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "GetPersonalAccessTokenMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OrganizationId" => OrganizationId,
+                    "PersonalAccessTokenId" => PersonalAccessTokenId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_access_control_rules(organization_id)
     list_access_control_rules(organization_id, params::Dict{String,<:Any})
 
@@ -3143,6 +3428,52 @@ function list_organizations(
 end
 
 """
+    list_personal_access_tokens(organization_id)
+    list_personal_access_tokens(organization_id, params::Dict{String,<:Any})
+
+Returns a summary of your Personal Access Tokens.
+
+# Arguments
+
+- `organization_id`: The Organization ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum amount of items that should be returned in a response.
+- `"NextToken"`: The token from the previous response to query the next page.
+- `"UserId"`: The WorkMail User ID.
+"""
+function list_personal_access_tokens end
+
+function list_personal_access_tokens(
+    OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return workmail(
+        "ListPersonalAccessTokens",
+        Dict{String,Any}("OrganizationId" => OrganizationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_personal_access_tokens(
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "ListPersonalAccessTokens",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_resource_delegates(organization_id, resource_id)
     list_resource_delegates(organization_id, resource_id, params::Dict{String,<:Any})
 
@@ -3417,8 +3748,8 @@ function put_access_control_rule(
 end
 
 """
-    put_email_monitoring_configuration(log_group_arn, organization_id, role_arn)
-    put_email_monitoring_configuration(log_group_arn, organization_id, role_arn, params::Dict{String,<:Any})
+    put_email_monitoring_configuration(log_group_arn, organization_id)
+    put_email_monitoring_configuration(log_group_arn, organization_id, params::Dict{String,<:Any})
 
 Creates or updates the email monitoring configuration for a specified organization.
 
@@ -3428,21 +3759,23 @@ Creates or updates the email monitoring configuration for a specified organizati
   with the email monitoring configuration.
 - `organization_id`: The ID of the organization for which the email monitoring configuration
   is set.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM Role associated with the email
-  monitoring configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM Role associated with the email
+  monitoring configuration. If absent, the IAM Role Arn of
+  AWSServiceRoleForAmazonWorkMailEvents will be used.
 """
 function put_email_monitoring_configuration end
 
 function put_email_monitoring_configuration(
-    LogGroupArn, OrganizationId, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+    LogGroupArn, OrganizationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmail(
         "PutEmailMonitoringConfiguration",
-        Dict{String,Any}(
-            "LogGroupArn" => LogGroupArn,
-            "OrganizationId" => OrganizationId,
-            "RoleArn" => RoleArn,
-        );
+        Dict{String,Any}("LogGroupArn" => LogGroupArn, "OrganizationId" => OrganizationId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3451,7 +3784,6 @@ end
 function put_email_monitoring_configuration(
     LogGroupArn,
     OrganizationId,
-    RoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -3461,9 +3793,73 @@ function put_email_monitoring_configuration(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "LogGroupArn" => LogGroupArn,
+                    "LogGroupArn" => LogGroupArn, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_identity_provider_configuration(authentication_mode, identity_center_configuration, organization_id, personal_access_token_configuration)
+    put_identity_provider_configuration(authentication_mode, identity_center_configuration, organization_id, personal_access_token_configuration, params::Dict{String,<:Any})
+
+Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication
+requests for mailbox users. You can connect your IdC directory or your external directory to
+WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced
+protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
+
+# Arguments
+
+- `authentication_mode`: The authentication mode used in WorkMail.
+- `identity_center_configuration`: The details of the IAM Identity Center configuration.
+- `organization_id`: The ID of the WorkMail Organization.
+- `personal_access_token_configuration`: The details of the Personal Access Token
+  configuration.
+"""
+function put_identity_provider_configuration end
+
+function put_identity_provider_configuration(
+    AuthenticationMode,
+    IdentityCenterConfiguration,
+    OrganizationId,
+    PersonalAccessTokenConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "PutIdentityProviderConfiguration",
+        Dict{String,Any}(
+            "AuthenticationMode" => AuthenticationMode,
+            "IdentityCenterConfiguration" => IdentityCenterConfiguration,
+            "OrganizationId" => OrganizationId,
+            "PersonalAccessTokenConfiguration" => PersonalAccessTokenConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_identity_provider_configuration(
+    AuthenticationMode,
+    IdentityCenterConfiguration,
+    OrganizationId,
+    PersonalAccessTokenConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return workmail(
+        "PutIdentityProviderConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationMode" => AuthenticationMode,
+                    "IdentityCenterConfiguration" => IdentityCenterConfiguration,
                     "OrganizationId" => OrganizationId,
-                    "RoleArn" => RoleArn,
+                    "PersonalAccessTokenConfiguration" => PersonalAccessTokenConfiguration,
                 ),
                 params,
             ),
@@ -4290,7 +4686,7 @@ end
     update_group(group_id, organization_id)
     update_group(group_id, organization_id, params::Dict{String,<:Any})
 
-Updates attibutes in a group.
+Updates attributes in a group.
 
 # Arguments
 
@@ -4738,6 +5134,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HiddenFromGlobalAddressList"`: If enabled, the user is hidden from the global address
   list.
 
+- `"IdentityProviderUserId"`: User ID from the IAM Identity Center. If this parameter is
+  empty it will be updated automatically when the user logs in for the first time to the
+  mailbox associated with WorkMail.
+
 - `"Initials"`: Updates the user's initials.
 
 - `"JobTitle"`: Updates the user's job title.
@@ -4754,7 +5154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Telephone"`: Updates the user's contact details.
 
-- `"ZipCode"`: Updates the user's zipcode.
+- `"ZipCode"`: Updates the user's zip code.
 """
 function update_user end
 

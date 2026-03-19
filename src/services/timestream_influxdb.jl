@@ -5,6 +5,140 @@ using AWS.AWSServices: timestream_influxdb
 using AWS.UUIDs: uuid4
 
 """
+    create_db_cluster(db_instance_type, name, vpc_security_group_ids, vpc_subnet_ids)
+    create_db_cluster(db_instance_type, name, vpc_security_group_ids, vpc_subnet_ids, params::Dict{String,<:Any})
+
+Creates a new Timestream for InfluxDB cluster.
+
+# Arguments
+
+- `db_instance_type`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
+- `name`: The name that uniquely identifies the DB cluster when interacting with the Amazon
+  Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in
+  the endpoint. DB cluster names must be unique per customer and per region.
+- `vpc_security_group_ids`: A list of VPC security group IDs to associate with the
+  Timestream for InfluxDB cluster.
+- `vpc_subnet_ids`: A list of VPC subnet IDs to associate with the DB cluster. Provide at
+  least two VPC subnet IDs in different Availability Zones when deploying with a Multi-AZ
+  standby.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allocatedStorage"`: The amount of storage to allocate for your DB storage type in GiB
+  (gibibytes).
+
+- `"bucket"`: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a
+  bucket. A bucket combines the concept of a database and a retention period (the duration
+  of time that each data point persists). A bucket belongs to an organization.
+
+- `"dbParameterGroupIdentifier"`: The ID of the DB parameter group to assign to your DB
+  cluster. DB parameter groups specify how the database is configured. For example, DB
+  parameter groups can specify the limit for query concurrency.
+
+- `"dbStorageType"`: The Timestream for InfluxDB DB storage type to read and write InfluxDB
+  data.
+
+  You can choose between three different types of provisioned Influx IOPS Included storage
+  according to your workload requirements:
+
+  - Influx I/O Included 3000 IOPS
+  - Influx I/O Included 12000 IOPS
+  - Influx I/O Included 16000 IOPS
+
+- `"deploymentType"`: Specifies the type of cluster to create.
+
+- `"failoverMode"`: Specifies the behavior of failure recovery when the primary node of the
+  cluster fails.
+
+- `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to a
+  specified S3 bucket.
+
+- `"maintenanceSchedule"`: Specifies the maintenance schedule for the DB cluster, including
+  the preferred maintenance window and timezone.
+
+- `"networkType"`: Specifies whether the network type of the Timestream for InfluxDB cluster
+  is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate
+  over both IPv4 and IPv6 protocols.
+
+- `"organization"`: The name of the initial organization for the initial admin user in
+  InfluxDB. An InfluxDB organization is a workspace for a group of users.
+
+- `"password"`: The password of the initial admin user created in InfluxDB. This password
+  will allow you to access the InfluxDB UI to perform various administrative tasks and also
+  use the InfluxDB CLI to create an operator token. These attributes will be stored in a
+  secret created in Secrets Manager in your account.
+
+- `"port"`: The port number on which InfluxDB accepts connections.
+
+  Valid Values: 1024-65535
+
+  Default: 8086 for InfluxDB v2, 8181 for InfluxDB v3
+
+  Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+
+- `"publiclyAccessible"`: Configures the Timestream for InfluxDB cluster with a public IP to
+  facilitate access from outside the VPC.
+
+- `"tags"`: A list of key-value pairs to associate with the DB instance.
+
+- `"username"`: The username of the initial admin user created in InfluxDB. Must start with
+  a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-
+  user1. This username will allow you to access the InfluxDB UI to perform various
+  administrative tasks and also use the InfluxDB CLI to create an operator token. These
+  attributes will be stored in a secret created in Secrets Manager in your account.
+"""
+function create_db_cluster end
+
+function create_db_cluster(
+    dbInstanceType,
+    name,
+    vpcSecurityGroupIds,
+    vpcSubnetIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "CreateDbCluster",
+        Dict{String,Any}(
+            "dbInstanceType" => dbInstanceType,
+            "name" => name,
+            "vpcSecurityGroupIds" => vpcSecurityGroupIds,
+            "vpcSubnetIds" => vpcSubnetIds,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_db_cluster(
+    dbInstanceType,
+    name,
+    vpcSecurityGroupIds,
+    vpcSubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "CreateDbCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dbInstanceType" => dbInstanceType,
+                    "name" => name,
+                    "vpcSecurityGroupIds" => vpcSecurityGroupIds,
+                    "vpcSubnetIds" => vpcSubnetIds,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_db_instance(allocated_storage, db_instance_type, name, password, vpc_security_group_ids, vpc_subnet_ids)
     create_db_instance(allocated_storage, db_instance_type, name, password, vpc_security_group_ids, vpc_subnet_ids, params::Dict{String,<:Any})
 
@@ -18,10 +152,10 @@ Creates a new Timestream for InfluxDB DB instance.
 - `name`: The name that uniquely identifies the DB instance when interacting with the Amazon
   Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in
   the endpoint. DB instance names must be unique per customer and per region.
-- `password`: The password of the initial admin user created in InfluxDB. This password will
-  allow you to access the InfluxDB UI to perform various administrative tasks and also use
-  the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret
-  created in AWS SecretManager in your account.
+- `password`: The password of the initial admin user created in InfluxDB v2. This password
+  will allow you to access the InfluxDB UI to perform various administrative tasks and also
+  use the InfluxDB CLI to create an operator token. These attributes will be stored in a
+  Secret created in Secrets Manager in your account.
 - `vpc_security_group_ids`: A list of VPC security group IDs to associate with the DB
   instance.
 - `vpc_subnet_ids`: A list of VPC subnet IDs to associate with the DB instance. Provide at
@@ -56,8 +190,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to a
   specified S3 bucket.
 
+- `"maintenanceSchedule"`: Specifies the maintenance schedule for the DB instance, including
+  the preferred maintenance window and timezone.
+
+- `"networkType"`: Specifies whether the networkType of the Timestream for InfluxDB instance
+  is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate
+  over both IPv4 and IPv6 protocols.
+
 - `"organization"`: The name of the initial organization for the initial admin user in
   InfluxDB. An InfluxDB organization is a workspace for a group of users.
+
+- `"port"`: The port number on which InfluxDB accepts connections.
+
+  Valid Values: 1024-65535
+
+  Default: 8086
+
+  Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
 
 - `"publiclyAccessible"`: Configures the DB instance with a public IP to facilitate access.
 
@@ -168,6 +317,42 @@ function create_db_parameter_group(
 end
 
 """
+    delete_db_cluster(db_cluster_id)
+    delete_db_cluster(db_cluster_id, params::Dict{String,<:Any})
+
+Deletes a Timestream for InfluxDB cluster.
+
+# Arguments
+
+- `db_cluster_id`: Service-generated unique identifier of the DB cluster.
+"""
+function delete_db_cluster end
+
+function delete_db_cluster(dbClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "DeleteDbCluster",
+        Dict{String,Any}("dbClusterId" => dbClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_db_cluster(
+    dbClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "DeleteDbCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("dbClusterId" => dbClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_db_instance(identifier)
     delete_db_instance(identifier, params::Dict{String,<:Any})
 
@@ -197,6 +382,42 @@ function delete_db_instance(
         "DeleteDbInstance",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_db_cluster(db_cluster_id)
+    get_db_cluster(db_cluster_id, params::Dict{String,<:Any})
+
+Retrieves information about a Timestream for InfluxDB cluster.
+
+# Arguments
+
+- `db_cluster_id`: Service-generated unique identifier of the DB cluster to retrieve.
+"""
+function get_db_cluster end
+
+function get_db_cluster(dbClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "GetDbCluster",
+        Dict{String,Any}("dbClusterId" => dbClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_db_cluster(
+    dbClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "GetDbCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("dbClusterId" => dbClusterId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -278,6 +499,39 @@ function get_db_parameter_group(
 end
 
 """
+    list_db_clusters()
+    list_db_clusters(params::Dict{String,<:Any})
+
+Returns a list of Timestream for InfluxDB DB clusters.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return in the output. If the total number
+  of items available is more than the value specified, a nextToken is provided in the
+  output. To resume pagination, provide the nextToken value as an argument of a subsequent
+  API invocation.
+- `"nextToken"`: The pagination token. To resume pagination, provide the nextToken value as
+  an argument of a subsequent API invocation.
+"""
+function list_db_clusters end
+
+function list_db_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "ListDbClusters"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_db_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_influxdb(
+        "ListDbClusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_db_instances()
     list_db_instances(params::Dict{String,<:Any})
 
@@ -307,6 +561,55 @@ function list_db_instances(
 )
     return timestream_influxdb(
         "ListDbInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_db_instances_for_cluster(db_cluster_id)
+    list_db_instances_for_cluster(db_cluster_id, params::Dict{String,<:Any})
+
+Returns a list of Timestream for InfluxDB clusters.
+
+# Arguments
+
+- `db_cluster_id`: Service-generated unique identifier of the DB cluster.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of items to return in the output. If the total number
+  of items available is more than the value specified, a nextToken is provided in the
+  output. To resume pagination, provide the nextToken value as an argument of a subsequent
+  API invocation.
+- `"nextToken"`: The pagination token. To resume pagination, provide the nextToken value as
+  an argument of a subsequent API invocation.
+"""
+function list_db_instances_for_cluster end
+
+function list_db_instances_for_cluster(
+    dbClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_influxdb(
+        "ListDbInstancesForCluster",
+        Dict{String,Any}("dbClusterId" => dbClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_db_instances_for_cluster(
+    dbClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "ListDbInstancesForCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("dbClusterId" => dbClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -375,6 +678,85 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reboot_db_cluster(db_cluster_id)
+    reboot_db_cluster(db_cluster_id, params::Dict{String,<:Any})
+
+Reboots a Timestream for InfluxDB cluster.
+
+# Arguments
+
+- `db_cluster_id`: Service-generated unique identifier of the DB cluster to reboot.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"instanceIds"`: A list of service-generated unique DB Instance Ids belonging to the DB
+  Cluster to reboot.
+"""
+function reboot_db_cluster end
+
+function reboot_db_cluster(dbClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "RebootDbCluster",
+        Dict{String,Any}("dbClusterId" => dbClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reboot_db_cluster(
+    dbClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "RebootDbCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("dbClusterId" => dbClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reboot_db_instance(identifier)
+    reboot_db_instance(identifier, params::Dict{String,<:Any})
+
+Reboots a Timestream for InfluxDB instance.
+
+# Arguments
+
+- `identifier`: The id of the DB instance to reboot.
+"""
+function reboot_db_instance end
+
+function reboot_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "RebootDbInstance",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reboot_db_instance(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "RebootDbInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -469,6 +851,55 @@ function untag_resource(
 end
 
 """
+    update_db_cluster(db_cluster_id)
+    update_db_cluster(db_cluster_id, params::Dict{String,<:Any})
+
+Updates a Timestream for InfluxDB cluster.
+
+# Arguments
+
+- `db_cluster_id`: Service-generated unique identifier of the DB cluster to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dbInstanceType"`: Update the DB cluster to use the specified DB instance Type.
+- `"dbParameterGroupIdentifier"`: Update the DB cluster to use the specified DB parameter
+  group.
+- `"failoverMode"`: Update the DB cluster's failover behavior.
+- `"logDeliveryConfiguration"`: The log delivery configuration to apply to the DB cluster.
+- `"maintenanceSchedule"`: Specifies the maintenance schedule for the DB cluster, including
+  the preferred maintenance window and timezone.
+- `"port"`: Update the DB cluster to use the specified port.
+"""
+function update_db_cluster end
+
+function update_db_cluster(dbClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_influxdb(
+        "UpdateDbCluster",
+        Dict{String,Any}("dbClusterId" => dbClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_db_cluster(
+    dbClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return timestream_influxdb(
+        "UpdateDbCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("dbClusterId" => dbClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_db_instance(identifier)
     update_db_instance(identifier, params::Dict{String,<:Any})
 
@@ -482,11 +913,36 @@ Updates a Timestream for InfluxDB DB instance.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"allocatedStorage"`: The amount of storage to allocate for your DB storage type (in
+  gibibytes).
+
+- `"dbInstanceType"`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
+
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
+
+- `"dbStorageType"`: The Timestream for InfluxDB DB storage type that InfluxDB stores data
+  on.
+
+- `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
+  instance or with a Multi-AZ standby for high availability.
+
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to send to
   specified S3 bucket.
+
+- `"maintenanceSchedule"`: Specifies the maintenance schedule for the DB instance, including
+  the preferred maintenance window and timezone.
+
+- `"port"`: The port number on which InfluxDB accepts connections.
+
+  If you change the Port value, your database restarts immediately.
+
+  Valid Values: 1024-65535
+
+  Default: 8086
+
+  Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
 """
 function update_db_instance end
 

@@ -70,7 +70,7 @@ Applies a pending maintenance action to a resource (for example, to a replicatio
 
 - `apply_action`: The pending maintenance action to apply to this resource.
 
-  Valid values: `os-upgrade`, `system-update`, `db-upgrade`
+  Valid values: `os-upgrade`, `system-update`, `db-upgrade`, `os-patch`
 
 - `opt_in_type`: A value that specifies the type of opt-in request, or undoes an opt-in
   request. You can't undo an opt-in request of type `immediate`.
@@ -134,6 +134,12 @@ end
     batch_start_recommendations()
     batch_start_recommendations(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Starts the analysis of up to 20 source databases to recommend target engines for each source
 database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html).
 
@@ -162,6 +168,114 @@ function batch_start_recommendations(
 )
     return database_migration_service(
         "BatchStartRecommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    cancel_metadata_model_conversion(migration_project_identifier, request_identifier)
+    cancel_metadata_model_conversion(migration_project_identifier, request_identifier, params::Dict{String,<:Any})
+
+Cancels a single metadata model conversion operation that was started with
+`StartMetadataModelConversion`.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `request_identifier`: The identifier for the metadata model conversion operation to
+  cancel. This operation was initiated by StartMetadataModelConversion.
+"""
+function cancel_metadata_model_conversion end
+
+function cancel_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    RequestIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CancelMetadataModelConversion",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "RequestIdentifier" => RequestIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    RequestIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CancelMetadataModelConversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "RequestIdentifier" => RequestIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_metadata_model_creation(migration_project_identifier, request_identifier)
+    cancel_metadata_model_creation(migration_project_identifier, request_identifier, params::Dict{String,<:Any})
+
+Cancels a single metadata model creation operation that was started with
+`StartMetadataModelCreation`.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `request_identifier`: The identifier for the metadata model creation operation to cancel.
+  This operation was initiated by `StartMetadataModelCreation`.
+"""
+function cancel_metadata_model_creation end
+
+function cancel_metadata_model_creation(
+    MigrationProjectIdentifier,
+    RequestIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CancelMetadataModelCreation",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "RequestIdentifier" => RequestIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_metadata_model_creation(
+    MigrationProjectIdentifier,
+    RequestIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CancelMetadataModelCreation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "RequestIdentifier" => RequestIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -216,6 +330,91 @@ function cancel_replication_task_assessment_run(
 end
 
 """
+    create_data_migration(data_migration_type, migration_project_identifier, service_access_role_arn)
+    create_data_migration(data_migration_type, migration_project_identifier, service_access_role_arn, params::Dict{String,<:Any})
+
+Creates a data migration using the provided settings.
+
+# Arguments
+
+- `data_migration_type`: Specifies if the data migration is full-load only, change data
+  capture (CDC) only, or full-load and CDC.
+- `migration_project_identifier`: An identifier for the migration project.
+- `service_access_role_arn`: The Amazon Resource Name (ARN) for the service access role that
+  you want to use to create the data migration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataMigrationName"`: A user-friendly name for the data migration. Data migration names
+  have the following constraints:
+
+  - Must begin with a letter, and can only contain ASCII letters, digits, and hyphens.
+  - Can't end with a hyphen or contain two consecutive hyphens.
+  - Length must be from 1 to 255 characters.
+
+- `"EnableCloudwatchLogs"`: Specifies whether to enable CloudWatch logs for the data
+  migration.
+
+- `"NumberOfJobs"`: The number of parallel jobs that trigger parallel threads to unload the
+  tables from the source, and then load them to the target.
+
+- `"SelectionRules"`: An optional JSON string specifying what tables, views, and schemas to
+  include or exclude from the migration.
+
+- `"SourceDataSettings"`: Specifies information about the source data provider.
+
+- `"Tags"`: One or more tags to be assigned to the data migration.
+
+- `"TargetDataSettings"`: Specifies information about the target data provider.
+"""
+function create_data_migration end
+
+function create_data_migration(
+    DataMigrationType,
+    MigrationProjectIdentifier,
+    ServiceAccessRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateDataMigration",
+        Dict{String,Any}(
+            "DataMigrationType" => DataMigrationType,
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_migration(
+    DataMigrationType,
+    MigrationProjectIdentifier,
+    ServiceAccessRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "CreateDataMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataMigrationType" => DataMigrationType,
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "ServiceAccessRoleArn" => ServiceAccessRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_data_provider(engine, settings)
     create_data_provider(engine, settings, params::Dict{String,<:Any})
 
@@ -226,8 +425,8 @@ type and location information about your database.
 
 - `engine`: The type of database engine for the data provider. Valid values include
   `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`, `"postgres"`, `"sqlserver"`,
-  `redshift`, `mariadb`, `mongodb`, and `docdb`. A value of `"aurora"` represents Amazon
-  Aurora MySQL-Compatible Edition.
+  `redshift`, `mariadb`, `mongodb`, `db2`, `db2-zos`, `docdb`, and `sybase`. A value of
+  `"aurora"` represents Amazon Aurora MySQL-Compatible Edition.
 - `settings`: The settings in JSON format for a data provider.
 
 # Optional Parameters
@@ -237,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataProviderName"`: A user-friendly name for the data provider.
 - `"Description"`: A user-friendly description of the data provider.
 - `"Tags"`: One or more tags to be assigned to the data provider.
+- `"Virtual"`: Indicates whether the data provider is virtual.
 """
 function create_data_provider end
 
@@ -294,7 +494,9 @@ Creates an endpoint using the provided settings.
   `EndpointType` value, include `"mysql"`, `"oracle"`, `"postgres"`, `"mariadb"`,
   `"aurora"`, `"aurora-postgresql"`, `"opensearch"`, `"redshift"`, `"s3"`, `"db2"`,
   `"db2-zos"`, `"azuredb"`, `"sybase"`, `"dynamodb"`, `"mongodb"`, `"kinesis"`, `"kafka"`,
-  `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`, and `"babelfish"`.
+  `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`, `"babelfish"`,
+  `redshift-serverless`, `aurora-serverless`, `aurora-postgresql-serverless`, `gcp-mysql`,
+  `azure-sql-managed-instance`, `redis`, `dms-transfer`.
 
 # Optional Parameters
 
@@ -571,6 +773,12 @@ end
     create_fleet_advisor_collector(collector_name, s3_bucket_name, service_access_role_arn)
     create_fleet_advisor_collector(collector_name, s3_bucket_name, service_access_role_arn, params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Creates a Fleet Advisor collector using the specified parameters.
 
 # Arguments
@@ -654,12 +862,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
   connection parameters for the instance profile.
 
-  If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses your default
-  encryption key.
-
-  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
-  Web Services account has a different default encryption key for each Amazon Web Services
-  Region.
+  If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses an Amazon Web
+  Services owned encryption key to encrypt your resources.
 
 - `"NetworkType"`: Specifies the network type for the instance profile. A value of `IPV4`
   represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
@@ -946,6 +1150,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If an engine version number is not specified when a replication instance is created, the
   default is the latest engine version available.
 
+- `"KerberosAuthenticationSettings"`: Specifies the settings required for kerberos
+  authentication when creating the replication instance.
+
 - `"KmsKeyId"`: An KMS key identifier that is used to encrypt the data on the replication
   instance.
 
@@ -1060,11 +1267,13 @@ Next, choose Delete from Actions.
 
 - `replication_subnet_group_description`: The description for the subnet group.
 
+  Constraints: This parameter Must not contain non-printable control characters.
+
 - `replication_subnet_group_identifier`: The name for the replication subnet group. This
   value is stored as a lowercase string.
 
-  Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces,
-  underscores, or hyphens. Must not be "default".
+  Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores,
+  or hyphens. Must not be "default".
 
   Example: `mySubnetgroup`
 
@@ -1356,6 +1565,48 @@ function delete_connection(
 end
 
 """
+    delete_data_migration(data_migration_identifier)
+    delete_data_migration(data_migration_identifier, params::Dict{String,<:Any})
+
+Deletes the specified data migration.
+
+# Arguments
+
+- `data_migration_identifier`: The identifier (name or ARN) of the data migration to delete.
+"""
+function delete_data_migration end
+
+function delete_data_migration(
+    DataMigrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DeleteDataMigration",
+        Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_migration(
+    DataMigrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DeleteDataMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_data_provider(data_provider_identifier)
     delete_data_provider(data_provider_identifier, params::Dict{String,<:Any})
 
@@ -1486,6 +1737,12 @@ end
     delete_fleet_advisor_collector(collector_referenced_id)
     delete_fleet_advisor_collector(collector_referenced_id, params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Deletes the specified Fleet Advisor collector.
 
 # Arguments
@@ -1527,6 +1784,12 @@ end
 """
     delete_fleet_advisor_databases(database_ids)
     delete_fleet_advisor_databases(database_ids, params::Dict{String,<:Any})
+
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
 
 Deletes the specified Fleet Advisor collector databases.
 
@@ -1950,6 +2213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response so that the remaining results can be retrieved.
 - `"MigrationType"`: Name of the migration type that each provided individual assessment
   must support.
+- `"ReplicationConfigArn"`: Amazon Resource Name (ARN) of a serverless replication on which
+  you want to base the default list of individual assessments.
 - `"ReplicationInstanceArn"`: ARN of a replication instance on which you want to base the
   default list of individual assessments.
 - `"ReplicationTaskArn"`: Amazon Resource Name (ARN) of a migration task on which you want
@@ -2110,6 +2375,46 @@ function describe_conversion_configuration(
 end
 
 """
+    describe_data_migrations()
+    describe_data_migrations(params::Dict{String,<:Any})
+
+Returns information about data migrations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters applied to the data migrations.
+- `"Marker"`: An optional pagination token provided by a previous request. If this parameter
+  is specified, the response includes only records beyond the marker, up to the value
+  specified by `MaxRecords`.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified `MaxRecords` value, a pagination token called a marker is
+  included in the response so that the remaining results can be retrieved.
+- `"WithoutSettings"`: An option to set to avoid returning information about settings. Use
+  this to reduce overhead when setting information is too large. To use this option, choose
+  `true`; otherwise, choose `false` (the default).
+- `"WithoutStatistics"`: An option to set to avoid returning information about statistics.
+  Use this to reduce overhead when statistics information is too large. To use this option,
+  choose `true`; otherwise, choose `false` (the default).
+"""
+function describe_data_migrations end
+
+function describe_data_migrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return database_migration_service(
+        "DescribeDataMigrations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_data_migrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeDataMigrations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     describe_data_providers()
     describe_data_providers(params::Dict{String,<:Any})
 
@@ -2122,7 +2427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to the data providers described in the form of key-value
   pairs.
 
-  Valid filter names: data-provider-identifier
+  Valid filter names and values: data-provider-identifier, data provider arn or name
 
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
   next page of results. If this parameter is specified, the response includes only records
@@ -2369,7 +2674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to event subscriptions.
 
-  Valid filter names: event-subscription-arn | event-subscription-id
+  Valid filter names: `event-subscription-arn` | `event-subscription-id`
 
 - `"Marker"`: An optional pagination token provided by a previous request. If this parameter
   is specified, the response includes only records beyond the marker, up to the value
@@ -2528,6 +2833,12 @@ end
     describe_fleet_advisor_collectors()
     describe_fleet_advisor_collectors(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Returns a list of the Fleet Advisor collectors in your account.
 
 # Optional Parameters
@@ -2576,6 +2887,12 @@ end
     describe_fleet_advisor_databases()
     describe_fleet_advisor_databases(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Returns a list of Fleet Advisor databases in your account.
 
 # Optional Parameters
@@ -2623,6 +2940,12 @@ end
     describe_fleet_advisor_lsa_analysis()
     describe_fleet_advisor_lsa_analysis(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet
 Advisor collectors.
 
@@ -2661,6 +2984,12 @@ end
     describe_fleet_advisor_schema_object_summary()
     describe_fleet_advisor_schema_object_summary(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
 
 # Optional Parameters
@@ -2675,7 +3004,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example:
   `describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"`
 
-- `"MaxRecords"`: Sets the maximum number of records returned in the response.
+- `"MaxRecords"`: !!! important
+      End of support notice: On May 20, 2026, Amazon Web Services will end support for
+      Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able
+      to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services
+      DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
+  Sets the maximum number of records returned in the response.
 
 - `"NextToken"`: If `NextToken` is returned by a previous response, there are more results
   available. The value of `NextToken` is a unique pagination token for each page. Make the
@@ -2708,6 +3043,12 @@ end
 """
     describe_fleet_advisor_schemas()
     describe_fleet_advisor_schemas(params::Dict{String,<:Any})
+
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
 
 Returns a list of schemas detected by Fleet Advisor Collectors in your account.
 
@@ -2768,6 +3109,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to the instance profiles described in the form of key-value
   pairs.
 
+  Valid filter names and values: instance-profile-identifier, instance profile arn or name
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
   next page of results. If this parameter is specified, the response includes only records
   beyond the marker, up to the value specified by `MaxRecords`.
@@ -2793,6 +3136,68 @@ function describe_instance_profiles(
 )
     return database_migration_service(
         "DescribeInstanceProfiles", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_metadata_model(migration_project_identifier, origin, selection_rules)
+    describe_metadata_model(migration_project_identifier, origin, selection_rules, params::Dict{String,<:Any})
+
+Gets detailed information about the specified metadata model, including its definition and
+corresponding converted objects in the target database if applicable.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `origin`: Specifies whether to retrieve metadata from the source or target tree. Valid
+  values: SOURCE | TARGET
+- `selection_rules`: The JSON string that specifies which metadata model to retrieve. Only
+  one selection rule with "rule-action": "explicit" can be provided. For more information,
+  see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html)
+  in the DMS User Guide.
+"""
+function describe_metadata_model end
+
+function describe_metadata_model(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModel",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "Origin" => Origin,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_metadata_model(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2862,6 +3267,79 @@ function describe_metadata_model_assessments(
 end
 
 """
+    describe_metadata_model_children(migration_project_identifier, origin, selection_rules)
+    describe_metadata_model_children(migration_project_identifier, origin, selection_rules, params::Dict{String,<:Any})
+
+Gets a list of child metadata models for the specified metadata model in the database
+hierarchy.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `origin`: Specifies whether to retrieve metadata from the source or target tree. Valid
+  values: SOURCE | TARGET
+- `selection_rules`: The JSON string that specifies which metadata model's children to
+  retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more
+  information, see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html)
+  in the DMS User Guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Specifies the unique pagination token that indicates where the next page
+  should start. If this parameter is specified, the response includes only records beyond
+  the marker, up to the value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of metadata model children to include in the response.
+  If more items exist than the specified MaxRecords value, a marker is included in the
+  response so that the remaining results can be retrieved.
+"""
+function describe_metadata_model_children end
+
+function describe_metadata_model_children(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelChildren",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "Origin" => Origin,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_metadata_model_children(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelChildren",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_metadata_model_conversions(migration_project_identifier)
     describe_metadata_model_conversions(migration_project_identifier, params::Dict{String,<:Any})
 
@@ -2910,6 +3388,63 @@ function describe_metadata_model_conversions(
 )
     return database_migration_service(
         "DescribeMetadataModelConversions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_creations(migration_project_identifier)
+    describe_metadata_model_creations(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model creation requests for a migration project.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters applied to the metadata model creation requests described in the form
+  of key-value pairs. The supported filters are request-id and status.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of metadata model creation requests. If Marker is returned by a previous
+  response, there are more metadata model creation requests available.
+- `"MaxRecords"`: The maximum number of metadata model creation requests to include in the
+  response. If more requests exist than the specified MaxRecords value, a pagination token
+  is provided in the response so that you can retrieve the remaining results.
+"""
+function describe_metadata_model_creations end
+
+function describe_metadata_model_creations(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelCreations",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_metadata_model_creations(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelCreations",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3124,6 +3659,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters applied to the migration projects described in the form of key-value
   pairs.
 
+  Valid filter names and values:
+
+  - instance-profile-identifier, instance profile arn or name
+  - data-provider-identifier, data provider arn or name
+  - migration-project-identifier, migration project arn or name
+
 - `"Marker"`: Specifies the unique pagination token that makes it possible to display the
   next page of results. If this parameter is specified, the response includes only records
   beyond the marker, up to the value specified by `MaxRecords`.
@@ -3200,7 +3741,8 @@ end
     describe_pending_maintenance_actions()
     describe_pending_maintenance_actions(params::Dict{String,<:Any})
 
-For internal use only
+Returns a list of upcoming maintenance events for replication instances in your account in
+the current Region.
 
 # Optional Parameters
 
@@ -3247,6 +3789,12 @@ end
     describe_recommendation_limitations()
     describe_recommendation_limitations(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Returns a paginated list of limitations for recommendations of target Amazon Web Services
 engines.
 
@@ -3255,6 +3803,8 @@ engines.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the limitations described in the form of key-value pairs.
+
+  Valid filter names: `database-id` | `engine-name`
 
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token in
@@ -3293,6 +3843,12 @@ end
     describe_recommendations()
     describe_recommendations(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Returns a paginated list of target engine recommendations for your source databases.
 
 # Optional Parameters
@@ -3301,6 +3857,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters applied to the target engine recommendations described in the form of
   key-value pairs.
+
+  Valid filter names: `database-id` | `engine-name`
 
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, Fleet Advisor includes a pagination token in
@@ -3824,9 +4382,13 @@ provisioned DMS Serverless replications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters applied to the replications.
+
+  Valid filter names: `replication-config-arn` | `replication-config-id`
+
 - `"Marker"`: An optional pagination token provided by a previous request. If this parameter
   is specified, the response includes only records beyond the marker, up to the value
   specified by `MaxRecords`.
+
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified `MaxRecords` value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.
@@ -4029,6 +4591,61 @@ function export_metadata_model_assessment(
 end
 
 """
+    get_target_selection_rules(migration_project_identifier, selection_rules)
+    get_target_selection_rules(migration_project_identifier, selection_rules, params::Dict{String,<:Any})
+
+Converts source selection rules into their target counterparts for schema conversion
+operations.
+
+# Arguments
+
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `selection_rules`: The JSON string representing the source selection rules for conversion.
+  Selection rules must contain only supported metadata model types. For more information,
+  see Selection Rules in the DMS User Guide.
+"""
+function get_target_selection_rules end
+
+function get_target_selection_rules(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "GetTargetSelectionRules",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_target_selection_rules(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "GetTargetSelectionRules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_certificate(certificate_identifier)
     import_certificate(certificate_identifier, params::Dict{String,<:Any})
 
@@ -4051,6 +4668,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate inline.
 
   Example: `filebase64("\${path.root}/rds-ca-2019-root.sso")`
+
+- `"KmsKeyId"`: An KMS key identifier that is used to encrypt the certificate.
+
+  If you don't specify a value for the `KmsKeyId` parameter, then DMS uses your default
+  encryption key.
+
+  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
+  Web Services account has a different default encryption key for each Amazon Web Services
+  Region.
 
 - `"Tags"`: The tags associated with the certificate.
 """
@@ -4175,6 +4801,65 @@ function modify_conversion_configuration(
 end
 
 """
+    modify_data_migration(data_migration_identifier)
+    modify_data_migration(data_migration_identifier, params::Dict{String,<:Any})
+
+Modifies an existing DMS data migration.
+
+# Arguments
+
+- `data_migration_identifier`: The identifier (name or ARN) of the data migration to modify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataMigrationName"`: The new name for the data migration.
+- `"DataMigrationType"`: The new migration type for the data migration.
+- `"EnableCloudwatchLogs"`: Whether to enable Cloudwatch logs for the data migration.
+- `"NumberOfJobs"`: The number of parallel jobs that trigger parallel threads to unload the
+  tables from the source, and then load them to the target.
+- `"SelectionRules"`: A JSON-formatted string that defines what objects to include and
+  exclude from the migration.
+- `"ServiceAccessRoleArn"`: The new service access role ARN for the data migration.
+- `"SourceDataSettings"`: The new information about the source data provider for the data
+  migration.
+- `"TargetDataSettings"`: The new information about the target data provider for the data
+  migration.
+"""
+function modify_data_migration end
+
+function modify_data_migration(
+    DataMigrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "ModifyDataMigration",
+        Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function modify_data_migration(
+    DataMigrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "ModifyDataMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_data_provider(data_provider_identifier)
     modify_data_provider(data_provider_identifier, params::Dict{String,<:Any})
 
@@ -4199,8 +4884,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Engine"`: The type of database engine for the data provider. Valid values include
   `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`, `"postgres"`, `"sqlserver"`,
-  `redshift`, `mariadb`, `mongodb`, and `docdb`. A value of `"aurora"` represents Amazon
-  Aurora MySQL-Compatible Edition.
+  `redshift`, `mariadb`, `mongodb`, `db2`, `db2-zos`, `docdb`, and `sybase`. A value of
+  `"aurora"` represents Amazon Aurora MySQL-Compatible Edition.
 
 - `"ExactSettings"`: If this attribute is Y, the current call to `ModifyDataProvider`
   replaces all existing data provider settings with the exact settings that you specify in
@@ -4213,6 +4898,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     different names.
 
 - `"Settings"`: The settings in JSON format for a data provider.
+
+- `"Virtual"`: Indicates whether the data provider is virtual.
 """
 function modify_data_provider end
 
@@ -4520,12 +5207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
   connection parameters for the instance profile.
 
-  If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses your default
-  encryption key.
-
-  KMS creates the default encryption key for your Amazon Web Services account. Your Amazon
-  Web Services account has a different default encryption key for each Amazon Web Services
-  Region.
+  If you don't specify a value for the `KmsKeyArn` parameter, then DMS uses an Amazon Web
+  Services owned encryption key to encrypt your resources.
 
 - `"NetworkType"`: Specifies the network type for the instance profile. A value of `IPV4`
   represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
@@ -4755,6 +5438,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   When modifying a major engine version of an instance, also set `AllowMajorVersionUpgrade`
   to `true`.
+
+- `"KerberosAuthenticationSettings"`: Specifies the settings required for kerberos
+  authentication when modifying a replication instance.
 
 - `"MultiAZ"`: Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the `AvailabilityZone` parameter if the Multi-AZ parameter is set to `true`.
@@ -5328,6 +6014,12 @@ end
     run_fleet_advisor_lsa_analysis()
     run_fleet_advisor_lsa_analysis(params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
 """
 function run_fleet_advisor_lsa_analysis end
@@ -5345,6 +6037,56 @@ function run_fleet_advisor_lsa_analysis(
 )
     return database_migration_service(
         "RunFleetAdvisorLsaAnalysis", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    start_data_migration(data_migration_identifier, start_type)
+    start_data_migration(data_migration_identifier, start_type, params::Dict{String,<:Any})
+
+Starts the specified data migration.
+
+# Arguments
+
+- `data_migration_identifier`: The identifier (name or ARN) of the data migration to start.
+- `start_type`: Specifies the start type for the data migration. Valid values include
+  `start-replication`, `reload-target`, and `resume-processing`.
+"""
+function start_data_migration end
+
+function start_data_migration(
+    DataMigrationIdentifier, StartType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "StartDataMigration",
+        Dict{String,Any}(
+            "DataMigrationIdentifier" => DataMigrationIdentifier, "StartType" => StartType
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_data_migration(
+    DataMigrationIdentifier,
+    StartType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartDataMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataMigrationIdentifier" => DataMigrationIdentifier,
+                    "StartType" => StartType,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -5491,6 +6233,76 @@ function start_metadata_model_conversion(
                 _merge,
                 Dict{String,Any}(
                     "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_creation(metadata_model_name, migration_project_identifier, properties, selection_rules)
+    start_metadata_model_creation(metadata_model_name, migration_project_identifier, properties, selection_rules, params::Dict{String,<:Any})
+
+Creates source metadata model of the given type with the specified properties for schema
+conversion operations.
+
+!!! note
+    This action supports only these directions: from SQL Server to Aurora PostgreSQL, or
+    from SQL Server to RDS for PostgreSQL.
+
+# Arguments
+
+- `metadata_model_name`: The name of the metadata model.
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `properties`: The properties of metadata model in JSON format. This object is a Union.
+  Only one member of this object can be specified or returned.
+- `selection_rules`: The JSON string that specifies the location where the metadata model
+  will be created. Selection rules must specify a single schema. For more information, see
+  Selection Rules in the DMS User Guide.
+"""
+function start_metadata_model_creation end
+
+function start_metadata_model_creation(
+    MetadataModelName,
+    MigrationProjectIdentifier,
+    Properties,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelCreation",
+        Dict{String,Any}(
+            "MetadataModelName" => MetadataModelName,
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "Properties" => Properties,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_metadata_model_creation(
+    MetadataModelName,
+    MigrationProjectIdentifier,
+    Properties,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelCreation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MetadataModelName" => MetadataModelName,
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Properties" => Properties,
                     "SelectionRules" => SelectionRules,
                 ),
                 params,
@@ -5696,6 +6508,12 @@ end
     start_recommendations(database_id, settings)
     start_recommendations(database_id, settings, params::Dict{String,<:Any})
 
+!!! important
+    End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon
+    Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to
+    access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS
+    Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html).
+
 Starts the analysis of your source database to provide recommendations of target engines.
 
 You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
@@ -5758,7 +6576,23 @@ using the server resources that DMS has provisioned for the DMS Serverless repli
 
 - `replication_config_arn`: The Amazon Resource Name of the replication for which to start
   replication.
+
 - `start_replication_type`: The replication type.
+
+  When the replication type is `full-load` or `full-load-and-cdc`, the only valid value for
+  the first run of the replication is `start-replication`. This option will start the
+  replication.
+
+  You can also use `ReloadTables` to reload specific tables that failed during replication
+  instead of restarting the replication.
+
+  The `resume-processing` option isn't applicable for a full-load replication, because you
+  can't resume partially loaded tables during the full load phase.
+
+  For a `full-load-and-cdc` replication, DMS migrates table data, and then applies data
+  changes that occur on the source. To load all the tables again, and start capturing source
+  changes, use `reload-target`. Otherwise use `resume-processing`, to replicate the changes
+  from the last stop position.
 
 # Optional Parameters
 
@@ -5776,6 +6610,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time.
+
+- `"PremigrationAssessmentSettings"`: User-defined settings for the premigration assessment.
+  The possible values are:
+
+  - `ResultLocationFolder`: The folder within an Amazon S3 bucket where you want DMS to
+    store the results of this assessment run.
+  - `ResultEncryptionMode`: The supported values are `SSE_KMS` and `SSE_S3`. If these values
+    are not provided, then the files are not encrypted at rest. For more information, see [Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys).
+  - `ResultKmsKeyArn`: The ARN of a customer KMS encryption key that you specify when you
+    set `ResultEncryptionMode` to `SSE_KMS`.
+  - `IncludeOnly`: A space-separated list of names for specific individual assessments that
+    you want to include. These names come from the default list of individual assessments
+    that Database Migration Service supports for the associated migration.
+  - `Exclude`: A space-separated list of names for specific individual assessments that you
+    want to exclude. These names come from the default list of individual assessments that
+    Database Migration Service supports for the associated migration.
+  - `FailOnAssessmentFailure`: A configurable setting you can set to `true` (the default
+    setting) or `false`. Use this setting to to stop the replication from starting
+    automatically if the assessment fails. This can help you evaluate the issue that is
+    preventing the replication from running successfully.
 """
 function start_replication end
 
@@ -5834,19 +6688,28 @@ in the *Database Migration Service User Guide.*
 
 - `start_replication_task_type`: The type of replication task to start.
 
-  When the migration type is `full-load` or `full-load-and-cdc`, the only valid value for
-  the first run of the task is `start-replication`. This option will start the migration.
+  `start-replication` is the only valid action that can be used for the first time a task
+  with the migration type of `full-load`full-load, `full-load-and-cdc` or `cdc` is run. Any
+  other action used for the first time on a given task, such as `resume-processing` and
+  reload-target will result in data errors.
 
   You can also use `ReloadTables` to reload specific tables that failed during migration
   instead of restarting the task.
 
-  The `resume-processing` option isn't applicable for a full-load task, because you can't
-  resume partially loaded tables during the full load phase.
+  For a `full-load` task, the resume-processing option will reload any tables that were
+  partially loaded or not yet loaded during the full load phase.
 
   For a `full-load-and-cdc` task, DMS migrates table data, and then applies data changes
   that occur on the source. To load all the tables again, and start capturing source
   changes, use `reload-target`. Otherwise use `resume-processing`, to replicate the changes
   from the last stop position.
+
+  For a `cdc` only task, to start from a specific position, you must use start-replication
+  and also specify the start position. Check the source endpoint DMS documentation for any
+  limitations. For example, not all sources support starting from a time.
+
+  !!! note
+      `resume-processing` is only available for previously executed tasks.
 
 # Optional Parameters
 
@@ -6042,6 +6905,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ResultLocationFolder"`: Folder within an Amazon S3 bucket where you want DMS to store
   the results of this assessment run.
+
+- `"Tags"`: One or more tags to be assigned to the premigration assessment run that you want
+  to start.
 """
 function start_replication_task_assessment_run end
 
@@ -6084,6 +6950,48 @@ function start_replication_task_assessment_run(
                     "ResultLocationBucket" => ResultLocationBucket,
                     "ServiceAccessRoleArn" => ServiceAccessRoleArn,
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_data_migration(data_migration_identifier)
+    stop_data_migration(data_migration_identifier, params::Dict{String,<:Any})
+
+Stops the specified data migration.
+
+# Arguments
+
+- `data_migration_identifier`: The identifier (name or ARN) of the data migration to stop.
+"""
+function stop_data_migration end
+
+function stop_data_migration(
+    DataMigrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return database_migration_service(
+        "StopDataMigration",
+        Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_data_migration(
+    DataMigrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return database_migration_service(
+        "StopDataMigration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataMigrationIdentifier" => DataMigrationIdentifier),
                 params,
             ),
         );

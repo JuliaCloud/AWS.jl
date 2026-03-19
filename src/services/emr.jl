@@ -282,6 +282,55 @@ function cancel_steps(
 end
 
 """
+    create_persistent_app_ui(target_resource_arn)
+    create_persistent_app_ui(target_resource_arn, params::Dict{String,<:Any})
+
+Creates a persistent application user interface.
+
+# Arguments
+
+- `target_resource_arn`: The unique Amazon Resource Name (ARN) of the target resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EMRContainersConfig"`: The EMR containers configuration.
+- `"ProfilerType"`: The profiler type for the persistent application user interface.
+- `"Tags"`: Tags for the persistent application user interface.
+- `"XReferer"`: The cross reference for the persistent application user interface.
+"""
+function create_persistent_app_ui end
+
+function create_persistent_app_ui(
+    TargetResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "CreatePersistentAppUI",
+        Dict{String,Any}("TargetResourceArn" => TargetResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_persistent_app_ui(
+    TargetResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "CreatePersistentAppUI",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TargetResourceArn" => TargetResourceArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_security_configuration(name, security_configuration)
     create_security_configuration(name, security_configuration, params::Dict{String,<:Any})
 
@@ -785,6 +834,46 @@ function describe_notebook_execution(
 end
 
 """
+    describe_persistent_app_ui(persistent_app_uiid)
+    describe_persistent_app_ui(persistent_app_uiid, params::Dict{String,<:Any})
+
+Describes a persistent application user interface.
+
+# Arguments
+
+- `persistent_app_uiid`: The identifier for the persistent application user interface.
+"""
+function describe_persistent_app_ui end
+
+function describe_persistent_app_ui(
+    PersistentAppUIId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "DescribePersistentAppUI",
+        Dict{String,Any}("PersistentAppUIId" => PersistentAppUIId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_persistent_app_ui(
+    PersistentAppUIId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "DescribePersistentAppUI",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("PersistentAppUIId" => PersistentAppUIId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_release_label()
     describe_release_label(params::Dict{String,<:Any})
 
@@ -1078,6 +1167,109 @@ function get_managed_scaling_policy(
         "GetManagedScalingPolicy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_on_cluster_app_uipresigned_url(cluster_id)
+    get_on_cluster_app_uipresigned_url(cluster_id, params::Dict{String,<:Any})
+
+The presigned URL properties for the cluster's application user interface.
+
+# Arguments
+
+- `cluster_id`: The cluster ID associated with the cluster's application user interface
+  presigned URL.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplicationId"`: The application ID associated with the cluster's application user
+  interface presigned URL.
+- `"DryRun"`: Determines if the user interface presigned URL is for a dry run.
+- `"ExecutionRoleArn"`: The execution role ARN associated with the cluster's application
+  user interface presigned URL.
+- `"OnClusterAppUIType"`: The application UI type associated with the cluster's application
+  user interface presigned URL.
+"""
+function get_on_cluster_app_uipresigned_url end
+
+function get_on_cluster_app_uipresigned_url(
+    ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "GetOnClusterAppUIPresignedURL",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_on_cluster_app_uipresigned_url(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetOnClusterAppUIPresignedURL",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_persistent_app_uipresigned_url(persistent_app_uiid)
+    get_persistent_app_uipresigned_url(persistent_app_uiid, params::Dict{String,<:Any})
+
+The presigned URL properties for the cluster's application user interface.
+
+# Arguments
+
+- `persistent_app_uiid`: The persistent application user interface ID associated with the
+  presigned URL.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplicationId"`: The application ID associated with the presigned URL.
+- `"AuthProxyCall"`: A boolean that represents if the caller is an authentication proxy
+  call.
+- `"ExecutionRoleArn"`: The execution role ARN associated with the presigned URL.
+- `"PersistentAppUIType"`: The persistent application user interface type associated with
+  the presigned URL.
+"""
+function get_persistent_app_uipresigned_url end
+
+function get_persistent_app_uipresigned_url(
+    PersistentAppUIId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr(
+        "GetPersistentAppUIPresignedURL",
+        Dict{String,Any}("PersistentAppUIId" => PersistentAppUIId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_persistent_app_uipresigned_url(
+    PersistentAppUIId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return emr(
+        "GetPersistentAppUIPresignedURL",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("PersistentAppUIId" => PersistentAppUIId), params
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1652,6 +1844,7 @@ using ClusterID.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ExtendedSupport"`: Reserved.
 - `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
   specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not
   change this parameter while steps are running or the `ActionOnFailure` setting may not
@@ -2249,6 +2442,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR
   releases 6.15.0 and later.
 
+- `"ExtendedSupport"`: Reserved.
+
 - `"JobFlowRole"`: Also called instance profile and Amazon EC2 role. An IAM role for an
   Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this role. The default
   role is `EMR_EC2_DefaultRole`. In order to use the default role, you must have already
@@ -2266,6 +2461,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not provided, logs are not created.
 
 - `"ManagedScalingPolicy"`: The specified managed scaling policy for an Amazon EMR cluster.
+
+- `"MonitoringConfiguration"`: Contains CloudWatch log configuration metadata and settings.
 
 - `"NewSupportedProducts"`: !!! note
       For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use
@@ -2328,6 +2525,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StepConcurrencyLevel"`: Specifies the number of steps that can be executed concurrently.
   The default value is `1`. The maximum value is `256`.
+
+- `"StepExecutionRoleArn"`: The Amazon Resource Name (ARN) of the runtime role for steps
+  specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The
+  runtime role ARN is a combination of account ID, role name, and role type using the
+  following format: `arn:partition:iam::account-id:role/role-name`.
+
+  For example, `arn:aws:iam::1234567890:role/ReadOnly` is a correctly formatted runtime role
+  ARN.
+
+  This parameter applies only to steps included in the `Steps` parameter of this RunJobFlow
+  request. It does not apply to steps added later to the cluster.
 
 - `"Steps"`: A list of steps to run.
 

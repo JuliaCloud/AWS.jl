@@ -16,7 +16,7 @@ specify the private CA, directory ID, and security groups.
 - `certificate_authority_arn`: The Amazon Resource Name (ARN) of the certificate authority
   being used.
 - `directory_id`: The identifier of the Active Directory.
-- `vpc_information`: Security group IDs that describe the inbound and outbound rules.
+- `vpc_information`: Information about your VPC and security groups used with the connector.
 
 # Optional Parameters
 

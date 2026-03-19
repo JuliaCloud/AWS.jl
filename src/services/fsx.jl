@@ -91,7 +91,7 @@ end
     cancel_data_repository_task(task_id, params::Dict{String,<:Any})
 
 Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the
-`PENDING` or `EXECUTING` state. When you cancel am export task, Amazon FSx does the
+`PENDING` or `EXECUTING` state. When you cancel an export task, Amazon FSx does the
 following.
 
 - Any files that FSx has already exported are not reverted.
@@ -308,6 +308,81 @@ function copy_snapshot_and_update_volume(
 end
 
 """
+    create_and_attach_s3_access_point(name, type)
+    create_and_attach_s3_access_point(name, type, params::Dict{String,<:Any})
+
+Creates an S3 access point and attaches it to an Amazon FSx volume. For FSx for OpenZFS file
+systems, the volume must be hosted on a high-availability file system, either Single-AZ or
+Multi-AZ. For more information, see [Accessing your data using Amazon S3 access points](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/s3accesspoints-for-FSx.html).
+in the Amazon FSx for OpenZFS User Guide.
+
+The requester requires the following permissions to perform these actions:
+
+- `fsx:CreateAndAttachS3AccessPoint`
+- `s3:CreateAccessPoint`
+- `s3:GetAccessPoint`
+- `s3:PutAccessPointPolicy`
+- `s3:DeleteAccessPoint`
+
+The following actions are related to `CreateAndAttachS3AccessPoint`:
+
+- [`describe_s3_access_point_attachments`](@ref)
+- [`detach_and_delete_s3_access_point`](@ref)
+
+# Arguments
+
+- `name`: The name you want to assign to this S3 access point.
+- `type`: The type of S3 access point you want to create. Only `OpenZFS` is supported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientRequestToken"`:
+- `"OntapConfiguration"`:
+- `"OpenZFSConfiguration"`: Specifies the configuration to use when creating and attaching
+  an S3 access point to an FSx for OpenZFS volume.
+- `"S3AccessPoint"`: Specifies the virtual private cloud (VPC) configuration if you're
+  creating an access point that is restricted to a VPC. For more information, see [Creating access points restricted to a virtual private cloud](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-vpc.html).
+"""
+function create_and_attach_s3_access_point end
+
+function create_and_attach_s3_access_point(
+    Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "CreateAndAttachS3AccessPoint",
+        Dict{String,Any}(
+            "Name" => Name, "Type" => Type, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_and_attach_s3_access_point(
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return fsx(
+        "CreateAndAttachS3AccessPoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "Type" => Type, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_backup()
     create_backup(params::Dict{String,<:Any})
 
@@ -412,8 +487,8 @@ about linking a data repository to your file system, see [Linking your file syst
 
 - `data_repository_path`: The path to the Amazon S3 data repository that will be linked to
   the file system. The path can be an S3 bucket or prefix in the format
-  `s3://myBucket/myPrefix/`. This path specifies where in the S3 data repository files will
-  be imported from or exported to.
+  `s3://bucket-name/prefix/` (where `prefix` is optional). This path specifies where in the
+  S3 data repository files will be imported from or exported to.
 - `file_system_id`:
 
 # Optional Parameters
@@ -563,7 +638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     the file system you want to export, then the path to provide is `path1`.
   - For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX
     metadata changes are imported to the FSx for Lustre file system. The path can be an S3
-    bucket or prefix in the format `s3://myBucket/myPrefix` (where `myPrefix` is optional).
+    bucket or prefix in the format `s3://bucket-name/prefix` (where `prefix` is optional).
   - For release tasks, the list contains directory or file paths on the FSx for Lustre file
     system from which to release exported files. If a directory is specified, files within
     the directory are released. If a file path is specified, only that file is released. To
@@ -635,7 +710,7 @@ cache. If a cache with the specified client request token exists and the paramet
 match, this call returns `IncompatibleParameterError`. If a file cache with the specified
 client request token doesn't exist, `CreateFileCache` does the following:
 
-- Creates a new, empty Amazon File Cache resourcewith an assigned ID, and an initial
+- Creates a new, empty Amazon File Cache resource with an assigned ID, and an initial
   lifecycle state of `CREATING`.
 - Returns the description of the cache in JSON format.
 
@@ -750,8 +825,8 @@ function create_file_cache(
 end
 
 """
-    create_file_system(file_system_type, storage_capacity, subnet_ids)
-    create_file_system(file_system_type, storage_capacity, subnet_ids, params::Dict{String,<:Any})
+    create_file_system(file_system_type, subnet_ids)
+    create_file_system(file_system_type, subnet_ids, params::Dict{String,<:Any})
 
 Creates a new, empty Amazon FSx file system. You can create the following supported Amazon
 FSx file systems using the `CreateFileSystem` API operation:
@@ -789,33 +864,6 @@ token doesn't exist, `CreateFileSystem` does the following:
 
 - `file_system_type`: The type of Amazon FSx file system to create. Valid values are
   `WINDOWS`, `LUSTRE`, `ONTAP`, and `OPENZFS`.
-
-- `storage_capacity`: Sets the storage capacity of the file system that you're creating, in
-  gibibytes (GiB).
-
-  **FSx for Lustre file systems** - The amount of storage capacity that you can configure
-  depends on the value that you set for `StorageType` and the Lustre `DeploymentType`, as
-  follows:
-
-  - For `SCRATCH_2`, `PERSISTENT_2`, and `PERSISTENT_1` deployment types using SSD storage
-    type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
-  - For `PERSISTENT_1` HDD file systems, valid values are increments of 6000 GiB for 12
-    MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.
-  - For `SCRATCH_1` deployment type, valid values are 1200 GiB, 2400 GiB, and increments of
-    3600 GiB.
-
-  **FSx for ONTAP file systems** - The amount of storage capacity that you can configure
-  depends on the value of the `HAPairs` property. The minimum value is calculated as 1,024 *
-  `HAPairs` and the maximum is calculated as 524,288 * `HAPairs`.
-
-  **FSx for OpenZFS file systems** - The amount of storage capacity that you can configure
-  is from 64 GiB up to 524,288 GiB (512 TiB).
-
-  **FSx for Windows File Server file systems** - The amount of storage capacity that you can
-  configure depends on the value that you set for `StorageType` as follows:
-
-  - For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
-  - For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
 
 - `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
   from. For Windows and ONTAP `MULTI_AZ_1` deployment types,provide exactly two subnet IDs,
@@ -857,6 +905,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LustreConfiguration"`:
 
+- `"NetworkType"`: The network type of the Amazon FSx file system that you are creating.
+  Valid values are `IPV4` (which supports IPv4 only) and `DUAL` (for dual-stack mode, which
+  supports both IPv4 and IPv6). The default is `IPV4`. Supported for FSx for OpenZFS, FSx
+  for ONTAP, and FSx for Windows File Server file systems.
+
 - `"OntapConfiguration"`:
 
 - `"OpenZFSConfiguration"`: The OpenZFS configuration for the file system that's being
@@ -870,18 +923,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       You must specify a security group if you are creating a Multi-AZ FSx for ONTAP file
       system in a VPC subnet that has been shared with you.
 
-- `"StorageType"`: Sets the storage type for the file system that you're creating. Valid
-  values are `SSD` and `HDD`.
+- `"StorageCapacity"`: Sets the storage capacity of the file system that you're creating, in
+  gibibytes (GiB).
+
+  **FSx for Lustre file systems** - The amount of storage capacity that you can configure
+  depends on the value that you set for `StorageType` and the Lustre `DeploymentType`, as
+  follows:
+
+  - For `SCRATCH_2`, `PERSISTENT_2`, and `PERSISTENT_1` deployment types using SSD storage
+    type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
+  - For `PERSISTENT_1` HDD file systems, valid values are increments of 6000 GiB for 12
+    MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.
+  - For `SCRATCH_1` deployment type, valid values are 1200 GiB, 2400 GiB, and increments of
+    3600 GiB.
+
+  **FSx for ONTAP file systems** - The amount of storage capacity that you can configure
+  depends on the value of the `HAPairs` property. The minimum value is calculated as 1,024 *
+  `HAPairs` and the maximum is calculated as 524,288 * `HAPairs`.
+
+  **FSx for OpenZFS file systems** - The amount of storage capacity that you can configure
+  is from 64 GiB up to 524,288 GiB (512 TiB).
+
+  **FSx for Windows File Server file systems** - The amount of storage capacity that you can
+  configure depends on the value that you set for `StorageType` as follows:
+
+  - For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
+  - For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
+
+- `"StorageType"`: Sets the storage class for the file system that you're creating. Valid
+  values are `SSD`, `HDD`, and `INTELLIGENT_TIERING`.
 
   - Set to `SSD` to use solid state drive storage. SSD is supported on all Windows, Lustre,
     ONTAP, and OpenZFS deployment types.
-  - Set to `HDD` to use hard disk drive storage. HDD is supported on `SINGLE_AZ_2` and
+  - Set to `HDD` to use hard disk drive storage, which is supported on `SINGLE_AZ_2` and
     `MULTI_AZ_1` Windows file system deployment types, and on `PERSISTENT_1` Lustre file
     system deployment types.
+  - Set to `INTELLIGENT_TIERING` to use fully elastic, intelligently-tiered storage.
+    Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ
+    deployment type and for Lustre file systems with the Persistent_2 deployment type.
 
   Default value is `SSD`. For more information, see [Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options)
-  in the *FSx for Windows File Server User Guide* and [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options)
-  in the *FSx for Lustre User Guide*.
+  in the *FSx for Windows File Server User Guide*, [FSx for Lustre storage classes](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-storage-classes)
+  in the *FSx for Lustre User Guide*, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering)
+  in the *Amazon FSx for OpenZFS User Guide*.
 
 - `"Tags"`: The tags to apply to the file system that's being created. The key value of the
   `Name` tag appears in the console as the file system name.
@@ -892,16 +976,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_file_system end
 
 function create_file_system(
-    FileSystemType,
-    StorageCapacity,
-    SubnetIds;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    FileSystemType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fsx(
         "CreateFileSystem",
         Dict{String,Any}(
             "FileSystemType" => FileSystemType,
-            "StorageCapacity" => StorageCapacity,
             "SubnetIds" => SubnetIds,
             "ClientRequestToken" => string(uuid4()),
         );
@@ -912,7 +992,6 @@ end
 
 function create_file_system(
     FileSystemType,
-    StorageCapacity,
     SubnetIds,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -924,7 +1003,6 @@ function create_file_system(
                 _merge,
                 Dict{String,Any}(
                     "FileSystemType" => FileSystemType,
-                    "StorageCapacity" => StorageCapacity,
                     "SubnetIds" => SubnetIds,
                     "ClientRequestToken" => string(uuid4()),
                 ),
@@ -994,14 +1072,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FileSystemTypeVersion"`: Sets the version for the Amazon FSx for Lustre file system that
   you're creating from a backup. Valid values are `2.10`, `2.12`, and `2.15`.
 
-  You don't need to specify `FileSystemTypeVersion` because it will be applied using the
-  backup's `FileSystemTypeVersion` setting. If you choose to specify `FileSystemTypeVersion`
-  when creating from backup, the value must match the backup's `FileSystemTypeVersion`
-  setting.
+  You can enter a Lustre version that is newer than the backup's `FileSystemTypeVersion`
+  setting. If you don't enter a newer Lustre version, it defaults to the backup's setting.
 
 - `"KmsKeyId"`:
 
 - `"LustreConfiguration"`:
+
+- `"NetworkType"`: Sets the network type for the Amazon FSx for OpenZFS file system that
+  you're creating from a backup.
 
 - `"OpenZFSConfiguration"`: The OpenZFS configuration for the file system that's being
   created.
@@ -1018,15 +1097,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If used to create a file system other than OpenZFS, you must provide a value that matches
   the backup's `StorageCapacity` value. If you provide any other value, Amazon FSx responds
-  with with an HTTP status code 400 Bad Request.
+  with an HTTP status code 400 Bad Request.
 
-- `"StorageType"`: Sets the storage type for the Windows or OpenZFS file system that you're
-  creating from a backup. Valid values are `SSD` and `HDD`.
+- `"StorageType"`: Sets the storage type for the Windows, OpenZFS, or Lustre file system
+  that you're creating from a backup. Valid values are `SSD`, `HDD`, and
+  `INTELLIGENT_TIERING`.
 
   - Set to `SSD` to use solid state drive storage. SSD is supported on all Windows and
     OpenZFS deployment types.
   - Set to `HDD` to use hard disk drive storage. HDD is supported on `SINGLE_AZ_2` and
     `MULTI_AZ_1` FSx for Windows File Server file system deployment types.
+  - Set to `INTELLIGENT_TIERING` to use fully elastic, intelligently-tiered storage.
+    Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ
+    deployment type and for Lustre file systems with the Persistent_2 deployment type.
 
   The default value is `SSD`.
 
@@ -1548,6 +1631,11 @@ gone. Any existing automatic backups and snapshots are also deleted.
 To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and
 storage virtual machines (SVMs) on the file system. Then provide a `FileSystemId` value to
 the [`delete_file_system`](@ref) operation.
+
+Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't any
+Amazon S3 access points attached to any volume. For more information on how to list S3
+access points that are attached to volumes, see [Listing S3 access point attachments](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-list.html).
+For more information on how to delete S3 access points, see [Deleting an S3 access point attachment](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/delete-access-point.html).
 
 By default, when you delete an Amazon FSx for Windows File Server file system, a final
 backup is created upon deletion. This final backup isn't subject to the file system's
@@ -2110,6 +2198,48 @@ function describe_file_systems(
 end
 
 """
+    describe_s3_access_point_attachments()
+    describe_s3_access_point_attachments(params::Dict{String,<:Any})
+
+Describes one or more S3 access points attached to Amazon FSx volumes.
+
+The requester requires the following permission to perform this action:
+
+- `fsx:DescribeS3AccessPointAttachments`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Enter a filter Name and Values pair to view a select set of S3 access point
+  attachments.
+- `"MaxResults"`:
+- `"Names"`: The names of the S3 access point attachments whose descriptions you want to
+  retrieve.
+- `"NextToken"`:
+"""
+function describe_s3_access_point_attachments end
+
+function describe_s3_access_point_attachments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeS3AccessPointAttachments"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_s3_access_point_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DescribeS3AccessPointAttachments",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_shared_vpc_configuration()
     describe_shared_vpc_configuration(params::Dict{String,<:Any})
 
@@ -2250,6 +2380,57 @@ function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fsx("DescribeVolumes", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    detach_and_delete_s3_access_point(name)
+    detach_and_delete_s3_access_point(name, params::Dict{String,<:Any})
+
+Detaches an S3 access point from an Amazon FSx volume and deletes the S3 access point.
+
+The requester requires the following permission to perform this action:
+
+- `fsx:DetachAndDeleteS3AccessPoint`
+- `s3:DeleteAccessPoint`
+
+# Arguments
+
+- `name`: The name of the S3 access point attachment that you want to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientRequestToken"`:
+"""
+function detach_and_delete_s3_access_point end
+
+function detach_and_delete_s3_access_point(
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DetachAndDeleteS3AccessPoint",
+        Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function detach_and_delete_s3_access_point(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return fsx(
+        "DetachAndDeleteS3AccessPoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -2781,11 +2962,11 @@ For FSx for Windows File Server file systems, you can update the following prope
 - `AuditLogConfiguration`
 - `AutomaticBackupRetentionDays`
 - `DailyAutomaticBackupStartTime`
+- `DiskIopsConfiguration`
 - `SelfManagedActiveDirectoryConfiguration`
 - `StorageCapacity`
 - `StorageType`
 - `ThroughputCapacity`
-- `DiskIopsConfiguration`
 - `WeeklyMaintenanceStartTime`
 
 For FSx for Lustre file systems, you can update the following properties:
@@ -2794,11 +2975,14 @@ For FSx for Lustre file systems, you can update the following properties:
 - `AutomaticBackupRetentionDays`
 - `DailyAutomaticBackupStartTime`
 - `DataCompressionType`
+- `FileSystemTypeVersion`
 - `LogConfiguration`
+- `LustreReadCacheConfiguration`
 - `LustreRootSquashConfiguration`
 - `MetadataConfiguration`
 - `PerUnitStorageThroughput`
 - `StorageCapacity`
+- `ThroughputCapacity`
 - `WeeklyMaintenanceStartTime`
 
 For FSx for ONTAP file systems, you can update the following properties:
@@ -2807,6 +2991,7 @@ For FSx for ONTAP file systems, you can update the following properties:
 - `AutomaticBackupRetentionDays`
 - `DailyAutomaticBackupStartTime`
 - `DiskIopsConfiguration`
+- `EndpointIpv6AddressRange`
 - `FsxAdminPassword`
 - `HAPairs`
 - `RemoveRouteTableIds`
@@ -2823,6 +3008,8 @@ For FSx for OpenZFS file systems, you can update the following properties:
 - `CopyTagsToVolumes`
 - `DailyAutomaticBackupStartTime`
 - `DiskIopsConfiguration`
+- `EndpointIpv6AddressRange`
+- `ReadCacheConfiguration`
 - `RemoveRouteTableIds`
 - `StorageCapacity`
 - `ThroughputCapacity`
@@ -2840,16 +3027,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent updates. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 
+- `"FileSystemTypeVersion"`: The Lustre version you are updating an FSx for Lustre file
+  system to. Valid values are `2.12` and `2.15`. The value you choose must be newer than the
+  file system's current Lustre version.
+
 - `"LustreConfiguration"`:
+
+- `"NetworkType"`: Changes the network type of an FSx for OpenZFS file system.
 
 - `"OntapConfiguration"`:
 
 - `"OpenZFSConfiguration"`: The configuration updates for an FSx for OpenZFS file system.
 
 - `"StorageCapacity"`: Use this parameter to increase the storage capacity of an FSx for
-  Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system.
-  Specifies the storage capacity target value, in GiB, to increase the storage capacity for
-  the file system that you're updating.
+  Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For
+  second-generation FSx for ONTAP file systems, you can also decrease the storage capacity.
+  Specifies the storage capacity target value, in GiB, for the file system that you're
+  updating.
 
   !!! note
       You can't make a storage capacity increase request if there is an existing storage
@@ -2877,9 +3071,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html)
   in the *Amazon FSxfor Windows File Server User Guide*.
 
-  For ONTAP file systems, the storage capacity target value must be at least 10 percent
-  greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html)
-  in the *Amazon FSx for NetApp ONTAP User Guide*.
+  For ONTAP file systems, when increasing storage capacity, the storage capacity target
+  value must be at least 10 percent greater than the current storage capacity value. When
+  decreasing storage capacity on second-generation file systems, the target value must be at
+  least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html)
+  in the Amazon FSx for NetApp ONTAP User Guide.
 
 - `"StorageType"`:
 

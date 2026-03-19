@@ -13,7 +13,7 @@ Services resources. These temporary credentials consist of an access key ID, a s
 key, and a security token. Typically, you use `AssumeRole` within your account or for cross-
 account access. For a comparison of `AssumeRole` with other API operations that produce
 temporary credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)
-and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison)
+and [Compare STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html)
 in the *IAM User Guide*.
 
 **Permissions**
@@ -22,17 +22,16 @@ The temporary security credentials created by `AssumeRole` can be used to make A
 any Amazon Web Services service with the following exception: You cannot call the Amazon Web
 Services STS `GetFederationToken` or `GetSessionToken` API operations.
 
-(Optional) You can pass inline or managed [session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
-to this operation. You can pass a single JSON policy document to use as an inline session
-policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as
-managed session policies. The plaintext that you use for both inline and managed session
-policies can't exceed 2,048 characters. Passing policies to this operation returns new
-temporary credentials. The resulting session's permissions are the intersection of the
-role's identity-based policy and the session policies. You can use the role's temporary
-credentials in subsequent Amazon Web Services API calls to access resources in the account
-that owns the role. You cannot use session policies to grant more permissions than those
-allowed by the identity-based policy of the role that is being assumed. For more
-information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
+(Optional) You can pass inline or managed session policies to this operation. You can pass a
+single JSON policy document to use as an inline session policy. You can also specify up to
+10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The
+plaintext that you use for both inline and managed session policies can't exceed 2,048
+characters. Passing policies to this operation returns new temporary credentials. The
+resulting session's permissions are the intersection of the role's identity-based policy and
+the session policies. You can use the role's temporary credentials in subsequent Amazon Web
+Services API calls to access resources in the account that owns the role. You cannot use
+session policies to grant more permissions than those allowed by the identity-based policy
+of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
 in the *IAM User Guide*.
 
 When you create a role, you create two policies: a role trust policy that specifies *who*
@@ -108,9 +107,14 @@ The `TokenCode` is the time-based one-time password (TOTP) that the MFA device p
   subsequent cross-account API requests that use the temporary security credentials will
   expose the role session name to the external account in their CloudTrail logs.
 
+  For security purposes, administrators can view this field in [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds)
+  to help identify who performed an action in Amazon Web Services. Your administrator might
+  require that you specify your user name as the session name when you assume the role. For
+  more information, see [`sts:RoleSessionName`](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname).
+
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
-  any of the following characters: =,.@-
+  any of the following characters: +=,.@-
 
 # Optional Parameters
 
@@ -129,8 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify a parameter value of up to 43200 seconds (12 hours), depending on the
   maximum session duration setting for your role. However, if you assume a role using role
   chaining and provide a `DurationSeconds` parameter value greater than one hour, the
-  operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
-  in the *IAM User Guide*.
+  operation fails. To learn how to view the maximum value for your role, see [Update the maximum session duration for a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration).
 
   By default, the value is set to `3600` seconds.
 
@@ -153,7 +156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
-  any of the following characters: =,.@:/-
+  any of the following characters: +=,.@:\\/-
 
 - `"Policy"`: An IAM policy in JSON format that you want to use as an inline session policy.
 
@@ -177,6 +180,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Your request can fail for this limit even if your plaintext meets the other
       requirements. The `PackedPolicySize` response element indicates by percentage how
       close the policies and tags for your request are to the upper size limit.
+
+  For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
 
 - `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want
   to use as managed session policies. The policies must exist in the same account as the
@@ -220,22 +225,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
-  any of the following characters: =,.@-
+  any of the following characters: +=/:,.@-
 
 - `"SourceIdentity"`: The source identity specified by the principal that is calling the
-  `AssumeRole` operation.
+  `AssumeRole` operation. The source identity value persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining)
+  sessions.
 
   You can require users to specify a source identity when they assume a role. You do this by
-  using the `sts:SourceIdentity` condition key in a role trust policy. You can use source
-  identity information in CloudTrail logs to determine who took actions with a role. You can
-  use the `aws:SourceIdentity` condition key to further control access to Amazon Web
-  Services resources based on the value of source identity. For more information about using
-  source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html)
+  using the [`sts:SourceIdentity`](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity)
+  condition key in a role trust policy. You can use source identity information in
+  CloudTrail logs to determine who took actions with a role. You can use the
+  `aws:SourceIdentity` condition key to further control access to Amazon Web Services
+  resources based on the value of source identity. For more information about using source
+  identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html)
   in the *IAM User Guide*.
 
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
-  any of the following characters: =,.@-. You cannot use a value that begins with the text
+  any of the following characters: +=,.@-. You cannot use a value that begins with the text
   `aws:`. This prefix is reserved for Amazon Web Services internal use.
 
 - `"Tags"`: A list of session tags that you want to pass. Each session tag consists of a key
@@ -282,8 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sessions in a role chain. For more information, see [Chaining Roles with Session Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining)
   in the *IAM User Guide*.
 
-  This parameter is optional. When you set session tags as transitive, the session policy
-  and session tags packed binary limit is not affected.
+  This parameter is optional. The transitive status of a session tag does not impact its
+  packed binary size.
 
   If you choose not to specify a transitive tag key, then no tags are passed from this
   session to any subsequent sessions.
@@ -332,12 +339,16 @@ SAML authentication response. This operation provides a mechanism for tying an e
 identity store or directory to role-based Amazon Web Services access without user-specific
 credentials or configuration. For a comparison of `AssumeRoleWithSAML` with the other API
 operations that produce temporary credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)
-and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison)
+and [Compare STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html)
 in the *IAM User Guide*.
 
 The temporary security credentials returned by this operation consist of an access key ID, a
 secret access key, and a security token. Applications can use these temporary security
 credentials to sign calls to Amazon Web Services services.
+
+!!! note
+    AssumeRoleWithSAML will not work on IAM Identity Center managed roles. These roles'
+    names start with `AWSReservedSSO_`.
 
 **Session Duration**
 
@@ -493,6 +504,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the end of the valid character list (\\u0020 through \\u00FF). It can also include the
   tab (\\u0009), linefeed (\\u000A), and carriage return (\\u000D) characters.
 
+  For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
+
   !!! note
       An Amazon Web Services conversion compresses the passed inline session policy, managed
       policy ARNs, and session tags into a packed binary format that has a separate limit.
@@ -593,7 +606,7 @@ that use long-term Amazon Web Services credentials. Instead, the identity of the
 validated by using a token from the web identity provider. For a comparison of
 `AssumeRoleWithWebIdentity` with the other API operations that produce temporary
 credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)
-and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison)
+and [Compare STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html)
 in the *IAM User Guide*.
 
 The temporary security credentials returned by this API consist of an access key ID, a
@@ -606,7 +619,7 @@ By default, the temporary security credentials created by `AssumeRoleWithWebIden
 for one hour. However, you can use the optional `DurationSeconds` parameter to specify the
 duration of your session. You can provide a value from 900 seconds (15 minutes) up to the
 maximum session duration setting for the role. This setting can have a value from 1 hour to
-12 hours. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+12 hours. To learn how to view the maximum value for your role, see [Update the maximum session duration for a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration)
 in the *IAM User Guide*. The maximum session duration limit applies when you use the
 `AssumeRole*` API operations or the `assume-role*` CLI commands. However the limit does not
 apply when you use those operations to create a console URL. For more information, see [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
@@ -635,7 +648,7 @@ in the *IAM User Guide*.
 
 (Optional) You can configure your IdP to pass attributes into your web identity token as
 session tags. Each session tag consists of a key name and an associated value. For more
-information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html)
+information about session tags, see [Passing session tags using AssumeRoleWithWebIdentity](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_adding-assume-role-idp)
 in the *IAM User Guide*.
 
 You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128
@@ -676,32 +689,39 @@ role's trust policy.
     identifiable information (PII) in this field. For example, you could instead use a GUID
     or a pairwise identifier, as [suggested in the OIDC specification](http://openid.net/specs/openid-connect-core-1_0.html#SubjectIDTypes).
 
-For more information about how to use web identity federation and the
-`AssumeRoleWithWebIdentity` API, see the following resources:
+For more information about how to use OIDC federation and the `AssumeRoleWithWebIdentity`
+API, see the following resources:
 
 - [Using Web Identity Federation API Operations for Mobile Apps](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc_manual.html)
   and [Federation Through a Web-based Identity Provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithwebidentity).
-- [Web Identity Federation Playground](https://aws.amazon.com/blogs/aws/the-aws-web-identity-federation-playground/).
-  Walk through the process of authenticating through Login with Amazon, Facebook, or Google,
-  getting temporary security credentials, and then using those credentials to make a request
-  to Amazon Web Services.
 - [Amazon Web Services SDK for iOS Developer Guide](http://aws.amazon.com/sdkforios/) and [Amazon Web Services SDK for Android Developer Guide](http://aws.amazon.com/sdkforandroid/).
   These toolkits contain sample apps that show how to invoke the identity providers. The
   toolkits then show how to use the information from these providers to get and use
   temporary security credentials.
-- [Web Identity Federation with Mobile Applications](http://aws.amazon.com/articles/web-identity-federation-with-mobile-applications).
-  This article discusses web identity federation and shows an example of how to use web
-  identity federation to get access to content in Amazon S3.
 
 # Arguments
 
 - `role_arn`: The Amazon Resource Name (ARN) of the role that the caller is assuming.
+
+  !!! note
+      Additional considerations apply to Amazon Cognito identity pools that assume [cross-account IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html).
+      The trust policies of these roles must accept the `cognito-identity.amazonaws.com`
+      service principal and must contain the `cognito-identity.amazonaws.com:aud` condition
+      key to restrict role assumption to users from your intended identity pools. A policy
+      that trusts Amazon Cognito identity pools without this condition creates a risk that a
+      user from an unintended identity pool can assume the role. For more information, see [Trust policies for IAM roles in Basic (Classic) authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html#trust-policies)
+      in the *Amazon Cognito Developer Guide*.
 
 - `role_session_name`: An identifier for the assumed role session. Typically, you pass the
   name or identifier that is associated with the user who is using your application. That
   way, the temporary security credentials that your application will use are associated with
   that user. This session name is included as part of the ARN and assumed role ID in the
   `AssumedRoleUser` response element.
+
+  For security purposes, administrators can view this field in [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds)
+  to help identify who performed an action in Amazon Web Services. Your administrator might
+  require that you specify your user name as the session name when you assume the role. For
+  more information, see [`sts:RoleSessionName`](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname).
 
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
@@ -710,8 +730,9 @@ For more information about how to use web identity federation and the
 - `web_identity_token`: The OAuth 2.0 access token or OpenID Connect ID token that is
   provided by the identity provider. Your application must get this token by authenticating
   the user who is using your application with a web identity provider before the application
-  makes an `AssumeRoleWithWebIdentity` call. Only tokens with RSA algorithms (RS256) are
-  supported.
+  makes an `AssumeRoleWithWebIdentity` call. Timestamps in the token must be formatted as
+  either an integer or a long integer. Tokens must be signed using either RSA keys (RS256,
+  RS384, or RS512) or ECDSA keys (ES256, ES384, or ES512).
 
 # Optional Parameters
 
@@ -749,6 +770,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. The JSON policy characters can be any ASCII character from the space character
   to the end of the valid character list (\\u0020 through \\u00FF). It can also include the
   tab (\\u0009), linefeed (\\u000A), and carriage return (\\u000D) characters.
+
+  For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
 
   !!! note
       An Amazon Web Services conversion compresses the passed inline session policy, managed
@@ -825,6 +848,94 @@ function assume_role_with_web_identity(
                     "RoleArn" => RoleArn,
                     "RoleSessionName" => RoleSessionName,
                     "WebIdentityToken" => WebIdentityToken,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    assume_root(target_principal, task_policy_arn)
+    assume_root(target_principal, task_policy_arn, params::Dict{String,<:Any})
+
+Returns a set of short term credentials you can use to perform privileged tasks on a member
+account in your organization. You must use credentials from an Organizations management
+account or a delegated administrator account for IAM to call `AssumeRoot`. You cannot use
+root user credentials to make this call.
+
+Before you can launch a privileged session, you must have centralized root access in your
+organization. For steps to enable this feature, see [Centralize root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html)
+in the *IAM User Guide*.
+
+!!! note
+    The STS global endpoint is not supported for AssumeRoot. You must send this request to a
+    Regional STS endpoint. For more information, see [Endpoints](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html#sts-endpoints).
+
+You can track AssumeRoot in CloudTrail logs to determine what actions were performed in a
+session. For more information, see [Track privileged tasks in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html)
+in the *IAM User Guide*.
+
+When granting access to privileged tasks you should only grant the necessary permissions
+required to perform that task. For more information, see [Security best practices in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
+In addition, you can use [service control policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html)
+(SCPs) to manage and limit permissions in your organization. See [General examples](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples_general.html)
+in the *Organizations User Guide* for more information on SCPs.
+
+# Arguments
+
+- `target_principal`: The member account principal ARN or account ID.
+
+- `task_policy_arn`: The identity based policy that scopes the session to the privileged
+  tasks that can be performed. You must use one of following Amazon Web Services managed
+  policies to scope root session actions:
+
+  - [IAMAuditRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials)
+  - [IAMCreateRootUserPassword](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMCreateRootUserPassword)
+  - [IAMDeleteRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMDeleteRootUserCredentials)
+  - [S3UnlockBucketPolicy](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-S3UnlockBucketPolicy)
+  - [SQSUnlockQueuePolicy](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-SQSUnlockQueuePolicy)
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DurationSeconds"`: The duration, in seconds, of the privileged session. The value can
+  range from 0 seconds up to the maximum session duration of 900 seconds (15 minutes). If
+  you specify a value higher than this setting, the operation fails.
+
+  By default, the value is set to `900` seconds.
+"""
+function assume_root end
+
+function assume_root(
+    TargetPrincipal, TaskPolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "AssumeRoot",
+        Dict{String,Any}(
+            "TargetPrincipal" => TargetPrincipal, "TaskPolicyArn" => TaskPolicyArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function assume_root(
+    TargetPrincipal,
+    TaskPolicyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "AssumeRoot",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TargetPrincipal" => TargetPrincipal, "TaskPolicyArn" => TaskPolicyArn
                 ),
                 params,
             ),
@@ -984,6 +1095,48 @@ function get_caller_identity(
 end
 
 """
+    get_delegated_access_token(trade_in_token)
+    get_delegated_access_token(trade_in_token, params::Dict{String,<:Any})
+
+Exchanges a trade-in token for temporary Amazon Web Services credentials with the
+permissions associated with the assumed principal. This operation allows you to obtain
+credentials for a specific principal based on a trade-in token, enabling delegation of
+access to Amazon Web Services resources.
+
+# Arguments
+
+- `trade_in_token`: The token to exchange for temporary Amazon Web Services credentials.
+  This token must be valid and unexpired at the time of the request.
+"""
+function get_delegated_access_token end
+
+function get_delegated_access_token(
+    TradeInToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "GetDelegatedAccessToken",
+        Dict{String,Any}("TradeInToken" => TradeInToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_delegated_access_token(
+    TradeInToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "GetDelegatedAccessToken",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TradeInToken" => TradeInToken), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_federation_token(name)
     get_federation_token(name, params::Dict{String,<:Any})
 
@@ -996,7 +1149,7 @@ You must call the [`get_federation_token`](@ref) operation using the long-term s
 credentials of an IAM user. As a result, this call is appropriate in contexts where those
 credentials can be safeguarded, usually in a server-based application. For a comparison of
 `GetFederationToken` with the other API operations that produce temporary credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)
-and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison)
+and [Compare STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html)
 in the *IAM User Guide*.
 
 Although it is possible to call `GetFederationToken` using the security credentials of an
@@ -1225,7 +1378,7 @@ with their MFA device. Using the temporary security credentials that the call re
 users can then make programmatic calls to API operations that require MFA authentication. An
 incorrect MFA code causes the API to return an access denied error. For a comparison of
 `GetSessionToken` with the other API operations that produce temporary credentials, see [Requesting Temporary Security Credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html)
-and [Comparing the Amazon Web Services STS API operations](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison)
+and [Compare STS credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts-comparison.html)
 in the *IAM User Guide*.
 
 !!! note
@@ -1308,4 +1461,72 @@ function get_session_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sts("GetSessionToken", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    get_web_identity_token(audience, signing_algorithm)
+    get_web_identity_token(audience, signing_algorithm, params::Dict{String,<:Any})
+
+Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services
+identity. The returned JWT can be used to authenticate with external services that support
+OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified
+using the verification keys published at the issuer's JWKS endpoint.
+
+# Arguments
+
+- `audience`: The intended recipient of the web identity token. This value populates the
+  `aud` claim in the JWT and should identify the service or application that will validate
+  and use the token. The external service should verify this claim to ensure the token was
+  intended for their use.
+- `signing_algorithm`: The cryptographic algorithm to use for signing the JSON Web Token
+  (JWT). Valid values are RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with
+  SHA-384).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DurationSeconds"`: The duration, in seconds, for which the JSON Web Token (JWT) will
+  remain valid. The value can range from 60 seconds (1 minute) to 3600 seconds (1 hour). If
+  not specified, the default duration is 300 seconds (5 minutes). The token is designed to
+  be short-lived and should be used for proof of identity, then exchanged for credentials or
+  short-lived tokens in the external service.
+
+- `"Tags"`: An optional list of tags to include in the JSON Web Token (JWT). These tags are
+  added as custom claims to the JWT and can be used by the downstream service for
+  authorization decisions.
+"""
+function get_web_identity_token end
+
+function get_web_identity_token(
+    Audience, SigningAlgorithm; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sts(
+        "GetWebIdentityToken",
+        Dict{String,Any}("Audience" => Audience, "SigningAlgorithm" => SigningAlgorithm);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_web_identity_token(
+    Audience,
+    SigningAlgorithm,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sts(
+        "GetWebIdentityToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Audience" => Audience, "SigningAlgorithm" => SigningAlgorithm
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end

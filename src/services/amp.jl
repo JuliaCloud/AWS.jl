@@ -64,17 +64,94 @@ function create_alert_manager_definition(
 end
 
 """
+    create_anomaly_detector(alias, configuration, workspace_id)
+    create_anomaly_detector(alias, configuration, workspace_id, params::Dict{String,<:Any})
+
+Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for
+time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus
+metrics to identify unusual patterns and behaviors.
+
+# Arguments
+
+- `alias`: A user-friendly name for the anomaly detector.
+- `configuration`: The algorithm configuration for the anomaly detector.
+- `workspace_id`: The identifier of the workspace where the anomaly detector will be
+  created.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"evaluationIntervalInSeconds"`: The frequency, in seconds, at which the anomaly detector
+  evaluates metrics. The default value is 60 seconds.
+- `"labels"`: The Amazon Managed Service for Prometheus metric labels to associate with the
+  anomaly detector.
+- `"missingDataAction"`: Specifies the action to take when data is missing during
+  evaluation.
+- `"tags"`: The metadata to apply to the anomaly detector to assist with categorization and
+  organization.
+"""
+function create_anomaly_detector end
+
+function create_anomaly_detector(
+    alias, configuration, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/anomalydetectors",
+        Dict{String,Any}(
+            "alias" => alias,
+            "configuration" => configuration,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_anomaly_detector(
+    alias,
+    configuration,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/anomalydetectors",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "alias" => alias,
+                    "configuration" => configuration,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_logging_configuration(log_group_arn, workspace_id)
     create_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
 
-The [`create_logging_configuration`](@ref) operation creates a logging configuration for the
-workspace. Use this operation to set the CloudWatch log group to which the logs will be
-published to.
+The [`create_logging_configuration`](@ref) operation creates rules and alerting logging
+configuration for the workspace. Use this operation to set the CloudWatch log group to which
+the logs will be published to.
+
+!!! note
+    These logging configurations are only for rules and alerting logs.
 
 # Arguments
 
 - `log_group_arn`: The ARN of the CloudWatch log group to which the vended log data will be
-  published. This log group must exist prior to calling this API.
+  published. This log group must exist prior to calling this operation.
 - `workspace_id`: The ID of the workspace to create the logging configuration for.
 
 # Optional Parameters
@@ -122,12 +199,74 @@ function create_logging_configuration(
 end
 
 """
+    create_query_logging_configuration(destinations, workspace_id)
+    create_query_logging_configuration(destinations, workspace_id, params::Dict{String,<:Any})
+
+Creates a query logging configuration for the specified workspace. This operation enables
+logging of queries that exceed the specified QSP threshold.
+
+# Arguments
+
+- `destinations`: The destinations where query logs will be sent. Only CloudWatch Logs
+  destination is supported. The list must contain exactly one element.
+- `workspace_id`: The ID of the workspace for which to create the query logging
+  configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
+  ensure the idempotency of the request.
+"""
+function create_query_logging_configuration end
+
+function create_query_logging_configuration(
+    destinations, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}("destinations" => destinations, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_query_logging_configuration(
+    destinations,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinations" => destinations, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_rule_groups_namespace(data, name, workspace_id)
     create_rule_groups_namespace(data, name, workspace_id, params::Dict{String,<:Any})
 
 The [`create_rule_groups_namespace`](@ref) operation creates a rule groups namespace within
 a workspace. A rule groups namespace is associated with exactly one rules file. A workspace
 can have multiple rule groups namespaces.
+
+!!! important
+    The combined length of a rule group namespace and a rule group name cannot exceed 721
+    UTF-8 bytes.
 
 Use this operation only to create new rule groups namespaces. To update an existing rule
 groups namespace, use `PutRuleGroupsNamespace`.
@@ -195,24 +334,28 @@ end
     create_scraper(destination, scrape_configuration, source, params::Dict{String,<:Any})
 
 The [`create_scraper`](@ref) operation creates a scraper to collect metrics. A scraper pulls
-metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to
-your Amazon Managed Service for Prometheus workspace. You can configure the scraper to
-control what metrics are collected, and what transformations are applied prior to sending
-them to your workspace.
+metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for
+Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS
+clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service
+discovery. Scrapers are flexible, and can be configured to control what metrics are
+collected, the frequency of collection, what transformations are applied to the metrics, and
+more.
 
-If needed, an IAM role will be created for you that gives Amazon Managed Service for
-Prometheus access to the metrics in your cluster. For more information, see [Using roles for scraping metrics from EKS](https://docs.aws.amazon.com/prometheus/latest/userguide/using-service-linked-roles.html#using-service-linked-roles-prom-scraper)
+An IAM role will be created for you that Amazon Managed Service for Prometheus uses to
+access the metrics in your source. You must configure this role with a policy that allows it
+to scrape metrics from your source. For Amazon EKS sources, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup)
 in the *Amazon Managed Service for Prometheus User Guide*.
 
-You cannot update a scraper. If you want to change the configuration of the scraper, create
-a new scraper and delete the old one.
+The `scrapeConfiguration` parameter contains the base-64 encoded YAML configuration for the
+scraper.
 
-The `scrapeConfiguration` parameter contains the base64-encoded version of the YAML
-configuration file.
+When creating a scraper, the service creates a `Network Interface` in each **Availability
+Zone** that are passed into `CreateScraper` through subnets. These network interfaces are
+used to connect to your source within the VPC for scraping metrics.
 
 !!! note
     For more information about collectors, including what metrics are collected, and how to
-    configure the scraper, see [Amazon Web Services managed collectors](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector.html)
+    configure the scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html)
     in the *Amazon Managed Service for Prometheus User Guide*.
 
 # Arguments
@@ -221,16 +364,19 @@ configuration file.
 - `scrape_configuration`: The configuration file to use in the new scraper. For more
   information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration)
   in the *Amazon Managed Service for Prometheus User Guide*.
-- `source`: The Amazon EKS cluster from which the scraper will collect metrics.
+- `source`: The Amazon EKS or Amazon Web Services cluster from which the scraper will
+  collect metrics.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"alias"`: (optional) a name to associate with the scraper. This is for your use, and does
-  not need to be unique.
+- `"alias"`: (optional) An alias to associate with the scraper. This is for your use, and
+  does not need to be unique.
 - `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
   ensure the idempotency of the request.
+- `"roleConfiguration"`: Use this structure to enable cross-account access, so that you can
+  use a target account to access Prometheus metrics from source accounts.
 - `"tags"`: (Optional) The list of tag keys and values to associate with the scraper.
 """
 function create_scraper end
@@ -384,10 +530,62 @@ function delete_alert_manager_definition(
 end
 
 """
+    delete_anomaly_detector(anomaly_detector_id, workspace_id)
+    delete_anomaly_detector(anomaly_detector_id, workspace_id, params::Dict{String,<:Any})
+
+Removes an anomaly detector from a workspace. This operation is idempotent.
+
+# Arguments
+
+- `anomaly_detector_id`: The identifier of the anomaly detector to delete.
+- `workspace_id`: The identifier of the workspace containing the anomaly detector to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+"""
+function delete_anomaly_detector end
+
+function delete_anomaly_detector(
+    anomalyDetectorId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_anomaly_detector(
+    anomalyDetectorId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_logging_configuration(workspace_id)
     delete_logging_configuration(workspace_id, params::Dict{String,<:Any})
 
-Deletes the logging configuration for a workspace.
+Deletes the rules and alerting logging configuration for a workspace.
+
+!!! note
+    These logging configurations are only for rules and alerting logs.
 
 # Arguments
 
@@ -422,6 +620,104 @@ function delete_logging_configuration(
     return amp(
         "DELETE",
         "/workspaces/$(workspaceId)/logging",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_query_logging_configuration(workspace_id)
+    delete_query_logging_configuration(workspace_id, params::Dict{String,<:Any})
+
+Deletes the query logging configuration for the specified workspace.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace from which to delete the query logging
+  configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
+  ensure the idempotency of the request.
+"""
+function delete_query_logging_configuration end
+
+function delete_query_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_query_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(workspace_id)
+    delete_resource_policy(workspace_id, params::Dict{String,<:Any})
+
+Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus
+workspace.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace from which to delete the resource-based policy.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  request is safe to retry (idempotent).
+- `"revisionId"`: The revision ID of the policy to delete. Use this parameter to ensure that
+  you are deleting the correct version of the policy.
+"""
+function delete_resource_policy end
+
+function delete_resource_policy(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/policy",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_policy(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)/policy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
@@ -527,6 +823,53 @@ function delete_scraper(
 end
 
 """
+    delete_scraper_logging_configuration(scraper_id)
+    delete_scraper_logging_configuration(scraper_id, params::Dict{String,<:Any})
+
+Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+
+# Arguments
+
+- `scraper_id`: The ID of the scraper whose logging configuration will be deleted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  request is processed exactly once.
+"""
+function delete_scraper_logging_configuration end
+
+function delete_scraper_logging_configuration(
+    scraperId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "DELETE",
+        "/scrapers/$(scraperId)/logging-configuration",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_scraper_logging_configuration(
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/scrapers/$(scraperId)/logging-configuration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workspace(workspace_id)
     delete_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -613,10 +956,54 @@ function describe_alert_manager_definition(
 end
 
 """
+    describe_anomaly_detector(anomaly_detector_id, workspace_id)
+    describe_anomaly_detector(anomaly_detector_id, workspace_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific anomaly detector, including its status and
+configuration.
+
+# Arguments
+
+- `anomaly_detector_id`: The identifier of the anomaly detector to describe.
+- `workspace_id`: The identifier of the workspace containing the anomaly detector.
+"""
+function describe_anomaly_detector end
+
+function describe_anomaly_detector(
+    anomalyDetectorId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_anomaly_detector(
+    anomalyDetectorId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_logging_configuration(workspace_id)
     describe_logging_configuration(workspace_id, params::Dict{String,<:Any})
 
-Returns complete information about the current logging configuration of the workspace.
+Returns complete information about the current rules and alerting logging configuration of
+the workspace.
+
+!!! note
+    These logging configurations are only for rules and alerting logs.
 
 # Arguments
 
@@ -643,6 +1030,82 @@ function describe_logging_configuration(
     return amp(
         "GET",
         "/workspaces/$(workspaceId)/logging",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_query_logging_configuration(workspace_id)
+    describe_query_logging_configuration(workspace_id, params::Dict{String,<:Any})
+
+Retrieves the details of the query logging configuration for the specified workspace.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace for which to retrieve the query logging
+  configuration.
+"""
+function describe_query_logging_configuration end
+
+function describe_query_logging_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/logging/query";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_query_logging_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/logging/query",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_resource_policy(workspace_id)
+    describe_resource_policy(workspace_id, params::Dict{String,<:Any})
+
+Returns information about the resource-based policy attached to an Amazon Managed Service
+for Prometheus workspace.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace to describe the resource-based policy for.
+"""
+function describe_resource_policy end
+
+function describe_resource_policy(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/policy";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_resource_policy(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/policy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -716,6 +1179,43 @@ function describe_scraper(
 end
 
 """
+    describe_scraper_logging_configuration(scraper_id)
+    describe_scraper_logging_configuration(scraper_id, params::Dict{String,<:Any})
+
+Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+
+# Arguments
+
+- `scraper_id`: The ID of the scraper whose logging configuration will be described.
+"""
+function describe_scraper_logging_configuration end
+
+function describe_scraper_logging_configuration(
+    scraperId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/scrapers/$(scraperId)/logging-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_scraper_logging_configuration(
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/scrapers/$(scraperId)/logging-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_workspace(workspace_id)
     describe_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -748,6 +1248,47 @@ function describe_workspace(
 end
 
 """
+    describe_workspace_configuration(workspace_id)
+    describe_workspace_configuration(workspace_id, params::Dict{String,<:Any})
+
+Use this operation to return information about the configuration of a workspace. The
+configuration details returned include workspace configuration status, label set limits, and
+retention period.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace that you want to retrieve information for. To find
+  the IDs of your workspaces, use the [ListWorkspaces](https://docs.aws.amazon.com/prometheus/latest/APIReference/API_ListWorkspaces.htm)
+  operation.
+"""
+function describe_workspace_configuration end
+
+function describe_workspace_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_workspace_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_default_scraper_configuration()
     get_default_scraper_configuration(params::Dict{String,<:Any})
 
@@ -767,6 +1308,53 @@ function get_default_scraper_configuration(
 )
     return amp(
         "GET", "/scraperconfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_anomaly_detectors(workspace_id)
+    list_anomaly_detectors(workspace_id, params::Dict{String,<:Any})
+
+Returns a paginated list of anomaly detectors for a workspace with optional filtering by
+alias.
+
+# Arguments
+
+- `workspace_id`: The identifier of the workspace containing the anomaly detectors to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"alias"`: Filters the results to anomaly detectors with the specified alias.
+- `"maxResults"`: The maximum number of results to return in a single call. Valid range is 1
+  to 1000.
+- `"nextToken"`: The pagination token to continue retrieving results.
+"""
+function list_anomaly_detectors end
+
+function list_anomaly_detectors(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/anomalydetectors";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_anomaly_detectors(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "GET",
+        "/workspaces/$(workspaceId)/anomalydetectors",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -875,12 +1463,12 @@ end
 
 The [`list_tags_for_resource`](@ref) operation returns the tags that are associated with an
 Amazon Managed Service for Prometheus resource. Currently, the only resources that can be
-tagged are workspaces and rule groups namespaces.
+tagged are scrapers, workspaces, and rule groups namespaces.
 
 # Arguments
 
-- `resource_arn`: The ARN of the resource to list tages for. Must be a workspace or rule
-  groups namespace resource.
+- `resource_arn`: The ARN of the resource to list tages for. Must be a workspace, scraper,
+  or rule groups namespace resource.
 """
 function list_tags_for_resource end
 
@@ -1000,12 +1588,172 @@ function put_alert_manager_definition(
 end
 
 """
+    put_anomaly_detector(anomaly_detector_id, configuration, workspace_id)
+    put_anomaly_detector(anomaly_detector_id, configuration, workspace_id, params::Dict{String,<:Any})
+
+When you call `PutAnomalyDetector`, the operation creates a new anomaly detector if one
+doesn't exist, or updates an existing one. Each call to this operation triggers a complete
+retraining of the detector, which includes querying the minimum required samples and
+backfilling the detector with historical data. This process occurs regardless of whether
+you're making a minor change like updating the evaluation interval or making more
+substantial modifications. The operation serves as the single method for creating, updating,
+and retraining anomaly detectors.
+
+# Arguments
+
+- `anomaly_detector_id`: The identifier of the anomaly detector to update.
+- `configuration`: The algorithm configuration for the anomaly detector.
+- `workspace_id`: The identifier of the workspace containing the anomaly detector to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"evaluationIntervalInSeconds"`: The frequency, in seconds, at which the anomaly detector
+  evaluates metrics.
+- `"labels"`: The Amazon Managed Service for Prometheus metric labels to associate with the
+  anomaly detector.
+- `"missingDataAction"`: Specifies the action to take when data is missing during
+  evaluation.
+"""
+function put_anomaly_detector end
+
+function put_anomaly_detector(
+    anomalyDetectorId,
+    configuration,
+    workspaceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)",
+        Dict{String,Any}(
+            "configuration" => configuration, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_anomaly_detector(
+    anomalyDetectorId,
+    configuration,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/anomalydetectors/$(anomalyDetectorId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy_document, workspace_id)
+    put_resource_policy(policy_document, workspace_id, params::Dict{String,<:Any})
+
+Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus
+workspace. Use resource-based policies to grant permissions to other AWS accounts or
+services to access your workspace.
+
+Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-
+Prometheus-compatible APIs to the policy, but they will be ignored. For more information,
+see [Prometheus-compatible APIs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-APIReference-Prometheus-Compatible-Apis.html)
+in the *Amazon Managed Service for Prometheus User Guide*.
+
+If your workspace uses customer-managed KMS keys for encryption, you must grant the
+principals in your resource-based policy access to those KMS keys. You can do this by
+creating KMS grants. For more information, see [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html)
+in the *AWS Key Management Service API Reference* and [Encryption at rest](https://docs.aws.amazon.com/prometheus/latest/userguide/encryption-at-rest-Amazon-Service-Prometheus.html)
+in the *Amazon Managed Service for Prometheus User Guide*.
+
+For more information about working with IAM, see [Using Amazon Managed Service for Prometheus with IAM](https://docs.aws.amazon.com/prometheus/latest/userguide/security_iam_service-with-iam.html)
+in the *Amazon Managed Service for Prometheus User Guide*.
+
+# Arguments
+
+- `policy_document`: The JSON policy document to use as the resource-based policy. This
+  policy defines the permissions that other AWS accounts or services have to access your
+  workspace.
+- `workspace_id`: The ID of the workspace to attach the resource-based policy to.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  request is safe to retry (idempotent).
+
+- `"revisionId"`: The revision ID of the policy to update. Use this parameter to ensure that
+  you are updating the correct version of the policy. If you don't specify a revision ID,
+  the policy is updated regardless of its current revision.
+
+  For the first **PUT** request on a workspace that doesn't have an existing resource
+  policy, you can specify `NO_POLICY` as the revision ID.
+"""
+function put_resource_policy end
+
+function put_resource_policy(
+    policyDocument, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/policy",
+        Dict{String,Any}(
+            "policyDocument" => policyDocument, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_resource_policy(
+    policyDocument,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyDocument" => policyDocument, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_rule_groups_namespace(data, name, workspace_id)
     put_rule_groups_namespace(data, name, workspace_id, params::Dict{String,<:Any})
 
 Updates an existing rule groups namespace within a workspace. A rule groups namespace is
 associated with exactly one rules file. A workspace can have multiple rule groups
 namespaces.
+
+!!! important
+    The combined length of a rule group namespace and a rule group name cannot exceed 721
+    UTF-8 bytes.
 
 Use this operation only to update existing rule groups namespaces. To create a new rule
 groups namespace, use `CreateRuleGroupsNamespace`.
@@ -1072,20 +1820,21 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 The [`tag_resource`](@ref) operation associates tags with an Amazon Managed Service for
-Prometheus resource. The only resources that can be tagged are workspaces and rule groups
-namespaces.
+Prometheus resource. The only resources that can be tagged are rule groups namespaces,
+scrapers, and workspaces.
 
 If you specify a new tag key for the resource, this tag is appended to the list of tags
 associated with the resource. If you specify a tag key that is already associated with the
-resource, the new tag value that you specify replaces the previous value for that tag.
+resource, the new tag value that you specify replaces the previous value for that tag. To
+remove a tag, use `UntagResource`.
 
 # Arguments
 
-- `resource_arn`: The ARN of the workspace or rule groups namespace to apply tags to.
+- `resource_arn`: The ARN of the resource to apply tags to.
 
 - `tags`: The list of tag keys and values to associate with the resource.
 
-  Keys may not begin with `aws:`.
+  Keys must not begin with `aws:`.
 """
 function tag_resource end
 
@@ -1119,11 +1868,11 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only
-resources that can be tagged are workspaces and rule groups namespaces.
+resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
 
 # Arguments
 
-- `resource_arn`: The ARN of the workspace or rule groups namespace.
+- `resource_arn`: The ARN of the resource from which to remove a tag.
 - `tag_keys`: The keys of the tags to remove.
 """
 function untag_resource end
@@ -1159,7 +1908,11 @@ end
     update_logging_configuration(log_group_arn, workspace_id)
     update_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
 
-Updates the log group ARN or the workspace ID of the current logging configuration.
+Updates the log group ARN or the workspace ID of the current rules and alerting logging
+configuration.
+
+!!! note
+    These logging configurations are only for rules and alerting logs.
 
 # Arguments
 
@@ -1212,6 +1965,175 @@ function update_logging_configuration(
 end
 
 """
+    update_query_logging_configuration(destinations, workspace_id)
+    update_query_logging_configuration(destinations, workspace_id, params::Dict{String,<:Any})
+
+Updates the query logging configuration for the specified workspace.
+
+# Arguments
+
+- `destinations`: The destinations where query logs will be sent. Only CloudWatch Logs
+  destination is supported. The list must contain exactly one element.
+- `workspace_id`: The ID of the workspace for which to update the query logging
+  configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: (Optional) A unique, case-sensitive identifier that you can provide to
+  ensure the idempotency of the request.
+"""
+function update_query_logging_configuration end
+
+function update_query_logging_configuration(
+    destinations, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}("destinations" => destinations, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_query_logging_configuration(
+    destinations,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/workspaces/$(workspaceId)/logging/query",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinations" => destinations, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_scraper(scraper_id)
+    update_scraper(scraper_id, params::Dict{String,<:Any})
+
+Updates an existing scraper.
+
+You can't use this function to update the source from which the scraper is collecting
+metrics. To change the source, delete the scraper and create a new one.
+
+# Arguments
+
+- `scraper_id`: The ID of the scraper to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"alias"`: The new alias of the scraper.
+
+- `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of the
+  request. Case-sensitive.
+
+- `"destination"`: The new Amazon Managed Service for Prometheus workspace to send metrics
+  to.
+
+- `"roleConfiguration"`: Use this structure to enable cross-account access, so that you can
+  use a target account to access Prometheus metrics from source accounts.
+
+- `"scrapeConfiguration"`: Contains the base-64 encoded YAML configuration for the scraper.
+
+  !!! note
+      For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html)
+      in the *Amazon Managed Service for Prometheus User Guide*.
+"""
+function update_scraper end
+
+function update_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amp(
+        "PUT",
+        "/scrapers/$(scraperId)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_scraper(
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/scrapers/$(scraperId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_scraper_logging_configuration(logging_destination, scraper_id)
+    update_scraper_logging_configuration(logging_destination, scraper_id, params::Dict{String,<:Any})
+
+Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
+
+# Arguments
+
+- `logging_destination`: The destination where scraper logs will be sent.
+- `scraper_id`: The ID of the scraper whose logging configuration will be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"scraperComponents"`: The list of scraper components to configure for logging.
+"""
+function update_scraper_logging_configuration end
+
+function update_scraper_logging_configuration(
+    loggingDestination, scraperId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "PUT",
+        "/scrapers/$(scraperId)/logging-configuration",
+        Dict{String,Any}("loggingDestination" => loggingDestination);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_scraper_logging_configuration(
+    loggingDestination,
+    scraperId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PUT",
+        "/scrapers/$(scraperId)/logging-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("loggingDestination" => loggingDestination), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_workspace_alias(workspace_id)
     update_workspace_alias(workspace_id, params::Dict{String,<:Any})
 
@@ -1255,6 +2177,64 @@ function update_workspace_alias(
     return amp(
         "POST",
         "/workspaces/$(workspaceId)/alias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_workspace_configuration(workspace_id)
+    update_workspace_configuration(workspace_id, params::Dict{String,<:Any})
+
+Use this operation to create or update the label sets, label set limits, and retention
+period of a workspace.
+
+You must specify at least one of `limitsPerLabelSet` or `retentionPeriodInDays` for the
+request to be valid.
+
+# Arguments
+
+- `workspace_id`: The ID of the workspace that you want to update. To find the IDs of your
+  workspaces, use the [ListWorkspaces](https://docs.aws.amazon.com/prometheus/latest/APIReference/API_ListWorkspaces.htm)
+  operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: You can include a token in your operation to make it an idempotent
+  opeartion.
+- `"limitsPerLabelSet"`: This is an array of structures, where each structure defines a
+  label set for the workspace, and defines the active time series limit for each of those
+  label sets. Each label name in a label set must be unique.
+- `"retentionPeriodInDays"`: Specifies how many days that metrics will be retained in the
+  workspace.
+"""
+function update_workspace_configuration end
+
+function update_workspace_configuration(
+    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return amp(
+        "PATCH",
+        "/workspaces/$(workspaceId)/configuration",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_workspace_configuration(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return amp(
+        "PATCH",
+        "/workspaces/$(workspaceId)/configuration",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );

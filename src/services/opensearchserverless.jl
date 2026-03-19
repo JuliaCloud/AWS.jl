@@ -8,8 +8,8 @@ using AWS.UUIDs: uuid4
     batch_get_collection()
     batch_get_collection(params::Dict{String,<:Any})
 
-Returns attributes for one or more collections, including the collection endpoint and the
-OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+Returns attributes for one or more collections, including the collection endpoint, the
+OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
 
 # Optional Parameters
 
@@ -34,6 +34,38 @@ function batch_get_collection(
 )
     return opensearchserverless(
         "BatchGetCollection", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    batch_get_collection_group()
+    batch_get_collection_group(params::Dict{String,<:Any})
+
+Returns attributes for one or more collection groups, including capacity limits and the
+number of collections in each group. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ids"`: A list of collection group IDs. You can't provide names and IDs in the same
+  request.
+- `"names"`: A list of collection group names. You can't provide names and IDs in the same
+  request.
+"""
+function batch_get_collection_group end
+
+function batch_get_collection_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "BatchGetCollectionGroup"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function batch_get_collection_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearchserverless(
+        "BatchGetCollectionGroup", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -233,11 +265,15 @@ Creates a new OpenSearch Serverless collection. For more information, see [Creat
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+- `"collectionGroupName"`: The name of the collection group to associate with the
+  collection.
 - `"description"`: Description of the collection.
+- `"encryptionConfig"`: Encryption settings for the collection.
 - `"standbyReplicas"`: Indicates whether standby replicas should be used for a collection.
 - `"tags"`: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch
   Serverless collection.
 - `"type"`: The type of collection.
+- `"vectorOptions"`: Configuration options for vector search capabilities in the collection.
 """
 function create_collection end
 
@@ -260,6 +296,126 @@ function create_collection(
                 _merge,
                 Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_collection_group(name, standby_replicas)
+    create_collection_group(name, standby_replicas, params::Dict{String,<:Any})
+
+Creates a collection group within OpenSearch Serverless. Collection groups let you manage
+OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the
+group's capacity limits.
+
+For more information, see [Managing collection groups](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-collection-groups.html).
+
+# Arguments
+
+- `name`: The name of the collection group.
+- `standby_replicas`: Indicates whether standby replicas should be used for a collection
+  group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"capacityLimits"`: The capacity limits for the collection group, in OpenSearch Compute
+  Units (OCUs). These limits control the maximum and minimum capacity for collections within
+  the group.
+- `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+- `"description"`: A description of the collection group.
+- `"tags"`: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch
+  Serverless collection group.
+"""
+function create_collection_group end
+
+function create_collection_group(
+    name, standbyReplicas; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearchserverless(
+        "CreateCollectionGroup",
+        Dict{String,Any}(
+            "name" => name,
+            "standbyReplicas" => standbyReplicas,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_collection_group(
+    name,
+    standbyReplicas,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearchserverless(
+        "CreateCollectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "standbyReplicas" => standbyReplicas,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_index(id, index_name)
+    create_index(id, index_name, params::Dict{String,<:Any})
+
+Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch
+indexes, indexes created by this API are automatically configured to conduct automatic
+semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment)
+in the *OpenSearch User Guide*.
+
+# Arguments
+
+- `id`: The unique identifier of the collection in which to create the index.
+- `index_name`: The name of the index to create. Index names must be lowercase and can't
+  begin with underscores (_) or hyphens (-).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"indexSchema"`: The JSON schema definition for the index, including field mappings and
+  settings.
+"""
+function create_index end
+
+function create_index(id, indexName; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "CreateIndex",
+        Dict{String,Any}("id" => id, "indexName" => indexName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_index(
+    id,
+    indexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearchserverless(
+        "CreateIndex",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("id" => id, "indexName" => indexName), params
             ),
         );
         aws_config,
@@ -349,8 +505,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the security configuration.
-- `"samlOptions"`: Describes SAML options in in the form of a key-value map. This field is
-  required if you specify `saml` for the `type` parameter.
+- `"iamFederationOptions"`: Describes IAM federation options in the form of a key-value map.
+  This field is required if you specify `iamFederation` for the `type` parameter.
+- `"iamIdentityCenterOptions"`: Describes IAM Identity Center options in the form of a key-
+  value map. This field is required if you specify `iamidentitycenter` for the `type`
+  parameter.
+- `"samlOptions"`: Describes SAML options in the form of a key-value map. This field is
+  required if you specify `SAML` for the `type` parameter.
 """
 function create_security_config end
 
@@ -619,6 +780,93 @@ function delete_collection(
 end
 
 """
+    delete_collection_group(id)
+    delete_collection_group(id, params::Dict{String,<:Any})
+
+Deletes a collection group. You can only delete empty collection groups that contain no
+collections. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+
+# Arguments
+
+- `id`: The unique identifier of the collection group to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+"""
+function delete_collection_group end
+
+function delete_collection_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "DeleteCollectionGroup",
+        Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_collection_group(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearchserverless(
+        "DeleteCollectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("id" => id, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_index(id, index_name)
+    delete_index(id, index_name, params::Dict{String,<:Any})
+
+Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be
+configured to conduct automatic semantic enrichment ingestion and search. For more
+information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
+
+# Arguments
+
+- `id`: The unique identifier of the collection containing the index to delete.
+- `index_name`: The name of the index to delete.
+"""
+function delete_index end
+
+function delete_index(id, indexName; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "DeleteIndex",
+        Dict{String,Any}("id" => id, "indexName" => indexName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_index(
+    id,
+    indexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearchserverless(
+        "DeleteIndex",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("id" => id, "indexName" => indexName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_lifecycle_policy(name, type)
     delete_lifecycle_policy(name, type, params::Dict{String,<:Any})
 
@@ -873,6 +1121,48 @@ function get_account_settings(
 end
 
 """
+    get_index(id, index_name)
+    get_index(id, index_name, params::Dict{String,<:Any})
+
+Retrieves information about an index in an OpenSearch Serverless collection, including its
+schema definition. The index might be configured to conduct automatic semantic enrichment
+ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
+
+# Arguments
+
+- `id`: The unique identifier of the collection containing the index.
+- `index_name`: The name of the index to retrieve information about.
+"""
+function get_index end
+
+function get_index(id, indexName; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "GetIndex",
+        Dict{String,Any}("id" => id, "indexName" => indexName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_index(
+    id,
+    indexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearchserverless(
+        "GetIndex",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("id" => id, "indexName" => indexName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_policies_stats()
     get_policies_stats(params::Dict{String,<:Any})
 
@@ -1008,6 +1298,38 @@ function list_access_policies(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collection_groups()
+    list_collection_groups(params::Dict{String,<:Any})
+
+Returns a list of collection groups. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return. Default is 20. You can use
+  `nextToken` to get the next page of results.
+- `"nextToken"`: If your initial `ListCollectionGroups` operation returns a `nextToken`, you
+  can include the returned `nextToken` in subsequent `ListCollectionGroups` operations,
+  which returns results in the next page.
+"""
+function list_collection_groups end
+
+function list_collection_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "ListCollectionGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_collection_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearchserverless(
+        "ListCollectionGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1457,6 +1779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the collection.
+- `"vectorOptions"`: Configuration options for vector search capabilities in the collection.
 """
 function update_collection end
 
@@ -1479,6 +1802,102 @@ function update_collection(
                 _merge,
                 Dict{String,Any}("id" => id, "clientToken" => string(uuid4())),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_collection_group(id)
+    update_collection_group(id, params::Dict{String,<:Any})
+
+Updates the description and capacity limits of a collection group.
+
+# Arguments
+
+- `id`: The unique identifier of the collection group to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"capacityLimits"`: Updated capacity limits for the collection group, in OpenSearch
+  Compute Units (OCUs).
+- `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+- `"description"`: A new description for the collection group.
+"""
+function update_collection_group end
+
+function update_collection_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "UpdateCollectionGroup",
+        Dict{String,Any}("id" => id, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_collection_group(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearchserverless(
+        "UpdateCollectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("id" => id, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_index(id, index_name)
+    update_index(id, index_name, params::Dict{String,<:Any})
+
+Updates an existing index in an OpenSearch Serverless collection. This operation allows you
+to modify the index schema, including adding new fields or changing field mappings. You can
+also enable automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
+
+# Arguments
+
+- `id`: The unique identifier of the collection containing the index to update.
+- `index_name`: The name of the index to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"indexSchema"`: The updated JSON schema definition for the index, including field
+  mappings and settings.
+"""
+function update_index end
+
+function update_index(id, indexName; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearchserverless(
+        "UpdateIndex",
+        Dict{String,Any}("id" => id, "indexName" => indexName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_index(
+    id,
+    indexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearchserverless(
+        "UpdateIndex",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("id" => id, "indexName" => indexName), params
             ),
         );
         aws_config,
@@ -1570,6 +1989,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the security configuration.
+- `"iamFederationOptions"`: Describes IAM federation options in the form of a key-value map
+  for updating an existing security configuration. Use this field to modify IAM federation
+  settings for the security configuration.
+- `"iamIdentityCenterOptionsUpdates"`: Describes IAM Identity Center options in the form of
+  a key-value map.
 - `"samlOptions"`: SAML options in in the form of a key-value map.
 """
 function update_security_config end

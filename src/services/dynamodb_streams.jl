@@ -32,6 +32,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   evaluate. Use the value that was returned for `LastEvaluatedShardId` in the previous
   operation.
 - `"Limit"`: The maximum number of shard objects to return. The upper limit is 100.
+- `"ShardFilter"`: This optional field contains the filter definition for the
+  `DescribeStream` API.
 """
 function describe_stream end
 

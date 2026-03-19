@@ -269,6 +269,14 @@ in the *License Manager User Guide*.
   - An organizational unit (OU), which includes all accounts in the OU.
 
   - An organization, which will include all accounts across your organization.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: Tags to add to the grant. For more information about tagging support in License
+  Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+  operation.
 """
 function create_grant end
 
@@ -411,6 +419,9 @@ Creates a license.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"LicenseMetadata"`: Information about the license.
+- `"Tags"`: Tags to add to the license. For more information about tagging support in
+  License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+  operation.
 """
 function create_license end
 
@@ -486,6 +497,134 @@ function create_license(
 end
 
 """
+    create_license_asset_group(associated_license_asset_ruleset_arns, client_token, license_asset_group_configurations, name)
+    create_license_asset_group(associated_license_asset_ruleset_arns, client_token, license_asset_group_configurations, name, params::Dict{String,<:Any})
+
+Creates a license asset group.
+
+# Arguments
+
+- `associated_license_asset_ruleset_arns`: ARNs of associated license asset rulesets.
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `license_asset_group_configurations`: License asset group configurations.
+- `name`: License asset group name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: License asset group description.
+- `"Properties"`: License asset group properties.
+- `"Tags"`: Tags to add to the license asset group.
+"""
+function create_license_asset_group end
+
+function create_license_asset_group(
+    AssociatedLicenseAssetRulesetARNs,
+    ClientToken,
+    LicenseAssetGroupConfigurations,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "CreateLicenseAssetGroup",
+        Dict{String,Any}(
+            "AssociatedLicenseAssetRulesetARNs" => AssociatedLicenseAssetRulesetARNs,
+            "ClientToken" => ClientToken,
+            "LicenseAssetGroupConfigurations" => LicenseAssetGroupConfigurations,
+            "Name" => Name,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_license_asset_group(
+    AssociatedLicenseAssetRulesetARNs,
+    ClientToken,
+    LicenseAssetGroupConfigurations,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "CreateLicenseAssetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociatedLicenseAssetRulesetARNs" =>
+                        AssociatedLicenseAssetRulesetARNs,
+                    "ClientToken" => ClientToken,
+                    "LicenseAssetGroupConfigurations" => LicenseAssetGroupConfigurations,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_license_asset_ruleset(client_token, name, rules)
+    create_license_asset_ruleset(client_token, name, rules, params::Dict{String,<:Any})
+
+Creates a license asset ruleset.
+
+# Arguments
+
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `name`: License asset ruleset name.
+- `rules`: License asset rules.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: License asset ruleset description.
+- `"Tags"`: Tags to add to the license asset ruleset.
+"""
+function create_license_asset_ruleset end
+
+function create_license_asset_ruleset(
+    ClientToken, Name, Rules; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "CreateLicenseAssetRuleset",
+        Dict{String,Any}("ClientToken" => ClientToken, "Name" => Name, "Rules" => Rules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_license_asset_ruleset(
+    ClientToken,
+    Name,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "CreateLicenseAssetRuleset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "Name" => Name, "Rules" => Rules
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_license_configuration(license_counting_type, name)
     create_license_configuration(license_counting_type, name, params::Dict{String,<:Any})
 
@@ -516,13 +655,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseCountHardLimit"`: Indicates whether hard or soft license enforcement is used.
   Exceeding a hard limit blocks the launch of new instances.
 
+- `"LicenseExpiry"`: License configuration expiry.
+
 - `"LicenseRules"`: License rules. The syntax is #name=value (for example,
   #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
 
   - `Cores` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumCores` |
     `minimumCores`
-  - `Instances` dimension: `allowedTenancy` | `maximumCores` | `minimumCores` |
-    `maximumSockets` | `minimumSockets` | `maximumVcpus` | `minimumVcpus`
+  - `Instances` dimension: `allowedTenancy` | `maximumVcpus` | `minimumVcpus`
   - `Sockets` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumSockets` |
     `minimumSockets`
   - `vCPUs` dimension: `allowedTenancy` | `honorVcpuOptimization` | `maximumVcpus` |
@@ -976,6 +1116,90 @@ function delete_license(
 end
 
 """
+    delete_license_asset_group(license_asset_group_arn)
+    delete_license_asset_group(license_asset_group_arn, params::Dict{String,<:Any})
+
+Deletes a license asset group.
+
+# Arguments
+
+- `license_asset_group_arn`: Amazon Resource Name (ARN) of the license asset group.
+"""
+function delete_license_asset_group end
+
+function delete_license_asset_group(
+    LicenseAssetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "DeleteLicenseAssetGroup",
+        Dict{String,Any}("LicenseAssetGroupArn" => LicenseAssetGroupArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_license_asset_group(
+    LicenseAssetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "DeleteLicenseAssetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LicenseAssetGroupArn" => LicenseAssetGroupArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_license_asset_ruleset(license_asset_ruleset_arn)
+    delete_license_asset_ruleset(license_asset_ruleset_arn, params::Dict{String,<:Any})
+
+Deletes a license asset ruleset.
+
+# Arguments
+
+- `license_asset_ruleset_arn`: Amazon Resource Name (ARN) of the license asset ruleset.
+"""
+function delete_license_asset_ruleset end
+
+function delete_license_asset_ruleset(
+    LicenseAssetRulesetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "DeleteLicenseAssetRuleset",
+        Dict{String,Any}("LicenseAssetRulesetArn" => LicenseAssetRulesetArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_license_asset_ruleset(
+    LicenseAssetRulesetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "DeleteLicenseAssetRuleset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LicenseAssetRulesetArn" => LicenseAssetRulesetArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_license_configuration(license_configuration_arn)
     delete_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
@@ -1277,6 +1501,90 @@ function get_license(
 end
 
 """
+    get_license_asset_group(license_asset_group_arn)
+    get_license_asset_group(license_asset_group_arn, params::Dict{String,<:Any})
+
+Gets a license asset group.
+
+# Arguments
+
+- `license_asset_group_arn`: Amazon Resource Name (ARN) of the license asset group.
+"""
+function get_license_asset_group end
+
+function get_license_asset_group(
+    LicenseAssetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "GetLicenseAssetGroup",
+        Dict{String,Any}("LicenseAssetGroupArn" => LicenseAssetGroupArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_license_asset_group(
+    LicenseAssetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "GetLicenseAssetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LicenseAssetGroupArn" => LicenseAssetGroupArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_license_asset_ruleset(license_asset_ruleset_arn)
+    get_license_asset_ruleset(license_asset_ruleset_arn, params::Dict{String,<:Any})
+
+Gets a license asset ruleset.
+
+# Arguments
+
+- `license_asset_ruleset_arn`: Amazon Resource Name (ARN) of the license asset ruleset.
+"""
+function get_license_asset_ruleset end
+
+function get_license_asset_ruleset(
+    LicenseAssetRulesetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "GetLicenseAssetRuleset",
+        Dict{String,Any}("LicenseAssetRulesetArn" => LicenseAssetRulesetArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_license_asset_ruleset(
+    LicenseAssetRulesetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "GetLicenseAssetRuleset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LicenseAssetRulesetArn" => LicenseAssetRulesetArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_license_configuration(license_configuration_arn)
     get_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
@@ -1467,6 +1775,62 @@ function get_service_settings(
 end
 
 """
+    list_assets_for_license_asset_group(asset_type, license_asset_group_arn)
+    list_assets_for_license_asset_group(asset_type, license_asset_group_arn, params::Dict{String,<:Any})
+
+Lists assets for a license asset group.
+
+# Arguments
+
+- `asset_type`: Asset type. The possible values are `Instance` | `License` |
+  `LicenseConfiguration`.
+- `license_asset_group_arn`: Amazon Resource Name (ARN) of the license asset group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_assets_for_license_asset_group end
+
+function list_assets_for_license_asset_group(
+    AssetType, LicenseAssetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "ListAssetsForLicenseAssetGroup",
+        Dict{String,Any}(
+            "AssetType" => AssetType, "LicenseAssetGroupArn" => LicenseAssetGroupArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_assets_for_license_asset_group(
+    AssetType,
+    LicenseAssetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "ListAssetsForLicenseAssetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssetType" => AssetType, "LicenseAssetGroupArn" => LicenseAssetGroupArn
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_associations_for_license_configuration(license_configuration_arn)
     list_associations_for_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
@@ -1608,6 +1972,77 @@ function list_failures_for_license_configuration_operations(
 end
 
 """
+    list_license_asset_groups()
+    list_license_asset_groups(params::Dict{String,<:Any})
+
+Lists license asset groups.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters to scope the results. Following filters are supported
+
+  - `LicenseAssetRulesetArn`
+
+- `"MaxResults"`: Maximum number of results to return in a single call.
+
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_license_asset_groups end
+
+function list_license_asset_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager(
+        "ListLicenseAssetGroups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_license_asset_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "ListLicenseAssetGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_license_asset_rulesets()
+    list_license_asset_rulesets(params::Dict{String,<:Any})
+
+Lists license asset rulesets.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters to scope the results. Following filters are supported
+
+  - `Name`
+
+- `"MaxResults"`: Maximum number of results to return in a single call.
+
+- `"NextToken"`: Token for the next set of results.
+
+- `"ShowAWSManagedLicenseAssetRulesets"`: Specifies whether to show License Manager managed
+  license asset rulesets.
+"""
+function list_license_asset_rulesets end
+
+function list_license_asset_rulesets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager(
+        "ListLicenseAssetRulesets"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_license_asset_rulesets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "ListLicenseAssetRulesets", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_license_configurations()
     list_license_configurations(params::Dict{String,<:Any})
 
@@ -1621,12 +2056,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported:
 
   - `licenseCountingType` - The dimension for which licenses are counted. Possible values
-    are `vCPU` | `Instance` | `Core` | `Socket`. Logical operators are `EQUALS` |
-    `NOT_EQUALS`.
+    are `vCPU` | `Instance` | `Core` | `Socket`.
   - `enforceLicenseCount` - A Boolean value that indicates whether hard license enforcement
-    is used. Logical operators are `EQUALS` | `NOT_EQUALS`.
+    is used.
   - `usagelimitExceeded` - A Boolean value that indicates whether the available licenses
-    have been exceeded. Logical operators are `EQUALS` | `NOT_EQUALS`.
+    have been exceeded.
 
 - `"LicenseConfigurationArns"`: Amazon Resource Names (ARN) of the license configurations.
 
@@ -1647,6 +2081,44 @@ function list_license_configurations(
 )
     return license_manager(
         "ListLicenseConfigurations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_license_configurations_for_organization()
+    list_license_configurations_for_organization(params::Dict{String,<:Any})
+
+Lists license configurations for an organization.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters to scope the results.
+- `"LicenseConfigurationArns"`: License configuration ARNs.
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+function list_license_configurations_for_organization end
+
+function list_license_configurations_for_organization(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "ListLicenseConfigurationsForOrganization";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_license_configurations_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager(
+        "ListLicenseConfigurationsForOrganization",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2070,11 +2542,13 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags for the specified license configuration.
+Lists the tags for the specified resource. For more information about tagging support in
+License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html)
+operation.
 
 # Arguments
 
-- `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -2157,12 +2631,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters to scope the results. The following filters and logical operators are
   supported:
 
-  - `resourceArn` - The ARN of the license configuration resource. Logical operators are
-    `EQUALS` | `NOT_EQUALS`.
+  - `resourceArn` - The ARN of the license configuration resource.
   - `resourceType` - The resource type (`EC2_INSTANCE` | `EC2_HOST` | `EC2_AMI` |
-    `SYSTEMS_MANAGER_MANAGED_INSTANCE`). Logical operators are `EQUALS` | `NOT_EQUALS`.
-  - `resourceAccount` - The ID of the account that owns the resource. Logical operators are
-    `EQUALS` | `NOT_EQUALS`.
+    `SYSTEMS_MANAGER_MANAGED_INSTANCE`).
+  - `resourceAccount` - The ID of the account that owns the resource.
 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 
@@ -2240,11 +2712,28 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds the specified tags to the specified license configuration.
+Adds the specified tags to the specified resource. The following resources support tagging
+in License Manager:
+
+- Licenses
+- Grants
+- License configurations
+- Report generators
 
 # Arguments
 
-- `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource. The following examples provide
+  an example ARN for each supported resource in License Manager:
+
+  - Licenses -
+    `arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895`
+  - Grants -
+    `arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707`
+  - License configurations -
+    `arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d`
+  - Report generators -
+    `arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6`
+
 - `tags`: One or more tags.
 """
 function tag_resource end
@@ -2282,11 +2771,11 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the specified license configuration.
+Removes the specified tags from the specified resource.
 
 # Arguments
 
-- `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Keys identifying the tags to remove.
 """
 function untag_resource end
@@ -2323,6 +2812,140 @@ function untag_resource(
 end
 
 """
+    update_license_asset_group(associated_license_asset_ruleset_arns, client_token, license_asset_group_arn)
+    update_license_asset_group(associated_license_asset_ruleset_arns, client_token, license_asset_group_arn, params::Dict{String,<:Any})
+
+Updates a license asset group.
+
+# Arguments
+
+- `associated_license_asset_ruleset_arns`: ARNs of associated license asset rulesets.
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `license_asset_group_arn`: Amazon Resource Name (ARN) of the license asset group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: License asset group description.
+- `"LicenseAssetGroupConfigurations"`: License asset group configurations.
+- `"Name"`: License asset group name.
+- `"Properties"`: License asset group properties.
+- `"Status"`: License asset group status. The possible values are `ACTIVE` | `DISABLED`.
+"""
+function update_license_asset_group end
+
+function update_license_asset_group(
+    AssociatedLicenseAssetRulesetARNs,
+    ClientToken,
+    LicenseAssetGroupArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "UpdateLicenseAssetGroup",
+        Dict{String,Any}(
+            "AssociatedLicenseAssetRulesetARNs" => AssociatedLicenseAssetRulesetARNs,
+            "ClientToken" => ClientToken,
+            "LicenseAssetGroupArn" => LicenseAssetGroupArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_license_asset_group(
+    AssociatedLicenseAssetRulesetARNs,
+    ClientToken,
+    LicenseAssetGroupArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "UpdateLicenseAssetGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociatedLicenseAssetRulesetARNs" =>
+                        AssociatedLicenseAssetRulesetARNs,
+                    "ClientToken" => ClientToken,
+                    "LicenseAssetGroupArn" => LicenseAssetGroupArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_license_asset_ruleset(client_token, license_asset_ruleset_arn, rules)
+    update_license_asset_ruleset(client_token, license_asset_ruleset_arn, rules, params::Dict{String,<:Any})
+
+Updates a license asset ruleset.
+
+# Arguments
+
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `license_asset_ruleset_arn`: Amazon Resource Name (ARN) of the license asset ruleset.
+- `rules`: License asset rules.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: License asset ruleset description.
+- `"Name"`: License asset ruleset name.
+"""
+function update_license_asset_ruleset end
+
+function update_license_asset_ruleset(
+    ClientToken,
+    LicenseAssetRulesetArn,
+    Rules;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "UpdateLicenseAssetRuleset",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "LicenseAssetRulesetArn" => LicenseAssetRulesetArn,
+            "Rules" => Rules,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_license_asset_ruleset(
+    ClientToken,
+    LicenseAssetRulesetArn,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager(
+        "UpdateLicenseAssetRuleset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "LicenseAssetRulesetArn" => LicenseAssetRulesetArn,
+                    "Rules" => Rules,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_license_configuration(license_configuration_arn)
     update_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
@@ -2342,6 +2965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseConfigurationStatus"`: New status of the license configuration.
 - `"LicenseCount"`: New number of licenses managed by the license configuration.
 - `"LicenseCountHardLimit"`: New hard limit of the number of available licenses.
+- `"LicenseExpiry"`: License configuration expiry time.
 - `"LicenseRules"`: New license rule. The only rule that you can add after you create a
   license configuration is licenseAffinityToHost.
 - `"Name"`: New name of the license configuration.
@@ -2533,6 +3157,7 @@ Updates License Manager settings for the current Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"EnableCrossAccountsDiscovery"`: Activates cross-account discovery.
+- `"EnabledDiscoverySourceRegions"`: Cross region discovery enabled source regions.
 - `"OrganizationConfiguration"`: Enables integration with Organizations for cross-account
   discovery.
 - `"S3BucketArn"`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License

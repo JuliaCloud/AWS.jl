@@ -50,7 +50,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
 
   !!! note
-      The `HomeDirectory` parameter is only used if `HomeDirectoryType` is set to `PATH`.
+      You can use the `HomeDirectory` parameter for `HomeDirectoryType` when it is set to
+      either `PATH` or `LOGICAL`.
 
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
@@ -145,8 +146,8 @@ function create_access(
 end
 
 """
-    create_agreement(access_role, base_directory, local_profile_id, partner_profile_id, server_id)
-    create_agreement(access_role, base_directory, local_profile_id, partner_profile_id, server_id, params::Dict{String,<:Any})
+    create_agreement(access_role, local_profile_id, partner_profile_id, server_id)
+    create_agreement(access_role, local_profile_id, partner_profile_id, server_id, params::Dict{String,<:Any})
 
 Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership,
 between an Transfer Family server and an AS2 process. The agreement defines the file and
@@ -156,6 +157,10 @@ and other attributes.
 
 The partner is identified with the `PartnerProfileId`, and the AS2 process is identified
 with the `LocalProfileId`.
+
+!!! note
+    Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both
+    causes the command to fail.
 
 # Arguments
 
@@ -186,11 +191,6 @@ with the `LocalProfileId`.
   the file location that's used in the `StartFileTransfer` request. Additionally, make sure
   that the role provides `secretsmanager:GetSecretValue` permission to Secrets Manager.
 
-- `base_directory`: The landing directory (folder) for files transferred by using the AS2
-  protocol.
-
-  A `BaseDirectory` example is `/DOC-EXAMPLE-BUCKET/home/mydirectory`.
-
 - `local_profile_id`: A unique identifier for the AS2 local profile.
 
 - `partner_profile_id`: A unique identifier for the partner profile used in the agreement.
@@ -202,16 +202,47 @@ with the `LocalProfileId`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BaseDirectory"`: The landing directory (folder) for files transferred by using the AS2
+  protocol.
+
+  A `BaseDirectory` example is `/*amzn-s3-demo-bucket*/home/mydirectory`.
+
+- `"CustomDirectories"`: A `CustomDirectoriesType` structure. This structure specifies
+  custom directories for storing various AS2 message files. You can specify directories for
+  the following types of files.
+
+  - Failed files
+  - MDN files
+  - Payload files
+  - Status files
+  - Temporary files
+
 - `"Description"`: A name or short description to identify the agreement.
+
+- `"EnforceMessageSigning"`: Determines whether or not unsigned messages from your trading
+  partners will be accepted.
+
+  - `ENABLED`: Transfer Family rejects unsigned messages from your trading partner.
+  - `DISABLED` (default value): Transfer Family accepts unsigned messages from your trading
+    partner.
+
+- `"PreserveFilename"`: Determines whether or not Transfer Family appends a unique string of
+  characters to the end of the AS2 message payload filename when saving it.
+
+  - `ENABLED`: the filename provided by your trading parter is preserved when the file is
+    saved.
+  - `DISABLED` (default value): when Transfer Family saves the file, the filename is
+    adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+
 - `"Status"`: The status of the agreement. The agreement can be either `ACTIVE` or
   `INACTIVE`.
+
 - `"Tags"`: Key-value pairs that can be used to group and search for agreements.
 """
 function create_agreement end
 
 function create_agreement(
     AccessRole,
-    BaseDirectory,
     LocalProfileId,
     PartnerProfileId,
     ServerId;
@@ -221,7 +252,6 @@ function create_agreement(
         "CreateAgreement",
         Dict{String,Any}(
             "AccessRole" => AccessRole,
-            "BaseDirectory" => BaseDirectory,
             "LocalProfileId" => LocalProfileId,
             "PartnerProfileId" => PartnerProfileId,
             "ServerId" => ServerId,
@@ -233,7 +263,6 @@ end
 
 function create_agreement(
     AccessRole,
-    BaseDirectory,
     LocalProfileId,
     PartnerProfileId,
     ServerId,
@@ -247,7 +276,6 @@ function create_agreement(
                 _merge,
                 Dict{String,Any}(
                     "AccessRole" => AccessRole,
-                    "BaseDirectory" => BaseDirectory,
                     "LocalProfileId" => LocalProfileId,
                     "PartnerProfileId" => PartnerProfileId,
                     "ServerId" => ServerId,
@@ -261,8 +289,8 @@ function create_agreement(
 end
 
 """
-    create_connector(access_role, url)
-    create_connector(access_role, url, params::Dict{String,<:Any})
+    create_connector(access_role)
+    create_connector(access_role, params::Dict{String,<:Any})
 
 Creates the connector, which captures the parameters for a connection for the AS2 or SFTP
 protocol. For AS2, the connector is required for sending files to an externally hosted AS2
@@ -303,29 +331,43 @@ and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/usergui
   the file location that's used in the `StartFileTransfer` request. Additionally, make sure
   that the role provides `secretsmanager:GetSecretValue` permission to Secrets Manager.
 
-- `url`: The URL of the partner's AS2 or SFTP endpoint.
-
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"As2Config"`: A structure that contains the parameters for an AS2 connector object.
+
+- `"EgressConfig"`: Specifies the egress configuration for the connector, which determines
+  how traffic is routed from the connector to the SFTP server. When set to VPC, enables
+  routing through customer VPCs using VPC_LATTICE for private connectivity.
+
+- `"IpAddressType"`: Specifies the IP address type for the connector's network connections.
+  When set to `IPV4`, the connector uses IPv4 addresses only. When set to `DUALSTACK`, the
+  connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events.
   When set, you can view connector activity in your CloudWatch logs.
+
 - `"SecurityPolicyName"`: Specifies the name of the security policy for the connector.
+
 - `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
+
 - `"Tags"`: Key-value pairs that can be used to group and search for connectors. Tags are
   metadata attached to connectors for any purpose.
+
+- `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
+
+  When creating AS2 connectors or service-managed SFTP connectors (connectors without egress
+  configuration), you must provide a URL to specify the remote server endpoint. For VPC
+  Lattice type connectors, the URL must be null.
 """
 function create_connector end
 
-function create_connector(
-    AccessRole, Url; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_connector(AccessRole; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "CreateConnector",
-        Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url);
+        Dict{String,Any}("AccessRole" => AccessRole);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -333,16 +375,13 @@ end
 
 function create_connector(
     AccessRole,
-    Url,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateConnector",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url), params
-            ),
+            mergewith(_merge, Dict{String,Any}("AccessRole" => AccessRole), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -518,8 +557,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdentityProviderDetails"`: Required when `IdentityProviderType` is set to
   `AWS_DIRECTORY_SERVICE`, `Amazon Web Services_LAMBDA` or `API_GATEWAY`. Accepts an array
   containing all of the information required to use a directory in `AWS_DIRECTORY_SERVICE`
-  or invoke a customer-supplied authentication API, including the API Gateway URL. Not
-  required when `IdentityProviderType` is set to `SERVICE_MANAGED`.
+  or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be
+  specified when `IdentityProviderType` is set to `SERVICE_MANAGED`.
 
 - `"IdentityProviderType"`: The mode of authentication for a server. The default value is
   `SERVICE_MANAGED`, which allows you to store and access user credentials within the
@@ -538,9 +577,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you choose this value, you must specify the ARN for the Lambda function in the
   `Function` parameter for the `IdentityProviderDetails` data type.
 
+- `"IpAddressType"`: Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and
+  IPv6) for your Transfer Family endpoint. The default value is `IPV4`.
+
+  !!! important
+      The `IpAddressType` parameter has the following limitations:
+
+      - It cannot be changed while the server is online. You must stop the server before
+        modifying this parameter.
+      - It cannot be updated to `DUALSTACK` if the server has `AddressAllocationIds`
+        specified.
+
+  !!! note
+      When using `DUALSTACK` as the `IpAddressType`, you cannot set the
+      `AddressAllocationIds` parameter for the [EndpointDetails](https://docs.aws.amazon.com/transfer/latest/APIReference/API_EndpointDetails.html)
+      for the server.
+
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or
-  Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+  Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
 
 - `"PostAuthenticationLoginBanner"`: Specifies a string to display when users connect to a
   server. This string is displayed after the user authenticates.
@@ -555,6 +610,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.`
 
 - `"ProtocolDetails"`: The protocol settings that are configured for your server.
+
+  !!! note
+      Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer
+      Family servers, as this increases costs and can cause performance issues, including
+      reduced connection limits for FTPS. For more details, see [Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
 
   - To indicate passive mode (for FTP and FTPS protocols), use the `PassiveIp` parameter.
     Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall,
@@ -595,7 +655,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
         be Amazon S3.
 
 - `"S3StorageOptions"`: Specifies whether or not performance for your Amazon S3 directories
-  is optimized. This is disabled by default.
+  is optimized.
+
+  - If using the console, this is enabled by default.
+  - If using the API or CLI, this is disabled by default.
 
   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If you enable this
   option, you would then need to explicitly set the `HomeDirectoryMapEntry` `Type` to `FILE`
@@ -679,7 +742,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
 
   !!! note
-      The `HomeDirectory` parameter is only used if `HomeDirectoryType` is set to `PATH`.
+      You can use the `HomeDirectory` parameter for `HomeDirectoryType` when it is set to
+      either `PATH` or `LOGICAL`.
 
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
@@ -784,6 +848,78 @@ function create_user(
                 Dict{String,Any}(
                     "Role" => Role, "ServerId" => ServerId, "UserName" => UserName
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_web_app(identity_provider_details)
+    create_web_app(identity_provider_details, params::Dict{String,<:Any})
+
+Creates a web app based on specified parameters, and returns the ID for the new web app. You
+can configure the web app to be publicly accessible or hosted within a VPC.
+
+For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
+
+# Arguments
+
+- `identity_provider_details`: You can provide a structure that contains the details for the
+  identity provider to use with your web app.
+
+  For more details about this parameter, see [Configure your identity provider for Transfer Family web apps](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-identity-center.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccessEndpoint"`: The `AccessEndpoint` is the URL that you provide to your users for
+  them to interact with the Transfer Family web app. You can specify a custom URL or use the
+  default value.
+
+  Before you enter a custom URL for this parameter, follow the steps described in [Update your access endpoint with a custom URL](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-customize.html).
+
+- `"EndpointDetails"`: The endpoint configuration for the web app. You can specify whether
+  the web app endpoint is publicly accessible or hosted within a VPC.
+
+- `"Tags"`: Key-value pairs that can be used to group and search for web apps.
+
+- `"WebAppEndpointPolicy"`: Setting for the type of endpoint policy for the web app. The
+  default value is `STANDARD`.
+
+  If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can
+  set this parameter to `FIPS`.
+
+- `"WebAppUnits"`: A union that contains the value for number of concurrent connections or
+  the user sessions on your web app.
+"""
+function create_web_app end
+
+function create_web_app(
+    IdentityProviderDetails; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "CreateWebApp",
+        Dict{String,Any}("IdentityProviderDetails" => IdentityProviderDetails);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_web_app(
+    IdentityProviderDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "CreateWebApp",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdentityProviderDetails" => IdentityProviderDetails),
                 params,
             ),
         );
@@ -1257,6 +1393,81 @@ function delete_user(
 end
 
 """
+    delete_web_app(web_app_id)
+    delete_web_app(web_app_id, params::Dict{String,<:Any})
+
+Deletes the specified web app.
+
+# Arguments
+
+- `web_app_id`: Provide the unique identifier for the web app that you are deleting.
+"""
+function delete_web_app end
+
+function delete_web_app(WebAppId; aws_config::AbstractAWSConfig=current_aws_config())
+    return transfer(
+        "DeleteWebApp",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_web_app(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteWebApp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_web_app_customization(web_app_id)
+    delete_web_app_customization(web_app_id, params::Dict{String,<:Any})
+
+Deletes the `WebAppCustomization` object that corresponds to the web app ID specified.
+
+# Arguments
+
+- `web_app_id`: Provide the unique identifier for the web app that contains the
+  customizations that you are deleting.
+"""
+function delete_web_app_customization end
+
+function delete_web_app_customization(
+    WebAppId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "DeleteWebAppCustomization",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_web_app_customization(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DeleteWebAppCustomization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workflow(workflow_id)
     delete_workflow(workflow_id, params::Dict{String,<:Any})
 
@@ -1404,6 +1615,12 @@ end
     describe_certificate(certificate_id, params::Dict{String,<:Any})
 
 Describes the certificate that's identified by the `CertificateId`.
+
+!!! note
+    Transfer Family automatically publishes a Amazon CloudWatch metric called
+    `DaysUntilExpiry` for imported certificates. This metric tracks the number of days until
+    the certificate expires based on the `InactiveDate`. The metric is available in the
+    `AWS/Transfer` namespace and includes the `CertificateId` as a dimension.
 
 # Arguments
 
@@ -1741,6 +1958,83 @@ function describe_user(
 end
 
 """
+    describe_web_app(web_app_id)
+    describe_web_app(web_app_id, params::Dict{String,<:Any})
+
+Describes the web app that's identified by `WebAppId`. The response includes endpoint
+configuration details such as whether the web app is publicly accessible or VPC hosted.
+
+For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
+
+# Arguments
+
+- `web_app_id`: Provide the unique identifier for the web app.
+"""
+function describe_web_app end
+
+function describe_web_app(WebAppId; aws_config::AbstractAWSConfig=current_aws_config())
+    return transfer(
+        "DescribeWebApp",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_web_app(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeWebApp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_web_app_customization(web_app_id)
+    describe_web_app_customization(web_app_id, params::Dict{String,<:Any})
+
+Describes the web app customization object that's identified by `WebAppId`.
+
+# Arguments
+
+- `web_app_id`: Provide the unique identifier for the web app.
+"""
+function describe_web_app_customization end
+
+function describe_web_app_customization(
+    WebAppId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "DescribeWebAppCustomization",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_web_app_customization(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "DescribeWebAppCustomization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_workflow(workflow_id)
     describe_workflow(workflow_id, params::Dict{String,<:Any})
 
@@ -1783,6 +2077,31 @@ end
 Imports the signing and encryption certificates that you need to create local (AS2) profiles
 and partner profiles.
 
+You can import both the certificate and its chain in the `Certificate` parameter.
+
+After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch
+metric called `DaysUntilExpiry` that tracks the number of days until the certificate
+expires. The metric is based on the `InactiveDate` parameter and is published daily in the
+`AWS/Transfer` namespace.
+
+!!! important
+    It can take up to a full day after importing a certificate for Transfer Family to emit
+    the `DaysUntilExpiry` metric to your account.
+
+!!! note
+    If you use the `Certificate` parameter to upload both the certificate and its chain,
+    don't use the `CertificateChain` parameter.
+
+**CloudWatch monitoring**
+
+The `DaysUntilExpiry` metric includes the following specifications:
+
+- **Units:** Count (days)
+- **Dimensions:** `CertificateId` (always present), `Description` (if provided during
+  certificate import)
+- **Statistics:** Minimum, Maximum, Average
+- **Frequency:** Published daily
+
 # Arguments
 
 - `certificate`: - For the CLI, provide a file path for a certificate in URI format. For
@@ -1790,6 +2109,11 @@ and partner profiles.
   raw content.
   - For the SDK, specify the raw content of a certificate file. For example,
     `--certificate "`cat encryption-cert.pem`"`.
+
+  !!! note
+      You can provide both the certificate and its chain in this parameter, without needing
+      to use the `CertificateChain` parameter. If you use this parameter for both the
+      certificate and its chain, do not use the `CertificateChain` parameter.
 
 - `usage`: Specifies how this certificate is used. It can be used in the following ways:
 
@@ -1801,7 +2125,9 @@ and partner profiles.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActiveDate"`: An optional date that specifies when the certificate becomes active.
+- `"ActiveDate"`: An optional date that specifies when the certificate becomes active. If
+  you do not specify a value, `ActiveDate` takes the same value as `NotBeforeDate`, which is
+  specified by the CA.
 
 - `"CertificateChain"`: An optional list of certificates that make up the chain for the
   certificate that's being imported.
@@ -1809,8 +2135,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A short description that helps identify the certificate.
 
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
+  If you do not specify a value, `InactiveDate` takes the same value as `NotAfterDate`,
+  which is specified by the CA.
 
-- `"PrivateKey"`: - For the CLI, provide a file path for a private key in URI format.For
+- `"PrivateKey"`: - For the CLI, provide a file path for a private key in URI format. For
   example, `--private-key file://encryption-key.pem`. Alternatively, you can provide the raw
   content of the private key file.
   - For the SDK, specify the raw content of a private key file. For example,
@@ -1984,7 +2312,7 @@ Lists the details for all the accesses you have on your server.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Specifies the maximum number of access SIDs to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When you can get additional results from the `ListAccesses` call, a
   `NextToken` parameter is returned in the output. You can then pass in a subsequent command
   to the `NextToken` parameter to continue listing additional accesses.
@@ -2033,7 +2361,7 @@ off.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of agreements to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When you can get additional results from the `ListAgreements` call, a
   `NextToken` parameter is returned in the output. You can then pass in a subsequent command
   to the `NextToken` parameter to continue listing additional agreements.
@@ -2078,7 +2406,7 @@ off.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of certificates to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When you can get additional results from the `ListCertificates` call, a
   `NextToken` parameter is returned in the output. You can then pass in a subsequent command
   to the `NextToken` parameter to continue listing additional certificates.
@@ -2105,7 +2433,7 @@ Lists the connectors for the specified Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of connectors to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When you can get additional results from the `ListConnectors` call, a
   `NextToken` parameter is returned in the output. You can then pass in a subsequent command
   to the `NextToken` parameter to continue listing additional connectors.
@@ -2140,7 +2468,7 @@ Lists all in-progress executions for the specified workflow.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Specifies the maximum number of executions to return.
+- `"MaxResults"`: The maximum number of items to return.
 
 - `"NextToken"`: `ListExecutions` returns the `NextToken` parameter in the output. You can
   then pass the `NextToken` parameter in a subsequent command to continue listing additional
@@ -2187,6 +2515,68 @@ function list_executions(
 end
 
 """
+    list_file_transfer_results(connector_id, transfer_id)
+    list_file_transfer_results(connector_id, transfer_id, params::Dict{String,<:Any})
+
+Returns real-time updates and detailed information on the status of each individual file
+being transferred in a specific file transfer operation. You specify the file transfer by
+providing its `ConnectorId` and its `TransferId`.
+
+!!! note
+    File transfer results are available up to 7 days after an operation has been requested.
+
+# Arguments
+
+- `connector_id`: A unique identifier for a connector. This value should match the value
+  supplied to the corresponding `StartFileTransfer` call.
+- `transfer_id`: A unique identifier for a file transfer. This value should match the value
+  supplied to the corresponding `StartFileTransfer` call.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of files to return in a single page. Note that
+  currently you can specify a maximum of 10 file paths in a single [StartFileTransfer](https://docs.aws.amazon.com/transfer/latest/APIReference/API_StartFileTransfer.html)
+  operation. Thus, the maximum number of file transfer results that can be returned in a
+  single page is 10.
+- `"NextToken"`: If there are more file details than returned in this call, use this value
+  for a subsequent call to `ListFileTransferResults` to retrieve them.
+"""
+function list_file_transfer_results end
+
+function list_file_transfer_results(
+    ConnectorId, TransferId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "ListFileTransferResults",
+        Dict{String,Any}("ConnectorId" => ConnectorId, "TransferId" => TransferId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_file_transfer_results(
+    ConnectorId,
+    TransferId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "ListFileTransferResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectorId" => ConnectorId, "TransferId" => TransferId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_host_keys(server_id)
     list_host_keys(server_id, params::Dict{String,<:Any})
 
@@ -2201,7 +2591,7 @@ Returns a list of host keys for the server that's specified by the `ServerId` pa
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of host keys to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When there are additional results that were not returned, a `NextToken`
   parameter is returned. You can use that value for a subsequent call to `ListHostKeys` to
   continue listing results.
@@ -2245,7 +2635,7 @@ listing profiles from where you left off.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of profiles to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: When there are additional results that were not returned, a `NextToken`
   parameter is returned. You can use that value for a subsequent call to `ListProfiles` to
   continue listing results.
@@ -2420,6 +2810,36 @@ function list_users(
 end
 
 """
+    list_web_apps()
+    list_web_apps(params::Dict{String,<:Any})
+
+Lists all web apps associated with your Amazon Web Services account for your current region.
+The response includes the endpoint type for each web app, showing whether it is publicly
+accessible or VPC hosted.
+
+For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of items to return.
+- `"NextToken"`: Returns the `NextToken` parameter in the output. You can then pass the
+  `NextToken` parameter in a subsequent command to continue listing additional web apps.
+"""
+function list_web_apps end
+
+function list_web_apps(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transfer("ListWebApps"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_web_apps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer("ListWebApps", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     list_workflows()
     list_workflows(params::Dict{String,<:Any})
 
@@ -2430,7 +2850,7 @@ region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Specifies the maximum number of workflows to return.
+- `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: `ListWorkflows` returns the `NextToken` parameter in the output. You can
   then pass the `NextToken` parameter in a subsequent command to continue listing additional
   workflows.
@@ -2632,6 +3052,10 @@ server.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"CustomHttpHeaders"`: An array of key-value pairs that represent custom HTTP headers to
+  include in AS2 messages. These headers are added to the AS2 message when sending files to
+  your trading partner.
+
 - `"LocalDirectoryPath"`: For an inbound transfer, the `LocaDirectoryPath` specifies the
   destination for one or more files that are transferred from the partner's SFTP server.
 
@@ -2645,10 +3069,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SendFilePaths"`: One or more source paths for the Amazon S3 storage. Each string
   represents a source file path for one outbound file transfer. For example,
-  `*DOC-EXAMPLE-BUCKET*/*myfile.txt*`.
+  `*amzn-s3-demo-bucket*/*myfile.txt*`.
 
   !!! note
-      Replace `*DOC-EXAMPLE-BUCKET*` with one of your actual buckets.
+      Replace `*amzn-s3-demo-bucket*` with one of your actual buckets.
 """
 function start_file_transfer end
 
@@ -2672,6 +3096,106 @@ function start_file_transfer(
         "StartFileTransfer",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_remote_delete(connector_id, delete_path)
+    start_remote_delete(connector_id, delete_path, params::Dict{String,<:Any})
+
+Deletes a file or directory on the remote SFTP server.
+
+# Arguments
+
+- `connector_id`: The unique identifier for the connector.
+- `delete_path`: The absolute path of the file or directory to delete. You can only specify
+  one path per call to this operation.
+"""
+function start_remote_delete end
+
+function start_remote_delete(
+    ConnectorId, DeletePath; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "StartRemoteDelete",
+        Dict{String,Any}("ConnectorId" => ConnectorId, "DeletePath" => DeletePath);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_remote_delete(
+    ConnectorId,
+    DeletePath,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StartRemoteDelete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ConnectorId" => ConnectorId, "DeletePath" => DeletePath),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_remote_move(connector_id, source_path, target_path)
+    start_remote_move(connector_id, source_path, target_path, params::Dict{String,<:Any})
+
+Moves or renames a file or directory on the remote SFTP server.
+
+# Arguments
+
+- `connector_id`: The unique identifier for the connector.
+- `source_path`: The absolute path of the file or directory to move or rename. You can only
+  specify one path per call to this operation.
+- `target_path`: The absolute path for the target of the move/rename operation.
+"""
+function start_remote_move end
+
+function start_remote_move(
+    ConnectorId, SourcePath, TargetPath; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "StartRemoteMove",
+        Dict{String,Any}(
+            "ConnectorId" => ConnectorId,
+            "SourcePath" => SourcePath,
+            "TargetPath" => TargetPath,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_remote_move(
+    ConnectorId,
+    SourcePath,
+    TargetPath,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "StartRemoteMove",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectorId" => ConnectorId,
+                    "SourcePath" => SourcePath,
+                    "TargetPath" => TargetPath,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3021,7 +3545,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
 
   !!! note
-      The `HomeDirectory` parameter is only used if `HomeDirectoryType` is set to `PATH`.
+      You can use the `HomeDirectory` parameter for `HomeDirectoryType` when it is set to
+      either `PATH` or `LOGICAL`.
 
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
@@ -3125,6 +3650,14 @@ Updates some of the parameters for an existing agreement. Provide the `Agreement
 `ServerId` for the agreement that you want to update, along with the new values for the
 parameters to update.
 
+!!! note
+    Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both
+    causes the command to fail.
+
+    If you update an agreement from using base directory to custom directories, the base
+    directory is no longer used. Similarly, if you change from custom directories to a base
+    directory, the custom directories are no longer used.
+
 # Arguments
 
 - `agreement_id`: A unique identifier for the agreement. This identifier is returned when
@@ -3165,10 +3698,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"BaseDirectory"`: To change the landing directory (folder) for files that are
   transferred, provide the bucket folder that you want to use; for example,
-  `/*DOC-EXAMPLE-BUCKET*/*home*/*mydirectory*`.
+  `/*amzn-s3-demo-bucket*/*home*/*mydirectory*`.
+
+- `"CustomDirectories"`: A `CustomDirectoriesType` structure. This structure specifies
+  custom directories for storing various AS2 message files. You can specify directories for
+  the following types of files.
+
+  - Failed files
+  - MDN files
+  - Payload files
+  - Status files
+  - Temporary files
 
 - `"Description"`: To replace the existing description, provide a short description for the
   agreement.
+
+- `"EnforceMessageSigning"`: Determines whether or not unsigned messages from your trading
+  partners will be accepted.
+
+  - `ENABLED`: Transfer Family rejects unsigned messages from your trading partner.
+  - `DISABLED` (default value): Transfer Family accepts unsigned messages from your trading
+    partner.
 
 - `"LocalProfileId"`: A unique identifier for the AS2 local profile.
 
@@ -3176,6 +3726,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PartnerProfileId"`: A unique identifier for the partner profile. To change the partner
   profile identifier, provide a new value here.
+
+- `"PreserveFilename"`: Determines whether or not Transfer Family appends a unique string of
+  characters to the end of the AS2 message payload filename when saving it.
+
+  - `ENABLED`: the filename provided by your trading parter is preserved when the file is
+    saved.
+  - `DISABLED` (default value): when Transfer Family saves the file, the filename is
+    adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
 
 - `"Status"`: You can update the status for the agreement, either activating an inactive
   agreement or the reverse.
@@ -3227,9 +3785,13 @@ Updates the active and inactive dates for a certificate.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActiveDate"`: An optional date that specifies when the certificate becomes active.
+- `"ActiveDate"`: An optional date that specifies when the certificate becomes active. If
+  you do not specify a value, `ActiveDate` takes the same value as `NotBeforeDate`, which is
+  specified by the CA.
 - `"Description"`: A short description to help identify the certificate.
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
+  If you do not specify a value, `InactiveDate` takes the same value as `NotAfterDate`,
+  which is specified by the CA.
 """
 function update_certificate end
 
@@ -3303,6 +3865,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"As2Config"`: A structure that contains the parameters for an AS2 connector object.
 
+- `"EgressConfig"`: Updates the egress configuration for the connector, allowing you to
+  modify how traffic is routed from the connector to the SFTP server. Changes to VPC
+  configuration may require connector restart.
+
+- `"IpAddressType"`: Specifies the IP address type for the connector's network connections.
+  When set to `IPV4`, the connector uses IPv4 addresses only. When set to `DUALSTACK`, the
+  connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events.
   When set, you can view connector activity in your CloudWatch logs.
@@ -3312,6 +3882,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
 
 - `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
+
+  When creating AS2 connectors or service-managed SFTP connectors (connectors without egress
+  configuration), you must provide a URL to specify the remote server endpoint. For VPC
+  Lattice type connectors, the URL must be null.
 """
 function update_connector end
 
@@ -3493,9 +4067,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       After May 19, 2021, you won't be able to create a server using
-      `EndpointType=VPC_ENDPOINT` in your Amazon Web Servicesaccount if your account hasn't
+      `EndpointType=VPC_ENDPOINT` in your Amazon Web Services account if your account hasn't
       already done so before May 19, 2021. If you have already created servers with
-      `EndpointType=VPC_ENDPOINT` in your Amazon Web Servicesaccount on or before May 19,
+      `EndpointType=VPC_ENDPOINT` in your Amazon Web Services account on or before May 19,
       2021, you will not be affected. After this date, use `EndpointType`=`VPC`.
 
       For more information, see
@@ -3543,9 +4117,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdentityProviderDetails"`: An array containing all of the information required to call a
   customer's authentication API method.
 
+- `"IdentityProviderType"`: The mode of authentication for a server. The default value is
+  `SERVICE_MANAGED`, which allows you to store and access user credentials within the
+  Transfer Family service.
+
+  Use `AWS_DIRECTORY_SERVICE` to provide access to Active Directory groups in Directory
+  Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises
+  environment or in Amazon Web Services using AD Connector. This option also requires you to
+  provide a Directory ID by using the `IdentityProviderDetails` parameter.
+
+  Use the `API_GATEWAY` value to integrate with an identity provider of your choosing. The
+  `API_GATEWAY` setting requires you to provide an Amazon API Gateway endpoint URL to call
+  for authentication by using the `IdentityProviderDetails` parameter.
+
+  Use the `AWS_LAMBDA` value to directly use an Lambda function as your identity provider.
+  If you choose this value, you must specify the ARN for the Lambda function in the
+  `Function` parameter for the `IdentityProviderDetails` data type.
+
+- `"IpAddressType"`: Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and
+  IPv6) for your Transfer Family endpoint. The default value is `IPV4`.
+
+  !!! important
+      The `IpAddressType` parameter has the following limitations:
+
+      - It cannot be changed while the server is online. You must stop the server before
+        modifying this parameter.
+      - It cannot be updated to `DUALSTACK` if the server has `AddressAllocationIds`
+        specified.
+
+  !!! note
+      When using `DUALSTACK` as the `IpAddressType`, you cannot set the
+      `AddressAllocationIds` parameter for the [EndpointDetails](https://docs.aws.amazon.com/transfer/latest/APIReference/API_EndpointDetails.html)
+      for the server.
+
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or
-  Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+  Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
 
 - `"PostAuthenticationLoginBanner"`: Specifies a string to display when users connect to a
   server. This string is displayed after the user authenticates.
@@ -3560,6 +4167,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.`
 
 - `"ProtocolDetails"`: The protocol settings that are configured for your server.
+
+  !!! note
+      Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer
+      Family servers, as this increases costs and can cause performance issues, including
+      reduced connection limits for FTPS. For more details, see [Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
 
   - To indicate passive mode (for FTP and FTPS protocols), use the `PassiveIp` parameter.
     Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall,
@@ -3600,7 +4212,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
         be Amazon S3.
 
 - `"S3StorageOptions"`: Specifies whether or not performance for your Amazon S3 directories
-  is optimized. This is disabled by default.
+  is optimized.
+
+  - If using the console, this is enabled by default.
+  - If using the API or CLI, this is disabled by default.
 
   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If you enable this
   option, you would then need to explicitly set the `HomeDirectoryMapEntry` `Type` to `FILE`
@@ -3705,7 +4320,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
 
   !!! note
-      The `HomeDirectory` parameter is only used if `HomeDirectoryType` is set to `PATH`.
+      You can use the `HomeDirectory` parameter for `HomeDirectoryType` when it is set to
+      either `PATH` or `LOGICAL`.
 
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
@@ -3797,6 +4413,106 @@ function update_user(
                 Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_web_app(web_app_id)
+    update_web_app(web_app_id, params::Dict{String,<:Any})
+
+Assigns new properties to a web app. You can modify the access point, identity provider
+details, endpoint configuration, and the web app units.
+
+For more information about using VPC endpoints with Transfer Family, see [Create a Transfer Family web app in a VPC](https://docs.aws.amazon.com/transfer/latest/userguide/create-webapp-in-vpc.html).
+
+# Arguments
+
+- `web_app_id`: Provide the identifier of the web app that you are updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccessEndpoint"`: The `AccessEndpoint` is the URL that you provide to your users for
+  them to interact with the Transfer Family web app. You can specify a custom URL or use the
+  default value.
+- `"EndpointDetails"`: The updated endpoint configuration for the web app. You can modify
+  the endpoint type and VPC configuration settings.
+- `"IdentityProviderDetails"`: Provide updated identity provider values in a
+  `WebAppIdentityProviderDetails` object.
+- `"WebAppUnits"`: A union that contains the value for number of concurrent connections or
+  the user sessions on your web app.
+"""
+function update_web_app end
+
+function update_web_app(WebAppId; aws_config::AbstractAWSConfig=current_aws_config())
+    return transfer(
+        "UpdateWebApp",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_web_app(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateWebApp",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_web_app_customization(web_app_id)
+    update_web_app_customization(web_app_id, params::Dict{String,<:Any})
+
+Assigns new customization properties to a web app. You can modify the icon file, logo file,
+and title.
+
+# Arguments
+
+- `web_app_id`: Provide the identifier of the web app that you are updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FaviconFile"`: Specify an icon file data string (in base64 encoding).
+- `"LogoFile"`: Specify logo file data string (in base64 encoding).
+- `"Title"`: Provide an updated title.
+"""
+function update_web_app_customization end
+
+function update_web_app_customization(
+    WebAppId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transfer(
+        "UpdateWebAppCustomization",
+        Dict{String,Any}("WebAppId" => WebAppId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_web_app_customization(
+    WebAppId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return transfer(
+        "UpdateWebAppCustomization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebAppId" => WebAppId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

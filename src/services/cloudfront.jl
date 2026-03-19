@@ -8,25 +8,31 @@ using AWS.UUIDs: uuid4
     associate_alias(alias, target_distribution_id)
     associate_alias(alias, target_distribution_id, params::Dict{String,<:Any})
 
-Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
-distribution.
+!!! note
+    The `AssociateAlias` API operation only supports standard distributions. To move domains
+    between distribution tenants and/or standard distributions, we recommend that you use
+    the [UpdateDomainAssociation](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDomainAssociation.html)
+    API operation instead.
 
-With this operation you can move an alias that's already in use on a CloudFront distribution
-to a different distribution in one step. This prevents the downtime that could occur if you
-first remove the alias from one distribution and then separately add the alias to another
-distribution.
+Associates an alias with a CloudFront standard distribution. An alias is commonly known as a
+custom domain or vanity domain. It can also be called a CNAME or alternate domain name.
 
-To use this operation to associate an alias with a distribution, you provide the alias and
-the ID of the target distribution for the alias. For more information, including how to set
-up the target distribution, prerequisites that you must complete, and other restrictions,
-see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
+With this operation, you can move an alias that's already used for a standard distribution
+to a different standard distribution. This prevents the downtime that could occur if you
+first remove the alias from one standard distribution and then separately add the alias to
+another standard distribution.
+
+To use this operation, specify the alias and the ID of the target standard distribution.
+
+For more information, including how to set up the target standard distribution,
+prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
 in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
-- `alias`: The alias (also known as a CNAME) to add to the target distribution.
-- `target_distribution_id`: The ID of the distribution that you're associating the alias
-  with.
+- `alias`: The alias (also known as a CNAME) to add to the target standard distribution.
+- `target_distribution_id`: The ID of the standard distribution that you're associating the
+  alias with.
 """
 function associate_alias end
 
@@ -52,6 +58,104 @@ function associate_alias(
         "PUT",
         "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Alias" => Alias), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_distribution_tenant_web_acl(id, web_aclarn)
+    associate_distribution_tenant_web_acl(id, web_aclarn, params::Dict{String,<:Any})
+
+Associates the WAF web ACL with a distribution tenant.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant.
+- `web_aclarn`: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"If-Match"`: The current `ETag` of the distribution tenant. This value is returned in the
+  response of the `GetDistributionTenant` API operation.
+"""
+function associate_distribution_tenant_web_acl end
+
+function associate_distribution_tenant_web_acl(
+    Id, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)/associate-web-acl",
+        Dict{String,Any}("WebACLArn" => WebACLArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_distribution_tenant_web_acl(
+    Id,
+    WebACLArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)/associate-web-acl",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebACLArn" => WebACLArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_distribution_web_acl(id, web_aclarn)
+    associate_distribution_web_acl(id, web_aclarn, params::Dict{String,<:Any})
+
+Associates the WAF web ACL with a distribution.
+
+# Arguments
+
+- `id`: The ID of the distribution.
+- `web_aclarn`: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"If-Match"`: The value of the `ETag` header that you received when retrieving the
+  distribution that you're associating with the WAF web ACL.
+"""
+function associate_distribution_web_acl end
+
+function associate_distribution_web_acl(
+    Id, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/associate-web-acl",
+        Dict{String,Any}("WebACLArn" => WebACLArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_distribution_web_acl(
+    Id,
+    WebACLArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/associate-web-acl",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WebACLArn" => WebACLArn), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -136,6 +240,67 @@ function copy_distribution(
 end
 
 """
+    create_anycast_ip_list(ip_count, name)
+    create_anycast_ip_list(ip_count, name, params::Dict{String,<:Any})
+
+Creates an Anycast static IP list.
+
+# Arguments
+
+- `ip_count`: The number of static IP addresses that are allocated to the Anycast static IP
+  list. Valid values: 21 or 3.
+- `name`: Name of the Anycast static IP list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IpAddressType"`: The IP address type for the Anycast static IP list. You can specify one
+  of the following options:
+
+  - `ipv4` only
+  - `ipv6` only
+  - `dualstack` - Allocate a list of both IPv4 and IPv6 addresses
+
+- `"IpamCidrConfigs"`: A list of IPAM CIDR configurations that specify the IP address ranges
+  and IPAM pool settings for creating the Anycast static IP list.
+
+- `"Tags"`:
+"""
+function create_anycast_ip_list end
+
+function create_anycast_ip_list(
+    IpCount, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/anycast-ip-list",
+        Dict{String,Any}("IpCount" => IpCount, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_anycast_ip_list(
+    IpCount,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/anycast-ip-list",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("IpCount" => IpCount, "Name" => Name), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_cache_policy(cache_policy_config)
     create_cache_policy(cache_policy_config, params::Dict{String,<:Any})
 
@@ -149,6 +314,12 @@ attached to a cache behavior, the cache policy determines the following:
   in its cache that it can return to the viewer.
 - The default, minimum, and maximum time to live (TTL) values that you want objects to stay
   in the CloudFront cache.
+
+  !!! important
+      If your minimum TTL is greater than 0, CloudFront will cache content for at least the
+      duration specified in the cache policy's minimum TTL, even if the
+      `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the
+      origin headers.
 
 The headers, cookies, and query strings that are included in the cache key are also included
 in requests that CloudFront sends to the origin. CloudFront sends a request when it can't
@@ -249,6 +420,118 @@ function create_cloud_front_origin_access_identity(
 end
 
 """
+    create_connection_function(connection_function_code, connection_function_config, name)
+    create_connection_function(connection_function_code, connection_function_config, name, params::Dict{String,<:Any})
+
+Creates a connection function.
+
+# Arguments
+
+- `connection_function_code`: The code for the connection function.
+- `connection_function_config`:
+- `name`: A name for the connection function.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`:
+"""
+function create_connection_function end
+
+function create_connection_function(
+    ConnectionFunctionCode,
+    ConnectionFunctionConfig,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function",
+        Dict{String,Any}(
+            "ConnectionFunctionCode" => ConnectionFunctionCode,
+            "ConnectionFunctionConfig" => ConnectionFunctionConfig,
+            "Name" => Name,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_connection_function(
+    ConnectionFunctionCode,
+    ConnectionFunctionConfig,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionFunctionCode" => ConnectionFunctionCode,
+                    "ConnectionFunctionConfig" => ConnectionFunctionConfig,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_connection_group(name)
+    create_connection_group(name, params::Dict{String,<:Any})
+
+Creates a connection group.
+
+# Arguments
+
+- `name`: The name of the connection group. Enter a friendly identifier that is unique
+  within your Amazon Web Services account. This name can't be updated after you create the
+  connection group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AnycastIpListId"`: The ID of the Anycast static IP list.
+- `"Enabled"`: Enable the connection group.
+- `"Ipv6Enabled"`: Enable IPv6 for the connection group. The default is `true`. For more
+  information, see [Enable IPv6](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesEnableIPv6)
+  in the *Amazon CloudFront Developer Guide*.
+- `"Tags"`:
+"""
+function create_connection_group end
+
+function create_connection_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-group",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_connection_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-group",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_continuous_deployment_policy(continuous_deployment_policy_config)
     create_continuous_deployment_policy(continuous_deployment_policy_config, params::Dict{String,<:Any})
 
@@ -342,6 +625,87 @@ function create_distribution(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("DistributionConfig" => DistributionConfig), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_distribution_tenant(distribution_id, domains, name)
+    create_distribution_tenant(distribution_id, domains, name, params::Dict{String,<:Any})
+
+Creates a distribution tenant.
+
+# Arguments
+
+- `distribution_id`: The ID of the multi-tenant distribution to use for creating the
+  distribution tenant.
+- `domains`: The domains associated with the distribution tenant. You must specify at least
+  one domain in the request.
+- `name`: The name of the distribution tenant. Enter a friendly identifier that is unique
+  within your Amazon Web Services account. This name can't be updated after you create the
+  distribution tenant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConnectionGroupId"`: The ID of the connection group to associate with the distribution
+  tenant.
+
+- `"Customizations"`: Customizations for the distribution tenant. For each distribution
+  tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs)
+  for the ACM certificate and WAF web ACL. These are specific values that you can override
+  or disable from the multi-tenant distribution that was used to create the distribution
+  tenant.
+
+- `"Enabled"`: Indicates whether the distribution tenant should be enabled when created. If
+  the distribution tenant is disabled, the distribution tenant won't serve traffic.
+
+- `"ManagedCertificateRequest"`: The configuration for the CloudFront managed ACM
+  certificate request.
+
+- `"Parameters"`: A list of parameter values to add to the resource. A parameter is
+  specified as a key-value pair. A valid parameter value must exist for any parameter that
+  is marked as required in the multi-tenant distribution.
+
+- `"Tags"`:
+"""
+function create_distribution_tenant end
+
+function create_distribution_tenant(
+    DistributionId, Domains, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenant",
+        Dict{String,Any}(
+            "DistributionId" => DistributionId, "Domains" => Domains, "Name" => Name
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_distribution_tenant(
+    DistributionId,
+    Domains,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DistributionId" => DistributionId, "Domains" => Domains, "Name" => Name
+                ),
+                params,
             ),
         );
         aws_config,
@@ -611,6 +975,51 @@ function create_invalidation(
 end
 
 """
+    create_invalidation_for_distribution_tenant(id, invalidation_batch)
+    create_invalidation_for_distribution_tenant(id, invalidation_batch, params::Dict{String,<:Any})
+
+Creates an invalidation for a distribution tenant. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html)
+in the *Amazon CloudFront Developer Guide*.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant.
+- `invalidation_batch`:
+"""
+function create_invalidation_for_distribution_tenant end
+
+function create_invalidation_for_distribution_tenant(
+    Id, InvalidationBatch; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenant/$(Id)/invalidation",
+        Dict{String,Any}("InvalidationBatch" => InvalidationBatch);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_invalidation_for_distribution_tenant(
+    Id,
+    InvalidationBatch,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenant/$(Id)/invalidation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("InvalidationBatch" => InvalidationBatch), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_key_group(key_group_config)
     create_key_group(key_group_config, params::Dict{String,<:Any})
 
@@ -708,8 +1117,8 @@ end
     create_monitoring_subscription(distribution_id, monitoring_subscription)
     create_monitoring_subscription(distribution_id, monitoring_subscription, params::Dict{String,<:Any})
 
-Enables additional CloudWatch metrics for the specified CloudFront distribution. The
-additional metrics incur an additional cost.
+Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront
+distribution. The additional metrics incur an additional cost.
 
 For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional)
 in the *Amazon CloudFront Developer Guide*.
@@ -1161,6 +1570,160 @@ function create_streaming_distribution_with_tags(
 end
 
 """
+    create_trust_store(ca_certificates_bundle_source, name)
+    create_trust_store(ca_certificates_bundle_source, name, params::Dict{String,<:Any})
+
+Creates a trust store.
+
+# Arguments
+
+- `ca_certificates_bundle_source`: The CA certificates bundle source for the trust store.
+- `name`: A name for the trust store.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`:
+"""
+function create_trust_store end
+
+function create_trust_store(
+    CaCertificatesBundleSource, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/trust-store",
+        Dict{String,Any}(
+            "CaCertificatesBundleSource" => CaCertificatesBundleSource, "Name" => Name
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_trust_store(
+    CaCertificatesBundleSource,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/trust-store",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CaCertificatesBundleSource" => CaCertificatesBundleSource,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_vpc_origin(vpc_origin_endpoint_config)
+    create_vpc_origin(vpc_origin_endpoint_config, params::Dict{String,<:Any})
+
+Create an Amazon CloudFront VPC origin.
+
+# Arguments
+
+- `vpc_origin_endpoint_config`: The VPC origin endpoint configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`:
+"""
+function create_vpc_origin end
+
+function create_vpc_origin(
+    VpcOriginEndpointConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/vpc-origin",
+        Dict{String,Any}("VpcOriginEndpointConfig" => VpcOriginEndpointConfig);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_vpc_origin(
+    VpcOriginEndpointConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/vpc-origin",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VpcOriginEndpointConfig" => VpcOriginEndpointConfig),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_anycast_ip_list(id, if-_match)
+    delete_anycast_ip_list(id, if-_match, params::Dict{String,<:Any})
+
+Deletes an Anycast static IP list.
+
+# Arguments
+
+- `id`: The ID of the Anycast static IP list.
+- `if-_match`: The current version (`ETag` value) of the Anycast static IP list that you are
+  deleting.
+"""
+function delete_anycast_ip_list end
+
+function delete_anycast_ip_list(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/anycast-ip-list/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_anycast_ip_list(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/anycast-ip-list/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_cache_policy(id)
     delete_cache_policy(id, params::Dict{String,<:Any})
 
@@ -1252,6 +1815,100 @@ function delete_cloud_front_origin_access_identity(
 end
 
 """
+    delete_connection_function(id, if-_match)
+    delete_connection_function(id, if-_match, params::Dict{String,<:Any})
+
+Deletes a connection function.
+
+# Arguments
+
+- `id`: The connection function's ID.
+- `if-_match`: The current version (`ETag` value) of the connection function you are
+  deleting.
+"""
+function delete_connection_function end
+
+function delete_connection_function(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/connection-function/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_connection_function(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/connection-function/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_connection_group(id, if-_match)
+    delete_connection_group(id, if-_match, params::Dict{String,<:Any})
+
+Deletes a connection group.
+
+# Arguments
+
+- `id`: The ID of the connection group to delete.
+- `if-_match`: The value of the `ETag` header that you received when retrieving the
+  connection group to delete.
+"""
+function delete_connection_group end
+
+function delete_connection_group(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/connection-group/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_connection_group(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/connection-group/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_continuous_deployment_policy(id)
     delete_continuous_deployment_policy(id, params::Dict{String,<:Any})
 
@@ -1303,6 +1960,10 @@ end
 
 Delete a distribution.
 
+!!! important
+    Before you can delete a distribution, you must disable it, which requires permission to
+    update the distribution. Once deleted, a distribution cannot be recovered.
+
 # Arguments
 
 - `id`: The distribution ID.
@@ -1332,6 +1993,58 @@ function delete_distribution(
         "DELETE",
         "/2020-05-31/distribution/$(Id)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_distribution_tenant(id, if-_match)
+    delete_distribution_tenant(id, if-_match, params::Dict{String,<:Any})
+
+Deletes a distribution tenant. If you use this API operation to delete a distribution tenant
+that is currently enabled, the request will fail.
+
+To delete a distribution tenant, you must first disable the distribution tenant by using the
+`UpdateDistributionTenant` API operation.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant to delete.
+- `if-_match`: The value of the `ETag` header that you received when retrieving the
+  distribution tenant. This value is returned in the response of the `GetDistributionTenant`
+  API operation.
+"""
+function delete_distribution_tenant end
+
+function delete_distribution_tenant(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/distribution-tenant/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_distribution_tenant(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/distribution-tenant/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1781,6 +2494,47 @@ function delete_realtime_log_config(
 end
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes the resource policy attached to the CloudFront resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudFront resource for which the
+  resource policy should be deleted.
+"""
+function delete_resource_policy end
+
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/delete-resource-policy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/delete-resource-policy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_response_headers_policy(id)
     delete_response_headers_policy(id, params::Dict{String,<:Any})
 
@@ -1904,6 +2658,140 @@ function delete_streaming_distribution(
 end
 
 """
+    delete_trust_store(id, if-_match)
+    delete_trust_store(id, if-_match, params::Dict{String,<:Any})
+
+Deletes a trust store.
+
+# Arguments
+
+- `id`: The trust store's ID.
+- `if-_match`: The current version (`ETag` value) of the trust store you are deleting.
+"""
+function delete_trust_store end
+
+function delete_trust_store(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/trust-store/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_trust_store(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/trust-store/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_vpc_origin(id, if-_match)
+    delete_vpc_origin(id, if-_match, params::Dict{String,<:Any})
+
+Delete an Amazon CloudFront VPC origin.
+
+# Arguments
+
+- `id`: The VPC origin ID.
+- `if-_match`: The version identifier of the VPC origin to delete. This is the `ETag` value
+  returned in the response to `GetVpcOrigin`.
+"""
+function delete_vpc_origin end
+
+function delete_vpc_origin(Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/vpc-origin/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_vpc_origin(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/vpc-origin/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_connection_function(identifier)
+    describe_connection_function(identifier, params::Dict{String,<:Any})
+
+Describes a connection function.
+
+# Arguments
+
+- `identifier`: The connection function's identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Stage"`: The connection function's stage.
+"""
+function describe_connection_function end
+
+function describe_connection_function(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-function/$(Identifier)/describe";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_connection_function(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-function/$(Identifier)/describe",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_function(name)
     describe_function(name, params::Dict{String,<:Any})
 
@@ -1973,6 +2861,124 @@ function describe_key_value_store(
     return cloudfront(
         "GET",
         "/2020-05-31/key-value-store/$(Name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_distribution_tenant_web_acl(id)
+    disassociate_distribution_tenant_web_acl(id, params::Dict{String,<:Any})
+
+Disassociates a distribution tenant from the WAF web ACL.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"If-Match"`: The current version of the distribution tenant that you're disassociating
+  from the WAF web ACL. This is the `ETag` value returned in the response to the
+  `GetDistributionTenant` API operation.
+"""
+function disassociate_distribution_tenant_web_acl end
+
+function disassociate_distribution_tenant_web_acl(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)/disassociate-web-acl";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_distribution_tenant_web_acl(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)/disassociate-web-acl",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_distribution_web_acl(id)
+    disassociate_distribution_web_acl(id, params::Dict{String,<:Any})
+
+Disassociates a distribution from the WAF web ACL.
+
+# Arguments
+
+- `id`: The ID of the distribution.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"If-Match"`: The value of the `ETag` header that you received when retrieving the
+  distribution that you're disassociating from the WAF web ACL.
+"""
+function disassociate_distribution_web_acl end
+
+function disassociate_distribution_web_acl(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/disassociate-web-acl";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_distribution_web_acl(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/disassociate-web-acl",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_anycast_ip_list(id)
+    get_anycast_ip_list(id, params::Dict{String,<:Any})
+
+Gets an Anycast static IP list.
+
+# Arguments
+
+- `id`: The ID of the Anycast static IP list.
+"""
+function get_anycast_ip_list end
+
+function get_anycast_ip_list(Id; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "GET",
+        "/2020-05-31/anycast-ip-list/$(Id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_anycast_ip_list(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/anycast-ip-list/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2132,6 +3138,129 @@ function get_cloud_front_origin_access_identity_config(
 end
 
 """
+    get_connection_function(identifier)
+    get_connection_function(identifier, params::Dict{String,<:Any})
+
+Gets a connection function.
+
+# Arguments
+
+- `identifier`: The connection function's identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Stage"`: The connection function's stage.
+"""
+function get_connection_function end
+
+function get_connection_function(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-function/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_connection_function(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-function/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connection_group(identifier)
+    get_connection_group(identifier, params::Dict{String,<:Any})
+
+Gets information about a connection group.
+
+# Arguments
+
+- `identifier`: The ID, name, or Amazon Resource Name (ARN) of the connection group.
+"""
+function get_connection_group end
+
+function get_connection_group(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-group/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_connection_group(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-group/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connection_group_by_routing_endpoint(routing_endpoint)
+    get_connection_group_by_routing_endpoint(routing_endpoint, params::Dict{String,<:Any})
+
+Gets information about a connection group by using the endpoint that you specify.
+
+# Arguments
+
+- `routing_endpoint`: The routing endpoint for the target connection group, such as
+  d111111abcdef8.cloudfront.net.
+"""
+function get_connection_group_by_routing_endpoint end
+
+function get_connection_group_by_routing_endpoint(
+    RoutingEndpoint; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-group",
+        Dict{String,Any}("RoutingEndpoint" => RoutingEndpoint);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_connection_group_by_routing_endpoint(
+    RoutingEndpoint,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/connection-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RoutingEndpoint" => RoutingEndpoint), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_continuous_deployment_policy(id)
     get_continuous_deployment_policy(id, params::Dict{String,<:Any})
 
@@ -2263,6 +3392,80 @@ function get_distribution_config(
         "GET",
         "/2020-05-31/distribution/$(Id)/config",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_distribution_tenant(identifier)
+    get_distribution_tenant(identifier, params::Dict{String,<:Any})
+
+Gets information about a distribution tenant.
+
+# Arguments
+
+- `identifier`: The identifier of the distribution tenant. You can specify the ARN, ID, or
+  name of the distribution tenant.
+"""
+function get_distribution_tenant end
+
+function get_distribution_tenant(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_distribution_tenant(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_distribution_tenant_by_domain(domain)
+    get_distribution_tenant_by_domain(domain, params::Dict{String,<:Any})
+
+Gets information about a distribution tenant by the associated domain.
+
+# Arguments
+
+- `domain`: A domain name associated with the target distribution tenant.
+"""
+function get_distribution_tenant_by_domain end
+
+function get_distribution_tenant_by_domain(
+    domain; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant",
+        Dict{String,Any}("domain" => domain);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_distribution_tenant_by_domain(
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2486,6 +3689,45 @@ function get_invalidation(
 end
 
 """
+    get_invalidation_for_distribution_tenant(distribution_tenant_id, id)
+    get_invalidation_for_distribution_tenant(distribution_tenant_id, id, params::Dict{String,<:Any})
+
+Gets information about a specific invalidation for a distribution tenant.
+
+# Arguments
+
+- `distribution_tenant_id`: The ID of the distribution tenant.
+- `id`: The ID of the invalidation to retrieve.
+"""
+function get_invalidation_for_distribution_tenant end
+
+function get_invalidation_for_distribution_tenant(
+    DistributionTenantId, Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(DistributionTenantId)/invalidation/$(Id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_invalidation_for_distribution_tenant(
+    DistributionTenantId,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(DistributionTenantId)/invalidation/$(Id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_key_group(id)
     get_key_group(id, params::Dict{String,<:Any})
 
@@ -2554,6 +3796,44 @@ function get_key_group_config(
     return cloudfront(
         "GET",
         "/2020-05-31/key-group/$(Id)/config",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_managed_certificate_details(identifier)
+    get_managed_certificate_details(identifier, params::Dict{String,<:Any})
+
+Gets details about the CloudFront managed ACM certificate.
+
+# Arguments
+
+- `identifier`: The identifier of the distribution tenant. You can specify the ARN, ID, or
+  name of the distribution tenant.
+"""
+function get_managed_certificate_details end
+
+function get_managed_certificate_details(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/managed-certificate/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_managed_certificate_details(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/managed-certificate/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2860,6 +4140,48 @@ function get_realtime_log_config(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Retrieves the resource policy for the specified CloudFront resource that you own and have
+shared.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudFront resource that is
+  associated with the resource policy.
+"""
+function get_resource_policy end
+
+function get_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/get-resource-policy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/get-resource-policy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_response_headers_policy(id)
     get_response_headers_policy(id, params::Dict{String,<:Any})
 
@@ -3020,6 +4342,108 @@ function get_streaming_distribution_config(
 end
 
 """
+    get_trust_store(identifier)
+    get_trust_store(identifier, params::Dict{String,<:Any})
+
+Gets a trust store.
+
+# Arguments
+
+- `identifier`: The trust store's identifier.
+"""
+function get_trust_store end
+
+function get_trust_store(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "GET",
+        "/2020-05-31/trust-store/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_trust_store(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/trust-store/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_vpc_origin(id)
+    get_vpc_origin(id, params::Dict{String,<:Any})
+
+Get the details of an Amazon CloudFront VPC origin.
+
+# Arguments
+
+- `id`: The VPC origin ID.
+"""
+function get_vpc_origin end
+
+function get_vpc_origin(Id; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "GET", "/2020-05-31/vpc-origin/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_vpc_origin(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/vpc-origin/$(Id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_anycast_ip_lists()
+    list_anycast_ip_lists(params::Dict{String,<:Any})
+
+Lists your Anycast static IP lists.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of Anycast static IP lists that you want returned in the
+  response.
+"""
+function list_anycast_ip_lists end
+
+function list_anycast_ip_lists(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "GET", "/2020-05-31/anycast-ip-list"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_anycast_ip_lists(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/anycast-ip-list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_cache_policies()
     list_cache_policies(params::Dict{String,<:Any})
 
@@ -3116,11 +4540,20 @@ end
     list_conflicting_aliases(alias, distribution_id)
     list_conflicting_aliases(alias, distribution_id, params::Dict{String,<:Any})
 
-Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or
-overlap with the provided alias, and the associated CloudFront distributions and Amazon Web
-Services accounts for each conflicting alias. In the returned list, the distribution and
-account IDs are partially hidden, which allows you to identify the distributions and
-accounts that you own, but helps to protect the information of ones that you don't own.
+!!! note
+    The `ListConflictingAliases` API operation only supports standard distributions. To list
+    domain conflicts for both standard distributions and distribution tenants, we recommend
+    that you use the [ListDomainConflicts](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDomainConflicts.html)
+    API operation instead.
+
+Gets a list of aliases that conflict or overlap with the provided alias, and the associated
+CloudFront standard distribution and Amazon Web Services accounts for each conflicting
+alias. An alias is commonly known as a custom domain or vanity domain. It can also be called
+a CNAME or alternate domain name.
+
+In the returned list, the standard distribution and account IDs are partially hidden, which
+allows you to identify the standard distribution and accounts that you own, and helps to
+protect the information of ones that you don't own.
 
 Use this operation to find aliases that are in use in CloudFront that conflict or overlap
 with the provided alias. For example, if you provide `www.example.com` as input, the
@@ -3130,9 +4563,10 @@ list can include `*.example.com` and any alternate domain names covered by that 
 (for example, `www.example.com`, `test.example.com`, `dev.example.com`, and so on), if they
 exist.
 
-To list conflicting aliases, you provide the alias to search and the ID of a distribution in
-your account that has an attached SSL/TLS certificate that includes the provided alias. For
-more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
+To list conflicting aliases, specify the alias to search and the ID of a standard
+distribution in your account that has an attached TLS certificate that includes the provided
+alias. For more information, including how to set up the standard distribution and
+certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
 in the *Amazon CloudFront Developer Guide*.
 
 You can optionally specify the maximum number of items to receive in the response. If the
@@ -3144,8 +4578,8 @@ subsequent request.
 # Arguments
 
 - `alias`: The alias (also called a CNAME) to search for conflicting aliases.
-- `distribution_id`: The ID of a distribution in your account that has an attached SSL/TLS
-  certificate that includes the provided alias.
+- `distribution_id`: The ID of a standard distribution in your account that has an attached
+  TLS certificate that includes the provided alias.
 
 # Optional Parameters
 
@@ -3187,6 +4621,81 @@ function list_conflicting_aliases(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connection_functions()
+    list_connection_functions(params::Dict{String,<:Any})
+
+Lists connection functions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of connection functions that you want returned in the
+  response.
+- `"Stage"`: The connection function's stage.
+"""
+function list_connection_functions end
+
+function list_connection_functions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-functions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_connection_functions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-functions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connection_groups()
+    list_connection_groups(params::Dict{String,<:Any})
+
+Lists the connection groups in your Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AssociationFilter"`: Filter by associated Anycast IP list ID.
+- `"Marker"`: The marker for the next set of connection groups to retrieve.
+- `"MaxItems"`: The maximum number of connection groups to return.
+"""
+function list_connection_groups end
+
+function list_connection_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "POST", "/2020-05-31/connection-groups"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_connection_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-groups",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3241,6 +4750,87 @@ function list_continuous_deployment_policies(
 end
 
 """
+    list_distribution_tenants()
+    list_distribution_tenants(params::Dict{String,<:Any})
+
+Lists the distribution tenants in your Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AssociationFilter"`:
+- `"Marker"`: The marker for the next set of results.
+- `"MaxItems"`: The maximum number of distribution tenants to return.
+"""
+function list_distribution_tenants end
+
+function list_distribution_tenants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenants";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distribution_tenants(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenants",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distribution_tenants_by_customization()
+    list_distribution_tenants_by_customization(params::Dict{String,<:Any})
+
+Lists distribution tenants by the customization that you specify.
+
+You must specify either the `CertificateArn` parameter or `WebACLArn` parameter, but not
+both in the same request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CertificateArn"`: Filter by the ARN of the associated ACM certificate.
+- `"Marker"`: The marker for the next set of results.
+- `"MaxItems"`: The maximum number of distribution tenants to return by the specified
+  customization.
+- `"WebACLArn"`: Filter by the ARN of the associated WAF web ACL.
+"""
+function list_distribution_tenants_by_customization end
+
+function list_distribution_tenants_by_customization(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenants-by-customization";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distribution_tenants_by_customization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution-tenants-by-customization",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_distributions()
     list_distributions(params::Dict{String,<:Any})
 
@@ -3270,6 +4860,54 @@ function list_distributions(
     return cloudfront(
         "GET",
         "/2020-05-31/distribution",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distributions_by_anycast_ip_list_id(anycast_ip_list_id)
+    list_distributions_by_anycast_ip_list_id(anycast_ip_list_id, params::Dict{String,<:Any})
+
+Lists the distributions in your account that are associated with the specified
+`AnycastIpListId`.
+
+# Arguments
+
+- `anycast_ip_list_id`: The ID of the Anycast static IP list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of distributions that you want returned in the response.
+"""
+function list_distributions_by_anycast_ip_list_id end
+
+function list_distributions_by_anycast_ip_list_id(
+    AnycastIpListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByAnycastIpListId/$(AnycastIpListId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_anycast_ip_list_id(
+    AnycastIpListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByAnycastIpListId/$(AnycastIpListId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3325,6 +4963,108 @@ function list_distributions_by_cache_policy_id(
     return cloudfront(
         "GET",
         "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distributions_by_connection_function(connection_function_identifier)
+    list_distributions_by_connection_function(connection_function_identifier, params::Dict{String,<:Any})
+
+Lists distributions by connection function.
+
+# Arguments
+
+- `connection_function_identifier`: The distributions by connection function identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of distributions that you want returned in the response.
+"""
+function list_distributions_by_connection_function end
+
+function list_distributions_by_connection_function(
+    ConnectionFunctionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByConnectionFunction",
+        Dict{String,Any}("ConnectionFunctionIdentifier" => ConnectionFunctionIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_connection_function(
+    ConnectionFunctionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByConnectionFunction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionFunctionIdentifier" => ConnectionFunctionIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distributions_by_connection_mode(connection_mode)
+    list_distributions_by_connection_mode(connection_mode, params::Dict{String,<:Any})
+
+Lists the distributions by the connection mode that you specify.
+
+# Arguments
+
+- `connection_mode`: This field specifies whether the connection mode is through a standard
+  distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-
+  only).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: The marker for the next set of distributions to retrieve.
+- `"MaxItems"`: The maximum number of distributions to return.
+"""
+function list_distributions_by_connection_mode end
+
+function list_distributions_by_connection_mode(
+    ConnectionMode; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByConnectionMode/$(ConnectionMode)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_connection_mode(
+    ConnectionMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByConnectionMode/$(ConnectionMode)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3434,6 +5174,55 @@ function list_distributions_by_origin_request_policy_id(
     return cloudfront(
         "GET",
         "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distributions_by_owned_resource(resource_arn)
+    list_distributions_by_owned_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists the CloudFront distributions that are associated with the specified resource that you
+own.
+
+# Arguments
+
+- `resource_arn`: The ARN of the CloudFront resource that you've shared with other Amazon
+  Web Services accounts.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your list
+  of distributions. The response includes distributions in the list that occur after the
+  marker. To get the next page of the list, set this field's value to the value of
+  `NextMarker` from the current page's response.
+- `"MaxItems"`: The maximum number of distributions to return.
+"""
+function list_distributions_by_owned_resource end
+
+function list_distributions_by_owned_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByOwnedResource/$(ResourceArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_owned_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByOwnedResource/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3552,6 +5341,104 @@ function list_distributions_by_response_headers_policy_id(
 end
 
 """
+    list_distributions_by_trust_store(trust_store_identifier)
+    list_distributions_by_trust_store(trust_store_identifier, params::Dict{String,<:Any})
+
+Lists distributions by trust store.
+
+# Arguments
+
+- `trust_store_identifier`: The distributions by trust store identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of distributions that you want returned in the response.
+"""
+function list_distributions_by_trust_store end
+
+function list_distributions_by_trust_store(
+    TrustStoreIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByTrustStore",
+        Dict{String,Any}("TrustStoreIdentifier" => TrustStoreIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_trust_store(
+    TrustStoreIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByTrustStore",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustStoreIdentifier" => TrustStoreIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_distributions_by_vpc_origin_id(vpc_origin_id)
+    list_distributions_by_vpc_origin_id(vpc_origin_id, params::Dict{String,<:Any})
+
+List CloudFront distributions by their VPC origin ID.
+
+# Arguments
+
+- `vpc_origin_id`: The VPC origin ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: The marker associated with the VPC origin distributions list.
+- `"MaxItems"`: The maximum number of items included in the list.
+"""
+function list_distributions_by_vpc_origin_id end
+
+function list_distributions_by_vpc_origin_id(
+    VpcOriginId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByVpcOriginId/$(VpcOriginId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_distributions_by_vpc_origin_id(
+    VpcOriginId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByVpcOriginId/$(VpcOriginId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_distributions_by_web_aclid(web_aclid)
     list_distributions_by_web_aclid(web_aclid, params::Dict{String,<:Any})
 
@@ -3604,6 +5491,100 @@ function list_distributions_by_web_aclid(
         "GET",
         "/2020-05-31/distributionsByWebACLId/$(WebACLId)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_domain_conflicts(domain, domain_control_validation_resource)
+    list_domain_conflicts(domain, domain_control_validation_resource, params::Dict{String,<:Any})
+
+!!! note
+    We recommend that you use the `ListDomainConflicts` API operation to check for domain
+    conflicts, as it supports both standard distributions and distribution tenants. [ListConflictingAliases](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListConflictingAliases.html)
+    performs similar checks but only supports standard distributions.
+
+Lists existing domain associations that conflict with the domain that you specify.
+
+You can use this API operation to identify potential domain conflicts when moving domains
+between standard distributions and/or distribution tenants. Domain conflicts must be
+resolved first before they can be moved.
+
+For example, if you provide `www.example.com` as input, the returned list can include
+`www.example.com` and the overlapping wildcard alternate domain name (`*.example.com`), if
+they exist. If you provide `*.example.com` as input, the returned list can include
+`*.example.com` and any alternate domain names covered by that wildcard (for example,
+`www.example.com`, `test.example.com`, `dev.example.com`, and so on), if they exist.
+
+To list conflicting domains, specify the following:
+
+- The domain to search for
+- The ID of a standard distribution or distribution tenant in your account that has an
+  attached TLS certificate, which covers the specified domain
+
+For more information, including how to set up the standard distribution or distribution
+tenant, and the certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
+in the *Amazon CloudFront Developer Guide*.
+
+You can optionally specify the maximum number of items to receive in the response. If the
+total number of items in the list exceeds the maximum that you specify, or the default
+maximum, the response is paginated. To get the next page of items, send a subsequent request
+that specifies the `NextMarker` value from the current response as the `Marker` value in the
+subsequent request.
+
+# Arguments
+
+- `domain`: The domain to check for conflicts.
+- `domain_control_validation_resource`: The distribution resource identifier. This can be
+  the standard distribution or distribution tenant that has a valid certificate, which
+  covers the domain that you specify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: The marker for the next set of domain conflicts.
+- `"MaxItems"`: The maximum number of domain conflicts to return.
+"""
+function list_domain_conflicts end
+
+function list_domain_conflicts(
+    Domain,
+    DomainControlValidationResource;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/domain-conflicts",
+        Dict{String,Any}(
+            "Domain" => Domain,
+            "DomainControlValidationResource" => DomainControlValidationResource,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_domain_conflicts(
+    Domain,
+    DomainControlValidationResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/domain-conflicts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Domain" => Domain,
+                    "DomainControlValidationResource" => DomainControlValidationResource,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3792,6 +5773,54 @@ function list_invalidations(
 end
 
 """
+    list_invalidations_for_distribution_tenant(id)
+    list_invalidations_for_distribution_tenant(id, params::Dict{String,<:Any})
+
+Lists the invalidations for a distribution tenant.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this parameter when paginating results to indicate where to begin in your
+  list of invalidation batches. Because the results are returned in decreasing order from
+  most recent to oldest, the most recent results are on the first page, the second page will
+  contain earlier results, and so on. To get the next page of results, set `Marker` to the
+  value of the `NextMarker` from the current page's response. This value is the same as the
+  ID of the last invalidation batch on that page.
+
+- `"MaxItems"`: The maximum number of invalidations to return for the distribution tenant.
+"""
+function list_invalidations_for_distribution_tenant end
+
+function list_invalidations_for_distribution_tenant(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(Id)/invalidation";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_invalidations_for_distribution_tenant(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution-tenant/$(Id)/invalidation",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_key_groups()
     list_key_groups(params::Dict{String,<:Any})
 
@@ -3867,13 +5896,18 @@ end
     list_origin_access_controls()
     list_origin_access_controls(params::Dict{String,<:Any})
 
-Gets the list of CloudFront origin access controls in this Amazon Web Services account.
+Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services
+account.
 
 You can optionally specify the maximum number of items to receive in the response. If the
 total number of items in the list exceeds the maximum that you specify, or the default
 maximum, the response is paginated. To get the next page of items, send another request that
 specifies the `NextMarker` value from the current response as the `Marker` value in the next
 request.
+
+!!! note
+    If you're not using origin access controls for your Amazon Web Services account, the [`list_origin_access_controls`](@ref)
+    operation doesn't return the `Items` element in the response.
 
 # Optional Parameters
 
@@ -4139,7 +6173,8 @@ end
     list_tags_for_resource(resource)
     list_tags_for_resource(resource, params::Dict{String,<:Any})
 
-List tags for a CloudFront resource.
+List tags for a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html)
+in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
@@ -4169,6 +6204,117 @@ function list_tags_for_resource(
         "/2020-05-31/tagging",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_trust_stores()
+    list_trust_stores(params::Dict{String,<:Any})
+
+Lists trust stores.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list. The response includes items in the list that occur after the marker. To get the next
+  page of the list, set this field's value to the value of `NextMarker` from the current
+  page's response.
+- `"MaxItems"`: The maximum number of trust stores that you want returned in the response.
+"""
+function list_trust_stores end
+
+function list_trust_stores(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "POST", "/2020-05-31/trust-stores"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_trust_stores(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/trust-stores",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpc_origins()
+    list_vpc_origins(params::Dict{String,<:Any})
+
+List the CloudFront VPC origins in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: The marker associated with the VPC origins list.
+- `"MaxItems"`: The maximum number of items included in the list.
+"""
+function list_vpc_origins end
+
+function list_vpc_origins(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudfront(
+        "GET", "/2020-05-31/vpc-origin"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_vpc_origins(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/vpc-origin", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    publish_connection_function(id, if-_match)
+    publish_connection_function(id, if-_match, params::Dict{String,<:Any})
+
+Publishes a connection function.
+
+# Arguments
+
+- `id`: The connection function ID.
+- `if-_match`: The current version (`ETag` value) of the connection function.
+"""
+function publish_connection_function end
+
+function publish_connection_function(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function/$(Id)/publish",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function publish_connection_function(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function/$(Id)/publish",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4231,10 +6377,60 @@ function publish_function(
 end
 
 """
+    put_resource_policy(policy_document, resource_arn)
+    put_resource_policy(policy_document, resource_arn, params::Dict{String,<:Any})
+
+Creates a resource control policy for a given CloudFront resource.
+
+# Arguments
+
+- `policy_document`: The JSON-formatted resource policy to create.
+- `resource_arn`: The Amazon Resource Name (ARN) of the CloudFront resource for which the
+  policy is being created.
+"""
+function put_resource_policy end
+
+function put_resource_policy(
+    PolicyDocument, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/put-resource-policy",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument, "ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_resource_policy(
+    PolicyDocument,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/put-resource-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyDocument" => PolicyDocument, "ResourceArn" => ResourceArn
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource, tags)
     tag_resource(resource, tags, params::Dict{String,<:Any})
 
-Add tags to a CloudFront resource.
+Add tags to a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html)
+in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
@@ -4265,6 +6461,66 @@ function tag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Resource" => Resource, "Tags" => Tags), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    test_connection_function(connection_object, id, if-_match)
+    test_connection_function(connection_object, id, if-_match, params::Dict{String,<:Any})
+
+Tests a connection function.
+
+# Arguments
+
+- `connection_object`: The connection object.
+- `id`: The connection function ID.
+- `if-_match`: The current version (`ETag` value) of the connection function.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Stage"`: The connection function stage.
+"""
+function test_connection_function end
+
+function test_connection_function(
+    ConnectionObject, Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function/$(Id)/test",
+        Dict{String,Any}(
+            "ConnectionObject" => ConnectionObject,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function test_connection_function(
+    ConnectionObject,
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/connection-function/$(Id)/test",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionObject" => ConnectionObject,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
             ),
         );
         aws_config,
@@ -4350,7 +6606,8 @@ end
     untag_resource(resource, tag_keys)
     untag_resource(resource, tag_keys, params::Dict{String,<:Any})
 
-Remove tags from a CloudFront resource.
+Remove tags from a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html)
+in the *Amazon CloudFront Developer Guide*.
 
 # Arguments
 
@@ -4393,6 +6650,67 @@ function untag_resource(
 end
 
 """
+    update_anycast_ip_list(id, if-_match)
+    update_anycast_ip_list(id, if-_match, params::Dict{String,<:Any})
+
+Updates an Anycast static IP list.
+
+# Arguments
+
+- `id`: The ID of the Anycast static IP list.
+- `if-_match`: The current version (ETag value) of the Anycast static IP list that you are
+  updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IpAddressType"`: The IP address type for the Anycast static IP list. You can specify one
+  of the following options:
+
+  - `ipv4` only
+  - `ipv6` only
+  - `dualstack` - Allocate a list of both IPv4 and IPv6 addresses
+
+- `"IpamCidrConfigs"`: A list of IPAM CIDR configurations that specify the IP address ranges
+  and IPAM pool settings for updating the Anycast static IP list.
+"""
+function update_anycast_ip_list end
+
+function update_anycast_ip_list(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/anycast-ip-list/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_anycast_ip_list(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/anycast-ip-list/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_cache_policy(cache_policy_config, id)
     update_cache_policy(cache_policy_config, id, params::Dict{String,<:Any})
 
@@ -4406,6 +6724,12 @@ cache policy configuration:
 2. Locally modify the fields in the cache policy configuration that you want to update.
 3. Call `UpdateCachePolicy` by providing the entire cache policy configuration, including
    the fields that you modified and those that you didn't.
+
+!!! important
+    If your minimum TTL is greater than 0, CloudFront will cache content for at least the
+    duration specified in the cache policy's minimum TTL, even if the
+    `Cache-Control: no-cache`, `no-store`, or `private` directives are present in the origin
+    headers.
 
 # Arguments
 
@@ -4515,6 +6839,125 @@ function update_cloud_front_origin_access_identity(
 end
 
 """
+    update_connection_function(connection_function_code, connection_function_config, id, if-_match)
+    update_connection_function(connection_function_code, connection_function_config, id, if-_match, params::Dict{String,<:Any})
+
+Updates a connection function.
+
+# Arguments
+
+- `connection_function_code`: The connection function code.
+- `connection_function_config`:
+- `id`: The connection function ID.
+- `if-_match`: The current version (`ETag` value) of the connection function you are
+  updating.
+"""
+function update_connection_function end
+
+function update_connection_function(
+    ConnectionFunctionCode,
+    ConnectionFunctionConfig,
+    Id,
+    If_Match;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/connection-function/$(Id)",
+        Dict{String,Any}(
+            "ConnectionFunctionCode" => ConnectionFunctionCode,
+            "ConnectionFunctionConfig" => ConnectionFunctionConfig,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_connection_function(
+    ConnectionFunctionCode,
+    ConnectionFunctionConfig,
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/connection-function/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionFunctionCode" => ConnectionFunctionCode,
+                    "ConnectionFunctionConfig" => ConnectionFunctionConfig,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_connection_group(id, if-_match)
+    update_connection_group(id, if-_match, params::Dict{String,<:Any})
+
+Updates a connection group.
+
+# Arguments
+
+- `id`: The ID of the connection group.
+- `if-_match`: The value of the `ETag` header that you received when retrieving the
+  connection group that you're updating.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AnycastIpListId"`: The ID of the Anycast static IP list.
+- `"Enabled"`: Whether the connection group is enabled.
+- `"Ipv6Enabled"`: Enable IPv6 for the connection group. For more information, see [Enable IPv6](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesEnableIPv6)
+  in the *Amazon CloudFront Developer Guide*.
+"""
+function update_connection_group end
+
+function update_connection_group(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/connection-group/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_connection_group(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/connection-group/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_continuous_deployment_policy(continuous_deployment_policy_config, id)
     update_continuous_deployment_policy(continuous_deployment_policy_config, id, params::Dict{String,<:Any})
 
@@ -4599,13 +7042,14 @@ make your changes, and then submitting an `UpdateDistribution` request to make t
 2. Update the distribution configuration that was returned in the response. Note the
    following important requirements and restrictions:
 
-- You must rename the `ETag` field to `IfMatch`, leaving the value unchanged. (Set the value
-  of `IfMatch` to the value of `ETag`, then remove the `ETag` field.)
+- You must copy the `ETag` field value from the response. (You'll use it for the `IfMatch`
+  parameter in your request.) Then, remove the `ETag` field from the distribution
+  configuration.
 - You can't change the value of `CallerReference`.
-3. Submit an `UpdateDistribution` request, providing the distribution configuration. The new
-   configuration replaces the existing configuration. The values that you specify in an
-   `UpdateDistribution` request are not merged into your existing configuration. Make sure
-   to include all fields: the ones that you modified and also the ones that you didn't.
+3. Submit an `UpdateDistribution` request, providing the updated distribution configuration.
+   The new configuration replaces the existing configuration. The values that you specify in
+   an `UpdateDistribution` request are not merged into your existing configuration. Make
+   sure to include all fields: the ones that you modified and also the ones that you didn't.
 
 # Arguments
 
@@ -4653,6 +7097,83 @@ function update_distribution(
 end
 
 """
+    update_distribution_tenant(id, if-_match)
+    update_distribution_tenant(id, if-_match, params::Dict{String,<:Any})
+
+Updates a distribution tenant.
+
+# Arguments
+
+- `id`: The ID of the distribution tenant.
+- `if-_match`: The value of the `ETag` header that you received when retrieving the
+  distribution tenant to update. This value is returned in the response of the
+  `GetDistributionTenant` API operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConnectionGroupId"`: The ID of the target connection group.
+
+- `"Customizations"`: Customizations for the distribution tenant. For each distribution
+  tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs)
+  for the ACM certificate and WAF web ACL. These are specific values that you can override
+  or disable from the multi-tenant distribution that was used to create the distribution
+  tenant.
+
+- `"DistributionId"`: The ID for the multi-tenant distribution.
+
+- `"Domains"`: The domains to update for the distribution tenant. A domain object can
+  contain only a domain property. You must specify at least one domain. Each distribution
+  tenant can have up to 5 domains.
+
+- `"Enabled"`: Indicates whether the distribution tenant should be updated to an enabled
+  state. If you update the distribution tenant and it's not enabled, the distribution tenant
+  won't serve traffic.
+
+- `"ManagedCertificateRequest"`: An object that contains the CloudFront managed ACM
+  certificate request.
+
+- `"Parameters"`: A list of parameter values to add to the resource. A parameter is
+  specified as a key-value pair. A valid parameter value must exist for any parameter that
+  is marked as required in the multi-tenant distribution.
+"""
+function update_distribution_tenant end
+
+function update_distribution_tenant(
+    Id, If_Match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_distribution_tenant(
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution-tenant/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_distribution_with_staging_config(id)
     update_distribution_with_staging_config(id, params::Dict{String,<:Any})
 
@@ -4686,7 +7207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The current versions (`ETag` values) of both primary and staging
   distributions. Provide these in the following format:
 
-  `<primary ETag>, <staging ETag>`
+  `&lt;primary ETag&gt;, &lt;staging ETag&gt;`
 
 - `"StagingDistributionId"`: The identifier of the staging distribution whose configuration
   you are copying to the primary distribution.
@@ -4711,6 +7232,75 @@ function update_distribution_with_staging_config(
         "PUT",
         "/2020-05-31/distribution/$(Id)/promote-staging-config",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_domain_association(domain, target_resource)
+    update_domain_association(domain, target_resource, params::Dict{String,<:Any})
+
+!!! note
+    We recommend that you use the `UpdateDomainAssociation` API operation to move a domain
+    association, as it supports both standard distributions and distribution tenants. [AssociateAlias](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_AssociateAlias.html)
+    performs similar checks but only supports standard distributions.
+
+Moves a domain from its current standard distribution or distribution tenant to another one.
+
+You must first disable the source distribution (standard distribution or distribution
+tenant) and then separately call this operation to move the domain to another target
+distribution (standard distribution or distribution tenant).
+
+To use this operation, specify the domain and the ID of the target resource (standard
+distribution or distribution tenant). For more information, including how to set up the
+target resource, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move)
+in the *Amazon CloudFront Developer Guide*.
+
+# Arguments
+
+- `domain`: The domain to update.
+- `target_resource`: The target standard distribution or distribution tenant resource for
+  the domain. You can specify either `DistributionId` or `DistributionTenantId`, but not
+  both.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"If-Match"`: The value of the `ETag` identifier for the standard distribution or
+  distribution tenant that will be associated with the domain.
+"""
+function update_domain_association end
+
+function update_domain_association(
+    Domain, TargetResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/domain-association",
+        Dict{String,Any}("Domain" => Domain, "TargetResource" => TargetResource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_domain_association(
+    Domain,
+    TargetResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/domain-association",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Domain" => Domain, "TargetResource" => TargetResource),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -5358,6 +7948,170 @@ function update_streaming_distribution(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_trust_store(ca_certificates_bundle_source, id, if-_match)
+    update_trust_store(ca_certificates_bundle_source, id, if-_match, params::Dict{String,<:Any})
+
+Updates a trust store.
+
+# Arguments
+
+- `ca_certificates_bundle_source`: The CA certificates bundle source.
+- `id`: The trust store ID.
+- `if-_match`: The current version (`ETag` value) of the trust store you are updating.
+"""
+function update_trust_store end
+
+function update_trust_store(
+    CaCertificatesBundleSource,
+    Id,
+    If_Match;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/trust-store/$(Id)",
+        Dict{String,Any}(
+            "CaCertificatesBundleSource" => CaCertificatesBundleSource,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_trust_store(
+    CaCertificatesBundleSource,
+    Id,
+    If_Match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/trust-store/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CaCertificatesBundleSource" => CaCertificatesBundleSource,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_vpc_origin(id, if-_match, vpc_origin_endpoint_config)
+    update_vpc_origin(id, if-_match, vpc_origin_endpoint_config, params::Dict{String,<:Any})
+
+Update an Amazon CloudFront VPC origin in your account.
+
+# Arguments
+
+- `id`: The VPC origin ID.
+- `if-_match`: The VPC origin to update, if a match occurs.
+- `vpc_origin_endpoint_config`: The VPC origin endpoint configuration.
+"""
+function update_vpc_origin end
+
+function update_vpc_origin(
+    Id,
+    If_Match,
+    VpcOriginEndpointConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/vpc-origin/$(Id)",
+        Dict{String,Any}(
+            "VpcOriginEndpointConfig" => VpcOriginEndpointConfig,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_vpc_origin(
+    Id,
+    If_Match,
+    VpcOriginEndpointConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/vpc-origin/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpcOriginEndpointConfig" => VpcOriginEndpointConfig,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    verify_dns_configuration(identifier)
+    verify_dns_configuration(identifier, params::Dict{String,<:Any})
+
+Verify the DNS configuration for your domain names. This API operation checks whether your
+domain name points to the correct routing endpoint of the connection group, such as
+d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve
+DNS configuration issues.
+
+# Arguments
+
+- `identifier`: The identifier of the distribution tenant. You can specify the ARN, ID, or
+  name of the distribution tenant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Domain"`: The domain name that you're verifying.
+"""
+function verify_dns_configuration end
+
+function verify_dns_configuration(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/verify-dns-configuration",
+        Dict{String,Any}("Identifier" => Identifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function verify_dns_configuration(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/verify-dns-configuration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

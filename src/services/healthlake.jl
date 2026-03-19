@@ -8,26 +8,26 @@ using AWS.UUIDs: uuid4
     create_fhirdatastore(datastore_type_version)
     create_fhirdatastore(datastore_type_version, params::Dict{String,<:Any})
 
-Creates a data store that can ingest and export FHIR formatted data.
+Create a FHIR-enabled data store.
 
 # Arguments
 
-- `datastore_type_version`: The FHIR version of the data store. The only supported version
-  is R4.
+- `datastore_type_version`: The FHIR release version supported by the data store. Current
+  support is for version `R4`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: Optional user provided token used for ensuring idempotency.
-- `"DatastoreName"`: The user generated name for the data store.
-- `"IdentityProviderConfiguration"`: The configuration of the identity provider that you
-  want to use for your data store.
-- `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the data store.
-  Currently, the only supported preloaded data is synthetic data generated from Synthea.
-- `"SseConfiguration"`: The server-side encryption key configuration for a customer provided
+- `"ClientToken"`: An optional user-provided token to ensure API idempotency.
+- `"DatastoreName"`: The data store name (user-generated).
+- `"IdentityProviderConfiguration"`: The identity provider configuration to use for the data
+  store.
+- `"PreloadDataConfig"`: An optional parameter to preload (import) open source Synthea FHIR
+  data upon creation of the data store.
+- `"SseConfiguration"`: The server-side encryption key configuration for a customer-provided
   encryption key specified for creating a data store.
-- `"Tags"`: Resource tags that are applied to a data store when it is created.
+- `"Tags"`: The resource tags applied to a data store when it is created.
 """
 function create_fhirdatastore end
 
@@ -70,11 +70,11 @@ end
     delete_fhirdatastore(datastore_id)
     delete_fhirdatastore(datastore_id, params::Dict{String,<:Any})
 
-Deletes a data store.
+Delete a FHIR-enabled data store.
 
 # Arguments
 
-- `datastore_id`: The AWS-generated ID for the data store to be deleted.
+- `datastore_id`: The AWS-generated identifier for the data store to be deleted.
 """
 function delete_fhirdatastore end
 
@@ -108,13 +108,11 @@ end
     describe_fhirdatastore(datastore_id)
     describe_fhirdatastore(datastore_id, params::Dict{String,<:Any})
 
-Gets the properties associated with the FHIR data store, including the data store ID, data
-store ARN, data store name, data store status, when the data store was created, data store
-type version, and the data store's endpoint.
+Get properties for a FHIR-enabled data store.
 
 # Arguments
 
-- `datastore_id`: The AWS-generated data store ID.
+- `datastore_id`: The data store identifier.
 """
 function describe_fhirdatastore end
 
@@ -148,14 +146,12 @@ end
     describe_fhirexport_job(datastore_id, job_id)
     describe_fhirexport_job(datastore_id, job_id, params::Dict{String,<:Any})
 
-Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of
-the job.
+Get FHIR export job properties.
 
 # Arguments
 
-- `datastore_id`: The AWS generated ID for the data store from which files are being
-  exported from for an export job.
-- `job_id`: The AWS generated ID for an export job.
+- `datastore_id`: The data store identifier from which FHIR data is being exported from.
+- `job_id`: The export job identifier.
 """
 function describe_fhirexport_job end
 
@@ -194,13 +190,12 @@ end
     describe_fhirimport_job(datastore_id, job_id)
     describe_fhirimport_job(datastore_id, job_id, params::Dict{String,<:Any})
 
-Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of
-the job.
+Get the import job properties to learn more about the job or job progress.
 
 # Arguments
 
-- `datastore_id`: The AWS-generated ID of the data store.
-- `job_id`: The AWS-generated job ID.
+- `datastore_id`: The data store identifier.
+- `job_id`: The import job identifier.
 """
 function describe_fhirimport_job end
 
@@ -239,16 +234,16 @@ end
     list_fhirdatastores()
     list_fhirdatastores(params::Dict{String,<:Any})
 
-Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+List all FHIR-enabled data stores in a user’s account, regardless of data store status.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filter"`: Lists all filters associated with a FHIR data store request.
-- `"MaxResults"`: The maximum number of data stores returned in a single page of a
-  ListFHIRDatastoresRequest call.
-- `"NextToken"`: Fetches the next page of data stores when results are paginated.
+- `"Filter"`: List all filters associated with a FHIR data store request.
+- `"MaxResults"`: The maximum number of data stores returned on a page.
+- `"NextToken"`: The token used to retrieve the next page of data stores when results are
+  paginated.
 """
 function list_fhirdatastores end
 
@@ -272,25 +267,21 @@ Lists all FHIR export jobs associated with an account and their statuses.
 
 # Arguments
 
-- `datastore_id`: This parameter limits the response to the export job with the specified
-  data store ID.
+- `datastore_id`: Limits the response to the export job with the specified data store ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"JobName"`: This parameter limits the response to the export job with the specified job
-  name.
-- `"JobStatus"`: This parameter limits the response to the export jobs with the specified
-  job status.
-- `"MaxResults"`: This parameter limits the number of results returned for a
-  ListFHIRExportJobs to a maximum quantity specified by the user.
-- `"NextToken"`: A pagination token used to identify the next page of results to return for
-  a ListFHIRExportJobs query.
-- `"SubmittedAfter"`: This parameter limits the response to FHIR export jobs submitted after
-  a user specified date.
-- `"SubmittedBefore"`: This parameter limits the response to FHIR export jobs submitted
-  before a user specified date.
+- `"JobName"`: Limits the response to the export job with the specified job name.
+- `"JobStatus"`: Limits the response to export jobs with the specified job status.
+- `"MaxResults"`: Limits the number of results returned for a ListFHIRExportJobs to a
+  maximum quantity specified by the user.
+- `"NextToken"`: A pagination token used to identify the next page of results to return.
+- `"SubmittedAfter"`: Limits the response to FHIR export jobs submitted after a user-
+  specified date.
+- `"SubmittedBefore"`: Limits the response to FHIR export jobs submitted before a user-
+  specified date.
 """
 function list_fhirexport_jobs end
 
@@ -324,29 +315,25 @@ end
     list_fhirimport_jobs(datastore_id)
     list_fhirimport_jobs(datastore_id, params::Dict{String,<:Any})
 
-Lists all FHIR import jobs associated with an account and their statuses.
+List all FHIR import jobs associated with an account and their statuses.
 
 # Arguments
 
-- `datastore_id`: This parameter limits the response to the import job with the specified
-  data store ID.
+- `datastore_id`: Limits the response to the import job with the specified data store ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"JobName"`: This parameter limits the response to the import job with the specified job
-  name.
-- `"JobStatus"`: This parameter limits the response to the import job with the specified job
-  status.
-- `"MaxResults"`: This parameter limits the number of results returned for a
-  ListFHIRImportJobs to a maximum quantity specified by the user.
-- `"NextToken"`: A pagination token used to identify the next page of results to return for
-  a ListFHIRImportJobs query.
-- `"SubmittedAfter"`: This parameter limits the response to FHIR import jobs submitted after
-  a user specified date.
-- `"SubmittedBefore"`: This parameter limits the response to FHIR import jobs submitted
-  before a user specified date.
+- `"JobName"`: Limits the response to the import job with the specified job name.
+- `"JobStatus"`: Limits the response to the import job with the specified job status.
+- `"MaxResults"`: Limits the number of results returned for `ListFHIRImportJobs` to a
+  maximum quantity specified by the user.
+- `"NextToken"`: The pagination token used to identify the next page of results to return.
+- `"SubmittedAfter"`: Limits the response to FHIR import jobs submitted after a user-
+  specified date.
+- `"SubmittedBefore"`: Limits the response to FHIR import jobs submitted before a user-
+  specified date.
 """
 function list_fhirimport_jobs end
 
@@ -384,7 +371,7 @@ Returns a list of all existing tags associated with a data store.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name(ARN) of the data store for which tags are being
+- `resource_arn`: The Amazon Resource Name (ARN) of the data store to which tags are being
   added.
 """
 function list_tags_for_resource end
@@ -416,30 +403,29 @@ function list_tags_for_resource(
 end
 
 """
-    start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config)
-    start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config, params::Dict{String,<:Any})
+    start_fhirexport_job(data_access_role_arn, datastore_id, output_data_config)
+    start_fhirexport_job(data_access_role_arn, datastore_id, output_data_config, params::Dict{String,<:Any})
 
-Begins a FHIR export job.
+Start a FHIR export job.
 
 # Arguments
 
-- `client_token`: An optional user provided token used for ensuring idempotency.
-- `data_access_role_arn`: The Amazon Resource Name used during the initiation of the job.
-- `datastore_id`: The AWS generated ID for the data store from which files are being
-  exported for an export job.
-- `output_data_config`: The output data configuration that was supplied when the export job
-  was created.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) used during initiation of the
+  export job.
+- `datastore_id`: The data store identifier from which files are being exported.
+- `output_data_config`: The output data configuration supplied when the export job was
+  started.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"JobName"`: The user generated name for an export job.
+- `"ClientToken"`: An optional user provided token used for ensuring API idempotency.
+- `"JobName"`: The export job name.
 """
 function start_fhirexport_job end
 
 function start_fhirexport_job(
-    ClientToken,
     DataAccessRoleArn,
     DatastoreId,
     OutputDataConfig;
@@ -448,10 +434,10 @@ function start_fhirexport_job(
     return healthlake(
         "StartFHIRExportJob",
         Dict{String,Any}(
-            "ClientToken" => ClientToken,
             "DataAccessRoleArn" => DataAccessRoleArn,
             "DatastoreId" => DatastoreId,
             "OutputDataConfig" => OutputDataConfig,
+            "ClientToken" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -459,7 +445,6 @@ function start_fhirexport_job(
 end
 
 function start_fhirexport_job(
-    ClientToken,
     DataAccessRoleArn,
     DatastoreId,
     OutputDataConfig,
@@ -472,10 +457,10 @@ function start_fhirexport_job(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClientToken" => ClientToken,
                     "DataAccessRoleArn" => DataAccessRoleArn,
                     "DatastoreId" => DatastoreId,
                     "OutputDataConfig" => OutputDataConfig,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -486,31 +471,32 @@ function start_fhirexport_job(
 end
 
 """
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config)
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config, params::Dict{String,<:Any})
+    start_fhirimport_job(data_access_role_arn, datastore_id, input_data_config, job_output_data_config)
+    start_fhirimport_job(data_access_role_arn, datastore_id, input_data_config, job_output_data_config, params::Dict{String,<:Any})
 
-Begins a FHIR Import job.
+Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data
+found in the `InputDataConfig` object and stores processing results in the
+`JobOutputDataConfig` object.
 
 # Arguments
 
-- `client_token`: Optional user provided token used for ensuring idempotency.
-- `data_access_role_arn`: The Amazon Resource Name (ARN) that gives AWS HealthLake access
-  permission.
-- `datastore_id`: The AWS-generated data store ID.
-- `input_data_config`: The input properties of the FHIR Import job in the StartFHIRImport
-  job request.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) that grants access permission to
+  AWS HealthLake.
+- `datastore_id`: The data store identifier.
+- `input_data_config`: The input properties for the import job request.
 - `job_output_data_config`:
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"JobName"`: The name of the FHIR Import job in the StartFHIRImport job request.
+- `"ClientToken"`: The optional user-provided token used for ensuring API idempotency.
+- `"JobName"`: The import job name.
+- `"ValidationLevel"`: The validation level of the import job.
 """
 function start_fhirimport_job end
 
 function start_fhirimport_job(
-    ClientToken,
     DataAccessRoleArn,
     DatastoreId,
     InputDataConfig,
@@ -520,11 +506,11 @@ function start_fhirimport_job(
     return healthlake(
         "StartFHIRImportJob",
         Dict{String,Any}(
-            "ClientToken" => ClientToken,
             "DataAccessRoleArn" => DataAccessRoleArn,
             "DatastoreId" => DatastoreId,
             "InputDataConfig" => InputDataConfig,
             "JobOutputDataConfig" => JobOutputDataConfig,
+            "ClientToken" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -532,7 +518,6 @@ function start_fhirimport_job(
 end
 
 function start_fhirimport_job(
-    ClientToken,
     DataAccessRoleArn,
     DatastoreId,
     InputDataConfig,
@@ -546,11 +531,11 @@ function start_fhirimport_job(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClientToken" => ClientToken,
                     "DataAccessRoleArn" => DataAccessRoleArn,
                     "DatastoreId" => DatastoreId,
                     "InputDataConfig" => InputDataConfig,
                     "JobOutputDataConfig" => JobOutputDataConfig,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -564,13 +549,13 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds a user specified key and value tag to a data store.
+Add a user-specifed key and value tag to a data store.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data
-  store which tags are being added to.
-- `tags`: The user specified key and value pair tags being added to a data store.
+- `resource_arn`: The Amazon Resource Name (ARN) that grants access to the data store tags
+  are being added to.
+- `tags`: The user-specified key and value pair tags being added to a data store.
 """
 function tag_resource end
 
@@ -607,13 +592,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a data store.
+Remove a user-specifed key and value tag from a data store.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name(ARN) of the data store for which tags are being
+- `resource_arn`: The Amazon Resource Name (ARN) of the data store from which tags are being
   removed.
-- `tag_keys`: The keys for the tags to be removed from the HealthLake data store.
+- `tag_keys`: The keys for the tags to be removed from the data store.
 """
 function untag_resource end
 

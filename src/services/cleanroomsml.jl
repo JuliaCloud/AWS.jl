@@ -5,6 +5,102 @@ using AWS.AWSServices: cleanroomsml
 using AWS.UUIDs: uuid4
 
 """
+    cancel_trained_model(membership_identifier, trained_model_arn)
+    cancel_trained_model(membership_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Submits a request to cancel the trained model job.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the trained model job that you want to
+  cancel.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model job that you want
+  to cancel.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"versionIdentifier"`: The version identifier of the trained model to cancel. This
+  parameter allows you to specify which version of the trained model you want to cancel when
+  multiple versions exist.
+
+  If `versionIdentifier` is not specified, the base model will be cancelled.
+"""
+function cancel_trained_model end
+
+function cancel_trained_model(
+    membershipIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_trained_model(
+    membershipIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_trained_model_inference_job(membership_identifier, trained_model_inference_job_arn)
+    cancel_trained_model_inference_job(membership_identifier, trained_model_inference_job_arn, params::Dict{String,<:Any})
+
+Submits a request to cancel a trained model inference job.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the trained model inference job that you
+  want to cancel.
+- `trained_model_inference_job_arn`: The Amazon Resource Name (ARN) of the trained model
+  inference job that you want to cancel.
+"""
+function cancel_trained_model_inference_job end
+
+function cancel_trained_model_inference_job(
+    membershipIdentifier,
+    trainedModelInferenceJobArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs/$(trainedModelInferenceJobArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_trained_model_inference_job(
+    membershipIdentifier,
+    trainedModelInferenceJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs/$(trainedModelInferenceJobArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_audience_model(name, training_dataset_arn)
     create_audience_model(name, training_dataset_arn, params::Dict{String,<:Any})
 
@@ -202,6 +298,420 @@ function create_configured_audience_model(
                     "name" => name,
                     "outputConfig" => outputConfig,
                     "sharedAudienceMetrics" => sharedAudienceMetrics,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_configured_model_algorithm(name, role_arn)
+    create_configured_model_algorithm(name, role_arn, params::Dict{String,<:Any})
+
+Creates a configured model algorithm using a container image stored in an ECR repository.
+
+# Arguments
+
+- `name`: The name of the configured model algorithm.
+- `role_arn`: The Amazon Resource Name (ARN) of the role that is used to access the
+  repository.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the configured model algorithm.
+
+- `"inferenceContainerConfig"`: Configuration information for the inference container that
+  is used when you run an inference job on a configured model algorithm.
+
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt
+  and decrypt customer-owned data in the configured ML model algorithm and associated data.
+
+- `"tags"`: The optional metadata that you apply to the resource to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed characters
+    are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+    + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+    Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+    then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+    tags. Tags with only the key prefix of aws do not count against your tags per resource
+    limit.
+
+- `"trainingContainerConfig"`: Configuration information for the training container,
+  including entrypoints and arguments.
+"""
+function create_configured_model_algorithm end
+
+function create_configured_model_algorithm(
+    name, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "POST",
+        "/configured-model-algorithms",
+        Dict{String,Any}("name" => name, "roleArn" => roleArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_configured_model_algorithm(
+    name,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/configured-model-algorithms",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "roleArn" => roleArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_configured_model_algorithm_association(configured_model_algorithm_arn, membership_identifier, name)
+    create_configured_model_algorithm_association(configured_model_algorithm_arn, membership_identifier, name, params::Dict{String,<:Any})
+
+Associates a configured model algorithm to a collaboration for use by any member of the
+collaboration.
+
+# Arguments
+
+- `configured_model_algorithm_arn`: The Amazon Resource Name (ARN) of the configured model
+  algorithm that you want to associate.
+- `membership_identifier`: The membership ID of the member who is associating this
+  configured model algorithm.
+- `name`: The name of the configured model algorithm association.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the configured model algorithm association.
+
+- `"privacyConfiguration"`: Specifies the privacy configuration information for the
+  configured model algorithm association. This information includes the maximum data size
+  that can be exported.
+
+- `"tags"`: The optional metadata that you apply to the resource to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed characters
+    are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+    + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+    Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+    then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+    tags. Tags with only the key prefix of aws do not count against your tags per resource
+    limit.
+"""
+function create_configured_model_algorithm_association end
+
+function create_configured_model_algorithm_association(
+    configuredModelAlgorithmArn,
+    membershipIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations",
+        Dict{String,Any}(
+            "configuredModelAlgorithmArn" => configuredModelAlgorithmArn, "name" => name
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_configured_model_algorithm_association(
+    configuredModelAlgorithmArn,
+    membershipIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuredModelAlgorithmArn" => configuredModelAlgorithmArn,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_mlinput_channel(configured_model_algorithm_associations, input_channel, membership_identifier, name, retention_in_days)
+    create_mlinput_channel(configured_model_algorithm_associations, input_channel, membership_identifier, name, retention_in_days, params::Dict{String,<:Any})
+
+Provides the information to create an ML input channel. An ML input channel is the result of
+a query that can be used for ML modeling.
+
+# Arguments
+
+- `configured_model_algorithm_associations`: The associated configured model algorithms that
+  are necessary to create this ML input channel.
+- `input_channel`: The input data that is used to create this ML input channel.
+- `membership_identifier`: The membership ID of the member that is creating the ML input
+  channel.
+- `name`: The name of the ML input channel.
+- `retention_in_days`: The number of days that the data in the ML input channel is retained.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the ML input channel.
+
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to access the
+  input channel.
+
+- `"tags"`: The optional metadata that you apply to the resource to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed characters
+    are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+    + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+    Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+    then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+    tags. Tags with only the key prefix of aws do not count against your tags per resource
+    limit.
+"""
+function create_mlinput_channel end
+
+function create_mlinput_channel(
+    configuredModelAlgorithmAssociations,
+    inputChannel,
+    membershipIdentifier,
+    name,
+    retentionInDays;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/ml-input-channels",
+        Dict{String,Any}(
+            "configuredModelAlgorithmAssociations" => configuredModelAlgorithmAssociations,
+            "inputChannel" => inputChannel,
+            "name" => name,
+            "retentionInDays" => retentionInDays,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_mlinput_channel(
+    configuredModelAlgorithmAssociations,
+    inputChannel,
+    membershipIdentifier,
+    name,
+    retentionInDays,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/ml-input-channels",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuredModelAlgorithmAssociations" =>
+                        configuredModelAlgorithmAssociations,
+                    "inputChannel" => inputChannel,
+                    "name" => name,
+                    "retentionInDays" => retentionInDays,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_trained_model(configured_model_algorithm_association_arn, data_channels, membership_identifier, name, resource_config)
+    create_trained_model(configured_model_algorithm_association_arn, data_channels, membership_identifier, name, resource_config, params::Dict{String,<:Any})
+
+Creates a trained model from an associated configured model algorithm using data from any
+member of the collaboration.
+
+# Arguments
+
+- `configured_model_algorithm_association_arn`: The associated configured model algorithm
+  used to train this model.
+
+- `data_channels`: Defines the data channels that are used as input for the trained model
+  request.
+
+  Limit: Maximum of 20 channels total (including both `dataChannels` and
+  `incrementalTrainingDataChannels`).
+
+- `membership_identifier`: The membership ID of the member that is creating the trained
+  model.
+
+- `name`: The name of the trained model.
+
+- `resource_config`: Information about the EC2 resources that are used to train this model.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the trained model.
+
+- `"environment"`: The environment variables to set in the Docker container.
+
+- `"hyperparameters"`: Algorithm-specific parameters that influence the quality of the
+  model. You set hyperparameters before you start the learning process.
+
+- `"incrementalTrainingDataChannels"`: Specifies the incremental training data channels for
+  the trained model.
+
+  Incremental training allows you to create a new trained model with updates without
+  retraining from scratch. You can specify up to one incremental training data channel that
+  references a previously trained model and its version.
+
+  Limit: Maximum of 20 channels total (including both `incrementalTrainingDataChannels` and
+  `dataChannels`).
+
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt
+  and decrypt customer-owned data in the trained ML model and the associated data.
+
+- `"stoppingCondition"`: The criteria that is used to stop model training.
+
+- `"tags"`: The optional metadata that you apply to the resource to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed characters
+    are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+    + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+    Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+    then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+    tags. Tags with only the key prefix of aws do not count against your tags per resource
+    limit.
+
+- `"trainingInputMode"`: The input mode for accessing the training data. This parameter
+  determines how the training data is made available to the training algorithm. Valid values
+  are:
+
+  - `File` - The training data is downloaded to the training instance and made available as
+    files.
+  - `FastFile` - The training data is streamed directly from Amazon S3 to the training
+    algorithm, providing faster access for large datasets.
+  - `Pipe` - The training data is streamed to the training algorithm using named pipes,
+    which can improve performance for certain algorithms.
+"""
+function create_trained_model end
+
+function create_trained_model(
+    configuredModelAlgorithmAssociationArn,
+    dataChannels,
+    membershipIdentifier,
+    name,
+    resourceConfig;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-models",
+        Dict{String,Any}(
+            "configuredModelAlgorithmAssociationArn" =>
+                configuredModelAlgorithmAssociationArn,
+            "dataChannels" => dataChannels,
+            "name" => name,
+            "resourceConfig" => resourceConfig,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_trained_model(
+    configuredModelAlgorithmAssociationArn,
+    dataChannels,
+    membershipIdentifier,
+    name,
+    resourceConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-models",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuredModelAlgorithmAssociationArn" =>
+                        configuredModelAlgorithmAssociationArn,
+                    "dataChannels" => dataChannels,
+                    "name" => name,
+                    "resourceConfig" => resourceConfig,
                 ),
                 params,
             ),
@@ -459,6 +969,219 @@ function delete_configured_audience_model_policy(
 end
 
 """
+    delete_configured_model_algorithm(configured_model_algorithm_arn)
+    delete_configured_model_algorithm(configured_model_algorithm_arn, params::Dict{String,<:Any})
+
+Deletes a configured model algorithm.
+
+# Arguments
+
+- `configured_model_algorithm_arn`: The Amazon Resource Name (ARN) of the configured model
+  algorithm that you want to delete.
+"""
+function delete_configured_model_algorithm end
+
+function delete_configured_model_algorithm(
+    configuredModelAlgorithmArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "DELETE",
+        "/configured-model-algorithms/$(configuredModelAlgorithmArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_configured_model_algorithm(
+    configuredModelAlgorithmArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/configured-model-algorithms/$(configuredModelAlgorithmArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_configured_model_algorithm_association(configured_model_algorithm_association_arn, membership_identifier)
+    delete_configured_model_algorithm_association(configured_model_algorithm_association_arn, membership_identifier, params::Dict{String,<:Any})
+
+Deletes a configured model algorithm association.
+
+# Arguments
+
+- `configured_model_algorithm_association_arn`: The Amazon Resource Name (ARN) of the
+  configured model algorithm association that you want to delete.
+- `membership_identifier`: The membership ID of the member that is deleting the configured
+  model algorithm association.
+"""
+function delete_configured_model_algorithm_association end
+
+function delete_configured_model_algorithm_association(
+    configuredModelAlgorithmAssociationArn,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_configured_model_algorithm_association(
+    configuredModelAlgorithmAssociationArn,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_mlconfiguration(membership_identifier)
+    delete_mlconfiguration(membership_identifier, params::Dict{String,<:Any})
+
+Deletes a ML modeling configuration.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the of the member that is deleting the ML
+  modeling configuration.
+"""
+function delete_mlconfiguration end
+
+function delete_mlconfiguration(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/ml-configurations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_mlconfiguration(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/ml-configurations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_mlinput_channel_data(membership_identifier, ml_input_channel_arn)
+    delete_mlinput_channel_data(membership_identifier, ml_input_channel_arn, params::Dict{String,<:Any})
+
+Provides the information necessary to delete an ML input channel.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the membership that contains the ML input
+  channel you want to delete.
+- `ml_input_channel_arn`: The Amazon Resource Name (ARN) of the ML input channel that you
+  want to delete.
+"""
+function delete_mlinput_channel_data end
+
+function delete_mlinput_channel_data(
+    membershipIdentifier,
+    mlInputChannelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/ml-input-channels/$(mlInputChannelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_mlinput_channel_data(
+    membershipIdentifier,
+    mlInputChannelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/ml-input-channels/$(mlInputChannelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_trained_model_output(membership_identifier, trained_model_arn)
+    delete_trained_model_output(membership_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Deletes the model artifacts stored by the service.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that is deleting the trained
+  model output.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model whose output you
+  want to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"versionIdentifier"`: The version identifier of the trained model to delete. If not
+  specified, the operation will delete the base version of the trained model. When
+  specified, only the particular version will be deleted.
+"""
+function delete_trained_model_output end
+
+function delete_trained_model_output(
+    membershipIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_trained_model_output(
+    membershipIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_training_dataset(training_dataset_arn)
     delete_training_dataset(training_dataset_arn, params::Dict{String,<:Any})
 
@@ -576,6 +1299,143 @@ function get_audience_model(
 end
 
 """
+    get_collaboration_configured_model_algorithm_association(collaboration_identifier, configured_model_algorithm_association_arn)
+    get_collaboration_configured_model_algorithm_association(collaboration_identifier, configured_model_algorithm_association_arn, params::Dict{String,<:Any})
+
+Returns information about the configured model algorithm association in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID for the collaboration that contains the
+  configured model algorithm association that you want to return information about.
+- `configured_model_algorithm_association_arn`: The Amazon Resource Name (ARN) of the
+  configured model algorithm association that you want to return information about.
+"""
+function get_collaboration_configured_model_algorithm_association end
+
+function get_collaboration_configured_model_algorithm_association(
+    collaborationIdentifier,
+    configuredModelAlgorithmAssociationArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_collaboration_configured_model_algorithm_association(
+    collaborationIdentifier,
+    configuredModelAlgorithmAssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_mlinput_channel(collaboration_identifier, ml_input_channel_arn)
+    get_collaboration_mlinput_channel(collaboration_identifier, ml_input_channel_arn, params::Dict{String,<:Any})
+
+Returns information about a specific ML input channel in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the ML
+  input channel that you want to get.
+- `ml_input_channel_arn`: The Amazon Resource Name (ARN) of the ML input channel that you
+  want to get.
+"""
+function get_collaboration_mlinput_channel end
+
+function get_collaboration_mlinput_channel(
+    collaborationIdentifier,
+    mlInputChannelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/ml-input-channels/$(mlInputChannelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_collaboration_mlinput_channel(
+    collaborationIdentifier,
+    mlInputChannelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/ml-input-channels/$(mlInputChannelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_trained_model(collaboration_identifier, trained_model_arn)
+    get_collaboration_trained_model(collaboration_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Returns information about a trained model in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID that contains the trained model that you
+  want to return information about.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model that you want to
+  return information about.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"versionIdentifier"`: The version identifier of the trained model to retrieve. If not
+  specified, the operation returns information about the latest version of the trained
+  model.
+"""
+function get_collaboration_trained_model end
+
+function get_collaboration_trained_model(
+    collaborationIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models/$(trainedModelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_collaboration_trained_model(
+    collaborationIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models/$(trainedModelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_configured_audience_model(configured_audience_model_arn)
     get_configured_audience_model(configured_audience_model_arn, params::Dict{String,<:Any})
 
@@ -645,6 +1505,262 @@ function get_configured_audience_model_policy(
     return cleanroomsml(
         "GET",
         "/configured-audience-model/$(configuredAudienceModelArn)/policy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_configured_model_algorithm(configured_model_algorithm_arn)
+    get_configured_model_algorithm(configured_model_algorithm_arn, params::Dict{String,<:Any})
+
+Returns information about a configured model algorithm.
+
+# Arguments
+
+- `configured_model_algorithm_arn`: The Amazon Resource Name (ARN) of the configured model
+  algorithm that you want to return information about.
+"""
+function get_configured_model_algorithm end
+
+function get_configured_model_algorithm(
+    configuredModelAlgorithmArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/configured-model-algorithms/$(configuredModelAlgorithmArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_configured_model_algorithm(
+    configuredModelAlgorithmArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/configured-model-algorithms/$(configuredModelAlgorithmArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_configured_model_algorithm_association(configured_model_algorithm_association_arn, membership_identifier)
+    get_configured_model_algorithm_association(configured_model_algorithm_association_arn, membership_identifier, params::Dict{String,<:Any})
+
+Returns information about a configured model algorithm association.
+
+# Arguments
+
+- `configured_model_algorithm_association_arn`: The Amazon Resource Name (ARN) of the
+  configured model algorithm association that you want to return information about.
+- `membership_identifier`: The membership ID of the member that created the configured model
+  algorithm association.
+"""
+function get_configured_model_algorithm_association end
+
+function get_configured_model_algorithm_association(
+    configuredModelAlgorithmAssociationArn,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_configured_model_algorithm_association(
+    configuredModelAlgorithmAssociationArn,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations/$(configuredModelAlgorithmAssociationArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_mlconfiguration(membership_identifier)
+    get_mlconfiguration(membership_identifier, params::Dict{String,<:Any})
+
+Returns information about a specific ML configuration.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that owns the ML configuration
+  you want to return information about.
+"""
+function get_mlconfiguration end
+
+function get_mlconfiguration(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-configurations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_mlconfiguration(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-configurations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_mlinput_channel(membership_identifier, ml_input_channel_arn)
+    get_mlinput_channel(membership_identifier, ml_input_channel_arn, params::Dict{String,<:Any})
+
+Returns information about an ML input channel.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the membership that contains the ML input
+  channel that you want to get.
+- `ml_input_channel_arn`: The Amazon Resource Name (ARN) of the ML input channel that you
+  want to get.
+"""
+function get_mlinput_channel end
+
+function get_mlinput_channel(
+    membershipIdentifier,
+    mlInputChannelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-input-channels/$(mlInputChannelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_mlinput_channel(
+    membershipIdentifier,
+    mlInputChannelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-input-channels/$(mlInputChannelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_trained_model(membership_identifier, trained_model_arn)
+    get_trained_model(membership_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Returns information about a trained model.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that created the trained model
+  that you are interested in.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model that you are
+  interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"versionIdentifier"`: The version identifier of the trained model to retrieve. If not
+  specified, the operation returns information about the latest version of the trained
+  model.
+"""
+function get_trained_model end
+
+function get_trained_model(
+    membershipIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_trained_model(
+    membershipIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_trained_model_inference_job(membership_identifier, trained_model_inference_job_arn)
+    get_trained_model_inference_job(membership_identifier, trained_model_inference_job_arn, params::Dict{String,<:Any})
+
+Returns information about a trained model inference job.
+
+# Arguments
+
+- `membership_identifier`: Provides the membership ID of the membership that contains the
+  trained model inference job that you are interested in.
+- `trained_model_inference_job_arn`: Provides the Amazon Resource Name (ARN) of the trained
+  model inference job that you are interested in.
+"""
+function get_trained_model_inference_job end
+
+function get_trained_model_inference_job(
+    membershipIdentifier,
+    trainedModelInferenceJobArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs/$(trainedModelInferenceJobArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_trained_model_inference_job(
+    membershipIdentifier,
+    trainedModelInferenceJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs/$(trainedModelInferenceJobArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -790,6 +1906,249 @@ function list_audience_models(
 end
 
 """
+    list_collaboration_configured_model_algorithm_associations(collaboration_identifier)
+    list_collaboration_configured_model_algorithm_associations(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of the configured model algorithm associations in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the
+  configured model algorithm associations that you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_configured_model_algorithm_associations end
+
+function list_collaboration_configured_model_algorithm_associations(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configured-model-algorithm-associations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_configured_model_algorithm_associations(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configured-model-algorithm-associations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_mlinput_channels(collaboration_identifier)
+    list_collaboration_mlinput_channels(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of the ML input channels in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the ML
+  input channels that you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_mlinput_channels end
+
+function list_collaboration_mlinput_channels(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/ml-input-channels";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_mlinput_channels(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/ml-input-channels",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_trained_model_export_jobs(collaboration_identifier, trained_model_arn)
+    list_collaboration_trained_model_export_jobs(collaboration_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Returns a list of the export jobs for a trained model in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the
+  trained model export jobs that you are interested in.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model that was used to
+  create the export jobs that you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+- `"trainedModelVersionIdentifier"`: The version identifier of the trained model to filter
+  export jobs by. When specified, only export jobs for this specific version of the trained
+  model are returned.
+"""
+function list_collaboration_trained_model_export_jobs end
+
+function list_collaboration_trained_model_export_jobs(
+    collaborationIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models/$(trainedModelArn)/export-jobs";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_trained_model_export_jobs(
+    collaborationIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models/$(trainedModelArn)/export-jobs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_trained_model_inference_jobs(collaboration_identifier)
+    list_collaboration_trained_model_inference_jobs(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of trained model inference jobs in a specified collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the
+  trained model inference jobs that you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+- `"trainedModelArn"`: The Amazon Resource Name (ARN) of the trained model that was used to
+  create the trained model inference jobs that you are interested in.
+- `"trainedModelVersionIdentifier"`: The version identifier of the trained model to filter
+  inference jobs by. When specified, only inference jobs that used this specific version of
+  the trained model are returned.
+"""
+function list_collaboration_trained_model_inference_jobs end
+
+function list_collaboration_trained_model_inference_jobs(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-model-inference-jobs";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_trained_model_inference_jobs(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-model-inference-jobs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_trained_models(collaboration_identifier)
+    list_collaboration_trained_models(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of the trained models in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The collaboration ID of the collaboration that contains the
+  trained models you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_trained_models end
+
+function list_collaboration_trained_models(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_trained_models(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/trained-models",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_configured_audience_models()
     list_configured_audience_models(params::Dict{String,<:Any})
 
@@ -826,6 +2185,134 @@ function list_configured_audience_models(
 end
 
 """
+    list_configured_model_algorithm_associations(membership_identifier)
+    list_configured_model_algorithm_associations(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of configured model algorithm associations.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that created the configured model
+  algorithm associations you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_configured_model_algorithm_associations end
+
+function list_configured_model_algorithm_associations(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_configured_model_algorithm_associations(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configured-model-algorithm-associations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_configured_model_algorithms()
+    list_configured_model_algorithms(params::Dict{String,<:Any})
+
+Returns a list of configured model algorithms.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_configured_model_algorithms end
+
+function list_configured_model_algorithms(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET", "/configured-model-algorithms"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_configured_model_algorithms(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/configured-model-algorithms",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_mlinput_channels(membership_identifier)
+    list_mlinput_channels(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of ML input channels.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the membership that contains the ML input
+  channels that you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of ML input channels to return.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_mlinput_channels end
+
+function list_mlinput_channels(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-input-channels";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_mlinput_channels(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/ml-input-channels",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -852,6 +2339,160 @@ function list_tags_for_resource(
 )
     return cleanroomsml(
         "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_trained_model_inference_jobs(membership_identifier)
+    list_trained_model_inference_jobs(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of trained model inference jobs that match the request parameters.
+
+# Arguments
+
+- `membership_identifier`: The membership
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+- `"trainedModelArn"`: The Amazon Resource Name (ARN) of a trained model that was used to
+  create the trained model inference jobs that you are interested in.
+- `"trainedModelVersionIdentifier"`: The version identifier of the trained model to filter
+  inference jobs by. When specified, only inference jobs that used this specific version of
+  the trained model are returned.
+"""
+function list_trained_model_inference_jobs end
+
+function list_trained_model_inference_jobs(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_trained_model_inference_jobs(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_trained_model_versions(membership_identifier, trained_model_arn)
+    list_trained_model_versions(membership_identifier, trained_model_arn, params::Dict{String,<:Any})
+
+Returns a list of trained model versions for a specified trained model. This operation
+allows you to view all versions of a trained model, including information about their status
+and creation details. You can use this to track the evolution of your trained models and
+select specific versions for inference or further training.
+
+# Arguments
+
+- `membership_identifier`: The membership identifier for the collaboration that contains the
+  trained model.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model for which to list
+  versions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of trained model versions to return in a single page.
+  The default value is 10, and the maximum value is 100.
+- `"nextToken"`: The pagination token from a previous `ListTrainedModelVersions` request.
+  Use this token to retrieve the next page of results.
+- `"status"`: Filter the results to only include trained model versions with the specified
+  status. Valid values include `CREATE_PENDING`, `CREATE_IN_PROGRESS`, `ACTIVE`,
+  `CREATE_FAILED`, and others.
+"""
+function list_trained_model_versions end
+
+function list_trained_model_versions(
+    membershipIdentifier,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)/versions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_trained_model_versions(
+    membershipIdentifier,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)/versions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_trained_models(membership_identifier)
+    list_trained_models(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of trained models.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that created the trained models
+  you are interested in.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_trained_models end
+
+function list_trained_models(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_trained_models(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "GET",
+        "/memberships/$(membershipIdentifier)/trained-models",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -937,6 +2578,55 @@ function put_configured_audience_model_policy(
                 Dict{String,Any}(
                     "configuredAudienceModelPolicy" => configuredAudienceModelPolicy
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_mlconfiguration(default_output_location, membership_identifier)
+    put_mlconfiguration(default_output_location, membership_identifier, params::Dict{String,<:Any})
+
+Assigns information about an ML configuration.
+
+# Arguments
+
+- `default_output_location`: The default Amazon S3 location where ML output is stored for
+  the specified member.
+- `membership_identifier`: The membership ID of the member that is being configured.
+"""
+function put_mlconfiguration end
+
+function put_mlconfiguration(
+    defaultOutputLocation,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PUT",
+        "/memberships/$(membershipIdentifier)/ml-configurations",
+        Dict{String,Any}("defaultOutputLocation" => defaultOutputLocation);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_mlconfiguration(
+    defaultOutputLocation,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "PUT",
+        "/memberships/$(membershipIdentifier)/ml-configurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("defaultOutputLocation" => defaultOutputLocation),
                 params,
             ),
         );
@@ -1096,6 +2786,191 @@ function start_audience_generation_job(
                     "configuredAudienceModelArn" => configuredAudienceModelArn,
                     "name" => name,
                     "seedAudience" => seedAudience,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_trained_model_export_job(membership_identifier, name, output_configuration, trained_model_arn)
+    start_trained_model_export_job(membership_identifier, name, output_configuration, trained_model_arn, params::Dict{String,<:Any})
+
+Provides the information necessary to start a trained model export job.
+
+# Arguments
+
+- `membership_identifier`: The membership ID of the member that is receiving the exported
+  trained model artifacts.
+- `name`: The name of the trained model export job.
+- `output_configuration`: The output configuration information for the trained model export
+  job.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model that you want to
+  export.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the trained model export job.
+- `"trainedModelVersionIdentifier"`: The version identifier of the trained model to export.
+  This specifies which version of the trained model should be exported to the specified
+  destination.
+"""
+function start_trained_model_export_job end
+
+function start_trained_model_export_job(
+    membershipIdentifier,
+    name,
+    outputConfiguration,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)/export-jobs",
+        Dict{String,Any}("name" => name, "outputConfiguration" => outputConfiguration);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_trained_model_export_job(
+    membershipIdentifier,
+    name,
+    outputConfiguration,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-models/$(trainedModelArn)/export-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name, "outputConfiguration" => outputConfiguration
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_trained_model_inference_job(data_source, membership_identifier, name, output_configuration, resource_config, trained_model_arn)
+    start_trained_model_inference_job(data_source, membership_identifier, name, output_configuration, resource_config, trained_model_arn, params::Dict{String,<:Any})
+
+Defines the information necessary to begin a trained model inference job.
+
+# Arguments
+
+- `data_source`: Defines the data source that is used for the trained model inference job.
+- `membership_identifier`: The membership ID of the membership that contains the trained
+  model inference job.
+- `name`: The name of the trained model inference job.
+- `output_configuration`: Defines the output configuration information for the trained model
+  inference job.
+- `resource_config`: Defines the resource configuration for the trained model inference job.
+- `trained_model_arn`: The Amazon Resource Name (ARN) of the trained model that is used for
+  this trained model inference job.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"configuredModelAlgorithmAssociationArn"`: The Amazon Resource Name (ARN) of the
+  configured model algorithm association that is used for this trained model inference job.
+
+- `"containerExecutionParameters"`: The execution parameters for the container.
+
+- `"description"`: The description of the trained model inference job.
+
+- `"environment"`: The environment variables to set in the Docker container.
+
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt
+  and decrypt customer-owned data in the ML inference job and associated data.
+
+- `"tags"`: The optional metadata that you apply to the resource to help you categorize and
+  organize them. Each tag consists of a key and an optional value, both of which you define.
+
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed characters
+    are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+    + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+    Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+    then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+    tags. Tags with only the key prefix of aws do not count against your tags per resource
+    limit.
+
+- `"trainedModelVersionIdentifier"`: The version identifier of the trained model to use for
+  inference. This specifies which version of the trained model should be used to generate
+  predictions on the input data.
+"""
+function start_trained_model_inference_job end
+
+function start_trained_model_inference_job(
+    dataSource,
+    membershipIdentifier,
+    name,
+    outputConfiguration,
+    resourceConfig,
+    trainedModelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs",
+        Dict{String,Any}(
+            "dataSource" => dataSource,
+            "name" => name,
+            "outputConfiguration" => outputConfiguration,
+            "resourceConfig" => resourceConfig,
+            "trainedModelArn" => trainedModelArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_trained_model_inference_job(
+    dataSource,
+    membershipIdentifier,
+    name,
+    outputConfiguration,
+    resourceConfig,
+    trainedModelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanroomsml(
+        "POST",
+        "/memberships/$(membershipIdentifier)/trained-model-inference-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dataSource" => dataSource,
+                    "name" => name,
+                    "outputConfiguration" => outputConfiguration,
+                    "resourceConfig" => resourceConfig,
+                    "trainedModelArn" => trainedModelArn,
                 ),
                 params,
             ),

@@ -5,6 +5,85 @@ using AWS.AWSServices: payment_cryptography
 using AWS.UUIDs: uuid4
 
 """
+    add_key_replication_regions(key_identifier, replication_regions)
+    add_key_replication_regions(key_identifier, replication_regions, params::Dict{String,<:Any})
+
+Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment
+Cryptography key, enabling the key to be used for cryptographic operations in additional
+Amazon Web Services Regions.
+
+[Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html)
+allow you to use the same key material across multiple Amazon Web Services Regions,
+providing lower latency for applications distributed across regions. When you add
+Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key
+material to the specified Amazon Web Services Regions.
+
+The key must be in an active state to add Replication Regions. You can add multiple regions
+in a single operation, and the key will be available for use in those regions once
+replication is complete.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [RemoveKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RemoveKeyReplicationRegions.html)
+- [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+- [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+
+# Arguments
+
+- `key_identifier`: The key identifier (ARN or alias) of the key for which to add
+  replication regions.
+
+  This key must exist and be in a valid state for replication operations.
+
+- `replication_regions`: The list of Amazon Web Services Regions to add to the key's
+  replication configuration.
+
+  Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment
+  Cryptography is available. The key will be replicated to these regions, allowing
+  cryptographic operations to be performed closer to your applications.
+"""
+function add_key_replication_regions end
+
+function add_key_replication_regions(
+    KeyIdentifier, ReplicationRegions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "AddKeyReplicationRegions",
+        Dict{String,Any}(
+            "KeyIdentifier" => KeyIdentifier, "ReplicationRegions" => ReplicationRegions
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function add_key_replication_regions(
+    KeyIdentifier,
+    ReplicationRegions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "AddKeyReplicationRegions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyIdentifier" => KeyIdentifier,
+                    "ReplicationRegions" => ReplicationRegions,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_alias(alias_name)
     create_alias(alias_name, params::Dict{String,<:Any})
 
@@ -91,15 +170,29 @@ When you create a key, you specify both immutable and mutable data about the key
 immutable data contains key attributes that define the scope and cryptographic operations
 that you can perform using the key, for example key class (example: `SYMMETRIC_KEY`), key
 algorithm (example: `TDES_2KEY`), key usage (example: `TR31_P0_PIN_ENCRYPTION_KEY`) and key
-modes of use (example: `Encrypt`). For information about valid combinations of key
-attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
+modes of use (example: `Encrypt`). Amazon Web Services Payment Cryptography binds key
+attributes to keys using key blocks when you store or export them. Amazon Web Services
+Payment Cryptography stores the key contents wrapped and never stores or transmits them in
+the clear.
+
+For information about valid combinations of key attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html)
 in the *Amazon Web Services Payment Cryptography User Guide*. The mutable data contained
 within a key includes usage timestamp and key deletion timestamp and can be modified after
 creation.
 
-Amazon Web Services Payment Cryptography binds key attributes to keys using key blocks when
-you store or export them. Amazon Web Services Payment Cryptography stores the key contents
-wrapped and never stores or transmits them in the clear.
+You can use the [`create_key`](@ref) operation to generate an ECC (Elliptic Curve
+Cryptography) key pair used for establishing an ECDH (Elliptic Curve Diffie-Hellman) key
+agreement between two parties. In the ECDH key agreement process, both parties generate
+their own ECC key pair with key usage K3 and exchange the public keys. Each party then use
+their private key, the received public key from the other party, and the key derivation
+parameters including key derivation function, hash algorithm, derivation data, and key
+algorithm to derive a shared key.
+
+To maintain the single-use principle of cryptographic keys in payments, ECDH derived keys
+should not be used for multiple purposes, such as a `TR31_P0_PIN_ENCRYPTION_KEY` and
+`TR31_K1_KEY_BLOCK_PROTECTION_KEY`. When creating ECC key pairs in Amazon Web Services
+Payment Cryptography you can optionally set the `DeriveKeyUsage` parameter, which defines
+the key usage bound to the symmetric key that will be derived using the ECC key pair.
 
 **Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
@@ -120,6 +213,12 @@ accounts.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DeriveKeyUsage"`: The intended cryptographic usage of keys derived from the ECC key pair
+  to be created.
+
+  After creating an ECC key pair, you cannot change the intended cryptographic usage of keys
+  derived from it using ECDH.
+
 - `"Enabled"`: Specifies whether to enable the key. If the key is enabled, it is activated
   for use within the service. If the key is not enabled, then it is created but not
   activated. The default value is enabled.
@@ -131,6 +230,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key to be checked and retaining the 3 highest order bytes of the encrypted result. For
   AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of
   zero and retaining the 3 highest order bytes of the encrypted result.
+
+- `"ReplicationRegions"`:
 
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
   Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services
@@ -304,6 +405,129 @@ function delete_key(
 end
 
 """
+    disable_default_key_replication_regions(replication_regions)
+    disable_default_key_replication_regions(replication_regions, params::Dict{String,<:Any})
+
+Disables [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html)
+settings for the specified Amazon Web Services Regions in your Amazon Web Services account,
+preventing new keys from being automatically replicated to those regions.
+
+After disabling Multi-Region key replication for specific regions, new keys created in your
+account will not be automatically replicated to those regions. You can still manually add
+replication to those regions for individual keys using the [AddKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AddKeyReplicationRegions.html)
+operation.
+
+This operation does not affect existing keys or their current replication configuration.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+- [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+
+# Arguments
+
+- `replication_regions`: The list of Amazon Web Services Regions to remove from the
+  account's default replication regions.
+
+  New keys created after this operation will not automatically be replicated to these
+  regions, though existing keys with replication to these regions will be unaffected.
+"""
+function disable_default_key_replication_regions end
+
+function disable_default_key_replication_regions(
+    ReplicationRegions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "DisableDefaultKeyReplicationRegions",
+        Dict{String,Any}("ReplicationRegions" => ReplicationRegions);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disable_default_key_replication_regions(
+    ReplicationRegions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "DisableDefaultKeyReplicationRegions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationRegions" => ReplicationRegions), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_default_key_replication_regions(replication_regions)
+    enable_default_key_replication_regions(replication_regions, params::Dict{String,<:Any})
+
+Enables [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html)
+settings for your Amazon Web Services account, causing new keys to be automatically
+replicated to the specified Amazon Web Services Regions when created.
+
+When Multi-Region key replication are enabled, any new keys created in your account will
+automatically be replicated to these regions unless you explicitly override this behavior
+during key creation. This simplifies key management for applications that operate across
+multiple regions.
+
+Existing keys are not affected by this operation - only keys created after enabling default
+replication will be automatically replicated.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+- [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+
+# Arguments
+
+- `replication_regions`: The list of Amazon Web Services Regions to enable as default
+  replication regions for the Amazon Web Services account for [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html).
+
+  New keys created in this account will automatically be replicated to these regions unless
+  explicitly overridden during key creation.
+"""
+function enable_default_key_replication_regions end
+
+function enable_default_key_replication_regions(
+    ReplicationRegions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "EnableDefaultKeyReplicationRegions",
+        Dict{String,Any}("ReplicationRegions" => ReplicationRegions);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function enable_default_key_replication_regions(
+    ReplicationRegions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "EnableDefaultKeyReplicationRegions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ReplicationRegions" => ReplicationRegions), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     export_key(export_key_identifier, key_material)
     export_key(export_key_identifier, key_material, params::Dict{String,<:Any})
 
@@ -318,18 +542,19 @@ Payment Cryptography
 
 For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31
 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web
-Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key
-exchange mechanism. Asymmetric key exchange methods are typically used to establish bi-
-directional trust between the two parties exhanging keys and are used for initial key
-exchange such as Key Encryption Key (KEK). After which you can export working keys using
-symmetric method to perform various cryptographic operations within Amazon Web Services
-Payment Cryptography.
+Services Payment Cryptography supports ANSI X9 TR-34 norm, RSA unwrap, and ECDH (Elliptic
+Curve Diffie-Hellman) key exchange mechanisms. Asymmetric key exchange methods are typically
+used to establish bi-directional trust between the two parties exhanging keys and are used
+for initial key exchange such as Key Encryption Key (KEK). After which you can export
+working keys using symmetric method to perform various cryptographic operations within
+Amazon Web Services Payment Cryptography.
 
-The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a
-WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse,
-Exportability) are contained within the key block. With RSA wrap and unwrap, you can
-exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format
-and you will need to specify the key attributes during import.
+PCI requires specific minimum key strength of wrapping keys used to protect the keys being
+exchanged electronically. These requirements can change when PCI standards are revised. The
+rules specify that wrapping keys used for transport must be at least as strong as the key
+being protected. For more information on recommended key strength of wrapping keys and key
+exchange mechanism, see [Importing and exporting keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-importexport.html)
+in the *Amazon Web Services Payment Cryptography User Guide*.
 
 You can also use `ExportKey` functionality to generate and export an IPEK (Initial Pin
 Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34
@@ -367,7 +592,7 @@ returns back the signing public key certificate (also known as KDH signing certi
 root certificate chain. The KDH uses the private key to sign the the export payload and the
 signing public key certificate is provided to KRD to verify the signature. The KRD can
 import the root certificate into its Hardware Security Module (HSM), as required. The export
-token and the associated KDH signing certificate expires after 7 days.
+token and the associated KDH signing certificate expires after 30 days.
 
 Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides
 the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will
@@ -434,8 +659,31 @@ Set the following parameters:
 - `ExportKeyIdentifier`: The `KeyARN` of the KEK or BDK (in case of IPEK) under export.
 - `KeyMaterial`: Use `Tr31KeyBlock` parameters.
 
+**To export working keys using ECDH**
+
+You can also use ECDH key agreement to export working keys in a TR-31 keyblock, where the
+wrapping key is an ECDH derived key.
+
+To initiate a TR-31 key export using ECDH, both sides must create an ECC key pair with key
+usage K3 and exchange public key certificates. In Amazon Web Services Payment Cryptography,
+you can do this by calling `CreateKey`. If you have not already done so, you must import the
+CA chain that issued the receiving public key certificate by calling `ImportKey` with input
+`RootCertificatePublicKey` for root CA or `TrustedPublicKey` for intermediate CA. You can
+then complete a TR-31 key export by deriving a shared wrapping key using the service ECC key
+pair, public certificate of your ECC key pair outside of Amazon Web Services Payment
+Cryptography, and the key derivation parameters including key derivation function, hash
+algorithm, derivation data, key algorithm.
+
+- `KeyMaterial`: Use `DiffieHellmanTr31KeyBlock` parameters.
+- `PrivateKeyIdentifier`: The `KeyArn` of the ECC key pair created within Amazon Web
+  Services Payment Cryptography to derive a shared KEK.
+- `PublicKeyCertificate`: The public key certificate of the receiving ECC key pair in PEM
+  format (base64 encoded) to derive a shared KEK.
+- `CertificateAuthorityPublicKeyIdentifier`: The `keyARN` of the CA that signed the public
+  key certificate of the receiving ECC key pair.
+
 When this operation is successful, Amazon Web Services Payment Cryptography returns the
-working key or IPEK as a TR-31 WrappedKeyBlock.
+working key as a TR-31 WrappedKeyBlock, where the wrapping key is the ECDH derived key.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -543,11 +791,110 @@ function get_alias(
 end
 
 """
+    get_certificate_signing_request(certificate_subject, key_identifier, signing_algorithm)
+    get_certificate_signing_request(certificate_subject, key_identifier, signing_algorithm, params::Dict{String,<:Any})
+
+Creates a certificate signing request (CSR) from a key pair.
+
+# Arguments
+
+- `certificate_subject`: The metadata used to create the CSR.
+- `key_identifier`: Asymmetric key used for generating the certificate signing request
+- `signing_algorithm`: The cryptographic algorithm used to sign your CSR.
+"""
+function get_certificate_signing_request end
+
+function get_certificate_signing_request(
+    CertificateSubject,
+    KeyIdentifier,
+    SigningAlgorithm;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "GetCertificateSigningRequest",
+        Dict{String,Any}(
+            "CertificateSubject" => CertificateSubject,
+            "KeyIdentifier" => KeyIdentifier,
+            "SigningAlgorithm" => SigningAlgorithm,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_certificate_signing_request(
+    CertificateSubject,
+    KeyIdentifier,
+    SigningAlgorithm,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "GetCertificateSigningRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CertificateSubject" => CertificateSubject,
+                    "KeyIdentifier" => KeyIdentifier,
+                    "SigningAlgorithm" => SigningAlgorithm,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_default_key_replication_regions()
+    get_default_key_replication_regions(params::Dict{String,<:Any})
+
+Retrieves the list of Amazon Web Services Regions where [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html)
+is currently enabled for your Amazon Web Services account.
+
+This operation returns the current Multi-Region key replication configuration. New keys
+created in your account will be automatically replicated to these regions unless explicitly
+overridden during key creation.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+- [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+"""
+function get_default_key_replication_regions end
+
+function get_default_key_replication_regions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "GetDefaultKeyReplicationRegions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_default_key_replication_regions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "GetDefaultKeyReplicationRegions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_key(key_identifier)
     get_key(key_identifier, params::Dict{String,<:Any})
 
-Gets the key material for an Amazon Web Services Payment Cryptography key, including the
-immutable and mutable data specified when the key was created.
+Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the
+immutable and mutable attributes specified when the key was created. Returns key metadata
+including attributes, state, and timestamps, but does not return the actual cryptographic
+key material.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -597,8 +944,11 @@ Amazon Web Services Payment Cryptography.
 
 The signing key certificate signs the wrapped key under export within the TR-34 key payload.
 The export token and signing key certificate must be in place and operational before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html).
-The export token expires in 7 days. You can use the same export token to export multiple
+The export token expires in 30 days. You can use the same export token to export multiple
 keys from your service account.
+
+To return a previously generated export token and signing key certificate instead of
+generating new ones, set `ReuseLastGeneratedToken` to `true`.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -616,6 +966,17 @@ accounts.
 - `signing_key_algorithm`: The signing key algorithm to generate a signing key certificate.
   This certificate signs the wrapped key under export within the TR-34 key block. `RSA_2048`
   is the only signing key algorithm allowed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ReuseLastGeneratedToken"`: Specifies whether to reuse the existing export token and
+  signing key certificate. If set to `true` and a valid export token exists for the same key
+  material type and signing key algorithm with at least 7 days of remaining validity, the
+  existing token and signing key certificate are returned. Otherwise, a new export token and
+  signing key certificate are generated. The default value is `false`, which generates a new
+  export token and signing key certificate on every call.
 """
 function get_parameters_for_export end
 
@@ -666,8 +1027,11 @@ Services Payment Cryptography.
 
 The wrapping key certificate wraps the key under import. The import token and wrapping key
 certificate must be in place and operational before calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
-The import token expires in 7 days. You can use the same import token to import multiple
+The import token expires in 30 days. You can use the same import token to import multiple
 keys into your service account.
+
+To return a previously generated import token and wrapping key certificate instead of
+generating new ones, set `ReuseLastGeneratedToken` to `true`.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -692,6 +1056,17 @@ accounts.
   At this time, `RSA_2048` is the allowed algorithm for TR-34 WrappedKeyBlock import.
   Additionally, `RSA_2048`, `RSA_3072`, `RSA_4096` are the allowed algorithms for RSA
   WrappedKeyCryptogram import.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ReuseLastGeneratedToken"`: Specifies whether to reuse the existing import token and
+  wrapping key certificate. If set to `true` and a valid import token exists for the same
+  key material type and wrapping key algorithm with at least 7 days of remaining validity,
+  the existing token and wrapping key certificate are returned. Otherwise, a new import
+  token and wrapping key certificate are generated. The default value is `false`, which
+  generates a new import token and wrapping key certificate on every call.
 """
 function get_parameters_for_import end
 
@@ -795,24 +1170,19 @@ symmetric keys using either symmetric and asymmetric key exchange mechanisms.
 
 For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31
 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web
-Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key
-exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-
-directional trust between the two parties exhanging keys and are used for initial key
-exchange such as Key Encryption Key (KEK) or Zone Master Key (ZMK). After which you can
-import working keys using symmetric method to perform various cryptographic operations
-within Amazon Web Services Payment Cryptography.
+Services Payment Cryptography supports ANSI X9 TR-34 norm, RSA unwrap, and ECDH (Elliptic
+Curve Diffie-Hellman) key exchange mechanisms. Asymmetric key exchange methods are typically
+used to establish bi-directional trust between the two parties exhanging keys and are used
+for initial key exchange such as Key Encryption Key (KEK) or Zone Master Key (ZMK). After
+which you can import working keys using symmetric method to perform various cryptographic
+operations within Amazon Web Services Payment Cryptography.
 
-The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a
-WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse,
-Exportability) are contained within the key block. With RSA wrap and unwrap, you can
-exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format
-and you will need to specify the key attributes during import.
-
-You can also import a *root public key certificate*, used to sign other public key
-certificates, or a *trusted public key certificate* under an already established root public
-key certificate.
-
-**To import a public root key certificate**
+PCI requires specific minimum key strength of wrapping keys used to protect the keys being
+exchanged electronically. These requirements can change when PCI standards are revised. The
+rules specify that wrapping keys used for transport must be at least as strong as the key
+being protected. For more information on recommended key strength of wrapping keys and key
+exchange mechanism, see [Importing and exporting keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-importexport.html)
+in the *Amazon Web Services Payment Cryptography User Guide*.
 
 You can also import a *root public key certificate*, used to sign other public key
 certificates, or a *trusted public key certificate* under an already established root public
@@ -859,7 +1229,7 @@ This operation generates an encryption keypair for the purpose of key import, si
 and returns back the wrapping key certificate (also known as KRD wrapping certificate) and
 the root certificate chain. The KDH must trust and install the KRD wrapping certificate on
 its HSM and use it to encrypt (wrap) the KDH key during TR-34 WrappedKeyBlock generation.
-The import token and associated KRD wrapping certificate expires after 7 days.
+The import token and associated KRD wrapping certificate expires after 30 days.
 
 Next the KDH generates a key pair for the purpose of signing the encrypted KDH key and
 provides the public certificate of the signing key to Amazon Web Services Payment
@@ -890,7 +1260,7 @@ exchange method. To initiate import, call [GetParametersForImport](https://docs.
 with `KeyMaterial` set to `KEY_CRYPTOGRAM` to generate an import token. This operation also
 generates an encryption keypair for the purpose of key import, signs the key and returns
 back the wrapping key certificate in PEM format (base64 encoded) and its root certificate
-chain. The import token and associated KRD wrapping certificate expires after 7 days.
+chain. The import token and associated KRD wrapping certificate expires after 30 days.
 
 You must trust and install the wrapping certificate and its certificate chain on the sending
 HSM and use it to wrap the key under export for WrappedKeyCryptogram generation. Next call
@@ -910,6 +1280,32 @@ To initiate a TR-31 key import, set the following parameters:
   Web Services Payment Cryptography.
 - `WrappingKeyIdentifier`: The `KeyArn` of the KEK that Amazon Web Services Payment
   Cryptography uses to decrypt or unwrap the key under import.
+
+**To import working keys using ECDH**
+
+You can also use ECDH key agreement to import working keys as a TR-31 keyblock, where the
+wrapping key is an ECDH derived key.
+
+To initiate a TR-31 key import using ECDH, both sides must create an ECC key pair with key
+usage K3 and exchange public key certificates. In Amazon Web Services Payment Cryptography,
+you can do this by calling `CreateKey` and then `GetPublicKeyCertificate` to retrieve its
+public key certificate. Next, you can then generate a TR-31 WrappedKeyBlock using your own
+ECC key pair, the public certificate of the service's ECC key pair, and the key derivation
+parameters including key derivation function, hash algorithm, derivation data, and key
+algorithm. If you have not already done so, you must import the CA chain that issued the
+receiving public key certificate by calling `ImportKey` with input
+`RootCertificatePublicKey` for root CA or `TrustedPublicKey` for intermediate CA. To
+complete the TR-31 key import, you can use the following parameters. It is important that
+the ECDH key derivation parameters you use should match those used during import to derive
+the same shared wrapping key within Amazon Web Services Payment Cryptography.
+
+- `KeyMaterial`: Use `DiffieHellmanTr31KeyBlock` parameters.
+- `PrivateKeyIdentifier`: The `KeyArn` of the ECC key pair created within Amazon Web
+  Services Payment Cryptography to derive a shared KEK.
+- `PublicKeyCertificate`: The public key certificate of the receiving ECC key pair in PEM
+  format (base64 encoded) to derive a shared KEK.
+- `CertificateAuthorityPublicKeyIdentifier`: The `keyARN` of the CA that signed the public
+  key certificate of the receiving ECC key pair.
 
 **Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
@@ -937,6 +1333,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key to be checked and retaining the 3 highest order bytes of the encrypted result. For
   AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of
   zero and retaining the 3 highest order bytes of the encrypted result.
+
+- `"ReplicationRegions"`:
 
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
   Use this parameter to tag a key when it is imported. To tag an existing Amazon Web
@@ -988,7 +1386,7 @@ end
     list_aliases(params::Dict{String,<:Any})
 
 Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web
-Services Region. You can filter the list of aliases. For more information, see [Using aliases](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-managealias.html)
+Services Region. You can filter the aliases by `keyARN`. For more information, see [Using aliases](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-managealias.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
 This is a paginated operation, which means that each response might contain only a subset of
@@ -1010,6 +1408,8 @@ accounts.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"KeyArn"`: The `keyARN` for which you want to list all aliases.
 
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
   this value is present, Amazon Web Services Payment Cryptography does not return more than
@@ -1150,6 +1550,81 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_key_replication_regions(key_identifier, replication_regions)
+    remove_key_replication_regions(key_identifier, replication_regions, params::Dict{String,<:Any})
+
+Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key,
+disabling the key's availability for cryptographic operations in the specified Amazon Web
+Services Regions.
+
+When you remove Replication Regions, the key material is securely deleted from those regions
+and can no longer be used for cryptographic operations there. This operation is irreversible
+for the specified Amazon Web Services Regions. For more information, see [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html).
+
+!!! important
+    Ensure that no active cryptographic operations or applications depend on the key in the
+    regions you're removing before performing this operation.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [AddKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AddKeyReplicationRegions.html)
+- [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+
+# Arguments
+
+- `key_identifier`: The key identifier (ARN or alias) of the key from which to remove
+  replication regions.
+
+  This key must exist and have replication enabled in the specified regions.
+
+- `replication_regions`: The list of Amazon Web Services Regions to remove from the key's
+  replication configuration.
+
+  The key will no longer be available for cryptographic operations in these regions after
+  removal. Ensure no active operations depend on the key in these regions before removal.
+"""
+function remove_key_replication_regions end
+
+function remove_key_replication_regions(
+    KeyIdentifier, ReplicationRegions; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
+        "RemoveKeyReplicationRegions",
+        Dict{String,Any}(
+            "KeyIdentifier" => KeyIdentifier, "ReplicationRegions" => ReplicationRegions
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_key_replication_regions(
+    KeyIdentifier,
+    ReplicationRegions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return payment_cryptography(
+        "RemoveKeyReplicationRegions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "KeyIdentifier" => KeyIdentifier,
+                    "ReplicationRegions" => ReplicationRegions,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

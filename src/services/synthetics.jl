@@ -75,11 +75,11 @@ outbound calls over the internet. For more information, see [Security Considerat
 
 - `artifact_s3_location`: The location in Amazon S3 where Synthetics stores artifacts from
   the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
-  The name of the S3 bucket can't include a period (.).
+  The name of the Amazon S3 bucket can't include a period (.).
 
 - `code`: A structure that includes the entry point from which the canary should start
-  running your script. If the script is stored in an S3 bucket, the bucket name, key, and
-  version are also included.
+  running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key,
+  and version are also included.
 
 - `execution_role_arn`: The ARN of the IAM role to be used to run the canary. This role must
   already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy.
@@ -114,20 +114,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
   S3.
 
+- `"BrowserConfigs"`: CloudWatch Synthetics now supports multibrowser canaries for
+  `syn-nodejs-puppeteer-11.0` and `syn-nodejs-playwright-3.0` runtimes. This feature allows
+  you to run your canaries on both Firefox and Chrome browsers. To create a multibrowser
+  canary, you need to specify the BrowserConfigs with a list of browsers you want to use.
+
+  !!! note
+      If not specified, `browserConfigs` defaults to Chrome.
+
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
   this canary. If you omit this field, the default of 31 days is used. The valid range is 1
   to 455 days.
+
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
+
+- `"ProvisionedResourceCleanup"`: Specifies whether to also delete the Lambda functions and
+  layers used by this canary when the canary is deleted. If you omit this parameter, the
+  default of `AUTOMATIC` is used, which means that the Lambda functions and layers will be
+  deleted when the canary is deleted.
+
+  If the value of this parameter is `OFF`, then the value of the `DeleteLambda` parameter of
+  the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html)
+  operation determines whether the Lambda functions and layers will be deleted.
+
+- `"ResourcesToReplicateTags"`: To have the tags that you apply to this canary also be
+  applied to the Lambda function that the canary uses, specify this parameter with the value
+  `lambda-function`.
+
+  If you specify this parameter and don't specify any tags in the `Tags` parameter, the
+  canary creation fails.
 
 - `"RunConfig"`: A structure that contains the configuration for individual canary runs,
   such as timeout value and environment variables.
 
   !!! important
-      The environment variables keys and values are not encrypted. Do not store sensitive
-      information in this field.
+      Environment variable keys and values are encrypted at rest using Amazon Web Services
+      owned KMS keys. However, the environment variables are not encrypted on the client
+      side. Do not store sensitive information in them.
 
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary. If you omit this field, the default of 31 days is used. The valid range is
   1 to 455 days.
+
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
 
 - `"Tags"`: A list of key-value pairs to associate with the canary. You can associate as
   many as 50 tags with a canary.
@@ -135,6 +166,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tags can help you organize and categorize your resources. You can also use them to scope
   user permissions, by granting a user permission to access or change only the resources
   that have certain tag values.
+
+  To have the tags that you apply to this canary also be applied to the Lambda function that
+  the canary uses, specify this parameter with the value `lambda-function`.
 
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more
@@ -266,19 +300,20 @@ end
 
 Permanently deletes the specified canary.
 
-If you specify `DeleteLambda` to `true`, CloudWatch Synthetics also deletes the Lambda
+If the canary's `ProvisionedResourceCleanup` field is set to `AUTOMATIC` or you specify
+`DeleteLambda` in this operation as `true`, CloudWatch Synthetics also deletes the Lambda
 functions and layers that are used by the canary.
 
 Other resources used and created by the canary are not automatically deleted. After you
-delete a canary that you do not intend to use again, you should also delete the following:
+delete a canary, you should also delete the following:
 
 - The CloudWatch alarms created for this canary. These alarms have a name of
-  `Synthetics-SharpDrop-Alarm-*MyCanaryName*`.
+  `Synthetics-Alarm-*first-198-characters-of-canary-name*-*canaryId*-*alarm number*`
 - Amazon S3 objects and buckets, such as the canary's artifact location.
 - IAM roles created for the canary. If they were created in the console, these roles have
-  the name `role/service-role/CloudWatchSyntheticsRole-*MyCanaryName*`.
+  the name `role/service-role/CloudWatchSyntheticsRole-*First-21-Characters-of-CanaryName*`
 - CloudWatch Logs log groups created for the canary. These logs groups have the name
-  `/aws/lambda/cwsyn-*MyCanaryName*`.
+  `/aws/lambda/cwsyn-*First-21-Characters-of-CanaryName*`
 
 Before you delete a canary, you might want to use `GetCanary` to display the information
 about this canary. Make note of the information returned by this operation so that you can
@@ -294,7 +329,11 @@ delete these resources after you delete the canary.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"deleteLambda"`: Specifies whether to also delete the Lambda functions and layers used by
-  this canary. The default is false.
+  this canary. The default is `false`.
+
+  Your setting for this parameter is used only if the canary doesn't have `AUTOMATIC` for
+  its `ProvisionedResourceCleanup` field. If that field is set to `AUTOMATIC`, then the
+  Lambda functions and layers will be deleted when this canary is deleted.
 
   Type: Boolean
 """
@@ -372,8 +411,8 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Specify this parameter to limit how many canaries are returned each time
-  you use the `DescribeCanaries` operation. If you omit this parameter, the default of 100
-  is used.
+  you use the `DescribeCanaries` operation. If you omit this parameter, the default of 20 is
+  used.
 
 - `"Names"`: Use this parameter to return only canaries that match the names that you
   specify here. You can specify as many as five canary names.
@@ -422,6 +461,8 @@ information, see [Limiting a user to viewing specific canaries](https://docs.aws
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BrowserType"`: The type of browser to use for the canary run.
 
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
   use the `DescribeLastRun` operation. If you omit this parameter, the default of 100 is
@@ -545,6 +586,13 @@ that you want. To get a list of canaries and their names, use [DescribeCanaries]
 # Arguments
 
 - `name`: The name of the canary that you want details for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dryRunId"`: The DryRunId associated with an existing canary’s dry run. You can use this
+  DryRunId to retrieve information about the dry run.
 """
 function get_canary end
 
@@ -574,10 +622,24 @@ Retrieves a list of runs for a specified canary.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DryRunId"`: The DryRunId associated with an existing canary’s dry run. You can use this
+  DryRunId to retrieve information about the dry run.
+
 - `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
   use the `GetCanaryRuns` operation. If you omit this parameter, the default of 100 is used.
+
 - `"NextToken"`: A token that indicates that there is more data available. You can use this
   token in a subsequent `GetCanaryRuns` operation to retrieve the next set of results.
+
+  !!! note
+      When auto retry is enabled for the canary, the first subsequent retry is suffixed with
+      *1 indicating its the first retry and the next subsequent try is suffixed with *2.
+
+- `"RunType"`: - When you provide `RunType=CANARY_RUN` and `dryRunId`, you will get an
+  exception
+  - When a value is not provided for `RunType`, the default value is `CANARY_RUN`
+  - When `CANARY_RUN` is provided, all canary runs excluding dry runs are returned
+  - When `DRY_RUN` is provided, all dry runs excluding canary runs are returned
 """
 function get_canary_runs end
 
@@ -820,6 +882,101 @@ function start_canary(
 end
 
 """
+    start_canary_dry_run(name)
+    start_canary_dry_run(name, params::Dict{String,<:Any})
+
+Use this operation to start a dry run for a canary that has already been created
+
+# Arguments
+
+- `name`: The name of the canary that you want to dry run. To find canary names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ArtifactConfig"`:
+
+- `"ArtifactS3Location"`: The location in Amazon S3 where Synthetics stores artifacts from
+  the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+  The name of the Amazon S3 bucket can't include a period (.).
+
+- `"BrowserConfigs"`: A structure that specifies the browser type to use for a canary run.
+  CloudWatch Synthetics supports running canaries on both `CHROME` and `FIREFOX` browsers.
+
+  !!! note
+      If not specified, `browserConfigs` defaults to Chrome.
+
+- `"Code"`:
+
+- `"ExecutionRoleArn"`: The ARN of the IAM role to be used to run the canary. This role must
+  already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy.
+  The role must also have the following permissions:
+
+- `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
+  this canary. If you omit this field, the default of 31 days is used. The valid range is 1
+  to 455 days.
+
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
+
+- `"ProvisionedResourceCleanup"`: Specifies whether to also delete the Lambda functions and
+  layers used by this canary when the canary is deleted. If you omit this parameter, the
+  default of `AUTOMATIC` is used, which means that the Lambda functions and layers will be
+  deleted when the canary is deleted.
+
+  If the value of this parameter is `OFF`, then the value of the `DeleteLambda` parameter of
+  the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html)
+  operation determines whether the Lambda functions and layers will be deleted.
+
+- `"RunConfig"`:
+
+- `"RuntimeVersion"`: Specifies the runtime version to use for the canary. For a list of
+  valid runtime versions and for more information about runtime versions, see [Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
+
+- `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
+  of this canary. If you omit this field, the default of 31 days is used. The valid range is
+  1 to 455 days.
+
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
+
+- `"VisualReference"`:
+
+- `"VisualReferences"`: A list of visual reference configurations for the canary, one for
+  each browser type that the canary is configured to run on. Visual references are used for
+  visual monitoring comparisons.
+
+  `syn-nodejs-puppeteer-11.0` and above, and `syn-nodejs-playwright-3.0` and above, only
+  supports `visualReferences`. `visualReference` field is not supported.
+
+  Versions older than `syn-nodejs-puppeteer-11.0` supports both `visualReference` and
+  `visualReferences` for backward compatibility. It is recommended to use `visualReferences`
+  for consistency and future compatibility.
+
+- `"VpcConfig"`:
+"""
+function start_canary_dry_run end
+
+function start_canary_dry_run(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return synthetics(
+        "POST", "/canary/$(Name)/dry-run/start"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_canary_dry_run(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return synthetics(
+        "POST",
+        "/canary/$(Name)/dry-run/start",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_canary(name)
     stop_canary(name, params::Dict{String,<:Any})
 
@@ -961,8 +1118,16 @@ end
 
 Updates the configuration of a canary that has already been created.
 
-You can't use this operation to update the tags of an existing canary. To change the tags of
-an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
+For multibrowser canaries, you can add or remove browsers by updating the browserConfig list
+in the update call. For example:
+
+- To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]
+- To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]
+
+You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
+
+!!! note
+    When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
 
 # Arguments
 
@@ -981,11 +1146,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ArtifactS3Location"`: The location in Amazon S3 where Synthetics stores artifacts from
   the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
-  The name of the S3 bucket can't include a period (.).
+  The name of the Amazon S3 bucket can't include a period (.).
+
+- `"BrowserConfigs"`: A structure that specifies the browser type to use for a canary run.
+  CloudWatch Synthetics supports running canaries on both `CHROME` and `FIREFOX` browsers.
+
+  !!! note
+      If not specified, `browserConfigs` defaults to Chrome.
 
 - `"Code"`: A structure that includes the entry point from which the canary should start
-  running your script. If the script is stored in an S3 bucket, the bucket name, key, and
-  version are also included.
+  running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key,
+  and version are also included.
+
+- `"DryRunId"`: Update the existing canary using the updated configurations from the DryRun
+  associated with the DryRunId.
+
+  !!! note
+      When you use the `dryRunId` field when updating a canary, the only other field you can
+      provide is the `Schedule`. Adding any other field will thrown an exception.
 
 - `"ExecutionRoleArn"`: The ARN of the IAM role to be used to run the canary. This role must
   already exist, and must include `lambda.amazonaws.com` as a principal in the trust policy.
@@ -1002,12 +1180,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
   this canary.
 
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
+
+- `"ProvisionedResourceCleanup"`: Specifies whether to also delete the Lambda functions and
+  layers used by this canary when the canary is deleted.
+
+  If the value of this parameter is `OFF`, then the value of the `DeleteLambda` parameter of
+  the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html)
+  operation determines whether the Lambda functions and layers will be deleted.
+
 - `"RunConfig"`: A structure that contains the timeout value that is used for each
   individual run of the canary.
 
   !!! important
-      The environment variables keys and values are not encrypted. Do not store sensitive
-      information in this field.
+      Environment variable keys and values are encrypted at rest using Amazon Web Services
+      owned KMS keys. However, the environment variables are not encrypted on the client
+      side. Do not store sensitive information in them.
 
 - `"RuntimeVersion"`: Specifies the runtime version to use for the canary. For a list of
   valid runtime versions and for more information about runtime versions, see [Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
@@ -1018,6 +1207,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary.
 
+  This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html),
+  as well as the range of information displayed in the Synthetics console.
+
 - `"VisualReference"`: Defines the screenshots to use as the baseline for comparisons during
   visual monitoring comparisons during future runs of this canary. If you omit this
   parameter, no changes are made to any baseline screenshots that the canary might be using
@@ -1026,6 +1218,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Visual monitoring is supported only on canaries running the **syn-puppeteer-node-3.2**
   runtime or later. For more information, see [Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html)
   and [Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
+
+- `"VisualReferences"`: A list of visual reference configurations for the canary, one for
+  each browser type that the canary is configured to run on. Visual references are used for
+  visual monitoring comparisons.
+
+  `syn-nodejs-puppeteer-11.0` and above, and `syn-nodejs-playwright-3.0` and above, only
+  supports `visualReferences`. `visualReference` field is not supported.
+
+  Versions older than `syn-nodejs-puppeteer-11.0` supports both `visualReference` and
+  `visualReferences` for backward compatibility. It is recommended to use `visualReferences`
+  for consistency and future compatibility.
+
+  For multibrowser visual monitoring, you can update the baseline for all configured
+  browsers in a single update call by specifying a list of VisualReference objects, one per
+  browser. Each VisualReference object maps to a specific browser configuration, allowing
+  you to manage visual baselines for multiple browsers simultaneously.
+
+  For single configuration canaries using Chrome browser (default browser), use
+  visualReferences for `syn-nodejs-puppeteer-11.0` and above, and
+  `syn-nodejs-playwright-3.0` and above canaries. The browserType in the visualReference
+  object is not mandatory.
 
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more

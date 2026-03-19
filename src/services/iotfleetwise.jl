@@ -148,6 +148,11 @@ campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehic
 For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html)
 in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
 # Arguments
 
 - `collection_scheme`: The data collection scheme associated with the campaign. You can
@@ -161,14 +166,17 @@ in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"compression"`: (Optional) Whether to compress signals before transmitting data to Amazon
+- `"compression"`: Determines whether to compress signals before transmitting data to Amazon
   Web Services IoT FleetWise. If you don't want to compress the signals, use `OFF`. If it's
   not specified, `SNAPPY` is used.
 
   Default: `SNAPPY`
 
-- `"dataDestinationConfigs"`: The destination where the campaign sends data. You can choose
-  to send data to be stored in Amazon S3 or Amazon Timestream.
+- `"dataDestinationConfigs"`: The destination where the campaign sends data. You can send
+  data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream.
+
+  MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to
+  communicate with your devices.
 
   Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use
   vehicle data, such as data lakes, centralized data storage, data processing pipelines, and
@@ -179,8 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can use Amazon Timestream to access and analyze time series data, and Timestream to
   query vehicle data so that you can identify trends and patterns.
 
-- `"dataExtraDimensions"`: (Optional) A list of vehicle attributes to associate with a
-  campaign.
+- `"dataExtraDimensions"`: A list of vehicle attributes to associate with a campaign.
 
   Enrich the data with specified vehicle attributes. For example, add `make` and `model` to
   the campaign, and Amazon Web Services IoT FleetWise will associate the data with those
@@ -189,34 +196,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: An empty array
 
+- `"dataPartitions"`: The data partitions associated with the signals collected from the
+  vehicle.
+
 - `"description"`: An optional description of the campaign to help identify its purpose.
 
-- `"diagnosticsMode"`: (Optional) Option for a vehicle to send diagnostic trouble codes to
-  Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use
+- `"diagnosticsMode"`: Option for a vehicle to send diagnostic trouble codes to Amazon Web
+  Services IoT FleetWise. If you want to send diagnostic trouble codes, use
   `SEND_ACTIVE_DTCS`. If it's not specified, `OFF` is used.
 
   Default: `OFF`
 
-- `"expiryTime"`: (Optional) The time the campaign expires, in seconds since epoch (January
-  1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires.
+- `"expiryTime"`: The time the campaign expires, in seconds since epoch (January 1, 1970 at
+  midnight UTC time). Vehicle data isn't collected after the campaign expires.
 
   Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
 
-- `"postTriggerCollectionDuration"`: (Optional) How long (in milliseconds) to collect raw
-  data after a triggering event initiates the collection. If it's not specified, `0` is
-  used.
+- `"postTriggerCollectionDuration"`: How long (in milliseconds) to collect raw data after a
+  triggering event initiates the collection. If it's not specified, `0` is used.
 
   Default: `0`
 
-- `"priority"`: (Optional) A number indicating the priority of one campaign over another
-  campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to
-  vehicles before any other campaigns. If it's not specified, `0` is used.
+- `"priority"`: A number indicating the priority of one campaign over another campaign for a
+  certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before
+  any other campaigns. If it's not specified, `0` is used.
 
   Default: `0`
 
-- `"signalsToCollect"`: (Optional) A list of information about signals to collect.
+- `"signalsToCollect"`: A list of information about signals to collect.
 
-- `"spoolingMode"`: (Optional) Whether to store collected data after a vehicle lost a
+  !!! note
+      If you upload a signal as a condition in a data partition for a campaign, then those
+      same signals must be included in `signalsToCollect`.
+
+- `"signalsToFetch"`: A list of information about signals to fetch.
+
+- `"spoolingMode"`: Determines whether to store collected data after a vehicle lost a
   connection with the cloud. After a connection is re-established, the data is automatically
   forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a
   vehicle loses connection with the cloud, use `TO_DISK`. If it's not specified, `OFF` is
@@ -224,8 +239,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: `OFF`
 
-- `"startTime"`: (Optional) The time, in milliseconds, to deliver a campaign after it was
-  approved. If it's not specified, `0` is used.
+- `"startTime"`: The time, in milliseconds, to deliver a campaign after it was approved. If
+  it's not specified, `0` is used.
 
   Default: `0`
 
@@ -302,9 +317,20 @@ the following must be true:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"defaultForUnmappedSignals"`: Use default decoders for all unmapped signals in the model.
+  You don't need to provide any detailed decoding information.
+
+  !!! important
+      Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+      more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+      in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
 - `"description"`: A brief description of the decoder manifest.
+
 - `"networkInterfaces"`: A list of information about available network interfaces.
+
 - `"signalDecoders"`: A list of information about signal decoders.
+
 - `"tags"`: Metadata that can be used to manage the decoder manifest.
 """
 function create_decoder_manifest end
@@ -502,6 +528,93 @@ function create_signal_catalog(
 end
 
 """
+    create_state_template(name, signal_catalog_arn, state_template_properties)
+    create_state_template(name, signal_catalog_arn, state_template_properties, params::Dict{String,<:Any})
+
+Creates a state template. State templates contain state properties, which are signals that
+belong to a signal catalog that is synchronized between the Amazon Web Services IoT
+FleetWise Edge and the Amazon Web Services Cloud.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
+# Arguments
+
+- `name`: The name of the state template.
+- `signal_catalog_arn`: The ARN of the signal catalog associated with the state template.
+- `state_template_properties`: A list of signals from which data is collected. The state
+  template properties contain the fully qualified names of the signals.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dataExtraDimensions"`: A list of vehicle attributes to associate with the payload
+  published on the state template's MQTT topic. (See [Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)).
+  For example, if you add `Vehicle.Attributes.Make` and `Vehicle.Attributes.Model`
+  attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload
+  with those attributes in the `extraDimensions` field.
+
+- `"description"`: A brief description of the state template.
+
+- `"metadataExtraDimensions"`: A list of vehicle attributes to associate with user
+  properties of the messages published on the state template's MQTT topic. (See [Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)).
+  For example, if you add `Vehicle.Attributes.Make` and `Vehicle.Attributes.Model`
+  attributes, Amazon Web Services IoT FleetWise will include these attributes as User
+  Properties with the MQTT message.
+
+  Default: An empty array
+
+- `"tags"`: Metadata that can be used to manage the state template.
+"""
+function create_state_template end
+
+function create_state_template(
+    name,
+    signalCatalogArn,
+    stateTemplateProperties;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iotfleetwise(
+        "CreateStateTemplate",
+        Dict{String,Any}(
+            "name" => name,
+            "signalCatalogArn" => signalCatalogArn,
+            "stateTemplateProperties" => stateTemplateProperties,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_state_template(
+    name,
+    signalCatalogArn,
+    stateTemplateProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iotfleetwise(
+        "CreateStateTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "signalCatalogArn" => signalCatalogArn,
+                    "stateTemplateProperties" => stateTemplateProperties,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_vehicle(decoder_manifest_arn, model_manifest_arn, vehicle_name)
     create_vehicle(decoder_manifest_arn, model_manifest_arn, vehicle_name, params::Dict{String,<:Any})
 
@@ -534,8 +647,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: Static information about a vehicle in a key-value pair. For example:
   `"engineType"` : `"1.3 L R2"`
 
-  A campaign must include the keys (attribute names) in `dataExtraDimensions` for them to
-  display in Amazon Timestream.
+  To use attributes with Campaigns or State Templates, you must include them using the
+  request parameters `dataExtraDimensions` and/or `metadataExtraDimensions` (for state
+  templates only) when creating your campaign/state template.
+
+- `"stateTemplates"`: Associate state templates with the vehicle. You can monitor the last
+  known state of the vehicle in near real time.
 
 - `"tags"`: Metadata that can be used to manage the vehicle.
 """
@@ -624,10 +741,6 @@ end
 Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles
 associated with it.
 
-!!! note
-    If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends
-    back an HTTP 200 response with an empty body.
-
 # Arguments
 
 - `name`: The name of the decoder manifest to delete.
@@ -661,10 +774,6 @@ end
 Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet.
 For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html)
 in the *Amazon Web Services IoT FleetWise Developer Guide*.
-
-!!! note
-    If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an
-    HTTP 200 response with an empty body.
 
 # Arguments
 
@@ -700,10 +809,6 @@ end
 
 Deletes a vehicle model (model manifest).
 
-!!! note
-    If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends
-    back an HTTP 200 response with an empty body.
-
 # Arguments
 
 - `name`: The name of the model manifest to delete.
@@ -736,10 +841,6 @@ end
 
 Deletes a signal catalog.
 
-!!! note
-    If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends
-    back an HTTP 200 response with an empty body.
-
 # Arguments
 
 - `name`: The name of the signal catalog to delete.
@@ -767,14 +868,48 @@ function delete_signal_catalog(
 end
 
 """
+    delete_state_template(identifier)
+    delete_state_template(identifier, params::Dict{String,<:Any})
+
+Deletes a state template.
+
+# Arguments
+
+- `identifier`: The unique ID of the state template.
+"""
+function delete_state_template end
+
+function delete_state_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotfleetwise(
+        "DeleteStateTemplate",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_state_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iotfleetwise(
+        "DeleteStateTemplate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_vehicle(vehicle_name)
     delete_vehicle(vehicle_name, params::Dict{String,<:Any})
 
 Deletes a vehicle and removes it from any campaigns.
-
-!!! note
-    If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an
-    HTTP 200 response with an empty body.
 
 # Arguments
 
@@ -812,10 +947,6 @@ end
 
 Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet
 doesn't delete the vehicle.
-
-!!! note
-    If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT
-    FleetWise sends back an HTTP 200 response with an empty body.
 
 # Arguments
 
@@ -860,6 +991,11 @@ end
     get_campaign(name, params::Dict{String,<:Any})
 
 Retrieves information about a campaign.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
 # Arguments
 
@@ -1090,6 +1226,47 @@ function get_signal_catalog(
 end
 
 """
+    get_state_template(identifier)
+    get_state_template(identifier, params::Dict{String,<:Any})
+
+Retrieves information about a state template.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
+# Arguments
+
+- `identifier`: The unique ID of the state template.
+"""
+function get_state_template end
+
+function get_state_template(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotfleetwise(
+        "GetStateTemplate",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_state_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iotfleetwise(
+        "GetStateTemplate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_vehicle(vehicle_name)
     get_vehicle(vehicle_name, params::Dict{String,<:Any})
 
@@ -1129,7 +1306,8 @@ end
     get_vehicle_status(vehicle_name)
     get_vehicle_status(vehicle_name, params::Dict{String,<:Any})
 
-Retrieves information about the status of a vehicle with any associated campaigns.
+Retrieves information about the status of campaigns, decoder manifests, or state templates
+associated with a vehicle.
 
 # Arguments
 
@@ -1139,14 +1317,16 @@ Retrieves information about the status of a vehicle with any associated campaign
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+- `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive. This
+  parameter is only supported for resources of type `CAMPAIGN`.
 
 - `"nextToken"`: A pagination token for the next set of results.
 
   If the results of a search are large, only a portion of the results are returned, and a
   `nextToken` pagination token is returned in the response. To retrieve the next set of
   results, reissue the search request and include the returned token. When all results have
-  been returned, the response does not contain a pagination token value.
+  been returned, the response does not contain a pagination token value. This parameter is
+  only supported for resources of type `CAMPAIGN`.
 """
 function get_vehicle_status end
 
@@ -1179,6 +1359,9 @@ end
     import_decoder_manifest(name, network_file_definitions, params::Dict{String,<:Any})
 
 Creates a decoder manifest using your existing CAN DBC file from your local device.
+
+The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc
+file.
 
 # Arguments
 
@@ -1277,6 +1460,10 @@ Lists information about created campaigns.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: campaign name, Amazon Resource Name (ARN), creation time, and
+  last modification time.
+
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
 
 - `"nextToken"`: A pagination token for the next set of results.
@@ -1286,7 +1473,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results, reissue the search request and include the returned token. When all results have
   been returned, the response does not contain a pagination token value.
 
-- `"status"`: Optional parameter to filter the results by the status of each created
+- `"status"`: An optional parameter to filter the results by the status of each created
   campaign in your account. The status can be one of: `CREATING`, `WAITING_FOR_APPROVAL`,
   `RUNNING`, or `SUSPENDED`.
 """
@@ -1420,6 +1607,10 @@ Lists decoder manifests.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: decoder manifest name, Amazon Resource Name (ARN), creation
+  time, and last modification time.
+
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
 
 - `"modelManifestArn"`: The Amazon Resource Name (ARN) of a vehicle model (model manifest)
@@ -1459,6 +1650,10 @@ Retrieves information for each created fleet in an Amazon Web Services account.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: fleet ID, Amazon Resource Name (ARN), creation time, and last
+  modification time.
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
 
@@ -1599,6 +1794,10 @@ Retrieves a list of vehicle models (model manifests).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: model manifest name, Amazon Resource Name (ARN), creation
+  time, and last modification time.
+
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
 
 - `"nextToken"`: A pagination token for the next set of results.
@@ -1716,6 +1915,42 @@ function list_signal_catalogs(
 end
 
 """
+    list_state_templates()
+    list_state_templates(params::Dict{String,<:Any})
+
+Lists information about created state templates.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: state template ID, Amazon Resource Name (ARN), creation time,
+  and last modification time.
+- `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
+- `"nextToken"`: The token to retrieve the next set of results, or `null` if there are no
+  more results.
+"""
+function list_state_templates end
+
+function list_state_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotfleetwise("ListStateTemplates"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_state_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotfleetwise(
+        "ListStateTemplates", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1767,13 +2002,30 @@ Retrieves a list of summaries of created vehicles.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"attributeNames"`: The fully qualified names of the attributes. For example, the fully
-  qualified name of an attribute might be `Vehicle.Body.Engine.Type`.
+- `"attributeNames"`: The fully qualified names of the attributes. You can use this optional
+  parameter to list the vehicles containing all the attributes in the request. For example,
+  `attributeNames` could be "`Vehicle.Body.Engine.Type, Vehicle.Color`" and the
+  corresponding `attributeValues` could be "`1.3 L R2, Blue`" . In this case, the API will
+  filter vehicles with an attribute name `Vehicle.Body.Engine.Type` that contains a value of
+  `1.3 L R2` AND an attribute name `Vehicle.Color` that contains a value of "`Blue`". A
+  request must contain unique values for the `attributeNames` filter and the matching number
+  of `attributeValues` filters to return the subset of vehicles that match the attributes
+  filter condition.
 
 - `"attributeValues"`: Static information about a vehicle attribute value in string format.
-  For example:
+  You can use this optional parameter in conjunction with `attributeNames` to list the
+  vehicles containing all the `attributeValues` corresponding to the `attributeNames`
+  filter. For example, `attributeValues` could be "`1.3 L R2, Blue`" and the corresponding
+  `attributeNames` filter could be "`Vehicle.Body.Engine.Type, Vehicle.Color`". In this
+  case, the API will filter vehicles with attribute name `Vehicle.Body.Engine.Type` that
+  contains a value of `1.3 L R2` AND an attribute name `Vehicle.Color` that contains a value
+  of "`Blue`". A request must contain unique values for the `attributeNames` filter and the
+  matching number of `attributeValues` filter to return the subset of vehicles that match
+  the attributes filter condition.
 
-  `"1.3 L R2"`
+- `"listResponseScope"`: When you set the `listResponseScope` parameter to `METADATA_ONLY`,
+  the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and
+  last modification time.
 
 - `"maxResults"`: The maximum number of items to return, between 1 and 100, inclusive.
 
@@ -2156,18 +2408,33 @@ manifests can be associated with vehicles.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"defaultForUnmappedSignals"`: Use default decoders for all unmapped signals in the model.
+  You don't need to provide any detailed decoding information.
+
+  !!! important
+      Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+      more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+      in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
 - `"description"`: A brief description of the decoder manifest to update.
+
 - `"networkInterfacesToAdd"`: A list of information about the network interfaces to add to
   the decoder manifest.
+
 - `"networkInterfacesToRemove"`: A list of network interfaces to remove from the decoder
   manifest.
+
 - `"networkInterfacesToUpdate"`: A list of information about the network interfaces to
   update in the decoder manifest.
+
 - `"signalDecodersToAdd"`: A list of information about decoding additional signals to add to
   the decoder manifest.
+
 - `"signalDecodersToRemove"`: A list of signal decoders to remove from the decoder manifest.
+
 - `"signalDecodersToUpdate"`: A list of updated information about decoding signals to update
   in the decoder manifest.
+
 - `"status"`: The state of the decoder manifest. If the status is `ACTIVE`, the decoder
   manifest can't be edited. If the status is `DRAFT`, you can edit the decoder manifest.
 """
@@ -2198,10 +2465,6 @@ end
     update_fleet(fleet_id, params::Dict{String,<:Any})
 
 Updates the description of an existing fleet.
-
-!!! note
-    If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an
-    HTTP 200 response with an empty HTTP body.
 
 # Arguments
 
@@ -2325,10 +2588,84 @@ function update_signal_catalog(
 end
 
 """
+    update_state_template(identifier)
+    update_state_template(identifier, params::Dict{String,<:Any})
+
+Updates a state template.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
+
+# Arguments
+
+- `identifier`: The unique ID of the state template.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dataExtraDimensions"`: A list of vehicle attributes to associate with the payload
+  published on the state template's MQTT topic. (See [Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)).
+  For example, if you add `Vehicle.Attributes.Make` and `Vehicle.Attributes.Model`
+  attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload
+  with those attributes in the `extraDimensions` field.
+
+  Default: An empty array
+
+- `"description"`: A brief description of the state template.
+
+- `"metadataExtraDimensions"`: A list of vehicle attributes to associate with user
+  properties of the messages published on the state template's MQTT topic. (See [Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)).
+  For example, if you add `Vehicle.Attributes.Make` and `Vehicle.Attributes.Model`
+  attributes, Amazon Web Services IoT FleetWise will include these attributes as User
+  Properties with the MQTT message.
+
+- `"stateTemplatePropertiesToAdd"`: Add signals from which data is collected as part of the
+  state template.
+
+- `"stateTemplatePropertiesToRemove"`: Remove signals from which data is collected as part
+  of the state template.
+"""
+function update_state_template end
+
+function update_state_template(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotfleetwise(
+        "UpdateStateTemplate",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_state_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iotfleetwise(
+        "UpdateStateTemplate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_vehicle(vehicle_name)
     update_vehicle(vehicle_name, params::Dict{String,<:Any})
 
 Updates a vehicle.
+
+!!! important
+    Access to certain Amazon Web Services IoT FleetWise features is currently gated. For
+    more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html)
+    in the *Amazon Web Services IoT FleetWise Developer Guide*.
 
 # Arguments
 
@@ -2352,6 +2689,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"modelManifestArn"`: The ARN of a vehicle model (model manifest) associated with the
   vehicle.
+
+- `"stateTemplatesToAdd"`: Associate state templates with the vehicle.
+
+- `"stateTemplatesToRemove"`: Remove state templates from the vehicle.
+
+- `"stateTemplatesToUpdate"`: Change the `stateTemplateUpdateStrategy` of state templates
+  already associated with the vehicle.
 """
 function update_vehicle end
 

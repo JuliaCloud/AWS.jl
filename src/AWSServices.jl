@@ -11,6 +11,7 @@ const accessanalyzer = AWS.RestJSONService(
 const account = AWS.RestJSONService("account", "account", "2021-02-01")
 const acm = AWS.JSONService("acm", "acm", "2015-12-08", "1.1", "CertificateManager")
 const acm_pca = AWS.JSONService("acm-pca", "acm-pca", "2017-08-22", "1.1", "ACMPrivateCA")
+const aiops = AWS.RestJSONService("aiops", "aiops", "2018-05-10")
 const amp = AWS.RestJSONService("aps", "aps", "2020-08-01")
 const amplify = AWS.RestJSONService("amplify", "amplify", "2017-07-25")
 const amplifybackend = AWS.RestJSONService("amplifybackend", "amplifybackend", "2020-08-11")
@@ -60,7 +61,9 @@ const appstream = AWS.JSONService(
     "appstream", "appstream2", "2016-12-01", "1.1", "PhotonAdminProxyService"
 )
 const appsync = AWS.RestJSONService("appsync", "appsync", "2017-07-25")
-const apptest = AWS.RestJSONService("apptest", "apptest", "2022-12-06")
+const arc_region_switch = AWS.JSONService(
+    "arc-region-switch", "arc-region-switch", "2022-07-26", "1.0", "ArcRegionSwitch"
+)
 const arc_zonal_shift = AWS.RestJSONService(
     "arc-zonal-shift", "arc-zonal-shift", "2022-10-30"
 )
@@ -80,7 +83,11 @@ const backup = AWS.RestJSONService("backup", "backup", "2018-11-15")
 const backup_gateway = AWS.JSONService(
     "backup-gateway", "backup-gateway", "2021-01-01", "1.0", "BackupOnPremises_v20210101"
 )
+const backupsearch = AWS.RestJSONService("backup-search", "backup-search", "2018-05-10")
 const batch = AWS.RestJSONService("batch", "batch", "2016-08-10")
+const bcm_dashboards = AWS.JSONService(
+    "bcm-dashboards", "bcm-dashboards", "2025-08-18", "1.0", "AWSBCMDashboardsService"
+)
 const bcm_data_exports = AWS.JSONService(
     "bcm-data-exports",
     "bcm-data-exports",
@@ -88,12 +95,43 @@ const bcm_data_exports = AWS.JSONService(
     "1.1",
     "AWSBillingAndCostManagementDataExports",
 )
+const bcm_pricing_calculator = AWS.JSONService(
+    "bcm-pricing-calculator",
+    "bcm-pricing-calculator",
+    "2024-06-19",
+    "1.0",
+    "AWSBCMPricingCalculator",
+)
+const bcm_recommended_actions = AWS.JSONService(
+    "bcm-recommended-actions",
+    "bcm-recommended-actions",
+    "2024-11-14",
+    "1.0",
+    "AWSBillingAndCostManagementRecommendedActions",
+)
 const bedrock = AWS.RestJSONService("bedrock", "bedrock", "2023-04-20")
 const bedrock_agent = AWS.RestJSONService("bedrock", "bedrock-agent", "2023-06-05")
 const bedrock_agent_runtime = AWS.RestJSONService(
     "bedrock", "bedrock-agent-runtime", "2023-07-26"
 )
+const bedrock_agentcore = AWS.RestJSONService(
+    "bedrock-agentcore", "bedrock-agentcore", "2024-02-28"
+)
+const bedrock_agentcore_control = AWS.RestJSONService(
+    "bedrock-agentcore", "bedrock-agentcore-control", "2023-06-05"
+)
+const bedrock_data_automation = AWS.RestJSONService(
+    "bedrock", "bedrock-data-automation", "2023-07-26"
+)
+const bedrock_data_automation_runtime = AWS.JSONService(
+    "bedrock",
+    "bedrock-data-automation-runtime",
+    "2024-06-13",
+    "1.1",
+    "AmazonBedrockKeystoneRuntimeService",
+)
 const bedrock_runtime = AWS.RestJSONService("bedrock", "bedrock-runtime", "2023-09-30")
+const billing = AWS.JSONService("billing", "billing", "2023-09-07", "1.0", "AWSBilling")
 const billingconductor = AWS.RestJSONService(
     "billingconductor", "billingconductor", "2021-07-30"
 )
@@ -173,9 +211,6 @@ const codeguruprofiler = AWS.RestJSONService(
 const codepipeline = AWS.JSONService(
     "codepipeline", "codepipeline", "2015-07-09", "1.1", "CodePipeline_20150709"
 )
-const codestar = AWS.JSONService(
-    "codestar", "codestar", "2017-04-19", "1.1", "CodeStar_20170419"
-)
 const codestar_connections = AWS.JSONService(
     "codestar-connections",
     "codestar-connections",
@@ -206,6 +241,13 @@ const comprehendmedical = AWS.JSONService(
 const compute_optimizer = AWS.JSONService(
     "compute-optimizer", "compute-optimizer", "2019-11-01", "1.0", "ComputeOptimizerService"
 )
+const compute_optimizer_automation = AWS.JSONService(
+    "aco-automation",
+    "aco-automation",
+    "2025-09-22",
+    "1.0",
+    "ComputeOptimizerAutomationService",
+)
 const config_service = AWS.JSONService(
     "config", "config", "2014-11-12", "1.1", "StarlingDoveService"
 )
@@ -214,7 +256,11 @@ const connect_contact_lens = AWS.RestJSONService("connect", "contact-lens", "202
 const connectcampaigns = AWS.RestJSONService(
     "connect-campaigns", "connect-campaigns", "2021-01-30"
 )
+const connectcampaignsv2 = AWS.RestJSONService(
+    "connect-campaigns", "connect-campaigns", "2024-04-23"
+)
 const connectcases = AWS.RestJSONService("cases", "cases", "2022-10-03")
+const connecthealth = AWS.RestJSONService("health-agent", "health-agent", "2025-01-29")
 const connectparticipant = AWS.RestJSONService(
     "execute-api", "participant.connect", "2018-09-07"
 )
@@ -250,6 +296,7 @@ const detective = AWS.RestJSONService("detective", "api.detective", "2018-10-26"
 const device_farm = AWS.JSONService(
     "devicefarm", "devicefarm", "2015-06-23", "1.1", "DeviceFarm_20150623"
 )
+const devops_agent = AWS.RestJSONService("aidevops", "aidevops", "2026-01-01")
 const devops_guru = AWS.RestJSONService("devops-guru", "devops-guru", "2020-12-01")
 const direct_connect = AWS.JSONService(
     "directconnect", "directconnect", "2012-10-25", "1.1", "OvertureService"
@@ -257,10 +304,12 @@ const direct_connect = AWS.JSONService(
 const directory_service = AWS.JSONService(
     "ds", "ds", "2015-04-16", "1.1", "DirectoryService_20150416"
 )
+const directory_service_data = AWS.RestJSONService("ds-data", "ds-data", "2023-05-31")
 const dlm = AWS.RestJSONService("dlm", "dlm", "2018-01-12")
 const docdb = AWS.QueryService("rds", "rds", "2014-10-31")
 const docdb_elastic = AWS.RestJSONService("docdb-elastic", "docdb-elastic", "2022-11-28")
 const drs = AWS.RestJSONService("drs", "drs", "2020-02-26")
+const dsql = AWS.RestJSONService("dsql", "dsql", "2018-05-10")
 const dynamodb = AWS.JSONService(
     "dynamodb", "dynamodb", "2012-08-10", "1.0", "DynamoDB_20120810"
 )
@@ -291,20 +340,17 @@ const eks_auth = AWS.RestJSONService("eks-auth", "eks-auth", "2023-11-26")
 const elastic_beanstalk = AWS.QueryService(
     "elasticbeanstalk", "elasticbeanstalk", "2010-12-01"
 )
-const elastic_inference = AWS.RestJSONService(
-    "elastic-inference", "api.elastic-inference", "2017-07-25"
-)
 const elastic_load_balancing = AWS.QueryService(
     "elasticloadbalancing", "elasticloadbalancing", "2012-06-01"
 )
 const elastic_load_balancing_v2 = AWS.QueryService(
     "elasticloadbalancing", "elasticloadbalancing", "2015-12-01"
 )
-const elastic_transcoder = AWS.RestJSONService(
-    "elastictranscoder", "elastictranscoder", "2012-09-25"
-)
 const elasticache = AWS.QueryService("elasticache", "elasticache", "2015-02-02")
 const elasticsearch_service = AWS.RestJSONService("es", "es", "2015-01-01")
+const elementalinference = AWS.RestJSONService(
+    "elemental-inference", "elemental-inference", "2018-11-14"
+)
 const emr = AWS.JSONService(
     "elasticmapreduce", "elasticmapreduce", "2009-03-31", "1.1", "ElasticMapReduce"
 )
@@ -314,7 +360,7 @@ const entityresolution = AWS.RestJSONService(
     "entityresolution", "entityresolution", "2018-05-10"
 )
 const eventbridge = AWS.JSONService("events", "events", "2015-10-07", "1.1", "AWSEvents")
-const evidently = AWS.RestJSONService("evidently", "evidently", "2021-02-01")
+const evs = AWS.JSONService("evs", "evs", "2023-07-27", "1.0", "AmazonElasticVMwareService")
 const finspace = AWS.RestJSONService("finspace", "finspace", "2021-03-12")
 const finspace_data = AWS.RestJSONService("finspace-api", "finspace-api", "2020-07-13")
 const firehose = AWS.JSONService(
@@ -338,6 +384,12 @@ const fsx = AWS.JSONService(
     "fsx", "fsx", "2018-03-01", "1.1", "AWSSimbaAPIService_v20180301"
 )
 const gamelift = AWS.JSONService("gamelift", "gamelift", "2015-10-01", "1.1", "GameLift")
+const gameliftstreams = AWS.RestJSONService(
+    "gameliftstreams", "gameliftstreams", "2018-05-10"
+)
+const geo_maps = AWS.RestJSONService("geo-maps", "geo-maps", "2020-11-19")
+const geo_places = AWS.RestJSONService("geo-places", "geo-places", "2020-11-19")
+const geo_routes = AWS.RestJSONService("geo-routes", "geo-routes", "2020-11-19")
 const glacier = AWS.RestJSONService(
     "glacier", "glacier", "2012-06-01", LittleDict("x-amz-glacier-version" => "2012-06-01")
 )
@@ -373,25 +425,23 @@ const inspector_scan = AWS.RestJSONService("inspector-scan", "inspector-scan", "
 const internetmonitor = AWS.RestJSONService(
     "internetmonitor", "internetmonitor", "2021-06-03"
 )
+const invoicing = AWS.JSONService(
+    "invoicing", "invoicing", "2024-12-01", "1.0", "Invoicing"
+)
 const iot = AWS.RestJSONService("iot", "iot", "2015-05-28")
-const iot_1click_devices_service = AWS.RestJSONService(
-    "iot1click", "devices.iot1click", "2018-05-14"
-)
-const iot_1click_projects = AWS.RestJSONService(
-    "iot1click", "projects.iot1click", "2018-05-14"
-)
 const iot_data_plane = AWS.RestJSONService("iotdata", "data-ats.iot", "2015-05-28")
 const iot_events = AWS.RestJSONService("iotevents", "iotevents", "2018-07-27")
 const iot_events_data = AWS.RestJSONService("ioteventsdata", "data.iotevents", "2018-10-23")
 const iot_jobs_data_plane = AWS.RestJSONService(
     "iot-jobs-data", "data.jobs.iot", "2017-09-29"
 )
+const iot_managed_integrations = AWS.RestJSONService(
+    "iotmanagedintegrations", "api.iotmanagedintegrations", "2025-03-03"
+)
 const iot_wireless = AWS.RestJSONService("iotwireless", "api.iotwireless", "2020-11-22")
-const iotanalytics = AWS.RestJSONService("iotanalytics", "iotanalytics", "2017-11-27")
 const iotdeviceadvisor = AWS.RestJSONService(
     "iotdeviceadvisor", "api.iotdeviceadvisor", "2020-09-18"
 )
-const iotfleethub = AWS.RestJSONService("iotfleethub", "api.fleethub.iot", "2020-11-03")
 const iotfleetwise = AWS.JSONService(
     "iotfleetwise", "iotfleetwise", "2021-06-17", "1.0", "IoTAutobahnControlPlane"
 )
@@ -420,6 +470,9 @@ const kendra_ranking = AWS.JSONService(
 )
 const keyspaces = AWS.JSONService(
     "cassandra", "cassandra", "2022-02-10", "1.0", "KeyspacesService"
+)
+const keyspacesstreams = AWS.JSONService(
+    "cassandra", "cassandra-streams", "2024-09-09", "1.0", "KeyspacesStreams"
 )
 const kinesis = AWS.JSONService(
     "kinesis", "kinesis", "2013-12-02", "1.1", "Kinesis_20131202"
@@ -473,8 +526,6 @@ const lookoutequipment = AWS.JSONService(
     "1.0",
     "AWSLookoutEquipmentFrontendService",
 )
-const lookoutmetrics = AWS.RestJSONService("lookoutmetrics", "lookoutmetrics", "2017-07-25")
-const lookoutvision = AWS.RestJSONService("lookoutvision", "lookoutvision", "2020-11-20")
 const m2 = AWS.RestJSONService("m2", "m2", "2021-04-28")
 const machine_learning = AWS.JSONService(
     "machinelearning", "machinelearning", "2014-12-12", "1.1", "AmazonML_20141212"
@@ -519,6 +570,9 @@ const marketplace_entitlement_service = AWS.JSONService(
 const marketplace_metering = AWS.JSONService(
     "aws-marketplace", "metering.marketplace", "2016-01-14", "1.1", "AWSMPMeteringService"
 )
+const marketplace_reporting = AWS.RestJSONService(
+    "aws-marketplace", "reporting-marketplace", "2018-05-10"
+)
 const mediaconnect = AWS.RestJSONService("mediaconnect", "mediaconnect", "2018-11-14")
 const mediaconvert = AWS.RestJSONService("mediaconvert", "mediaconvert", "2017-08-29")
 const medialive = AWS.RestJSONService("medialive", "medialive", "2017-10-14")
@@ -552,7 +606,7 @@ const migrationhuborchestrator = AWS.RestJSONService(
 const migrationhubstrategy = AWS.RestJSONService(
     "migrationhub-strategy", "migrationhub-strategy", "2020-02-19"
 )
-const mobile = AWS.RestJSONService("AWSMobileHubService", "mobile", "2017-07-01")
+const mpa = AWS.RestJSONService("mpa", "mpa", "2022-07-26")
 const mq = AWS.RestJSONService("mq", "mq", "2017-11-27")
 const mturk = AWS.JSONService(
     "mturk-requester",
@@ -562,26 +616,34 @@ const mturk = AWS.JSONService(
     "MTurkRequesterServiceV20170117",
 )
 const mwaa = AWS.RestJSONService("airflow", "airflow", "2020-07-01")
+const mwaa_serverless = AWS.JSONService(
+    "airflow-serverless", "airflow-serverless", "2024-07-26", "1.0", "AmazonMWAAServerless"
+)
 const neptune = AWS.QueryService("rds", "rds", "2014-10-31")
 const neptune_graph = AWS.RestJSONService("neptune-graph", "neptune-graph", "2023-11-29")
 const neptunedata = AWS.RestJSONService("neptune-db", "neptune-db", "2023-08-01")
 const network_firewall = AWS.JSONService(
     "network-firewall", "network-firewall", "2020-11-12", "1.0", "NetworkFirewall_20201112"
 )
+const networkflowmonitor = AWS.RestJSONService(
+    "networkflowmonitor", "networkflowmonitor", "2023-04-19"
+)
 const networkmanager = AWS.RestJSONService("networkmanager", "networkmanager", "2019-07-05")
 const networkmonitor = AWS.RestJSONService("networkmonitor", "networkmonitor", "2023-08-01")
-const nimble = AWS.RestJSONService("nimble", "nimble", "2020-08-01")
+const notifications = AWS.RestJSONService("notifications", "notifications", "2018-05-10")
+const notificationscontacts = AWS.RestJSONService(
+    "notifications-contacts", "notifications-contacts", "2018-05-10"
+)
+const nova_act = AWS.RestJSONService("nova-act", "nova-act", "2025-08-22")
 const oam = AWS.RestJSONService("oam", "oam", "2022-06-10")
+const observabilityadmin = AWS.RestJSONService(
+    "observabilityadmin", "observabilityadmin", "2018-05-10"
+)
+const odb = AWS.JSONService("odb", "odb", "2024-08-20", "1.0", "Odb")
 const omics = AWS.RestJSONService("omics", "omics", "2022-11-28")
 const opensearch = AWS.RestJSONService("es", "es", "2021-01-01")
 const opensearchserverless = AWS.JSONService(
     "aoss", "aoss", "2021-11-01", "1.0", "OpenSearchServerless"
-)
-const opsworks = AWS.JSONService(
-    "opsworks", "opsworks", "2013-02-18", "1.1", "OpsWorks_20130218"
-)
-const opsworkscm = AWS.JSONService(
-    "opsworks-cm", "opsworks-cm", "2016-11-01", "1.1", "OpsWorksCM_V2016_11_01"
 )
 const organizations = AWS.JSONService(
     "organizations", "organizations", "2016-11-28", "1.1", "AWSOrganizationsV20161128"
@@ -589,6 +651,34 @@ const organizations = AWS.JSONService(
 const osis = AWS.RestJSONService("osis", "osis", "2022-01-01")
 const outposts = AWS.RestJSONService("outposts", "outposts", "2019-12-03")
 const panorama = AWS.RestJSONService("panorama", "panorama", "2019-07-24")
+const partnercentral_account = AWS.JSONService(
+    "partnercentral-account",
+    "partnercentral-account",
+    "2025-04-04",
+    "1.0",
+    "PartnerCentralAccount",
+)
+const partnercentral_benefits = AWS.JSONService(
+    "partnercentral-benefits",
+    "partnercentral-benefits",
+    "2018-05-10",
+    "1.0",
+    "PartnerCentralBenefitsService",
+)
+const partnercentral_channel = AWS.JSONService(
+    "partnercentral-channel",
+    "partnercentral-channel",
+    "2024-03-18",
+    "1.0",
+    "PartnerCentralChannel",
+)
+const partnercentral_selling = AWS.JSONService(
+    "partnercentral-selling",
+    "partnercentral-selling",
+    "2022-07-26",
+    "1.0",
+    "AWSPartnerCentralSelling",
+)
 const payment_cryptography = AWS.JSONService(
     "payment-cryptography",
     "controlplane.payment-cryptography",
@@ -604,6 +694,9 @@ const pca_connector_ad = AWS.RestJSONService(
 )
 const pca_connector_scep = AWS.RestJSONService(
     "pca-connector-scep", "pca-connector-scep", "2018-05-10"
+)
+const pcs = AWS.JSONService(
+    "pcs", "pcs", "2023-02-10", "1.0", "AWSParallelComputingService"
 )
 const personalize = AWS.JSONService(
     "personalize", "personalize", "2018-05-22", "1.1", "AmazonPersonalize"
@@ -628,16 +721,10 @@ const polly = AWS.RestJSONService("polly", "polly", "2016-06-10")
 const pricing = AWS.JSONService(
     "pricing", "api.pricing", "2017-10-15", "1.1", "AWSPriceListService"
 )
-const privatenetworks = AWS.RestJSONService(
-    "private-networks", "private-networks", "2021-12-03"
-)
 const proton = AWS.JSONService("proton", "proton", "2020-07-20", "1.0", "AwsProton20200720")
+const qapps = AWS.RestJSONService("qapps", "data.qapps", "2023-11-27")
 const qbusiness = AWS.RestJSONService("qbusiness", "qbusiness", "2023-11-27")
 const qconnect = AWS.RestJSONService("wisdom", "wisdom", "2020-10-19")
-const qldb = AWS.RestJSONService("qldb", "qldb", "2019-01-02")
-const qldb_session = AWS.JSONService(
-    "qldb", "session.qldb", "2019-07-11", "1.0", "QLDBSession"
-)
 const quicksight = AWS.RestJSONService("quicksight", "quicksight", "2018-04-01")
 const ram = AWS.RestJSONService("ram", "ram", "2018-01-04")
 const rbin = AWS.RestJSONService("rbin", "rbin", "2021-06-15")
@@ -667,7 +754,6 @@ const resource_groups = AWS.RestJSONService(
 const resource_groups_tagging_api = AWS.JSONService(
     "tagging", "tagging", "2017-01-26", "1.1", "ResourceGroupsTaggingAPI_20170126"
 )
-const robomaker = AWS.RestJSONService("robomaker", "robomaker", "2018-06-29")
 const rolesanywhere = AWS.RestJSONService("rolesanywhere", "rolesanywhere", "2018-05-10")
 const route53_recovery_cluster = AWS.JSONService(
     "route53-recovery-cluster",
@@ -682,6 +768,9 @@ const route53_recovery_control_config = AWS.RestJSONService(
 const route53_recovery_readiness = AWS.RestJSONService(
     "route53-recovery-readiness", "route53-recovery-readiness", "2019-12-02"
 )
+const route53globalresolver = AWS.RestJSONService(
+    "route53globalresolver", "route53globalresolver", "2022-09-27"
+)
 const route53profiles = AWS.RestJSONService(
     "route53profiles", "route53profiles", "2018-05-10"
 )
@@ -692,10 +781,14 @@ const route_53 = AWS.RestXMLService("route53", "route53", "2013-04-01")
 const route_53_domains = AWS.JSONService(
     "route53domains", "route53domains", "2014-05-15", "1.1", "Route53Domains_v20140515"
 )
+const rtbfabric = AWS.RestJSONService("rtbfabric", "rtbfabric", "2023-05-15")
 const rum = AWS.RestJSONService("rum", "rum", "2018-05-10")
 const s3 = AWS.RestXMLService("s3", "s3", "2006-03-01")
 const s3_control = AWS.RestXMLService("s3", "s3-control", "2018-08-20")
+const s3files = AWS.RestJSONService("s3files", "s3files", "2025-05-05")
 const s3outposts = AWS.RestJSONService("s3-outposts", "s3-outposts", "2017-07-25")
+const s3tables = AWS.RestJSONService("s3tables", "s3tables", "2018-05-10")
+const s3vectors = AWS.RestJSONService("s3vectors", "s3vectors", "2025-07-15")
 const sagemaker = AWS.JSONService(
     "sagemaker", "api.sagemaker", "2017-07-24", "1.1", "SageMaker"
 )
@@ -715,12 +808,17 @@ const sagemaker_metrics = AWS.RestJSONService(
 const sagemaker_runtime = AWS.RestJSONService(
     "sagemaker", "runtime.sagemaker", "2017-05-13"
 )
+const sagemaker_runtime_http2 = AWS.RestJSONService(
+    "sagemaker", "runtime.sagemaker", "2025-10-01"
+)
 const savingsplans = AWS.RestJSONService("savingsplans", "savingsplans", "2019-06-28")
 const scheduler = AWS.RestJSONService("scheduler", "scheduler", "2021-06-30")
 const schemas = AWS.RestJSONService("schemas", "schemas", "2019-12-02")
 const secrets_manager = AWS.JSONService(
     "secretsmanager", "secretsmanager", "2017-10-17", "1.1", "secretsmanager"
 )
+const security_ir = AWS.RestJSONService("security-ir", "security-ir", "2018-05-10")
+const securityagent = AWS.RestJSONService("securityagent", "securityagent", "2025-09-06")
 const securityhub = AWS.RestJSONService("securityhub", "securityhub", "2018-10-26")
 const securitylake = AWS.RestJSONService("securitylake", "securitylake", "2018-05-10")
 const serverlessapplicationrepository = AWS.RestJSONService(
@@ -749,10 +847,10 @@ const shield = AWS.JSONService(
     "shield", "shield", "2016-06-02", "1.1", "AWSShield_20160616"
 )
 const signer = AWS.RestJSONService("signer", "signer", "2017-08-25")
+const signer_data = AWS.RestJSONService("signer", "data-signer", "2017-08-25")
+const signin = AWS.RestJSONService("signin", "signin", "2023-01-01")
+const simpledbv2 = AWS.RestJSONService("sdb", "sdb", "2025-09-26")
 const simspaceweaver = AWS.RestJSONService("simspaceweaver", "simspaceweaver", "2022-10-28")
-const sms = AWS.JSONService(
-    "sms", "sms", "2016-10-24", "1.1", "AWSServerMigrationService_V2016_10_24"
-)
 const snow_device_management = AWS.RestJSONService(
     "snow-device-management", "snow-device-management", "2021-08-04"
 )
@@ -760,12 +858,17 @@ const snowball = AWS.JSONService(
     "snowball", "snowball", "2016-06-30", "1.1", "AWSIESnowballJobManagementService"
 )
 const sns = AWS.QueryService("sns", "sns", "2010-03-31")
+const socialmessaging = AWS.RestJSONService(
+    "social-messaging", "social-messaging", "2024-01-01"
+)
 const sqs = AWS.JSONService("sqs", "sqs", "2012-11-05", "1.0", "AmazonSQS")
 const ssm = AWS.JSONService("ssm", "ssm", "2014-11-06", "1.1", "AmazonSSM")
 const ssm_contacts = AWS.JSONService(
     "ssm-contacts", "ssm-contacts", "2021-05-03", "1.1", "SSMContacts"
 )
+const ssm_guiconnect = AWS.RestJSONService("ssm-guiconnect", "ssm-guiconnect", "2021-05-01")
 const ssm_incidents = AWS.RestJSONService("ssm-incidents", "ssm-incidents", "2018-05-10")
+const ssm_quicksetup = AWS.RestJSONService("ssm-quicksetup", "ssm-quicksetup", "2018-05-10")
 const ssm_sap = AWS.RestJSONService("ssm-sap", "ssm-sap", "2018-05-10")
 const sso = AWS.RestJSONService("awsssoportal", "portal.sso", "2019-06-10")
 const sso_admin = AWS.JSONService("sso", "sso", "2020-07-20", "1.1", "SWBExternalService")
@@ -779,6 +882,7 @@ const support = AWS.JSONService(
     "support", "support", "2013-04-15", "1.1", "AWSSupport_20130415"
 )
 const support_app = AWS.RestJSONService("supportapp", "supportapp", "2021-08-20")
+const sustainability = AWS.RestJSONService("sustainability", "sustainability", "2018-05-10")
 const swf = AWS.JSONService("swf", "swf", "2012-01-25", "1.0", "SimpleWorkflowService")
 const synthetics = AWS.RestJSONService("synthetics", "synthetics", "2017-10-11")
 const taxsettings = AWS.RestJSONService("tax", "tax", "2018-05-10")
@@ -810,6 +914,7 @@ const translate = AWS.JSONService(
     "translate", "translate", "2017-07-01", "1.1", "AWSShineFrontendService_20170701"
 )
 const trustedadvisor = AWS.RestJSONService("trustedadvisor", "trustedadvisor", "2022-09-15")
+const uxc = AWS.RestJSONService("uxc", "uxc", "2024-07-01")
 const verifiedpermissions = AWS.JSONService(
     "verifiedpermissions", "verifiedpermissions", "2021-12-01", "1.0", "VerifiedPermissions"
 )
@@ -823,9 +928,9 @@ const wafv2 = AWS.JSONService("wafv2", "wafv2", "2019-07-29", "1.1", "AWSWAF_201
 const wellarchitected = AWS.RestJSONService(
     "wellarchitected", "wellarchitected", "2020-03-31"
 )
+const wickr = AWS.RestJSONService("wickr", "admin.wickr", "2024-02-01")
 const wisdom = AWS.RestJSONService("wisdom", "wisdom", "2020-10-19")
 const workdocs = AWS.RestJSONService("workdocs", "workdocs", "2016-05-01")
-const worklink = AWS.RestJSONService("worklink", "worklink", "2018-09-25")
 const workmail = AWS.JSONService(
     "workmail", "workmail", "2017-10-01", "1.1", "WorkMailService"
 )
@@ -834,6 +939,13 @@ const workmailmessageflow = AWS.RestJSONService(
 )
 const workspaces = AWS.JSONService(
     "workspaces", "workspaces", "2015-04-08", "1.1", "WorkspacesService"
+)
+const workspaces_instances = AWS.JSONService(
+    "workspaces-instances",
+    "workspaces-instances",
+    "2022-07-26",
+    "1.0",
+    "EUCMIFrontendAPIService",
 )
 const workspaces_thin_client = AWS.RestJSONService("thinclient", "thinclient", "2023-08-22")
 const workspaces_web = AWS.RestJSONService("workspaces-web", "workspaces-web", "2020-07-08")
