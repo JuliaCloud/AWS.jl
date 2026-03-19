@@ -25,12 +25,12 @@ end
 List of all of the tree blobs pertaining to AWS service API definition files. These can be
 loaded by `ServiceFile`.
 """
-function _get_service_model_trees(; auth::GitHub.Authorization)
+function _get_service_model_trees(; auth::GitHub.Authorization, tree_sha::AbstractString)
     # Navigating to: https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models
     # via https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree
     github_repo = "aws/aws-sdk-js-v3"  # Owner and repository name
     subdir = "codegen/sdk-codegen/aws-models"
-    tree = @mock GitHub.tree(github_repo, "main"; auth)
+    tree = @mock GitHub.tree(github_repo, tree_sha; auth)
 
     function descend(tree::GitHub.Tree, dir)
         sha = only(t["sha"] for t in tree.tree if t["type"] == "tree" && t["path"] == dir)

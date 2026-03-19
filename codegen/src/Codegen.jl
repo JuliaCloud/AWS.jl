@@ -26,13 +26,14 @@ When running interactively avoid calling this multiple times as doing so can cau
 become [rate limited by the GitHub API](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
 """
 function retrieve_service_files(;
-    auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"])
+    auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"]),
+    tree_sha::AbstractString="main",
 )
 
     duration = @elapsed begin
         # Retrieve service definitions in parallel as otherwise this can be quite slow. Async
         # network transfers seems to be slightly faster than threads in this scenario.
-        trees = _get_service_model_trees(; auth)
+        trees = _get_service_model_trees(; auth, tree_sha)
         service_files = asyncmap(trees) do tree
             ServiceFile(tree; auth)
         end
