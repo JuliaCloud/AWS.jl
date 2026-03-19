@@ -21,7 +21,7 @@ end
 
 @testset "_get_service_model_trees" begin
     apply(Patches._github_tree_patch) do
-        trees = _get_service_model_trees(; auth=GitHub.OAuth2("foobar"))
+        trees = _get_service_model_trees(; auth=GitHub.OAuth2("foobar"), tree_sha="main")
 
         @test length(trees) == 1
         tree = only(trees)
