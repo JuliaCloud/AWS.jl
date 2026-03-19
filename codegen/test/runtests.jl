@@ -43,12 +43,7 @@ _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
     elseif tree_obj == "aws-models-sha"
         url = "https://api.github.com/repos/aws/aws-sdk-js-v3/git/blobs/0"
         tree = [
-            Dict(
-                "path" => "test.json",
-                "sha" => "test-sha",
-                "type" => "blob",
-                "url" => url,
-            ),
+            Dict("path" => "test.json", "sha" => "test-sha", "type" => "blob", "url" => url)
         ]
         GitHub.Tree("aws-models-sha", HTTP.URI(), tree, false)
     else

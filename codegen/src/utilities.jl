@@ -50,7 +50,6 @@ function _parse_smithy_model(model::AbstractString)
     return _parse_smithy_model(JSON.parse(model))
 end
 
-
 """
 Convert a Smithy 2.0 model (parsed from JSON) into the legacy format which was used by
 `aws-sdk-js` and is expected by AWS.jl code generators.

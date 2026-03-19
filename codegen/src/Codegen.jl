@@ -29,7 +29,6 @@ function retrieve_service_files(;
     auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"]),
     tree_sha::AbstractString="main",
 )
-
     duration = @elapsed begin
         # Retrieve service definitions in parallel as otherwise this can be quite slow. Async
         # network transfers seems to be slightly faster than threads in this scenario.
