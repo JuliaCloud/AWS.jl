@@ -44,11 +44,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function complete_snapshot end
 
 function complete_snapshot(
-    snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=current_aws_config()
+    SnapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "POST",
-        "/snapshots/completion/$(snapshotId)",
+        "/snapshots/completion/$(SnapshotId)",
         Dict{String,Any}(
             "headers" =>
                 Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
@@ -59,14 +59,14 @@ function complete_snapshot(
 end
 
 function complete_snapshot(
-    snapshotId,
+    SnapshotId,
     x_amz_ChangedBlocksCount,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "POST",
-        "/snapshots/completion/$(snapshotId)",
+        "/snapshots/completion/$(SnapshotId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -84,8 +84,8 @@ function complete_snapshot(
 end
 
 """
-    get_snapshot_block(block_index, block_token, snapshot_id)
-    get_snapshot_block(block_index, block_token, snapshot_id, params::Dict{String,<:Any})
+    get_snapshot_block(block_index, snapshot_id, block_token)
+    get_snapshot_block(block_index, snapshot_id, block_token, params::Dict{String,<:Any})
 
 Returns the data in a block in an Amazon Elastic Block Store snapshot.
 
@@ -102,24 +102,24 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
   logical offset of the data in the logical volume by the block size (logical offset of
   data/`524288`). The logical offset of the data must be `512` KiB aligned.
 
-- `block_token`: The block token of the block from which to get data. You can obtain the
-  `BlockToken` by running the `ListChangedBlocks` or `ListSnapshotBlocks` operations.
-
 - `snapshot_id`: The ID of the snapshot containing the block from which to get data.
 
   !!! important
       If the specified snapshot is encrypted, you must have permission to use the KMS key
       that was used to encrypt the snapshot. For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
       in the *Amazon Elastic Compute Cloud User Guide*.
+
+- `block_token`: The block token of the block from which to get data. You can obtain the
+  `BlockToken` by running the `ListChangedBlocks` or `ListSnapshotBlocks` operations.
 """
 function get_snapshot_block end
 
 function get_snapshot_block(
-    blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+    BlockIndex, SnapshotId, blockToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "GET",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        "/snapshots/$(SnapshotId)/blocks/$(BlockIndex)",
         Dict{String,Any}("blockToken" => blockToken);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -127,15 +127,15 @@ function get_snapshot_block(
 end
 
 function get_snapshot_block(
-    blockIndex,
+    BlockIndex,
+    SnapshotId,
     blockToken,
-    snapshotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        "/snapshots/$(SnapshotId)/blocks/$(BlockIndex)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("blockToken" => blockToken), params)
         );
@@ -198,24 +198,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_changed_blocks end
 
 function list_changed_blocks(
-    secondSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+    SecondSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "GET",
-        "/snapshots/$(secondSnapshotId)/changedblocks";
+        "/snapshots/$(SecondSnapshotId)/changedblocks";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_changed_blocks(
-    secondSnapshotId,
+    SecondSnapshotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
-        "/snapshots/$(secondSnapshotId)/changedblocks",
+        "/snapshots/$(SecondSnapshotId)/changedblocks",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -263,24 +263,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_snapshot_blocks end
 
 function list_snapshot_blocks(
-    snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
+    SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ebs(
         "GET",
-        "/snapshots/$(snapshotId)/blocks";
+        "/snapshots/$(SnapshotId)/blocks";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_snapshot_blocks(
-    snapshotId,
+    SnapshotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ebs(
         "GET",
-        "/snapshots/$(snapshotId)/blocks",
+        "/snapshots/$(SnapshotId)/blocks",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -348,8 +348,8 @@ function put_snapshot_block end
 
 function put_snapshot_block(
     BlockData,
-    blockIndex,
-    snapshotId,
+    BlockIndex,
+    SnapshotId,
     x_amz_Checksum,
     x_amz_Checksum_Algorithm,
     x_amz_Data_Length;
@@ -357,7 +357,7 @@ function put_snapshot_block(
 )
     return ebs(
         "PUT",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        "/snapshots/$(SnapshotId)/blocks/$(BlockIndex)",
         Dict{String,Any}(
             "BlockData" => BlockData,
             "headers" => Dict{String,Any}(
@@ -373,8 +373,8 @@ end
 
 function put_snapshot_block(
     BlockData,
-    blockIndex,
-    snapshotId,
+    BlockIndex,
+    SnapshotId,
     x_amz_Checksum,
     x_amz_Checksum_Algorithm,
     x_amz_Data_Length,
@@ -383,7 +383,7 @@ function put_snapshot_block(
 )
     return ebs(
         "PUT",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        "/snapshots/$(SnapshotId)/blocks/$(BlockIndex)",
         Dict{String,Any}(
             mergewith(
                 _merge,

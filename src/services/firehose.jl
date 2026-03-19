@@ -104,10 +104,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HttpEndpointDestinationConfiguration"`: Enables configuring Kinesis Firehose to deliver
   data to any HTTP endpoint destination. You can specify only one destination.
 
-- `"IcebergDestinationConfiguration"`: Configure Apache Iceberg Tables destination.
-
-  Amazon Data Firehose is in preview release and is subject to change.
-
 - `"KinesisStreamSourceConfiguration"`: When a Kinesis data stream is used as the source for
   the delivery stream, a `KinesisStreamSourceConfiguration` containing the Kinesis data
   stream Amazon Resource Name (ARN) and the role ARN for the source stream.
@@ -908,29 +904,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AmazonOpenSearchServerlessDestinationUpdate"`: Describes an update for a destination in
   the Serverless offering for Amazon OpenSearch Service.
-
 - `"AmazonopensearchserviceDestinationUpdate"`: Describes an update for a destination in
   Amazon OpenSearch Service.
-
 - `"ElasticsearchDestinationUpdate"`: Describes an update for a destination in Amazon ES.
-
 - `"ExtendedS3DestinationUpdate"`: Describes an update for a destination in Amazon S3.
-
 - `"HttpEndpointDestinationUpdate"`: Describes an update to the specified HTTP endpoint
   destination.
-
-- `"IcebergDestinationUpdate"`: Describes an update for a destination in Apache Iceberg
-  Tables.
-
-  Amazon Data Firehose is in preview release and is subject to change.
-
 - `"RedshiftDestinationUpdate"`: Describes an update for a destination in Amazon Redshift.
-
 - `"S3DestinationUpdate"`: [Deprecated] Describes an update for a destination in Amazon S3.
-
 - `"SnowflakeDestinationUpdate"`: Update to the Snowflake destination configuration
   settings.
-
 - `"SplunkDestinationUpdate"`: Describes an update for a destination in Splunk.
 """
 function update_destination end

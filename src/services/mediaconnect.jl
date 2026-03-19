@@ -18,27 +18,27 @@ Adds outputs to an existing bridge.
 function add_bridge_outputs end
 
 function add_bridge_outputs(
-    bridgeArn, outputs; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, Outputs; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/bridges/$(bridgeArn)/outputs",
-        Dict{String,Any}("outputs" => outputs);
+        "/v1/bridges/$(BridgeArn)/outputs",
+        Dict{String,Any}("Outputs" => Outputs);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_bridge_outputs(
-    bridgeArn,
-    outputs,
+    BridgeArn,
+    Outputs,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/bridges/$(bridgeArn)/outputs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("outputs" => outputs), params));
+        "/v1/bridges/$(BridgeArn)/outputs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Outputs" => Outputs), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -58,27 +58,27 @@ Adds sources to an existing bridge.
 function add_bridge_sources end
 
 function add_bridge_sources(
-    bridgeArn, sources; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/bridges/$(bridgeArn)/sources",
-        Dict{String,Any}("sources" => sources);
+        "/v1/bridges/$(BridgeArn)/sources",
+        Dict{String,Any}("Sources" => Sources);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_bridge_sources(
-    bridgeArn,
-    sources,
+    BridgeArn,
+    Sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/bridges/$(bridgeArn)/sources",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        "/v1/bridges/$(BridgeArn)/sources",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Sources" => Sources), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -99,28 +99,28 @@ associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI
 function add_flow_media_streams end
 
 function add_flow_media_streams(
-    flowArn, mediaStreams; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, MediaStreams; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/mediaStreams",
-        Dict{String,Any}("mediaStreams" => mediaStreams);
+        "/v1/flows/$(FlowArn)/mediaStreams",
+        Dict{String,Any}("MediaStreams" => MediaStreams);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_flow_media_streams(
-    flowArn,
-    mediaStreams,
+    FlowArn,
+    MediaStreams,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/mediaStreams",
+        "/v1/flows/$(FlowArn)/mediaStreams",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("mediaStreams" => mediaStreams), params)
+            mergewith(_merge, Dict{String,Any}("MediaStreams" => MediaStreams), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -141,27 +141,27 @@ Adds outputs to an existing flow. You can create up to 50 outputs per flow.
 function add_flow_outputs end
 
 function add_flow_outputs(
-    flowArn, outputs; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, Outputs; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/outputs",
-        Dict{String,Any}("outputs" => outputs);
+        "/v1/flows/$(FlowArn)/outputs",
+        Dict{String,Any}("Outputs" => Outputs);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_flow_outputs(
-    flowArn,
-    outputs,
+    FlowArn,
+    Outputs,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/outputs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("outputs" => outputs), params));
+        "/v1/flows/$(FlowArn)/outputs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Outputs" => Outputs), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -181,27 +181,27 @@ Adds Sources to flow
 function add_flow_sources end
 
 function add_flow_sources(
-    flowArn, sources; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/source",
-        Dict{String,Any}("sources" => sources);
+        "/v1/flows/$(FlowArn)/source",
+        Dict{String,Any}("Sources" => Sources);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_flow_sources(
-    flowArn,
-    sources,
+    FlowArn,
+    Sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/source",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        "/v1/flows/$(FlowArn)/source",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Sources" => Sources), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -221,28 +221,28 @@ Adds VPC interfaces to flow
 function add_flow_vpc_interfaces end
 
 function add_flow_vpc_interfaces(
-    flowArn, vpcInterfaces; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, VpcInterfaces; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/vpcInterfaces",
-        Dict{String,Any}("vpcInterfaces" => vpcInterfaces);
+        "/v1/flows/$(FlowArn)/vpcInterfaces",
+        Dict{String,Any}("VpcInterfaces" => VpcInterfaces);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function add_flow_vpc_interfaces(
-    flowArn,
-    vpcInterfaces,
+    FlowArn,
+    VpcInterfaces,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/vpcInterfaces",
+        "/v1/flows/$(FlowArn)/vpcInterfaces",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("vpcInterfaces" => vpcInterfaces), params)
+            mergewith(_merge, Dict{String,Any}("VpcInterfaces" => VpcInterfaces), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -265,25 +265,25 @@ Creates a new bridge. The request must include one source.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"egressGatewayBridge"`: Create a bridge with the egress bridge type. An egress bridge is
+- `"EgressGatewayBridge"`: Create a bridge with the egress bridge type. An egress bridge is
   a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is
   delivered to your premises.
-- `"ingressGatewayBridge"`: Create a bridge with the ingress bridge type. An ingress bridge
+- `"IngressGatewayBridge"`: Create a bridge with the ingress bridge type. An ingress bridge
   is a ground-to-cloud bridge. The content originates at your premises and is delivered to
   the cloud.
-- `"outputs"`: The outputs that you want to add to this bridge.
-- `"sourceFailoverConfig"`: The settings for source failover.
+- `"Outputs"`: The outputs that you want to add to this bridge.
+- `"SourceFailoverConfig"`: The settings for source failover.
 """
 function create_bridge end
 
 function create_bridge(
-    name, placementArn, sources; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, PlacementArn, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
         "/v1/bridges",
         Dict{String,Any}(
-            "name" => name, "placementArn" => placementArn, "sources" => sources
+            "Name" => Name, "PlacementArn" => PlacementArn, "Sources" => Sources
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -291,9 +291,9 @@ function create_bridge(
 end
 
 function create_bridge(
-    name,
-    placementArn,
-    sources,
+    Name,
+    PlacementArn,
+    Sources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -304,7 +304,7 @@ function create_bridge(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "name" => name, "placementArn" => placementArn, "sources" => sources
+                    "Name" => Name, "PlacementArn" => PlacementArn, "Sources" => Sources
                 ),
                 params,
             ),
@@ -329,38 +329,37 @@ outputs (up to 50) and entitlements (up to 50).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"availabilityZone"`: The Availability Zone that you want to create the flow in. These
+- `"AvailabilityZone"`: The Availability Zone that you want to create the flow in. These
   options are limited to the Availability Zones within the current AWS Region.
-- `"entitlements"`: The entitlements that you want to grant on a flow.
-- `"maintenance"`:
-- `"mediaStreams"`: The media streams that you want to add to the flow. You can associate
+- `"Entitlements"`: The entitlements that you want to grant on a flow.
+- `"Maintenance"`:
+- `"MediaStreams"`: The media streams that you want to add to the flow. You can associate
   these media streams with sources and outputs on the flow.
-- `"outputs"`: The outputs that you want to add to this flow.
-- `"source"`:
-- `"sourceFailoverConfig"`:
-- `"sourceMonitoringConfig"`:
-- `"sources"`:
-- `"vpcInterfaces"`: The VPC interfaces you want on the flow.
+- `"Outputs"`: The outputs that you want to add to this flow.
+- `"Source"`:
+- `"SourceFailoverConfig"`:
+- `"Sources"`:
+- `"VpcInterfaces"`: The VPC interfaces you want on the flow.
 """
 function create_flow end
 
-function create_flow(name; aws_config::AbstractAWSConfig=current_aws_config())
+function create_flow(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
         "POST",
         "/v1/flows",
-        Dict{String,Any}("name" => name);
+        Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_flow(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
         "/v1/flows",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -385,13 +384,13 @@ Creates a new gateway. The request must include at least one network (up to 4).
 function create_gateway end
 
 function create_gateway(
-    egressCidrBlocks, name, networks; aws_config::AbstractAWSConfig=current_aws_config()
+    EgressCidrBlocks, Name, Networks; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
         "/v1/gateways",
         Dict{String,Any}(
-            "egressCidrBlocks" => egressCidrBlocks, "name" => name, "networks" => networks
+            "EgressCidrBlocks" => EgressCidrBlocks, "Name" => Name, "Networks" => Networks
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -399,9 +398,9 @@ function create_gateway(
 end
 
 function create_gateway(
-    egressCidrBlocks,
-    name,
-    networks,
+    EgressCidrBlocks,
+    Name,
+    Networks,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -412,9 +411,9 @@ function create_gateway(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "egressCidrBlocks" => egressCidrBlocks,
-                    "name" => name,
-                    "networks" => networks,
+                    "EgressCidrBlocks" => EgressCidrBlocks,
+                    "Name" => Name,
+                    "Networks" => Networks,
                 ),
                 params,
             ),
@@ -436,20 +435,20 @@ Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
 """
 function delete_bridge end
 
-function delete_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_bridge(BridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "DELETE", "/v1/bridges/$(bridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/bridges/$(BridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_bridge(
-    bridgeArn,
+    BridgeArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/bridges/$(bridgeArn)",
+        "/v1/bridges/$(BridgeArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -468,20 +467,20 @@ Deletes a flow. Before you can delete a flow, you must stop the flow.
 """
 function delete_flow end
 
-function delete_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_flow(FlowArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "DELETE", "/v1/flows/$(flowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/flows/$(FlowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_flow(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)",
+        "/v1/flows/$(FlowArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -501,20 +500,20 @@ delete its bridges.
 """
 function delete_gateway end
 
-function delete_gateway(gatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "DELETE", "/v1/gateways/$(gatewayArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/gateways/$(GatewayArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_gateway(
-    gatewayArn,
+    GatewayArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/gateways/$(gatewayArn)",
+        "/v1/gateways/$(GatewayArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -544,24 +543,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function deregister_gateway_instance end
 
 function deregister_gateway_instance(
-    gatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    GatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/gateway-instances/$(gatewayInstanceArn)";
+        "/v1/gateway-instances/$(GatewayInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function deregister_gateway_instance(
-    gatewayInstanceArn,
+    GatewayInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/gateway-instances/$(gatewayInstanceArn)",
+        "/v1/gateway-instances/$(GatewayInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -580,20 +579,20 @@ Displays the details of a bridge.
 """
 function describe_bridge end
 
-function describe_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_bridge(BridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "GET", "/v1/bridges/$(bridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/bridges/$(BridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_bridge(
-    bridgeArn,
+    BridgeArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/bridges/$(bridgeArn)",
+        "/v1/bridges/$(BridgeArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -613,19 +612,19 @@ Zone, as well as details about the source, outputs, and entitlements.
 """
 function describe_flow end
 
-function describe_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_flow(FlowArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "GET", "/v1/flows/$(flowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/flows/$(FlowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_flow(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
-        "GET", "/v1/flows/$(flowArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/flows/$(FlowArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -643,61 +642,24 @@ contents of the stream and its programs.
 function describe_flow_source_metadata end
 
 function describe_flow_source_metadata(
-    flowArn; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "GET",
-        "/v1/flows/$(flowArn)/source-metadata";
+        "/v1/flows/$(FlowArn)/source-metadata";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_flow_source_metadata(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/flows/$(flowArn)/source-metadata",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_flow_source_thumbnail(flow_arn)
-    describe_flow_source_thumbnail(flow_arn, params::Dict{String,<:Any})
-
-Displays the thumbnail details of a flow's source stream.
-
-# Arguments
-
-- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
-"""
-function describe_flow_source_thumbnail end
-
-function describe_flow_source_thumbnail(
-    flowArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return mediaconnect(
-        "GET",
-        "/v1/flows/$(flowArn)/source-thumbnail";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_flow_source_thumbnail(
-    flowArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return mediaconnect(
-        "GET",
-        "/v1/flows/$(flowArn)/source-thumbnail",
+        "/v1/flows/$(FlowArn)/source-metadata",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -717,20 +679,20 @@ blocks, as well as details about the networks.
 """
 function describe_gateway end
 
-function describe_gateway(gatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "GET", "/v1/gateways/$(gatewayArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/gateways/$(GatewayArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_gateway(
-    gatewayArn,
+    GatewayArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/gateways/$(gatewayArn)",
+        "/v1/gateways/$(GatewayArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -751,24 +713,24 @@ Displays the details of an instance.
 function describe_gateway_instance end
 
 function describe_gateway_instance(
-    gatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    GatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "GET",
-        "/v1/gateway-instances/$(gatewayInstanceArn)";
+        "/v1/gateway-instances/$(GatewayInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_gateway_instance(
-    gatewayInstanceArn,
+    GatewayInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/gateway-instances/$(gatewayInstanceArn)",
+        "/v1/gateway-instances/$(GatewayInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -788,20 +750,20 @@ duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
 """
 function describe_offering end
 
-function describe_offering(offeringArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_offering(OfferingArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "GET", "/v1/offerings/$(offeringArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/offerings/$(OfferingArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_offering(
-    offeringArn,
+    OfferingArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/offerings/$(offeringArn)",
+        "/v1/offerings/$(OfferingArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -823,24 +785,24 @@ reservation (such as price, duration, and outbound bandwidth).
 function describe_reservation end
 
 function describe_reservation(
-    reservationArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ReservationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "GET",
-        "/v1/reservations/$(reservationArn)";
+        "/v1/reservations/$(ReservationArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_reservation(
-    reservationArn,
+    ReservationArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "GET",
-        "/v1/reservations/$(reservationArn)",
+        "/v1/reservations/$(ReservationArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -861,28 +823,28 @@ Grants entitlements to an existing flow.
 function grant_flow_entitlements end
 
 function grant_flow_entitlements(
-    entitlements, flowArn; aws_config::AbstractAWSConfig=current_aws_config()
+    Entitlements, FlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/entitlements",
-        Dict{String,Any}("entitlements" => entitlements);
+        "/v1/flows/$(FlowArn)/entitlements",
+        Dict{String,Any}("Entitlements" => Entitlements);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function grant_flow_entitlements(
-    entitlements,
-    flowArn,
+    Entitlements,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/$(flowArn)/entitlements",
+        "/v1/flows/$(FlowArn)/entitlements",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("entitlements" => entitlements), params)
+            mergewith(_merge, Dict{String,Any}("Entitlements" => Entitlements), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1182,20 +1144,20 @@ List all tags on an AWS Elemental MediaConnect resource
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
-        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
-        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1222,31 +1184,31 @@ can't purchase another offering.
 function purchase_offering end
 
 function purchase_offering(
-    offeringArn, reservationName, start; aws_config::AbstractAWSConfig=current_aws_config()
+    OfferingArn, ReservationName, Start; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "POST",
-        "/v1/offerings/$(offeringArn)",
-        Dict{String,Any}("reservationName" => reservationName, "start" => start);
+        "/v1/offerings/$(OfferingArn)",
+        Dict{String,Any}("ReservationName" => ReservationName, "Start" => Start);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function purchase_offering(
-    offeringArn,
-    reservationName,
-    start,
+    OfferingArn,
+    ReservationName,
+    Start,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/offerings/$(offeringArn)",
+        "/v1/offerings/$(OfferingArn)",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("reservationName" => reservationName, "start" => start),
+                Dict{String,Any}("ReservationName" => ReservationName, "Start" => Start),
                 params,
             ),
         );
@@ -1269,25 +1231,25 @@ Removes an output from a bridge.
 function remove_bridge_output end
 
 function remove_bridge_output(
-    bridgeArn, outputName; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, OutputName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/bridges/$(bridgeArn)/outputs/$(outputName)";
+        "/v1/bridges/$(BridgeArn)/outputs/$(OutputName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_bridge_output(
-    bridgeArn,
-    outputName,
+    BridgeArn,
+    OutputName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/bridges/$(bridgeArn)/outputs/$(outputName)",
+        "/v1/bridges/$(BridgeArn)/outputs/$(OutputName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1308,25 +1270,25 @@ Removes a source from a bridge.
 function remove_bridge_source end
 
 function remove_bridge_source(
-    bridgeArn, sourceName; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, SourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/bridges/$(bridgeArn)/sources/$(sourceName)";
+        "/v1/bridges/$(BridgeArn)/sources/$(SourceName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_bridge_source(
-    bridgeArn,
-    sourceName,
+    BridgeArn,
+    SourceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/bridges/$(bridgeArn)/sources/$(sourceName)",
+        "/v1/bridges/$(BridgeArn)/sources/$(SourceName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1348,25 +1310,25 @@ associated with a source or output.
 function remove_flow_media_stream end
 
 function remove_flow_media_stream(
-    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, MediaStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)";
+        "/v1/flows/$(FlowArn)/mediaStreams/$(MediaStreamName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_flow_media_stream(
-    flowArn,
-    mediaStreamName,
+    FlowArn,
+    MediaStreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
+        "/v1/flows/$(FlowArn)/mediaStreams/$(MediaStreamName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1390,25 +1352,25 @@ automatically removes the associated output.
 function remove_flow_output end
 
 function remove_flow_output(
-    flowArn, outputArn; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, OutputArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)";
+        "/v1/flows/$(FlowArn)/outputs/$(OutputArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_flow_output(
-    flowArn,
-    outputArn,
+    FlowArn,
+    OutputArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)",
+        "/v1/flows/$(FlowArn)/outputs/$(OutputArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1430,25 +1392,25 @@ one source on the flow.
 function remove_flow_source end
 
 function remove_flow_source(
-    flowArn, sourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, SourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)";
+        "/v1/flows/$(FlowArn)/source/$(SourceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_flow_source(
-    flowArn,
-    sourceArn,
+    FlowArn,
+    SourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)",
+        "/v1/flows/$(FlowArn)/source/$(SourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1472,25 +1434,25 @@ longer reference the VPC interface.
 function remove_flow_vpc_interface end
 
 function remove_flow_vpc_interface(
-    flowArn, vpcInterfaceName; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, VpcInterfaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)";
+        "/v1/flows/$(FlowArn)/vpcInterfaces/$(VpcInterfaceName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_flow_vpc_interface(
-    flowArn,
-    vpcInterfaceName,
+    FlowArn,
+    VpcInterfaceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)",
+        "/v1/flows/$(FlowArn)/vpcInterfaces/$(VpcInterfaceName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1512,25 +1474,25 @@ unavailable to the subscriber and the associated output is removed.
 function revoke_flow_entitlement end
 
 function revoke_flow_entitlement(
-    entitlementArn, flowArn; aws_config::AbstractAWSConfig=current_aws_config()
+    EntitlementArn, FlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)";
+        "/v1/flows/$(FlowArn)/entitlements/$(EntitlementArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function revoke_flow_entitlement(
-    entitlementArn,
-    flowArn,
+    EntitlementArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
+        "/v1/flows/$(FlowArn)/entitlements/$(EntitlementArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1549,20 +1511,20 @@ Starts a flow.
 """
 function start_flow end
 
-function start_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
+function start_flow(FlowArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "POST", "/v1/flows/start/$(flowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/flows/start/$(FlowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function start_flow(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/start/$(flowArn)",
+        "/v1/flows/start/$(FlowArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1581,20 +1543,20 @@ Stops a flow.
 """
 function stop_flow end
 
-function stop_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
+function stop_flow(FlowArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "POST", "/v1/flows/stop/$(flowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/flows/stop/$(FlowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function stop_flow(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/v1/flows/stop/$(flowArn)",
+        "/v1/flows/stop/$(FlowArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1618,26 +1580,26 @@ resource is deleted, the tags associated with that resource are deleted as well.
 """
 function tag_resource end
 
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
         "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    resourceArn,
-    tags,
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1658,11 +1620,11 @@ Deletes specified tags from a resource.
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1670,14 +1632,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1698,26 +1660,26 @@ Updates the bridge
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"egressGatewayBridge"`:
-- `"ingressGatewayBridge"`:
-- `"sourceFailoverConfig"`:
+- `"EgressGatewayBridge"`:
+- `"IngressGatewayBridge"`:
+- `"SourceFailoverConfig"`:
 """
 function update_bridge end
 
-function update_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
+function update_bridge(BridgeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "PUT", "/v1/bridges/$(bridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/v1/bridges/$(BridgeArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_bridge(
-    bridgeArn,
+    BridgeArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)",
+        "/v1/bridges/$(BridgeArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1739,30 +1701,30 @@ Updates an existing bridge output.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"networkOutput"`:
+- `"NetworkOutput"`:
 """
 function update_bridge_output end
 
 function update_bridge_output(
-    bridgeArn, outputName; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, OutputName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/outputs/$(outputName)";
+        "/v1/bridges/$(BridgeArn)/outputs/$(OutputName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_bridge_output(
-    bridgeArn,
-    outputName,
+    BridgeArn,
+    OutputName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/outputs/$(outputName)",
+        "/v1/bridges/$(BridgeArn)/outputs/$(OutputName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1784,31 +1746,31 @@ Updates an existing bridge source.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"flowSource"`:
-- `"networkSource"`:
+- `"FlowSource"`:
+- `"NetworkSource"`:
 """
 function update_bridge_source end
 
 function update_bridge_source(
-    bridgeArn, sourceName; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, SourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/sources/$(sourceName)";
+        "/v1/bridges/$(BridgeArn)/sources/$(SourceName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_bridge_source(
-    bridgeArn,
-    sourceName,
+    BridgeArn,
+    SourceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/sources/$(sourceName)",
+        "/v1/bridges/$(BridgeArn)/sources/$(SourceName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1829,28 +1791,28 @@ Updates the bridge state
 function update_bridge_state end
 
 function update_bridge_state(
-    bridgeArn, desiredState; aws_config::AbstractAWSConfig=current_aws_config()
+    BridgeArn, DesiredState; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/state",
-        Dict{String,Any}("desiredState" => desiredState);
+        "/v1/bridges/$(BridgeArn)/state",
+        Dict{String,Any}("DesiredState" => DesiredState);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_bridge_state(
-    bridgeArn,
-    desiredState,
+    BridgeArn,
+    DesiredState,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/bridges/$(bridgeArn)/state",
+        "/v1/bridges/$(BridgeArn)/state",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("desiredState" => desiredState), params)
+            mergewith(_merge, Dict{String,Any}("DesiredState" => DesiredState), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1871,25 +1833,24 @@ Updates flow
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maintenance"`:
-- `"sourceFailoverConfig"`:
-- `"sourceMonitoringConfig"`:
+- `"Maintenance"`:
+- `"SourceFailoverConfig"`:
 """
 function update_flow end
 
-function update_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
+function update_flow(FlowArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconnect(
-        "PUT", "/v1/flows/$(flowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/v1/flows/$(FlowArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_flow(
-    flowArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
-        "PUT", "/v1/flows/$(flowArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/v1/flows/$(FlowArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1910,40 +1871,40 @@ are removed.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: A description of the entitlement. This description appears only on the
+- `"Description"`: A description of the entitlement. This description appears only on the
   AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
-- `"encryption"`: The type of encryption that will be used on the output associated with
+- `"Encryption"`: The type of encryption that will be used on the output associated with
   this entitlement. Allowable encryption types: static-key, speke.
-- `"entitlementStatus"`: An indication of whether you want to enable the entitlement to
+- `"EntitlementStatus"`: An indication of whether you want to enable the entitlement to
   allow access, or disable it to stop streaming content to the subscriber’s flow
   temporarily. If you don’t specify the entitlementStatus field in your request,
   MediaConnect leaves the value unchanged.
-- `"subscribers"`: The AWS account IDs that you want to share your content with. The
+- `"Subscribers"`: The AWS account IDs that you want to share your content with. The
   receiving accounts (subscribers) will be allowed to create their own flow using your
   content as the source.
 """
 function update_flow_entitlement end
 
 function update_flow_entitlement(
-    entitlementArn, flowArn; aws_config::AbstractAWSConfig=current_aws_config()
+    EntitlementArn, FlowArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)";
+        "/v1/flows/$(FlowArn)/entitlements/$(EntitlementArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_flow_entitlement(
-    entitlementArn,
-    flowArn,
+    EntitlementArn,
+    FlowArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)",
+        "/v1/flows/$(FlowArn)/entitlements/$(EntitlementArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1965,36 +1926,36 @@ Updates an existing media stream.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"attributes"`: The attributes that you want to assign to the media stream.
-- `"clockRate"`: The sample rate (in Hz) for the stream. If the media stream type is video
+- `"Attributes"`: The attributes that you want to assign to the media stream.
+- `"ClockRate"`: The sample rate (in Hz) for the stream. If the media stream type is video
   or ancillary data, set this value to 90000. If the media stream type is audio, set this
   value to either 48000 or 96000.
-- `"description"`: Description
-- `"mediaStreamType"`: The type of media stream.
-- `"videoFormat"`: The resolution of the video.
+- `"Description"`: Description
+- `"MediaStreamType"`: The type of media stream.
+- `"VideoFormat"`: The resolution of the video.
 """
 function update_flow_media_stream end
 
 function update_flow_media_stream(
-    flowArn, mediaStreamName; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, MediaStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)";
+        "/v1/flows/$(FlowArn)/mediaStreams/$(MediaStreamName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_flow_media_stream(
-    flowArn,
-    mediaStreamName,
+    FlowArn,
+    MediaStreamName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)",
+        "/v1/flows/$(FlowArn)/mediaStreams/$(MediaStreamName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2016,77 +1977,73 @@ Updates an existing flow output.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cidrAllowList"`: The range of IP addresses that should be allowed to initiate output
+- `"CidrAllowList"`: The range of IP addresses that should be allowed to initiate output
   requests to this flow. These IP addresses should be in the form of a Classless Inter-
   Domain Routing (CIDR) block; for example, 10.0.0.0/16.
 
-- `"description"`: A description of the output. This description appears only on the AWS
+- `"Description"`: A description of the output. This description appears only on the AWS
   Elemental MediaConnect console and will not be seen by the end user.
 
-- `"destination"`: The IP address where you want to send the output.
+- `"Destination"`: The IP address where you want to send the output.
 
-- `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
+- `"Encryption"`: The type of key used for the encryption. If no keyType is provided, the
   service will use the default setting (static-key). Allowable encryption types: static-key.
 
-- `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
+- `"MaxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
   based, Zixi-based, and Fujitsu-based streams.
 
-- `"mediaStreamOutputConfigurations"`: The media streams that are associated with the
+- `"MediaStreamOutputConfigurations"`: The media streams that are associated with the
   output, and the parameters for those associations.
 
-- `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams that
+- `"MinLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams that
   use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s minimum
   latency.
 
-- `"outputStatus"`: An indication of whether the output should transmit data or not. If you
-  don't specify the outputStatus field in your request, MediaConnect leaves the value
-  unchanged.
+- `"Port"`: The port to use when content is distributed to this output.
 
-- `"port"`: The port to use when content is distributed to this output.
+- `"Protocol"`: The protocol to use for the output.
 
-- `"protocol"`: The protocol to use for the output.
+- `"RemoteId"`: The remote ID for the Zixi-pull stream.
 
-- `"remoteId"`: The remote ID for the Zixi-pull stream.
-
-- `"senderControlPort"`: The port that the flow uses to send outbound requests to initiate
+- `"SenderControlPort"`: The port that the flow uses to send outbound requests to initiate
   connection with the sender.
 
-- `"senderIpAddress"`: The IP address that the flow communicates with to initiate connection
+- `"SenderIpAddress"`: The IP address that the flow communicates with to initiate connection
   with the sender.
 
-- `"smoothingLatency"`: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
+- `"SmoothingLatency"`: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
   streams.
 
-- `"streamId"`: The stream ID that you want to use for this transport. This parameter
+- `"StreamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi and SRT caller-based streams.
 
-- `"vpcInterfaceAttachment"`: The name of the VPC interface attachment to use for this
+- `"VpcInterfaceAttachment"`: The name of the VPC interface attachment to use for this
   output.
 """
 function update_flow_output end
 
 function update_flow_output(
-    flowArn, outputArn; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, OutputArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)";
+        "/v1/flows/$(FlowArn)/outputs/$(OutputArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_flow_output(
-    flowArn,
-    outputArn,
+    FlowArn,
+    OutputArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/outputs/$(outputArn)",
+        "/v1/flows/$(FlowArn)/outputs/$(OutputArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2108,81 +2065,81 @@ Updates the source of a flow.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"decryption"`: The type of encryption used on the content ingested from this source.
+- `"Decryption"`: The type of encryption used on the content ingested from this source.
   Allowable encryption types: static-key.
 
-- `"description"`: A description for the source. This value is not used or seen outside of
+- `"Description"`: A description for the source. This value is not used or seen outside of
   the current AWS Elemental MediaConnect account.
 
-- `"entitlementArn"`: The ARN of the entitlement that allows you to subscribe to this flow.
+- `"EntitlementArn"`: The ARN of the entitlement that allows you to subscribe to this flow.
   The entitlement is set by the flow originator, and the ARN is generated as part of the
   originator's flow.
 
-- `"gatewayBridgeSource"`: The source configuration for cloud flows receiving a stream from
+- `"GatewayBridgeSource"`: The source configuration for cloud flows receiving a stream from
   a bridge.
 
-- `"ingestPort"`: The port that the flow will be listening on for incoming content.
+- `"IngestPort"`: The port that the flow will be listening on for incoming content.
 
-- `"maxBitrate"`: The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+- `"MaxBitrate"`: The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
 
-- `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
+- `"MaxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
   based, Zixi-based, and Fujitsu-based streams.
 
-- `"maxSyncBuffer"`: The size of the buffer (in milliseconds) to use to sync incoming source
+- `"MaxSyncBuffer"`: The size of the buffer (in milliseconds) to use to sync incoming source
   data.
 
-- `"mediaStreamSourceConfigurations"`: The media streams that are associated with the
+- `"MediaStreamSourceConfigurations"`: The media streams that are associated with the
   source, and the parameters for those associations.
 
-- `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams that
+- `"MinLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams that
   use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s minimum
   latency.
 
-- `"protocol"`: The protocol that is used by the source.
+- `"Protocol"`: The protocol that is used by the source.
 
-- `"senderControlPort"`: The port that the flow uses to send outbound requests to initiate
+- `"SenderControlPort"`: The port that the flow uses to send outbound requests to initiate
   connection with the sender.
 
-- `"senderIpAddress"`: The IP address that the flow communicates with to initiate connection
+- `"SenderIpAddress"`: The IP address that the flow communicates with to initiate connection
   with the sender.
 
-- `"sourceListenerAddress"`: Source IP or domain name for SRT-caller protocol.
+- `"SourceListenerAddress"`: Source IP or domain name for SRT-caller protocol.
 
-- `"sourceListenerPort"`: Source port for SRT-caller protocol.
+- `"SourceListenerPort"`: Source port for SRT-caller protocol.
 
-- `"streamId"`: The stream ID that you want to use for this transport. This parameter
+- `"StreamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi and SRT caller-based streams.
 
-- `"vpcInterfaceName"`: The name of the VPC interface to use for this source.
+- `"VpcInterfaceName"`: The name of the VPC interface to use for this source.
 
-- `"whitelistCidr"`: The range of IP addresses that should be allowed to contribute content
+- `"WhitelistCidr"`: The range of IP addresses that should be allowed to contribute content
   to your source. These IP addresses should be in the form of a Classless Inter-Domain
   Routing (CIDR) block; for example, 10.0.0.0/16.
 """
 function update_flow_source end
 
 function update_flow_source(
-    flowArn, sourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    FlowArn, SourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)";
+        "/v1/flows/$(FlowArn)/source/$(SourceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_flow_source(
-    flowArn,
-    sourceArn,
+    FlowArn,
+    SourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/flows/$(flowArn)/source/$(sourceArn)",
+        "/v1/flows/$(FlowArn)/source/$(SourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2204,7 +2161,7 @@ Updates the configuration of an existing Gateway Instance.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"bridgePlacement"`: The availability of the instance to host new bridges. The
+- `"BridgePlacement"`: The availability of the instance to host new bridges. The
   bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can
   be deployed to this instance. If it is AVAILABLE, new bridges can be added to this
   instance.
@@ -2212,24 +2169,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_gateway_instance end
 
 function update_gateway_instance(
-    gatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    GatewayInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediaconnect(
         "PUT",
-        "/v1/gateway-instances/$(gatewayInstanceArn)";
+        "/v1/gateway-instances/$(GatewayInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_gateway_instance(
-    gatewayInstanceArn,
+    GatewayInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediaconnect(
         "PUT",
-        "/v1/gateway-instances/$(gatewayInstanceArn)",
+        "/v1/gateway-instances/$(GatewayInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

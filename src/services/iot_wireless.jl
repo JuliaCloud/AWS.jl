@@ -2473,34 +2473,36 @@ function get_wireless_device_import_task(
 end
 
 """
-    get_wireless_device_statistics(id)
-    get_wireless_device_statistics(id, params::Dict{String,<:Any})
+    get_wireless_device_statistics(wireless_device_id)
+    get_wireless_device_statistics(wireless_device_id, params::Dict{String,<:Any})
 
 Gets operating information about a wireless device.
 
 # Arguments
 
-- `id`: The ID of the wireless device for which to get the data.
+- `wireless_device_id`: The ID of the wireless device for which to get the data.
 """
 function get_wireless_device_statistics end
 
 function get_wireless_device_statistics(
-    Id; aws_config::AbstractAWSConfig=current_aws_config()
+    WirelessDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_wireless(
         "GET",
-        "/wireless-devices/$(Id)/statistics";
+        "/wireless-devices/$(WirelessDeviceId)/statistics";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_wireless_device_statistics(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    WirelessDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_wireless(
         "GET",
-        "/wireless-devices/$(Id)/statistics",
+        "/wireless-devices/$(WirelessDeviceId)/statistics",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2620,34 +2622,36 @@ function get_wireless_gateway_firmware_information(
 end
 
 """
-    get_wireless_gateway_statistics(id)
-    get_wireless_gateway_statistics(id, params::Dict{String,<:Any})
+    get_wireless_gateway_statistics(wireless_gateway_id)
+    get_wireless_gateway_statistics(wireless_gateway_id, params::Dict{String,<:Any})
 
 Gets operating information about a wireless gateway.
 
 # Arguments
 
-- `id`: The ID of the wireless gateway for which to get the data.
+- `wireless_gateway_id`: The ID of the wireless gateway for which to get the data.
 """
 function get_wireless_gateway_statistics end
 
 function get_wireless_gateway_statistics(
-    Id; aws_config::AbstractAWSConfig=current_aws_config()
+    WirelessGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_wireless(
         "GET",
-        "/wireless-gateways/$(Id)/statistics";
+        "/wireless-gateways/$(WirelessGatewayId)/statistics";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_wireless_gateway_statistics(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    WirelessGatewayId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_wireless(
         "GET",
-        "/wireless-gateways/$(Id)/statistics",
+        "/wireless-gateways/$(WirelessGatewayId)/statistics",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

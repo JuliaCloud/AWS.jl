@@ -2043,7 +2043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `platform` - The platform of the resource. Logical operators are `EQUALS` |
     `BEGINS_WITH`.
   - `resource_id` - The ID of the resource. Logical operators are `EQUALS` | `NOT_EQUALS`.
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Logical
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Logical
     operators are `EQUALS` (single account) or `EQUALS` | `NOT_EQUALS` (cross account).
 
 - `"MaxResults"`: Maximum number of results to return in a single call.

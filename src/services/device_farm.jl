@@ -439,7 +439,10 @@ Uploads an app or test scripts.
   - APPIUM_WEB_PYTHON_TEST_PACKAGE
   - APPIUM_WEB_NODE_TEST_PACKAGE
   - APPIUM_WEB_RUBY_TEST_PACKAGE
+  - CALABASH_TEST_PACKAGE
   - INSTRUMENTATION_TEST_PACKAGE
+  - UIAUTOMATION_TEST_PACKAGE
+  - UIAUTOMATOR_TEST_PACKAGE
   - XCTEST_TEST_PACKAGE
   - XCTEST_UI_TEST_PACKAGE
   - APPIUM_JAVA_JUNIT_TEST_SPEC
@@ -1021,6 +1024,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Allowed values include the following:
 
   - BUILTIN_FUZZ.
+  - BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android app,
+    interacting with it and capturing screenshots at the same time.
   - APPIUM_JAVA_JUNIT.
   - APPIUM_JAVA_TESTNG.
   - APPIUM_PYTHON.
@@ -1031,7 +1036,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - APPIUM_WEB_PYTHON.
   - APPIUM_WEB_NODE.
   - APPIUM_WEB_RUBY.
+  - CALABASH.
   - INSTRUMENTATION.
+  - UIAUTOMATION.
+  - UIAUTOMATOR.
   - XCTEST.
   - XCTEST_UI.
 """
@@ -2446,7 +2454,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - APPIUM_WEB_PYTHON_TEST_PACKAGE
   - APPIUM_WEB_NODE_TEST_PACKAGE
   - APPIUM_WEB_RUBY_TEST_PACKAGE
+  - CALABASH_TEST_PACKAGE
   - INSTRUMENTATION_TEST_PACKAGE
+  - UIAUTOMATION_TEST_PACKAGE
+  - UIAUTOMATOR_TEST_PACKAGE
   - XCTEST_TEST_PACKAGE
   - XCTEST_UI_TEST_PACKAGE
   - APPIUM_JAVA_JUNIT_TEST_SPEC

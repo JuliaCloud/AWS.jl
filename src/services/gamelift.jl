@@ -301,10 +301,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can't change a build's operating system later.
 
   !!! note
-      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/).
-      For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
-      update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
-      See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+      If you have active fleets using the Windows Server 2012 operating system, you can
+      continue to create new builds using this OS until October 10, 2023, when Microsoft
+      ends its support. All others must use Windows Server 2016 when creating new Windows-
+      based builds.
 
 - `"ServerSdkVersion"`: A server SDK version you used when integrating your game server
   build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html).
@@ -400,12 +400,6 @@ create a new one.
 
 - `operating_system`: The platform that is used by containers in the container group
   definition. All containers in a group must run on the same operating system.
-
-  !!! note
-      Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/).
-      For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first
-      update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
-      See [Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
 
 - `total_cpu_limit`: The maximum amount of CPU units to allocate to the container group. Set
   this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units). All
@@ -659,14 +653,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the game server is integrated with server SDK version 5.x. For more information about
   using shared credentials, see [Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html).
 
-- `"Locations"`: A set of remote locations to deploy additional instances to and manage as a
-  multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services
-  Regions that support multiple locations. You can add any Amazon Web Services Region or
-  Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon Web
-  Services Region codes, such as `us-west-2`, or Local Zone names. When using this
-  parameter, Amazon GameLift requires you to include your home location in the request. For
-  a list of supported Regions and Local Zones, see [Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
-  for managed hosting.
+- `"Locations"`: A set of remote locations to deploy additional instances to and manage as
+  part of the fleet. This parameter can only be used when creating fleets in Amazon Web
+  Services Regions that support multiple locations. You can add any Amazon GameLift-
+  supported Amazon Web Services Region as a remote location, in the form of an Amazon Web
+  Services Region code, such as `us-west-2` or Local Zone code. To create a fleet with
+  instances in the home Region only, don't set this parameter.
+
+  When using this parameter, Amazon GameLift requires you to include your home location in
+  the request.
 
 - `"LogPaths"`: **This parameter is no longer used.** To specify where Amazon GameLift
   should store log files once a server process shuts down, use the Amazon GameLift server
@@ -778,10 +773,7 @@ You can track the status of each new location by monitoring location creation ev
 
 [Setting up fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
 
-[Update fleet locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-editing.html#fleets-update-locations)
-
-[Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
-for managed hosting.
+[Multi-location fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
 
 # Arguments
 
@@ -1100,7 +1092,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `GameSession` object, with an updated status. Maximum token length is 48 characters. If
   provided, this string is included in the new game session's ID. A game session ARN has the
   following format:
-  `arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;`.
+  `arn:aws:gamelift:<region>::gamesession/<fleet ID>/<custom ID string or idempotency token>`.
   Idempotency tokens remain in use for 30 days after a game session has ended; game session
   objects are retained for this time period and then deleted.
 
@@ -1272,9 +1264,9 @@ Creates a custom location for use in an Anywhere fleet.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Tags"`: A list of labels to assign to the new resource. Tags are developer-defined key-
-  value pairs. Tagging Amazon Web Services resources are useful for resource management,
-  access management, and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"Tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
+  are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful
+  for resource management, access management and cost allocation. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Rareference*.
 """
 function create_location end
@@ -1394,10 +1386,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GameSessionQueueArns"`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
   that is assigned to a Amazon GameLift game session queue resource and uniquely identifies
   it. ARNs are unique across all Regions. Format is
-  `arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;`. Queues can be
-  located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions
-  for matches that are created with this matchmaking configuration. If `FlexMatchMode` is
-  set to `STANDALONE`, do not set this parameter.
+  `arn:aws:gamelift:<region>::gamesessionqueue/<queue name>`. Queues can be located in any
+  Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that
+  are created with this matchmaking configuration. If `FlexMatchMode` is set to
+  `STANDALONE`, do not set this parameter.
 
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See [Setting up notifications for matchmaking](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html)
@@ -3212,9 +3204,6 @@ not return the home Region. To get information on a fleet's home Region, call
 
 [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
 
-[Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
-for managed hosting
-
 # Arguments
 
 - `fleet_id`: A unique identifier for the fleet to retrieve remote locations for. You can
@@ -3278,9 +3267,6 @@ If successful, a `FleetCapacity` object is returned for the requested fleet loca
 
 [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
 
-[Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
-for managed hosting
-
 [GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
 
 # Arguments
@@ -3339,9 +3325,6 @@ If successful, a `FleetUtilization` object is returned for the requested fleet l
 **Learn more**
 
 [Setting up Amazon GameLift fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
-
-[Amazon GameLift service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
-for managed hosting
 
 [GameLift metrics for fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet)
 
@@ -4019,7 +4002,9 @@ successful, a ticket object is returned for each requested ID that currently exi
 This operation is not designed to be continually called to track matchmaking ticket status.
 This practice can cause you to exceed your API limit, which results in errors. Instead, as a
 best practice, set up an Amazon Simple Notification Service to receive notifications, and
-provide the topic ARN in the matchmaking configuration. **Learn more**
+provide the topic ARN in the matchmaking configuration.
+
+**Learn more**
 
 [Add FlexMatch to a game client](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html)
 
@@ -4503,6 +4488,7 @@ you're connected to the instance, use Docker commands to interact with the conta
 
 - [Remotely connect to fleet instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-remote-access.html)
 - [Debug fleet issues](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-debug.html)
+- [Remotely connect to a container fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)
 
 # Arguments
 
@@ -5464,9 +5450,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DnsName"`: The DNS name of the compute resource. Amazon GameLift requires either a DNS
   name or IP address.
 - `"IpAddress"`: The IP address of the compute resource. Amazon GameLift requires either a
-  DNS name or IP address. When registering an Anywhere fleet, an IP address is required.
+  DNS name or IP address.
 - `"Location"`: The name of a custom location to associate with the compute resource being
-  registered. This parameter is required when registering a compute for an Anywhere fleet.
+  registered.
 """
 function register_compute end
 
@@ -5832,12 +5818,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - **Operand** -- Name of a game session attribute. Valid values are `gameSessionName`,
     `gameSessionId`, `gameSessionProperties`, `maximumSessions`, `creationTimeMillis`,
     `playerSessionCount`, `hasAvailablePlayerSessions`.
-  - **Comparator** -- Valid comparators are: `=`, `&lt;&gt;`, `&lt;`, `&gt;`, `&lt;=`,
-    `&gt;=`.
+  - **Comparator** -- Valid comparators are: `=`, `<>`, `<`, `>`, `<=`, `>=`.
   - **Value** -- Value to be searched for. Values may be numbers, boolean values
     (true/false) or strings depending on the operand. String values are case sensitive and
     must be enclosed in single quotes. Special characters must be escaped. Boolean and
-    string values can only be used with the comparators `=` and `&lt;&gt;`. For example, the
+    string values can only be used with the comparators `=` and `<>`. For example, the
     following filter expression searches on `gameSessionName`:
     "`FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'"`.
 
@@ -5847,7 +5832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Session search evaluates conditions from left to right using the following precedence
   rules:
 
-  1. `=`, `&lt;&gt;`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`
+  1. `=`, `<>`, `<`, `>`, `<=`, `>=`
   2. Parentheses
   3. NOT
   4. AND
@@ -5855,7 +5840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, this filter expression retrieves game sessions hosting at least ten players
   that have an open player slot:
-  `"maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true"`.
+  `"maximumSessions>=10 AND hasAvailablePlayerSessions=true"`.
 
 - `"FleetId"`: A unique identifier for the fleet to search for active game sessions. You can
   use either the fleet ID or ARN value. Each request must reference either a fleet ID or
@@ -7365,10 +7350,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GameSessionQueueArns"`: The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
   that is assigned to a Amazon GameLift game session queue resource and uniquely identifies
   it. ARNs are unique across all Regions. Format is
-  `arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;`. Queues can be
-  located in any Region. Queues are used to start new Amazon GameLift-hosted game sessions
-  for matches that are created with this matchmaking configuration. If `FlexMatchMode` is
-  set to `STANDALONE`, do not set this parameter.
+  `arn:aws:gamelift:<region>::gamesessionqueue/<queue name>`. Queues can be located in any
+  Region. Queues are used to start new Amazon GameLift-hosted game sessions for matches that
+  are created with this matchmaking configuration. If `FlexMatchMode` is set to
+  `STANDALONE`, do not set this parameter.
 
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive matchmaking
   notifications. See [Setting up notifications for matchmaking](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html)

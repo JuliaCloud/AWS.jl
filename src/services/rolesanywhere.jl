@@ -23,8 +23,6 @@ You use profiles to intersect permissions with IAM managed policies.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
-  accepted in a temporary credential request.
 - `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
   page for more details. In requests, if this value is not provided, the default value will
@@ -1163,8 +1161,6 @@ assume. You use profiles to intersect permissions with IAM managed policies.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
-  accepted in a temporary credential request.
 - `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
   page for more details. In requests, if this value is not provided, the default value will

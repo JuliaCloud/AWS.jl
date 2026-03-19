@@ -85,11 +85,11 @@ role.
 function create_app_instance_admin end
 
 function create_app_instance_admin(
-    AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "POST",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -98,13 +98,13 @@ end
 
 function create_app_instance_admin(
     AppInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -274,24 +274,24 @@ Deletes an `AppInstance` and all associated data asynchronously.
 function delete_app_instance end
 
 function delete_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instances/$(appInstanceArn)";
+        "/app-instances/$(AppInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -313,25 +313,25 @@ not delete the user.
 function delete_app_instance_admin end
 
 function delete_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceAdminArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -351,24 +351,24 @@ Deletes an `AppInstanceBot`.
 function delete_app_instance_bot end
 
 function delete_app_instance_bot(
-    appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-bots/$(appInstanceBotArn)";
+        "/app-instance-bots/$(AppInstanceBotArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_bot(
-    appInstanceBotArn,
+    AppInstanceBotArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-bots/$(appInstanceBotArn)",
+        "/app-instance-bots/$(AppInstanceBotArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -388,24 +388,24 @@ Deletes an `AppInstanceUser`.
 function delete_app_instance_user end
 
 function delete_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)";
+        "/app-instance-users/$(AppInstanceUserArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_user(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -426,25 +426,25 @@ Deregisters an `AppInstanceUserEndpoint`.
 function deregister_app_instance_user_endpoint end
 
 function deregister_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function deregister_app_instance_user_endpoint(
-    appInstanceUserArn,
-    endpointId,
+    AppInstanceUserArn,
+    EndpointId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -464,24 +464,24 @@ Returns the full details of an `AppInstance`.
 function describe_app_instance end
 
 function describe_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)";
+        "/app-instances/$(AppInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -502,25 +502,25 @@ Returns the full details of an `AppInstanceAdmin`.
 function describe_app_instance_admin end
 
 function describe_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceAdminArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -540,24 +540,24 @@ The `AppInstanceBot's` information.
 function describe_app_instance_bot end
 
 function describe_app_instance_bot(
-    appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-bots/$(appInstanceBotArn)";
+        "/app-instance-bots/$(AppInstanceBotArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_bot(
-    appInstanceBotArn,
+    AppInstanceBotArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-bots/$(appInstanceBotArn)",
+        "/app-instance-bots/$(AppInstanceBotArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -577,24 +577,24 @@ Returns the full details of an `AppInstanceUser`.
 function describe_app_instance_user end
 
 function describe_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)";
+        "/app-instance-users/$(AppInstanceUserArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_user(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -615,25 +615,25 @@ Returns the full details of an `AppInstanceUserEndpoint`.
 function describe_app_instance_user_endpoint end
 
 function describe_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_user_endpoint(
-    appInstanceUserArn,
-    endpointId,
+    AppInstanceUserArn,
+    EndpointId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -653,24 +653,24 @@ Gets the retention settings for an `AppInstance`.
 function get_app_instance_retention_settings end
 
 function get_app_instance_retention_settings(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings";
+        "/app-instances/$(AppInstanceArn)/retention-settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_app_instance_retention_settings(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -698,24 +698,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_app_instance_admins end
 
 function list_app_instance_admins(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins";
+        "/app-instances/$(AppInstanceArn)/admins";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_app_instance_admins(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -793,24 +793,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_app_instance_user_endpoints end
 
 function list_app_instance_user_endpoints(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints";
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_app_instance_user_endpoints(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -932,26 +932,26 @@ function list_tags_for_resource(
 end
 
 """
-    put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn)
-    put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn, params::Dict{String,<:Any})
+    put_app_instance_retention_settings(app_instance_arn, app_instance_retention_settings)
+    put_app_instance_retention_settings(app_instance_arn, app_instance_retention_settings, params::Dict{String,<:Any})
 
 Sets the amount of time in days that a given `AppInstance` retains data.
 
 # Arguments
 
-- `app_instance_retention_settings`: The time in days to retain data. Data type: number.
 - `app_instance_arn`: The ARN of the `AppInstance`.
+- `app_instance_retention_settings`: The time in days to retain data. Data type: number.
 """
 function put_app_instance_retention_settings end
 
 function put_app_instance_retention_settings(
-    AppInstanceRetentionSettings,
-    appInstanceArn;
+    AppInstanceArn,
+    AppInstanceRetentionSettings;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -959,14 +959,14 @@ function put_app_instance_retention_settings(
 end
 
 function put_app_instance_retention_settings(
+    AppInstanceArn,
     AppInstanceRetentionSettings,
-    appInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1008,24 +1008,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_app_instance_user_expiration_settings end
 
 function put_app_instance_user_expiration_settings(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)/expiration-settings";
+        "/app-instance-users/$(AppInstanceUserArn)/expiration-settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_app_instance_user_expiration_settings(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)/expiration-settings",
+        "/app-instance-users/$(AppInstanceUserArn)/expiration-settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1033,14 +1033,16 @@ function put_app_instance_user_expiration_settings(
 end
 
 """
-    register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn)
-    register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn, params::Dict{String,<:Any})
+    register_app_instance_user_endpoint(app_instance_user_arn, client_request_token, endpoint_attributes, resource_arn, type)
+    register_app_instance_user_endpoint(app_instance_user_arn, client_request_token, endpoint_attributes, resource_arn, type, params::Dict{String,<:Any})
 
 Registers an endpoint under an Amazon Chime `AppInstanceUser`. The endpoint receives
 messages for a user. For push notifications, the endpoint is a mobile device used to receive
 mobile push notifications for a user.
 
 # Arguments
+
+- `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 
 - `client_request_token`: The unique ID assigned to the request. Use different tokens to
   register other endpoints.
@@ -1058,8 +1060,6 @@ mobile push notifications for a user.
 
   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
 
-- `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
-
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1072,16 +1072,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function register_app_instance_user_endpoint end
 
 function register_app_instance_user_endpoint(
+    AppInstanceUserArn,
     ClientRequestToken,
     EndpointAttributes,
     ResourceArn,
-    Type,
-    appInstanceUserArn;
+    Type;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints",
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken,
             "EndpointAttributes" => EndpointAttributes,
@@ -1094,17 +1094,17 @@ function register_app_instance_user_endpoint(
 end
 
 function register_app_instance_user_endpoint(
+    AppInstanceUserArn,
     ClientRequestToken,
     EndpointAttributes,
     ResourceArn,
     Type,
-    appInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "POST",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1213,25 +1213,25 @@ function untag_resource(
 end
 
 """
-    update_app_instance(metadata, name, app_instance_arn)
-    update_app_instance(metadata, name, app_instance_arn, params::Dict{String,<:Any})
+    update_app_instance(app_instance_arn, metadata, name)
+    update_app_instance(app_instance_arn, metadata, name, params::Dict{String,<:Any})
 
 Updates `AppInstance` metadata.
 
 # Arguments
 
+- `app_instance_arn`: The ARN of the `AppInstance`.
 - `metadata`: The metadata that you want to change.
 - `name`: The name that you want to change.
-- `app_instance_arn`: The ARN of the `AppInstance`.
 """
 function update_app_instance end
 
 function update_app_instance(
-    Metadata, Name, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn, Metadata, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1239,15 +1239,15 @@ function update_app_instance(
 end
 
 function update_app_instance(
+    AppInstanceArn,
     Metadata,
     Name,
-    appInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
@@ -1259,16 +1259,16 @@ function update_app_instance(
 end
 
 """
-    update_app_instance_bot(metadata, name, app_instance_bot_arn)
-    update_app_instance_bot(metadata, name, app_instance_bot_arn, params::Dict{String,<:Any})
+    update_app_instance_bot(app_instance_bot_arn, metadata, name)
+    update_app_instance_bot(app_instance_bot_arn, metadata, name, params::Dict{String,<:Any})
 
 Updates the name and metadata of an `AppInstanceBot`.
 
 # Arguments
 
+- `app_instance_bot_arn`: The ARN of the `AppInstanceBot`.
 - `metadata`: The metadata of the `AppInstanceBot`.
 - `name`: The name of the `AppInstanceBot`.
-- `app_instance_bot_arn`: The ARN of the `AppInstanceBot`.
 
 # Optional Parameters
 
@@ -1279,11 +1279,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_app_instance_bot end
 
 function update_app_instance_bot(
-    Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceBotArn, Metadata, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-bots/$(appInstanceBotArn)",
+        "/app-instance-bots/$(AppInstanceBotArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1291,15 +1291,15 @@ function update_app_instance_bot(
 end
 
 function update_app_instance_bot(
+    AppInstanceBotArn,
     Metadata,
     Name,
-    appInstanceBotArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-bots/$(appInstanceBotArn)",
+        "/app-instance-bots/$(AppInstanceBotArn)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
@@ -1311,25 +1311,25 @@ function update_app_instance_bot(
 end
 
 """
-    update_app_instance_user(metadata, name, app_instance_user_arn)
-    update_app_instance_user(metadata, name, app_instance_user_arn, params::Dict{String,<:Any})
+    update_app_instance_user(app_instance_user_arn, metadata, name)
+    update_app_instance_user(app_instance_user_arn, metadata, name, params::Dict{String,<:Any})
 
 Updates the details of an `AppInstanceUser`. You can update names and metadata.
 
 # Arguments
 
+- `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 - `metadata`: The metadata of the `AppInstanceUser`.
 - `name`: The name of the `AppInstanceUser`.
-- `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 """
 function update_app_instance_user end
 
 function update_app_instance_user(
-    Metadata, Name, appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn, Metadata, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1337,15 +1337,15 @@ function update_app_instance_user(
 end
 
 function update_app_instance_user(
+    AppInstanceUserArn,
     Metadata,
     Name,
-    appInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
@@ -1380,25 +1380,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_app_instance_user_endpoint end
 
 function update_app_instance_user_endpoint(
-    appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)";
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_app_instance_user_endpoint(
-    appInstanceUserArn,
-    endpointId,
+    AppInstanceUserArn,
+    EndpointId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_identity(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)/endpoints/$(endpointId)",
+        "/app-instance-users/$(AppInstanceUserArn)/endpoints/$(EndpointId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

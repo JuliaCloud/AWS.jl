@@ -173,11 +173,11 @@ signing certificate.
 
   `openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs`
 
-  `openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash`
+  `openssl sha384 < childCert.tbs -binary > childCertTbsHash`
 
   `openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs`
 
-  `openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTbsHash &gt;&gt; certificateHash.hex`
+  `openssl sha384 < parentCert.tbs -binary > parentCertTbsHash xxd -p childCertTbsHash > certificateHash.hex xxd -p parentCertTbsHash >> certificateHash.hex`
 
   `cat certificateHash.hex | tr -d '\\n'`
 

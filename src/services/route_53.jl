@@ -47,8 +47,8 @@ function activate_key_signing_key(
 end
 
 """
-    associate_vpcwith_hosted_zone(id, vpc)
-    associate_vpcwith_hosted_zone(id, vpc, params::Dict{String,<:Any})
+    associate_vpcwith_hosted_zone(hosted_zone_id, vpc)
+    associate_vpcwith_hosted_zone(hosted_zone_id, vpc, params::Dict{String,<:Any})
 
 Associates an Amazon VPC with a private hosted zone.
 
@@ -79,7 +79,8 @@ Associates an Amazon VPC with a private hosted zone.
 
 # Arguments
 
-- `id`: The ID of the private hosted zone that you want to associate an Amazon VPC with.
+- `hosted_zone_id`: The ID of the private hosted zone that you want to associate an Amazon
+  VPC with.
 
   Note that you can't associate a VPC with a hosted zone that doesn't have an existing VPC
   association.
@@ -96,11 +97,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_vpcwith_hosted_zone end
 
 function associate_vpcwith_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/associatevpc",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/associatevpc",
         Dict{String,Any}("VPC" => VPC);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -108,14 +109,14 @@ function associate_vpcwith_hosted_zone(
 end
 
 function associate_vpcwith_hosted_zone(
-    Id,
+    HostedZoneId,
     VPC,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/associatevpc",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/associatevpc",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -123,8 +124,8 @@ function associate_vpcwith_hosted_zone(
 end
 
 """
-    change_cidr_collection(changes, cidr_collection_id)
-    change_cidr_collection(changes, cidr_collection_id, params::Dict{String,<:Any})
+    change_cidr_collection(changes, id)
+    change_cidr_collection(changes, id, params::Dict{String,<:Any})
 
 Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP
 information mapping blocks to one or multiple locations.
@@ -148,7 +149,7 @@ Use `ChangeCidrCollection` to perform the following actions:
 # Arguments
 
 - `changes`: Information about changes to a CIDR collection.
-- `cidr_collection_id`: The UUID of the CIDR collection to update.
+- `id`: The UUID of the CIDR collection to update.
 
 # Optional Parameters
 
@@ -171,11 +172,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function change_cidr_collection end
 
 function change_cidr_collection(
-    Changes, CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    Changes, Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        "/2013-04-01/cidrcollection/$(Id)",
         Dict{String,Any}("Changes" => Changes);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -184,13 +185,13 @@ end
 
 function change_cidr_collection(
     Changes,
-    CidrCollectionId,
+    Id,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        "/2013-04-01/cidrcollection/$(Id)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Changes" => Changes), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -198,8 +199,8 @@ function change_cidr_collection(
 end
 
 """
-    change_resource_record_sets(change_batch, id)
-    change_resource_record_sets(change_batch, id, params::Dict{String,<:Any})
+    change_resource_record_sets(change_batch, hosted_zone_id)
+    change_resource_record_sets(change_batch, hosted_zone_id, params::Dict{String,<:Any})
 
 Creates, changes, or deletes a resource record set, which contains authoritative DNS
 information for a specified domain name or subdomain name. For example, you can use
@@ -279,17 +280,17 @@ in the *Amazon Route 53 Developer Guide*.
 
 - `change_batch`: A complex type that contains an optional comment and the `Changes`
   element.
-- `id`: The ID of the hosted zone that contains the resource record sets that you want to
-  change.
+- `hosted_zone_id`: The ID of the hosted zone that contains the resource record sets that
+  you want to change.
 """
 function change_resource_record_sets end
 
 function change_resource_record_sets(
-    ChangeBatch, Id; aws_config::AbstractAWSConfig=current_aws_config()
+    ChangeBatch, HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/rrset/",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/rrset",
         Dict{String,Any}("ChangeBatch" => ChangeBatch);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -298,13 +299,13 @@ end
 
 function change_resource_record_sets(
     ChangeBatch,
-    Id,
+    HostedZoneId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/rrset/",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/rrset",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ChangeBatch" => ChangeBatch), params)
         );
@@ -1216,8 +1217,8 @@ function create_traffic_policy_version(
 end
 
 """
-    create_vpcassociation_authorization(id, vpc)
-    create_vpcassociation_authorization(id, vpc, params::Dict{String,<:Any})
+    create_vpcassociation_authorization(hosted_zone_id, vpc)
+    create_vpcassociation_authorization(hosted_zone_id, vpc, params::Dict{String,<:Any})
 
 Authorizes the Amazon Web Services account that created a specified VPC to submit an
 `AssociateVPCWithHostedZone` request to associate the VPC with a specified hosted zone that
@@ -1232,18 +1233,19 @@ use the account that created the VPC to submit an `AssociateVPCWithHostedZone` r
 
 # Arguments
 
-- `id`: The ID of the private hosted zone that you want to authorize associating a VPC with.
+- `hosted_zone_id`: The ID of the private hosted zone that you want to authorize associating
+  a VPC with.
 - `vpc`: A complex type that contains the VPC ID and region for the VPC that you want to
   authorize associating with your hosted zone.
 """
 function create_vpcassociation_authorization end
 
 function create_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/authorizevpcassociation",
         Dict{String,Any}("VPC" => VPC);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1251,14 +1253,14 @@ function create_vpcassociation_authorization(
 end
 
 function create_vpcassociation_authorization(
-    Id,
+    HostedZoneId,
     VPC,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/authorizevpcassociation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1306,37 +1308,33 @@ function deactivate_key_signing_key(
 end
 
 """
-    delete_cidr_collection(cidr_collection_id)
-    delete_cidr_collection(cidr_collection_id, params::Dict{String,<:Any})
+    delete_cidr_collection(id)
+    delete_cidr_collection(id, params::Dict{String,<:Any})
 
 Deletes a CIDR collection in the current Amazon Web Services account. The collection must be
 empty before it can be deleted.
 
 # Arguments
 
-- `cidr_collection_id`: The UUID of the collection to delete.
+- `id`: The UUID of the collection to delete.
 """
 function delete_cidr_collection end
 
-function delete_cidr_collection(
-    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function delete_cidr_collection(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "DELETE",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)";
+        "/2013-04-01/cidrcollection/$(Id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_cidr_collection(
-    CidrCollectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        "/2013-04-01/cidrcollection/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1681,8 +1679,8 @@ function delete_traffic_policy_instance(
 end
 
 """
-    delete_vpcassociation_authorization(id, vpc)
-    delete_vpcassociation_authorization(id, vpc, params::Dict{String,<:Any})
+    delete_vpcassociation_authorization(hosted_zone_id, vpc)
+    delete_vpcassociation_authorization(hosted_zone_id, vpc, params::Dict{String,<:Any})
 
 Removes authorization to submit an `AssociateVPCWithHostedZone` request to associate a
 specified VPC with a hosted zone that was created by a different account. You must use the
@@ -1698,9 +1696,9 @@ request.
 
 # Arguments
 
-- `id`: When removing authorization to associate a VPC that was created by one Amazon Web
-  Services account with a hosted zone that was created with a different Amazon Web Services
-  account, the ID of the hosted zone.
+- `hosted_zone_id`: When removing authorization to associate a VPC that was created by one
+  Amazon Web Services account with a hosted zone that was created with a different Amazon
+  Web Services account, the ID of the hosted zone.
 - `vpc`: When removing authorization to associate a VPC that was created by one Amazon Web
   Services account with a hosted zone that was created with a different Amazon Web Services
   account, a complex type that includes the ID and region of the VPC.
@@ -1708,11 +1706,11 @@ request.
 function delete_vpcassociation_authorization end
 
 function delete_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/deauthorizevpcassociation",
         Dict{String,Any}("VPC" => VPC);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1720,14 +1718,14 @@ function delete_vpcassociation_authorization(
 end
 
 function delete_vpcassociation_authorization(
-    Id,
+    HostedZoneId,
     VPC,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/deauthorizevpcassociation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1735,33 +1733,37 @@ function delete_vpcassociation_authorization(
 end
 
 """
-    disable_hosted_zone_dnssec(id)
-    disable_hosted_zone_dnssec(id, params::Dict{String,<:Any})
+    disable_hosted_zone_dnssec(hosted_zone_id)
+    disable_hosted_zone_dnssec(hosted_zone_id, params::Dict{String,<:Any})
 
 Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-
 signing keys (KSKs) that are active in the hosted zone.
 
 # Arguments
 
-- `id`: A unique string used to identify a hosted zone.
+- `hosted_zone_id`: A unique string used to identify a hosted zone.
 """
 function disable_hosted_zone_dnssec end
 
-function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function disable_hosted_zone_dnssec(
+    HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/disable-dnssec";
+        "/2013-04-01/hostedzone/$(HostedZoneId)/disable-dnssec";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function disable_hosted_zone_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/disable-dnssec",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/disable-dnssec",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1769,8 +1771,8 @@ function disable_hosted_zone_dnssec(
 end
 
 """
-    disassociate_vpcfrom_hosted_zone(id, vpc)
-    disassociate_vpcfrom_hosted_zone(id, vpc, params::Dict{String,<:Any})
+    disassociate_vpcfrom_hosted_zone(hosted_zone_id, vpc)
+    disassociate_vpcfrom_hosted_zone(hosted_zone_id, vpc, params::Dict{String,<:Any})
 
 Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private
 hosted zone. Note the following:
@@ -1805,7 +1807,8 @@ can't use `DisassociateVPCFromHostedZone`.
 
 # Arguments
 
-- `id`: The ID of the private hosted zone that you want to disassociate a VPC from.
+- `hosted_zone_id`: The ID of the private hosted zone that you want to disassociate a VPC
+  from.
 - `vpc`: A complex type that contains information about the VPC that you're disassociating
   from the specified hosted zone.
 
@@ -1818,11 +1821,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_vpcfrom_hosted_zone end
 
 function disassociate_vpcfrom_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/disassociatevpc",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/disassociatevpc",
         Dict{String,Any}("VPC" => VPC);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1830,14 +1833,14 @@ function disassociate_vpcfrom_hosted_zone(
 end
 
 function disassociate_vpcfrom_hosted_zone(
-    Id,
+    HostedZoneId,
     VPC,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/disassociatevpc",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/disassociatevpc",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("VPC" => VPC), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1845,32 +1848,36 @@ function disassociate_vpcfrom_hosted_zone(
 end
 
 """
-    enable_hosted_zone_dnssec(id)
-    enable_hosted_zone_dnssec(id, params::Dict{String,<:Any})
+    enable_hosted_zone_dnssec(hosted_zone_id)
+    enable_hosted_zone_dnssec(hosted_zone_id, params::Dict{String,<:Any})
 
 Enables DNSSEC signing in a specific hosted zone.
 
 # Arguments
 
-- `id`: A unique string used to identify a hosted zone.
+- `hosted_zone_id`: A unique string used to identify a hosted zone.
 """
 function enable_hosted_zone_dnssec end
 
-function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function enable_hosted_zone_dnssec(
+    HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/enable-dnssec";
+        "/2013-04-01/hostedzone/$(HostedZoneId)/enable-dnssec";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function enable_hosted_zone_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
-        "/2013-04-01/hostedzone/$(Id)/enable-dnssec",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/enable-dnssec",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1885,7 +1892,7 @@ Gets the specified limit for the current account, for example, the maximum numbe
 checks that you can create using the account.
 
 For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html)
-in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53).
+in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
 
 !!! note
     You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the
@@ -2004,33 +2011,35 @@ function get_checker_ip_ranges(
 end
 
 """
-    get_dnssec(id)
-    get_dnssec(id, params::Dict{String,<:Any})
+    get_dnssec(hosted_zone_id)
+    get_dnssec(hosted_zone_id, params::Dict{String,<:Any})
 
 Returns information about DNSSEC for a specific hosted zone, including the key-signing keys
 (KSKs) in the hosted zone.
 
 # Arguments
 
-- `id`: A unique string used to identify a hosted zone.
+- `hosted_zone_id`: A unique string used to identify a hosted zone.
 """
 function get_dnssec end
 
-function get_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function get_dnssec(HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/dnssec";
+        "/2013-04-01/hostedzone/$(HostedZoneId)/dnssec";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/dnssec",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/dnssec",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2058,7 +2067,7 @@ Use the following syntax to determine whether a country is supported for geoloca
 Use the following syntax to determine whether a subdivision of a country is supported for
 geolocation:
 
-`GET /2013-04-01/geolocation?countrycode=*two-character country code*&amp;subdivisioncode=*subdivision code*`
+`GET /2013-04-01/geolocation?countrycode=*two-character country code*&subdivisioncode=*subdivision code*`
 
 # Optional Parameters
 
@@ -2321,18 +2330,18 @@ function get_hosted_zone_count(
 end
 
 """
-    get_hosted_zone_limit(id, type)
-    get_hosted_zone_limit(id, type, params::Dict{String,<:Any})
+    get_hosted_zone_limit(hosted_zone_id, type)
+    get_hosted_zone_limit(hosted_zone_id, type, params::Dict{String,<:Any})
 
 Gets the specified limit for a specified hosted zone, for example, the maximum number of
 records that you can create in the hosted zone.
 
 For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html)
-in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53).
+in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
 
 # Arguments
 
-- `id`: The ID of the hosted zone that you want to get a limit for.
+- `hosted_zone_id`: The ID of the hosted zone that you want to get a limit for.
 
 - `type`: The limit that you want to get. Valid values include the following:
 
@@ -2343,24 +2352,26 @@ in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a cas
 """
 function get_hosted_zone_limit end
 
-function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=current_aws_config())
+function get_hosted_zone_limit(
+    HostedZoneId, Type; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return route_53(
         "GET",
-        "/2013-04-01/hostedzonelimit/$(Id)/$(Type)";
+        "/2013-04-01/hostedzonelimit/$(HostedZoneId)/$(Type)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_hosted_zone_limit(
-    Id,
+    HostedZoneId,
     Type,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/hostedzonelimit/$(Id)/$(Type)",
+        "/2013-04-01/hostedzonelimit/$(HostedZoneId)/$(Type)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2440,43 +2451,43 @@ function get_reusable_delegation_set(
 end
 
 """
-    get_reusable_delegation_set_limit(id, type)
-    get_reusable_delegation_set_limit(id, type, params::Dict{String,<:Any})
+    get_reusable_delegation_set_limit(delegation_set_id, type)
+    get_reusable_delegation_set_limit(delegation_set_id, type, params::Dict{String,<:Any})
 
 Gets the maximum number of hosted zones that you can associate with the specified reusable
 delegation set.
 
 For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html)
-in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53).
+in the *Amazon Route 53 Developer Guide*. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
 
 # Arguments
 
-- `id`: The ID of the delegation set that you want to get the limit for.
+- `delegation_set_id`: The ID of the delegation set that you want to get the limit for.
 - `type`: Specify `MAX_ZONES_BY_REUSABLE_DELEGATION_SET` to get the maximum number of hosted
   zones that you can associate with the specified reusable delegation set.
 """
 function get_reusable_delegation_set_limit end
 
 function get_reusable_delegation_set_limit(
-    Id, Type; aws_config::AbstractAWSConfig=current_aws_config()
+    DelegationSetId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
-        "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)";
+        "/2013-04-01/reusabledelegationsetlimit/$(DelegationSetId)/$(Type)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_reusable_delegation_set_limit(
-    Id,
+    DelegationSetId,
     Type,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)",
+        "/2013-04-01/reusabledelegationsetlimit/$(DelegationSetId)/$(Type)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2598,14 +2609,14 @@ function get_traffic_policy_instance_count(
 end
 
 """
-    list_cidr_blocks(cidr_collection_id)
-    list_cidr_blocks(cidr_collection_id, params::Dict{String,<:Any})
+    list_cidr_blocks(collection_id)
+    list_cidr_blocks(collection_id, params::Dict{String,<:Any})
 
 Returns a paginated list of location objects and their CIDR blocks.
 
 # Arguments
 
-- `cidr_collection_id`: The UUID of the CIDR collection.
+- `collection_id`: The UUID of the CIDR collection.
 
 # Optional Parameters
 
@@ -2618,25 +2629,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_cidr_blocks end
 
-function list_cidr_blocks(
-    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function list_cidr_blocks(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)/cidrblocks";
+        "/2013-04-01/cidrcollection/$(CollectionId)/cidrblocks";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_cidr_blocks(
-    CidrCollectionId,
+    CollectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)/cidrblocks",
+        "/2013-04-01/cidrcollection/$(CollectionId)/cidrblocks",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2682,15 +2691,15 @@ function list_cidr_collections(
 end
 
 """
-    list_cidr_locations(cidr_collection_id)
-    list_cidr_locations(cidr_collection_id, params::Dict{String,<:Any})
+    list_cidr_locations(collection_id)
+    list_cidr_locations(collection_id, params::Dict{String,<:Any})
 
 Returns a paginated list of CIDR locations for the given collection (metadata only, does not
 include CIDR blocks).
 
 # Arguments
 
-- `cidr_collection_id`: The CIDR collection ID.
+- `collection_id`: The CIDR collection ID.
 
 # Optional Parameters
 
@@ -2706,24 +2715,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_cidr_locations end
 
 function list_cidr_locations(
-    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    CollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)";
+        "/2013-04-01/cidrcollection/$(CollectionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_cidr_locations(
-    CidrCollectionId,
+    CollectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/cidrcollection/$(CidrCollectionId)",
+        "/2013-04-01/cidrcollection/$(CollectionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3132,8 +3141,8 @@ function list_query_logging_configs(
 end
 
 """
-    list_resource_record_sets(id)
-    list_resource_record_sets(id, params::Dict{String,<:Any})
+    list_resource_record_sets(hosted_zone_id)
+    list_resource_record_sets(hosted_zone_id, params::Dict{String,<:Any})
 
 Lists the resource record sets in a specified hosted zone.
 
@@ -3149,7 +3158,7 @@ example:
 
 Note the trailing dot, which can change the sort order when the record name contains
 characters that appear before `.` (decimal 46) in the ASCII table. These characters include
-the following: `! " # \$ % &amp; ' ( ) * + , -`
+the following: `! " # \$ % & ' ( ) * + , -`
 
 When multiple records have the same DNS name, `ListResourceRecordSets` sorts results by the
 record type.
@@ -3199,8 +3208,8 @@ Then submit another `ListResourceRecordSets` request, and specify those values f
 
 # Arguments
 
-- `id`: The ID of the hosted zone that contains the resource record sets that you want to
-  list.
+- `hosted_zone_id`: The ID of the hosted zone that contains the resource record sets that
+  you want to list.
 
 # Optional Parameters
 
@@ -3244,21 +3253,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_resource_record_sets end
 
-function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function list_resource_record_sets(
+    HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/rrset";
+        "/2013-04-01/hostedzone/$(HostedZoneId)/rrset";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_resource_record_sets(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/rrset",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/rrset",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3776,8 +3789,8 @@ function list_traffic_policy_versions(
 end
 
 """
-    list_vpcassociation_authorizations(id)
-    list_vpcassociation_authorizations(id, params::Dict{String,<:Any})
+    list_vpcassociation_authorizations(hosted_zone_id)
+    list_vpcassociation_authorizations(hosted_zone_id, params::Dict{String,<:Any})
 
 Gets a list of the VPCs that were created by other accounts and that can be associated with
 a specified hosted zone because you've submitted one or more
@@ -3788,8 +3801,8 @@ associated with the hosted zone.
 
 # Arguments
 
-- `id`: The ID of the hosted zone for which you want a list of VPCs that can be associated
-  with the hosted zone.
+- `hosted_zone_id`: The ID of the hosted zone for which you want a list of VPCs that can be
+  associated with the hosted zone.
 
 # Optional Parameters
 
@@ -3806,22 +3819,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_vpcassociation_authorizations end
 
 function list_vpcassociation_authorizations(
-    Id; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation";
+        "/2013-04-01/hostedzone/$(HostedZoneId)/authorizevpcassociation";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_vpcassociation_authorizations(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    HostedZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
-        "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation",
+        "/2013-04-01/hostedzone/$(HostedZoneId)/authorizevpcassociation",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4165,7 +4180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checks. The path can be any value for which your endpoint will return an HTTP status code
   of 2xx or 3xx when the endpoint is healthy, for example the file /docs/route53-health-
   check.html. You can also include query string parameters, for example,
-  `/welcome.html?language=jp&amp;login=y`.
+  `/welcome.html?language=jp&login=y`.
 
   Specify this value only if you want to change it.
 

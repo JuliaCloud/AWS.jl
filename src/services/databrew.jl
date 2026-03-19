@@ -5,8 +5,8 @@ using AWS.AWSServices: databrew
 using AWS.UUIDs: uuid4
 
 """
-    batch_delete_recipe_version(recipe_versions, name)
-    batch_delete_recipe_version(recipe_versions, name, params::Dict{String,<:Any})
+    batch_delete_recipe_version(name, recipe_versions)
+    batch_delete_recipe_version(name, recipe_versions, params::Dict{String,<:Any})
 
 Deletes one or more versions of a recipe at a time.
 
@@ -31,19 +31,19 @@ then `LATEST_WORKING` will be listed as partial failure in the response.
 
 # Arguments
 
+- `name`: The name of the recipe whose versions are to be deleted.
 - `recipe_versions`: An array of version identifiers, for the recipe versions to be deleted.
   You can specify numeric versions (`X.Y`) or `LATEST_WORKING`. `LATEST_PUBLISHED` is not
   supported.
-- `name`: The name of the recipe whose versions are to be deleted.
 """
 function batch_delete_recipe_version end
 
 function batch_delete_recipe_version(
-    RecipeVersions, name; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, RecipeVersions; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "POST",
-        "/recipes/$(name)/batchDeleteRecipeVersion",
+        "/recipes/$(Name)/batchDeleteRecipeVersion",
         Dict{String,Any}("RecipeVersions" => RecipeVersions);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -51,14 +51,14 @@ function batch_delete_recipe_version(
 end
 
 function batch_delete_recipe_version(
+    Name,
     RecipeVersions,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "POST",
-        "/recipes/$(name)/batchDeleteRecipeVersion",
+        "/recipes/$(Name)/batchDeleteRecipeVersion",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("RecipeVersions" => RecipeVersions), params)
         );
@@ -560,17 +560,17 @@ Deletes a dataset from DataBrew.
 """
 function delete_dataset end
 
-function delete_dataset(name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_dataset(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "DELETE", "/datasets/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/datasets/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_dataset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "DELETE", "/datasets/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/datasets/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -586,15 +586,15 @@ Deletes the specified DataBrew job.
 """
 function delete_job end
 
-function delete_job(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("DELETE", "/jobs/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_job(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("DELETE", "/jobs/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function delete_job(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "DELETE", "/jobs/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/jobs/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -610,17 +610,17 @@ Deletes an existing DataBrew project.
 """
 function delete_project end
 
-function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_project(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "DELETE", "/projects/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/projects/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "DELETE", "/projects/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/projects/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -639,25 +639,25 @@ Deletes a single version of a DataBrew recipe.
 function delete_recipe_version end
 
 function delete_recipe_version(
-    name, recipeVersion; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, RecipeVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "DELETE",
-        "/recipes/$(name)/recipeVersion/$(recipeVersion)";
+        "/recipes/$(Name)/recipeVersion/$(RecipeVersion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_recipe_version(
-    name,
-    recipeVersion,
+    Name,
+    RecipeVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "DELETE",
-        "/recipes/$(name)/recipeVersion/$(recipeVersion)",
+        "/recipes/$(Name)/recipeVersion/$(RecipeVersion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -676,17 +676,17 @@ Deletes a ruleset.
 """
 function delete_ruleset end
 
-function delete_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_ruleset(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "DELETE", "/rulesets/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/rulesets/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_ruleset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "DELETE", "/rulesets/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/rulesets/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -702,17 +702,17 @@ Deletes the specified DataBrew schedule.
 """
 function delete_schedule end
 
-function delete_schedule(name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "DELETE", "/schedules/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/schedules/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_schedule(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "DELETE", "/schedules/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/schedules/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -728,15 +728,15 @@ Returns the definition of a specific DataBrew dataset.
 """
 function describe_dataset end
 
-function describe_dataset(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("GET", "/datasets/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_dataset(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("GET", "/datasets/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_dataset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/datasets/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/datasets/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -752,15 +752,15 @@ Returns the definition of a specific DataBrew job.
 """
 function describe_job end
 
-function describe_job(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("GET", "/jobs/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_job(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("GET", "/jobs/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_job(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/jobs/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -777,21 +777,21 @@ Represents one run of a DataBrew job.
 """
 function describe_job_run end
 
-function describe_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_job_run(Name, RunId; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "GET", "/jobs/$(name)/jobRun/$(runId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(Name)/jobRun/$(RunId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_job_run(
-    name,
-    runId,
+    Name,
+    RunId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "GET",
-        "/jobs/$(name)/jobRun/$(runId)",
+        "/jobs/$(Name)/jobRun/$(RunId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -810,15 +810,15 @@ Returns the definition of a specific DataBrew project.
 """
 function describe_project end
 
-function describe_project(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("GET", "/projects/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_project(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("GET", "/projects/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/projects/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/projects/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -841,15 +841,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_recipe end
 
-function describe_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("GET", "/recipes/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_recipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("GET", "/recipes/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/recipes/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/recipes/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -865,15 +865,15 @@ Retrieves detailed information about the ruleset.
 """
 function describe_ruleset end
 
-function describe_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("GET", "/rulesets/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_ruleset(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("GET", "/rulesets/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_ruleset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/rulesets/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/rulesets/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -889,17 +889,17 @@ Returns the definition of a specific DataBrew schedule.
 """
 function describe_schedule end
 
-function describe_schedule(name; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "GET", "/schedules/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schedules/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_schedule(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/schedules/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/schedules/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -947,17 +947,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_job_runs end
 
-function list_job_runs(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_job_runs(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "GET", "/jobs/$(name)/jobRuns"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(Name)/jobRuns"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_job_runs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "GET", "/jobs/$(name)/jobRuns", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobs/$(Name)/jobRuns", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1199,21 +1199,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function publish_recipe end
 
-function publish_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
+function publish_recipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
-        "/recipes/$(name)/publishRecipe";
+        "/recipes/$(Name)/publishRecipe";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function publish_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "POST",
-        "/recipes/$(name)/publishRecipe",
+        "/recipes/$(Name)/publishRecipe",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1246,22 +1246,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function send_project_session_action end
 
 function send_project_session_action(
-    name; aws_config::AbstractAWSConfig=current_aws_config()
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/projects/$(name)/sendProjectSessionAction";
+        "/projects/$(Name)/sendProjectSessionAction";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function send_project_session_action(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/projects/$(name)/sendProjectSessionAction",
+        "/projects/$(Name)/sendProjectSessionAction",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1280,18 +1280,18 @@ Runs a DataBrew job.
 """
 function start_job_run end
 
-function start_job_run(name; aws_config::AbstractAWSConfig=current_aws_config())
+function start_job_run(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
-        "POST", "/jobs/$(name)/startJobRun"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/jobs/$(Name)/startJobRun"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function start_job_run(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "POST",
-        "/jobs/$(name)/startJobRun",
+        "/jobs/$(Name)/startJobRun",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1317,21 +1317,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function start_project_session end
 
-function start_project_session(name; aws_config::AbstractAWSConfig=current_aws_config())
+function start_project_session(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
-        "/projects/$(name)/startProjectSession";
+        "/projects/$(Name)/startProjectSession";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function start_project_session(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/projects/$(name)/startProjectSession",
+        "/projects/$(Name)/startProjectSession",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1351,24 +1351,24 @@ Stops a particular run of a job.
 """
 function stop_job_run end
 
-function stop_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws_config())
+function stop_job_run(Name, RunId; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "POST",
-        "/jobs/$(name)/jobRun/$(runId)/stopJobRun";
+        "/jobs/$(Name)/jobRun/$(RunId)/stopJobRun";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function stop_job_run(
-    name,
-    runId,
+    Name,
+    RunId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "POST",
-        "/jobs/$(name)/jobRun/$(runId)/stopJobRun",
+        "/jobs/$(Name)/jobRun/$(RunId)/stopJobRun",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1479,10 +1479,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_dataset end
 
-function update_dataset(Input, name; aws_config::AbstractAWSConfig=current_aws_config())
+function update_dataset(Input, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
-        "/datasets/$(name)",
+        "/datasets/$(Name)",
         Dict{String,Any}("Input" => Input);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1491,13 +1491,13 @@ end
 
 function update_dataset(
     Input,
-    name,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/datasets/$(name)",
+        "/datasets/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Input" => Input), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1505,17 +1505,17 @@ function update_dataset(
 end
 
 """
-    update_profile_job(output_location, role_arn, name)
-    update_profile_job(output_location, role_arn, name, params::Dict{String,<:Any})
+    update_profile_job(name, output_location, role_arn)
+    update_profile_job(name, output_location, role_arn, params::Dict{String,<:Any})
 
 Modifies the definition of an existing profile job.
 
 # Arguments
 
+- `name`: The name of the job to be updated.
 - `output_location`:
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role to be assumed when DataBrew runs the job.
-- `name`: The name of the job to be updated.
 
 # Optional Parameters
 
@@ -1555,11 +1555,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_profile_job end
 
 function update_profile_job(
-    OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, OutputLocation, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/profileJobs/$(name)",
+        "/profileJobs/$(Name)",
         Dict{String,Any}("OutputLocation" => OutputLocation, "RoleArn" => RoleArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1567,15 +1567,15 @@ function update_profile_job(
 end
 
 function update_profile_job(
+    Name,
     OutputLocation,
     RoleArn,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/profileJobs/$(name)",
+        "/profileJobs/$(Name)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1589,15 +1589,15 @@ function update_profile_job(
 end
 
 """
-    update_project(role_arn, name)
-    update_project(role_arn, name, params::Dict{String,<:Any})
+    update_project(name, role_arn)
+    update_project(name, role_arn, params::Dict{String,<:Any})
 
 Modifies the definition of an existing DataBrew project.
 
 # Arguments
 
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role to be assumed for this request.
 - `name`: The name of the project to be updated.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role to be assumed for this request.
 
 # Optional Parameters
 
@@ -1607,10 +1607,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_project end
 
-function update_project(RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config())
+function update_project(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
-        "/projects/$(name)",
+        "/projects/$(Name)",
         Dict{String,Any}("RoleArn" => RoleArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1618,14 +1618,14 @@ function update_project(RoleArn, name; aws_config::AbstractAWSConfig=current_aws
 end
 
 function update_project(
+    Name,
     RoleArn,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/projects/$(name)",
+        "/projects/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1652,29 +1652,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_recipe end
 
-function update_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return databrew("PUT", "/recipes/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_recipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return databrew("PUT", "/recipes/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
-        "PUT", "/recipes/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/recipes/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    update_recipe_job(role_arn, name)
-    update_recipe_job(role_arn, name, params::Dict{String,<:Any})
+    update_recipe_job(name, role_arn)
+    update_recipe_job(name, role_arn, params::Dict{String,<:Any})
 
 Modifies the definition of an existing DataBrew recipe job.
 
 # Arguments
 
+- `name`: The name of the job to update.
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role to be assumed when DataBrew runs the job.
-- `name`: The name of the job to update.
 
 # Optional Parameters
 
@@ -1710,11 +1710,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_recipe_job end
 
 function update_recipe_job(
-    RoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/recipeJobs/$(name)",
+        "/recipeJobs/$(Name)",
         Dict{String,Any}("RoleArn" => RoleArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1722,14 +1722,14 @@ function update_recipe_job(
 end
 
 function update_recipe_job(
+    Name,
     RoleArn,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/recipeJobs/$(name)",
+        "/recipeJobs/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1737,16 +1737,16 @@ function update_recipe_job(
 end
 
 """
-    update_ruleset(rules, name)
-    update_ruleset(rules, name, params::Dict{String,<:Any})
+    update_ruleset(name, rules)
+    update_ruleset(name, rules, params::Dict{String,<:Any})
 
 Updates specified ruleset.
 
 # Arguments
 
+- `name`: The name of the ruleset to be updated.
 - `rules`: A list of rules that are defined with the ruleset. A rule includes one or more
   checks to be validated on a DataBrew dataset.
-- `name`: The name of the ruleset to be updated.
 
 # Optional Parameters
 
@@ -1756,10 +1756,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_ruleset end
 
-function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=current_aws_config())
+function update_ruleset(Name, Rules; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew(
         "PUT",
-        "/rulesets/$(name)",
+        "/rulesets/$(Name)",
         Dict{String,Any}("Rules" => Rules);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1767,14 +1767,14 @@ function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=current_aws_c
 end
 
 function update_ruleset(
+    Name,
     Rules,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/rulesets/$(name)",
+        "/rulesets/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Rules" => Rules), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1803,11 +1803,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_schedule end
 
 function update_schedule(
-    CronExpression, name; aws_config::AbstractAWSConfig=current_aws_config()
+    CronExpression, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return databrew(
         "PUT",
-        "/schedules/$(name)",
+        "/schedules/$(Name)",
         Dict{String,Any}("CronExpression" => CronExpression);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1816,13 +1816,13 @@ end
 
 function update_schedule(
     CronExpression,
-    name,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return databrew(
         "PUT",
-        "/schedules/$(name)",
+        "/schedules/$(Name)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CronExpression" => CronExpression), params)
         );

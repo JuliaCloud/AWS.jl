@@ -1265,7 +1265,7 @@ Creates a tag for the specified resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are returned.
-- `tags`: A list of tags to add to the resource.&gt;
+- `tags`: A list of tags to add to the resource.>
 """
 function tag_resource end
 

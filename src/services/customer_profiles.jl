@@ -163,15 +163,6 @@ set `Matching` to true.
 To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html)
 for sample policies that you should apply.
 
-!!! note
-    It is not possible to associate a Customer Profiles domain with an Amazon Connect
-    Instance directly from the API. If you would like to create a domain and associate a
-    Customer Profiles domain, use the Amazon Connect admin website. For more information,
-    see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1).
-
-    Each Amazon Connect instance can be associated with only one domain. Multiple Amazon
-    Connect instances can be associated with one domain.
-
 # Arguments
 
 - `default_expiration_days`: The default number of days until the data within the domain
@@ -389,7 +380,7 @@ A standard profile represents the following attributes for a customer profile in
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountNumber"`: An account number that you have given to the customer.
+- `"AccountNumber"`: A unique account number that you have given to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
 - `"Address"`: A generic address associated with the customer that is not mailing, shipping,
   or billing.
@@ -2277,9 +2268,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Keys"`: A list of unique keys that can be used to map data to the profile.
 
-- `"MaxProfileObjectCount"`: The amount of profile object max count assigned to the object
-  type
-
 - `"SourceLastUpdatedTimestampFormat"`: The format of your `sourceLastUpdatedTimestamp` that
   was previously set up.
 
@@ -2654,7 +2642,7 @@ be kept.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountNumber"`: An account number that you have given to the customer.
+- `"AccountNumber"`: A unique account number that you have given to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
 - `"Address"`: A generic address associated with the customer that is not mailing, shipping,
   or billing.

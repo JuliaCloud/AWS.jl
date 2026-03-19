@@ -13,7 +13,7 @@ Deletes an object at the specified path.
 # Arguments
 
 - `path`: The path (including the file name) where the object is stored in the container.
-  Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  Format: <folder name>/<folder name>/<file name>
 """
 function delete_object end
 
@@ -40,7 +40,7 @@ Gets the headers for an object at the specified path.
 # Arguments
 
 - `path`: The path (including the file name) where the object is stored in the container.
-  Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  Format: <folder name>/<folder name>/<file name>
 """
 function describe_object end
 
@@ -67,7 +67,7 @@ object.
 # Arguments
 
 - `path`: The path (including the file name) where the object is stored in the container.
-  Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  Format: <folder name>/<folder name>/<file name>
 
   For example, to upload the file `mlaw.avi` to the folder path `premium\\canada` in the
   container `movies`, enter the path `premium/canada/mlaw.avi`.
@@ -138,8 +138,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Tokens expire after 15 minutes.
 
-- `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
-  name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+- `"Path"`: The path in the container from which to retrieve items. Format: <folder
+  name>/<folder name>/<file name>
 """
 function list_items end
 
@@ -165,7 +165,7 @@ upload availability and 10 MB for streaming upload availability.
 - `body`: The bytes to be stored.
 
 - `path`: The path (including the file name) where the object is stored in the container.
-  Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  Format: <folder name>/<folder name>/<file name>
 
   For example, to upload the file `mlaw.avi` to the folder path `premium\\canada` in the
   container `movies`, enter the path `premium/canada/mlaw.avi`.

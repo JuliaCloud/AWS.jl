@@ -144,7 +144,7 @@ in the *Amazon Chime Developer Guide*.
 - `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links the
   attendee to an identity managed by a builder application.
 
-  Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
+  Pattern: `[-_&@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix.
@@ -231,7 +231,7 @@ in the *Amazon Chime Developer Guide*.
 
 - `external_meeting_id`: The external meeting ID.
 
-  Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
+  Pattern: `[-_&@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix. Case insensitive.
@@ -367,7 +367,7 @@ in the *Amazon Chime Developer Guide*.
 
 - `external_meeting_id`: The external meeting ID.
 
-  Pattern: `[-_&amp;@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
+  Pattern: `[-_&@+=,(){}\\[\\]\\/«».:|'"#a-zA-Z0-9À-ÿ\\s]*`
 
   Values that begin with `aws:` are reserved. You can't configure a value that uses this
   prefix. Case insensitive.

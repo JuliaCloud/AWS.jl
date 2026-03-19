@@ -5,25 +5,25 @@ using AWS.AWSServices: outposts
 using AWS.UUIDs: uuid4
 
 """
-    cancel_capacity_task(capacity_task_id, outpost_id)
-    cancel_capacity_task(capacity_task_id, outpost_id, params::Dict{String,<:Any})
+    cancel_capacity_task(capacity_task_id, outpost_identifier)
+    cancel_capacity_task(capacity_task_id, outpost_identifier, params::Dict{String,<:Any})
 
 Cancels the capacity task.
 
 # Arguments
 
 - `capacity_task_id`: ID of the capacity task that you want to cancel.
-- `outpost_id`: ID or ARN of the Outpost associated with the capacity task that you want to
-  cancel.
+- `outpost_identifier`: ID or ARN of the Outpost associated with the capacity task that you
+  want to cancel.
 """
 function cancel_capacity_task end
 
 function cancel_capacity_task(
-    CapacityTaskId, OutpostId; aws_config::AbstractAWSConfig=current_aws_config()
+    CapacityTaskId, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "POST",
-        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -31,13 +31,13 @@ end
 
 function cancel_capacity_task(
     CapacityTaskId,
-    OutpostId,
+    OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "POST",
-        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -303,24 +303,25 @@ function delete_site(
 end
 
 """
-    get_capacity_task(capacity_task_id, outpost_id)
-    get_capacity_task(capacity_task_id, outpost_id, params::Dict{String,<:Any})
+    get_capacity_task(capacity_task_id, outpost_identifier)
+    get_capacity_task(capacity_task_id, outpost_identifier, params::Dict{String,<:Any})
 
 Gets details of the specified capacity task.
 
 # Arguments
 
 - `capacity_task_id`: ID of the capacity task.
-- `outpost_id`: ID or ARN of the Outpost associated with the specified capacity task.
+- `outpost_identifier`: ID or ARN of the Outpost associated with the specified capacity
+  task.
 """
 function get_capacity_task end
 
 function get_capacity_task(
-    CapacityTaskId, OutpostId; aws_config::AbstractAWSConfig=current_aws_config()
+    CapacityTaskId, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -328,13 +329,13 @@ end
 
 function get_capacity_task(
     CapacityTaskId,
-    OutpostId,
+    OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -514,8 +515,8 @@ function get_outpost_instance_types(
 end
 
 """
-    get_outpost_supported_instance_types(order_id, outpost_id)
-    get_outpost_supported_instance_types(order_id, outpost_id, params::Dict{String,<:Any})
+    get_outpost_supported_instance_types(order_id, outpost_identifier)
+    get_outpost_supported_instance_types(order_id, outpost_identifier, params::Dict{String,<:Any})
 
 Gets the instance types that an Outpost can support in `InstanceTypeCapacity`. This will
 generally include instance types that are not currently configured and therefore cannot be
@@ -524,7 +525,7 @@ launched with the current Outpost capacity configuration.
 # Arguments
 
 - `order_id`: The ID for the Amazon Web Services Outposts order.
-- `outpost_id`: The ID or ARN of the Outpost.
+- `outpost_identifier`: The ID or ARN of the Outpost.
 
 # Optional Parameters
 
@@ -536,11 +537,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_outpost_supported_instance_types end
 
 function get_outpost_supported_instance_types(
-    OrderId, OutpostId; aws_config::AbstractAWSConfig=current_aws_config()
+    OrderId, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostId)/supportedInstanceTypes",
+        "/outposts/$(OutpostIdentifier)/supportedInstanceTypes",
         Dict{String,Any}("OrderId" => OrderId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -549,13 +550,13 @@ end
 
 function get_outpost_supported_instance_types(
     OrderId,
-    OutpostId,
+    OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostId)/supportedInstanceTypes",
+        "/outposts/$(OutpostIdentifier)/supportedInstanceTypes",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("OrderId" => OrderId), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -629,8 +630,8 @@ function get_site_address(
 end
 
 """
-    list_assets(outpost_id)
-    list_assets(outpost_id, params::Dict{String,<:Any})
+    list_assets(outpost_identifier)
+    list_assets(outpost_identifier, params::Dict{String,<:Any})
 
 Lists the hardware assets for the specified Outpost.
 
@@ -641,7 +642,7 @@ specify for the filter.
 
 # Arguments
 
-- `outpost_id`: The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_identifier`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 # Optional Parameters
 
@@ -654,20 +655,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_assets end
 
-function list_assets(OutpostId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_assets(OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return outposts(
-        "GET", "/outposts/$(OutpostId)/assets"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/outposts/$(OutpostIdentifier)/assets";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_assets(
-    OutpostId,
+    OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostId)/assets",
+        "/outposts/$(OutpostIdentifier)/assets",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -871,8 +875,8 @@ function list_tags_for_resource(
 end
 
 """
-    start_capacity_task(instance_pools, order_id, outpost_id)
-    start_capacity_task(instance_pools, order_id, outpost_id, params::Dict{String,<:Any})
+    start_capacity_task(instance_pools, order_id, outpost_identifier)
+    start_capacity_task(instance_pools, order_id, outpost_identifier, params::Dict{String,<:Any})
 
 Starts the specified capacity task. You can have one active capacity task for an order.
 
@@ -881,7 +885,8 @@ Starts the specified capacity task. You can have one active capacity task for an
 - `instance_pools`: The instance pools specified in the capacity task.
 - `order_id`: The ID of the Amazon Web Services Outposts order associated with the specified
   capacity task.
-- `outpost_id`: The ID or ARN of the Outposts associated with the specified capacity task.
+- `outpost_identifier`: The ID or ARN of the Outposts associated with the specified capacity
+  task.
 
 # Optional Parameters
 
@@ -894,11 +899,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_capacity_task end
 
 function start_capacity_task(
-    InstancePools, OrderId, OutpostId; aws_config::AbstractAWSConfig=current_aws_config()
+    InstancePools,
+    OrderId,
+    OutpostIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "POST",
-        "/outposts/$(OutpostId)/capacity",
+        "/outposts/$(OutpostIdentifier)/capacity",
         Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -908,13 +916,13 @@ end
 function start_capacity_task(
     InstancePools,
     OrderId,
-    OutpostId,
+    OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return outposts(
         "POST",
-        "/outposts/$(OutpostId)/capacity",
+        "/outposts/$(OutpostIdentifier)/capacity",
         Dict{String,Any}(
             mergewith(
                 _merge,

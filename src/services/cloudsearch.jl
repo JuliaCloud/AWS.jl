@@ -677,7 +677,7 @@ end
 Gets information about the search domains owned by this account. Can be limited to specific
 domains. Shows all domains by default. To get the number of searchable documents in a
 domain, use the console or submit a `matchall` request to your domain's search endpoint:
-`q=matchall&amp;amp;q.parser=structured&amp;amp;size=0`. For more information, see <a
+`q=matchall&amp;q.parser=structured&amp;size=0`. For more information, see <a
 href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html"
 target="_blank">Getting Information about a Search Domain</a> in the *Amazon CloudSearch
 Developer Guide*.

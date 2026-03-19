@@ -365,7 +365,7 @@ end
     create_alias(alias, directory_id, params::Dict{String,<:Any})
 
 Creates an alias for a directory and assigns the alias to the directory. The alias is used
-to construct the access URL for the directory, such as `http://&lt;alias&gt;.awsapps.com`.
+to construct the access URL for the directory, such as `http://<alias>.awsapps.com`.
 
 !!! important
     After an alias has been created, it cannot be deleted or reused, so this operation

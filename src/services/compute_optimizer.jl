@@ -23,6 +23,9 @@ in the *Compute Optimizer User Guide*.
   Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
   part of an Auto Scaling group.
 
+  !!! note
+      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -717,102 +720,6 @@ function export_license_recommendations(
 end
 
 """
-    export_rdsdatabase_recommendations(s3_destination_config)
-    export_rdsdatabase_recommendations(s3_destination_config, params::Dict{String,<:Any})
-
-Export optimization recommendations for your Amazon Relational Database Service (Amazon
-RDS).
-
-Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a
-JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon
-S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html)
-in the *Compute Optimizer User Guide*.
-
-You can have only one Amazon RDS export job in progress per Amazon Web Services Region.
-
-# Arguments
-
-- `s3_destination_config`:
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"accountIds"`: The Amazon Web Services account IDs for the export Amazon RDS
-  recommendations.
-
-  If your account is the management account or the delegated administrator of an
-  organization, use this parameter to specify the member account you want to export
-  recommendations to.
-
-  This parameter can't be specified together with the include member accounts parameter. The
-  parameters are mutually exclusive.
-
-  If this parameter or the include member accounts parameter is omitted, the recommendations
-  for member accounts aren't included in the export.
-
-  You can specify multiple account IDs per request.
-
-- `"fieldsToExport"`: The recommendations data to include in the export file. For more
-  information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files)
-  in the *Compute Optimizer User Guide*.
-
-- `"fileFormat"`: The format of the export file.
-
-  The CSV file is the only export file format currently supported.
-
-- `"filters"`: An array of objects to specify a filter that exports a more specific set of
-  Amazon RDS recommendations.
-
-- `"includeMemberAccounts"`: If your account is the management account or the delegated
-  administrator of an organization, this parameter indicates whether to include
-  recommendations for resources in all member accounts of the organization.
-
-  The member accounts must also be opted in to Compute Optimizer, and trusted access for
-  Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
-  in the *Compute Optimizer User Guide*.
-
-  If this parameter is omitted, recommendations for member accounts of the organization
-  aren't included in the export file.
-
-  If this parameter or the account ID parameter is omitted, recommendations for member
-  accounts aren't included in the export.
-
-- `"recommendationPreferences"`:
-"""
-function export_rdsdatabase_recommendations end
-
-function export_rdsdatabase_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return compute_optimizer(
-        "ExportRDSDatabaseRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function export_rdsdatabase_recommendations(
-    s3DestinationConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return compute_optimizer(
-        "ExportRDSDatabaseRecommendations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     get_auto_scaling_group_recommendations()
     get_auto_scaling_group_recommendations(params::Dict{String,<:Any})
 
@@ -1436,151 +1343,6 @@ function get_license_recommendations(
 end
 
 """
-    get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat)
-    get_rdsdatabase_recommendation_projected_metrics(end_time, period, resource_arn, start_time, stat, params::Dict{String,<:Any})
-
-Returns the projected metrics of Amazon RDS recommendations.
-
-# Arguments
-
-- `end_time`: The timestamp of the last projected metrics data point to return.
-
-- `period`: The granularity, in seconds, of the projected metrics data points.
-
-- `resource_arn`: The ARN that identifies the Amazon RDS.
-
-  The following is the format of the ARN:
-
-  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
-
-- `start_time`: The timestamp of the first projected metrics data point to return.
-
-- `stat`: The statistic of the projected metrics.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"recommendationPreferences"`:
-"""
-function get_rdsdatabase_recommendation_projected_metrics end
-
-function get_rdsdatabase_recommendation_projected_metrics(
-    endTime,
-    period,
-    resourceArn,
-    startTime,
-    stat;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return compute_optimizer(
-        "GetRDSDatabaseRecommendationProjectedMetrics",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "period" => period,
-            "resourceArn" => resourceArn,
-            "startTime" => startTime,
-            "stat" => stat,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_rdsdatabase_recommendation_projected_metrics(
-    endTime,
-    period,
-    resourceArn,
-    startTime,
-    stat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return compute_optimizer(
-        "GetRDSDatabaseRecommendationProjectedMetrics",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "period" => period,
-                    "resourceArn" => resourceArn,
-                    "startTime" => startTime,
-                    "stat" => stat,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_rdsdatabase_recommendations()
-    get_rdsdatabase_recommendations(params::Dict{String,<:Any})
-
-Returns Amazon RDS recommendations.
-
-Compute Optimizer generates recommendations for Amazon RDS that meet a specific set of
-requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
-in the *Compute Optimizer User Guide*.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"accountIds"`: Return the Amazon RDS recommendations to the specified Amazon Web Services
-  account IDs.
-
-  If your account is the management account or the delegated administrator of an
-  organization, use this parameter to return the Amazon RDS recommendations to specific
-  member accounts.
-
-  You can only specify one account ID per request.
-
-- `"filters"`: An array of objects to specify a filter that returns a more specific list of
-  Amazon RDS recommendations.
-
-- `"maxResults"`: The maximum number of Amazon RDS recommendations to return with a single
-  request.
-
-  To retrieve the remaining results, make another request with the returned `nextToken`
-  value.
-
-- `"nextToken"`: The token to advance to the next page of Amazon RDS recommendations.
-
-- `"recommendationPreferences"`:
-
-- `"resourceArns"`: The ARN that identifies the Amazon RDS.
-
-  The following is the format of the ARN:
-
-  `arn:aws:rds:{region}:{accountId}:db:{resourceName}`
-
-  The following is the format of a DB Cluster ARN:
-
-  `arn:aws:rds:{region}:{accountId}:cluster:{resourceName}`
-"""
-function get_rdsdatabase_recommendations end
-
-function get_rdsdatabase_recommendations(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return compute_optimizer(
-        "GetRDSDatabaseRecommendations"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function get_rdsdatabase_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return compute_optimizer(
-        "GetRDSDatabaseRecommendations", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
     get_recommendation_preferences(resource_type)
     get_recommendation_preferences(resource_type, params::Dict{String,<:Any})
 
@@ -1601,6 +1363,9 @@ in the *Compute Optimizer User Guide*.
   The `Ec2Instance` option encompasses standalone instances and instances that are part of
   Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
   part of an Auto Scaling group.
+
+  !!! note
+      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
 
 # Optional Parameters
 
@@ -1719,6 +1484,9 @@ in the *Compute Optimizer User Guide*.
   Auto Scaling groups. The `AutoScalingGroup` option encompasses only instances that are
   part of an Auto Scaling group.
 
+  !!! note
+      The valid values for this parameter are `Ec2Instance` and `AutoScalingGroup`.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1760,13 +1528,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the Amazon Web Services resource are analyzed. When this preference isn't specified, we
   use the default value `DAYS_14`.
 
-  You can only set this preference for the Amazon EC2 instance and Auto Scaling group
-  resource types.
-
   !!! note
-      - Amazon EC2 instance lookback preferences can be set at the organization, account,
-        and resource levels.
-      - Auto Scaling group lookback preferences can only be set at the resource level.
+      You can only set this preference for the Amazon EC2 instance and Auto Scaling group
+      resource types.
 
 - `"preferredResources"`: The preference to control which resource type values are
   considered when generating rightsizing recommendations. You can specify this preference as

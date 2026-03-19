@@ -585,28 +585,34 @@ system returns the AssociationAlreadyExists exception.
 # Arguments
 
 - `entries`: One or more associations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Entries"`: One or more associations.
 """
 function create_association_batch end
 
 function create_association_batch(
-    Entries; aws_config::AbstractAWSConfig=current_aws_config()
+    entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm(
         "CreateAssociationBatch",
-        Dict{String,Any}("Entries" => Entries);
+        Dict{String,Any}("entries" => entries);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_association_batch(
-    Entries,
+    entries,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm(
         "CreateAssociationBatch",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1119,25 +1125,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in the
   `RejectedPackages` list.
 
-  ### ALLOW_AS_DEPENDENCY
-
-  **Linux and macOS**: A package in the rejected patches list is installed only if it is a
-  dependency of another package. It is considered compliant with the patch baseline, and its
-  status is reported as `INSTALLED_OTHER`. This is the default action if no option is
-  specified.
-
-  **Windows Server**: Windows Server doesn't support the concept of package dependencies. If
-  a package in the rejected patches list and already installed on the node, its status is
-  reported as `INSTALLED_OTHER`. Any package not already installed on the node is skipped.
-  This is the default action if no option is specified.
-
-  ### BLOCK
-
-  **All OSs**: Packages in the rejected patches list, and packages that include them as
-  dependencies, aren't installed by Patch Manager under any circumstances. If a package was
-  installed before it was added to the rejected patches list, or is installed outside of
-  Patch Manager afterward, it's considered noncompliant with the patch baseline and its
-  status is reported as `INSTALLED_REJECTED`.
+  - **`ALLOW_AS_DEPENDENCY`**: A package in the `Rejected` patches list is installed only if
+    it is a dependency of another package. It is considered compliant with the patch
+    baseline, and its status is reported as `InstalledOther`. This is the default action if
+    no option is specified.
+  - **BLOCK**: Packages in the **Rejected patches** list, and packages that include them as
+    dependencies, aren't installed by Patch Manager under any circumstances. If a package
+    was installed before it was added to the **Rejected patches** list, or is installed
+    outside of Patch Manager afterward, it's considered noncompliant with the patch baseline
+    and its status is reported as *InstalledRejected*.
 
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
@@ -2620,9 +2616,9 @@ nodes. If you don't specify node IDs, it returns information for all your manage
 you specify a node ID that isn't valid or a node that you don't own, you receive an error.
 
 !!! note
-    The `IamRole` field returned for this API operation is the role assigned to an Amazon
-    EC2 instance configured with a Systems Manager Quick Setup host management configuration
-    or the role assigned to an on-premises managed node.
+    The `IamRole` field returned for this API operation is the Identity and Access
+    Management (IAM) role assigned to on-premises managed nodes. This operation does not
+    return the IAM role for EC2 instances.
 
 # Optional Parameters
 
@@ -3583,10 +3579,6 @@ Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
 
 Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
 
-### AMAZON_LINUX_2023
-
-Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
-
 ### CENTOS
 
 Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
@@ -3872,12 +3864,7 @@ end
     get_command_invocation(command_id, instance_id)
     get_command_invocation(command_id, instance_id, params::Dict{String,<:Any})
 
-Returns detailed information about command execution for an invocation or plugin. The Run
-Command API follows an eventual consistency model, due to the distributed nature of the
-system supporting the API. This means that the result of an API command you run that affects
-your resources might not be immediately visible to all subsequent commands you run. You
-should keep this in mind when you carry out an API command that immediately follows a
-previous API command.
+Returns detailed information about command execution for an invocation or plugin.
 
 `GetCommandInvocation` only gives the execution status of a plugin in a document. To get the
 command execution status on a specific managed node, use [`list_command_invocations`](@ref).
@@ -5859,8 +5846,8 @@ function put_compliance_items(
 end
 
 """
-    put_inventory(instance_id, items)
-    put_inventory(instance_id, items, params::Dict{String,<:Any})
+    put_inventory(instance_id, item)
+    put_inventory(instance_id, item, params::Dict{String,<:Any})
 
 Bulk update custom inventory items on one or more managed nodes. The request adds an
 inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
@@ -5868,16 +5855,20 @@ inventory item, if it doesn't already exist, or updates an inventory item, if it
 # Arguments
 
 - `instance_id`: An managed node ID where you want to add or update inventory items.
-- `items`: The inventory items that you want to add or update on managed nodes.
+- `item`: The inventory items that you want to add or update on managed nodes.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Items"`: The inventory items that you want to add or update on managed nodes.
 """
 function put_inventory end
 
-function put_inventory(
-    InstanceId, Items; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function put_inventory(InstanceId, Item; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "PutInventory",
-        Dict{String,Any}("InstanceId" => InstanceId, "Items" => Items);
+        Dict{String,Any}("InstanceId" => InstanceId, "Item" => Item);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -5885,7 +5876,7 @@ end
 
 function put_inventory(
     InstanceId,
-    Items,
+    Item,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -5893,9 +5884,7 @@ function put_inventory(
         "PutInventory",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}("InstanceId" => InstanceId, "Items" => Items),
-                params,
+                _merge, Dict{String,Any}("InstanceId" => InstanceId, "Item" => Item), params
             ),
         );
         aws_config,
@@ -6325,23 +6314,23 @@ Registers a target with a maintenance window.
 
   **Example 1**: Specify managed node IDs
 
-  `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-3&gt;`
+  `Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>,<instance-id-3>`
 
   **Example 2**: Use tag key-pairs applied to managed nodes
 
-  `Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;`
+  `Key=tag:<my-tag-key>,Values=<my-tag-value-1>,<my-tag-value-2>`
 
   **Example 3**: Use tag-keys applied to managed nodes
 
-  `Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;`
+  `Key=tag-key,Values=<my-tag-key-1>,<my-tag-key-2>`
 
   **Example 4**: Use resource group names
 
-  `Key=resource-groups:Name,Values=&lt;resource-group-name&gt;`
+  `Key=resource-groups:Name,Values=<resource-group-name>`
 
   **Example 5**: Use filters for resource group types
 
-  `Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-type-2&gt;`
+  `Key=resource-groups:ResourceTypeFilters,Values=<resource-type-1>,<resource-type-2>`
 
   !!! note
       For `Key=resource-groups:ResourceTypeFilters`, specify resource types in the following
@@ -6510,11 +6499,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Specify managed nodes using the following format:
 
-  `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;`
+  `Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>`
 
   Specify maintenance window targets using the following format:
 
-  `Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;`
+  `Key=WindowTargetIds,Values=<window-target-id-1>,<window-target-id-2>`
 
 - `"TaskInvocationParameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.
@@ -7435,7 +7424,7 @@ optional parameters required for your `UpdateAssociation` call.
 In order to call this API operation, a user, group, or role must be granted permission to
 call the [`describe_association`](@ref) API operation. If you don't have permission to call
 `DescribeAssociation`, then you receive the following error:
-`An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: &lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource: &lt;resource_arn&gt;`
+`An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: <user_arn> isn't authorized to perform: ssm:DescribeAssociation on resource: <resource_arn>`
 
 !!! important
     When you update an association, the association immediately runs against the specified
@@ -8475,25 +8464,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in the
   `RejectedPackages` list.
 
-  ### ALLOW_AS_DEPENDENCY
-
-  **Linux and macOS**: A package in the rejected patches list is installed only if it is a
-  dependency of another package. It is considered compliant with the patch baseline, and its
-  status is reported as `INSTALLED_OTHER`. This is the default action if no option is
-  specified.
-
-  **Windows Server**: Windows Server doesn't support the concept of package dependencies. If
-  a package in the rejected patches list and already installed on the node, its status is
-  reported as `INSTALLED_OTHER`. Any package not already installed on the node is skipped.
-  This is the default action if no option is specified.
-
-  ### BLOCK
-
-  **All OSs**: Packages in the rejected patches list, and packages that include them as
-  dependencies, aren't installed by Patch Manager under any circumstances. If a package was
-  installed before it was added to the rejected patches list, or is installed outside of
-  Patch Manager afterward, it's considered noncompliant with the patch baseline and its
-  status is reported as `INSTALLED_REJECTED`.
+  - **`ALLOW_AS_DEPENDENCY`**: A package in the `Rejected` patches list is installed only if
+    it is a dependency of another package. It is considered compliant with the patch
+    baseline, and its status is reported as `InstalledOther`. This is the default action if
+    no option is specified.
+  - **BLOCK**: Packages in the **Rejected patches** list, and packages that include them as
+    dependencies, aren't installed by Patch Manager under any circumstances. If a package
+    was installed before it was added to the **Rejected patches** list, or is installed
+    outside of Patch Manager afterward, it's considered noncompliant with the patch baseline
+    and its status is reported as *InstalledRejected*.
 
 - `"Replace"`: If True, then all fields that are required by the `CreatePatchBaseline`
   operation are also required for this API request. Optional fields that aren't specified

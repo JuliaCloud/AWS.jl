@@ -877,7 +877,7 @@ function start_detector_model_analysis(
 )
     return iot_events(
         "POST",
-        "/analysis/detector-models/",
+        "/analysis/detector-models",
         Dict{String,Any}("detectorModelDefinition" => detectorModelDefinition);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -891,7 +891,7 @@ function start_detector_model_analysis(
 )
     return iot_events(
         "POST",
-        "/analysis/detector-models/",
+        "/analysis/detector-models",
         Dict{String,Any}(
             mergewith(
                 _merge,

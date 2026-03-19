@@ -18,25 +18,25 @@ Changes the packaging group's properities to configure log subscription
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"egressAccessLogs"`:
+- `"EgressAccessLogs"`:
 """
 function configure_logs end
 
-function configure_logs(id; aws_config::AbstractAWSConfig=current_aws_config())
+function configure_logs(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
         "PUT",
-        "/packaging_groups/$(id)/configure_logs";
+        "/packaging_groups/$(Id)/configure_logs";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function configure_logs(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "PUT",
-        "/packaging_groups/$(id)/configure_logs",
+        "/packaging_groups/$(Id)/configure_logs",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -60,26 +60,26 @@ Creates a new MediaPackage VOD Asset resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"resourceId"`: The resource ID to include in SPEKE key requests.
-- `"tags"`:
+- `"ResourceId"`: The resource ID to include in SPEKE key requests.
+- `"Tags"`:
 """
 function create_asset end
 
 function create_asset(
-    id,
-    packagingGroupId,
-    sourceArn,
-    sourceRoleArn;
+    Id,
+    PackagingGroupId,
+    SourceArn,
+    SourceRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage_vod(
         "POST",
         "/assets",
         Dict{String,Any}(
-            "id" => id,
-            "packagingGroupId" => packagingGroupId,
-            "sourceArn" => sourceArn,
-            "sourceRoleArn" => sourceRoleArn,
+            "Id" => Id,
+            "PackagingGroupId" => PackagingGroupId,
+            "SourceArn" => SourceArn,
+            "SourceRoleArn" => SourceRoleArn,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -87,10 +87,10 @@ function create_asset(
 end
 
 function create_asset(
-    id,
-    packagingGroupId,
-    sourceArn,
-    sourceRoleArn,
+    Id,
+    PackagingGroupId,
+    SourceArn,
+    SourceRoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -101,10 +101,10 @@ function create_asset(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "id" => id,
-                    "packagingGroupId" => packagingGroupId,
-                    "sourceArn" => sourceArn,
-                    "sourceRoleArn" => sourceRoleArn,
+                    "Id" => Id,
+                    "PackagingGroupId" => PackagingGroupId,
+                    "SourceArn" => SourceArn,
+                    "SourceRoleArn" => SourceRoleArn,
                 ),
                 params,
             ),
@@ -129,29 +129,29 @@ Creates a new MediaPackage VOD PackagingConfiguration resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cmafPackage"`:
-- `"dashPackage"`:
-- `"hlsPackage"`:
-- `"mssPackage"`:
-- `"tags"`:
+- `"CmafPackage"`:
+- `"DashPackage"`:
+- `"HlsPackage"`:
+- `"MssPackage"`:
+- `"Tags"`:
 """
 function create_packaging_configuration end
 
 function create_packaging_configuration(
-    id, packagingGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, PackagingGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "POST",
         "/packaging_configurations",
-        Dict{String,Any}("id" => id, "packagingGroupId" => packagingGroupId);
+        Dict{String,Any}("Id" => Id, "PackagingGroupId" => PackagingGroupId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_packaging_configuration(
-    id,
-    packagingGroupId,
+    Id,
+    PackagingGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -161,7 +161,7 @@ function create_packaging_configuration(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("id" => id, "packagingGroupId" => packagingGroupId),
+                Dict{String,Any}("Id" => Id, "PackagingGroupId" => PackagingGroupId),
                 params,
             ),
         );
@@ -184,29 +184,29 @@ Creates a new MediaPackage VOD PackagingGroup resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authorization"`:
-- `"egressAccessLogs"`:
-- `"tags"`:
+- `"Authorization"`:
+- `"EgressAccessLogs"`:
+- `"Tags"`:
 """
 function create_packaging_group end
 
-function create_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+function create_packaging_group(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
         "POST",
         "/packaging_groups",
-        Dict{String,Any}("id" => id);
+        Dict{String,Any}("Id" => Id);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "POST",
         "/packaging_groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -224,17 +224,17 @@ Deletes an existing MediaPackage VOD Asset resource.
 """
 function delete_asset end
 
-function delete_asset(id; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_asset(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
-        "DELETE", "/assets/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/assets/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_asset(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
-        "DELETE", "/assets/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/assets/$(Id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -251,22 +251,22 @@ Deletes a MediaPackage VOD PackagingConfiguration resource.
 function delete_packaging_configuration end
 
 function delete_packaging_configuration(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "DELETE",
-        "/packaging_configurations/$(id)";
+        "/packaging_configurations/$(Id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_packaging_configuration(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "DELETE",
-        "/packaging_configurations/$(id)",
+        "/packaging_configurations/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -285,18 +285,18 @@ Deletes a MediaPackage VOD PackagingGroup resource.
 """
 function delete_packaging_group end
 
-function delete_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_packaging_group(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
-        "DELETE", "/packaging_groups/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/packaging_groups/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "DELETE",
-        "/packaging_groups/$(id)",
+        "/packaging_groups/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -315,17 +315,17 @@ Returns a description of a MediaPackage VOD Asset resource.
 """
 function describe_asset end
 
-function describe_asset(id; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_asset(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
-        "GET", "/assets/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_asset(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
-        "GET", "/assets/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/assets/$(Id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -342,22 +342,22 @@ Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 function describe_packaging_configuration end
 
 function describe_packaging_configuration(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "GET",
-        "/packaging_configurations/$(id)";
+        "/packaging_configurations/$(Id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_packaging_configuration(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "GET",
-        "/packaging_configurations/$(id)",
+        "/packaging_configurations/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -376,18 +376,18 @@ Returns a description of a MediaPackage VOD PackagingGroup resource.
 """
 function describe_packaging_group end
 
-function describe_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_packaging_group(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
-        "GET", "/packaging_groups/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/packaging_groups/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "GET",
-        "/packaging_groups/$(id)",
+        "/packaging_groups/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -487,97 +487,95 @@ function list_packaging_groups(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Returns a list of the tags assigned to the specified resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
   response to any request to the resource.
 """
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
-        "GET", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage_vod(
-        "GET", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds tags to the specified resource. You can specify one or more tags to add.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
   response to any request to the resource.
 - `tags`: A collection of tags associated with a resource
 """
 function tag_resource end
 
-function tag_resource(
-    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    resource_arn,
-    tags,
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage_vod(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
+- `resource_arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the
   response to any request to the resource.
 - `tag_keys`: A comma-separated list of the tag keys to remove from the resource.
 """
 function untag_resource end
 
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -585,14 +583,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackage_vod(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -614,22 +612,22 @@ generated attributes.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authorization"`:
+- `"Authorization"`:
 """
 function update_packaging_group end
 
-function update_packaging_group(id; aws_config::AbstractAWSConfig=current_aws_config())
+function update_packaging_group(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage_vod(
-        "PUT", "/packaging_groups/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/packaging_groups/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mediapackage_vod(
         "PUT",
-        "/packaging_groups/$(id)",
+        "/packaging_groups/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

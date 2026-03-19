@@ -861,10 +861,10 @@ in the *Lightsail Dev Guide*.
 
   The name that you specify for your container service will make up part of its default
   domain. The default domain of a container service is typically
-  `https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com`.
-  If the name of your container service is `container-service-1`, and it's located in the US
-  East (Ohio) Amazon Web Services Region (`us-east-2`), then the domain for your container
-  service will be like the following example:
+  `https://<ServiceName>.<RandomGUID>.<AWSRegion>.cs.amazonlightsail.com`. If the name of
+  your container service is `container-service-1`, and it's located in the US East (Ohio)
+  Amazon Web Services Region (`us-east-2`), then the domain for your container service will
+  be like the following example:
   `https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com`
 
   The following are the requirements for container service names:
@@ -3849,9 +3849,10 @@ used with the `create cloud formation stack` operation to create new Amazon EC2 
 Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the
 instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported
 disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the
-same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The
-`export snapshot` operation supports tag-based access control via resource tags applied to
-the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.
+
+The `export snapshot` operation supports tag-based access control via resource tags applied
+to the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 !!! note
     Use the `get instance snapshots` or `get disk snapshots` operations to get a list of
@@ -7748,10 +7749,10 @@ Registers a container image to your Amazon Lightsail container service.
   registered container images.
 
   Use the `GetContainerImages` action to return the container images registered to a
-  Lightsail container service. The label is the `&lt;imagelabel&gt;` portion of the
-  following image name example:
+  Lightsail container service. The label is the `<imagelabel>` portion of the following
+  image name example:
 
-  - `:container-service-1.&lt;imagelabel&gt;.1`
+  - `:container-service-1.<imagelabel>.1`
 
   If the name of your container service is `mycontainerservice`, and the label that you
   specify is `mystaticwebsite`, then the name of the registered container image will be

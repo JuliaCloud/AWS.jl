@@ -75,7 +75,7 @@ function get_session(
 )
     return lex_runtime_service(
         "GET",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/";
+        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -90,7 +90,7 @@ function get_session(
 )
     return lex_runtime_service(
         "GET",
-        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/",
+        "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

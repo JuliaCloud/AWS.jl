@@ -282,7 +282,7 @@ operation.
   snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
   see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
-  in the Amazon Redshift Management Guide
+  in the Amazon Redshift Cluster Management Guide
 
 - `schedule`: The schedule for a one-time (at timestamp format) or recurring (cron format)
   scheduled action. Schedule invocations must be separated by at least one hour. Times are
@@ -569,9 +569,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
-
-- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
-  `ipv4` and `dualstack`.
 
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.
@@ -999,7 +996,12 @@ to Amazon Redshift Serverless.
 
 By default, the temporary credentials expire in 900 seconds. You can optionally specify a
 duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).
-<pre>`&lt;p&gt;The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources.&lt;/p&gt; &lt;p&gt;If the &lt;code&gt;DbName&lt;/code&gt; parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.&lt;/p&gt;`</pre>
+
+The Identity and Access Management (IAM) user or role that runs GetCredentials must have an
+IAM policy attached that allows access to all necessary actions and resources.
+
+If the `DbName` parameter is specified, the IAM policy must allow access to the resource
+dbname for the specified database name.
 
 # Optional Parameters
 
@@ -2459,7 +2461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
   see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
-  in the Amazon Redshift Management Guide
+  in the Amazon Redshift Cluster Management Guide
 
 - `"schedule"`: The schedule for a one-time (at timestamp format) or recurring (cron format)
   scheduled action. Schedule invocations must be separated by at least one hour. Times are
@@ -2679,9 +2681,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.
-
-- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
-  `ipv4` and `dualstack`.
 
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.

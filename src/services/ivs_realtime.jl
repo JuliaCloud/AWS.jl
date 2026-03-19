@@ -111,8 +111,6 @@ Creates a new stage (and optionally participant tokens).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
-  recording, to attach to the new stage.
 - `"name"`: Optional name that can be specified for the stage being created.
 - `"participantTokenConfigurations"`: Array of participant token configuration objects to
   attach to the new stage.
@@ -216,41 +214,6 @@ function delete_encoder_configuration(
     return ivs_realtime(
         "POST",
         "/DeleteEncoderConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_public_key(arn)
-    delete_public_key(arn, params::Dict{String,<:Any})
-
-Deletes the specified public key used to sign stage participant tokens. This invalidates
-future participant tokens generated using the key pair’s private key.
-
-# Arguments
-
-- `arn`: ARN of the public key to be deleted.
-"""
-function delete_public_key end
-
-function delete_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs_realtime(
-        "POST",
-        "/DeletePublicKey",
-        Dict{String,Any}("arn" => arn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_public_key(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ivs_realtime(
-        "POST",
-        "/DeletePublicKey",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -512,40 +475,6 @@ function get_participant(
 end
 
 """
-    get_public_key(arn)
-    get_public_key(arn, params::Dict{String,<:Any})
-
-Gets information for the specified public key.
-
-# Arguments
-
-- `arn`: ARN of the public key for which the information is to be retrieved.
-"""
-function get_public_key end
-
-function get_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs_realtime(
-        "POST",
-        "/GetPublicKey",
-        Dict{String,Any}("arn" => arn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_public_key(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ivs_realtime(
-        "POST",
-        "/GetPublicKey",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     get_stage(arn)
     get_stage(arn, params::Dict{String,<:Any})
 
@@ -654,58 +583,6 @@ function get_storage_configuration(
         "POST",
         "/GetStorageConfiguration",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    import_public_key(public_key_material)
-    import_public_key(public_key_material, params::Dict{String,<:Any})
-
-Import a public key to be used for signing stage participant tokens.
-
-# Arguments
-
-- `public_key_material`: The content of the public key to be imported.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"name"`: Name of the public key to be imported.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
-"""
-function import_public_key end
-
-function import_public_key(
-    publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ivs_realtime(
-        "POST",
-        "/ImportPublicKey",
-        Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function import_public_key(
-    publicKeyMaterial,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ivs_realtime(
-        "POST",
-        "/ImportPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
-            ),
-        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -861,18 +738,15 @@ Lists all participants in a specified stage session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filterByPublished"`: Filters the response list to only show participants who published
-  during the stage session. Only one of `filterByUserId`, `filterByPublished`,
-  `filterByState`, or `filterByRecordingState` can be provided per request.
-- `"filterByRecordingState"`: Filters the response list to only show participants with the
-  specified recording state. Only one of `filterByUserId`, `filterByPublished`,
-  `filterByState`, or `filterByRecordingState` can be provided per request.
+  during the stage session. Only one of `filterByUserId`, `filterByPublished`, or
+  `filterByState` can be provided per request.
 - `"filterByState"`: Filters the response list to only show participants in the specified
-  state. Only one of `filterByUserId`, `filterByPublished`, `filterByState`, or
-  `filterByRecordingState` can be provided per request.
+  state. Only one of `filterByUserId`, `filterByPublished`, or `filterByState` can be
+  provided per request.
 - `"filterByUserId"`: Filters the response list to match the specified user ID. Only one of
-  `filterByUserId`, `filterByPublished`, `filterByState`, or `filterByRecordingState` can be
-  provided per request. A `userId` is a customer-assigned name to help identify the token;
-  this can be used to link a participant to a user in the customer’s own systems.
+  `filterByUserId`, `filterByPublished`, or `filterByState` can be provided per request. A
+  `userId` is a customer-assigned name to help identify the token; this can be used to link
+  a participant to a user in the customer’s own systems.
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
   `nextToken` response field.
@@ -909,37 +783,6 @@ function list_participants(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    list_public_keys()
-    list_public_keys(params::Dict{String,<:Any})
-
-Gets summary information about all public keys in your account, in the AWS region where the
-API request is processed.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: Maximum number of results to return. Default: 50.
-- `"nextToken"`: The first public key to retrieve. This is used for pagination; see the
-  `nextToken` response field.
-"""
-function list_public_keys end
-
-function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
-    return ivs_realtime(
-        "POST", "/ListPublicKeys"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function list_public_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ivs_realtime(
-        "POST", "/ListPublicKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1292,9 +1135,6 @@ Updates a stage’s configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
-  recording, to attach to the stage. Note that this cannot be updated while recording is
-  active.
 - `"name"`: Name of the stage to be updated.
 """
 function update_stage end

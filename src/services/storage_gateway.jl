@@ -1216,9 +1216,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       point.
 
 - `"ValidUserList"`: A list of users or groups in the Active Directory that are allowed to
-  access the file <a href=""/> share. A group must be prefixed with the @ character.
-  Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
-  Can only be set if Authentication is set to `ActiveDirectory`.
+  access the file  share. A group must be prefixed with the @ character. Acceptable formats
+  include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`. Can only be set if
+  Authentication is set to `ActiveDirectory`.
 """
 function create_smbfile_share end
 

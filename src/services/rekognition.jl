@@ -451,7 +451,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
   manifest file. If you don't specify `datasetSource`, an empty dataset is created. To add
   labeled images to the dataset, You can use the console or call `UpdateDatasetEntries`.
-- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset end
 
@@ -555,7 +554,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Content Moderation. Applicable only to adapters.
 - `"Feature"`: Specifies feature that is being customized. If no value is provided
   CUSTOM_LABELS is used as a default.
-- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project.
 """
 function create_project end
 
@@ -2644,9 +2642,6 @@ a pagination token for getting the next set of results. To get the next page of 
 call `GetlabelDetection` and populate the `next_token` request parameter with the token
 value returned from the previous call to `GetLabelDetection`.
 
-If you are retrieving results while using the Amazon Simple Notification Service, note that
-you will receive an "ERROR" notification if the job encounters an issue.
-
 # Arguments
 
 - `job_id`: Job identifier for the label detection operation for which you want results
@@ -3011,10 +3006,11 @@ facial attributes.
 
 If you provide the same image, specify the same collection, and use the same external ID in
 the [`index_faces`](@ref) operation, Amazon Rekognition doesn't save duplicate face
-metadata. The input image is passed either as base64-encoded image bytes, or as a reference
-to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
-operations, passing image bytes isn't supported. The image must be formatted as a PNG or
-JPEG file.
+metadata.
+
+The input image is passed either as base64-encoded image bytes, or as a reference to an
+image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
+passing image bytes isn't supported. The image must be formatted as a PNG or JPEG file.
 
 This operation requires permissions to perform the `rekognition:IndexFaces` action.
 

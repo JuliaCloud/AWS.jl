@@ -1075,10 +1075,11 @@ Creates an Amazon DocumentDB global cluster that can span multiple multiple Amaz
 Services Regions. The global cluster contains one primary cluster with read-write
 capability, and up-to give read-only secondary clusters. Global clusters uses storage-based
 fast replication across regions with latencies less than one second, using dedicated
-infrastructure with no impact to your workload’s performance. You can create a global
-cluster that is initially empty, and then add a primary and a secondary to it. Or you can
-specify an existing cluster during the create operation, and this cluster becomes the
-primary of the global cluster.
+infrastructure with no impact to your workload’s performance.
+
+You can create a global cluster that is initially empty, and then add a primary and a
+secondary to it. Or you can specify an existing cluster during the create operation, and
+this cluster becomes the primary of the global cluster.
 
 !!! note
     This action only applies to Amazon DocumentDB clusters.
@@ -2433,105 +2434,6 @@ function failover_dbcluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return docdb("FailoverDBCluster", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
-    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
-
-Promotes the specified secondary DB cluster to be the primary DB cluster in the global
-cluster when failing over a global cluster occurs.
-
-Use this operation to respond to an unplanned event, such as a regional disaster in the
-primary region. Failing over can result in a loss of write transaction data that wasn't
-replicated to the chosen secondary before the failover event occurred. However, the recovery
-process that promotes a DB instance on the chosen seconday DB cluster to be the primary
-writer DB instance guarantees that the data is in a transactionally consistent state.
-
-# Arguments
-
-- `global_cluster_identifier`: The identifier of the Amazon DocumentDB global cluster to
-  apply this operation. The identifier is the unique key assigned by the user when the
-  cluster is created. In other words, it's the name of the global cluster.
-
-  Constraints:
-
-  - Must match the identifier of an existing global cluster.
-  - Minimum length of 1. Maximum length of 255.
-
-  Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
-
-- `target_db_cluster_identifier`: The identifier of the secondary Amazon DocumentDB cluster
-  that you want to promote to the primary for the global cluster. Use the Amazon Resource
-  Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its
-  Amazon Web Services region.
-
-  Constraints:
-
-  - Must match the identifier of an existing secondary cluster.
-  - Minimum length of 1. Maximum length of 255.
-
-  Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AllowDataLoss"`: Specifies whether to allow data loss for this global cluster operation.
-  Allowing data loss triggers a global failover operation.
-
-  If you don't specify `AllowDataLoss`, the global cluster operation defaults to a
-  switchover.
-
-  Constraints:
-
-  - Can't be specified together with the `Switchover` parameter.
-
-- `"Switchover"`: Specifies whether to switch over this global database cluster.
-
-  Constraints:
-
-  - Can't be specified together with the `AllowDataLoss` parameter.
-"""
-function failover_global_cluster end
-
-function failover_global_cluster(
-    GlobalClusterIdentifier,
-    TargetDbClusterIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return docdb(
-        "FailoverGlobalCluster",
-        Dict{String,Any}(
-            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
-            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function failover_global_cluster(
-    GlobalClusterIdentifier,
-    TargetDbClusterIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return docdb(
-        "FailoverGlobalCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
-                    "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
 end
 
 """

@@ -8,8 +8,9 @@ using AWS.UUIDs: uuid4
     cancel_job(job_id, reason)
     cancel_job(job_id, reason, params::Dict{String,<:Any})
 
-Cancels a job in an Batch job queue. Jobs that are in a `SUBMITTED`, `PENDING`, or
-`RUNNABLE` state are cancelled and the job status is updated to `FAILED`.
+Cancels a job in an Batch job queue. Jobs that are in the `SUBMITTED` or `PENDING` are
+canceled. A job in`RUNNABLE` remains in `RUNNABLE` until it reaches the head of the job
+queue. Then the job status is updated to `FAILED`.
 
 !!! note
     A `PENDING` job is canceled after all dependency jobs are completed. Therefore, it may
@@ -155,8 +156,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment. This parameter is required for managed compute environments. For more
   information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
   in the *Batch User Guide*.
-
-- `"context"`: Reserved.
 
 - `"eksConfiguration"`: The details for the Amazon EKS cluster that supports the compute
   environment.
@@ -1510,8 +1509,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"computeResources"`: Details of the compute resources managed by the compute environment.
   Required for a managed compute environment. For more information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
   in the *Batch User Guide*.
-
-- `"context"`: Reserved.
 
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html)

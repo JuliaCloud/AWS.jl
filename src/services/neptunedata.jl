@@ -474,8 +474,8 @@ function execute_fast_reset(
 end
 
 """
-    execute_gremlin_explain_query(gremlin)
-    execute_gremlin_explain_query(gremlin, params::Dict{String,<:Any})
+    execute_gremlin_explain_query(gremlin_query)
+    execute_gremlin_explain_query(gremlin_query, params::Dict{String,<:Any})
 
 Executes a Gremlin Explain query.
 
@@ -503,39 +503,41 @@ IAM condition key can be used in the policy document to restrict the use of Grem
 
 # Arguments
 
-- `gremlin`: The Gremlin explain query string.
+- `gremlin_query`: The Gremlin explain query string.
 """
 function execute_gremlin_explain_query end
 
 function execute_gremlin_explain_query(
-    gremlin; aws_config::AbstractAWSConfig=current_aws_config()
+    gremlinQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
         "POST",
         "/gremlin/explain",
-        Dict{String,Any}("gremlin" => gremlin);
+        Dict{String,Any}("gremlinQuery" => gremlinQuery);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_gremlin_explain_query(
-    gremlin,
+    gremlinQuery,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return neptunedata(
         "POST",
         "/gremlin/explain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("gremlinQuery" => gremlinQuery), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    execute_gremlin_profile_query(gremlin)
-    execute_gremlin_profile_query(gremlin, params::Dict{String,<:Any})
+    execute_gremlin_profile_query(gremlin_query)
+    execute_gremlin_profile_query(gremlin_query, params::Dict{String,<:Any})
 
 Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics
 about the run, and produces a profile report as output. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html)
@@ -551,53 +553,55 @@ IAM condition key can be used in the policy document to restrict the use of Grem
 
 # Arguments
 
-- `gremlin`: The Gremlin query string to profile.
+- `gremlin_query`: The Gremlin query string to profile.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"profile.chop"`: If non-zero, causes the results string to be truncated at that number of
+- `"chop"`: If non-zero, causes the results string to be truncated at that number of
   characters. If set to zero, the string contains all the results.
-- `"profile.indexOps"`: If this flag is set to `TRUE`, the results include a detailed report
-  of all index operations that took place during query execution and serialization.
-- `"profile.results"`: If this flag is set to `TRUE`, the query results are gathered and
-  displayed as part of the profile report. If `FALSE`, only the result count is displayed.
-- `"profile.serializer"`: If non-null, the gathered results are returned in a serialized
-  response message in the format specified by this parameter. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html)
+- `"indexOps"`: If this flag is set to `TRUE`, the results include a detailed report of all
+  index operations that took place during query execution and serialization.
+- `"results"`: If this flag is set to `TRUE`, the query results are gathered and displayed
+  as part of the profile report. If `FALSE`, only the result count is displayed.
+- `"serializer"`: If non-null, the gathered results are returned in a serialized response
+  message in the format specified by this parameter. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html)
   for more information.
 """
 function execute_gremlin_profile_query end
 
 function execute_gremlin_profile_query(
-    gremlin; aws_config::AbstractAWSConfig=current_aws_config()
+    gremlinQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
         "POST",
         "/gremlin/profile",
-        Dict{String,Any}("gremlin" => gremlin);
+        Dict{String,Any}("gremlinQuery" => gremlinQuery);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_gremlin_profile_query(
-    gremlin,
+    gremlinQuery,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return neptunedata(
         "POST",
         "/gremlin/profile",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("gremlinQuery" => gremlinQuery), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    execute_gremlin_query(gremlin)
-    execute_gremlin_query(gremlin, params::Dict{String,<:Any})
+    execute_gremlin_query(gremlin_query)
+    execute_gremlin_query(gremlin_query, params::Dict{String,<:Any})
 
 This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3
 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described
@@ -618,9 +622,9 @@ IAM condition key can be used in the policy document to restrict the use of Grem
 
 # Arguments
 
-- `gremlin`: Using this API, you can run Gremlin queries in string format much as you can
-  using the HTTP endpoint. The interface is compatible with whatever Gremlin version your DB
-  cluster is using (see the [Tinkerpop client section](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin-client.html#best-practices-gremlin-java-latest)
+- `gremlin_query`: Using this API, you can run Gremlin queries in string format much as you
+  can using the HTTP endpoint. The interface is compatible with whatever Gremlin version
+  your DB cluster is using (see the [Tinkerpop client section](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin-client.html#best-practices-gremlin-java-latest)
   to determine which Gremlin releases your engine version supports).
 
 # Optional Parameters
@@ -634,33 +638,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function execute_gremlin_query end
 
-function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aws_config())
+function execute_gremlin_query(
+    gremlinQuery; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return neptunedata(
         "POST",
         "/gremlin",
-        Dict{String,Any}("gremlin" => gremlin);
+        Dict{String,Any}("gremlinQuery" => gremlinQuery);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_gremlin_query(
-    gremlin,
+    gremlinQuery,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return neptunedata(
         "POST",
         "/gremlin",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("gremlin" => gremlin), params));
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("gremlinQuery" => gremlinQuery), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    execute_open_cypher_explain_query(explain, query)
-    execute_open_cypher_explain_query(explain, query, params::Dict{String,<:Any})
+    execute_open_cypher_explain_query(explain_mode, open_cypher_query)
+    execute_open_cypher_explain_query(explain_mode, open_cypher_query, params::Dict{String,<:Any})
 
 Executes an openCypher `explain` request. See [The openCypher explain feature](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-explain.html)
 for more information.
@@ -675,9 +683,9 @@ queries (see [Condition keys available in Neptune IAM data-access policy stateme
 
 # Arguments
 
-- `explain`: The openCypher `explain` mode. Can be one of: `static`, `dynamic`, or
+- `explain_mode`: The openCypher `explain` mode. Can be one of: `static`, `dynamic`, or
   `details`.
-- `query`: The openCypher query string.
+- `open_cypher_query`: The openCypher query string.
 
 # Optional Parameters
 
@@ -688,20 +696,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function execute_open_cypher_explain_query end
 
 function execute_open_cypher_explain_query(
-    explain, query; aws_config::AbstractAWSConfig=current_aws_config()
+    explainMode, openCypherQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
         "POST",
         "/opencypher/explain",
-        Dict{String,Any}("explain" => explain, "query" => query);
+        Dict{String,Any}(
+            "explainMode" => explainMode, "openCypherQuery" => openCypherQuery
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_open_cypher_explain_query(
-    explain,
-    query,
+    explainMode,
+    openCypherQuery,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -710,7 +720,11 @@ function execute_open_cypher_explain_query(
         "/opencypher/explain",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("explain" => explain, "query" => query), params
+                _merge,
+                Dict{String,Any}(
+                    "explainMode" => explainMode, "openCypherQuery" => openCypherQuery
+                ),
+                params,
             ),
         );
         aws_config,
@@ -719,8 +733,8 @@ function execute_open_cypher_explain_query(
 end
 
 """
-    execute_open_cypher_query(query)
-    execute_open_cypher_query(query, params::Dict{String,<:Any})
+    execute_open_cypher_query(open_cypher_query)
+    execute_open_cypher_query(open_cypher_query, params::Dict{String,<:Any})
 
 Executes an openCypher query. See [Accessing the Neptune Graph with openCypher](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher.html)
 for more information.
@@ -748,7 +762,7 @@ queries (see [Condition keys available in Neptune IAM data-access policy stateme
 
 # Arguments
 
-- `query`: The openCypher query string to be executed.
+- `open_cypher_query`: The openCypher query string to be executed.
 
 # Optional Parameters
 
@@ -760,24 +774,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function execute_open_cypher_query end
 
 function execute_open_cypher_query(
-    query; aws_config::AbstractAWSConfig=current_aws_config()
+    openCypherQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return neptunedata(
         "POST",
         "/opencypher",
-        Dict{String,Any}("query" => query);
+        Dict{String,Any}("openCypherQuery" => openCypherQuery);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_open_cypher_query(
-    query, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    openCypherQuery,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return neptunedata(
         "POST",
         "/opencypher",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("query" => query), params));
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("openCypherQuery" => openCypherQuery), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1705,8 +1725,8 @@ function manage_sparql_statistics(
 end
 
 """
-    start_loader_job(format, iam_role_arn, region, source)
-    start_loader_job(format, iam_role_arn, region, source, params::Dict{String,<:Any})
+    start_loader_job(format, iam_role_arn, s3_bucket_region, source)
+    start_loader_job(format, iam_role_arn, s3_bucket_region, source, params::Dict{String,<:Any})
 
 Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB
 instance. See [Using the Amazon Neptune Bulk Loader to Ingest Data](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load.html).
@@ -1733,8 +1753,8 @@ IAM action in that cluster.
   Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should be
   attached to the DB cluster (see [Adding the IAM Role to an Amazon Neptune Cluster](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-IAM-add-role-cluster.html).
 
-- `region`: The Amazon region of the S3 bucket. This must match the Amazon Region of the DB
-  cluster.
+- `s3_bucket_region`: The Amazon region of the S3 bucket. This must match the Amazon Region
+  of the DB cluster.
 
 - `source`: The `source` parameter accepts an S3 URI that identifies a single file, multiple
   files, a folder, or multiple folders. Neptune loads every data file in any folder that is
@@ -1906,7 +1926,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_loader_job end
 
 function start_loader_job(
-    format, iamRoleArn, region, source; aws_config::AbstractAWSConfig=current_aws_config()
+    format,
+    iamRoleArn,
+    s3BucketRegion,
+    source;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return neptunedata(
         "POST",
@@ -1914,7 +1938,7 @@ function start_loader_job(
         Dict{String,Any}(
             "format" => format,
             "iamRoleArn" => iamRoleArn,
-            "region" => region,
+            "s3BucketRegion" => s3BucketRegion,
             "source" => source,
         );
         aws_config,
@@ -1925,7 +1949,7 @@ end
 function start_loader_job(
     format,
     iamRoleArn,
-    region,
+    s3BucketRegion,
     source,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1939,7 +1963,7 @@ function start_loader_job(
                 Dict{String,Any}(
                     "format" => format,
                     "iamRoleArn" => iamRoleArn,
-                    "region" => region,
+                    "s3BucketRegion" => s3BucketRegion,
                     "source" => source,
                 ),
                 params,

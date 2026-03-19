@@ -759,12 +759,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       manually. Specifying `SourceRegion` autogenerates a presigned URL that is a valid
       request for the operation that can run in the source Amazon Web Services Region.
 
-  !!! note
-      If you supply a value for this operation's `SourceRegion` parameter, a pre-signed URL
-      will be calculated on your behalf.
-
-- `"SourceRegion"`: The ID of the region that contains the snapshot to be copied.
-
 - `"Tags"`:
 """
 function copy_dbcluster_snapshot end
@@ -1036,12 +1030,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `SourceRegion` (or `--source-region` for the CLI) instead of specifying `PreSignedUrl`
       manually. Specifying `SourceRegion` autogenerates a presigned URL that is a valid
       request for the operation that can run in the source Amazon Web Services Region.
-
-  !!! note
-      If you supply a value for this operation's `SourceRegion` parameter, a pre-signed URL
-      will be calculated on your behalf.
-
-- `"SourceRegion"`: The ID of the region that contains the snapshot to be copied.
 
 - `"Tags"`:
 
@@ -1550,6 +1538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints:
 
   - Must match the name of an existing DB subnet group.
+  - Must not be `default`.
 
   Example: `mydbsubnetgroup`
 
@@ -1949,10 +1938,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid for Cluster Type: Aurora DB clusters only
 
-  !!! note
-      If you supply a value for this operation's `SourceRegion` parameter, a pre-signed URL
-      will be calculated on your behalf.
-
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are created
   if automated backups are enabled using the `BackupRetentionPeriod` parameter.
 
@@ -1988,12 +1973,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PubliclyAccessible"`: Specifies whether the DB cluster is publicly accessible.
 
-  When the DB cluster is publicly accessible and you connect from outside of the DB
-  cluster's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to
-  the public IP address. When you connect from within the same VPC as the DB cluster, the
-  endpoint resolves to the private IP address. Access to the DB cluster is ultimately
-  controlled by the security group it uses. That public access isn't permitted if the
-  security group assigned to the DB cluster doesn't permit it.
+  When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves
+  to the private IP address from within the DB cluster's virtual private cloud (VPC). It
+  resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB
+  cluster is ultimately controlled by the security group it uses. That public access isn't
+  permitted if the security group assigned to the DB cluster doesn't permit it.
 
   When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS
   name that resolves to a private IP address.
@@ -2032,8 +2016,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid for Cluster Type: Aurora DB clusters only
 
 - `"ServerlessV2ScalingConfiguration"`:
-
-- `"SourceRegion"`: The ID of the region that contains the source for the read replica.
 
 - `"StorageEncrypted"`: Specifies whether the DB cluster is encrypted.
 
@@ -2256,7 +2238,7 @@ in the *Amazon RDS User Guide*.
   To list all of the available parameter group families for a DB engine, use the following
   command:
 
-  `aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt;`
+  `aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine>`
 
   For example, to list all of the available parameter group families for the Aurora
   PostgreSQL DB engine, use the following command:
@@ -3053,7 +3035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - Can't be specified if `ManageMasterUserPassword` is turned on.
   - Can include any printable ASCII character except "/", \"\"\", or "@". For RDS for
-    Oracle, can't include the "&amp;" (ampersand) or the "'" (single quotes) character.
+    Oracle, can't include the "&" (ampersand) or the "'" (single quotes) character.
 
   Length Constraints:
 
@@ -3273,12 +3255,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PubliclyAccessible"`: Specifies whether the DB instance is publicly accessible.
 
-  When the DB instance is publicly accessible and you connect from outside of the DB
-  instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to
-  the public IP address. When you connect from within the same VPC as the DB instance, the
-  endpoint resolves to the private IP address. Access to the DB instance is ultimately
-  controlled by the security group it uses. That public access is not permitted if the
-  security group assigned to the DB instance doesn't permit it.
+  When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint
+  resolves to the private IP address from within the DB instance's virtual private cloud
+  (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access
+  to the DB instance is ultimately controlled by the security group it uses. That public
+  access is not permitted if the security group assigned to the DB instance doesn't permit
+  it.
 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
@@ -3790,10 +3772,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This setting doesn't apply to RDS Custom DB instances.
 
-  !!! note
-      If you supply a value for this operation's `SourceRegion` parameter, a pre-signed URL
-      will be calculated on your behalf.
-
 - `"ProcessorFeatures"`: The number of CPU cores and the number of threads per core for the
   DB instance class of the DB instance.
 
@@ -3862,8 +3840,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     replica, specify a valid DB instance ARN. For more information, see [Constructing an ARN for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing)
     in the *Amazon RDS User Guide*. This doesn't apply to SQL Server or RDS Custom, which
     don't support cross-Region replicas.
-
-- `"SourceRegion"`: The ID of the region that contains the source for the read replica.
 
 - `"StorageThroughput"`: Specifies the storage throughput value for the read replica.
 
@@ -3965,7 +3941,7 @@ This command doesn't apply to RDS Custom.
   To list all of the available parameter group families for a DB engine, use the following
   command:
 
-  `aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine &lt;engine&gt;`
+  `aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine>`
 
   For example, to list all of the available parameter group families for the MySQL DB
   engine, use the following command:
@@ -4340,8 +4316,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     Zone (AZ) for each physical shard.
   - 2 - Creates a primary DB instance and two standby instances in different AZs for each
     physical shard.
-
-- `"MinACU"`: The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
 
 - `"PubliclyAccessible"`: Specifies whether the DB shard group is publicly accessible.
 
@@ -4993,7 +4967,7 @@ RDS for Oracle container database (CDB) instances are supported.
 
   - Must be 8 to 30 characters.
   - Can include any printable ASCII character except forward slash (`/`), double quote
-    (`"`), at symbol (`@`), ampersand (`&amp;`), or single quote (`'`).
+    (`"`), at symbol (`@`), ampersand (`&`), or single quote (`'`).
 
 - `master_username`: The name for the master user account in your tenant database. RDS
   creates this user account in the tenant database and grants privileges to the master user.
@@ -5237,8 +5211,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshot created when `SkipFinalSnapshot` is disabled.
 
   !!! note
-      If you specify this parameter and also skip the creation of a final DB cluster
-      snapshot with the `SkipFinalShapshot` parameter, the request results in an error.
+      Specifying this parameter and also skipping the creation of a final DB cluster
+      snapshot with the `SkipFinalShapshot` parameter results in an error.
 
   Constraints:
 
@@ -5247,14 +5221,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Can't end with a hyphen or contain two consecutive hyphens
 
 - `"SkipFinalSnapshot"`: Specifies whether to skip the creation of a final DB cluster
-  snapshot before RDS deletes the DB cluster. If you set this value to `true`, RDS doesn't
-  create a final DB cluster snapshot. If you set this value to `false` or don't specify it,
-  RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this
-  parameter is disabled, so RDS creates a final DB cluster snapshot.
+  snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is
+  created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster
+  is deleted. By default, skip isn't specified, and the DB cluster snapshot is created. By
+  default, this parameter is disabled.
 
   !!! note
-      If `SkipFinalSnapshot` is disabled, you must specify a value for the
-      `FinalDBSnapshotIdentifier` parameter.
+      You must specify a `FinalDBSnapshotIdentifier` parameter if `SkipFinalSnapshot` is
+      disabled.
 """
 function delete_dbcluster end
 
@@ -8878,11 +8852,6 @@ end
 Returns a list of resources (for example, DB instances) that have at least one pending
 maintenance action.
 
-This API follows an eventual consistency model. This means that the result of the
-`DescribePendingMaintenanceActions` command might not be immediately visible to all
-subsequent RDS commands. Keep this in mind when you use `DescribePendingMaintenanceActions`
-immediately after using a previous API command such as `ApplyPendingMaintenanceActions`.
-
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11224,7 +11193,7 @@ current value.
 
   - Can't be specified if `ManageMasterUserPassword` is turned on.
   - Can include any printable ASCII character except "/", \"\"\", or "@". For RDS for
-    Oracle, can't include the "&amp;" (ampersand) or the "'" (single quotes) character.
+    Oracle, can't include the "&" (ampersand) or the "'" (single quotes) character.
 
   Length Constraints:
 
@@ -11443,12 +11412,11 @@ in the *Amazon RDS User Guide*.
 
 - `"PubliclyAccessible"`: Specifies whether the DB instance is publicly accessible.
 
-  When the DB instance is publicly accessible and you connect from outside of the DB
-  instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to
-  the public IP address. When you connect from within the same VPC as the DB instance, the
-  endpoint resolves to the private IP address. Access to the DB instance is ultimately
-  controlled by the security group it uses. That public access isn't permitted if the
-  security group assigned to the DB instance doesn't permit it.
+  When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves
+  to the private IP address from within the DB cluster's virtual private cloud (VPC). It
+  resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB
+  cluster is ultimately controlled by the security group it uses. That public access isn't
+  permitted if the security group assigned to the DB cluster doesn't permit it.
 
   When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS
   name that resolves to a private IP address.
@@ -11953,7 +11921,6 @@ more settings by specifying these parameters and the new values in the request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxACU"`: The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
-- `"MinACU"`: The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
 """
 function modify_dbshard_group end
 
@@ -12515,7 +12482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Constraints:
 
-  - Can include any printable ASCII character except `/`, `"` (double quote), `@`, `&amp;`
+  - Can include any printable ASCII character except `/`, `"` (double quote), `@`, `&`
     (ampersand), and `'` (single quote).
 
   Length constraints:
@@ -15217,7 +15184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - Can't be specified if `ManageMasterUserPassword` is turned on.
   - Can include any printable ASCII character except "/", \"\"\", or "@". For RDS for
-    Oracle, can't include the "&amp;" (ampersand) or the "'" (single quotes) character.
+    Oracle, can't include the "&" (ampersand) or the "'" (single quotes) character.
 
   Length Constraints:
 
@@ -16264,6 +16231,8 @@ Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IA
 have access to the S3 bucket.
 
 You can't export snapshot data from Db2 or RDS Custom DB instances.
+
+You can't export cluster data from Multi-AZ DB clusters.
 
 For more information on exporting DB snapshot data, see [Exporting DB snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html)
 in the *Amazon RDS User Guide* or [Exporting DB cluster snapshot data to Amazon S3](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-export-snapshot.html)

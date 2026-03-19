@@ -505,25 +505,23 @@ function unsubscribe(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(arn, tag_keys)
+    untag_resource(arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the association between one or more provided tags and a notification rule.
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the notification rule from which to
-  remove the tags.
+- `arn`: The Amazon Resource Name (ARN) of the notification rule from which to remove the
+  tags.
 - `tag_keys`: The key names of the tags to remove.
 """
 function untag_resource end
 
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function untag_resource(Arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
-        "/untagResource/$(resourceArn)",
+        "/untagResource/$(Arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -531,14 +529,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    Arn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
-        "/untagResource/$(resourceArn)",
+        "/untagResource/$(Arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

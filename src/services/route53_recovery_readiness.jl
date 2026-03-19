@@ -18,25 +18,25 @@ Creates a cell in an account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for use
+- `"Cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for use
   in nested cells. For example, Availability Zones within specific Amazon Web Services
   Regions.
-- `"tags"`:
+- `"Tags"`:
 """
 function create_cell end
 
-function create_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
+function create_cell(CellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "POST",
         "/cells",
-        Dict{String,Any}("cellName" => cellName);
+        Dict{String,Any}("CellName" => CellName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_cell(
-    cellName,
+    CellName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -44,7 +44,7 @@ function create_cell(
         "POST",
         "/cells",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("cellName" => cellName), params)
+            mergewith(_merge, Dict{String,Any}("CellName" => CellName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -66,19 +66,19 @@ status of resources in a separate account.
 function create_cross_account_authorization end
 
 function create_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
         "/crossaccountauthorizations",
-        Dict{String,Any}("crossAccountAuthorization" => crossAccountAuthorization);
+        Dict{String,Any}("CrossAccountAuthorization" => CrossAccountAuthorization);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_cross_account_authorization(
-    crossAccountAuthorization,
+    CrossAccountAuthorization,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -88,7 +88,7 @@ function create_cross_account_authorization(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("crossAccountAuthorization" => crossAccountAuthorization),
+                Dict{String,Any}("CrossAccountAuthorization" => CrossAccountAuthorization),
                 params,
             ),
         );
@@ -115,18 +115,18 @@ that's associated with a readiness check.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`:
+- `"Tags"`:
 """
 function create_readiness_check end
 
 function create_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
+    ReadinessCheckName, ResourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
         "/readinesschecks",
         Dict{String,Any}(
-            "readinessCheckName" => readinessCheckName, "resourceSetName" => resourceSetName
+            "ReadinessCheckName" => ReadinessCheckName, "ResourceSetName" => ResourceSetName
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -134,8 +134,8 @@ function create_readiness_check(
 end
 
 function create_readiness_check(
-    readinessCheckName,
-    resourceSetName,
+    ReadinessCheckName,
+    ResourceSetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -146,8 +146,8 @@ function create_readiness_check(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "readinessCheckName" => readinessCheckName,
-                    "resourceSetName" => resourceSetName,
+                    "ReadinessCheckName" => ReadinessCheckName,
+                    "ResourceSetName" => ResourceSetName,
                 ),
                 params,
             ),
@@ -172,25 +172,25 @@ includes a list of the cells that make up the application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cells"`: A list of the cell Amazon Resource Names (ARNs) in the recovery group.
-- `"tags"`:
+- `"Cells"`: A list of the cell Amazon Resource Names (ARNs) in the recovery group.
+- `"Tags"`:
 """
 function create_recovery_group end
 
 function create_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "POST",
         "/recoverygroups",
-        Dict{String,Any}("recoveryGroupName" => recoveryGroupName);
+        Dict{String,Any}("RecoveryGroupName" => RecoveryGroupName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_recovery_group(
-    recoveryGroupName,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -199,7 +199,7 @@ function create_recovery_group(
         "/recoverygroups",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("recoveryGroupName" => recoveryGroupName), params
+                _merge, Dict{String,Any}("RecoveryGroupName" => RecoveryGroupName), params
             ),
         );
         aws_config,
@@ -236,23 +236,23 @@ failover readiness.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: A tag to associate with the parameters for a resource set.
+- `"Tags"`: A tag to associate with the parameters for a resource set.
 """
 function create_resource_set end
 
 function create_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources;
+    ResourceSetName,
+    ResourceSetType,
+    Resources;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
         "/resourcesets",
         Dict{String,Any}(
-            "resourceSetName" => resourceSetName,
-            "resourceSetType" => resourceSetType,
-            "resources" => resources,
+            "ResourceSetName" => ResourceSetName,
+            "ResourceSetType" => ResourceSetType,
+            "Resources" => Resources,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -260,9 +260,9 @@ function create_resource_set(
 end
 
 function create_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources,
+    ResourceSetName,
+    ResourceSetType,
+    Resources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -273,9 +273,9 @@ function create_resource_set(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "resourceSetName" => resourceSetName,
-                    "resourceSetType" => resourceSetType,
-                    "resources" => resources,
+                    "ResourceSetName" => ResourceSetName,
+                    "ResourceSetType" => ResourceSetType,
+                    "Resources" => Resources,
                 ),
                 params,
             ),
@@ -297,19 +297,19 @@ Delete a cell. When successful, the response code is 204, with no response body.
 """
 function delete_cell end
 
-function delete_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_cell(CellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
-        "DELETE", "/cells/$(cellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/cells/$(CellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_cell(
-    cellName,
+    CellName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
-        "DELETE", "/cells/$(cellName)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/cells/$(CellName)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -326,24 +326,24 @@ Deletes cross account readiness authorization.
 function delete_cross_account_authorization end
 
 function delete_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossAccountAuthorization; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/crossaccountauthorizations/$(crossAccountAuthorization)";
+        "/crossaccountauthorizations/$(CrossAccountAuthorization)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_cross_account_authorization(
-    crossAccountAuthorization,
+    CrossAccountAuthorization,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/crossaccountauthorizations/$(crossAccountAuthorization)",
+        "/crossaccountauthorizations/$(CrossAccountAuthorization)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -363,24 +363,24 @@ Deletes a readiness check.
 function delete_readiness_check end
 
 function delete_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
+    ReadinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/readinesschecks/$(readinessCheckName)";
+        "/readinesschecks/$(ReadinessCheckName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_readiness_check(
-    readinessCheckName,
+    ReadinessCheckName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/readinesschecks/$(readinessCheckName)",
+        "/readinesschecks/$(ReadinessCheckName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -400,24 +400,24 @@ Deletes a recovery group.
 function delete_recovery_group end
 
 function delete_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/recoverygroups/$(recoveryGroupName)";
+        "/recoverygroups/$(RecoveryGroupName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_recovery_group(
-    recoveryGroupName,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/recoverygroups/$(recoveryGroupName)",
+        "/recoverygroups/$(RecoveryGroupName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -437,24 +437,24 @@ Deletes a resource set.
 function delete_resource_set end
 
 function delete_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/resourcesets/$(resourceSetName)";
+        "/resourcesets/$(ResourceSetName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_resource_set(
-    resourceSetName,
+    ResourceSetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/resourcesets/$(resourceSetName)",
+        "/resourcesets/$(ResourceSetName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -482,24 +482,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_architecture_recommendations end
 
 function get_architecture_recommendations(
-    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroups/$(recoveryGroupName)/architectureRecommendations";
+        "/recoverygroups/$(RecoveryGroupName)/architectureRecommendations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_architecture_recommendations(
-    recoveryGroupName,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroups/$(recoveryGroupName)/architectureRecommendations",
+        "/recoverygroups/$(RecoveryGroupName)/architectureRecommendations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -520,19 +520,19 @@ group ARNs.
 """
 function get_cell end
 
-function get_cell(cellName; aws_config::AbstractAWSConfig=current_aws_config())
+function get_cell(CellName; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
-        "GET", "/cells/$(cellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/cells/$(CellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_cell(
-    cellName,
+    CellName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/cells/$(cellName)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/cells/$(CellName)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -557,21 +557,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_cell_readiness_summary end
 
 function get_cell_readiness_summary(
-    cellName; aws_config::AbstractAWSConfig=current_aws_config()
+    CellName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/cellreadiness/$(cellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/cellreadiness/$(CellName)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_cell_readiness_summary(
-    cellName,
+    CellName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/cellreadiness/$(cellName)",
+        "/cellreadiness/$(CellName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -591,24 +591,24 @@ Gets details about a readiness check.
 function get_readiness_check end
 
 function get_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
+    ReadinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)";
+        "/readinesschecks/$(ReadinessCheckName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_readiness_check(
-    readinessCheckName,
+    ReadinessCheckName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)",
+        "/readinesschecks/$(ReadinessCheckName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -640,27 +640,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_readiness_check_resource_status end
 
 function get_readiness_check_resource_status(
-    readinessCheckName,
-    resourceIdentifier;
+    ReadinessCheckName,
+    ResourceIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status";
+        "/readinesschecks/$(ReadinessCheckName)/resource/$(ResourceIdentifier)/status";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_readiness_check_resource_status(
-    readinessCheckName,
-    resourceIdentifier,
+    ReadinessCheckName,
+    ResourceIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status",
+        "/readinesschecks/$(ReadinessCheckName)/resource/$(ResourceIdentifier)/status",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -689,24 +689,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_readiness_check_status end
 
 function get_readiness_check_status(
-    readinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
+    ReadinessCheckName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)/status";
+        "/readinesschecks/$(ReadinessCheckName)/status";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_readiness_check_status(
-    readinessCheckName,
+    ReadinessCheckName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/readinesschecks/$(readinessCheckName)/status",
+        "/readinesschecks/$(ReadinessCheckName)/status",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -726,24 +726,24 @@ Gets details about a recovery group, including a list of the cells that are incl
 function get_recovery_group end
 
 function get_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroups/$(recoveryGroupName)";
+        "/recoverygroups/$(RecoveryGroupName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_recovery_group(
-    recoveryGroupName,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroups/$(recoveryGroupName)",
+        "/recoverygroups/$(RecoveryGroupName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -771,24 +771,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_recovery_group_readiness_summary end
 
 function get_recovery_group_readiness_summary(
-    recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroupreadiness/$(recoveryGroupName)";
+        "/recoverygroupreadiness/$(RecoveryGroupName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_recovery_group_readiness_summary(
-    recoveryGroupName,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/recoverygroupreadiness/$(recoveryGroupName)",
+        "/recoverygroupreadiness/$(RecoveryGroupName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -808,24 +808,24 @@ Displays the details about a resource set, including a list of the resources in 
 function get_resource_set end
 
 function get_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "GET",
-        "/resourcesets/$(resourceSetName)";
+        "/resourcesets/$(ResourceSetName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_resource_set(
-    resourceSetName,
+    ResourceSetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "GET",
-        "/resourcesets/$(resourceSetName)",
+        "/resourcesets/$(ResourceSetName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1014,94 +1014,92 @@ function list_rules(
 end
 
 """
-    list_tags_for_resources(resource-arn)
-    list_tags_for_resources(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resources(resource_arn)
+    list_tags_for_resources(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags for a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for a resource.
+- `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 """
 function list_tags_for_resources end
 
 function list_tags_for_resources(
-    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
-        "GET", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resources(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
-        "GET", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds a tag to a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for a resource.
+- `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 - `tags`:
 """
 function tag_resource end
 
-function tag_resource(
-    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    resource_arn,
-    tags,
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) for a resource.
+- `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 - `tag_keys`: The keys for tags you add to resources.
 """
 function untag_resource end
 
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1109,14 +1107,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1137,26 +1135,26 @@ Updates a cell to replace the list of nested cells with a new list of nested cel
 """
 function update_cell end
 
-function update_cell(cellName, cells; aws_config::AbstractAWSConfig=current_aws_config())
+function update_cell(CellName, Cells; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_readiness(
         "PUT",
-        "/cells/$(cellName)",
-        Dict{String,Any}("cells" => cells);
+        "/cells/$(CellName)",
+        Dict{String,Any}("Cells" => Cells);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_cell(
-    cellName,
-    cells,
+    CellName,
+    Cells,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
-        "/cells/$(cellName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cells" => cells), params));
+        "/cells/$(CellName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cells" => Cells), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1176,29 +1174,29 @@ Updates a readiness check.
 function update_readiness_check end
 
 function update_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
+    ReadinessCheckName, ResourceSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "PUT",
-        "/readinesschecks/$(readinessCheckName)",
-        Dict{String,Any}("resourceSetName" => resourceSetName);
+        "/readinesschecks/$(ReadinessCheckName)",
+        Dict{String,Any}("ResourceSetName" => ResourceSetName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_readiness_check(
-    readinessCheckName,
-    resourceSetName,
+    ReadinessCheckName,
+    ResourceSetName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
-        "/readinesschecks/$(readinessCheckName)",
+        "/readinesschecks/$(ReadinessCheckName)",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("resourceSetName" => resourceSetName), params
+                _merge, Dict{String,Any}("ResourceSetName" => ResourceSetName), params
             ),
         );
         aws_config,
@@ -1221,27 +1219,27 @@ Updates a recovery group.
 function update_recovery_group end
 
 function update_recovery_group(
-    cells, recoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    Cells, RecoveryGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_readiness(
         "PUT",
-        "/recoverygroups/$(recoveryGroupName)",
-        Dict{String,Any}("cells" => cells);
+        "/recoverygroups/$(RecoveryGroupName)",
+        Dict{String,Any}("Cells" => Cells);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_recovery_group(
-    cells,
-    recoveryGroupName,
+    Cells,
+    RecoveryGroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
-        "/recoverygroups/$(recoveryGroupName)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("cells" => cells), params));
+        "/recoverygroups/$(RecoveryGroupName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Cells" => Cells), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1273,35 +1271,35 @@ Updates a resource set.
 function update_resource_set end
 
 function update_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources;
+    ResourceSetName,
+    ResourceSetType,
+    Resources;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
-        "/resourcesets/$(resourceSetName)",
-        Dict{String,Any}("resourceSetType" => resourceSetType, "resources" => resources);
+        "/resourcesets/$(ResourceSetName)",
+        Dict{String,Any}("ResourceSetType" => ResourceSetType, "Resources" => Resources);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources,
+    ResourceSetName,
+    ResourceSetType,
+    Resources,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_readiness(
         "PUT",
-        "/resourcesets/$(resourceSetName)",
+        "/resourcesets/$(ResourceSetName)",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "resourceSetType" => resourceSetType, "resources" => resources
+                    "ResourceSetType" => ResourceSetType, "Resources" => Resources
                 ),
                 params,
             ),

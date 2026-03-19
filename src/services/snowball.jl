@@ -288,30 +288,25 @@ cluster.
     The device capacity is optional.
 
     Availability of device types differ by Amazon Web Services Region. For more information
-    about Region availability, see [Amazon Web Services Regional Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&amp;loc=4).
+    about Region availability, see [Amazon Web Services Regional Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4).
 
 ## Snow Family devices and their capacities.
 
 - Device type: **SNC1_SSD**
   - Capacity: T14
   - Description: Snowcone
-
 - Device type: **SNC1_HDD**
   - Capacity: T8
   - Description: Snowcone
-
 - Device type: **EDGE_S**
   - Capacity: T98
   - Description: Snowball Edge Storage Optimized for data transfer only
-
 - Device type: **EDGE_CG**
   - Capacity: T42
   - Description: Snowball Edge Compute Optimized with GPU
-
 - Device type: **EDGE_C**
   - Capacity: T42
   - Description: Snowball Edge Compute Optimized without GPU
-
 - Device type: **EDGE**
   - Capacity: T100
   - Description: Snowball Edge Storage Optimized with EC2 Compute

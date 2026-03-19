@@ -959,7 +959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before base64 encoding). The following example `cat` command creates an
   `object_storage_certificates.pem` file that includes three certificates:
 
-  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem`
+  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem`
 
   To use this parameter, configure `ServerProtocol` to `HTTPS`.
 
@@ -3190,7 +3190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before base64 encoding). The following example `cat` command creates an
   `object_storage_certificates.pem` file that includes three certificates:
 
-  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem &gt; object_storage_certificates.pem`
+  `cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem`
 
   To use this parameter, configure `ServerProtocol` to `HTTPS`.
 

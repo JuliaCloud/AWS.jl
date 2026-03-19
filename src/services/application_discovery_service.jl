@@ -189,8 +189,8 @@ function create_application(
 end
 
 """
-    create_tags(configuration_ids, tags)
-    create_tags(configuration_ids, tags, params::Dict{String,<:Any})
+    create_tags(configuration_ids, item)
+    create_tags(configuration_ids, item, params::Dict{String,<:Any})
 
 Creates one or more tags for configuration items. Tags are metadata that help you categorize
 IT assets. This API accepts a list of multiple configuration items.
@@ -202,19 +202,28 @@ IT assets. This API accepts a list of multiple configuration items.
 
 - `configuration_ids`: A list of configuration items that you want to tag.
 
-- `tags`: Tags that you want to associate with one or more configuration items. Specify the
+- `item`: Tags that you want to associate with one or more configuration items. Specify the
   tags that you want to create in a *key*-*value* format. For example:
+
+  `{"key": "serverType", "value": "webServer"}`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: Tags that you want to associate with one or more configuration items. Specify
+  the tags that you want to create in a *key*-*value* format. For example:
 
   `{"key": "serverType", "value": "webServer"}`
 """
 function create_tags end
 
 function create_tags(
-    configurationIds, tags; aws_config::AbstractAWSConfig=current_aws_config()
+    configurationIds, item; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_discovery_service(
         "CreateTags",
-        Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags);
+        Dict{String,Any}("configurationIds" => configurationIds, "item" => item);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -222,7 +231,7 @@ end
 
 function create_tags(
     configurationIds,
-    tags,
+    item,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -231,7 +240,7 @@ function create_tags(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags),
+                Dict{String,Any}("configurationIds" => configurationIds, "item" => item),
                 params,
             ),
         );

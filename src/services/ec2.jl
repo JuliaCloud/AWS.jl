@@ -9,7 +9,7 @@ using AWS.UUIDs: uuid4
     accept_address_transfer(address, params::Dict{String,<:Any})
 
 Accepts an Elastic IP address transfer. For more information, see [Accept a transferred Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#using-instance-addressing-eips-transfer-accept)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 # Arguments
 
@@ -23,10 +23,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-- `"TagSpecification"`: `tag`:&lt;key&gt; - The key/value combination of a tag assigned to
-  the resource. Use the tag key in the filter name and the tag value as the filter value.
-  For example, to find all resources that have a tag with the key `Owner` and the value
-  `TeamA`, specify `tag:Owner` for the filter name and `TeamA` for the filter value.
+- `"TagSpecification"`: `tag`:<key> - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key `Owner` and the value `TeamA`,
+  specify `tag:Owner` for the filter name and `TeamA` for the filter value.
 """
 function accept_address_transfer end
 
@@ -460,7 +460,7 @@ You can allocate an Elastic IP address from an address pool owned by Amazon Web 
 from an address pool created from a public IPv4 address range that you have brought to
 Amazon Web Services for use with your Amazon Web Services resources using bring your own IP
 addresses (BYOIP). For more information, see [Bring Your Own IP Addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 If you release an Elastic IP address, you might be able to recover it. You cannot recover an
 Elastic IP address that you released after it is allocated to another Amazon Web Services
@@ -468,7 +468,7 @@ account. To attempt to recover an Elastic IP address that you released, specify 
 operation.
 
 For more information, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 You can allocate a carrier IP address which is a public IP address from a telecommunication
 carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example
@@ -479,18 +479,26 @@ an EC2 instance).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Address"`: The Elastic IP address to recover or an IPv4 address from an address pool.
+
 - `"CustomerOwnedIpv4Pool"`: The ID of a customer-owned address pool. Use this parameter to
   let Amazon EC2 select an address from the address pool. Alternatively, specify a specific
   address from the address pool.
+
 - `"Domain"`: The network (`vpc`).
-- `"IpamPoolId"`: The ID of an IPAM pool.
+
 - `"NetworkBorderGroup"`: A unique set of Availability Zones, Local Zones, or Wavelength
   Zones from which Amazon Web Services advertises IP addresses. Use this parameter to limit
   the IP address to this location. IP addresses cannot move between network border groups.
+
+  Use [DescribeAvailabilityZones](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html)
+  to view the network border groups.
+
 - `"PublicIpv4Pool"`: The ID of an address pool that you own. Use this parameter to let
   Amazon EC2 select an address from the address pool. To specify a specific address from the
   address pool, use the `Address` parameter instead.
+
 - `"TagSpecification"`: The tags to assign to the Elastic IP address.
+
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -565,7 +573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launches that specify its unique host ID. For more information, see [Understanding auto-placement and affinity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-dedicated-hosts-work.html#dedicated-hosts-understanding)
   in the *Amazon EC2 User Guide*.
 
-  Default: `off`
+  Default: `on`
 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
@@ -652,7 +660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Possible values: Any available IPv4 or IPv6 CIDR.
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"Description"`: A description for the allocation.
 
@@ -789,14 +797,15 @@ Assigns one or more IPv6 addresses to the specified network interface. You can s
 or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be
 automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as
 many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the
-limit varies per instance type.
+limit varies per instance type. For information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 You must specify either the IPv6 addresses or the IPv6 address count in the request.
 
 You can optionally use Prefix Delegation on the network interface. You must specify either
 the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information,
-see [Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
-in the *Amazon EC2 User Guide*.
+see [Assigning prefixes to Amazon EC2 network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -861,8 +870,10 @@ Assigns one or more secondary private IP addresses to the specified network inte
 You can specify one or more specific secondary IP addresses, or you can specify the number
 of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.
 The number of secondary IP addresses that you can assign to an instance varies by instance
-type. For more information about Elastic IP addresses, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)
-in the *Amazon EC2 User Guide*.
+type. For information about instance types, see [Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
+in the *Amazon Elastic Compute Cloud User Guide*. For more information about Elastic IP
+addresses, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 When you move a secondary private IP address to another network interface, any Elastic IP
 address that is associated with the IP address is also moved.
@@ -875,8 +886,8 @@ You must specify either the IP addresses or the IP address count in the request.
 
 You can optionally use Prefix Delegation on the network interface. You must specify either
 the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information,
-see [Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
-in the *Amazon EC2 User Guide*.
+see [Assigning prefixes to Amazon EC2 network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -942,7 +953,8 @@ end
     assign_private_nat_gateway_address(nat_gateway_id)
     assign_private_nat_gateway_address(nat_gateway_id, params::Dict{String,<:Any})
 
-Assigns private IPv4 addresses to a private NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-working-with)
+Assigns one or more private IPv4 addresses to a private NAT gateway. For more information,
+see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-working-with)
 in the *Amazon VPC User Guide*.
 
 # Arguments
@@ -1076,7 +1088,7 @@ and change the VPC that's associated with it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -1136,7 +1148,7 @@ instances. They automatically pick up the changes within a few hours, depending 
 frequently the instance renews its DHCP lease. You can explicitly renew the lease using the
 operating system on the instance.
 
-For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
+For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
 in the *Amazon VPC User Guide*.
 
 # Arguments
@@ -1871,8 +1883,8 @@ end
 
 Associates a branch network interface with a trunk network interface.
 
-Before you create the association, use [CreateNetworkInterface](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
-command and set the interface type to `trunk`. You must also create a network interface for
+Before you create the association, run the [create-network-interface](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
+command and set `--interface-type` to `trunk`. You must also create a network interface for
 each branch network interface that you want to associate with the trunk network interface.
 
 # Arguments
@@ -1885,7 +1897,7 @@ each branch network interface that you want to associate with the trunk network 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -2237,7 +2249,7 @@ Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -2447,7 +2459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to grant all clients who successfully establish a VPN connection access to the network.
   Must be set to `true` if `AccessGroupId` is not specified.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A brief description of the authorization rule.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -3067,7 +3079,7 @@ end
 
 Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace.
 
-For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
+For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -3315,7 +3327,7 @@ Copies the specified Amazon FPGA Image (AFI) to the current Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"Description"`: The description for the new AFI.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -3364,19 +3376,25 @@ end
     copy_image(name, source_image_id, source_region)
     copy_image(name, source_image_id, source_region, params::Dict{String,<:Any})
 
-Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a
+Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a
 Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to
 another, or within the same Outpost. To copy an AMI to another partition, see [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html).
 
-When you copy an AMI from one Region to another, the destination Region is the current
-Region.
+To copy an AMI from one Region to another, specify the source Region using the
+**SourceRegion** parameter, and specify the destination Region using its endpoint. Copies of
+encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted backing
+snapshots remain unencrypted, unless you set `Encrypted` during the copy operation. You
+cannot create an unencrypted copy of an encrypted backing snapshot.
 
-When you copy an AMI from a Region to an Outpost, specify the ARN of the Outpost as the
-destination. Backing snapshots copied to an Outpost are encrypted by default using the
-default encryption key for the Region or the key that you specify. Outposts do not support
-unencrypted snapshots.
+To copy an AMI from a Region to an Outpost, specify the source Region using the
+**SourceRegion** parameter, and specify the ARN of the destination Outpost using
+**DestinationOutpostArn**. Backing snapshots copied to an Outpost are encrypted by default
+using the default encryption key for the Region, or a different key that you specify in the
+request using **KmsKeyId**. Outposts do not support unencrypted snapshots. For more
+information, [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami)
+in the *Amazon EBS User Guide*.
 
-For information about the prerequisites when copying an AMI, see [Copy an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html)
+For more information about the prerequisites and limits when copying an AMI, see [Copy an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -3435,8 +3453,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an
   unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used
   unless you specify a non-default Key Management Service (KMS) KMS key using `KmsKeyId`.
-  For more information, see [Use encryption with EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html)
-  in the *Amazon EC2 User Guide*.
+  For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html)
+  in the *Amazon EBS User Guide*.
 
 - `"kmsKeyId"`: The identifier of the symmetric Key Management Service (KMS) KMS key to use
   when creating encrypted volumes. If this parameter is not specified, your Amazon Web
@@ -3511,10 +3529,10 @@ You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs).
 
 When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.
 Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the
-snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;
-however, you can specify a different KMS key. To copy an encrypted snapshot that has been
-shared from another account, you must have permissions for the KMS key used to encrypt the
-snapshot.
+snapshot copy operation. By default, encrypted snapshot copies use the default Key
+Management Service (KMS) KMS key; however, you can specify a different KMS key. To copy an
+encrypted snapshot that has been shared from another account, you must have permissions for
+the KMS key used to encrypt the snapshot.
 
 Snapshots copied to an Outpost are encrypted by default using the default encryption key for
 the Region, or a different key that you specify in the request using **KmsKeyId**. Outposts
@@ -3568,9 +3586,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is not enabled. You cannot set this parameter to false. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html)
   in the *Amazon EBS User Guide*.
 
-- `"kmsKeyId"`: The identifier of the KMS key to use for Amazon EBS encryption. If this
-  parameter is not specified, your KMS key for Amazon EBS is used. If `KmsKeyId` is
-  specified, the encrypted state must be `true`.
+- `"kmsKeyId"`: The identifier of the Key Management Service (KMS) KMS key to use for Amazon
+  EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used.
+  If `KmsKeyId` is specified, the encrypted state must be `true`.
 
   You can specify the KMS key using any of the following:
 
@@ -3593,9 +3611,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `PresignedUrl` must be signed using Amazon Web Services Signature Version 4. Because EBS
   snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same
   logic that is described in [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html)
-  in the *Amazon S3 API Reference*. An invalid or improperly signed `PresignedUrl` will
-  cause the copy operation to fail asynchronously, and the snapshot will move to an `error`
-  state.
+  in the *Amazon Simple Storage Service API Reference*. An invalid or improperly signed
+  `PresignedUrl` will cause the copy operation to fail asynchronously, and the snapshot will
+  move to an `error` state.
 """
 function copy_snapshot end
 
@@ -3793,81 +3811,11 @@ function create_capacity_reservation(
 end
 
 """
-    create_capacity_reservation_by_splitting(instance_count, source_capacity_reservation_id)
-    create_capacity_reservation_by_splitting(instance_count, source_capacity_reservation_id, params::Dict{String,<:Any})
-
-Create a new Capacity Reservation by splitting the available capacity of the source Capacity
-Reservation. The new Capacity Reservation will have the same attributes as the source
-Capacity Reservation except for tags. The source Capacity Reservation must be `active` and
-owned by your Amazon Web Services account.
-
-# Arguments
-
-- `instance_count`: The number of instances to split from the source Capacity Reservation.
-- `source_capacity_reservation_id`: The ID of the Capacity Reservation from which you want
-  to split the available capacity.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"DryRun"`: Checks whether you have the required permissions for the action, without
-  actually making the request, and provides an error response. If you have the required
-  permissions, the error response is `DryRunOperation`. Otherwise, it is
-  `UnauthorizedOperation`.
-- `"TagSpecification"`: The tags to apply to the new Capacity Reservation.
-"""
-function create_capacity_reservation_by_splitting end
-
-function create_capacity_reservation_by_splitting(
-    InstanceCount,
-    SourceCapacityReservationId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "CreateCapacityReservationBySplitting",
-        Dict{String,Any}(
-            "InstanceCount" => InstanceCount,
-            "SourceCapacityReservationId" => SourceCapacityReservationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_capacity_reservation_by_splitting(
-    InstanceCount,
-    SourceCapacityReservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "CreateCapacityReservationBySplitting",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceCount" => InstanceCount,
-                    "SourceCapacityReservationId" => SourceCapacityReservationId,
-                    "ClientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     create_capacity_reservation_fleet(instance_type_specification, total_target_capacity)
     create_capacity_reservation_fleet(instance_type_specification, total_target_capacity, params::Dict{String,<:Any})
 
 Creates a Capacity Reservation Fleet. For more information, see [Create a Capacity Reservation Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet)
-in the *Amazon EC2 User Guide*.
+in the Amazon EC2 User Guide.
 
 # Arguments
 
@@ -3879,7 +3827,7 @@ in the *Amazon EC2 User Guide*.
   each instance type used by the Fleet determine the number of instances for which the Fleet
   reserves capacity. Both values are based on units that make sense for your workload. For
   more information, see [Total target capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity)
-  in the *Amazon EC2 User Guide*.
+  in the Amazon EC2 User Guide.
 
 # Optional Parameters
 
@@ -3888,7 +3836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllocationStrategy"`: The strategy used by the Capacity Reservation Fleet to determine
   which of the specified instance types to use. Currently, only the `prioritized` allocation
   strategy is supported. For more information, see [Allocation strategy](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy)
-  in the *Amazon EC2 User Guide*.
+  in the Amazon EC2 User Guide.
 
   Valid values: `prioritized`
 
@@ -3988,7 +3936,7 @@ in the *Amazon Web Services Wavelength Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -4065,7 +4013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   displayed on Amazon Web Services provided clients when a VPN session is established.
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"Description"`: A brief description of the Client VPN endpoint.
 
@@ -4196,7 +4144,7 @@ specifies the path for traﬃc to speciﬁc resources or networks.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A brief description of the route.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -4532,7 +4480,7 @@ Creates a custom set of DHCP options. After you create a DHCP option set, you as
 with a VPC. After you associate a DHCP option set with a VPC, all existing and newly
 launched instances in the VPC use this set of DHCP options.
 
-The following are the individual DHCP options you can specify. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
+The following are the individual DHCP options you can specify. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
 in the *Amazon VPC User Guide*.
 
 - `domain-name` - If you're using AmazonProvidedDNS in `us-east-1`, specify `ec2.internal`.
@@ -4554,7 +4502,7 @@ name.
 - `netbios-name-servers` - The IP addresses of up to four NetBIOS name servers.
 - `netbios-node-type` - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify
   2. Broadcast and multicast are not supported. For more information about NetBIOS node
-     types, see [RFC 2132](https://www.ietf.org/rfc/rfc2132.txt).
+     types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
 - `ipv6-address-preferred-lease-time` - A value (in seconds, minutes, hours, or years) for
   how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease
   renewal. Acceptable values are between 140 and 2147483647 seconds (approximately 68
@@ -4622,7 +4570,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -4782,7 +4730,7 @@ interface, subnet, or VPC.
 
 Flow log data for a monitored network interface is recorded as flow log records, which are
 log events consisting of fields that describe the traffic flow. For more information, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 When publishing to CloudWatch Logs, flow log records are published to a log group, and each
 network interface has a unique log stream in the log group. When publishing to Amazon S3,
@@ -4790,7 +4738,7 @@ flow log records for all of the monitored network interfaces are published to a 
 file object that is stored in the specified bucket.
 
 For more information, see [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 # Arguments
 
@@ -4807,7 +4755,7 @@ in the *Amazon VPC User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 
 - `"DeliverCrossAccountRole"`: The ARN of the IAM role that allows Amazon EC2 to publish
   flow logs across accounts.
@@ -4868,7 +4816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway
   resource types.
 
-  When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html),
+  When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances),
   the aggregation interval is always 60 seconds or less, regardless of the value that you
   specify.
 
@@ -4937,7 +4885,7 @@ deploy an AFI on multiple FPGA-accelerated instances. For more information, see 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the AFI.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -5108,13 +5056,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 
-- `"PreserveClientIp"`: Indicates whether the client IP address is preserved as the source.
-  The following are the possible values.
+- `"PreserveClientIp"`: Indicates whether your client's IP address is preserved as the
+  source. The value is `true` or `false`.
 
-  - `true` - Use the client IP address as the source.
-  - `false` - Use the network interface IP address as the source.
+  - If `true`, your client's IP address is used when you connect to a resource.
+  - If `false`, the elastic network interface IP address is used when you connect to a
+    resource.
 
-  Default: `false`
+  Default: `true`
 
 - `"SecurityGroupId"`: One or more security groups to associate with the endpoint. If you
   don't specify a security group, the default security group for your VPC will be associated
@@ -5197,9 +5146,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     alternative single values `SUN` through `SAT`.
   - The minute, month, and year must be specified by `*`.
   - The hour value must be one or a multiple range, for example, `0-4` or `0-4,20-23`.
-  - Each hour range must be &gt;= 2 hours, for example, `0-2` or `20-23`.
-  - The event window must be &gt;= 4 hours. The combined total time ranges in the event
-    window must be &gt;= 4 hours.
+  - Each hour range must be >= 2 hours, for example, `0-2` or `20-23`.
+  - The event window must be >= 4 hours. The combined total time ranges in the event window
+    must be >= 4 hours.
 
   For more information about cron expressions, see [cron](https://en.wikipedia.org/wiki/Cron)
   on the *Wikipedia website*.
@@ -5348,7 +5297,7 @@ in the *Amazon VPC IPAM User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"Description"`: A description for the IPAM.
 
@@ -5356,9 +5305,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-
-- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
-  addresses. This option is disabled by default.
 
 - `"OperatingRegion"`: The operating Regions for the IPAM. Operating Regions are Amazon Web
   Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers
@@ -5373,7 +5319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the filter name and `TeamA` for the filter value.
 
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
-  the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing &gt; IPAM tab](http://aws.amazon.com/vpc/pricing/).
+  the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing > IPAM tab](http://aws.amazon.com/vpc/pricing/).
 """
 function create_ipam end
 
@@ -5393,61 +5339,6 @@ function create_ipam(
         "CreateIpam",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_ipam_external_resource_verification_token(ipam_id)
-    create_ipam_external_resource_verification_token(ipam_id, params::Dict{String,<:Any})
-
-Create a verification token. A verification token is an Amazon Web Services-generated random
-value that you can use to prove ownership of an external resource. For example, you can use
-a verification token to validate that you control a public IP address range when you bring
-an IP address range to Amazon Web Services (BYOIP).
-
-# Arguments
-
-- `ipam_id`: The ID of the IPAM that will create the token.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
-- `"DryRun"`: A check for whether you have the required permissions for the action without
-  actually making the request and provides an error response. If you have the required
-  permissions, the error response is `DryRunOperation`. Otherwise, it is
-  `UnauthorizedOperation`.
-- `"TagSpecification"`: Token tags.
-"""
-function create_ipam_external_resource_verification_token end
-
-function create_ipam_external_resource_verification_token(
-    IpamId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ec2(
-        "CreateIpamExternalResourceVerificationToken",
-        Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_ipam_external_resource_verification_token(
-    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ec2(
-        "CreateIpamExternalResourceVerificationToken",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
-                params,
-            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5511,7 +5402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   "ec2", for example, allows users to use space for Elastic IP addresses and VPCs.
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"Description"`: A description for the IPAM pool.
 
@@ -5520,19 +5411,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 
-- `"Locale"`: The locale for the pool should be one of the following:
+- `"Locale"`: In IPAM, the locale is the Amazon Web Services Region where you want to make
+  an IPAM pool available for allocations. Only resources in the same Region as the locale of
+  the pool can get IP address allocations from the pool. You can only allocate a CIDR for a
+  VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that
+  once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale,
+  resources in Regions others than the IPAM's home region cannot use CIDRs from this pool.
 
-  - An Amazon Web Services Region where you want this IPAM pool to be available for
-    allocations.
-  - The network border group for an Amazon Web Services Local Zone where you want this IPAM
-    pool to be available for allocations ([supported Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)).
-    This option is only available for IPAM IPv4 pools in the public scope.
-
-  If you do not choose a locale, resources in Regions others than the IPAM's home region
-  cannot use CIDRs from this pool.
-
-  Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local
-  Zone.
+  Possible values: Any Amazon Web Services Region, such as us-east-1.
 
 - `"PublicIpSource"`: The IP address source for pools in the public scope. Only used for
   provisioning IP address CIDRs to pools in the public scope. Default is `byoip`. For more
@@ -5668,7 +5554,7 @@ in the *Amazon VPC IPAM User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the scope you're creating.
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
@@ -5785,12 +5671,12 @@ Creates a launch template.
 A launch template contains the parameters to launch an instance. When you launch an instance
 using [`run_instances`](@ref), you can specify a launch template instead of providing the
 launch parameters in the request. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 To clone an existing launch template as the basis for a new launch template, use the Amazon
 EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information,
 see [Create a launch template from an existing launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template-from-existing-launch-template)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -5877,7 +5763,7 @@ Instead, you can create a new version of the launch template that includes the c
 you require.
 
 For more information, see [Modify a launch template (manage launch template versions)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#manage-launch-template-versions)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -5908,7 +5794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResolveAlias"`: If `true`, and if a Systems Manager parameter is specified for
   `ImageId`, the AMI ID is displayed in the response for `imageID`. For more information,
   see [Use a Systems Manager parameter instead of an AMI ID](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#use-an-ssm-parameter-instead-of-an-ami-id)
-  in the *Amazon EC2 User Guide*.
+  in the *Amazon Elastic Compute Cloud User Guide*.
 
   Default: `false`
 
@@ -6213,7 +6099,7 @@ entry consists of a CIDR block and an optional description.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
-  of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
   Constraints: Up to 255 UTF-8 characters in length.
 
@@ -6313,7 +6199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllocationId"`: [Public NAT gateways only] The allocation ID of an Elastic IP address to associate with the NAT gateway. You cannot specify an Elastic IP address with a private NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
   Constraint: Maximum 64 ASCII characters.
 
@@ -6388,7 +6274,7 @@ in the *Amazon VPC User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"TagSpecification"`: The tags to assign to the network ACL.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -6549,7 +6435,7 @@ and governance objectives. For more information, see the [Amazon Web Services Ne
 # Arguments
 
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 # Optional Parameters
 
@@ -6603,7 +6489,7 @@ resources in your virtual private cloud (VPC). For more information, see the [Re
 # Arguments
 
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `protocol`: The protocol.
 - `source`: The ID or ARN of the source. If the resource is in another account, you must
   specify an ARN.
@@ -6674,9 +6560,11 @@ end
 Creates a network interface in the specified subnet.
 
 The number of IP addresses you can assign to a network interface varies by instance type.
+For more information, see [IP Addresses Per ENI Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)
+in the *Amazon Virtual Private Cloud User Guide*.
 
 For more information about network interfaces, see [Elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -6687,7 +6575,7 @@ in the *Amazon EC2 User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"ConnectionTrackingSpecification"`: A connection tracking specification for the network
   interface.
@@ -6830,7 +6718,7 @@ at a time.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AwsAccountId"`: The Amazon Web Services account ID.
-- `"AwsService"`: The Amazon Web Services service. Currently not supported.
+- `"AwsService"`: The Amazon Web Service. Currently not supported.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -6944,10 +6832,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border group
-  that the resource that the IP address is assigned to is in. Defaults to an AZ network
-  border group. For more information on available Local Zones, see [Local Zone availability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)
-  in the *Amazon EC2 User Guide*.
 - `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use the
   tag key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key `Owner` and the value `TeamA`, specify `tag:Owner`
@@ -6975,7 +6859,7 @@ taken from the original root volume, or that is restored from an AMI that has th
 characteristics as that of the instance.
 
 For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -6987,7 +6871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used
-  for the request to ensure idempotency. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  for the request to ensure idempotency. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"DeleteReplacedRootVolume"`: Indicates whether to automatically delete the original root
   volume after the root volume replacement task completes. To delete the original root
@@ -7074,7 +6958,7 @@ and specify the upfront price to receive for them. Your Standard Reserved Instan
 then become available for purchase. To view the details of your Standard Reserved Instance
 listing, you can use the [`describe_reserved_instances_listings`](@ref) operation.
 
-For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
+For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -7328,7 +7212,7 @@ in the *Amazon VPC User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"TagSpecification"`: The tags to assign to the route table.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -7393,13 +7277,13 @@ For more information about VPC security group limits, see [Amazon VPC Limits](ht
 
   Constraints: Up to 255 characters in length
 
-  Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!\$*
+  Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!\$*
 
 - `group_name`: The name of the security group.
 
   Constraints: Up to 255 characters in length. Cannot start with `sg-`.
 
-  Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!\$*
+  Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!\$*
 
 # Optional Parameters
 
@@ -7479,9 +7363,9 @@ are created from encrypted snapshots are also automatically encrypted. Your encr
 volumes and any associated snapshots always remain protected.
 
 You can tag your snapshots during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
-For more information, see [Amazon EBS](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html)
+For more information, see [Amazon Elastic Block Store](https://docs.aws.amazon.com/ebs/latest/userguide/what-is-ebs.html)
 and [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html)
 in the *Amazon EBS User Guide*.
 
@@ -7632,7 +7516,7 @@ end
 
 Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You
 can create one data feed per Amazon Web Services account. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon EC2 User Guide for Linux Instances*.
 
 # Arguments
 
@@ -7778,7 +7662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your VPC, we do not necessarily select a different zone for each subnet.
 
   To create a subnet in a Local Zone, set this value to the Local Zone ID, for example
-  `us-west-2-lax-1a`. For information about the Regions that support Local Zones, see [Available Local Zones](https://docs.aws.amazon.com/local-zones/latest/ug/available-local-zones.html).
+  `us-west-2-lax-1a`. For information about the Regions that support Local Zones, see [Local Zones locations](http://aws.amazon.com/about-aws/global-infrastructure/localzones/locations/).
 
   To create a subnet in an Outpost, set this value to the Availability Zone for the Outpost
   and specify the Outpost ARN.
@@ -7841,8 +7725,8 @@ end
     create_subnet_cidr_reservation(cidr, reservation_type, subnet_id, params::Dict{String,<:Any})
 
 Creates a subnet CIDR reservation. For more information, see [Subnet CIDR reservations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html)
-in the *Amazon VPC User Guide* and [Assign prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Virtual Private Cloud User Guide* and [Assign prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -8423,7 +8307,7 @@ The peer address and transit gateway address must be the same IP address family 
 IPv6).
 
 For more information, see [Connect peers](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html#tgw-connect-peer)
-in the *Amazon Web Services Transit Gateways Guide*.
+in the *Transit Gateways Guide*.
 
 # Arguments
 
@@ -9022,7 +8906,7 @@ with an optional endpoint-level access policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access endpoint.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -9116,7 +9000,7 @@ use one common Verified Access policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access group.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -9176,7 +9060,7 @@ application requests and grants access only when your security requirements are 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access instance.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -9231,7 +9115,7 @@ denying the application request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access trust provider.
 - `"DeviceOptions"`: The options for a device-based trust provider. This parameter is
   required when the provider type is `device`.
@@ -9306,7 +9190,7 @@ automatically encrypted. For more information, see [Amazon EBS encryption](https
 in the *Amazon EBS User Guide*.
 
 You can tag your volumes during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 For more information, see [Create an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-creating-volume.html)
 in the *Amazon EBS User Guide*.
@@ -9321,7 +9205,7 @@ in the *Amazon EBS User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"Iops"`: The number of I/O operations per second (IOPS). For `gp3`, `io1`, and `io2`
   volumes, this represents the number of IOPS that are provisioned for the volume. For `gp2`
@@ -9334,16 +9218,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `io1`: 100 - 64,000 IOPS
   - `io2`: 100 - 256,000 IOPS
 
-  For `io2` volumes, you can achieve up to 256,000 IOPS on [instances built on the Nitro System](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
+  For `io2` volumes, you can achieve up to 256,000 IOPS on [instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
   On other instances, you can achieve performance up to 32,000 IOPS.
 
   This parameter is required for `io1` and `io2` volumes. The default for `gp3` volumes is
   3,000 IOPS. This parameter is not supported for `gp2`, `st1`, `sc1`, or `standard`
 volumes.
 
-- `"KmsKeyId"`: The identifier of the KMS key to use for Amazon EBS encryption. If this
-  parameter is not specified, your KMS key for Amazon EBS is used. If `KmsKeyId` is
-  specified, the encrypted state must be `true`.
+- `"KmsKeyId"`: The identifier of the Key Management Service (KMS) KMS key to use for Amazon
+  EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used.
+  If `KmsKeyId` is specified, the encrypted state must be `true`.
 
   You can specify the KMS key using any of the following:
 
@@ -9358,18 +9242,12 @@ volumes.
   fails.
 
 - `"MultiAttachEnabled"`: Indicates whether to enable Amazon EBS Multi-Attach. If you enable
-  Multi-Attach, you can attach the volume to up to 16 [Instances built on the Nitro System](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html)
+  Multi-Attach, you can attach the volume to up to 16 [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)
   in the same Availability Zone. This parameter is supported with `io1` and `io2` volumes
   only. For more information, see [Amazon EBS Multi-Attach](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html)
   in the *Amazon EBS User Guide*.
 
-- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create the
-  volume.
-
-  If you intend to use a volume with an instance running on an outpost, then you must create
-  the volume on the same outpost as the instance. You can't use a volume created in an
-  Amazon Web Services Region with an instance on an Amazon Web Services outpost, or the
-  other way around.
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
 
 - `"Size"`: The size of the volume, in GiBs. You must specify either a snapshot ID or a
   volume size. If you specify a snapshot, the default is the snapshot size. You can specify
@@ -9573,7 +9451,7 @@ account. For more information, see the [Amazon Web Services PrivateLink User Gui
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 
 - `"DnsOptions"`: The DNS options for the endpoint.
 
@@ -9660,8 +9538,8 @@ end
 
 Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A
 connection notification notifies you of specific endpoint events. You must create an SNS
-topic to receive notifications. For more information, see [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html)
-in the *Amazon SNS Developer Guide*.
+topic to receive notifications. For more information, see [Create a Topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html)
+in the *Amazon Simple Notification Service Developer Guide*.
 
 You can create a connection notification for interface endpoints only.
 
@@ -9676,7 +9554,7 @@ You can create a connection notification for interface endpoints only.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"ConnectionEvents"`: The endpoint events for which to receive notifications. Valid values
   are `Accept`, `Connect`, `Delete`, and `Reject`.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
@@ -9749,7 +9627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AcceptanceRequired"`: Indicates whether requests from service consumers to create an
   endpoint to your service must be accepted manually.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -9795,8 +9673,8 @@ Amazon Web Services account and can be in a different Region to the requester VP
 requester VPC and accepter VPC cannot have overlapping CIDR blocks.
 
 !!! note
-    Limitations and rules apply to a VPC peering connection. For more information, see the [VPC peering limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations)
-    in the *VPC Peering Guide*.
+    Limitations and rules apply to a VPC peering connection. For more information, see the [limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations)
+    section in the *VPC Peering Guide*.
 
 The owner of the accepter VPC must accept the peering request to activate the peering
 connection. The VPC peering connection request expires after 7 days, after which it cannot
@@ -10869,67 +10747,6 @@ function delete_ipam(
 end
 
 """
-    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id)
-    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id, params::Dict{String,<:Any})
-
-Delete a verification token. A verification token is an Amazon Web Services-generated random
-value that you can use to prove ownership of an external resource. For example, you can use
-a verification token to validate that you control a public IP address range when you bring
-an IP address range to Amazon Web Services (BYOIP).
-
-# Arguments
-
-- `ipam_external_resource_verification_token_id`: The token ID.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"DryRun"`: A check for whether you have the required permissions for the action without
-  actually making the request and provides an error response. If you have the required
-  permissions, the error response is `DryRunOperation`. Otherwise, it is
-  `UnauthorizedOperation`.
-"""
-function delete_ipam_external_resource_verification_token end
-
-function delete_ipam_external_resource_verification_token(
-    IpamExternalResourceVerificationTokenId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "DeleteIpamExternalResourceVerificationToken",
-        Dict{String,Any}(
-            "IpamExternalResourceVerificationTokenId" =>
-                IpamExternalResourceVerificationTokenId,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_ipam_external_resource_verification_token(
-    IpamExternalResourceVerificationTokenId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "DeleteIpamExternalResourceVerificationToken",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IpamExternalResourceVerificationTokenId" =>
-                        IpamExternalResourceVerificationTokenId,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     delete_ipam_pool(ipam_pool_id)
     delete_ipam_pool(ipam_pool_id, params::Dict{String,<:Any})
 
@@ -11169,7 +10986,7 @@ You can delete up to 200 launch template versions in a single request. To delete
 launch template and all of its versions.
 
 For more information, see [Delete a launch template version](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-launch-template-versions.html#delete-launch-template-version)
-in the *Amazon EC2 User Guide*.
+in the *EC2 User Guide*.
 
 # Arguments
 
@@ -12041,10 +11858,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border group
-  that the resource that the IP address is assigned to is in. Defaults to an AZ network
-  border group. For more information on available Local Zones, see [Local Zone availability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)
-  in the *Amazon EC2 User Guide*.
 """
 function delete_public_ipv4_pool end
 
@@ -12224,8 +12037,8 @@ end
 Deletes a security group.
 
 If you attempt to delete a security group that is associated with an instance or network
-interface or is referenced by another security group in the same VPC, the operation fails
-with `DependencyViolation`.
+interface or is referenced by another security group, the operation fails with
+`DependencyViolation`.
 
 # Optional Parameters
 
@@ -13332,7 +13145,7 @@ Delete an Amazon Web Services Verified Access endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -13391,7 +13204,7 @@ Delete an Amazon Web Services Verified Access group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -13450,7 +13263,7 @@ Delete an Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -13509,7 +13322,7 @@ Delete an Amazon Web Services Verified Access trust provider.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -14470,15 +14283,15 @@ end
     describe_address_transfers(params::Dict{String,<:Any})
 
 Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 When you transfer an Elastic IP address, there is a two-step handshake between the source
 and transfer Amazon Web Services accounts. When the source account starts the transfer, the
 transfer account has seven days to accept the Elastic IP address transfer. During those
 seven days, the source account can view the pending transfer by using this action. After
 seven days, the transfer expires and ownership of the Elastic IP address returns to the
-source account. Accepted transfers are visible to the source account for 14 days after the
-transfers have been accepted.
+source account. Accepted transfers are visible to the source account for three days after
+the transfers have been accepted.
 
 # Optional Parameters
 
@@ -14531,9 +14344,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `network-interface-owner-id` - The Amazon Web Services account ID of the owner.
   - `private-ip-address` - The private IP address associated with the Elastic IP address.
   - `public-ip` - The Elastic IP address, or the carrier IP address.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -14644,7 +14457,7 @@ you. If there is an event impacting a zone, you can use this request to view the
 any provided messages for that zone.
 
 For more information about Availability Zones, Local Zones, and Wavelength Zones, see [Regions and zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 !!! note
     The order of the elements in the response, including those within nested structures,
@@ -15100,9 +14913,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the carrier gateway (`pending` | `failed` | `available` |
     `deleting` | `deleted`).
   - `owner-id` - The Amazon Web Services account ID of the owner of the carrier gateway.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -15134,9 +14947,9 @@ end
 !!! note
     This action is deprecated.
 
-Describes your linked EC2-Classic instances. This request only returns information about
-EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to
-return information about other instances.
+Describes one or more of your linked EC2-Classic instances. This request only returns
+information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use
+this request to return information about other instances.
 
 # Optional Parameters
 
@@ -15146,9 +14959,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `group-id` - The ID of a VPC security group that's associated with the instance.
   - `instance-id` - The ID of the instance.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -15579,9 +15392,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the customer gateway (`pending` | `available` | `deleting` |
     `deleted`).
   - `type` - The type of customer gateway. Currently, the only supported type is `ipsec.1`.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -15609,18 +15422,18 @@ end
     describe_dhcp_options()
     describe_dhcp_options(params::Dict{String,<:Any})
 
-Describes your DHCP option sets. The default is to describe all your DHCP option sets.
-Alternatively, you can specify specific DHCP option set IDs or filter the results to include
-only the DHCP option sets that match specific criteria.
+Describes one or more of your DHCP options sets.
 
-For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
+For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html)
 in the *Amazon VPC User Guide*.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DhcpOptionsId"`: The IDs of DHCP option sets.
+- `"DhcpOptionsId"`: The IDs of one or more DHCP options sets.
+
+  Default: Describes all your DHCP options sets.
 
 - `"Filter"`: The filters.
 
@@ -15628,9 +15441,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `key` - The key for one of the options (for example, `domain-name`).
   - `value` - The value for one of the options.
   - `owner-id` - The ID of the Amazon Web Services account that owns the DHCP options set.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -15663,10 +15476,7 @@ end
     describe_egress_only_internet_gateways()
     describe_egress_only_internet_gateways(params::Dict{String,<:Any})
 
-Describes your egress-only internet gateways. The default is to describe all your egress-
-only internet gateways. Alternatively, you can specify specific egress-only internet gateway
-IDs or filter the results to include only the egress-only internet gateways that match
-specific criteria.
+Describes one or more of your egress-only internet gateways.
 
 # Optional Parameters
 
@@ -15681,9 +15491,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: The filters.
 
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -15722,10 +15532,11 @@ end
 
 !!! note
     Amazon Elastic Graphics reached end of life on January 8, 2024. For workloads that
-    require graphics acceleration, we recommend that you use Amazon EC2 G4, G5, or G6
+    require graphics acceleration, we recommend that you use Amazon EC2 G4ad, G4dn, or G5
     instances.
 
-Describes the Elastic Graphics accelerator associated with your instances.
+Describes the Elastic Graphics accelerator associated with your instances. For more
+information about Elastic Graphics, see [Amazon Elastic Graphics](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-graphics.html).
 
 # Optional Parameters
 
@@ -16135,9 +15946,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `log-group-name` - The name of the log group.
   - `resource-id` - The ID of the VPC, subnet, or network interface.
   - `traffic-type` - The type of traffic (`ACCEPT` | `REJECT` | `ALL`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -16246,9 +16057,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `shell-version` - The version of the Amazon Web Services Shell that was used to create
     the bitstream.
   - `state` - The state of the AFI (`pending` | `failed` | `available` | `unavailable`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -16354,9 +16165,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `payment-option` - The payment option (`NoUpfront` | `PartialUpfront` | `AllUpfront`).
   - `state` - The state of the reservation (`payment-pending` | `payment-failed` | `active`
     | `retired`).
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -16753,9 +16564,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state-reason-message` - The message for the state change.
   - `sriov-net-support` - A value of `simple` indicates that enhanced networking with the
     Intel 82599 VF interface is enabled.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -16961,9 +16772,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `delete-failed`).
   - `subnet-id` - The ID of the subnet in which the EC2 Instance Connect Endpoint was
     created.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -17151,9 +16962,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     of the value.
   - `instance-tag-value` - The event windows associated with the specified tag value,
     regardless of the key.
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the event window. Use
-    the tag key in the filter name and the tag value as the filter value. For example, to
-    find all resources that have a tag with the key `Owner` and the value `CMX`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the event window. Use the
+    tag key in the filter name and the tag value as the filter value. For example, to find
+    all resources that have a tag with the key `Owner` and the value `CMX`, specify
     `tag:Owner` for the filter name and `CMX` for the filter value.
   - `tag-key` - The key of a tag assigned to the event window. Use this filter to find all
     event windows that have a tag with a specific key, regardless of the tag value.
@@ -17242,8 +17053,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     (`passed` | `failed` | `initializing` | `insufficient-data`).
   - `system-status.status` - The system status of the instance (`ok` | `impaired` |
     `initializing` | `insufficient-data` | `not-applicable`).
-  - `attached-ebs-status.status` - The status of the attached EBS volume for the instance
-    (`ok` | `impaired` | `initializing` | `insufficient-data` | `not-applicable`).
 
 - `"InstanceId"`: The instance IDs.
 
@@ -17769,10 +17578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     records.
   - `private-dns-name-options.hostname-type` - The type of hostname (`ip-name` |
     `resource-name`).
-  - `private-ip-address` - The private IPv4 address of the instance. This can only be used
-    to filter by the primary IP address of the network interface attached to the instance.
-    To filter by additional IP addresses assigned to the network interface, use the filter
-    `network-interface.addresses.private-ip-address`.
+  - `private-ip-address` - The private IPv4 address of the instance.
   - `product-code` - The product code associated with the AMI used to launch the instance.
   - `product-code.type` - The type of product code (`devpay` | `marketplace`).
   - `ramdisk-id` - The RAM disk ID.
@@ -17796,9 +17602,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state-reason-code` - The reason code for the state change.
   - `state-reason-message` - A message that describes the state change.
   - `subnet-id` - The ID of the subnet for the instance.
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources that have a tag with a specific key, regardless of the tag value.
@@ -17849,9 +17655,7 @@ end
     describe_internet_gateways()
     describe_internet_gateways(params::Dict{String,<:Any})
 
-Describes your internet gateways. The default is to describe all your internet gateways.
-Alternatively, you can specify specific internet gateway IDs or filter the results to
-include only the internet gateways that match specific criteria.
+Describes one or more of your internet gateways.
 
 # Optional Parameters
 
@@ -17864,9 +17668,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `attachment.vpc-id` - The ID of an attached VPC.
   - `internet-gateway-id` - The ID of the Internet gateway.
   - `owner-id` - The ID of the Amazon Web Services account that owns the internet gateway.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -17931,67 +17735,6 @@ function describe_ipam_byoasn(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ec2("DescribeIpamByoasn", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-"""
-    describe_ipam_external_resource_verification_tokens()
-    describe_ipam_external_resource_verification_tokens(params::Dict{String,<:Any})
-
-Describe verification tokens. A verification token is an Amazon Web Services-generated
-random value that you can use to prove ownership of an external resource. For example, you
-can use a verification token to validate that you control a public IP address range when you
-bring an IP address range to Amazon Web Services (BYOIP).
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"DryRun"`: A check for whether you have the required permissions for the action without
-  actually making the request and provides an error response. If you have the required
-  permissions, the error response is `DryRunOperation`. Otherwise, it is
-  `UnauthorizedOperation`.
-
-- `"Filter"`: One or more filters for the request. For more information about filtering, see [Filtering CLI output](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-filter.html).
-
-  Available filters:
-
-  - `ipam-arn`
-  - `ipam-external-resource-verification-token-arn`
-  - `ipam-external-resource-verification-token-id`
-  - `ipam-id`
-  - `ipam-region`
-  - `state`
-  - `status`
-  - `token-name`
-  - `token-value`
-
-- `"IpamExternalResourceVerificationTokenId"`: Verification token IDs.
-
-- `"MaxResults"`: The maximum number of tokens to return in one page of results.
-
-- `"NextToken"`: The token for the next page of results.
-"""
-function describe_ipam_external_resource_verification_tokens end
-
-function describe_ipam_external_resource_verification_tokens(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ec2(
-        "DescribeIpamExternalResourceVerificationTokens";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_ipam_external_resource_verification_tokens(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ec2(
-        "DescribeIpamExternalResourceVerificationTokens",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
 end
 
 """
@@ -18195,9 +17938,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: One or more filters.
 
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -18241,9 +17984,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `key-name` - The name of the key pair.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
 
 - `"IncludePublicKey"`: If `true`, the public key material is included in the response.
@@ -18358,7 +18101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is displayed in the response for `imageId`.
 
   For more information, see [Use a Systems Manager parameter instead of an AMI ID](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#use-an-ssm-parameter-instead-of-an-ami-id)
-  in the *Amazon EC2 User Guide*.
+  in the *Amazon Elastic Compute Cloud User Guide*.
 
   Default: `false`
 """
@@ -18402,9 +18145,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `create-time` - The time the launch template was created.
   - `launch-template-name` - The name of the launch template.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -18933,9 +18676,7 @@ end
     describe_nat_gateways()
     describe_nat_gateways(params::Dict{String,<:Any})
 
-Describes your NAT gateways. The default is to describe all your NAT gateways.
-Alternatively, you can specify specific NAT gateway IDs or filter the results to include
-only the NAT gateways that match specific criteria.
+Describes one or more of your NAT gateways.
 
 # Optional Parameters
 
@@ -18952,9 +18693,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the NAT gateway (`pending` | `failed` | `available` | `deleting`
     | `deleted`).
   - `subnet-id` - The ID of the subnet in which the NAT gateway resides.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -18985,9 +18726,7 @@ end
     describe_network_acls()
     describe_network_acls(params::Dict{String,<:Any})
 
-Describes your network ACLs. The default is to describe all your network ACLs.
-Alternatively, you can specify specific network ACL IDs or filter the results to include
-only the network ACLs that match specific criteria.
+Describes one or more of your network ACLs.
 
 For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
 in the *Amazon VPC User Guide*.
@@ -19017,9 +18756,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     entries.
   - `network-acl-id` - The ID of the network ACL.
   - `owner-id` - The ID of the Amazon Web Services account that owns the network ACL.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -19030,6 +18769,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 - `"NetworkAclId"`: The IDs of the network ACLs.
+
+  Default: Describes all your network ACLs.
 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
@@ -19316,7 +19057,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     permission.
   - `network-interface-permission.network-interface-id` - The ID of the network interface.
   - `network-interface-permission.aws-account-id` - The Amazon Web Services account ID.
-  - `network-interface-permission.aws-service` - The Amazon Web Services service.
+  - `network-interface-permission.aws-service` - The Amazon Web Service.
   - `network-interface-permission.permission` - The type of permission (`INSTANCE-ATTACH` |
     `EIP-ASSOCIATE`).
 
@@ -19435,8 +19176,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `requester-id` - The alias or Amazon Web Services account ID of the principal or service
     that created the network interface.
   - `requester-managed` - Indicates whether the network interface is being managed by an
-    Amazon Web Services service (for example, Amazon Web Services Management Console, Auto
-    Scaling, and so on).
+    Amazon Web Service (for example, Amazon Web Services Management Console, Auto Scaling,
+    and so on).
   - `source-dest-check` - Indicates whether the network interface performs
     source/destination checking. A value of `true` means checking is enabled, and `false`
     means checking is disabled. The value must be `false` for the network interface to
@@ -19445,9 +19186,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     to an instance, the status is `available`; if a network interface is attached to an
     instance the status is `in-use`.
   - `subnet-id` - The ID of the subnet for the network interface.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -19471,14 +19212,8 @@ end
     describe_placement_groups()
     describe_placement_groups(params::Dict{String,<:Any})
 
-Describes the specified placement groups or all of your placement groups.
-
-!!! note
-    To describe a specific placement group that is *shared* with your account, you must
-    specify the ID of the placement group using the `GroupId` parameter. Specifying the name
-    of a *shared* placement group using the `GroupNames` parameter will result in an error.
-
-For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
+Describes the specified placement groups or all of your placement groups. For more
+information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
 in the *Amazon EC2 User Guide*.
 
 # Optional Parameters
@@ -19493,9 +19228,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the placement group (`pending` | `available` | `deleting` |
     `deleted`).
   - `strategy` - The strategy of the placement group (`cluster` | `spread` | `partition`).
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources that have a tag with a specific key, regardless of the tag value.
@@ -19509,11 +19244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"groupName"`: The names of the placement groups.
 
-  Constraints:
-
-  - You can specify a name only if the placement group is owned by your account.
-  - If a placement group is *shared* with your account, specifying the name results in an
-    error. You must use the `GroupId` parameter instead.
+  Default: Describes all your placement groups, or only those otherwise specified.
 """
 function describe_placement_groups end
 
@@ -19640,9 +19371,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filter"`: One or more filters.
 
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -19674,10 +19405,10 @@ end
 
 Describes the Regions that are enabled for your account, or all Regions.
 
-For a list of the Regions supported by Amazon EC2, see [Amazon EC2 service endpoints](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-endpoints.html).
+For a list of the Regions supported by Amazon EC2, see [Amazon Elastic Compute Cloud endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/ec2-service.html).
 
-For information about enabling and disabling Regions for your account, see [Specify which Amazon Web Services Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html)
-in the *Amazon Web Services Account Management Reference Guide*.
+For information about enabling and disabling Regions for your account, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html)
+in the *Amazon Web Services General Reference*.
 
 !!! note
     The order of the elements in the response, including those within nested structures,
@@ -19722,7 +19453,7 @@ end
     describe_replace_root_volume_tasks(params::Dict{String,<:Any})
 
 Describes a root volume replacement task. For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Optional Parameters
 
@@ -19805,9 +19536,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     example, 2014-08-07T11:54:42.000Z).
   - `state` - The state of the Reserved Instance (`payment-pending` | `active` |
     `payment-failed` | `retired`).
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -19863,7 +19594,7 @@ sells the lowest priced Reserved Instances to you, and continues to sell availab
 Instance listings to you until your demand is met. You are charged based on the total price
 of all of the listings that you purchase.
 
-For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
+For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
 in the *Amazon EC2 User Guide*.
 
 !!! note
@@ -19915,7 +19646,7 @@ Describes the modifications made to your Reserved Instances. If no parameter is 
 information about all your Reserved Instances modification requests is returned. If a
 modification ID is specified, only information about the specific modification is returned.
 
-For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html)
+For more information, see [Modifying Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html)
 in the *Amazon EC2 User Guide*.
 
 !!! note
@@ -19987,7 +19718,7 @@ If you have listed your own Reserved Instances for sale in the Reserved Instance
 Marketplace, they will be excluded from these results. This is to ensure that you do not
 purchase your own Reserved Instances.
 
-For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
+For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
 in the *Amazon EC2 User Guide*.
 
 !!! note
@@ -20022,7 +19753,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeMarketplace"`: Include Reserved Instance Marketplace offerings in the response.
 
 - `"InstanceType"`: The instance type that the reservation will cover (for example,
-  `m1.small`). For more information, see [Amazon EC2 instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
+  `m1.small`). For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
   in the *Amazon EC2 User Guide*.
 
 - `"MaxDuration"`: The maximum duration (in seconds) to filter when searching for offerings.
@@ -20097,9 +19828,7 @@ end
     describe_route_tables()
     describe_route_tables(params::Dict{String,<:Any})
 
-Describes your route tables. The default is to describe all your route tables.
-Alternatively, you can specify specific route table IDs or filter the results to include
-only the route tables that match specific criteria.
+Describes one or more of your route tables.
 
 Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly
 associated with any route table, it is implicitly associated with the main route table. This
@@ -20127,8 +19856,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `route.destination-cidr-block` - The IPv4 CIDR range specified in a route in the table.
   - `route.destination-ipv6-cidr-block` - The IPv6 CIDR range specified in a route in the
     route table.
-  - `route.destination-prefix-list-id` - The ID (prefix) of the Amazon Web Services service
-    specified in a route in the table.
+  - `route.destination-prefix-list-id` - The ID (prefix) of the Amazon Web Service specified
+    in a route in the table.
   - `route.egress-only-internet-gateway-id` - The ID of an egress-only Internet gateway
     specified in a route in the route table.
   - `route.gateway-id` - The ID of a gateway specified in a route in the table.
@@ -20146,9 +19875,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     terminated, and so on).
   - `route.vpc-peering-connection-id` - The ID of a VPC peering connection specified in a
     route in the table.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -20162,6 +19891,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 
 - `"RouteTableId"`: The IDs of the route tables.
+
+  Default: Describes all your route tables.
 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -20374,9 +20105,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `group-id` - The ID of the security group.
   - `security-group-rule-id` - The ID of the security group rule.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
 
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
@@ -20454,9 +20185,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `ip-permission.user-id` - The ID of an Amazon Web Services account that has been
     referenced in an inbound security group rule.
   - `owner-id` - The Amazon Web Services account ID of the owner of the security group.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -20670,17 +20401,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `start-time` - The time stamp when the snapshot was initiated.
   - `status` - The status of the snapshot (`pending` | `completed` | `error`).
   - `storage-tier` - The storage tier of the snapshot (`archive` | `standard`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
   - `volume-id` - The ID of the volume the snapshot is for.
   - `volume-size` - The size of the volume, in GiB.
 
-- `"MaxResults"`: The maximum number of items to return for this request. To get the next
-  page of items, make another request with the token returned in the output. For more
+- `"MaxResults"`: The maximum number of snapshots to return for this request. This value can
+  be between 5 and 1,000; if this value is larger than 1,000, only 1,000 results are
+  returned. If this parameter is not used, then the request returns all snapshots. You
+  cannot specify this parameter and the snapshot IDs parameter in the same request. For more
   information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -20718,7 +20451,7 @@ end
     describe_spot_datafeed_subscription(params::Dict{String,<:Any})
 
 Describes the data feed for Spot Instances. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon EC2 User Guide for Linux Instances*.
 
 # Optional Parameters
 
@@ -20985,13 +20718,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the Spot Instance request (`open` | `active` | `closed` |
     `cancelled` | `failed`). Spot request status information can help you track your Amazon
     EC2 Spot Instance requests. For more information, see [Spot request status](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-request-status.html)
-    in the *Amazon EC2 User Guide*.
+    in the *Amazon EC2 User Guide for Linux Instances*.
   - `status-code` - The short code describing the most recent evaluation of your Spot
     Instance request.
   - `status-message` - The message explaining the status of the Spot Instance request.
-  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag:<key>` - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -21034,7 +20767,7 @@ end
     describe_spot_price_history(params::Dict{String,<:Any})
 
 Describes the Spot price history. For more information, see [Spot Instance pricing history](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon EC2 User Guide for Linux Instances*.
 
 When you specify a start and end time, the operation returns the prices of the instance
 types within that time range. It also returns the last price change before the start time,
@@ -21101,9 +20834,9 @@ end
     describe_stale_security_groups(vpc_id, params::Dict{String,<:Any})
 
 Describes the stale security group rules for security groups in a specified VPC. Rules are
-stale when they reference a deleted security group in a peered VPC. Rules can also be stale
-if they reference a security group in a peer VPC for which the VPC peering connection has
-been deleted.
+stale when they reference a deleted security group in the same VPC or peered VPC. Rules can
+also be stale if they reference a security group in a peer VPC for which the VPC peering
+connection has been deleted.
 
 # Arguments
 
@@ -21216,9 +20949,7 @@ end
     describe_subnets()
     describe_subnets(params::Dict{String,<:Any})
 
-Describes your subnets. The default is to describe all your subnets. Alternatively, you can
-specify specific subnet IDs or filter the results to include only the subnets that match
-specific criteria.
+Describes one or more of your subnets.
 
 For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
 in the *Amazon VPC User Guide*.
@@ -21273,9 +21004,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the subnet (`pending` | `available`).
   - `subnet-arn` - The Amazon Resource Name (ARN) of the subnet.
   - `subnet-id` - The ID of the subnet.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -21335,9 +21066,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `key` - The tag key.
   - `resource-id` - The ID of the resource.
   - `resource-type` - The resource type. For a list of possible values, see [TagSpecification](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html).
-  - `tag`:&lt;key&gt; - The key/value combination of the tag. For example, specify
-    "tag:Owner" for the filter name and "TeamA" for the filter value to find resources with
-    the tag "Owner=TeamA".
+  - `tag`:<key> - The key/value combination of the tag. For example, specify "tag:Owner" for
+    the filter name and "TeamA" for the filter value to find resources with the tag
+    "Owner=TeamA".
   - `value` - The tag value.
 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -21808,9 +21539,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `state` - The state of the peering attachment. Valid values are `available` | `deleted`
     | `deleting` | `failed` | `failing` | `initiatingRequest` | `modifying` |
     `pendingAcceptance` | `pending` | `rollingBack` | `rejected` | `rejecting`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources that have a tag with a specific key, regardless of the tag value.
@@ -22481,8 +22212,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `insufficient-data`).
 
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
-  page of items, make another request with the token returned in the output. For more
-  information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+  page of items, make another request with the token returned in the output. This value can
+  be between 5 and 1,000; if the value is larger than 1,000, only 1,000 results are
+  returned. If this parameter is not used, then all items are returned. You cannot specify
+  this parameter and the volume IDs parameter in the same request. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
@@ -22552,9 +22285,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `snapshot-id` - The snapshot from which the volume was created.
   - `status` - The state of the volume (`creating` | `available` | `in-use` | `deleting` |
     `deleted` | `error`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -22562,20 +22295,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `volume-type` - The Amazon EBS volume type (`gp2` | `gp3` | `io1` | `io2` | `st1` |
     `sc1`| `standard`)
 
-- `"VolumeId"`: The volume IDs. If not specified, then all volumes are included in the
-  response.
+- `"VolumeId"`: The volume IDs.
 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 
-- `"maxResults"`: The maximum number of items to return for this request. To get the next
-  page of items, make another request with the token returned in the output. For more
-  information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+- `"maxResults"`: The maximum number of volumes to return for this request. This value can
+  be between 5 and 500; if you specify a value larger than 500, only 500 items are returned.
+  If this parameter is not used, then all items are returned. You cannot specify this
+  parameter and the volume IDs parameter in the same request. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
-  from the end of the items returned by the previous request.
+  from the end of the items returned from the previous request.
 """
 function describe_volumes end
 
@@ -22595,6 +22328,12 @@ end
 
 Describes the most recent volume modification request for the specified EBS volumes.
 
+If a volume has never been modified, some information in the output will be null. If a
+volume has been modified more than once, the output includes only the most recent
+modification request.
+
+You can also use CloudWatch Events to check the status of a modification to an EBS volume.
+For information about CloudWatch Events, see the [Amazon CloudWatch Events User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/).
 For more information, see [Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html)
 in the *Amazon EBS User Guide*.
 
@@ -22629,7 +22368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results (up to a limit of 500) to be returned in a
   paginated request. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
-- `"NextToken"`: The token returned from a previous paginated request. Pagination continues
+- `"NextToken"`: The token returned by a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
 
 - `"VolumeId"`: The IDs of the volumes.
@@ -22719,9 +22458,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `is-classic-link-enabled` - Whether the VPC is enabled for ClassicLink (`true` |
     `false`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -22923,9 +22662,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `service-state` - The state of the service (`Pending` | `Available` | `Deleting` |
     `Deleted` | `Failed`).
   - `supported-ip-address-types` - The IP address type (`ipv4` | `ipv6`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23050,9 +22789,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `service-name` - The name of the service.
   - `service-type` - The type of service (`Interface` | `Gateway` | `GatewayLoadBalancer`).
   - `supported-ip-address-types` - The IP address type (`ipv4` | `ipv6`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23087,9 +22826,7 @@ end
     describe_vpc_endpoints()
     describe_vpc_endpoints(params::Dict{String,<:Any})
 
-Describes your VPC endpoints. The default is to describe all your VPC endpoints.
-Alternatively, you can specify specific VPC endpoint IDs or filter the results to include
-only the VPC endpoints that match specific criteria.
+Describes your VPC endpoints.
 
 # Optional Parameters
 
@@ -23104,9 +22841,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `ip-address-type` - The IP address type (`ipv4` | `ipv6`).
   - `service-name` - The name of the service.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23143,9 +22880,7 @@ end
     describe_vpc_peering_connections()
     describe_vpc_peering_connections(params::Dict{String,<:Any})
 
-Describes your VPC peering connections. The default is to describe all your VPC peering
-connections. Alternatively, you can specify specific VPC peering connection IDs or filter
-the results to include only the VPC peering connections that match specific criteria.
+Describes one or more of your VPC peering connections.
 
 # Optional Parameters
 
@@ -23166,9 +22901,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `failed` | `expired` | `provisioning` | `active` | `deleting` | `deleted` | `rejected`).
   - `status-message` - A message that provides more information about the status of the VPC
     peering connection, if applicable.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23210,9 +22945,7 @@ end
     describe_vpcs()
     describe_vpcs(params::Dict{String,<:Any})
 
-Describes your VPCs. The default is to describe all your VPCs. Alternatively, you can
-specify specific VPC IDs or filter the results to include only the VPCs that match specific
-criteria.
+Describes one or more of your VPCs.
 
 # Optional Parameters
 
@@ -23240,9 +22973,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `is-default` - Indicates whether the VPC is the default VPC.
   - `owner-id` - The ID of the Amazon Web Services account that owns the VPC.
   - `state` - The state of the VPC (`pending` | `available`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23256,6 +22989,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 
 - `"VpcId"`: The IDs of the VPCs.
+
+  Default: Describes all your VPCs.
 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -23299,9 +23034,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `route.destination-cidr-block` - The destination CIDR block. This corresponds to the
     subnet used in a customer data center.
   - `bgp-asn` - The BGP Autonomous System Number (ASN) associated with a BGP device.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23358,9 +23093,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     applicable).
   - `state` - The state of the virtual private gateway (`pending` | `available` | `deleting`
     | `deleted`).
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -23581,7 +23316,7 @@ Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -23766,7 +23501,7 @@ end
     disable_address_transfer(allocation_id, params::Dict{String,<:Any})
 
 Disables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 # Arguments
 
@@ -24298,15 +24033,9 @@ Disables the *block public access for snapshots* setting at the account level fo
 specified Amazon Web Services Region. After you disable block public access for snapshots in
 a Region, users can publicly share snapshots in that Region.
 
-!!! important
-    Enabling block public access for snapshots in *block-all-sharing* mode does not change
-    the permissions for snapshots that are already publicly shared. Instead, it prevents
-    these snapshots from be publicly visible and publicly accessible. Therefore, the
-    attributes for these snapshots still indicate that they are publicly shared, even though
-    they are not publicly available.
-
-    If you disable block public access , these snapshots will become publicly available
-    again.
+If block public access is enabled in `block-all-sharing` mode, and you disable block public
+access, all snapshots that were previously publicly shared are no longer treated as private
+and they become publicly accessible again.
 
 For more information, see [Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html)
 in the *Amazon EBS User Guide* .
@@ -25272,7 +25001,7 @@ Removes an association between a branch network interface with a trunk network i
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -25363,7 +25092,7 @@ end
     enable_address_transfer(allocation_id, transfer_account_id, params::Dict{String,<:Any})
 
 Enables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro)
-in the *Amazon VPC User Guide*.
+in the *Amazon Virtual Private Cloud User Guide*.
 
 # Arguments
 
@@ -26008,15 +25737,9 @@ in a Region, users can no longer request public sharing for snapshots in that Re
 Snapshots that are already publicly shared are either treated as private or they remain
 publicly shared, depending on the **State** that you specify.
 
-!!! important
-    Enabling block public access for snapshots in *block all sharing* mode does not change
-    the permissions for snapshots that are already publicly shared. Instead, it prevents
-    these snapshots from be publicly visible and publicly accessible. Therefore, the
-    attributes for these snapshots still indicate that they are publicly shared, even though
-    they are not publicly available.
-
-    If you later disable block public access or change the mode to *block new sharing*,
-    these snapshots will become publicly available again.
+If block public access is enabled in `block-all-sharing` mode, and you change the mode to
+`block-new-sharing`, all snapshots that were previously publicly shared are no longer
+treated as private and they become publicly accessible again.
 
 For more information, see [Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html)
 in the *Amazon EBS User Guide*.
@@ -26030,6 +25753,14 @@ in the *Amazon EBS User Guide*.
     the account will no longer be able to request new public sharing. Additionally,
     snapshots that are already publicly shared are treated as private and they are no longer
     publicly available.
+
+    !!! note
+        If you enable block public access for snapshots in `block-all-sharing` mode, it does
+        not change the permissions for snapshots that are already publicly shared. Instead,
+        it prevents these snapshots from be publicly visible and publicly accessible.
+        Therefore, the attributes for these snapshots still indicate that they are publicly
+        shared, even though they are not publicly available.
+
   - `block-new-sharing` - Prevents only new public sharing of snapshots in the Region. Users
     in the account will no longer be able to request new public sharing. However, snapshots
     that are already publicly shared, remain publicly available.
@@ -26508,8 +26239,8 @@ end
 Exports routes from the specified transit gateway route table to the specified S3 bucket. By
 default, all routes are exported. Alternatively, you can filter by CIDR range.
 
-The routes are saved to the specified bucket in a JSON file. For more information, see [Export route tables to Amazon S3](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#tgw-export-route-tables)
-in the *Amazon Web Services Transit Gateways Guide*.
+The routes are saved to the specified bucket in a JSON file. For more information, see [Export Route Tables to Amazon S3](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#tgw-export-route-tables)
+in *Transit Gateways*.
 
 # Arguments
 
@@ -26836,6 +26567,14 @@ Gets the console output for the specified instance. For Linux instances, the ins
 console output displays the exact console output that would normally be displayed on a
 physical monitor attached to a computer. For Windows instances, the instance console output
 includes the last three system event log errors.
+
+By default, the console output returns buffered information that was posted shortly after an
+instance transition state (start, stop, reboot, or terminate). This information is available
+for at least one hour after the most recent post. Only the most recent 64 KB of console
+output is available.
+
+You can optionally retrieve the latest serial console output at any time during the instance
+lifecycle. This option is supported on instance types that use the Nitro hypervisor.
 
 For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output)
 in the *Amazon EC2 User Guide*.
@@ -27287,7 +27026,7 @@ end
     get_instance_metadata_defaults(params::Dict{String,<:Any})
 
 Gets the default instance metadata service (IMDS) settings that are set at the account level
-in the specified Amazon Web Services&#x2028; Region.
+in the specified Amazon Web Services Region.
 
 For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence)
 in the *Amazon EC2 User Guide*.
@@ -27798,7 +27537,7 @@ available for allocations.
 !!! note
     If you use this action after [AllocateIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AllocateIpamPoolCidr.html)
     or [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html),
-    note that all EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html)
+    note that all EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/query-api-troubleshooting.html#eventual-consistency)
     model.
 
 # Arguments
@@ -28229,9 +27968,9 @@ Retrieves the encrypted administrator password for a running Windows instance.
 
 The Windows password is generated at boot by the `EC2Config` service or `EC2Launch` scripts
 (Windows Server 2016 and later). This usually only happens the first time an instance is
-launched. For more information, see [EC2Config](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingConfig_WinAMI.html)
-and [EC2Launch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2launch.html) in the
-*Amazon EC2 User Guide*.
+launched. For more information, see [EC2Config](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/UsingConfig_WinAMI.html)
+and [EC2Launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html) in
+the *Amazon EC2 User Guide*.
 
 For the `EC2Config` service, the password is not generated for rebundled AMIs unless
 `Ec2SetPassword` is enabled before bundling.
@@ -28483,7 +28222,7 @@ and letting Amazon EC2 choose the optimal instance types to fulfill your Spot re
 you can specify the instance types by using `InstanceTypes`.
 
 For more information, see [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html)
-in the *Amazon EC2 User Guide*.
+in the Amazon EC2 User Guide.
 
 # Arguments
 
@@ -28580,9 +28319,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `reservationType` - The type of reservation (`prefix` | `explicit`).
   - `subnet-id` - The ID of the subnet.
-  - `tag`:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-    tag key in the filter name and the tag value as the filter value. For example, to find
-    all resources that have a tag with the key `Owner` and the value `TeamA`, specify
+  - `tag`:<key> - The key/value combination of a tag assigned to the resource. Use the tag
+    key in the filter name and the tag value as the filter value. For example, to find all
+    resources that have a tag with the key `Owner` and the value `TeamA`, specify
     `tag:Owner` for the filter name and `TeamA` for the filter value.
   - `tag-key` - The key of a tag assigned to the resource. Use this filter to find all
     resources assigned a tag with a specific key, regardless of the tag value.
@@ -30044,15 +29783,18 @@ end
     modify_availability_zone_group(group_name, opt_in_status)
     modify_availability_zone_group(group_name, opt_in_status, params::Dict{String,<:Any})
 
-Changes the opt-in status of the specified zone group for your account.
+Changes the opt-in status of the Local Zone and Wavelength Zone group for your account.
+
+Use [DescribeAvailabilityZones](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html)
+to view the value for `GroupName`.
 
 # Arguments
 
 - `group_name`: The name of the Availability Zone group, Local Zone group, or Wavelength
   Zone group.
-- `opt_in_status`: Indicates whether to opt in to the zone group. The only valid value is
-  `opted-in`. You must contact Amazon Web Services Support to opt out of a Local Zone or
-  Wavelength Zone group.
+- `opt_in_status`: Indicates whether you are opted in to the Local Zone group or Wavelength
+  Zone group. The only valid value is `opted-in`. You must contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/case/create%3FissueType=customer-service%26serviceCode=general-info%26getting-started%26categoryCode=using-aws%26services)
+  to opt out of a Local Zone or Wavelength Zone group.
 
 # Optional Parameters
 
@@ -30100,11 +29842,11 @@ end
     modify_capacity_reservation(capacity_reservation_id)
     modify_capacity_reservation(capacity_reservation_id, params::Dict{String,<:Any})
 
-Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under
-which it is to be released. You can't modify a Capacity Reservation's instance type, EBS
-optimization, platform, instance store settings, Availability Zone, or tenancy. If you need
+Modifies a Capacity Reservation's capacity and the conditions under which it is to be
+released. You cannot change a Capacity Reservation's instance type, EBS optimization,
+instance store settings, platform, Availability Zone, or instance eligibility. If you need
 to modify any of these attributes, we recommend that you cancel the Capacity Reservation,
-and then create a new one with the required attributes. For more information, see [Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html).
+and then create a new one with the required attributes.
 
 # Arguments
 
@@ -30145,16 +29887,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceCount"`: The number of instances for which to reserve capacity. The number of
   instances can't be increased or decreased by more than `1000` in a single request.
-
-- `"InstanceMatchCriteria"`: The matching criteria (instance eligibility) that you want to
-  use in the modified Capacity Reservation. If you change the instance eligibility of an
-  existing Capacity Reservation from `targeted` to `open`, any running instances that match
-  the attributes of the Capacity Reservation, have the `CapacityReservationPreference` set
-  to `open`, and are not yet running in the Capacity Reservation, will automatically use the
-  modified Capacity Reservation.
-
-  To modify the instance eligibility, the Capacity Reservation must be completely idle (zero
-  usage).
 """
 function modify_capacity_reservation end
 
@@ -30235,7 +29967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each instance type used by the Fleet determine the number of instances for which the Fleet
   reserves capacity. Both values are based on units that make sense for your workload. For
   more information, see [Total target capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#target-capacity)
-  in the *Amazon EC2 User Guide*.
+  in the Amazon EC2 User Guide.
 """
 function modify_capacity_reservation_fleet end
 
@@ -30463,9 +30195,9 @@ in the *Amazon EBS User Guide*.
 
 # Arguments
 
-- `kms_key_id`: The identifier of the KMS key to use for Amazon EBS encryption. If this
-  parameter is not specified, your KMS key for Amazon EBS is used. If `KmsKeyId` is
-  specified, the encrypted state must be `true`.
+- `kms_key_id`: The identifier of the Key Management Service (KMS) KMS key to use for Amazon
+  EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is used.
+  If `KmsKeyId` is specified, the encrypted state must be `true`.
 
   You can specify the KMS key using any of the following:
 
@@ -31008,7 +30740,7 @@ in the *Amazon EC2 User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DisableApiStop"`: Indicates whether an instance is enabled for stop protection. For more
-  information, see [Enable stop protection for your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-stop-protection.html).
+  information, see [Stop Protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html#Using_StopProtection).
 
 - `"GroupId"`: Replaces the security groups of the instance with the specified security
   groups. You must specify the ID of at least one security group, even if it's just the
@@ -31081,9 +30813,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This option is supported only for HVM instances. Specifying this option with a PV instance
   can make it unreachable.
 
-- `"userData"`: Changes the instance's user data to the specified value. User data must be
-  base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might
-  be performed for you. For more information, see [Work with instance user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
+- `"userData"`: Changes the instance's user data to the specified value. If you are using an
+  Amazon Web Services SDK or command line tool, base64-encoding is performed for you, and
+  you can load the text from a file. Otherwise, you must provide base64-encoded text.
 
 - `"value"`: A new value for the attribute. Use only with the `kernel`, `ramdisk`,
   `userData`, `disableApiTermination`, or `instanceInitiatedShutdownBehavior` attribute.
@@ -31341,9 +31073,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     alternative single values `SUN` through `SAT`.
   - The minute, month, and year must be specified by `*`.
   - The hour value must be one or a multiple range, for example, `0-4` or `0-4,20-23`.
-  - Each hour range must be &gt;= 2 hours, for example, `0-2` or `20-23`.
-  - The event window must be &gt;= 4 hours. The combined total time ranges in the event
-    window must be &gt;= 4 hours.
+  - Each hour range must be >= 2 hours, for example, `0-2` or `20-23`.
+  - The event window must be >= 4 hours. The combined total time ranges in the event window
+    must be >= 4 hours.
 
   For more information about cron expressions, see [cron](https://en.wikipedia.org/wiki/Cron)
   on the *Wikipedia website*.
@@ -31445,7 +31177,7 @@ end
     modify_instance_metadata_defaults(params::Dict{String,<:Any})
 
 Modifies the default instance metadata service (IMDS) settings at the account level in the
-specified Amazon Web Services&#x2028; Region.
+specified Amazon Web Services Region.
 
 !!! note
     To remove a parameter's account-level default setting, specify `no-preference`. If an
@@ -31708,13 +31440,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 
-- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
-  addresses. This option is disabled by default.
-
 - `"RemoveOperatingRegion"`: The operating Regions to remove.
 
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
-  the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing &gt; IPAM tab](http://aws.amazon.com/vpc/pricing/).
+  the features available in each tier and the costs associated with the tiers, see [Amazon VPC pricing > IPAM tab](http://aws.amazon.com/vpc/pricing/).
 """
 function modify_ipam end
 
@@ -32334,7 +32063,7 @@ Modifies the configuration of your Reserved Instances, such as the Availability 
 instance count, or instance type. The Reserved Instances to be modified must be identical,
 except for Availability Zone, network platform, and instance type.
 
-For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html)
+For more information, see [Modifying Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -32696,13 +32425,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnableDns64"`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver in
   this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
-
-  !!! note
-      You must first configure a NAT gateway in a public subnet (separate from the subnet
-      containing the IPv6-only workloads). For example, the subnet containing the NAT
-      gateway should have a `0.0.0.0/0` route pointing to the internet gateway. For more
-      information, see [Configure DNS64 and NAT64](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-nat64-dns64.html#nat-gateway-nat64-dns64-walkthrough)
-      in the *Amazon VPC User Guide*.
 
 - `"EnableLniAtDeviceIndex"`: Indicates the device position for local network interfaces in
   this subnet. For example, `1` indicates local network interfaces in this subnet are the
@@ -33173,7 +32895,7 @@ Modifies the configuration of the specified Amazon Web Services Verified Access 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access endpoint.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -33237,7 +32959,7 @@ Modifies the specified Amazon Web Services Verified Access endpoint policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -33299,7 +33021,7 @@ Modifies the specified Amazon Web Services Verified Access group configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access group.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -33360,7 +33082,7 @@ Modifies the specified Amazon Web Services Verified Access group policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -33422,7 +33144,7 @@ Modifies the configuration of the specified Amazon Web Services Verified Access 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access instance.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -33484,7 +33206,7 @@ instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
@@ -33547,7 +33269,7 @@ provider.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
-  your modification request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  your modification request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"Description"`: A description for the Verified Access trust provider.
 - `"DeviceOptions"`: The options for a device-based trust provider. This parameter is
   required when the provider type is `device`.
@@ -33610,8 +33332,10 @@ in the *Amazon EBS User Guide*.
 When you complete a resize operation on your volume, you need to extend the volume's file-
 system size to take advantage of the new storage capacity. For more information, see [Extend the file system](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html).
 
-For more information, see [Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html)
-in the *Amazon EBS User Guide*.
+You can use CloudWatch Events to check the status of a modification to an EBS volume. For
+information about CloudWatch Events, see the [Amazon CloudWatch Events User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/).
+You can also track the status of a modification using [`describe_volumes_modifications`](@ref).
+For information about tracking status changes using either method, see [Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html).
 
 With previous-generation instance types, resizing an EBS volume might require detaching and
 reattaching the volume or stopping and restarting the instance.
@@ -33642,14 +33366,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `io1`: 100 - 64,000 IOPS
   - `io2`: 100 - 256,000 IOPS
 
-  For `io2` volumes, you can achieve up to 256,000 IOPS on [instances built on the Nitro System](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
+  For `io2` volumes, you can achieve up to 256,000 IOPS on [instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
   On other instances, you can achieve performance up to 32,000 IOPS.
 
   Default: The existing value is retained if you keep the same volume type. If you change
   the volume type to `io1`, `io2`, or `gp3`, the default is 3,000.
 
 - `"MultiAttachEnabled"`: Specifies whether to enable Amazon EBS Multi-Attach. If you enable
-  Multi-Attach, you can attach the volume to up to 16 [Nitro-based instances](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html)
+  Multi-Attach, you can attach the volume to up to 16 [Nitro-based instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)
   in the same Availability Zone. This parameter is supported with `io1` and `io2` volumes
   only. For more information, see [Amazon EBS Multi-Attach](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html)
   in the *Amazon EBS User Guide*.
@@ -34721,88 +34445,6 @@ function move_byoip_cidr_to_ipam(
 end
 
 """
-    move_capacity_reservation_instances(destination_capacity_reservation_id, instance_count, source_capacity_reservation_id)
-    move_capacity_reservation_instances(destination_capacity_reservation_id, instance_count, source_capacity_reservation_id, params::Dict{String,<:Any})
-
-Move available capacity from a source Capacity Reservation to a destination Capacity
-Reservation. The source Capacity Reservation and the destination Capacity Reservation must
-be `active`, owned by your Amazon Web Services account, and share the following:
-
-- Instance type
-- Platform
-- Availability Zone
-- Tenancy
-- Placement group
-- Capacity Reservation end time - `At specific time` or `Manually`.
-
-# Arguments
-
-- `destination_capacity_reservation_id`: The ID of the Capacity Reservation that you want to
-  move capacity into.
-- `instance_count`: The number of instances that you want to move from the source Capacity
-  Reservation.
-- `source_capacity_reservation_id`: The ID of the Capacity Reservation from which you want
-  to move capacity.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"DryRun"`: Checks whether you have the required permissions for the action, without
-  actually making the request, and provides an error response. If you have the required
-  permissions, the error response is `DryRunOperation`. Otherwise, it is
-  `UnauthorizedOperation`.
-"""
-function move_capacity_reservation_instances end
-
-function move_capacity_reservation_instances(
-    DestinationCapacityReservationId,
-    InstanceCount,
-    SourceCapacityReservationId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "MoveCapacityReservationInstances",
-        Dict{String,Any}(
-            "DestinationCapacityReservationId" => DestinationCapacityReservationId,
-            "InstanceCount" => InstanceCount,
-            "SourceCapacityReservationId" => SourceCapacityReservationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function move_capacity_reservation_instances(
-    DestinationCapacityReservationId,
-    InstanceCount,
-    SourceCapacityReservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2(
-        "MoveCapacityReservationInstances",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DestinationCapacityReservationId" => DestinationCapacityReservationId,
-                    "InstanceCount" => InstanceCount,
-                    "SourceCapacityReservationId" => SourceCapacityReservationId,
-                    "ClientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     provision_byoip_cidr(cidr)
     provision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
@@ -34814,7 +34456,7 @@ Amazon Web Services verifies that you own the address range and are authorized t
 it. You must ensure that the address range is registered to you and that you created an RPKI
 ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more
 information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 Provisioning an address range is an asynchronous operation, so the call returns immediately,
 but the address range is not ready to use until its status changes from `pending-provision`
@@ -34979,23 +34621,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is required. This value will be null if you specify "NetmaskLength" and will be filled in
   during the provisioning process.
 - `"CidrAuthorizationContext"`: A signed document that proves that you are authorized to
-  bring a specified IP address range to Amazon using BYOIP. This option only applies to IPv4
-  and IPv6 pools in the public scope.
+  bring a specified IP address range to Amazon using BYOIP. This option applies to public
+  pools only.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [Ensuring Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-- `"IpamExternalResourceVerificationTokenId"`: Verification token ID. This option only
-  applies to IPv4 and IPv6 pools in the public scope.
 - `"NetmaskLength"`: The netmask length of the CIDR you'd like to provision to a pool. Can
   be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for
   provisioning CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to
   top-level pools. Either "NetmaskLength" or "Cidr" is required.
-- `"VerificationMethod"`: The method for verifying control of a public IP address range.
-  Defaults to `remarks-x509` if not specified. This option only applies to IPv4 and IPv6
-  pools in the public scope.
 """
 function provision_ipam_pool_cidr end
 
@@ -35044,7 +34681,7 @@ in the *Amazon VPC IPAM User Guide*.
 
 - `ipam_pool_id`: The ID of the IPAM pool you would like to use to allocate this CIDR.
 - `netmask_length`: The netmask length of the CIDR you would like to allocate to the public
-  IPv4 pool. The least specific netmask length you can define is 24.
+  IPv4 pool.
 - `pool_id`: The ID of the public IPv4 pool you would like to use for this CIDR.
 
 # Optional Parameters
@@ -35055,10 +34692,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request and provides an error response. If you have the required
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
-- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border group
-  that the resource that the IP address is assigned to is in. Defaults to an AZ network
-  border group. For more information on available Local Zones, see [Local Zone availability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#byoip-zone-avail)
-  in the *Amazon EC2 User Guide*.
 """
 function provision_public_ipv4_pool_cidr end
 
@@ -35246,7 +34879,7 @@ To queue a purchase for a future date and time, specify a purchase time. If you 
 specify a purchase time, the default is the current time.
 
 For more information, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html)
-and [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
+and [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -35433,9 +35066,8 @@ end
     register_image(name, params::Dict{String,<:Any})
 
 Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is
-the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot)
-and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html)
-in the *Amazon EC2 User Guide*.
+the final step in the creation process. For more information about creating AMIs, see [Create your own AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html)
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 !!! note
     For Amazon EBS-backed instances, [`create_image`](@ref) creates and registers the AMI in
@@ -35455,25 +35087,24 @@ encryption state of the volume using the block device mapping. If the snapshot i
 or encryption by default is enabled, the root volume of an instance launched from the AMI is
 encrypted.
 
-For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot)
+For more information, see [Create a Linux AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot)
 and [Use encryption with Amazon EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html)
-in the *Amazon EC2 User Guide*.
+in the *Amazon Elastic Compute Cloud User Guide*.
 
 **Amazon Web Services Marketplace product codes**
 
 If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the
 new AMI.
 
-In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing
-information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html)
-in the *Amazon EC2 User Guide*. When creating an AMI from a snapshot, the [`register_image`](@ref)
-operation derives the correct billing information from the snapshot's metadata, but this
-requires the appropriate metadata to be present. To verify if the correct billing
-information was applied, check the `PlatformDetails` field on the new AMI. If the field is
-empty or doesn't match the expected operating system code (for example, Windows, RedHat,
-SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead
-create the AMI from an instance using [`create_image`](@ref). For more information, see [Create an AMI from an instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami)
-in the *Amazon EC2 User Guide*.
+Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux
+Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to
+verify the subscription status for package updates. To create a new AMI for operating
+systems that require a billing product code, instead of registering the AMI, do the
+following to preserve the billing product code association:
+
+1. Launch an instance from an existing AMI with that billing product code.
+2. Customize the instance.
+3. Create an AMI from the instance using [`create_image`](@ref).
 
 If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from
 an AMI with a billing product code, make sure that the Reserved Instance has the matching
@@ -35672,8 +35303,8 @@ end
 
 Registers members (network interfaces) with the transit gateway multicast group. A member is
 a network interface associated with a supported EC2 instance that receives multicast
-traffic. For more information, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html)
-in the *Amazon Web Services Transit Gateways Guide*.
+traffic. For information about supported instances, see [Multicast Consideration](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-limits.html#multicast-limits)
+in *Amazon VPC Transit Gateways*.
 
 After you add the members, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html)
 to verify that the members were added to the transit gateway multicast group.
@@ -35744,8 +35375,8 @@ end
 Registers sources (network interfaces) with the specified transit gateway multicast group.
 
 A multicast source is a network interface attached to a supported instance that sends
-multicast traffic. For more information about supported instances, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html)
-in the *Amazon Web Services Transit Gateways Guide*.
+multicast traffic. For information about supported instances, see [Multicast Considerations](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-limits.html#multicast-limits)
+in *Amazon VPC Transit Gateways*.
 
 After you add the source, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html)
 to verify that the source was added to the multicast group.
@@ -36024,7 +35655,7 @@ end
 Rejects a VPC peering connection request. The VPC peering connection must be in the
 `pending-acceptance` state. Use the [`describe_vpc_peering_connections`](@ref) request to
 view your outstanding VPC peering connection requests. To delete an active VPC peering
-connection, or to delete a VPC peering connection request that you initiated, use [`delete_vpc_peering_connection`](@ref).
+connection, or to delete a VPC peering connection request that you initiated, use	[`delete_vpc_peering_connection`](@ref).
 
 # Arguments
 
@@ -36171,7 +35802,7 @@ For more information, see [Release an allocation](https://docs.aws.amazon.com/vp
 in the *Amazon VPC IPAM User Guide*.
 
 !!! note
-    All EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html)
+    All EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/query-api-troubleshooting.html#eventual-consistency)
     model.
 
 # Arguments
@@ -36870,13 +36501,13 @@ end
 
 Creates a Spot Instance request.
 
-For more information, see [Work with Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html)
-in the *Amazon EC2 User Guide*.
+For more information, see [Spot Instance requests](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html)
+in the *Amazon EC2 User Guide for Linux Instances*.
 
 !!! important
     We strongly discourage using the RequestSpotInstances API because it is a legacy API
     with no planned investment. For options for requesting Spot Instances, see [Which is the best Spot request method to use?](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use)
-    in the *Amazon EC2 User Guide*.
+    in the *Amazon EC2 User Guide for Linux Instances*.
 
 # Optional Parameters
 
@@ -36914,8 +36545,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"blockDurationMinutes"`: Deprecated.
 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html)
-  in the *Amazon EC2 User Guide*.
+  idempotency of the request. For more information, see [How to Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html)
+  in the *Amazon EC2 User Guide for Linux Instances*.
 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -37173,7 +36804,7 @@ either running or stopped.
 
 The `sourceDestCheck` attribute controls whether source/destination checking is enabled. The
 default value is `true`, which means checking is enabled. This value must be `false` for a
-NAT instance to perform NAT. For more information, see [NAT instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html)
+NAT instance to perform NAT. For more information, see [NAT Instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html)
 in the *Amazon VPC User Guide*.
 
 # Arguments
@@ -37829,8 +37460,8 @@ apply:
 - All instances have a network interface with a primary private IPv4 address. If you don't
   specify this address, we choose one from the IPv4 range of your subnet.
 - Not all instance types support IPv6 addresses. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
-- If you don't specify a security group ID, we use the default security group for the VPC.
-  For more information, see [Security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html).
+- If you don't specify a security group ID, we use the default security group. For more
+  information, see [Security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html).
 - If any of the AMIs have a product code attached for which the user has not subscribed, the
   request fails.
 
@@ -37842,9 +37473,6 @@ specifying the launch parameters.
 To ensure faster instance launches, break up large requests into smaller batches. For
 example, create five separate launch requests for 100 instances each instead of one launch
 request for 500 instances.
-
-`RunInstances` is subject to both request rate limiting and resource rate limiting. For more
-information, see [Request throttling](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-throttling.html).
 
 An instance is ready for you to use when it's in the `running` state. You can check the
 state of your instance using [`describe_instances`](@ref). You can tag instances and EBS
@@ -37860,19 +37488,21 @@ and [Troubleshooting connecting to your instance](https://docs.aws.amazon.com/AW
 
 # Arguments
 
-- `max_count`: The maximum number of instances to launch. If you specify a value that is
-  more capacity than Amazon EC2 can launch in the target Availability Zone, Amazon EC2
-  launches the largest possible number of instances above the specified minimum count.
+- `max_count`: The maximum number of instances to launch. If you specify more instances than
+  Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches the largest
+  possible number of instances above `MinCount`.
 
-  Constraints: Between 1 and the quota for the specified instance type for your account for
-  this Region. For more information, see [Amazon EC2 instance type quotas](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-quotas.html).
+  Constraints: Between 1 and the maximum number you're allowed for the specified instance
+  type. For more information about the default limits, and how to request an increase, see [How many instances can I run in Amazon EC2](http://aws.amazon.com/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2)
+  in the Amazon EC2 FAQ.
 
-- `min_count`: The minimum number of instances to launch. If you specify a value that is
-  more capacity than Amazon EC2 can provide in the target Availability Zone, Amazon EC2 does
-  not launch any instances.
+- `min_count`: The minimum number of instances to launch. If you specify a minimum that is
+  more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2
+  launches no instances.
 
-  Constraints: Between 1 and the quota for the specified instance type for your account for
-  this Region. For more information, see [Amazon EC2 instance type quotas](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-instance-quotas.html).
+  Constraints: Between 1 and the maximum number you're allowed for the specified instance
+  type. For more information about the default limits, and how to request an increase, see [How many instances can I run in Amazon EC2](http://aws.amazon.com/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2)
+  in the Amazon EC2 General FAQ.
 
 # Optional Parameters
 
@@ -37936,7 +37566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HibernationOptions"`: Indicates whether an instance is enabled for hibernation. This
   parameter is valid only if the instance meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html).
-  For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html)
+  For more information, see [Hibernate your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html)
   in the *Amazon EC2 User Guide*.
 
   You can't enable hibernation and Amazon Web Services Nitro Enclaves on the same instance.
@@ -37949,7 +37579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For `RunInstances`, persistent Spot Instance requests are only supported when
   **InstanceInterruptionBehavior** is set to either `hibernate` or `stop`.
 
-- `"InstanceType"`: The instance type. For more information, see [Amazon EC2 instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
+- `"InstanceType"`: The instance type. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)
   in the *Amazon EC2 User Guide*.
 
 - `"Ipv6Address"`: The IPv6 addresses from the range of the subnet to associate with the
@@ -38035,9 +37665,12 @@ Default: Amazon EC2 uses the default security group.
 
   To tag a resource after it has been created, see [CreateTags](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html).
 
-- `"UserData"`: The user data to make available to the instance. User data must be base64-
-  encoded. Depending on the tool or SDK that you're using, the base64-encoding might be
-  performed for you. For more information, see [Work with instance user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
+- `"UserData"`: The user data script to make available to the instance. For more
+  information, see [Run commands on your Linux instance at launch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)
+  and [Run commands on your Windows instance at launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html).
+  If you are using a command line tool, base64-encoding is performed for you, and you can
+  load the text from a file. Otherwise, you must provide base64-encoded text. User data is
+  limited to 16 KB.
 
 - `"additionalInfo"`: Reserved.
 
@@ -38141,7 +37774,8 @@ using [`purchase_scheduled_instances`](@ref).
 You must launch a Scheduled Instance during its scheduled time period. You can't stop or
 reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a
 Scheduled Instance before the current scheduled time period ends, you can launch it again
-after a few minutes.
+after a few minutes. For more information, see [Scheduled Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html)
+in the *Amazon EC2 User Guide*.
 
 # Arguments
 
@@ -38445,7 +38079,8 @@ configured to perform the required diagnostic tasks.
 
 For more information about configuring your operating system to generate a crash dump when a
 kernel panic or stop error occurs, see [Send a diagnostic interrupt (for advanced users)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html)
-in the *Amazon EC2 User Guide*.
+(Linux instances) or [Send a diagnostic interrupt (for advanced users)](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/diagnostic-interrupt.html)
+(Windows instances).
 
 # Arguments
 
@@ -38512,7 +38147,7 @@ option, the request fails. The `unlimited` CPU credit option is not supported on
 Hosts. Before you start the instance, either change its CPU credit option to `standard`, or
 change its tenancy to `default` or `dedicated`.
 
-For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html)
+For more information, see [Stop and start your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html)
 in the *Amazon EC2 User Guide*.
 
 # Arguments
@@ -38564,7 +38199,7 @@ Starts analyzing the specified Network Access Scope.
 # Arguments
 
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `network_insights_access_scope_id`: The ID of the Network Access Scope.
 
 # Optional Parameters
@@ -38628,7 +38263,7 @@ shortest feasible path.
 # Arguments
 
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `network_insights_path_id`: The ID of the path.
 
 # Optional Parameters
@@ -38740,12 +38375,12 @@ end
     stop_instances(instance_id)
     stop_instances(instance_id, params::Dict{String,<:Any})
 
-Stops an Amazon EBS-backed instance. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html)
+Stops an Amazon EBS-backed instance. For more information, see [Stop and start your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html)
 in the *Amazon EC2 User Guide*.
 
 You can use the Stop action to hibernate an instance if the instance is [enabled for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enabling-hibernation.html)
 and it meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html).
-For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html)
+For more information, see [Hibernate your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html)
 in the *Amazon EC2 User Guide*.
 
 We don't charge usage for a stopped instance, or data transfer fees; however, your root

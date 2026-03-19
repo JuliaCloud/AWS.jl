@@ -351,36 +351,19 @@ end
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration)
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration, params::Dict{String,<:Any})
 
-Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.
-
-!!! note
-    If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion),
-    the KVS stream must be in that same Region. For example, if a meeting uses the
-    `af-south-1` Region, the KVS stream must also be in `af-south-1`. However, if the
-    meeting uses a Region that AWS turns on by default, the KVS stream can be in any
-    available Region, including an opt-in Region. For example, if the meeting uses
-    `ca-central-1`, the KVS stream can be in `eu-west-2`, `us-east-1`, `af-south-1`, or any
-    other Region that the Amazon Chime SDK supports.
-
-    To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
-    API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
-    parameter from the response.
-
-    For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
-    in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
-    in the *AWS Account Management Reference Guide*.
+Creates an Kinesis video stream pool for the media pipeline.
 
 # Arguments
 
-- `pool_name`: The name of the pool.
-- `stream_configuration`: The configuration settings for the stream.
+- `pool_name`: The name of the video stream pool.
+- `stream_configuration`: The configuration settings for the video stream.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: The token assigned to the client making the request.
-- `"Tags"`: The tags assigned to the stream pool.
+- `"Tags"`: The tags assigned to the video stream pool.
 """
 function create_media_pipeline_kinesis_video_stream_pool end
 
@@ -497,24 +480,24 @@ Deletes the media pipeline.
 function delete_media_capture_pipeline end
 
 function delete_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/sdk-media-capture-pipelines/$(mediaPipelineId)";
+        "/sdk-media-capture-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_media_capture_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/sdk-media-capture-pipelines/$(mediaPipelineId)",
+        "/sdk-media-capture-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -535,24 +518,24 @@ Deletes the specified configuration settings.
 function delete_media_insights_pipeline_configuration end
 
 function delete_media_insights_pipeline_configuration(
-    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/media-insights-pipeline-configurations/$(identifier)";
+        "/media-insights-pipeline-configurations/$(Identifier)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_media_insights_pipeline_configuration(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/media-insights-pipeline-configurations/$(identifier)",
+        "/media-insights-pipeline-configurations/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -572,24 +555,24 @@ Deletes the media pipeline.
 function delete_media_pipeline end
 
 function delete_media_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/sdk-media-pipelines/$(mediaPipelineId)";
+        "/sdk-media-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_media_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/sdk-media-pipelines/$(mediaPipelineId)",
+        "/sdk-media-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -600,34 +583,33 @@ end
     delete_media_pipeline_kinesis_video_stream_pool(identifier)
     delete_media_pipeline_kinesis_video_stream_pool(identifier, params::Dict{String,<:Any})
 
-Deletes an Amazon Kinesis Video Stream pool.
+Deletes an Kinesis video stream pool.
 
 # Arguments
 
-- `identifier`: The unique identifier of the requested resource. Valid values include the
-  name and ARN of the media pipeline Kinesis Video Stream pool.
+- `identifier`: The ID of the pool being deleted.
 """
 function delete_media_pipeline_kinesis_video_stream_pool end
 
 function delete_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_media_pipeline_kinesis_video_stream_pool(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -647,24 +629,24 @@ Gets an existing media pipeline.
 function get_media_capture_pipeline end
 
 function get_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/sdk-media-capture-pipelines/$(mediaPipelineId)";
+        "/sdk-media-capture-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_media_capture_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/sdk-media-capture-pipelines/$(mediaPipelineId)",
+        "/sdk-media-capture-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -685,24 +667,24 @@ Gets the configuration settings for a media insights pipeline.
 function get_media_insights_pipeline_configuration end
 
 function get_media_insights_pipeline_configuration(
-    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipeline-configurations/$(identifier)";
+        "/media-insights-pipeline-configurations/$(Identifier)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_media_insights_pipeline_configuration(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipeline-configurations/$(identifier)",
+        "/media-insights-pipeline-configurations/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -722,24 +704,24 @@ Gets an existing media pipeline.
 function get_media_pipeline end
 
 function get_media_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/sdk-media-pipelines/$(mediaPipelineId)";
+        "/sdk-media-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_media_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/sdk-media-pipelines/$(mediaPipelineId)",
+        "/sdk-media-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -754,30 +736,29 @@ Gets an Kinesis video stream pool.
 
 # Arguments
 
-- `identifier`: The unique identifier of the requested resource. Valid values include the
-  name and ARN of the media pipeline Kinesis Video Stream pool.
+- `identifier`: The ID of the video stream pool.
 """
 function get_media_pipeline_kinesis_video_stream_pool end
 
 function get_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_media_pipeline_kinesis_video_stream_pool(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -799,25 +780,25 @@ Retrieves the details of the specified speaker search task.
 function get_speaker_search_task end
 
 function get_speaker_search_task(
-    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, SpeakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)";
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks/$(SpeakerSearchTaskId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_speaker_search_task(
-    identifier,
-    speakerSearchTaskId,
+    Identifier,
+    SpeakerSearchTaskId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)",
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks/$(SpeakerSearchTaskId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -839,25 +820,25 @@ Retrieves the details of a voice tone analysis task.
 function get_voice_tone_analysis_task end
 
 function get_voice_tone_analysis_task(
-    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, VoiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)";
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_tone_analysis_task(
-    identifier,
-    voiceToneAnalysisTaskId,
+    Identifier,
+    VoiceToneAnalysisTaskId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)",
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1040,8 +1021,8 @@ function list_tags_for_resource(
 end
 
 """
-    start_speaker_search_task(voice_profile_domain_arn, identifier)
-    start_speaker_search_task(voice_profile_domain_arn, identifier, params::Dict{String,<:Any})
+    start_speaker_search_task(identifier, voice_profile_domain_arn)
+    start_speaker_search_task(identifier, voice_profile_domain_arn, params::Dict{String,<:Any})
 
 Starts a speaker search task.
 
@@ -1053,10 +1034,10 @@ Starts a speaker search task.
 
 # Arguments
 
-- `voice_profile_domain_arn`: The ARN of the voice profile domain that will store the voice
-  profile.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
+- `voice_profile_domain_arn`: The ARN of the voice profile domain that will store the voice
+  profile.
 
 # Optional Parameters
 
@@ -1070,11 +1051,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_speaker_search_task end
 
 function start_speaker_search_task(
-    VoiceProfileDomainArn, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, VoiceProfileDomainArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks?operation=start",
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks?operation=start",
         Dict{String,Any}(
             "VoiceProfileDomainArn" => VoiceProfileDomainArn,
             "ClientRequestToken" => string(uuid4()),
@@ -1085,14 +1066,14 @@ function start_speaker_search_task(
 end
 
 function start_speaker_search_task(
+    Identifier,
     VoiceProfileDomainArn,
-    identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks?operation=start",
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks?operation=start",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1109,8 +1090,8 @@ function start_speaker_search_task(
 end
 
 """
-    start_voice_tone_analysis_task(language_code, identifier)
-    start_voice_tone_analysis_task(language_code, identifier, params::Dict{String,<:Any})
+    start_voice_tone_analysis_task(identifier, language_code)
+    start_voice_tone_analysis_task(identifier, language_code, params::Dict{String,<:Any})
 
 Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
@@ -1123,9 +1104,9 @@ in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
 
-- `language_code`: The language code.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
+- `language_code`: The language code.
 
 # Optional Parameters
 
@@ -1139,11 +1120,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_voice_tone_analysis_task end
 
 function start_voice_tone_analysis_task(
-    LanguageCode, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, LanguageCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks?operation=start",
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks?operation=start",
         Dict{String,Any}(
             "LanguageCode" => LanguageCode, "ClientRequestToken" => string(uuid4())
         );
@@ -1153,14 +1134,14 @@ function start_voice_tone_analysis_task(
 end
 
 function start_voice_tone_analysis_task(
+    Identifier,
     LanguageCode,
-    identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks?operation=start",
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks?operation=start",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1190,25 +1171,25 @@ Stops a speaker search task.
 function stop_speaker_search_task end
 
 function stop_speaker_search_task(
-    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, SpeakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)?operation=stop";
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks/$(SpeakerSearchTaskId)?operation=stop";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function stop_speaker_search_task(
-    identifier,
-    speakerSearchTaskId,
+    Identifier,
+    SpeakerSearchTaskId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/speaker-search-tasks/$(speakerSearchTaskId)?operation=stop",
+        "/media-insights-pipelines/$(Identifier)/speaker-search-tasks/$(SpeakerSearchTaskId)?operation=stop",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1230,25 +1211,25 @@ Stops a voice tone analysis task.
 function stop_voice_tone_analysis_task end
 
 function stop_voice_tone_analysis_task(
-    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, VoiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)?operation=stop";
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)?operation=stop";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function stop_voice_tone_analysis_task(
-    identifier,
-    voiceToneAnalysisTaskId,
+    Identifier,
+    VoiceToneAnalysisTaskId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
-        "/media-insights-pipelines/$(identifier)/voice-tone-analysis-tasks/$(voiceToneAnalysisTaskId)?operation=stop",
+        "/media-insights-pipelines/$(Identifier)/voice-tone-analysis-tasks/$(VoiceToneAnalysisTaskId)?operation=stop",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1348,8 +1329,8 @@ function untag_resource(
 end
 
 """
-    update_media_insights_pipeline_configuration(elements, resource_access_role_arn, identifier)
-    update_media_insights_pipeline_configuration(elements, resource_access_role_arn, identifier, params::Dict{String,<:Any})
+    update_media_insights_pipeline_configuration(elements, identifier, resource_access_role_arn)
+    update_media_insights_pipeline_configuration(elements, identifier, resource_access_role_arn, params::Dict{String,<:Any})
 
 Updates the media insights pipeline's configuration settings.
 
@@ -1357,10 +1338,10 @@ Updates the media insights pipeline's configuration settings.
 
 - `elements`: The elements in the request, such as a processor for Amazon Transcribe or a
   sink for a Kinesis Data Stream..
-- `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
-  Services resources.
 - `identifier`: The unique identifier for the resource to be updated. Valid values include
   the name and ARN of the media insights pipeline configuration.
+- `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
+  Services resources.
 
 # Optional Parameters
 
@@ -1373,13 +1354,13 @@ function update_media_insights_pipeline_configuration end
 
 function update_media_insights_pipeline_configuration(
     Elements,
-    ResourceAccessRoleArn,
-    identifier;
+    Identifier,
+    ResourceAccessRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-insights-pipeline-configurations/$(identifier)",
+        "/media-insights-pipeline-configurations/$(Identifier)",
         Dict{String,Any}(
             "Elements" => Elements, "ResourceAccessRoleArn" => ResourceAccessRoleArn
         );
@@ -1390,14 +1371,14 @@ end
 
 function update_media_insights_pipeline_configuration(
     Elements,
+    Identifier,
     ResourceAccessRoleArn,
-    identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-insights-pipeline-configurations/$(identifier)",
+        "/media-insights-pipeline-configurations/$(Identifier)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1413,25 +1394,25 @@ function update_media_insights_pipeline_configuration(
 end
 
 """
-    update_media_insights_pipeline_status(update_status, identifier)
-    update_media_insights_pipeline_status(update_status, identifier, params::Dict{String,<:Any})
+    update_media_insights_pipeline_status(identifier, update_status)
+    update_media_insights_pipeline_status(identifier, update_status, params::Dict{String,<:Any})
 
 Updates the status of a media insights pipeline.
 
 # Arguments
 
-- `update_status`: The requested status of the media insights pipeline.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
+- `update_status`: The requested status of the media insights pipeline.
 """
 function update_media_insights_pipeline_status end
 
 function update_media_insights_pipeline_status(
-    UpdateStatus, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, UpdateStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-insights-pipeline-status/$(identifier)",
+        "/media-insights-pipeline-status/$(Identifier)",
         Dict{String,Any}("UpdateStatus" => UpdateStatus);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1439,14 +1420,14 @@ function update_media_insights_pipeline_status(
 end
 
 function update_media_insights_pipeline_status(
+    Identifier,
     UpdateStatus,
-    identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-insights-pipeline-status/$(identifier)",
+        "/media-insights-pipeline-status/$(Identifier)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UpdateStatus" => UpdateStatus), params)
         );
@@ -1459,12 +1440,11 @@ end
     update_media_pipeline_kinesis_video_stream_pool(identifier)
     update_media_pipeline_kinesis_video_stream_pool(identifier, params::Dict{String,<:Any})
 
-Updates an Amazon Kinesis Video Stream pool in a media pipeline.
+Updates an Kinesis video stream pool in a media pipeline.
 
 # Arguments
 
-- `identifier`: The unique identifier of the requested resource. Valid values include the
-  name and ARN of the media pipeline Kinesis Video Stream pool.
+- `identifier`: The ID of the video stream pool.
 
 # Optional Parameters
 
@@ -1475,24 +1455,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_media_pipeline_kinesis_video_stream_pool end
 
 function update_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)";
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_media_pipeline_kinesis_video_stream_pool(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
-        "/media-pipeline-kinesis-video-stream-pools/$(identifier)",
+        "/media-pipeline-kinesis-video-stream-pools/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -16,23 +16,23 @@ Delete the connection with the provided id.
 """
 function delete_connection end
 
-function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return apigatewaymanagementapi(
         "DELETE",
-        "/@connections/$(connectionId)";
+        "/@connections/$(ConnectionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_connection(
-    connectionId,
+    ConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "DELETE",
-        "/@connections/$(connectionId)",
+        "/@connections/$(ConnectionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -51,20 +51,20 @@ Get information about the connection with the provided id.
 """
 function get_connection end
 
-function get_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_connection(ConnectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return apigatewaymanagementapi(
-        "GET", "/@connections/$(connectionId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/@connections/$(ConnectionId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_connection(
-    connectionId,
+    ConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "GET",
-        "/@connections/$(connectionId)",
+        "/@connections/$(ConnectionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -72,24 +72,24 @@ function get_connection(
 end
 
 """
-    post_to_connection(data, connection_id)
-    post_to_connection(data, connection_id, params::Dict{String,<:Any})
+    post_to_connection(connection_id, data)
+    post_to_connection(connection_id, data, params::Dict{String,<:Any})
 
 Sends the provided data to the specified connection.
 
 # Arguments
 
-- `data`: The data to be sent to the client specified by its connection id.
 - `connection_id`: The identifier of the connection that a specific client is using.
+- `data`: The data to be sent to the client specified by its connection id.
 """
 function post_to_connection end
 
 function post_to_connection(
-    Data, connectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    ConnectionId, Data; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apigatewaymanagementapi(
         "POST",
-        "/@connections/$(connectionId)",
+        "/@connections/$(ConnectionId)",
         Dict{String,Any}("Data" => Data);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -97,14 +97,14 @@ function post_to_connection(
 end
 
 function post_to_connection(
+    ConnectionId,
     Data,
-    connectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "POST",
-        "/@connections/$(connectionId)",
+        "/@connections/$(ConnectionId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Data" => Data), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

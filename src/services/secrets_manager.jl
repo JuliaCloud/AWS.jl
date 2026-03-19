@@ -158,17 +158,11 @@ sensitive information in request parameters except `SecretBinary` or `SecretStri
 it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html).
 
 **Required permissions:** `secretsmanager:CreateSecret`. If you include tags in the secret,
-you also need `secretsmanager:TagResource`. To add replica Regions, you must also have
-`secretsmanager:ReplicateSecretToRegions`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
+you also need `secretsmanager:TagResource`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
 
 To encrypt the secret with a KMS key other than `aws/secretsmanager`, you need
 `kms:GenerateDataKey` and `kms:Decrypt` permission to the key.
-
-!!! important
-    When you enter commands in a command shell, there is a risk of the command history being
-    accessed or utilities having access to your command parameters. This is a concern if the
-    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
 
 # Arguments
 
@@ -514,7 +508,7 @@ Generates a random password. We recommend that you specify the maximum length an
 every character type that the system you are generating a password for can support. By
 default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following
 characters in passwords:
-`!\\"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~`
+`!\\"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~`
 
 Secrets Manager generates a CloudTrail log entry when you call this action.
 
@@ -532,8 +526,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludeNumbers"`: Specifies whether to exclude numbers from the password. If you don't
   include this switch, the password can contain numbers.
 - `"ExcludePunctuation"`: Specifies whether to exclude the following punctuation characters
-  from the password: `! " # \$ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \\ ] ^ _ ` {
-  | } ~`. If you don't include this switch, the password can contain punctuation.
+  from the password: `! " # \$ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | }
+  ~`. If you don't include this switch, the password can contain punctuation.
 - `"ExcludeUppercase"`: Specifies whether to exclude uppercase letters from the password. If
   you don't include this switch, the password can contain uppercase letters.
 - `"IncludeSpace"`: Specifies whether to include the space character. If you include this
@@ -926,11 +920,6 @@ sensitive information in request parameters except `SecretBinary`, `SecretString
 **Required permissions:** `secretsmanager:PutSecretValue`. For more information, see [IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions)
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
 
-!!! important
-    When you enter commands in a command shell, there is a risk of the command history being
-    accessed or utilities having access to your command parameters. This is a concern if the
-    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
-
 # Arguments
 
 - `secret_id`: The ARN or name of the secret to add a new version to.
@@ -1275,7 +1264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `RotateSecretRequest\$RotationRules`.
 
   For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate
-  the secret, Secrets Manager tests the rotation configuration by running the [`testSecret` step](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code)
+  the secret, Secrets Manager tests the rotation configuration by running the [`testSecret` step](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html)
   of the Lambda rotation function. The test creates an `AWSPENDING` version of the secret
   and then removes it.
 
@@ -1543,13 +1532,8 @@ it might be logged. For more information, see [Logging Secrets Manager events wi
 and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
 If you use a customer managed key, you must also have `kms:GenerateDataKey`, `kms:Encrypt`,
 and `kms:Decrypt` permissions on the key. If you change the KMS key and you don't have
-`kms:Encrypt` permission to the new key, Secrets Manager does not re-encrypt existing secret
+`kms:Encrypt` permission to the new key, Secrets Manager does not re-ecrypt existing secret
 versions with the new key. For more information, see [Secret encryption and decryption](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html).
-
-!!! important
-    When you enter commands in a command shell, there is a risk of the command history being
-    accessed or utilities having access to your command parameters. This is a concern if the
-    command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
 
 # Arguments
 
@@ -1583,7 +1567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   encrypt new secret versions as well as any existing versions with the staging labels
   `AWSCURRENT`, `AWSPENDING`, or `AWSPREVIOUS`. If you don't have `kms:Encrypt` permission
-  to the new key, Secrets Manager does not re-encrypt existing secret versions with the new
+  to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new
   key. For more information about versions and staging labels, see [Concepts: Version](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version).
 
   A key alias is always prefixed by `alias/`, for example `alias/aws/secretsmanager`. For

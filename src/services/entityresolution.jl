@@ -23,11 +23,6 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 - `effect`: Determines whether the permissions specified in the policy are to be allowed
   (`Allow`) or denied (`Deny`).
 
-  !!! important
-      If you set the value of the `effect` parameter to `Deny` for the `AddPolicyStatement`
-      operation, you must also set the value of the `effect` parameter in the `policy` to
-      `Deny` for the `PutPolicy` operation.
-
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
 
@@ -138,8 +133,8 @@ function batch_delete_unique_id(
 end
 
 """
-    create_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name)
-    create_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name, params::Dict{String,<:Any})
+    create_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name)
+    create_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name, params::Dict{String,<:Any})
 
 Creates an `IdMappingWorkflow` object which stores the configuration of the data processing
 job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an
@@ -147,10 +142,12 @@ existing workflow, use the `UpdateIdMappingWorkflow` API.
 
 # Arguments
 
-- `id_mapping_techniques`: An object which defines the ID mapping technique and any
-  additional configurations.
+- `id_mapping_techniques`: An object which defines the `idMappingType` and the
+  `providerProperties`.
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
+  role to create resources on your behalf as part of workflow execution.
 - `workflow_name`: The name of the workflow. There can't be multiple `IdMappingWorkflows`
   with the same name.
 
@@ -161,8 +158,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the workflow.
 - `"outputSourceConfig"`: A list of `IdMappingWorkflowOutputSource` objects, each of which
   contains fields `OutputS3Path` and `Output`.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to create resources on your behalf as part of workflow execution.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_mapping_workflow end
@@ -170,6 +165,7 @@ function create_id_mapping_workflow end
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
+    roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -179,6 +175,7 @@ function create_id_mapping_workflow(
         Dict{String,Any}(
             "idMappingTechniques" => idMappingTechniques,
             "inputSourceConfig" => inputSourceConfig,
+            "roleArn" => roleArn,
             "workflowName" => workflowName,
         );
         aws_config,
@@ -189,6 +186,7 @@ end
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
+    roleArn,
     workflowName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -202,6 +200,7 @@ function create_id_mapping_workflow(
                 Dict{String,Any}(
                     "idMappingTechniques" => idMappingTechniques,
                     "inputSourceConfig" => inputSourceConfig,
+                    "roleArn" => roleArn,
                     "workflowName" => workflowName,
                 ),
                 params,
@@ -1229,13 +1228,7 @@ Updates the resource-based policy.
 
 - `arn`: The Amazon Resource Name (ARN) of the resource for which the policy needs to be
   updated.
-
 - `policy`: The resource-based policy.
-
-  !!! important
-      If you set the value of the `effect` parameter in the `policy` to `Deny` for the
-      `PutPolicy` operation, you must also set the value of the `effect` parameter to `Deny`
-      for the `AddPolicyStatement` operation.
 
 # Optional Parameters
 
@@ -1440,8 +1433,8 @@ function untag_resource(
 end
 
 """
-    update_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name)
-    update_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name, params::Dict{String,<:Any})
+    update_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name)
+    update_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name, params::Dict{String,<:Any})
 
 Updates an existing `IdMappingWorkflow`. This method is identical to
 `CreateIdMappingWorkflow`, except it uses an HTTP `PUT` request instead of a `POST` request,
@@ -1449,10 +1442,12 @@ and the `IdMappingWorkflow` must already exist for the method to succeed.
 
 # Arguments
 
-- `id_mapping_techniques`: An object which defines the ID mapping technique and any
-  additional configurations.
+- `id_mapping_techniques`: An object which defines the `idMappingType` and the
+  `providerProperties`.
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
+  role to access Amazon Web Services resources on your behalf.
 - `workflow_name`: The name of the workflow.
 
 # Optional Parameters
@@ -1462,14 +1457,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the workflow.
 - `"outputSourceConfig"`: A list of `OutputSource` objects, each of which contains fields
   `OutputS3Path` and `KMSArn`.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access Amazon Web Services resources on your behalf.
 """
 function update_id_mapping_workflow end
 
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
+    roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1479,6 +1473,7 @@ function update_id_mapping_workflow(
         Dict{String,Any}(
             "idMappingTechniques" => idMappingTechniques,
             "inputSourceConfig" => inputSourceConfig,
+            "roleArn" => roleArn,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1488,6 +1483,7 @@ end
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
+    roleArn,
     workflowName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1501,6 +1497,7 @@ function update_id_mapping_workflow(
                 Dict{String,Any}(
                     "idMappingTechniques" => idMappingTechniques,
                     "inputSourceConfig" => inputSourceConfig,
+                    "roleArn" => roleArn,
                 ),
                 params,
             ),

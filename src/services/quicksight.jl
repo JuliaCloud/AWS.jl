@@ -5,97 +5,6 @@ using AWS.AWSServices: quicksight
 using AWS.UUIDs: uuid4
 
 """
-    batch_create_topic_reviewed_answer(answers, aws_account_id, topic_id)
-    batch_create_topic_reviewed_answer(answers, aws_account_id, topic_id, params::Dict{String,<:Any})
-
-Creates new reviewed answers for a Q Topic.
-
-# Arguments
-
-- `answers`: The definition of the Answers to be created.
-- `aws_account_id`: The ID of the Amazon Web Services account that you want to create a
-  reviewed answer in.
-- `topic_id`: The ID for the topic reviewed answer that you want to create. This ID is
-  unique per Amazon Web Services Region for each Amazon Web Services account.
-"""
-function batch_create_topic_reviewed_answer end
-
-function batch_create_topic_reviewed_answer(
-    Answers, AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-create-reviewed-answers",
-        Dict{String,Any}("Answers" => Answers);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function batch_create_topic_reviewed_answer(
-    Answers,
-    AwsAccountId,
-    TopicId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-create-reviewed-answers",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Answers" => Answers), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    batch_delete_topic_reviewed_answer(aws_account_id, topic_id)
-    batch_delete_topic_reviewed_answer(aws_account_id, topic_id, params::Dict{String,<:Any})
-
-Deletes reviewed answers for Q Topic.
-
-# Arguments
-
-- `aws_account_id`: The ID of the Amazon Web Services account that you want to delete a
-  reviewed answers in.
-- `topic_id`: The ID for the topic reviewed answer that you want to delete. This ID is
-  unique per Amazon Web Services Region for each Amazon Web Services account.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AnswerIds"`: The Answer IDs of the Answers to be deleted.
-"""
-function batch_delete_topic_reviewed_answer end
-
-function batch_delete_topic_reviewed_answer(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-delete-reviewed-answers";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function batch_delete_topic_reviewed_answer(
-    AwsAccountId,
-    TopicId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return quicksight(
-        "POST",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-delete-reviewed-answers",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     cancel_ingestion(aws_account_id, data_set_id, ingestion_id)
     cancel_ingestion(aws_account_id, data_set_id, ingestion_id, params::Dict{String,<:Any})
 
@@ -916,7 +825,7 @@ create up to 10,000 groups in a namespace. If you want to create more than 10,00
 a namespace, contact Amazon Web Services Support.
 
 The permissions resource is
-`arn:aws:quicksight:&lt;your-region&gt;:*&lt;relevant-aws-account-id&gt;*:group/default/*&lt;group-name&gt;*`.
+`arn:aws:quicksight:<your-region>:*<relevant-aws-account-id>*:group/default/*<group-name>*`.
 
 The response is a group object.
 
@@ -1061,7 +970,7 @@ function create_iampolicy_assignment(
 )
     return quicksight(
         "POST",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments",
         Dict{String,Any}(
             "AssignmentName" => AssignmentName, "AssignmentStatus" => AssignmentStatus
         );
@@ -1080,7 +989,7 @@ function create_iampolicy_assignment(
 )
     return quicksight(
         "POST",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3537,7 +3446,7 @@ A finished snapshot job will return a `COMPLETED` or `FAILED` status when you po
 with a `DescribeDashboardSnapshotJob` API call.
 
 If the job has not finished running, this operation returns a message that says
-`Dashboard Snapshot Job with id &lt;SnapshotjobId&gt; has not reached a terminal state.`.
+`Dashboard Snapshot Job with id <SnapshotjobId> has not reached a terminal state.`.
 
 # Arguments
 
@@ -5031,8 +4940,8 @@ the ways you can customize embedding, visit the [Amazon QuickSight Developer Por
   that you're embedding.
 - `experience_configuration`: The experience that you want to embed. For registered users,
   you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon
-  QuickSight Q search bar, the Amazon QuickSight Generative Q&amp;A experience, or the
-  entire Amazon QuickSight console.
+  QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire
+  Amazon QuickSight console.
 - `user_arn`: The Amazon Resource Name for the registered user.
 
 # Optional Parameters
@@ -6495,47 +6404,6 @@ function list_topic_refresh_schedules(
 end
 
 """
-    list_topic_reviewed_answers(aws_account_id, topic_id)
-    list_topic_reviewed_answers(aws_account_id, topic_id, params::Dict{String,<:Any})
-
-Lists all reviewed answers for a Q Topic.
-
-# Arguments
-
-- `aws_account_id`: The ID of the Amazon Web Services account that containd the reviewed
-  answers that you want listed.
-- `topic_id`: The ID for the topic that contains the reviewed answer that you want to list.
-  This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
-"""
-function list_topic_reviewed_answers end
-
-function list_topic_reviewed_answers(
-    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/reviewed-answers";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function list_topic_reviewed_answers(
-    AwsAccountId,
-    TopicId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return quicksight(
-        "GET",
-        "/accounts/$(AwsAccountId)/topics/$(TopicId)/reviewed-answers",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     list_topics(aws_account_id)
     list_topics(aws_account_id, params::Dict{String,<:Any})
 
@@ -6812,7 +6680,7 @@ see [Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/qui
     generate executive summaries from dashboards.
   - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author Pros
     can author dashboards with natural language with Amazon Q, build stories with Amazon Q,
-    create Topics for Q&amp;A, and generate executive summaries from dashboards.
+    create Topics for Q&A, and generate executive summaries from dashboards.
   - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon QuickSight
     administrative settings. Admin Pro users are billed at Author Pro pricing.
   - `RESTRICTED_READER`: This role isn't currently available for use.
@@ -9521,7 +9389,7 @@ Updates an Amazon QuickSight user.
     generate executive summaries from dashboards.
   - `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the Author role. Author Pros
     can author dashboards with natural language with Amazon Q, build stories with Amazon Q,
-    create Topics for Q&amp;A, and generate executive summaries from dashboards.
+    create Topics for Q&A, and generate executive summaries from dashboards.
   - `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon QuickSight
     administrative settings. Admin Pro users are billed at Author Pro pricing.
 

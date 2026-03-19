@@ -1728,25 +1728,25 @@ Lists the tags (metadata) you have assigned to the resource.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleetwise(
         "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
+        Dict{String,Any}("resourceArn" => resourceArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_tags_for_resource(
-    ResourceARN,
+    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iotfleetwise(
         "ListTagsForResource",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1997,31 +1997,31 @@ function register_account(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(tags, resource_arn)
+    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
 Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
 manage a resource.
 
 # Arguments
 
-- `resource_arn`: The ARN of the resource.
 - `tags`: The new or modified tags for the resource.
+- `resource_arn`: The ARN of the resource.
 """
 function tag_resource end
 
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleetwise(
         "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        Dict{String,Any}("Tags" => Tags, "resourceArn" => resourceArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    ResourceARN,
     Tags,
+    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -2030,7 +2030,7 @@ function tag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                Dict{String,Any}("Tags" => Tags, "resourceArn" => resourceArn),
                 params,
             ),
         );
@@ -2053,19 +2053,19 @@ Removes the given tags (metadata) from the resource.
 function untag_resource end
 
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotfleetwise(
         "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function untag_resource(
-    ResourceARN,
-    TagKeys,
+    resourceArn,
+    tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -2074,7 +2074,7 @@ function untag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
                 params,
             ),
         );

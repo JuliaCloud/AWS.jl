@@ -18,28 +18,28 @@ Associates one or more Scram Secrets with an Amazon MSK cluster.
 function batch_associate_scram_secret end
 
 function batch_associate_scram_secret(
-    clusterArn, secretArnList; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, SecretArnList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "POST",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
-        Dict{String,Any}("secretArnList" => secretArnList);
+        "/v1/clusters/$(ClusterArn)/scram-secrets",
+        Dict{String,Any}("SecretArnList" => SecretArnList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function batch_associate_scram_secret(
-    clusterArn,
-    secretArnList,
+    ClusterArn,
+    SecretArnList,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "POST",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
+        "/v1/clusters/$(ClusterArn)/scram-secrets",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
+            mergewith(_merge, Dict{String,Any}("SecretArnList" => SecretArnList), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -60,28 +60,28 @@ Disassociates one or more Scram Secrets from an Amazon MSK cluster.
 function batch_disassociate_scram_secret end
 
 function batch_disassociate_scram_secret(
-    clusterArn, secretArnList; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, SecretArnList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PATCH",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
-        Dict{String,Any}("secretArnList" => secretArnList);
+        "/v1/clusters/$(ClusterArn)/scram-secrets",
+        Dict{String,Any}("SecretArnList" => SecretArnList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function batch_disassociate_scram_secret(
-    clusterArn,
-    secretArnList,
+    ClusterArn,
+    SecretArnList,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PATCH",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
+        "/v1/clusters/$(ClusterArn)/scram-secrets",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("secretArnList" => secretArnList), params)
+            mergewith(_merge, Dict{String,Any}("SecretArnList" => SecretArnList), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -105,35 +105,35 @@ Creates a new MSK cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientAuthentication"`: Includes all client authentication related information.
-- `"configurationInfo"`: Represents the configuration that you want MSK to use for the
+- `"ClientAuthentication"`: Includes all client authentication related information.
+- `"ConfigurationInfo"`: Represents the configuration that you want MSK to use for the
   brokers in a cluster.
-- `"encryptionInfo"`: Includes all encryption-related information.
-- `"enhancedMonitoring"`: Specifies the level of monitoring for the MSK cluster. The
+- `"EncryptionInfo"`: Includes all encryption-related information.
+- `"EnhancedMonitoring"`: Specifies the level of monitoring for the MSK cluster. The
   possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
   PER_TOPIC_PER_PARTITION.
-- `"loggingInfo"`:
-- `"openMonitoring"`: The settings for open monitoring.
-- `"storageMode"`: This controls storage mode for supported storage tiers.
-- `"tags"`: Create tags when creating the cluster.
+- `"LoggingInfo"`:
+- `"OpenMonitoring"`: The settings for open monitoring.
+- `"StorageMode"`: This controls storage mode for supported storage tiers.
+- `"Tags"`: Create tags when creating the cluster.
 """
 function create_cluster end
 
 function create_cluster(
-    brokerNodeGroupInfo,
-    clusterName,
-    kafkaVersion,
-    numberOfBrokerNodes;
+    BrokerNodeGroupInfo,
+    ClusterName,
+    KafkaVersion,
+    NumberOfBrokerNodes;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "POST",
         "/v1/clusters",
         Dict{String,Any}(
-            "brokerNodeGroupInfo" => brokerNodeGroupInfo,
-            "clusterName" => clusterName,
-            "kafkaVersion" => kafkaVersion,
-            "numberOfBrokerNodes" => numberOfBrokerNodes,
+            "BrokerNodeGroupInfo" => BrokerNodeGroupInfo,
+            "ClusterName" => ClusterName,
+            "KafkaVersion" => KafkaVersion,
+            "NumberOfBrokerNodes" => NumberOfBrokerNodes,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -141,10 +141,10 @@ function create_cluster(
 end
 
 function create_cluster(
-    brokerNodeGroupInfo,
-    clusterName,
-    kafkaVersion,
-    numberOfBrokerNodes,
+    BrokerNodeGroupInfo,
+    ClusterName,
+    KafkaVersion,
+    NumberOfBrokerNodes,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -155,10 +155,10 @@ function create_cluster(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "brokerNodeGroupInfo" => brokerNodeGroupInfo,
-                    "clusterName" => clusterName,
-                    "kafkaVersion" => kafkaVersion,
-                    "numberOfBrokerNodes" => numberOfBrokerNodes,
+                    "BrokerNodeGroupInfo" => BrokerNodeGroupInfo,
+                    "ClusterName" => ClusterName,
+                    "KafkaVersion" => KafkaVersion,
+                    "NumberOfBrokerNodes" => NumberOfBrokerNodes,
                 ),
                 params,
             ),
@@ -182,24 +182,24 @@ Creates a new MSK cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"provisioned"`: Information about the provisioned cluster.
-- `"serverless"`: Information about the serverless cluster.
-- `"tags"`: A map of tags that you want the cluster to have.
+- `"Provisioned"`: Information about the provisioned cluster.
+- `"Serverless"`: Information about the serverless cluster.
+- `"Tags"`: A map of tags that you want the cluster to have.
 """
 function create_cluster_v2 end
 
-function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=current_aws_config())
+function create_cluster_v2(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "POST",
         "/api/v2/clusters",
-        Dict{String,Any}("clusterName" => clusterName);
+        Dict{String,Any}("ClusterName" => ClusterName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_cluster_v2(
-    clusterName,
+    ClusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -207,7 +207,7 @@ function create_cluster_v2(
         "POST",
         "/api/v2/clusters",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clusterName" => clusterName), params)
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -232,27 +232,27 @@ Creates a new MSK configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: The description of the configuration.
-- `"kafkaVersions"`: The versions of Apache Kafka with which you can use this MSK
+- `"Description"`: The description of the configuration.
+- `"KafkaVersions"`: The versions of Apache Kafka with which you can use this MSK
   configuration.
 """
 function create_configuration end
 
 function create_configuration(
-    name, serverProperties; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, ServerProperties; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "POST",
         "/v1/configurations",
-        Dict{String,Any}("name" => name, "serverProperties" => serverProperties);
+        Dict{String,Any}("Name" => Name, "ServerProperties" => ServerProperties);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_configuration(
-    name,
-    serverProperties,
+    Name,
+    ServerProperties,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -262,7 +262,7 @@ function create_configuration(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("name" => name, "serverProperties" => serverProperties),
+                Dict{String,Any}("Name" => Name, "ServerProperties" => ServerProperties),
                 params,
             ),
         );
@@ -291,26 +291,26 @@ Creates the replicator.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: A summary description of the replicator.
-- `"tags"`: List of tags to attach to created Replicator.
+- `"Description"`: A summary description of the replicator.
+- `"Tags"`: List of tags to attach to created Replicator.
 """
 function create_replicator end
 
 function create_replicator(
-    kafkaClusters,
-    replicationInfoList,
-    replicatorName,
-    serviceExecutionRoleArn;
+    KafkaClusters,
+    ReplicationInfoList,
+    ReplicatorName,
+    ServiceExecutionRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "POST",
         "/replication/v1/replicators",
         Dict{String,Any}(
-            "kafkaClusters" => kafkaClusters,
-            "replicationInfoList" => replicationInfoList,
-            "replicatorName" => replicatorName,
-            "serviceExecutionRoleArn" => serviceExecutionRoleArn,
+            "KafkaClusters" => KafkaClusters,
+            "ReplicationInfoList" => ReplicationInfoList,
+            "ReplicatorName" => ReplicatorName,
+            "ServiceExecutionRoleArn" => ServiceExecutionRoleArn,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -318,10 +318,10 @@ function create_replicator(
 end
 
 function create_replicator(
-    kafkaClusters,
-    replicationInfoList,
-    replicatorName,
-    serviceExecutionRoleArn,
+    KafkaClusters,
+    ReplicationInfoList,
+    ReplicatorName,
+    ServiceExecutionRoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -332,10 +332,10 @@ function create_replicator(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "kafkaClusters" => kafkaClusters,
-                    "replicationInfoList" => replicationInfoList,
-                    "replicatorName" => replicatorName,
-                    "serviceExecutionRoleArn" => serviceExecutionRoleArn,
+                    "KafkaClusters" => KafkaClusters,
+                    "ReplicationInfoList" => ReplicationInfoList,
+                    "ReplicatorName" => ReplicatorName,
+                    "ServiceExecutionRoleArn" => ServiceExecutionRoleArn,
                 ),
                 params,
             ),
@@ -363,27 +363,27 @@ Creates a new MSK VPC connection.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: A map of tags for the VPC connection.
+- `"Tags"`: A map of tags for the VPC connection.
 """
 function create_vpc_connection end
 
 function create_vpc_connection(
-    authentication,
-    clientSubnets,
-    securityGroups,
-    targetClusterArn,
-    vpcId;
+    Authentication,
+    ClientSubnets,
+    SecurityGroups,
+    TargetClusterArn,
+    VpcId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "POST",
         "/v1/vpc-connection",
         Dict{String,Any}(
-            "authentication" => authentication,
-            "clientSubnets" => clientSubnets,
-            "securityGroups" => securityGroups,
-            "targetClusterArn" => targetClusterArn,
-            "vpcId" => vpcId,
+            "Authentication" => Authentication,
+            "ClientSubnets" => ClientSubnets,
+            "SecurityGroups" => SecurityGroups,
+            "TargetClusterArn" => TargetClusterArn,
+            "VpcId" => VpcId,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -391,11 +391,11 @@ function create_vpc_connection(
 end
 
 function create_vpc_connection(
-    authentication,
-    clientSubnets,
-    securityGroups,
-    targetClusterArn,
-    vpcId,
+    Authentication,
+    ClientSubnets,
+    SecurityGroups,
+    TargetClusterArn,
+    VpcId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -406,11 +406,11 @@ function create_vpc_connection(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "authentication" => authentication,
-                    "clientSubnets" => clientSubnets,
-                    "securityGroups" => securityGroups,
-                    "targetClusterArn" => targetClusterArn,
-                    "vpcId" => vpcId,
+                    "Authentication" => Authentication,
+                    "ClientSubnets" => ClientSubnets,
+                    "SecurityGroups" => SecurityGroups,
+                    "TargetClusterArn" => TargetClusterArn,
+                    "VpcId" => VpcId,
                 ),
                 params,
             ),
@@ -438,20 +438,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_cluster end
 
-function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "DELETE", "/v1/clusters/$(clusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/clusters/$(ClusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_cluster(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "DELETE",
-        "/v1/clusters/$(clusterArn)",
+        "/v1/clusters/$(ClusterArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -471,24 +471,24 @@ Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in th
 function delete_cluster_policy end
 
 function delete_cluster_policy(
-    clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "DELETE",
-        "/v1/clusters/$(clusterArn)/policy";
+        "/v1/clusters/$(ClusterArn)/policy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_cluster_policy(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "DELETE",
-        "/v1/clusters/$(clusterArn)/policy",
+        "/v1/clusters/$(ClusterArn)/policy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -507,18 +507,18 @@ Deletes an MSK Configuration.
 """
 function delete_configuration end
 
-function delete_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_configuration(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "DELETE", "/v1/configurations/$(arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/configurations/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_configuration(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "DELETE",
-        "/v1/configurations/$(arn)",
+        "/v1/configurations/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -544,24 +544,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_replicator end
 
 function delete_replicator(
-    replicatorArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ReplicatorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "DELETE",
-        "/replication/v1/replicators/$(replicatorArn)";
+        "/replication/v1/replicators/$(ReplicatorArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_replicator(
-    replicatorArn,
+    ReplicatorArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "DELETE",
-        "/replication/v1/replicators/$(replicatorArn)",
+        "/replication/v1/replicators/$(ReplicatorArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -580,18 +580,18 @@ Deletes a MSK VPC connection.
 """
 function delete_vpc_connection end
 
-function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_vpc_connection(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "DELETE", "/v1/vpc-connection/$(arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/vpc-connection/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_vpc_connection(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "DELETE",
-        "/v1/vpc-connection/$(arn)",
+        "/v1/vpc-connection/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -611,20 +611,20 @@ the request.
 """
 function describe_cluster end
 
-function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "GET", "/v1/clusters/$(clusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/clusters/$(ClusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_cluster(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)",
+        "/v1/clusters/$(ClusterArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -645,24 +645,24 @@ Returns a description of the cluster operation specified by the ARN.
 function describe_cluster_operation end
 
 function describe_cluster_operation(
-    clusterOperationArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterOperationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/operations/$(clusterOperationArn)";
+        "/v1/operations/$(ClusterOperationArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_cluster_operation(
-    clusterOperationArn,
+    ClusterOperationArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/operations/$(clusterOperationArn)",
+        "/v1/operations/$(ClusterOperationArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -682,24 +682,24 @@ Returns a description of the cluster operation specified by the ARN.
 function describe_cluster_operation_v2 end
 
 function describe_cluster_operation_v2(
-    clusterOperationArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterOperationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/api/v2/operations/$(clusterOperationArn)";
+        "/api/v2/operations/$(ClusterOperationArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_cluster_operation_v2(
-    clusterOperationArn,
+    ClusterOperationArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/api/v2/operations/$(clusterOperationArn)",
+        "/api/v2/operations/$(ClusterOperationArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -719,20 +719,20 @@ the request.
 """
 function describe_cluster_v2 end
 
-function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_cluster_v2(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "GET", "/api/v2/clusters/$(clusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/api/v2/clusters/$(ClusterArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_cluster_v2(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/api/v2/clusters/$(clusterArn)",
+        "/api/v2/clusters/$(ClusterArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -752,18 +752,18 @@ Returns a description of this MSK configuration.
 """
 function describe_configuration end
 
-function describe_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_configuration(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "GET", "/v1/configurations/$(arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/configurations/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_configuration(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/configurations/$(arn)",
+        "/v1/configurations/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -785,25 +785,25 @@ Returns a description of this revision of the configuration.
 function describe_configuration_revision end
 
 function describe_configuration_revision(
-    arn, revision; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, Revision; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/configurations/$(arn)/revisions/$(revision)";
+        "/v1/configurations/$(Arn)/revisions/$(Revision)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_configuration_revision(
-    arn,
-    revision,
+    Arn,
+    Revision,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/configurations/$(arn)/revisions/$(revision)",
+        "/v1/configurations/$(Arn)/revisions/$(Revision)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -823,24 +823,24 @@ Describes a replicator.
 function describe_replicator end
 
 function describe_replicator(
-    replicatorArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ReplicatorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/replication/v1/replicators/$(replicatorArn)";
+        "/replication/v1/replicators/$(ReplicatorArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_replicator(
-    replicatorArn,
+    ReplicatorArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/replication/v1/replicators/$(replicatorArn)",
+        "/replication/v1/replicators/$(ReplicatorArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -859,18 +859,18 @@ Returns a description of this MSK VPC connection.
 """
 function describe_vpc_connection end
 
-function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_vpc_connection(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
-        "GET", "/v1/vpc-connection/$(arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/vpc-connection/$(Arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_vpc_connection(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/vpc-connection/$(arn)",
+        "/v1/vpc-connection/$(Arn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -890,24 +890,24 @@ A list of brokers that a client application can use to bootstrap.
 function get_bootstrap_brokers end
 
 function get_bootstrap_brokers(
-    clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/bootstrap-brokers";
+        "/v1/clusters/$(ClusterArn)/bootstrap-brokers";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_bootstrap_brokers(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/bootstrap-brokers",
+        "/v1/clusters/$(ClusterArn)/bootstrap-brokers",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -926,23 +926,23 @@ Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the re
 """
 function get_cluster_policy end
 
-function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function get_cluster_policy(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/policy";
+        "/v1/clusters/$(ClusterArn)/policy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_cluster_policy(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/policy",
+        "/v1/clusters/$(ClusterArn)/policy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1004,24 +1004,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_client_vpc_connections end
 
 function list_client_vpc_connections(
-    clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/client-vpc-connections";
+        "/v1/clusters/$(ClusterArn)/client-vpc-connections";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_client_vpc_connections(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/client-vpc-connections",
+        "/v1/clusters/$(ClusterArn)/client-vpc-connections",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1051,24 +1051,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_cluster_operations end
 
 function list_cluster_operations(
-    clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/operations";
+        "/v1/clusters/$(ClusterArn)/operations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_cluster_operations(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/operations",
+        "/v1/clusters/$(ClusterArn)/operations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1095,24 +1095,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_cluster_operations_v2 end
 
 function list_cluster_operations_v2(
-    clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/api/v2/clusters/$(clusterArn)/operations";
+        "/api/v2/clusters/$(ClusterArn)/operations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_cluster_operations_v2(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/api/v2/clusters/$(clusterArn)/operations",
+        "/api/v2/clusters/$(ClusterArn)/operations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1206,22 +1206,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_configuration_revisions end
 
 function list_configuration_revisions(
-    arn; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/configurations/$(arn)/revisions";
+        "/v1/configurations/$(Arn)/revisions";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_configuration_revisions(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "GET",
-        "/v1/configurations/$(arn)/revisions",
+        "/v1/configurations/$(Arn)/revisions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1310,23 +1310,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_nodes end
 
-function list_nodes(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function list_nodes(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/nodes";
+        "/v1/clusters/$(ClusterArn)/nodes";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_nodes(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/nodes",
+        "/v1/clusters/$(ClusterArn)/nodes",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1388,23 +1388,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_scram_secrets end
 
-function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+function list_scram_secrets(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/scram-secrets";
+        "/v1/clusters/$(ClusterArn)/scram-secrets";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_scram_secrets(
-    clusterArn,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/clusters/$(clusterArn)/scram-secrets",
+        "/v1/clusters/$(ClusterArn)/scram-secrets",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1425,21 +1425,21 @@ Returns a list of the tags associated with the specified resource.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
-        "GET", "/v1/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "GET",
-        "/v1/tags/$(resourceArn)",
+        "/v1/tags/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1492,32 +1492,32 @@ Creates or updates the MSK cluster policy specified by the cluster Amazon Resour
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"currentVersion"`: The policy version.
+- `"CurrentVersion"`: The policy version.
 """
 function put_cluster_policy end
 
 function put_cluster_policy(
-    clusterArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, Policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/policy",
-        Dict{String,Any}("policy" => policy);
+        "/v1/clusters/$(ClusterArn)/policy",
+        Dict{String,Any}("Policy" => Policy);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_cluster_policy(
-    clusterArn,
-    policy,
+    ClusterArn,
+    Policy,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/policy",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
+        "/v1/clusters/$(ClusterArn)/policy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1538,28 +1538,28 @@ Reboots brokers.
 function reboot_broker end
 
 function reboot_broker(
-    brokerIds, clusterArn; aws_config::AbstractAWSConfig=current_aws_config()
+    BrokerIds, ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/reboot-broker",
-        Dict{String,Any}("brokerIds" => brokerIds);
+        "/v1/clusters/$(ClusterArn)/reboot-broker",
+        Dict{String,Any}("BrokerIds" => BrokerIds);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function reboot_broker(
-    brokerIds,
-    clusterArn,
+    BrokerIds,
+    ClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/reboot-broker",
+        "/v1/clusters/$(ClusterArn)/reboot-broker",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("brokerIds" => brokerIds), params)
+            mergewith(_merge, Dict{String,Any}("BrokerIds" => BrokerIds), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1580,29 +1580,29 @@ Returns empty response.
 function reject_client_vpc_connection end
 
 function reject_client_vpc_connection(
-    clusterArn, vpcConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, VpcConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/client-vpc-connection",
-        Dict{String,Any}("vpcConnectionArn" => vpcConnectionArn);
+        "/v1/clusters/$(ClusterArn)/client-vpc-connection",
+        Dict{String,Any}("VpcConnectionArn" => VpcConnectionArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function reject_client_vpc_connection(
-    clusterArn,
-    vpcConnectionArn,
+    ClusterArn,
+    VpcConnectionArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/client-vpc-connection",
+        "/v1/clusters/$(ClusterArn)/client-vpc-connection",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("vpcConnectionArn" => vpcConnectionArn), params
+                _merge, Dict{String,Any}("VpcConnectionArn" => VpcConnectionArn), params
             ),
         );
         aws_config,
@@ -1624,26 +1624,26 @@ Adds tags to the specified MSK resource.
 """
 function tag_resource end
 
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kafka(
         "POST",
-        "/v1/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
+        "/v1/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    resourceArn,
-    tags,
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "POST",
-        "/v1/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        "/v1/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1675,11 +1675,11 @@ Removes the tags associated with the keys that are provided in the query.
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "DELETE",
-        "/v1/tags/$(resourceArn)",
+        "/v1/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1687,14 +1687,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "DELETE",
-        "/v1/tags/$(resourceArn)",
+        "/v1/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1718,17 +1718,17 @@ Updates the number of broker nodes in the cluster.
 function update_broker_count end
 
 function update_broker_count(
-    clusterArn,
-    currentVersion,
-    targetNumberOfBrokerNodes;
+    ClusterArn,
+    CurrentVersion,
+    TargetNumberOfBrokerNodes;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/count",
+        "/v1/clusters/$(ClusterArn)/nodes/count",
         Dict{String,Any}(
-            "currentVersion" => currentVersion,
-            "targetNumberOfBrokerNodes" => targetNumberOfBrokerNodes,
+            "CurrentVersion" => CurrentVersion,
+            "TargetNumberOfBrokerNodes" => TargetNumberOfBrokerNodes,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1736,21 +1736,21 @@ function update_broker_count(
 end
 
 function update_broker_count(
-    clusterArn,
-    currentVersion,
-    targetNumberOfBrokerNodes,
+    ClusterArn,
+    CurrentVersion,
+    TargetNumberOfBrokerNodes,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/count",
+        "/v1/clusters/$(ClusterArn)/nodes/count",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetNumberOfBrokerNodes" => targetNumberOfBrokerNodes,
+                    "CurrentVersion" => CurrentVersion,
+                    "TargetNumberOfBrokerNodes" => TargetNumberOfBrokerNodes,
                 ),
                 params,
             ),
@@ -1777,17 +1777,17 @@ Updates the EBS storage associated with MSK brokers.
 function update_broker_storage end
 
 function update_broker_storage(
-    clusterArn,
-    currentVersion,
-    targetBrokerEBSVolumeInfo;
+    ClusterArn,
+    CurrentVersion,
+    TargetBrokerEBSVolumeInfo;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/storage",
+        "/v1/clusters/$(ClusterArn)/nodes/storage",
         Dict{String,Any}(
-            "currentVersion" => currentVersion,
-            "targetBrokerEBSVolumeInfo" => targetBrokerEBSVolumeInfo,
+            "CurrentVersion" => CurrentVersion,
+            "TargetBrokerEBSVolumeInfo" => TargetBrokerEBSVolumeInfo,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1795,21 +1795,21 @@ function update_broker_storage(
 end
 
 function update_broker_storage(
-    clusterArn,
-    currentVersion,
-    targetBrokerEBSVolumeInfo,
+    ClusterArn,
+    CurrentVersion,
+    TargetBrokerEBSVolumeInfo,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/storage",
+        "/v1/clusters/$(ClusterArn)/nodes/storage",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetBrokerEBSVolumeInfo" => targetBrokerEBSVolumeInfo,
+                    "CurrentVersion" => CurrentVersion,
+                    "TargetBrokerEBSVolumeInfo" => TargetBrokerEBSVolumeInfo,
                 ),
                 params,
             ),
@@ -1836,16 +1836,16 @@ Updates EC2 instance type.
 function update_broker_type end
 
 function update_broker_type(
-    clusterArn,
-    currentVersion,
-    targetInstanceType;
+    ClusterArn,
+    CurrentVersion,
+    TargetInstanceType;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/type",
+        "/v1/clusters/$(ClusterArn)/nodes/type",
         Dict{String,Any}(
-            "currentVersion" => currentVersion, "targetInstanceType" => targetInstanceType
+            "CurrentVersion" => CurrentVersion, "TargetInstanceType" => TargetInstanceType
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1853,21 +1853,21 @@ function update_broker_type(
 end
 
 function update_broker_type(
-    clusterArn,
-    currentVersion,
-    targetInstanceType,
+    ClusterArn,
+    CurrentVersion,
+    TargetInstanceType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/nodes/type",
+        "/v1/clusters/$(ClusterArn)/nodes/type",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetInstanceType" => targetInstanceType,
+                    "CurrentVersion" => CurrentVersion,
+                    "TargetInstanceType" => TargetInstanceType,
                 ),
                 params,
             ),
@@ -1893,16 +1893,16 @@ Updates the cluster with the configuration that is specified in the request body
 function update_cluster_configuration end
 
 function update_cluster_configuration(
-    clusterArn,
-    configurationInfo,
-    currentVersion;
+    ClusterArn,
+    ConfigurationInfo,
+    CurrentVersion;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/configuration",
+        "/v1/clusters/$(ClusterArn)/configuration",
         Dict{String,Any}(
-            "configurationInfo" => configurationInfo, "currentVersion" => currentVersion
+            "ConfigurationInfo" => ConfigurationInfo, "CurrentVersion" => CurrentVersion
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1910,21 +1910,21 @@ function update_cluster_configuration(
 end
 
 function update_cluster_configuration(
-    clusterArn,
-    configurationInfo,
-    currentVersion,
+    ClusterArn,
+    ConfigurationInfo,
+    CurrentVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/configuration",
+        "/v1/clusters/$(ClusterArn)/configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "configurationInfo" => configurationInfo,
-                    "currentVersion" => currentVersion,
+                    "ConfigurationInfo" => ConfigurationInfo,
+                    "CurrentVersion" => CurrentVersion,
                 ),
                 params,
             ),
@@ -1950,22 +1950,22 @@ Updates the Apache Kafka version for the cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"configurationInfo"`: The custom configuration that should be applied on the new version
+- `"ConfigurationInfo"`: The custom configuration that should be applied on the new version
   of cluster.
 """
 function update_cluster_kafka_version end
 
 function update_cluster_kafka_version(
-    clusterArn,
-    currentVersion,
-    targetKafkaVersion;
+    ClusterArn,
+    CurrentVersion,
+    TargetKafkaVersion;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/version",
+        "/v1/clusters/$(ClusterArn)/version",
         Dict{String,Any}(
-            "currentVersion" => currentVersion, "targetKafkaVersion" => targetKafkaVersion
+            "CurrentVersion" => CurrentVersion, "TargetKafkaVersion" => TargetKafkaVersion
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1973,21 +1973,21 @@ function update_cluster_kafka_version(
 end
 
 function update_cluster_kafka_version(
-    clusterArn,
-    currentVersion,
-    targetKafkaVersion,
+    ClusterArn,
+    CurrentVersion,
+    TargetKafkaVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/version",
+        "/v1/clusters/$(ClusterArn)/version",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "targetKafkaVersion" => targetKafkaVersion,
+                    "CurrentVersion" => CurrentVersion,
+                    "TargetKafkaVersion" => TargetKafkaVersion,
                 ),
                 params,
             ),
@@ -2015,34 +2015,34 @@ Updates an MSK configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: The description of the configuration revision.
+- `"Description"`: The description of the configuration revision.
 """
 function update_configuration end
 
 function update_configuration(
-    arn, serverProperties; aws_config::AbstractAWSConfig=current_aws_config()
+    Arn, ServerProperties; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/configurations/$(arn)",
-        Dict{String,Any}("serverProperties" => serverProperties);
+        "/v1/configurations/$(Arn)",
+        Dict{String,Any}("ServerProperties" => ServerProperties);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_configuration(
-    arn,
-    serverProperties,
+    Arn,
+    ServerProperties,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/configurations/$(arn)",
+        "/v1/configurations/$(Arn)",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("serverProperties" => serverProperties), params
+                _merge, Dict{String,Any}("ServerProperties" => ServerProperties), params
             ),
         );
         aws_config,
@@ -2067,16 +2067,16 @@ Updates the cluster's connectivity configuration.
 function update_connectivity end
 
 function update_connectivity(
-    clusterArn,
-    connectivityInfo,
-    currentVersion;
+    ClusterArn,
+    ConnectivityInfo,
+    CurrentVersion;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/connectivity",
+        "/v1/clusters/$(ClusterArn)/connectivity",
         Dict{String,Any}(
-            "connectivityInfo" => connectivityInfo, "currentVersion" => currentVersion
+            "ConnectivityInfo" => ConnectivityInfo, "CurrentVersion" => CurrentVersion
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2084,21 +2084,21 @@ function update_connectivity(
 end
 
 function update_connectivity(
-    clusterArn,
-    connectivityInfo,
-    currentVersion,
+    ClusterArn,
+    ConnectivityInfo,
+    CurrentVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/connectivity",
+        "/v1/clusters/$(ClusterArn)/connectivity",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "connectivityInfo" => connectivityInfo,
-                    "currentVersion" => currentVersion,
+                    "ConnectivityInfo" => ConnectivityInfo,
+                    "CurrentVersion" => CurrentVersion,
                 ),
                 params,
             ),
@@ -2127,36 +2127,36 @@ settings for open monitoring with Prometheus.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"enhancedMonitoring"`: Specifies which Apache Kafka metrics Amazon MSK gathers and sends
+- `"EnhancedMonitoring"`: Specifies which Apache Kafka metrics Amazon MSK gathers and sends
   to Amazon CloudWatch for this cluster.
-- `"loggingInfo"`:
-- `"openMonitoring"`: The settings for open monitoring.
+- `"LoggingInfo"`:
+- `"OpenMonitoring"`: The settings for open monitoring.
 """
 function update_monitoring end
 
 function update_monitoring(
-    clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/monitoring",
-        Dict{String,Any}("currentVersion" => currentVersion);
+        "/v1/clusters/$(ClusterArn)/monitoring",
+        Dict{String,Any}("CurrentVersion" => CurrentVersion);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_monitoring(
-    clusterArn,
-    currentVersion,
+    ClusterArn,
+    CurrentVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/monitoring",
+        "/v1/clusters/$(ClusterArn)/monitoring",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+            mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2180,25 +2180,25 @@ Updates replication info of a replicator.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"consumerGroupReplication"`: Updated consumer group replication information.
-- `"topicReplication"`: Updated topic replication information.
+- `"ConsumerGroupReplication"`: Updated consumer group replication information.
+- `"TopicReplication"`: Updated topic replication information.
 """
 function update_replication_info end
 
 function update_replication_info(
-    currentVersion,
-    replicatorArn,
-    sourceKafkaClusterArn,
-    targetKafkaClusterArn;
+    CurrentVersion,
+    ReplicatorArn,
+    SourceKafkaClusterArn,
+    TargetKafkaClusterArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/replication/v1/replicators/$(replicatorArn)/replication-info",
+        "/replication/v1/replicators/$(ReplicatorArn)/replication-info",
         Dict{String,Any}(
-            "currentVersion" => currentVersion,
-            "sourceKafkaClusterArn" => sourceKafkaClusterArn,
-            "targetKafkaClusterArn" => targetKafkaClusterArn,
+            "CurrentVersion" => CurrentVersion,
+            "SourceKafkaClusterArn" => SourceKafkaClusterArn,
+            "TargetKafkaClusterArn" => TargetKafkaClusterArn,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2206,23 +2206,23 @@ function update_replication_info(
 end
 
 function update_replication_info(
-    currentVersion,
-    replicatorArn,
-    sourceKafkaClusterArn,
-    targetKafkaClusterArn,
+    CurrentVersion,
+    ReplicatorArn,
+    SourceKafkaClusterArn,
+    TargetKafkaClusterArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/replication/v1/replicators/$(replicatorArn)/replication-info",
+        "/replication/v1/replicators/$(ReplicatorArn)/replication-info",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "currentVersion" => currentVersion,
-                    "sourceKafkaClusterArn" => sourceKafkaClusterArn,
-                    "targetKafkaClusterArn" => targetKafkaClusterArn,
+                    "CurrentVersion" => CurrentVersion,
+                    "SourceKafkaClusterArn" => SourceKafkaClusterArn,
+                    "TargetKafkaClusterArn" => TargetKafkaClusterArn,
                 ),
                 params,
             ),
@@ -2250,34 +2250,34 @@ encryption and authentication on existing clusters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientAuthentication"`: Includes all client authentication related information.
-- `"encryptionInfo"`: Includes all encryption-related information.
+- `"ClientAuthentication"`: Includes all client authentication related information.
+- `"EncryptionInfo"`: Includes all encryption-related information.
 """
 function update_security end
 
 function update_security(
-    clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PATCH",
-        "/v1/clusters/$(clusterArn)/security",
-        Dict{String,Any}("currentVersion" => currentVersion);
+        "/v1/clusters/$(ClusterArn)/security",
+        Dict{String,Any}("CurrentVersion" => CurrentVersion);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_security(
-    clusterArn,
-    currentVersion,
+    ClusterArn,
+    CurrentVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PATCH",
-        "/v1/clusters/$(clusterArn)/security",
+        "/v1/clusters/$(ClusterArn)/security",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+            mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2300,35 +2300,35 @@ Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"provisionedThroughput"`: EBS volume provisioned throughput information.
-- `"storageMode"`: Controls storage mode for supported storage tiers.
-- `"volumeSizeGB"`: size of the EBS volume to update.
+- `"ProvisionedThroughput"`: EBS volume provisioned throughput information.
+- `"StorageMode"`: Controls storage mode for supported storage tiers.
+- `"VolumeSizeGB"`: size of the EBS volume to update.
 """
 function update_storage end
 
 function update_storage(
-    clusterArn, currentVersion; aws_config::AbstractAWSConfig=current_aws_config()
+    ClusterArn, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/storage",
-        Dict{String,Any}("currentVersion" => currentVersion);
+        "/v1/clusters/$(ClusterArn)/storage",
+        Dict{String,Any}("CurrentVersion" => CurrentVersion);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_storage(
-    clusterArn,
-    currentVersion,
+    ClusterArn,
+    CurrentVersion,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return kafka(
         "PUT",
-        "/v1/clusters/$(clusterArn)/storage",
+        "/v1/clusters/$(ClusterArn)/storage",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+            mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

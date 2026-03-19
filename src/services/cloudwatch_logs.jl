@@ -178,15 +178,6 @@ You can't update an existing delivery. You can only create and delete deliveries
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"fieldDelimiter"`: The field delimiter to use between record fields when the final output
-  format of a delivery is in `Plain`, `W3C`, or `Raw` format.
-
-- `"recordFields"`: The list of record fields to be delivered to the destination, in order.
-  If the delivery’s log source has mandatory fields, they must be included in this list.
-
-- `"s3DeliveryConfiguration"`: This structure contains parameters that are valid only when
-  the delivery’s delivery destination is an S3 bucket.
-
 - `"tags"`: An optional list of key-value pairs to associate with the resource.
 
   For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -351,15 +342,15 @@ events. It uses the `evaluationFrequency` to compare current log events and patt
 trained baselines.
 
 Fields within a pattern are called *tokens*. Fields that vary within a pattern, such as a
-request ID or timestamp, are referred to as *dynamic tokens* and represented by `&lt;*&gt;`.
+request ID or timestamp, are referred to as *dynamic tokens* and represented by `<*>`.
 
 The following is an example of a pattern:
 
-`[INFO] Request time: &lt;*&gt; ms`
+`[INFO] Request time: <*> ms`
 
 This pattern represents log events like `[INFO] Request time: 327 ms` and other similar log
 events that differ only by the number, in this csse 327. When the pattern is displayed, the
-different numbers are replaced by `&lt;*&gt;`
+different numbers are replaced by `<*>`
 
 !!! note
     Any parts of log events that are masked as sensitive data are not scanned for anomalies.
@@ -1264,52 +1255,6 @@ function describe_account_policies(
 end
 
 """
-    describe_configuration_templates()
-    describe_configuration_templates(params::Dict{String,<:Any})
-
-Use this operation to return the valid and default values that are used when creating
-delivery sources, delivery destinations, and deliveries. For more information about
-deliveries, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"deliveryDestinationTypes"`: Use this parameter to filter the response to include only
-  the configuration templates that apply to the delivery destination types that you specify
-  here.
-- `"limit"`: Use this parameter to limit the number of configuration templates that are
-  returned in the response.
-- `"logTypes"`: Use this parameter to filter the response to include only the configuration
-  templates that apply to the log types that you specify here.
-- `"nextToken"`:
-- `"resourceTypes"`: Use this parameter to filter the response to include only the
-  configuration templates that apply to the resource types that you specify here.
-- `"service"`: Use this parameter to filter the response to include only the configuration
-  templates that apply to the Amazon Web Services service that you specify here.
-"""
-function describe_configuration_templates end
-
-function describe_configuration_templates(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudwatch_logs(
-        "DescribeConfigurationTemplates"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function describe_configuration_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudwatch_logs(
-        "DescribeConfigurationTemplates",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     describe_deliveries()
     describe_deliveries(params::Dict{String,<:Any})
 
@@ -1949,12 +1894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logStreamNamePrefix"`: Filters the results to include only events from log streams that
   have names starting with this prefix.
 
-  If you specify a value for both `logStreamNamePrefix` and `logStreamNames`, the action
-  returns an `InvalidParameterException` error.
+  If you specify a value for both `logStreamNamePrefix` and `logStreamNames`, but the value
+  for `logStreamNamePrefix` does not match any log stream names specified in
+  `logStreamNames`, the action returns an `InvalidParameterException` error.
 
 - `"logStreamNames"`: Filters the results to only logs from the log streams in this list.
 
-  If you specify a value for both `logStreamNames` and `logStreamNamePrefix`, the action
+  If you specify a value for both `logStreamNamePrefix` and `logStreamNames`, the action
   returns an `InvalidParameterException` error.
 
 - `"nextToken"`: The token for the next set of events to return. (You received this token
@@ -2688,8 +2634,8 @@ The following destinations are supported for subscription filters:
   for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical
   destinations.
 
-Each account can have one account-level subscription filter policy per Region. If you are
-updating an existing filter, you must specify the correct name in `PolicyName`. To perform a
+Each account can have one account-level subscription filter policy. If you are updating an
+existing filter, you must specify the correct name in `PolicyName`. To perform a
 `PutAccountPolicy` subscription filter operation for any destination except a Lambda
 function, you must also have the `iam:PassRole` permission.
 
@@ -2749,7 +2695,7 @@ function, you must also have the `iam:PassRole` permission.
     ingested log events to the destination stream. You don't need to provide the ARN when
     you are working with a logical destination for cross-account delivery.
   - **FilterPattern** A filter pattern for subscribing to a filtered stream of log events.
-  - **Distribution** The method used to distribute log data to the destination. By default,
+  - **Distribution**The method used to distribute log data to the destination. By default,
     log data is grouped by log stream, but the grouping can be set to `Random` for a more
     even distribution. This property is only applicable when the destination is an Kinesis
     Data Streams data stream.
@@ -3118,9 +3064,8 @@ If you use this operation to update an existing delivery source, all the current
 
 - `log_type`: Defines the type of log that the source is sending.
 
-  - For Amazon Bedrock, the valid value is `APPLICATION_LOGS`.
   - For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
-  - For IAM Identity Center, the valid value is `ERROR_LOGS`.
+  - For IAM Identity Centerr, the valid value is `ERROR_LOGS`.
   - For Amazon WorkMail, the valid values are `ACCESS_CONTROL_LOGS`, `AUTHENTICATION_LOGS`,
     `WORKMAIL_AVAILABILITY_PROVIDER_LOGS`, and `WORKMAIL_MAILBOX_ACCESS_LOGS`.
 
@@ -3369,8 +3314,6 @@ non-valid Amazon Web Services access key ID or secret key.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"entity"`: Reserved for internal use.
-
 - `"sequenceToken"`: The sequence token obtained from the response of the previous
   `PutLogEvents` call.
 
@@ -3433,11 +3376,6 @@ metric filters, you can configure rules to extract metric data from log events i
 through [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html).
 
 The maximum number of metric filters that can be associated with a log group is 100.
-
-Using regular expressions to create metric filters is supported. For these filters, there is
-a quotas of quota of two regular expression patterns within a single filter pattern. There
-is also a quota of five regular expression patterns per log group. For more information
-about using regular expressions in metric filters, see [Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 
 When you create a metric filter, you can also optionally assign a unit and dimensions to the
 metric that is created.
@@ -3621,6 +3559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   In the example resource policy, you would replace the value of `SourceArn` with the
   resource making the call from Route 53 to CloudWatch Logs. You would also replace the
   value of `SourceAccount` with the Amazon Web Services account ID making that call.
+
   `{ "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }`
 
 - `"policyName"`: Name of the new policy. This parameter is required.
@@ -3731,11 +3670,6 @@ The following destinations are supported for subscription filters:
 
 Each log group can have up to two subscription filters associated with it. If you are
 updating an existing filter, you must specify the correct name in `filterName`.
-
-Using regular expressions to create subscription filters is supported. For these filters,
-there is a quotas of quota of two regular expression patterns within a single filter
-pattern. There is also a quota of five regular expression patterns per log group. For more
-information about using regular expressions in subscription filters, see [Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 
 To perform a [`put_subscription_filter`](@ref) operation for any destination except a Lambda
 function, you must also have the `iam:PassRole` permission.
@@ -3856,9 +3790,9 @@ object.
 If your client consumes the log events slower than the server produces them, CloudWatch Logs
 buffers up to 10 `LiveTailSessionUpdate` events or 5000 log events, after which it starts
 dropping the oldest events.
-- A [SessionStreamingException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException)
+- A [SessionStreamingException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionStreamingException.html)
   object is returned if an unknown error occurs on the server side.
-- A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException)
+- A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionTimeoutException.html)
   object is returned when the session times out, after it has been kept open for three
   hours.
 
@@ -4435,53 +4369,6 @@ function update_anomaly(
                 _merge, Dict{String,Any}("anomalyDetectorArn" => anomalyDetectorArn), params
             ),
         );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_delivery_configuration(id)
-    update_delivery_configuration(id, params::Dict{String,<:Any})
-
-Use this operation to update the configuration of a [delivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html)
-to change either the S3 path pattern or the format of the delivered logs. You can't use this
-operation to change the source or destination of the delivery.
-
-# Arguments
-
-- `id`: The ID of the delivery to be updated by this request.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"fieldDelimiter"`: The field delimiter to use between record fields when the final output
-  format of a delivery is in `Plain`, `W3C`, or `Raw` format.
-- `"recordFields"`: The list of record fields to be delivered to the destination, in order.
-  If the delivery’s log source has mandatory fields, they must be included in this list.
-- `"s3DeliveryConfiguration"`: This structure contains parameters that are valid only when
-  the delivery’s delivery destination is an S3 bucket.
-"""
-function update_delivery_configuration end
-
-function update_delivery_configuration(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudwatch_logs(
-        "UpdateDeliveryConfiguration",
-        Dict{String,Any}("id" => id);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_delivery_configuration(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudwatch_logs(
-        "UpdateDeliveryConfiguration",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

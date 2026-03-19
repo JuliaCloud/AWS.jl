@@ -99,8 +99,8 @@ function create_experiment_template(
 end
 
 """
-    create_target_account_configuration(account_id, id, role_arn)
-    create_target_account_configuration(account_id, id, role_arn, params::Dict{String,<:Any})
+    create_target_account_configuration(account_id, experiment_template_id, role_arn)
+    create_target_account_configuration(account_id, experiment_template_id, role_arn, params::Dict{String,<:Any})
 
 Creates a target account configuration for the experiment template. A target account
 configuration is required when `accountTargeting` of `experimentOptions` is set to
@@ -110,7 +110,7 @@ in the *Fault Injection Service User Guide*.
 # Arguments
 
 - `account_id`: The Amazon Web Services account ID of the target account.
-- `id`: The experiment template ID.
+- `experiment_template_id`: The experiment template ID.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role for the target account.
 
 # Optional Parameters
@@ -124,11 +124,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_target_account_configuration end
 
 function create_target_account_configuration(
-    accountId, id, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
+    accountId,
+    experimentTemplateId,
+    roleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "POST",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)",
         Dict{String,Any}("roleArn" => roleArn, "clientToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -137,14 +140,14 @@ end
 
 function create_target_account_configuration(
     accountId,
-    id,
+    experimentTemplateId,
     roleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "POST",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -188,24 +191,24 @@ function delete_experiment_template(
 end
 
 """
-    delete_target_account_configuration(account_id, id)
-    delete_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+    delete_target_account_configuration(account_id, experiment_template_id)
+    delete_target_account_configuration(account_id, experiment_template_id, params::Dict{String,<:Any})
 
 Deletes the specified target account configuration of the experiment template.
 
 # Arguments
 
 - `account_id`: The Amazon Web Services account ID of the target account.
-- `id`: The ID of the experiment template.
+- `experiment_template_id`: The ID of the experiment template.
 """
 function delete_target_account_configuration end
 
 function delete_target_account_configuration(
-    accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
+    accountId, experimentTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "DELETE",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -213,13 +216,13 @@ end
 
 function delete_target_account_configuration(
     accountId,
-    id,
+    experimentTemplateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "DELETE",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -273,24 +276,24 @@ function get_experiment(
 end
 
 """
-    get_experiment_target_account_configuration(account_id, id)
-    get_experiment_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+    get_experiment_target_account_configuration(account_id, experiment_id)
+    get_experiment_target_account_configuration(account_id, experiment_id, params::Dict{String,<:Any})
 
 Gets information about the specified target account configuration of the experiment.
 
 # Arguments
 
 - `account_id`: The Amazon Web Services account ID of the target account.
-- `id`: The ID of the experiment.
+- `experiment_id`: The ID of the experiment.
 """
 function get_experiment_target_account_configuration end
 
 function get_experiment_target_account_configuration(
-    accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
+    accountId, experimentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "GET",
-        "/experiments/$(id)/targetAccountConfigurations/$(accountId)";
+        "/experiments/$(experimentId)/targetAccountConfigurations/$(accountId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -298,13 +301,13 @@ end
 
 function get_experiment_target_account_configuration(
     accountId,
-    id,
+    experimentId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "GET",
-        "/experiments/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experiments/$(experimentId)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -342,32 +345,8 @@ function get_experiment_template(
 end
 
 """
-    get_safety_lever(id)
-    get_safety_lever(id, params::Dict{String,<:Any})
-
-Gets information about the specified safety lever.
-
-# Arguments
-
-- `id`: The ID of the safety lever.
-"""
-function get_safety_lever end
-
-function get_safety_lever(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return fis("GET", "/safetyLevers/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function get_safety_lever(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return fis(
-        "GET", "/safetyLevers/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
-    get_target_account_configuration(account_id, id)
-    get_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+    get_target_account_configuration(account_id, experiment_template_id)
+    get_target_account_configuration(account_id, experiment_template_id, params::Dict{String,<:Any})
 
 Gets information about the specified target account configuration of the experiment
 template.
@@ -375,16 +354,16 @@ template.
 # Arguments
 
 - `account_id`: The Amazon Web Services account ID of the target account.
-- `id`: The ID of the experiment template.
+- `experiment_template_id`: The ID of the experiment template.
 """
 function get_target_account_configuration end
 
 function get_target_account_configuration(
-    accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
+    accountId, experimentTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "GET",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -392,13 +371,13 @@ end
 
 function get_target_account_configuration(
     accountId,
-    id,
+    experimentTemplateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "GET",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -469,14 +448,14 @@ function list_actions(
 end
 
 """
-    list_experiment_resolved_targets(id)
-    list_experiment_resolved_targets(id, params::Dict{String,<:Any})
+    list_experiment_resolved_targets(experiment_id)
+    list_experiment_resolved_targets(experiment_id, params::Dict{String,<:Any})
 
 Lists the resolved targets information of the specified experiment.
 
 # Arguments
 
-- `id`: The ID of the experiment.
+- `experiment_id`: The ID of the experiment.
 
 # Optional Parameters
 
@@ -490,22 +469,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_experiment_resolved_targets end
 
 function list_experiment_resolved_targets(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "GET",
-        "/experiments/$(id)/resolvedTargets";
+        "/experiments/$(experimentId)/resolvedTargets";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_experiment_resolved_targets(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "GET",
-        "/experiments/$(id)/resolvedTargets",
+        "/experiments/$(experimentId)/resolvedTargets",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -513,14 +494,14 @@ function list_experiment_resolved_targets(
 end
 
 """
-    list_experiment_target_account_configurations(id)
-    list_experiment_target_account_configurations(id, params::Dict{String,<:Any})
+    list_experiment_target_account_configurations(experiment_id)
+    list_experiment_target_account_configurations(experiment_id, params::Dict{String,<:Any})
 
 Lists the target account configurations of the specified experiment.
 
 # Arguments
 
-- `id`: The ID of the experiment.
+- `experiment_id`: The ID of the experiment.
 
 # Optional Parameters
 
@@ -531,22 +512,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_experiment_target_account_configurations end
 
 function list_experiment_target_account_configurations(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "GET",
-        "/experiments/$(id)/targetAccountConfigurations";
+        "/experiments/$(experimentId)/targetAccountConfigurations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_experiment_target_account_configurations(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "GET",
-        "/experiments/$(id)/targetAccountConfigurations",
+        "/experiments/$(experimentId)/targetAccountConfigurations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -637,14 +620,14 @@ function list_tags_for_resource(
 end
 
 """
-    list_target_account_configurations(id)
-    list_target_account_configurations(id, params::Dict{String,<:Any})
+    list_target_account_configurations(experiment_template_id)
+    list_target_account_configurations(experiment_template_id, params::Dict{String,<:Any})
 
 Lists the target account configurations of the specified experiment template.
 
 # Arguments
 
-- `id`: The ID of the experiment template.
+- `experiment_template_id`: The ID of the experiment template.
 
 # Optional Parameters
 
@@ -657,22 +640,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_target_account_configurations end
 
 function list_target_account_configurations(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "GET",
-        "/experimentTemplates/$(id)/targetAccountConfigurations";
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_target_account_configurations(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    experimentTemplateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "GET",
-        "/experimentTemplates/$(id)/targetAccountConfigurations",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -910,55 +895,15 @@ function update_experiment_template(
 end
 
 """
-    update_safety_lever_state(id, state)
-    update_safety_lever_state(id, state, params::Dict{String,<:Any})
-
-Updates the specified safety lever state.
-
-# Arguments
-
-- `id`: The ID of the safety lever.
-- `state`: The state of the safety lever.
-"""
-function update_safety_lever_state end
-
-function update_safety_lever_state(
-    id, state; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return fis(
-        "PATCH",
-        "/safetyLevers/$(id)/state",
-        Dict{String,Any}("state" => state);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_safety_lever_state(
-    id,
-    state,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return fis(
-        "PATCH",
-        "/safetyLevers/$(id)/state",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("state" => state), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_target_account_configuration(account_id, id)
-    update_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+    update_target_account_configuration(account_id, experiment_template_id)
+    update_target_account_configuration(account_id, experiment_template_id, params::Dict{String,<:Any})
 
 Updates the target account configuration for the specified experiment template.
 
 # Arguments
 
 - `account_id`: The Amazon Web Services account ID of the target account.
-- `id`: The ID of the experiment template.
+- `experiment_template_id`: The ID of the experiment template.
 
 # Optional Parameters
 
@@ -970,11 +915,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_target_account_configuration end
 
 function update_target_account_configuration(
-    accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
+    accountId, experimentTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return fis(
         "PATCH",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -982,13 +927,13 @@ end
 
 function update_target_account_configuration(
     accountId,
-    id,
+    experimentTemplateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return fis(
         "PATCH",
-        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        "/experimentTemplates/$(experimentTemplateId)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

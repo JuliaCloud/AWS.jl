@@ -5,8 +5,8 @@ using AWS.AWSServices: polly
 using AWS.UUIDs: uuid4
 
 """
-    delete_lexicon(lexicon_name)
-    delete_lexicon(lexicon_name, params::Dict{String,<:Any})
+    delete_lexicon(name)
+    delete_lexicon(name, params::Dict{String,<:Any})
 
 Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A
 lexicon which has been deleted is not available for speech synthesis, nor is it possible to
@@ -16,25 +16,22 @@ For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/
 
 # Arguments
 
-- `lexicon_name`: The name of the lexicon to delete. Must be an existing lexicon in the
-  region.
+- `name`: The name of the lexicon to delete. Must be an existing lexicon in the region.
 """
 function delete_lexicon end
 
-function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_lexicon(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
-        "DELETE", "/v1/lexicons/$(LexiconName)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/lexicons/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_lexicon(
-    LexiconName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "DELETE",
-        "/v1/lexicons/$(LexiconName)",
+        "/v1/lexicons/$(Name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -94,35 +91,27 @@ function describe_voices(
 end
 
 """
-    get_lexicon(lexicon_name)
-    get_lexicon(lexicon_name, params::Dict{String,<:Any})
+    get_lexicon(name)
+    get_lexicon(name, params::Dict{String,<:Any})
 
 Returns the content of the specified pronunciation lexicon stored in an Amazon Web Services
 Region. For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html).
 
 # Arguments
 
-- `lexicon_name`: Name of the lexicon.
+- `name`: Name of the lexicon.
 """
 function get_lexicon end
 
-function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_config())
-    return polly(
-        "GET", "/v1/lexicons/$(LexiconName)"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+function get_lexicon(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return polly("GET", "/v1/lexicons/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_lexicon(
-    LexiconName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
-        "GET",
-        "/v1/lexicons/$(LexiconName)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/v1/lexicons/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -218,8 +207,8 @@ function list_speech_synthesis_tasks(
 end
 
 """
-    put_lexicon(content, lexicon_name)
-    put_lexicon(content, lexicon_name, params::Dict{String,<:Any})
+    put_lexicon(content, name)
+    put_lexicon(content, name, params::Dict{String,<:Any})
 
 Stores a pronunciation lexicon in an Amazon Web Services Region. If a lexicon with the same
 name already exists in the region, it is overwritten by the new lexicon. Lexicon operations
@@ -231,16 +220,14 @@ For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/
 # Arguments
 
 - `content`: Content of the PLS lexicon as string data.
-- `lexicon_name`: Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
+- `name`: Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
 """
 function put_lexicon end
 
-function put_lexicon(
-    Content, LexiconName; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function put_lexicon(Content, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "PUT",
-        "/v1/lexicons/$(LexiconName)",
+        "/v1/lexicons/$(Name)",
         Dict{String,Any}("Content" => Content);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -249,13 +236,13 @@ end
 
 function put_lexicon(
     Content,
-    LexiconName,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "PUT",
-        "/v1/lexicons/$(LexiconName)",
+        "/v1/lexicons/$(Name)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

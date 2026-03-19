@@ -300,11 +300,6 @@ Creates a compute fleet.
   - The environment type `LINUX_GPU_CONTAINER` is available only in regions US East (N.
     Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
     (Tokyo), and Asia Pacific (Sydney).
-  - The environment type `MAC_ARM` is available for Medium fleets only in regions US East
-    (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), and EU
-    (Frankfurt)
-  - The environment type `MAC_ARM` is available for Large fleets only in regions US East (N.
-    Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).
   - The environment type `WINDOWS_SERVER_2019_CONTAINER` is available only in regions US
     East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia
     Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
@@ -325,8 +320,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see [Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html)
   in the *CodeBuild User Guide*.
-
-- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 
 - `"overflowBehavior"`: The compute fleet overflow behavior.
 
@@ -442,7 +435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       service role has permission to that key.
 
   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the
-  CMK's alias (using the format `alias/&lt;alias-name&gt;`).
+  CMK's alias (using the format `alias/<alias-name>`).
 
 - `"fileSystemLocations"`: An array of `ProjectFileSystemLocation` objects for a CodeBuild
   build project. A `ProjectFileSystemLocation` object specifies the `identifier`,
@@ -657,12 +650,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       `manualCreation` is only available for GitHub webhooks.
-
-- `"scopeConfiguration"`: The scope configuration for global or organization webhooks.
-
-  !!! note
-      Global or organization webhooks are only available for GitHub and Github Enterprise
-      webhooks.
 """
 function create_webhook end
 
@@ -1226,18 +1213,18 @@ end
     import_source_credentials(auth_type, server_type, token, params::Dict{String,<:Any})
 
 Imports the source repository credentials for an CodeBuild project that has its source code
-stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
+stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 # Arguments
 
 - `auth_type`: The type of authentication used to connect to a GitHub, GitHub Enterprise,
   GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported
-  by the API and must be created using the CodeBuild console.
+  by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is
+  only valid for GitLab and GitLab Self Managed.
 - `server_type`: The source provider used for this project.
 - `token`: For GitHub or GitHub Enterprise, this is the personal access token. For
   Bitbucket, this is either the access token or the app password. For the `authType`
-  CODECONNECTIONS, this is the `connectionArn`. For the `authType` SECRETS_MANAGER, this is
-  the `secretArn`.
+  CODECONNECTIONS, this is the `connectionArn`.
 
 # Optional Parameters
 
@@ -2050,7 +2037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       service role has permission to that key.
 
   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the
-  CMK's alias (using the format `alias/&lt;alias-name&gt;`).
+  CMK's alias (using the format `alias/<alias-name>`).
 
 - `"environmentTypeOverride"`: A container type for this build that overrides the one
   specified in the build project.
@@ -2260,7 +2247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       service role has permission to that key.
 
   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the
-  CMK's alias (using the format `alias/&lt;alias-name&gt;`).
+  CMK's alias (using the format `alias/<alias-name>`).
 
 - `"environmentTypeOverride"`: A container type for this batch build that overrides the one
   specified in the batch build project.
@@ -2530,11 +2517,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The environment type `LINUX_GPU_CONTAINER` is available only in regions US East (N.
     Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
     (Tokyo), and Asia Pacific (Sydney).
-  - The environment type `MAC_ARM` is available for Medium fleets only in regions US East
-    (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), and EU
-    (Frankfurt)
-  - The environment type `MAC_ARM` is available for Large fleets only in regions US East (N.
-    Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).
   - The environment type `WINDOWS_SERVER_2019_CONTAINER` is available only in regions US
     East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia
     Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
@@ -2549,8 +2531,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see [Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html)
   in the *CodeBuild User Guide*.
-
-- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 
 - `"overflowBehavior"`: The compute fleet overflow behavior.
 
@@ -2641,7 +2621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       service role has permission to that key.
 
   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the
-  CMK's alias (using the format `alias/&lt;alias-name&gt;`).
+  CMK's alias (using the format `alias/<alias-name>`).
 
 - `"environment"`: Information to be changed about the build environment for the build
   project.

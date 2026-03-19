@@ -88,45 +88,6 @@ function batch_get_custom_data_identifiers(
 end
 
 """
-    batch_update_automated_discovery_accounts()
-    batch_update_automated_discovery_accounts(params::Dict{String,<:Any})
-
-Changes the status of automated sensitive data discovery for one or more accounts.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"accounts"`: An array of objects, one for each account to change the status of automated
-  sensitive data discovery for. Each object specifies the Amazon Web Services account ID for
-  an account and a new status for that account.
-"""
-function batch_update_automated_discovery_accounts end
-
-function batch_update_automated_discovery_accounts(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return macie2(
-        "PATCH",
-        "/automated-discovery/accounts";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function batch_update_automated_discovery_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return macie2(
-        "PATCH",
-        "/automated-discovery/accounts",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     create_allow_list(client_token, criteria, name)
     create_allow_list(client_token, criteria, name, params::Dict{String,<:Any})
 
@@ -211,7 +172,7 @@ Creates and defines the settings for a classification job.
   - ONE_TIME - Run the job only once. If you specify this value, don't specify a value for
     the scheduleFrequency property.
   - SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value,
-    use the scheduleFrequency property to specify the recurrence pattern for the job.
+    use the scheduleFrequency property to define the recurrence pattern for the job.
 
 - `name`: A custom name for the job. The name can contain as many as 500 characters.
 
@@ -271,9 +232,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property or you specify RECOMMENDED for a recurring job, each job run automatically uses
   all the managed data identifiers that are in the recommended set when the run starts.
 
-  To learn about individual managed data identifiers or determine which ones are in the
-  recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
-  or [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
+  For information about individual managed data identifiers or to determine which ones are
+  in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
+  and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
   in the *Amazon Macie User Guide*.
 
 - `"samplingPercentage"`: The sampling depth, as a percentage, for the job to apply when
@@ -1248,7 +1209,7 @@ end
     get_automated_discovery_configuration(params::Dict{String,<:Any})
 
 Retrieves the configuration settings and status of automated sensitive data discovery for an
-organization or standalone account.
+account.
 """
 function get_automated_discovery_configuration end
 
@@ -1899,47 +1860,6 @@ function list_allow_lists(
 end
 
 """
-    list_automated_discovery_accounts()
-    list_automated_discovery_accounts(params::Dict{String,<:Any})
-
-Retrieves the status of automated sensitive data discovery for one or more accounts.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"accountIds"`: The Amazon Web Services account ID for each account, for as many as 50
-  accounts. To retrieve the status for multiple accounts, append the accountIds parameter
-  and argument for each account, separated by an ampersand (&amp;). To retrieve the status
-  for all the accounts in an organization, omit this parameter.
-- `"maxResults"`: The maximum number of items to include in each page of a paginated
-  response.
-- `"nextToken"`: The nextToken string that specifies which page of results to return in a
-  paginated response.
-"""
-function list_automated_discovery_accounts end
-
-function list_automated_discovery_accounts(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return macie2(
-        "GET", "/automated-discovery/accounts"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function list_automated_discovery_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return macie2(
-        "GET",
-        "/automated-discovery/accounts",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     list_classification_jobs()
     list_classification_jobs(params::Dict{String,<:Any})
 
@@ -2092,7 +2012,7 @@ end
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Retrieves information about Amazon Macie membership invitations that were received by an
+Retrieves information about the Amazon Macie membership invitations that were received by an
 account.
 
 # Optional Parameters
@@ -2221,8 +2141,8 @@ end
     list_resource_profile_artifacts(resource_arn)
     list_resource_profile_artifacts(resource_arn, params::Dict{String,<:Any})
 
-Retrieves information about objects that Amazon Macie selected from an S3 bucket for
-automated sensitive data discovery.
+Retrieves information about objects that were selected from an S3 bucket for automated
+sensitive data discovery.
 
 # Arguments
 
@@ -2391,7 +2311,7 @@ end
     put_classification_export_configuration(configuration)
     put_classification_export_configuration(configuration, params::Dict{String,<:Any})
 
-Adds or updates the configuration settings for storing data classification results.
+Creates or updates the configuration settings for storing data classification results.
 
 # Arguments
 
@@ -2558,7 +2478,7 @@ end
     test_custom_data_identifier(regex, sample_text)
     test_custom_data_identifier(regex, sample_text, params::Dict{String,<:Any})
 
-Tests criteria for a custom data identifier.
+Tests a custom data identifier.
 
 # Arguments
 
@@ -2730,32 +2650,21 @@ end
     update_automated_discovery_configuration(status)
     update_automated_discovery_configuration(status, params::Dict{String,<:Any})
 
-Changes the configuration settings and status of automated sensitive data discovery for an
-organization or standalone account.
+Enables or disables automated sensitive data discovery for an account.
 
 # Arguments
 
-- `status`: The new status of automated sensitive data discovery for the organization or
-  account. Valid values are: ENABLED, start or resume all automated sensitive data discovery
-  activities; and, DISABLED, stop performing all automated sensitive data discovery
-  activities.
+- `status`: The new status of automated sensitive data discovery for the account. Valid
+  values are: ENABLED, start or resume automated sensitive data discovery activities for the
+  account; and, DISABLED, stop performing automated sensitive data discovery activities for
+  the account.
 
-  If you specify DISABLED for an administrator account, you also disable automated sensitive
-  data discovery for all member accounts in the organization.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"autoEnableOrganizationMembers"`: Specifies whether to automatically enable automated
-  sensitive data discovery for accounts in the organization. Valid values are: ALL
-  (default), enable it for all existing accounts and new member accounts; NEW, enable it
-  only for new member accounts; and, NONE, don't enable it for any accounts.
-
-  If you specify NEW or NONE, automated sensitive data discovery continues to be enabled for
-  any existing accounts that it's currently enabled for. To enable or disable it for
-  individual member accounts, specify NEW or NONE, and then enable or disable it for each
-  account by using the BatchUpdateAutomatedDiscoveryAccounts operation.
+  When you enable automated sensitive data discovery for the first time, Amazon Macie uses
+  default configuration settings to determine which data sources to analyze and which
+  managed data identifiers to use. To change these settings, use the
+  UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations,
+  respectively. If you change the settings and subsequently disable the configuration,
+  Amazon Macie retains your changes.
 """
 function update_automated_discovery_configuration end
 
@@ -3032,8 +2941,8 @@ Updates the Amazon Macie configuration settings for an organization in Organizat
 
 # Arguments
 
-- `auto_enable`: Specifies whether to enable Amazon Macie automatically for accounts that
-  are added to the organization in Organizations.
+- `auto_enable`: Specifies whether to enable Amazon Macie automatically for an account when
+  the account is added to the organization in Organizations.
 """
 function update_organization_configuration end
 
@@ -3231,15 +3140,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the template. The description can contain as many
   as 200 characters.
 
-- `"excludes"`: The managed data identifiers to explicitly exclude (not use) when performing
-  automated sensitive data discovery.
+- `"excludes"`: The managed data identifiers to explicitly exclude (not use) when analyzing
+  data.
 
   To exclude an allow list or custom data identifier that's currently included by the
   template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and
   SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
 
 - `"includes"`: The allow lists, custom data identifiers, and managed data identifiers to
-  explicitly include (use) when performing automated sensitive data discovery.
+  explicitly include (use) when analyzing data.
 """
 function update_sensitivity_inspection_template end
 

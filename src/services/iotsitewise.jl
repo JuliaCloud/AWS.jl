@@ -116,7 +116,7 @@ function associate_time_series_to_asset_property(
 )
     return iotsitewise(
         "POST",
-        "/timeseries/associate/",
+        "/timeseries/associate",
         Dict{String,Any}(
             "alias" => alias,
             "assetId" => assetId,
@@ -137,7 +137,7 @@ function associate_time_series_to_asset_property(
 )
     return iotsitewise(
         "POST",
-        "/timeseries/associate/",
+        "/timeseries/associate",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -645,7 +645,7 @@ You can create two types of asset models, `ASSET_MODEL` or `COMPONENT_MODEL`.
 
 # Arguments
 
-- `asset_model_name`: A unique name for the asset model.
+- `asset_model_name`: A unique, friendly name for the asset model.
 
 # Optional Parameters
 
@@ -659,8 +659,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html).
-      For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
-      in the *IoT SiteWise User Guide*.
+      For more information, see <LINK>.
 
 - `"assetModelDescription"`: A description for the asset model.
 
@@ -767,7 +766,7 @@ include an `composedAssetModelId`.
 
 # Arguments
 
-- `asset_model_composite_model_name`: A unique name for the composite model.
+- `asset_model_composite_model_name`: A unique, friendly name for the composite model.
 - `asset_model_composite_model_type`: The composite model type. Valid values are
   `AWS/ALARM`, `CUSTOM`, or `AWS/L4E_ANOMALY`.
 - `asset_model_id`: The ID of the asset model this composite model is a part of.
@@ -775,18 +774,6 @@ include an `composedAssetModelId`.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The create request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
-  in the *IoT SiteWise User Guide*.
-
-- `"If-None-Match"`: Accepts ***** to reject the create request if an active version
-  (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
-
-- `"Match-For-Version-Type"`: Specifies the asset model version type (`LATEST` or `ACTIVE`)
-  used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
-  ETag for the create operation.
 
 - `"assetModelCompositeModelDescription"`: A description for the composite model.
 
@@ -802,8 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   own ID, it must be globally unique.
 
 - `"assetModelCompositeModelProperties"`: The property definitions of the composite model.
-  For more information, see [Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
-  in the *IoT SiteWise User Guide*.
+  For more information, see <LINK>.
 
   You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
@@ -812,8 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 
-- `"composedAssetModelId"`: The ID of a component model which is reused to create this
-  composite model.
+- `"composedAssetModelId"`: The ID of a composite model on this asset.
 
 - `"parentAssetModelCompositeModelId"`: The ID of the parent composite model in this asset
   model relationship.
@@ -1040,7 +1025,7 @@ in the *IoT SiteWise User Guide*.
 
 # Arguments
 
-- `gateway_name`: A unique name for the gateway.
+- `gateway_name`: A unique, friendly name for the gateway.
 - `gateway_platform`: The gateway's platform. You can only specify one platform in a
   gateway.
 
@@ -1397,15 +1382,6 @@ in the *IoT SiteWise User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The delete request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
-  in the *IoT SiteWise User Guide*.
-- `"If-None-Match"`: Accepts ***** to reject the delete request if an active version
-  (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
-- `"Match-For-Version-Type"`: Specifies the asset model version type (`LATEST` or `ACTIVE`)
-  used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
-  ETag for the delete operation.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -1459,15 +1435,6 @@ in the *IoT SiteWise User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The delete request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
-  in the *IoT SiteWise User Guide*.
-- `"If-None-Match"`: Accepts ***** to reject the delete request if an active version
-  (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
-- `"Match-For-Version-Type"`: Specifies the asset model version type (`LATEST` or `ACTIVE`)
-  used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
-  ETag for the delete operation.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -1717,7 +1684,7 @@ function delete_time_series end
 function delete_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
         "POST",
-        "/timeseries/delete/",
+        "/timeseries/delete",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1729,7 +1696,7 @@ function delete_time_series(
 )
     return iotsitewise(
         "POST",
-        "/timeseries/delete/",
+        "/timeseries/delete",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
@@ -1903,10 +1870,6 @@ Retrieves information about an asset model.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
-  in the *IoT SiteWise User Guide*.
 - `"excludeProperties"`: Whether or not to exclude asset model properties from the response.
 """
 function describe_asset_model end
@@ -1950,15 +1913,6 @@ in the *IoT SiteWise User Guide*.
 - `asset_model_id`: The ID of the asset model. This can be either the actual ID in UUID
   format, or else `externalId:` followed by the external ID, if it has one. For more
   information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
-  in the *IoT SiteWise User Guide*.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
 """
 function describe_asset_model_composite_model end
@@ -2350,7 +2304,7 @@ function describe_time_series end
 
 function describe_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsitewise(
-        "GET", "/timeseries/describe/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/timeseries/describe"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2358,7 +2312,7 @@ function describe_time_series(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotsitewise(
-        "GET", "/timeseries/describe/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/timeseries/describe", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2474,7 +2428,7 @@ function disassociate_time_series_from_asset_property(
 )
     return iotsitewise(
         "POST",
-        "/timeseries/disassociate/",
+        "/timeseries/disassociate",
         Dict{String,Any}(
             "alias" => alias,
             "assetId" => assetId,
@@ -2495,7 +2449,7 @@ function disassociate_time_series_from_asset_property(
 )
     return iotsitewise(
         "POST",
-        "/timeseries/disassociate/",
+        "/timeseries/disassociate",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3109,11 +3063,6 @@ Retrieves a paginated list of composite models associated with the asset model
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
-  in the *IoT SiteWise User Guide*.
-
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
   Default: 50
@@ -3166,11 +3115,6 @@ to start all over again.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
-  in the *IoT SiteWise User Guide*.
-
 - `"filter"`: Filters the requested list of asset model properties. You can choose one of
   the following options:
 
@@ -3221,18 +3165,12 @@ Retrieves a paginated list of summaries of all asset models.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"assetModelTypes"`: The type of asset model. If you don't provide an `assetModelTypes`,
-  all types of asset models are returned.
+- `"assetModelTypes"`: The type of asset model.
 
-  - **ASSET_MODEL** – An asset model that you can use to create assets. Can't be included as
-    a component in another asset model.
+  - **ASSET_MODEL** – (default) An asset model that you can use to create assets. Can't be
+    included as a component in another asset model.
   - **COMPONENT_MODEL** – A reusable component that you can include in the composite models
     of other asset models. You can't create assets directly from this type of asset model.
-
-- `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
-  in the *IoT SiteWise User Guide*.
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
@@ -3428,8 +3366,8 @@ Retrieves a paginated list of associated assets.
 
 You can use this operation to do the following:
 
-- `CHILD` - List all child assets associated to the asset.
-- `PARENT` - List the asset's parent asset.
+- List child assets associated to a parent asset by a hierarchy that you specify.
+- List an asset's parent asset.
 
 # Arguments
 
@@ -3442,13 +3380,12 @@ You can use this operation to do the following:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"hierarchyId"`: (Optional) If you don't provide a `hierarchyId`, all the immediate assets
-  in the `traversalDirection` will be returned.
-
-  The ID of the hierarchy by which child assets are associated to the asset. (This can be
-  either the actual ID in UUID format, or else `externalId:` followed by the external ID, if
-  it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
-  in the *IoT SiteWise User Guide*.)
+- `"hierarchyId"`: The ID of the hierarchy by which child assets are associated to the
+  asset. (This can be either the actual ID in UUID format, or else `externalId:` followed by
+  the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+  in the *IoT SiteWise User Guide*.) To find a hierarchy ID, use the [DescribeAsset](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAsset.html)
+  or [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html)
+  operations. This parameter is required if you choose `CHILD` for `traversalDirection`.
 
   For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
   in the *IoT SiteWise User Guide*.
@@ -3462,7 +3399,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"traversalDirection"`: The direction to list associated assets. Choose one of the
   following options:
 
-  - `CHILD` – The list includes all child assets associated to the asset.
+  - `CHILD` – The list includes all child assets associated to the asset. The `hierarchyId`
+    parameter is required if you choose `CHILD`.
   - `PARENT` – The list includes the asset's parent asset.
 
   Default: `CHILD`
@@ -3838,14 +3776,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_time_series end
 
 function list_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotsitewise("GET", "/timeseries/"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iotsitewise("GET", "/timeseries"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_time_series(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iotsitewise(
-        "GET", "/timeseries/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/timeseries", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4262,16 +4200,14 @@ definitions. For more information, see [Updating assets and models](https://docs
 in the *IoT SiteWise User Guide*.
 
 !!! important
+    This operation overwrites the existing model with the provided model. To avoid deleting
+    your asset model's properties or hierarchies, you must include their IDs and definitions
+    in the updated asset model payload. For more information, see [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html).
+
     If you remove a property from an asset model, IoT SiteWise deletes all previous data for
-    that property. You can’t change the type or data type of an existing property.
-
-    To replace an existing asset model property with a new one with the same `name`, do the
-    following:
-
-    1. Submit an `UpdateAssetModel` request with the entire existing property removed.
-    2. Submit a second `UpdateAssetModel` request that includes the new property. The new
-       asset property will have the same `name` as the previous one and IoT SiteWise will
-       generate a new unique `id`.
+    that property. If you remove a hierarchy definition from an asset model, IoT SiteWise
+    disassociates every asset associated with that hierarchy. You can't change the type or
+    data type of an existing property.
 
 # Arguments
 
@@ -4279,23 +4215,11 @@ in the *IoT SiteWise User Guide*.
   UUID format, or else `externalId:` followed by the external ID, if it has one. For more
   information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
-- `asset_model_name`: A unique name for the asset model.
+- `asset_model_name`: A unique, friendly name for the asset model.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The update request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
-  in the *IoT SiteWise User Guide*.
-
-- `"If-None-Match"`: Accepts ***** to reject the update request if an active version
-  (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
-
-- `"Match-For-Version-Type"`: Specifies the asset model version type (`LATEST` or `ACTIVE`)
-  used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
-  ETag for the update operation.
 
 - `"assetModelCompositeModels"`: The composite models that are part of this asset model. It
   groups properties (such as attributes, measurements, transforms, and metrics) and child
@@ -4305,8 +4229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html).
-      For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
-      in the *IoT SiteWise User Guide*.
+      For more information, see <LINK>.
 
 - `"assetModelDescription"`: A description for the asset model.
 
@@ -4398,24 +4321,12 @@ in the *IoT SiteWise User Guide*.
 # Arguments
 
 - `asset_model_composite_model_id`: The ID of a composite model on this asset model.
-- `asset_model_composite_model_name`: A unique name for the composite model.
+- `asset_model_composite_model_name`: A unique, friendly name for the composite model.
 - `asset_model_id`: The ID of the asset model, in UUID format.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The update request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
-  in the *IoT SiteWise User Guide*.
-
-- `"If-None-Match"`: Accepts ***** to reject the update request if an active version
-  (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
-
-- `"Match-For-Version-Type"`: Specifies the asset model version type (`LATEST` or `ACTIVE`)
-  used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
-  ETag for the update operation.
 
 - `"assetModelCompositeModelDescription"`: A description for the composite model.
 
@@ -4424,8 +4335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you're setting it to the exact same thing as when it was created.
 
 - `"assetModelCompositeModelProperties"`: The property definitions of the composite model.
-  For more information, see [Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
-  in the *IoT SiteWise User Guide*.
+  For more information, see <LINK>.
 
   You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
@@ -4637,7 +4547,7 @@ Updates a gateway's name.
 # Arguments
 
 - `gateway_id`: The ID of the gateway to update.
-- `gateway_name`: A unique name for the gateway.
+- `gateway_name`: A unique, friendly name for the gateway.
 """
 function update_gateway end
 

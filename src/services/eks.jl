@@ -5,8 +5,8 @@ using AWS.AWSServices: eks
 using AWS.UUIDs: uuid4
 
 """
-    associate_access_policy(access_scope, name, policy_arn, principal_arn)
-    associate_access_policy(access_scope, name, policy_arn, principal_arn, params::Dict{String,<:Any})
+    associate_access_policy(access_scope, cluster_name, policy_arn, principal_arn)
+    associate_access_policy(access_scope, cluster_name, policy_arn, principal_arn, params::Dict{String,<:Any})
 
 Associates an access policy and its scope to an access entry. For more information about
 associating access policies, see [Associating and disassociating access policies to and from access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html)
@@ -16,7 +16,7 @@ in the *Amazon EKS User Guide*.
 
 - `access_scope`: The scope for the `AccessPolicy`. You can scope access policies to an
   entire cluster or to specific Kubernetes namespaces.
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `policy_arn`: The ARN of the `AccessPolicy` that you're associating. For a list of ARNs,
   use `ListAccessPolicies`.
 - `principal_arn`: The Amazon Resource Name (ARN) of the IAM user or role for the
@@ -26,14 +26,14 @@ function associate_access_policy end
 
 function associate_access_policy(
     accessScope,
-    name,
+    clusterName,
     policyArn,
     principalArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies",
         Dict{String,Any}("accessScope" => accessScope, "policyArn" => policyArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -42,7 +42,7 @@ end
 
 function associate_access_policy(
     accessScope,
-    name,
+    clusterName,
     policyArn,
     principalArn,
     params::AbstractDict{String};
@@ -50,7 +50,7 @@ function associate_access_policy(
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -64,8 +64,8 @@ function associate_access_policy(
 end
 
 """
-    associate_encryption_config(encryption_config, name)
-    associate_encryption_config(encryption_config, name, params::Dict{String,<:Any})
+    associate_encryption_config(cluster_name, encryption_config)
+    associate_encryption_config(cluster_name, encryption_config, params::Dict{String,<:Any})
 
 Associates an encryption configuration to an existing cluster.
 
@@ -75,8 +75,8 @@ applications to new Amazon EKS clusters.
 
 # Arguments
 
+- `cluster_name`: The name of your cluster.
 - `encryption_config`: The configuration you are using for encryption.
-- `name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -88,11 +88,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_encryption_config end
 
 function associate_encryption_config(
-    encryptionConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/encryption-config/associate",
+        "/clusters/$(clusterName)/encryption-config/associate",
         Dict{String,Any}(
             "encryptionConfig" => encryptionConfig, "clientRequestToken" => string(uuid4())
         );
@@ -102,14 +102,14 @@ function associate_encryption_config(
 end
 
 function associate_encryption_config(
+    clusterName,
     encryptionConfig,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/encryption-config/associate",
+        "/clusters/$(clusterName)/encryption-config/associate",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -126,8 +126,8 @@ function associate_encryption_config(
 end
 
 """
-    associate_identity_provider_config(name, oidc)
-    associate_identity_provider_config(name, oidc, params::Dict{String,<:Any})
+    associate_identity_provider_config(cluster_name, oidc)
+    associate_identity_provider_config(cluster_name, oidc, params::Dict{String,<:Any})
 
 Associates an identity provider configuration to a cluster.
 
@@ -140,7 +140,7 @@ in the Kubernetes documentation.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `oidc`: An object representing an OpenID Connect (OIDC) identity provider configuration.
 
 # Optional Parameters
@@ -156,11 +156,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_identity_provider_config end
 
 function associate_identity_provider_config(
-    name, oidc; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, oidc; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/associate",
+        "/clusters/$(clusterName)/identity-provider-configs/associate",
         Dict{String,Any}("oidc" => oidc, "clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -168,14 +168,14 @@ function associate_identity_provider_config(
 end
 
 function associate_identity_provider_config(
-    name,
+    clusterName,
     oidc,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/associate",
+        "/clusters/$(clusterName)/identity-provider-configs/associate",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -189,8 +189,8 @@ function associate_identity_provider_config(
 end
 
 """
-    create_access_entry(name, principal_arn)
-    create_access_entry(name, principal_arn, params::Dict{String,<:Any})
+    create_access_entry(cluster_name, principal_arn)
+    create_access_entry(cluster_name, principal_arn, params::Dict{String,<:Any})
 
 Creates an access entry.
 
@@ -208,17 +208,17 @@ in the *Amazon EKS User Guide*.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`. You can specify one
   ARN for each access entry. You can't specify the same ARN in more than one access entry.
   This value can't be changed after access entry creation.
 
   The valid principals differ depending on the type of the access entry in the `type` field.
-  The only valid ARN is IAM roles for the types of access entries for nodes: <code/>
-  <code/>. You can use every IAM principal type for `STANDARD` access entries. You can't use
-  the STS session principal type with access entries because this is a temporary principal
-  for each session and not a permanent identity that can be assigned permissions.
+  The only valid ARN is IAM roles for the types of access entries for nodes: `` ``. You can
+  use every IAM principal type for `STANDARD` access entries. You can't use the STS session
+  principal type with access entries because this is a temporary principal for each session
+  and not a permanent identity that can be assigned permissions.
 
   [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp)
   recommend using IAM roles with temporary credentials, rather than IAM users with long-term
@@ -274,11 +274,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_access_entry end
 
 function create_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries",
+        "/clusters/$(clusterName)/access-entries",
         Dict{String,Any}(
             "principalArn" => principalArn, "clientRequestToken" => string(uuid4())
         );
@@ -288,14 +288,14 @@ function create_access_entry(
 end
 
 function create_access_entry(
-    name,
+    clusterName,
     principalArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries",
+        "/clusters/$(clusterName)/access-entries",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -311,8 +311,8 @@ function create_access_entry(
 end
 
 """
-    create_addon(addon_name, name)
-    create_addon(addon_name, name, params::Dict{String,<:Any})
+    create_addon(addon_name, cluster_name)
+    create_addon(addon_name, cluster_name, params::Dict{String,<:Any})
 
 Creates an Amazon EKS add-on.
 
@@ -324,7 +324,7 @@ in the *Amazon EKS User Guide*.
 
 - `addon_name`: The name of the add-on. The name must match one of the names returned by
   `DescribeAddonVersions`.
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -380,10 +380,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_addon end
 
-function create_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
+function create_addon(
+    addonName, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "POST",
-        "/clusters/$(name)/addons",
+        "/clusters/$(clusterName)/addons",
         Dict{String,Any}("addonName" => addonName, "clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -392,13 +394,13 @@ end
 
 function create_addon(
     addonName,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/addons",
+        "/clusters/$(clusterName)/addons",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -477,14 +479,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accessConfig"`: The access configuration for the cluster.
 
-- `"bootstrapSelfManagedAddons"`: If you set this value to `False` when creating a cluster,
-  the default networking add-ons will not be installed.
-
-  The default networking addons include vpc-cni, coredns, and kube-proxy.
-
-  Use this option when you plan to install third-party alternative add-ons or self-manage
-  the default networking add-ons.
-
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 
@@ -510,9 +504,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that assists with categorization and organization. Each tag consists of
   a key and an optional value. You define both. Tags don't propagate to any other cluster or
   Amazon Web Services resources.
-
-- `"upgradePolicy"`: New clusters, by default, have extended support enabled. You can
-  disable extended support when creating a cluster by setting this value to `STANDARD`.
 
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a value
   here, the default version available in Amazon EKS is used.
@@ -645,8 +636,8 @@ function create_eks_anywhere_subscription(
 end
 
 """
-    create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn)
-    create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn, params::Dict{String,<:Any})
+    create_fargate_profile(cluster_name, fargate_profile_name, pod_execution_role_arn)
+    create_fargate_profile(cluster_name, fargate_profile_name, pod_execution_role_arn, params::Dict{String,<:Any})
 
 Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate
 profile in a cluster to be able to run pods on Fargate.
@@ -678,9 +669,9 @@ in the *Amazon EKS User Guide*.
 
 # Arguments
 
-- `fargate_profile_name`: The name of the Fargate profile.
+- `cluster_name`: The name of your cluster.
 
-- `name`: The name of your cluster.
+- `fargate_profile_name`: The name of the Fargate profile.
 
 - `pod_execution_role_arn`: The Amazon Resource Name (ARN) of the `Pod` execution role to
   use for a `Pod` that matches the selectors in the Fargate profile. The `Pod` execution
@@ -707,14 +698,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_fargate_profile end
 
 function create_fargate_profile(
+    clusterName,
     fargateProfileName,
-    name,
     podExecutionRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/fargate-profiles",
+        "/clusters/$(clusterName)/fargate-profiles",
         Dict{String,Any}(
             "fargateProfileName" => fargateProfileName,
             "podExecutionRoleArn" => podExecutionRoleArn,
@@ -726,15 +717,15 @@ function create_fargate_profile(
 end
 
 function create_fargate_profile(
+    clusterName,
     fargateProfileName,
-    name,
     podExecutionRoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/fargate-profiles",
+        "/clusters/$(clusterName)/fargate-profiles",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -752,8 +743,8 @@ function create_fargate_profile(
 end
 
 """
-    create_nodegroup(name, node_role, nodegroup_name, subnets)
-    create_nodegroup(name, node_role, nodegroup_name, subnets, params::Dict{String,<:Any})
+    create_nodegroup(cluster_name, node_role, nodegroup_name, subnets)
+    create_nodegroup(cluster_name, node_role, nodegroup_name, subnets, params::Dict{String,<:Any})
 
 Creates a managed node group for an Amazon EKS cluster.
 
@@ -773,7 +764,7 @@ in the *Amazon EKS User Guide*.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 - `node_role`: The Amazon Resource Name (ARN) of the IAM role to associate with your node
   group. The Amazon EKS worker node `kubelet` daemon makes calls to Amazon Web Services APIs
@@ -881,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_nodegroup end
 
 function create_nodegroup(
-    name,
+    clusterName,
     nodeRole,
     nodegroupName,
     subnets;
@@ -889,7 +880,7 @@ function create_nodegroup(
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups",
+        "/clusters/$(clusterName)/node-groups",
         Dict{String,Any}(
             "nodeRole" => nodeRole,
             "nodegroupName" => nodegroupName,
@@ -902,7 +893,7 @@ function create_nodegroup(
 end
 
 function create_nodegroup(
-    name,
+    clusterName,
     nodeRole,
     nodegroupName,
     subnets,
@@ -911,7 +902,7 @@ function create_nodegroup(
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups",
+        "/clusters/$(clusterName)/node-groups",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -930,8 +921,8 @@ function create_nodegroup(
 end
 
 """
-    create_pod_identity_association(name, namespace, role_arn, service_account)
-    create_pod_identity_association(name, namespace, role_arn, service_account, params::Dict{String,<:Any})
+    create_pod_identity_association(cluster_name, namespace, role_arn, service_account)
+    create_pod_identity_association(cluster_name, namespace, role_arn, service_account, params::Dict{String,<:Any})
 
 Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster
 and an IAM role with *EKS Pod Identity*. Use EKS Pod Identity to give temporary IAM
@@ -952,7 +943,7 @@ once, and reuse it across clusters.
 
 # Arguments
 
-- `name`: The name of the cluster to create the association in.
+- `cluster_name`: The name of the cluster to create the association in.
 - `namespace`: The name of the Kubernetes namespace inside the cluster to create the
   association in. The service account and the pods that use the service account must be in
   this namespace.
@@ -993,7 +984,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_pod_identity_association end
 
 function create_pod_identity_association(
-    name,
+    clusterName,
     namespace,
     roleArn,
     serviceAccount;
@@ -1001,7 +992,7 @@ function create_pod_identity_association(
 )
     return eks(
         "POST",
-        "/clusters/$(name)/pod-identity-associations",
+        "/clusters/$(clusterName)/pod-identity-associations",
         Dict{String,Any}(
             "namespace" => namespace,
             "roleArn" => roleArn,
@@ -1014,7 +1005,7 @@ function create_pod_identity_association(
 end
 
 function create_pod_identity_association(
-    name,
+    clusterName,
     namespace,
     roleArn,
     serviceAccount,
@@ -1023,7 +1014,7 @@ function create_pod_identity_association(
 )
     return eks(
         "POST",
-        "/clusters/$(name)/pod-identity-associations",
+        "/clusters/$(clusterName)/pod-identity-associations",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1042,8 +1033,8 @@ function create_pod_identity_association(
 end
 
 """
-    delete_access_entry(name, principal_arn)
-    delete_access_entry(name, principal_arn, params::Dict{String,<:Any})
+    delete_access_entry(cluster_name, principal_arn)
+    delete_access_entry(cluster_name, principal_arn, params::Dict{String,<:Any})
 
 Deletes an access entry.
 
@@ -1052,31 +1043,31 @@ improperly. If you delete an access entry in error, you can recreate it.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`.
 """
 function delete_access_entry end
 
 function delete_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/access-entries/$(principalArn)";
+        "/clusters/$(clusterName)/access-entries/$(principalArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_access_entry(
-    name,
+    clusterName,
     principalArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/access-entries/$(principalArn)",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1084,8 +1075,8 @@ function delete_access_entry(
 end
 
 """
-    delete_addon(addon_name, name)
-    delete_addon(addon_name, name, params::Dict{String,<:Any})
+    delete_addon(addon_name, cluster_name)
+    delete_addon(addon_name, cluster_name, params::Dict{String,<:Any})
 
 Deletes an Amazon EKS add-on.
 
@@ -1095,7 +1086,7 @@ add-on on the cluster using the Kubernetes API.
 # Arguments
 
 - `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -1107,10 +1098,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_addon end
 
-function delete_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_addon(
+    addonName, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "DELETE",
-        "/clusters/$(name)/addons/$(addonName)";
+        "/clusters/$(clusterName)/addons/$(addonName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1118,13 +1111,13 @@ end
 
 function delete_addon(
     addonName,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/addons/$(addonName)",
+        "/clusters/$(clusterName)/addons/$(addonName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1203,8 +1196,8 @@ function delete_eks_anywhere_subscription(
 end
 
 """
-    delete_fargate_profile(fargate_profile_name, name)
-    delete_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
+    delete_fargate_profile(cluster_name, fargate_profile_name)
+    delete_fargate_profile(cluster_name, fargate_profile_name, params::Dict{String,<:Any})
 
 Deletes an Fargate profile.
 
@@ -1219,31 +1212,31 @@ that cluster.
 
 # Arguments
 
+- `cluster_name`: The name of your cluster.
 - `fargate_profile_name`: The name of the Fargate profile to delete.
-- `name`: The name of your cluster.
 """
 function delete_fargate_profile end
 
 function delete_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, fargateProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
+        "/clusters/$(clusterName)/fargate-profiles/$(fargateProfileName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_fargate_profile(
+    clusterName,
     fargateProfileName,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
+        "/clusters/$(clusterName)/fargate-profiles/$(fargateProfileName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1251,38 +1244,38 @@ function delete_fargate_profile(
 end
 
 """
-    delete_nodegroup(name, nodegroup_name)
-    delete_nodegroup(name, nodegroup_name, params::Dict{String,<:Any})
+    delete_nodegroup(cluster_name, nodegroup_name)
+    delete_nodegroup(cluster_name, nodegroup_name, params::Dict{String,<:Any})
 
 Deletes a managed node group.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `nodegroup_name`: The name of the node group to delete.
 """
 function delete_nodegroup end
 
 function delete_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/node-groups/$(nodegroupName)";
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_nodegroup(
-    name,
+    clusterName,
     nodegroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/node-groups/$(nodegroupName)",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1290,8 +1283,8 @@ function delete_nodegroup(
 end
 
 """
-    delete_pod_identity_association(association_id, name)
-    delete_pod_identity_association(association_id, name, params::Dict{String,<:Any})
+    delete_pod_identity_association(association_id, cluster_name)
+    delete_pod_identity_association(association_id, cluster_name, params::Dict{String,<:Any})
 
 Deletes a EKS Pod Identity association.
 
@@ -1302,16 +1295,16 @@ credentials, then go to the role in the IAM console.
 # Arguments
 
 - `association_id`: The ID of the association to be deleted.
-- `name`: The cluster name that
+- `cluster_name`: The cluster name that
 """
 function delete_pod_identity_association end
 
 function delete_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
+    associationId, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)";
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1319,13 +1312,13 @@ end
 
 function delete_pod_identity_association(
     associationId,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)",
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1369,38 +1362,38 @@ function deregister_cluster(
 end
 
 """
-    describe_access_entry(name, principal_arn)
-    describe_access_entry(name, principal_arn, params::Dict{String,<:Any})
+    describe_access_entry(cluster_name, principal_arn)
+    describe_access_entry(cluster_name, principal_arn, params::Dict{String,<:Any})
 
 Describes an access entry.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`.
 """
 function describe_access_entry end
 
 function describe_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries/$(principalArn)";
+        "/clusters/$(clusterName)/access-entries/$(principalArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_access_entry(
-    name,
+    clusterName,
     principalArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries/$(principalArn)",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1408,22 +1401,24 @@ function describe_access_entry(
 end
 
 """
-    describe_addon(addon_name, name)
-    describe_addon(addon_name, name, params::Dict{String,<:Any})
+    describe_addon(addon_name, cluster_name)
+    describe_addon(addon_name, cluster_name, params::Dict{String,<:Any})
 
 Describes an Amazon EKS add-on.
 
 # Arguments
 
 - `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 """
 function describe_addon end
 
-function describe_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_addon(
+    addonName, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "GET",
-        "/clusters/$(name)/addons/$(addonName)";
+        "/clusters/$(clusterName)/addons/$(addonName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1431,13 +1426,13 @@ end
 
 function describe_addon(
     addonName,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/addons/$(addonName)",
+        "/clusters/$(clusterName)/addons/$(addonName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1621,38 +1616,38 @@ function describe_eks_anywhere_subscription(
 end
 
 """
-    describe_fargate_profile(fargate_profile_name, name)
-    describe_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
+    describe_fargate_profile(cluster_name, fargate_profile_name)
+    describe_fargate_profile(cluster_name, fargate_profile_name, params::Dict{String,<:Any})
 
 Describes an Fargate profile.
 
 # Arguments
 
+- `cluster_name`: The name of your cluster.
 - `fargate_profile_name`: The name of the Fargate profile to describe.
-- `name`: The name of your cluster.
 """
 function describe_fargate_profile end
 
 function describe_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, fargateProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
+        "/clusters/$(clusterName)/fargate-profiles/$(fargateProfileName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_fargate_profile(
+    clusterName,
     fargateProfileName,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
+        "/clusters/$(clusterName)/fargate-profiles/$(fargateProfileName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1660,24 +1655,24 @@ function describe_fargate_profile(
 end
 
 """
-    describe_identity_provider_config(identity_provider_config, name)
-    describe_identity_provider_config(identity_provider_config, name, params::Dict{String,<:Any})
+    describe_identity_provider_config(cluster_name, identity_provider_config)
+    describe_identity_provider_config(cluster_name, identity_provider_config, params::Dict{String,<:Any})
 
 Describes an identity provider configuration.
 
 # Arguments
 
+- `cluster_name`: The name of your cluster.
 - `identity_provider_config`: An object representing an identity provider configuration.
-- `name`: The name of your cluster.
 """
 function describe_identity_provider_config end
 
 function describe_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, identityProviderConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/describe",
+        "/clusters/$(clusterName)/identity-provider-configs/describe",
         Dict{String,Any}("identityProviderConfig" => identityProviderConfig);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1685,14 +1680,14 @@ function describe_identity_provider_config(
 end
 
 function describe_identity_provider_config(
+    clusterName,
     identityProviderConfig,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/describe",
+        "/clusters/$(clusterName)/identity-provider-configs/describe",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1706,36 +1701,38 @@ function describe_identity_provider_config(
 end
 
 """
-    describe_insight(id, name)
-    describe_insight(id, name, params::Dict{String,<:Any})
+    describe_insight(cluster_name, id)
+    describe_insight(cluster_name, id, params::Dict{String,<:Any})
 
 Returns details about an insight that you specify using its ID.
 
 # Arguments
 
+- `cluster_name`: The name of the cluster to describe the insight for.
 - `id`: The identity of the insight to describe.
-- `name`: The name of the cluster to describe the insight for.
 """
 function describe_insight end
 
-function describe_insight(id, name; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_insight(
+    clusterName, id; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "GET",
-        "/clusters/$(name)/insights/$(id)";
+        "/clusters/$(clusterName)/insights/$(id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_insight(
+    clusterName,
     id,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/insights/$(id)",
+        "/clusters/$(clusterName)/insights/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1743,38 +1740,38 @@ function describe_insight(
 end
 
 """
-    describe_nodegroup(name, nodegroup_name)
-    describe_nodegroup(name, nodegroup_name, params::Dict{String,<:Any})
+    describe_nodegroup(cluster_name, nodegroup_name)
+    describe_nodegroup(cluster_name, nodegroup_name, params::Dict{String,<:Any})
 
 Describes a managed node group.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `nodegroup_name`: The name of the node group to describe.
 """
 function describe_nodegroup end
 
 function describe_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/node-groups/$(nodegroupName)";
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_nodegroup(
-    name,
+    clusterName,
     nodegroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/node-groups/$(nodegroupName)",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1782,8 +1779,8 @@ function describe_nodegroup(
 end
 
 """
-    describe_pod_identity_association(association_id, name)
-    describe_pod_identity_association(association_id, name, params::Dict{String,<:Any})
+    describe_pod_identity_association(association_id, cluster_name)
+    describe_pod_identity_association(association_id, cluster_name, params::Dict{String,<:Any})
 
 Returns descriptive information about an EKS Pod Identity association.
 
@@ -1795,16 +1792,16 @@ account.
 # Arguments
 
 - `association_id`: The ID of the association that you want the description of.
-- `name`: The name of the cluster that the association is in.
+- `cluster_name`: The name of the cluster that the association is in.
 """
 function describe_pod_identity_association end
 
 function describe_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
+    associationId, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)";
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1812,13 +1809,13 @@ end
 
 function describe_pod_identity_association(
     associationId,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)",
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1875,14 +1872,14 @@ function describe_update(
 end
 
 """
-    disassociate_access_policy(name, policy_arn, principal_arn)
-    disassociate_access_policy(name, policy_arn, principal_arn, params::Dict{String,<:Any})
+    disassociate_access_policy(cluster_name, policy_arn, principal_arn)
+    disassociate_access_policy(cluster_name, policy_arn, principal_arn, params::Dict{String,<:Any})
 
 Disassociates an access policy from an access entry.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `policy_arn`: The ARN of the policy to disassociate from the access entry. For a list of
   associated policies ARNs, use `ListAssociatedAccessPolicies`.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`.
@@ -1890,18 +1887,18 @@ Disassociates an access policy from an access entry.
 function disassociate_access_policy end
 
 function disassociate_access_policy(
-    name, policyArn, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, policyArn, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies/$(policyArn)";
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies/$(policyArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function disassociate_access_policy(
-    name,
+    clusterName,
     policyArn,
     principalArn,
     params::AbstractDict{String};
@@ -1909,7 +1906,7 @@ function disassociate_access_policy(
 )
     return eks(
         "DELETE",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies/$(policyArn)",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies/$(policyArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1917,8 +1914,8 @@ function disassociate_access_policy(
 end
 
 """
-    disassociate_identity_provider_config(identity_provider_config, name)
-    disassociate_identity_provider_config(identity_provider_config, name, params::Dict{String,<:Any})
+    disassociate_identity_provider_config(cluster_name, identity_provider_config)
+    disassociate_identity_provider_config(cluster_name, identity_provider_config, params::Dict{String,<:Any})
 
 Disassociates an identity provider configuration from a cluster.
 
@@ -1928,8 +1925,8 @@ principals.
 
 # Arguments
 
+- `cluster_name`: The name of your cluster.
 - `identity_provider_config`: An object representing an identity provider configuration.
-- `name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -1941,11 +1938,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function disassociate_identity_provider_config end
 
 function disassociate_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, identityProviderConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/disassociate",
+        "/clusters/$(clusterName)/identity-provider-configs/disassociate",
         Dict{String,Any}(
             "identityProviderConfig" => identityProviderConfig,
             "clientRequestToken" => string(uuid4()),
@@ -1956,14 +1953,14 @@ function disassociate_identity_provider_config(
 end
 
 function disassociate_identity_provider_config(
+    clusterName,
     identityProviderConfig,
-    name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/identity-provider-configs/disassociate",
+        "/clusters/$(clusterName)/identity-provider-configs/disassociate",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1980,14 +1977,14 @@ function disassociate_identity_provider_config(
 end
 
 """
-    list_access_entries(name)
-    list_access_entries(name, params::Dict{String,<:Any})
+    list_access_entries(cluster_name)
+    list_access_entries(cluster_name, params::Dict{String,<:Any})
 
 Lists the access entries for your cluster.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2014,21 +2011,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_access_entries end
 
-function list_access_entries(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_access_entries(
+    clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries";
+        "/clusters/$(clusterName)/access-entries";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_access_entries(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries",
+        "/clusters/$(clusterName)/access-entries",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2075,14 +2076,14 @@ function list_access_policies(
 end
 
 """
-    list_addons(name)
-    list_addons(name, params::Dict{String,<:Any})
+    list_addons(cluster_name)
+    list_addons(cluster_name, params::Dict{String,<:Any})
 
 Lists the installed add-ons.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2105,18 +2106,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_addons end
 
-function list_addons(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_addons(clusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
-        "GET", "/clusters/$(name)/addons"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/clusters/$(clusterName)/addons";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_addons(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/addons",
+        "/clusters/$(clusterName)/addons",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2124,14 +2130,14 @@ function list_addons(
 end
 
 """
-    list_associated_access_policies(name, principal_arn)
-    list_associated_access_policies(name, principal_arn, params::Dict{String,<:Any})
+    list_associated_access_policies(cluster_name, principal_arn)
+    list_associated_access_policies(cluster_name, principal_arn, params::Dict{String,<:Any})
 
 Lists the access policies associated with an access entry.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`.
 
 # Optional Parameters
@@ -2156,25 +2162,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_associated_access_policies end
 
 function list_associated_access_policies(
-    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies";
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_associated_access_policies(
-    name,
+    clusterName,
     principalArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/access-entries/$(principalArn)/access-policies",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)/access-policies",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2272,15 +2278,15 @@ function list_eks_anywhere_subscriptions(
 end
 
 """
-    list_fargate_profiles(name)
-    list_fargate_profiles(name, params::Dict{String,<:Any})
+    list_fargate_profiles(cluster_name)
+    list_fargate_profiles(cluster_name, params::Dict{String,<:Any})
 
 Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
 account in the specified Amazon Web Services Region.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2303,21 +2309,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_fargate_profiles end
 
-function list_fargate_profiles(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_fargate_profiles(
+    clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "GET",
-        "/clusters/$(name)/fargate-profiles";
+        "/clusters/$(clusterName)/fargate-profiles";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_fargate_profiles(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/fargate-profiles",
+        "/clusters/$(clusterName)/fargate-profiles",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2325,14 +2335,14 @@ function list_fargate_profiles(
 end
 
 """
-    list_identity_provider_configs(name)
-    list_identity_provider_configs(name, params::Dict{String,<:Any})
+    list_identity_provider_configs(cluster_name)
+    list_identity_provider_configs(cluster_name, params::Dict{String,<:Any})
 
 Lists the identity provider configurations for your cluster.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2356,22 +2366,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_identity_provider_configs end
 
 function list_identity_provider_configs(
-    name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/identity-provider-configs";
+        "/clusters/$(clusterName)/identity-provider-configs";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_identity_provider_configs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/identity-provider-configs",
+        "/clusters/$(clusterName)/identity-provider-configs",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2379,15 +2391,15 @@ function list_identity_provider_configs(
 end
 
 """
-    list_insights(name)
-    list_insights(name, params::Dict{String,<:Any})
+    list_insights(cluster_name)
+    list_insights(cluster_name, params::Dict{String,<:Any})
 
 Returns a list of all insights checked for against the specified cluster. You can filter
 which insights are returned by category, associated Kubernetes version, and status.
 
 # Arguments
 
-- `name`: The name of the Amazon EKS cluster associated with the insights.
+- `cluster_name`: The name of the Amazon EKS cluster associated with the insights.
 
 # Optional Parameters
 
@@ -2411,18 +2423,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_insights end
 
-function list_insights(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_insights(clusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
-        "POST", "/clusters/$(name)/insights"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/clusters/$(clusterName)/insights";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_insights(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/insights",
+        "/clusters/$(clusterName)/insights",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2430,8 +2447,8 @@ function list_insights(
 end
 
 """
-    list_nodegroups(name)
-    list_nodegroups(name, params::Dict{String,<:Any})
+    list_nodegroups(cluster_name)
+    list_nodegroups(cluster_name, params::Dict{String,<:Any})
 
 Lists the managed node groups associated with the specified cluster in your Amazon Web
 Services account in the specified Amazon Web Services Region. Self-managed node groups
@@ -2439,7 +2456,7 @@ aren't listed.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2462,18 +2479,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_nodegroups end
 
-function list_nodegroups(name; aws_config::AbstractAWSConfig=current_aws_config())
+function list_nodegroups(clusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
-        "GET", "/clusters/$(name)/node-groups"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET",
+        "/clusters/$(clusterName)/node-groups";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_nodegroups(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/node-groups",
+        "/clusters/$(clusterName)/node-groups",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2481,15 +2503,15 @@ function list_nodegroups(
 end
 
 """
-    list_pod_identity_associations(name)
-    list_pod_identity_associations(name, params::Dict{String,<:Any})
+    list_pod_identity_associations(cluster_name)
+    list_pod_identity_associations(cluster_name, params::Dict{String,<:Any})
 
 List the EKS Pod Identity associations in a cluster. You can filter the list by the
 namespace that the association is in or the service account that the association uses.
 
 # Arguments
 
-- `name`: The name of the cluster that the associations are in.
+- `cluster_name`: The name of the cluster that the associations are in.
 
 # Optional Parameters
 
@@ -2521,22 +2543,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_pod_identity_associations end
 
 function list_pod_identity_associations(
-    name; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
-        "/clusters/$(name)/pod-identity-associations";
+        "/clusters/$(clusterName)/pod-identity-associations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_pod_identity_associations(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
-        "/clusters/$(name)/pod-identity-associations",
+        "/clusters/$(clusterName)/pod-identity-associations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2792,14 +2816,14 @@ function untag_resource(
 end
 
 """
-    update_access_entry(name, principal_arn)
-    update_access_entry(name, principal_arn, params::Dict{String,<:Any})
+    update_access_entry(cluster_name, principal_arn)
+    update_access_entry(cluster_name, principal_arn, params::Dict{String,<:Any})
 
 Updates an access entry.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `principal_arn`: The ARN of the IAM principal for the `AccessEntry`.
 
 # Optional Parameters
@@ -2834,11 +2858,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_access_entry end
 
 function update_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries/$(principalArn)",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2846,14 +2870,14 @@ function update_access_entry(
 end
 
 function update_access_entry(
-    name,
+    clusterName,
     principalArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/access-entries/$(principalArn)",
+        "/clusters/$(clusterName)/access-entries/$(principalArn)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
@@ -2865,15 +2889,15 @@ function update_access_entry(
 end
 
 """
-    update_addon(addon_name, name)
-    update_addon(addon_name, name, params::Dict{String,<:Any})
+    update_addon(addon_name, cluster_name)
+    update_addon(addon_name, cluster_name, params::Dict{String,<:Any})
 
 Updates an Amazon EKS add-on.
 
 # Arguments
 
 - `addon_name`: The name of the add-on. The name must match one of the names returned by [`ListAddons`](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html).
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 
 # Optional Parameters
 
@@ -2921,10 +2945,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_addon end
 
-function update_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
+function update_addon(
+    addonName, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return eks(
         "POST",
-        "/clusters/$(name)/addons/$(addonName)/update",
+        "/clusters/$(clusterName)/addons/$(addonName)/update",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2933,13 +2959,13 @@ end
 
 function update_addon(
     addonName,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/addons/$(addonName)/update",
+        "/clusters/$(clusterName)/addons/$(addonName)/update",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
@@ -2956,7 +2982,7 @@ end
 
 Updates an Amazon EKS cluster configuration. Your cluster continues to function during the
 update. The response output includes an update ID that you can use to track the status of
-your cluster update with `DescribeUpdate`"/&gt;.
+your cluster update with `DescribeUpdate`"/>.
 
 You can use this API operation to enable or disable exporting the Kubernetes control plane
 logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't
@@ -3007,10 +3033,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
 
 - `"resourcesVpcConfig"`:
-
-- `"upgradePolicy"`: You can enable or disable extended support for clusters currently on
-  standard support. You cannot disable extended support once it starts. You must enable
-  extended support before your cluster exits standard support.
 """
 function update_cluster_config end
 
@@ -3163,8 +3185,8 @@ function update_eks_anywhere_subscription(
 end
 
 """
-    update_nodegroup_config(name, nodegroup_name)
-    update_nodegroup_config(name, nodegroup_name, params::Dict{String,<:Any})
+    update_nodegroup_config(cluster_name, nodegroup_name)
+    update_nodegroup_config(cluster_name, nodegroup_name, params::Dict{String,<:Any})
 
 Updates an Amazon EKS managed node group configuration. Your node group continues to
 function during the update. The response output includes an update ID that you can use to
@@ -3174,7 +3196,7 @@ configuration.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `nodegroup_name`: The name of the managed node group to update.
 
 # Optional Parameters
@@ -3194,11 +3216,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_nodegroup_config end
 
 function update_nodegroup_config(
-    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-config",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)/update-config",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3206,14 +3228,14 @@ function update_nodegroup_config(
 end
 
 function update_nodegroup_config(
-    name,
+    clusterName,
     nodegroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-config",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)/update-config",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
@@ -3225,8 +3247,8 @@ function update_nodegroup_config(
 end
 
 """
-    update_nodegroup_version(name, nodegroup_name)
-    update_nodegroup_version(name, nodegroup_name, params::Dict{String,<:Any})
+    update_nodegroup_version(cluster_name, nodegroup_name)
+    update_nodegroup_version(cluster_name, nodegroup_name, params::Dict{String,<:Any})
 
 Updates the Kubernetes version or AMI version of an Amazon EKS managed node group.
 
@@ -3253,7 +3275,7 @@ drain the nodes as a result of a `Pod` disruption budget issue.
 
 # Arguments
 
-- `name`: The name of your cluster.
+- `cluster_name`: The name of your cluster.
 - `nodegroup_name`: The name of the managed node group to update.
 
 # Optional Parameters
@@ -3295,11 +3317,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_nodegroup_version end
 
 function update_nodegroup_version(
-    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
+    clusterName, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-version",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)/update-version",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3307,14 +3329,14 @@ function update_nodegroup_version(
 end
 
 function update_nodegroup_version(
-    name,
+    clusterName,
     nodegroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-version",
+        "/clusters/$(clusterName)/node-groups/$(nodegroupName)/update-version",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
@@ -3326,8 +3348,8 @@ function update_nodegroup_version(
 end
 
 """
-    update_pod_identity_association(association_id, name)
-    update_pod_identity_association(association_id, name, params::Dict{String,<:Any})
+    update_pod_identity_association(association_id, cluster_name)
+    update_pod_identity_association(association_id, cluster_name, params::Dict{String,<:Any})
 
 Updates a EKS Pod Identity association. Only the IAM role can be changed; an association
 can't be moved between clusters, namespaces, or service accounts. If you need to edit the
@@ -3337,7 +3359,7 @@ association with your desired settings.
 # Arguments
 
 - `association_id`: The ID of the association to be updated.
-- `name`: The name of the cluster that you want to update the association in.
+- `cluster_name`: The name of the cluster that you want to update the association in.
 
 # Optional Parameters
 
@@ -3350,11 +3372,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_pod_identity_association end
 
 function update_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
+    associationId, clusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)",
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)",
         Dict{String,Any}("clientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3363,13 +3385,13 @@ end
 
 function update_pod_identity_association(
     associationId,
-    name,
+    clusterName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
-        "/clusters/$(name)/pod-identity-associations/$(associationId)",
+        "/clusters/$(clusterName)/pod-identity-associations/$(associationId)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params

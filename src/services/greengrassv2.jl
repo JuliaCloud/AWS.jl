@@ -24,26 +24,26 @@ in the *IoT Greengrass Version 2 Developer Guide*.
 function associate_service_role_to_account end
 
 function associate_service_role_to_account(
-    RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+    roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrassv2(
         "PUT",
         "/greengrass/servicerole",
-        Dict{String,Any}("RoleArn" => RoleArn);
+        Dict{String,Any}("roleArn" => roleArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function associate_service_role_to_account(
-    RoleArn,
+    roleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrassv2(
         "PUT",
         "/greengrass/servicerole",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("roleArn" => roleArn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1216,8 +1216,8 @@ to identify the components to install.
 
 This operation identifies components that meet all dependency requirements for a deployment.
 If the requirements conflict, then this operation returns an error and the deployment fails.
-For example, this occurs if component `A` requires version `&gt;2.0.0` and component `B`
-requires version `&lt;2.0.0` of a component dependency.
+For example, this occurs if component `A` requires version `>2.0.0` and component `B`
+requires version `<2.0.0` of a component dependency.
 
 When you specify the component candidates to resolve, IoT Greengrass compares each
 component's digest from the core device with the component's digest in the Amazon Web
@@ -1361,19 +1361,19 @@ in the *IoT Greengrass Version 2 Developer Guide*.
 function update_connectivity_info end
 
 function update_connectivity_info(
-    ConnectivityInfo, thingName; aws_config::AbstractAWSConfig=current_aws_config()
+    connectivityInfo, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrassv2(
         "PUT",
         "/greengrass/things/$(thingName)/connectivityInfo",
-        Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo);
+        Dict{String,Any}("connectivityInfo" => connectivityInfo);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_connectivity_info(
-    ConnectivityInfo,
+    connectivityInfo,
     thingName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1383,7 +1383,7 @@ function update_connectivity_info(
         "/greengrass/things/$(thingName)/connectivityInfo",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("ConnectivityInfo" => ConnectivityInfo), params
+                _merge, Dict{String,Any}("connectivityInfo" => connectivityInfo), params
             ),
         );
         aws_config,

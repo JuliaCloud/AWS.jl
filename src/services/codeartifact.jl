@@ -29,8 +29,6 @@ repository.
   - `public:maven-gradleplugins` - for the Gradle plugins repository.
   - `public:maven-commonsware` - for the CommonsWare Android repository.
   - `public:maven-clojars` - for the Clojars repository.
-  - `public:ruby-gems-org` - for RubyGems.org.
-  - `public:crates-io` - for Crates.io.
 
 - `repository`: The name of the repository to which the external connection is added.
 
@@ -136,8 +134,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"versionRevisions"`: A list of key-value pairs. The keys are package versions and the
   values are package version revisions. A `CopyPackageVersion` operation succeeds if the
@@ -510,8 +508,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function delete_package end
 
@@ -657,8 +655,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function delete_package_versions end
 
@@ -909,8 +907,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function describe_package end
 
@@ -1049,8 +1047,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function describe_package_version end
 
@@ -1275,8 +1273,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"versionRevisions"`: The revisions of the package versions you want to dispose.
 """
@@ -1377,8 +1375,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function get_associated_package_group end
 
@@ -1569,8 +1567,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"revision"`: The name of the package version revision that contains the requested asset.
 """
@@ -1673,8 +1671,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function get_package_version_readme end
 
@@ -1738,7 +1736,6 @@ end
 Returns the endpoint of a repository for a specific package format. A repository has one
 endpoint for each package format:
 
-- `cargo`
 - `generic`
 - `maven`
 - `npm`
@@ -2108,8 +2105,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2203,11 +2200,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       following formats:
 
       - Maven
+      - Swift
+      - generic
 
   - The namespace of a Maven package version is its `groupId`.
-  - The namespace of an npm package version is its `scope`.
-  - Python and NuGet package versions do not contain a corresponding component, package
-    versions of those formats do not have a namespace.
+  - The namespace of an npm or Swift package version is its `scope`.
+  - The namespace of a generic package is its `namespace`.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2306,8 +2306,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2401,8 +2401,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -2660,7 +2660,7 @@ Once a package version’s status is set to `Published`, it cannot change back t
 # Arguments
 
 - `asset`: The name of the asset to publish. Asset names can include Unicode letters and
-  numbers, and the following special characters: `~ ! @ ^ &amp; ( ) - ` _ + [ ] { } ; , . ``
+  numbers, and the following special characters: `~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . ``
 
 - `asset_content`: The content of the asset to publish.
 
@@ -2880,8 +2880,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 """
 function put_package_origin_configuration end
 
@@ -3263,8 +3263,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - The namespace of a Maven package version is its `groupId`.
   - The namespace of an npm or Swift package version is its `scope`.
   - The namespace of a generic package is its `namespace`.
-  - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
-    component, package versions of those formats do not have a namespace.
+  - Python, NuGet, and Ruby package versions do not contain a corresponding component,
+    package versions of those formats do not have a namespace.
 
 - `"versionRevisions"`: A map of package versions and package version revisions. The map
   `key` is the package version (for example, `3.5.2`), and the map `value` is the package

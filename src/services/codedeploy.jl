@@ -281,7 +281,7 @@ method:
     Lambda functions, and their target type is `instanceTarget`.
   - For deployments that use the Amazon ECS compute platform, the target IDs are pairs of
     Amazon ECS clusters and services specified using the format
-    `&lt;clustername&gt;:&lt;servicename&gt;`. Their target type is `ecsTarget`.
+    `<clustername>:<servicename>`. Their target type is `ecsTarget`.
   - For deployments that are deployed with CloudFormation, the target IDs are CloudFormation
     stack IDs. Their target type is `cloudFormationTarget`.
 """
@@ -729,7 +729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ecsServices"`: The target Amazon ECS services in the deployment group. This applies only
   to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS service
   is specified as an Amazon ECS cluster and service name pair using the format
-  `&lt;clustername&gt;:&lt;servicename&gt;`.
+  `<clustername>:<servicename>`.
 
 - `"loadBalancerInfo"`: Information about the load balancer used in a deployment.
 
@@ -2325,7 +2325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ecsServices"`: The target Amazon ECS services in the deployment group. This applies only
   to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS service
   is specified as an Amazon ECS cluster and service name pair using the format
-  `&lt;clustername&gt;:&lt;servicename&gt;`.
+  `<clustername>:<servicename>`.
 
 - `"loadBalancerInfo"`: Information about the load balancer used in a deployment.
 

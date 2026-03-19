@@ -219,91 +219,6 @@ function create_content(
 end
 
 """
-    create_content_association(association, association_type, content_id, knowledge_base_id)
-    create_content_association(association, association_type, content_id, knowledge_base_id, params::Dict{String,<:Any})
-
-Creates an association between a content resource in a knowledge base and [step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
-Step-by-step guides offer instructions to agents for resolving common customer issues. You
-create a content association to integrate Amazon Q in Connect and step-by-step guides.
-
-After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a
-recommendation to an agent based on the intent that it's detected, it also provides them
-with the option to start the step-by-step guide that you have associated with the content.
-
-Note the following limitations:
-
-- You can create only one content association for each content resource in a knowledge base.
-- You can associate a step-by-step guide with multiple content resources.
-
-For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
-in the *Amazon Connect Administrator Guide*.
-
-# Arguments
-
-- `association`: The identifier of the associated resource.
-- `association_type`: The type of association.
-- `content_id`: The identifier of the content.
-- `knowledge_base_id`: The identifier of the knowledge base.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-- `"tags"`: The tags used to organize, track, or control access for this resource.
-"""
-function create_content_association end
-
-function create_content_association(
-    association,
-    associationType,
-    contentId,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
-        Dict{String,Any}(
-            "association" => association,
-            "associationType" => associationType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_content_association(
-    association,
-    associationType,
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "association" => association,
-                    "associationType" => associationType,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     create_knowledge_base(knowledge_base_type, name)
     create_knowledge_base(knowledge_base_type, name, params::Dict{String,<:Any})
 
@@ -662,54 +577,6 @@ function delete_content(
 end
 
 """
-    delete_content_association(content_association_id, content_id, knowledge_base_id)
-    delete_content_association(content_association_id, content_id, knowledge_base_id, params::Dict{String,<:Any})
-
-Deletes the content association.
-
-For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
-in the *Amazon Connect Administrator Guide*.
-
-# Arguments
-
-- `content_association_id`: The identifier of the content association. Can be either the ID
-  or the ARN. URLs cannot contain the ARN.
-- `content_id`: The identifier of the content.
-- `knowledge_base_id`: The identifier of the knowledge base.
-"""
-function delete_content_association end
-
-function delete_content_association(
-    contentAssociationId,
-    contentId,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_content_association(
-    contentAssociationId,
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     delete_import_job(import_job_id, knowledge_base_id)
     delete_import_job(import_job_id, knowledge_base_id, params::Dict{String,<:Any})
 
@@ -944,54 +811,6 @@ function get_content(
     return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_content_association(content_association_id, content_id, knowledge_base_id)
-    get_content_association(content_association_id, content_id, knowledge_base_id, params::Dict{String,<:Any})
-
-Returns the content association.
-
-For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
-in the *Amazon Connect Administrator Guide*.
-
-# Arguments
-
-- `content_association_id`: The identifier of the content association. Can be either the ID
-  or the ARN. URLs cannot contain the ARN.
-- `content_id`: The identifier of the content.
-- `knowledge_base_id`: The identifier of the knowledge base.
-"""
-function get_content_association end
-
-function get_content_association(
-    contentAssociationId,
-    contentId,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_content_association(
-    contentAssociationId,
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1329,56 +1148,6 @@ function list_assistants(
 )
     return qconnect(
         "GET", "/assistants", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
-    list_content_associations(content_id, knowledge_base_id)
-    list_content_associations(content_id, knowledge_base_id, params::Dict{String,<:Any})
-
-Lists the content associations.
-
-For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html)
-in the *Amazon Connect Administrator Guide*.
-
-# Arguments
-
-- `content_id`: The identifier of the content.
-- `knowledge_base_id`: The identifier of the knowledge base.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
-  previous response in the next request to retrieve the next set of results.
-"""
-function list_content_associations end
-
-function list_content_associations(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return qconnect(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function list_content_associations(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return qconnect(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

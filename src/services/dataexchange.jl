@@ -830,10 +830,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Body"`: The request body.
 - `"QueryStringParameters"`: Attach query string parameters to the end of the URI (for
   example, /v1/examplePath?exampleParam=exampleValue).
-- `"x-amzn-dataexchange-header-"`: Any header value prefixed with x-amzn-dataexchange-
-  header- will have that stripped before sending the Asset API request. Use this when you
-  want to override a header that AWS Data Exchange uses. Alternatively, you can use the
-  header without a prefix to the HTTP request.
+- `"RequestHeaders"`: Any header value prefixed with x-amzn-dataexchange-header- will have
+  that stripped before sending the Asset API request. Use this when you want to override a
+  header that AWS Data Exchange uses. Alternatively, you can use the header without a prefix
+  to the HTTP request.
 - `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request. Alternatively,
   you can use the appropriate verb in your request.
 - `"x-amzn-dataexchange-path"`: URI path value for the API request. Alternatively, you can
@@ -990,11 +990,11 @@ This operation tags a resource.
 """
 function tag_resource end
 
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return dataexchange(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}("tags" => tags);
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1002,14 +1002,14 @@ end
 
 function tag_resource(
     ResourceArn,
-    tags,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dataexchange(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

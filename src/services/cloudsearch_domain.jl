@@ -135,15 +135,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `max_phrases`: specifies the maximum number of occurrences of the search term(s) you
     want to highlight. By default, the first occurrence is highlighted.
   - `pre_tag`: specifies the string to prepend to an occurrence of a search term. The
-    default for HTML highlights is `&amp;lt;em&amp;gt;`. The default for text highlights is
-    `*`.
+    default for HTML highlights is `&lt;em&gt;`. The default for text highlights is `*`.
   - `post_tag`: specifies the string to append to an occurrence of a search term. The
-    default for HTML highlights is `&amp;lt;/em&amp;gt;`. The default for text highlights is
-    `*`.
+    default for HTML highlights is `&lt;/em&gt;`. The default for text highlights is `*`.
 
   If no highlight options are specified for a field, the returned field text is treated as
   HTML and the first match is highlighted with emphasis tags:
-  `&amp;lt;em&gt;search-term&amp;lt;/em&amp;gt;`.
+  `&lt;em>search-term&lt;/em&gt;`.
 
   For example, the following request retrieves highlights for the `actors` and `title`
   fields.

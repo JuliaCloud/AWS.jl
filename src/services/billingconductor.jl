@@ -454,10 +454,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UsageType"`: Usage type is the unit that each service uses to measure the usage of a
   specific type of resource.
 
-   <p>If the `Scope` attribute is set to `SKU`, this attribute indicates which usage type
-   the `PricingRule` is modifying. For example, `USW2-BoxUsage:m2.2xlarge` describes
-   an`M2 High Memory Double Extra Large` instance in the US West (Oregon) Region.
-   <pre>`&lt;/p&gt;`</pre>
+  If the `Scope` attribute is set to `SKU`, this attribute indicates which usage type the
+  `PricingRule` is modifying. For example, `USW2-BoxUsage:m2.2xlarge` describes
+  an`M2 High Memory Double Extra Large` instance in the US West (Oregon) Region.
 
 - `"X-Amzn-Client-Token"`: The token that's needed to support idempotency. Idempotency isn't
   currently supported, but will be implemented in a future update.

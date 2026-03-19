@@ -148,8 +148,8 @@ Ranking resource used for provisioning the `Rescore` API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of rescore execution plans to return.
-- `"NextToken"`: If the response is truncated, Amazon Kendra Intelligent Ranking returns a
+- `"maxResults"`: The maximum number of rescore execution plans to return.
+- `"nextToken"`: If the response is truncated, Amazon Kendra Intelligent Ranking returns a
   pagination token in the response. You can use this pagination token to retrieve the next
   set of rescore execution plans.
 """

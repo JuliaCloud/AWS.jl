@@ -15,7 +15,7 @@ Both the StreamName and the StreamARN parameters are optional, but you must spec
 the StreamName or the StreamARN when invoking this API operation.
 
 As a prerequisite to using GetCLip API, you must obtain an endpoint using `GetDataEndpoint`,
-specifying GET_CLIP for<code/> the `APIName` parameter.
+specifying GET_CLIP for`` the `APIName` parameter.
 
 An Amazon Kinesis video stream has the following requirements for providing data through
 MP4:
@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timestamps.
 
   This parameter is required if `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`. This
-  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`, the
+  parameter is optional if PlaybackMode is`` `LIVE`. If `PlaybackMode` is `LIVE`, the
   `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
   `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`, both `FragmentSelectorType` and
   `TimestampRange` must be set.
@@ -530,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timestamps.
 
   This parameter is required if `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`. This
-  parameter is optional if PlaybackMode is<code/> `LIVE`. If `PlaybackMode` is `LIVE`, the
+  parameter is optional if PlaybackMode is`` `LIVE`. If `PlaybackMode` is `LIVE`, the
   `FragmentSelectorType` can be set, but the `TimestampRange` should not be set. If
   `PlaybackMode` is `ON_DEMAND` or `LIVE_REPLAY`, both `FragmentSelectorType` and
   `TimestampRange` must be set.

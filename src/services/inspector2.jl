@@ -210,8 +210,8 @@ Amazon Inspector to use this API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"accountIds"`: <p>The unique identifiers for the Amazon Web Services accounts to retrieve
-  Amazon Inspector deep inspection activation status for. <pre>`&lt;/p&gt;`</pre>
+- `"accountIds"`: The unique identifiers for the Amazon Web Services accounts to retrieve
+  Amazon Inspector deep inspection activation status for.
 """
 function batch_get_member_ec2_deep_inspection_status end
 
