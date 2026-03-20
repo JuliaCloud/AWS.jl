@@ -93,9 +93,6 @@ function _wraplines(str; limit=92, base_indent=0)
             rethrow()
         end
 
-        # println("===")
-        # @show line str
-
         # Avoid indenting an empty `str` as this will cause an infinite loop
         if !isempty(str)
 
@@ -110,14 +107,10 @@ function _wraplines(str; limit=92, base_indent=0)
                 indent = base_indent
             end
 
-            # @show line_indent
-
             if indent > 0
                 str = " "^indent * str
             end
         end
-
-        # @show line str
 
         if lstrip(line, ' ') == "\n"
             push!(lines, "")
@@ -126,8 +119,6 @@ function _wraplines(str; limit=92, base_indent=0)
             line = rstrip(line)
             !isempty(line) && push!(lines, line)
         end
-
-        # @show lines
 
         first_line = false
     end
