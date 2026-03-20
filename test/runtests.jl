@@ -17,6 +17,7 @@ using AWS.APIGeneration:
     _splitline,
     _wraplines,
     _validindex
+using AWS.Cryptography: md5, sha256
 using Base64
 using Compat: mergewith, pkgversion
 using Dates
@@ -26,7 +27,6 @@ using HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking
 using Pkg
 using Random
