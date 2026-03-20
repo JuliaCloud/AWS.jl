@@ -198,9 +198,9 @@ end
             @test authorization_header[2] ==
                 "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
             @test authorization_header[3] ==
-                "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+                "SignedHeaders=content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
             @test authorization_header[4] ==
-                "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+                "Signature=917ab537b7045dcb0bc98ecd505e443f0e708eb81e290b35978ec347f71cc788"
         end
 
         @testset "duplicate query params" begin
