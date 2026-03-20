@@ -178,8 +178,8 @@ end
 
     @testset "sign v4" begin
         @testset "basic" begin
-            expected_x_amz_content_sha256 = bytes2hex(digest(MD_SHA256, request.content))
-            expected_content_md5 = base64encode(digest(MD_MD5, request.content))
+            expected_x_amz_content_sha256 = bytes2hex(sha256(request.content))
+            expected_content_md5 = base64encode(md5(request.content))
             expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
             result = AWS.sign_aws4!(aws, request, time)

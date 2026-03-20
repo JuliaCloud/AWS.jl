@@ -7,11 +7,11 @@ using Downloads: Downloads, Downloader, Curl
 using HTTP: HTTP
 using IniFile: IniFile, Inifile, sections
 using JSON: JSON
-using MbedTLS: MbedTLS, MD_MD5, MD_SHA256
+using MD5: md5
 using Mocking: Mocking, @mock
 using OrderedCollections: LittleDict, OrderedDict
 using Random: Random, AbstractRNG
-using SHA: sha1
+using SHA: sha1, sha256, hmac_sha256
 using ScopedValues: ScopedValues, ScopedValue, @with
 using URIs: URIs
 using XMLDict: XMLDict, parse_xml, xml_dict

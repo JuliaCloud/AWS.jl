@@ -9,10 +9,11 @@ using HTTP: HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MbedTLS: MD_MD5, MD_SHA256, digest
+using MD5: md5
 using Mocking: Mocking, @patch, apply
 using Pkg: Pkg
 using Random: randstring
+using SHA: sha256
 using Suppressor: @capture_err, @capture_out
 using XMLDict: XMLDict, parse_xml, xml_dict
 using StableRNGs: StableRNG
