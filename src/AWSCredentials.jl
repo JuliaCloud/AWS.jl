@@ -261,19 +261,27 @@ function ec2_instance_credentials(profile::AbstractString)
         source == "Ec2InstanceMetadata" || return nothing
     end
 
-    info = IMDS.get("/latest/meta-data/iam/info")
-    info === nothing && return nothing
-    info = JSON.parse(info; dicttype=Dict)
-
     # Get credentials for the role associated to the instance via instance profile.
     name = IMDS.get("/latest/meta-data/iam/security-credentials/")
+    name === nothing && return nothing
+
     creds = IMDS.get("/latest/meta-data/iam/security-credentials/$name")
+    creds === nothing && return nothing
     parsed = JSON.parse(creds; dicttype=Dict)
+
+    # Retrieve the ARN (optional)
+    info = IMDS.get("/latest/meta-data/iam/info")
+    instance_profile_arn = if info !== nothing
+        JSON.parse(info; dicttype=Dict)["InstanceProfileArn"]
+    else
+        ""
+    end
+
     instance_profile_creds = AWSCredentials(
         parsed["AccessKeyId"],
         parsed["SecretAccessKey"],
         parsed["Token"],
-        info["InstanceProfileArn"];
+        instance_profile_arn;
         expiry=DateTime(rstrip(parsed["Expiration"], 'Z')),
         renew=() -> ec2_instance_credentials(profile),
     )
