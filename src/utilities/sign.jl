@@ -19,6 +19,8 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
     creds = check_credentials(credentials(aws))
+    signing_key = Vector{UInt8}(creds.secret_key)
+
     query["AWSAccessKeyId"] = creds.access_key_id
     query["Expires"] = Dates.format(
         time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z"
@@ -33,10 +35,8 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     query = [k => query[k] for k in sort!(collect(keys(query)))]
     uri = HTTP.URI(request.url)
     to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
-    push!(
-        query,
-        "Signature" => strip(base64encode(digest(MD_SHA256, to_sign, creds.secret_key))),
-    )
+    signature = strip(base64encode(hmac_sha256(signing_key, to_sign)))
+    push!(query, "Signature" => signature)
 
     request.content = HTTP.escapeuri(query)
 
@@ -54,17 +54,17 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     authentication_scope = [date, region(aws), request.service, "aws4_request"]
 
     creds = check_credentials(credentials(aws))
-    signing_key = "AWS4$(creds.secret_key)"
+    signing_key = Vector{UInt8}("AWS4$(creds.secret_key)")
 
     for scope in authentication_scope
-        signing_key = digest(MD_SHA256, scope, signing_key)
+        signing_key = hmac_sha256(signing_key, scope)
     end
 
     # Authentication scope string...
     authentication_scope = join(authentication_scope, "/")
 
     # SHA256 hash of content...
-    content_hash = bytes2hex(digest(MD_SHA256, request.content))
+    content_hash = bytes2hex(sha256(request.content))
 
     # HTTP headers...
     delete!(request.headers, "Authorization")
@@ -74,7 +74,7 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
         Dict(
             "x-amz-content-sha256" => content_hash,
             "x-amz-date" => datetime,
-            "Content-MD5" => base64encode(digest(MD_MD5, request.content)),
+            "Content-MD5" => base64encode(md5(request.content)),
         ),
     )
 
@@ -109,11 +109,11 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
         content_hash,
     )
 
-    canonical_hash = bytes2hex(digest(MD_SHA256, canonical_form))
+    canonical_hash = bytes2hex(sha256(canonical_form))
 
     # Create and sign "String to Sign"...
     string_to_sign = "AWS4-HMAC-SHA256\n$datetime\n$authentication_scope\n$canonical_hash"
-    signature = bytes2hex(digest(MD_SHA256, string_to_sign, signing_key))
+    signature = bytes2hex(hmac_sha256(signing_key, string_to_sign))
 
     # Append Authorization header...
     request.headers["Authorization"] = join(

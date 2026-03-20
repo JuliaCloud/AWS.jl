@@ -26,10 +26,11 @@ using HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MbedTLS: digest, MD_SHA256, MD_MD5
+using MD5: md5
 using Mocking
 using Pkg
 using Random
+using SHA: sha256
 using Suppressor
 using Test
 using UUIDs

@@ -6,11 +6,11 @@ using Dates
 using Downloads: Downloads, Downloader, Curl
 using HTTP
 using JSON: JSON
-using MbedTLS
+using MD5: md5
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Random
-using SHA
+using SHA: sha1, sha256, hmac_sha256
 using ScopedValues: ScopedValues, ScopedValue, @with
 using Sockets
 using URIs
