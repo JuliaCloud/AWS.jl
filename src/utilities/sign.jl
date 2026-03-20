@@ -36,10 +36,7 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     uri = HTTP.URI(request.url)
     to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
     signature = strip(base64encode(hmac_sha256(signing_key, to_sign)))
-    push!(
-        query,
-        "Signature" => signature,
-    )
+    push!(query, "Signature" => signature)
 
     request.content = HTTP.escapeuri(query)
 
