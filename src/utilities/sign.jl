@@ -46,6 +46,7 @@ end
 function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 4 Authentication Headers.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
+    # https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-header-based-auth.html
 
     date = Dates.format(time, dateformat"yyyymmdd")
     datetime = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
@@ -74,7 +75,6 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
         Dict(
             "x-amz-content-sha256" => content_hash,
             "x-amz-date" => datetime,
-            "Content-MD5" => base64encode(md5(request.content)),
         ),
     )
 
