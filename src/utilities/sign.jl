@@ -72,10 +72,7 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
 
     merge!(
         request.headers,
-        Dict(
-            "x-amz-content-sha256" => content_hash,
-            "x-amz-date" => datetime,
-        ),
+        Dict("x-amz-content-sha256" => content_hash, "x-amz-date" => datetime),
     )
 
     if !isempty(creds.token)
