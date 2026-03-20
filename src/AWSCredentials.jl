@@ -70,8 +70,9 @@ mutable struct AWSCredentials
     token::String
     user_arn::String
     account_number::String
-    expiry::DateTime
+    expiry::DateTime  # Implicit UTC timestamp
     renew::Union{Function,Nothing}  # Function which can be used to refresh credentials
+    lock::ReentrantLock
 
     function AWSCredentials(
         access_key_id,
@@ -83,9 +84,27 @@ mutable struct AWSCredentials
         renew=nothing,
     )
         return new(
-            access_key_id, secret_key, token, user_arn, account_number, expiry, renew
+            access_key_id,
+            secret_key,
+            token,
+            user_arn,
+            account_number,
+            expiry,
+            renew,
+            ReentrantLock(),
         )
     end
+end
+
+# When renewing the AWS credentials these are the fields we'll refresh. We specifically want
+# to avoid mutating the these fields over the lifetime of the credentials:
+#
+# - `renew`: The refresh process should not accidentally mutate the `renew` function.
+# - `lock`: The lock associated with the credentials should not change over the lifetime of
+#   the credentials. If it does we could encounter issues with thread-safety.
+const _AWS_CREDENTIALS_REFRESH_FIELDS = let
+    exclude = (:renew, :lock)
+    setdiff(fieldnames(AWSCredentials), exclude)
 end
 
 # Needs to be included after struct AWSCredentials for compilation
@@ -169,11 +188,13 @@ function Base.show(io::IO, c::AWSCredentials)
     )
 end
 
-function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
-    for f in fieldnames(typeof(dest))
-        setfield!(dest, f, getfield(src, f))
-    end
-end
+"""
+    _is_expired(creds::AWSCredentials; drift::Period=Minute(5)) -> Bool
+
+Determine if the credentials have expired or are about to expire (within the duration
+specified by `drift`).
+"""
+_is_expired(c::AWSCredentials; drift::Period=Minute(5)) = c.expiry - now(UTC) <= drift
 
 """
     check_credentials(
@@ -193,17 +214,28 @@ Checks current AWSCredentials, refreshing them if they are soon to expire. If
 - `error("Can't find AWS credentials!")`: If no credentials can be found
 """
 function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
-    if force_refresh || _will_expire(aws_creds)
-        credential_method = aws_creds.renew
+    credential_method = aws_creds.renew
 
-        if credential_method !== nothing
-            new_aws_creds = credential_method()
+    # Return existing credentials if no `renew` function was defined
+    credential_method === nothing && return aws_creds
 
-            new_aws_creds === nothing && throw(NoCredentials("Can't find AWS credentials!"))
-            copyto!(aws_creds, new_aws_creds)
+    # Refresh credentials when forced or they are about to expire
+    if force_refresh || _is_expired(aws_creds)
+        expired_at = aws_creds.expiry
+        @lock aws_creds.lock begin
 
-            # Ensure credential_method is not overwritten by the new credentials
-            aws_creds.renew = credential_method
+            # Avoid renewing the credentials immediately if they have renewed while we were
+            # awaiting the lock to be released.
+            if aws_creds.expiry <= expired_at
+                new_aws_creds = credential_method()
+                if new_aws_creds === nothing
+                    throw(NoCredentials("Can't find AWS credentials!"))
+                end
+
+                for f in _AWS_CREDENTIALS_REFRESH_FIELDS
+                    setfield!(aws_creds, f, getfield(new_aws_creds, f))
+                end
+            end
         end
     end
 

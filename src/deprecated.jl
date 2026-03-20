@@ -265,3 +265,15 @@ function global_aws_config(config::AbstractAWSConfig)
 end
 
 @deprecate_binding AWSMetadata APIGeneration false
+
+function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
+    Base.depwarn(
+        "`copyto!(dest::AWSCredentials, src::AWSCredentials)` is deprecated and will be " *
+        "removed in the future.",
+        :copyto!,
+    )
+
+    for f in fieldnames(typeof(dest))
+        setfield!(dest, f, getfield(src, f))
+    end
+end

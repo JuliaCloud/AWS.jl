@@ -380,6 +380,38 @@ end
         @test creds.account_number == ""
         @test creds.expiry == typemax(DateTime)
         @test creds.renew === nothing
+        @test creds.lock isa ReentrantLock
+    end
+
+    @testset "_is_expired" begin
+        @testset "basic" begin
+            # Has already expired
+            c = AWSCredentials("", ""; expiry=now(UTC) + Second(-1))
+            @test _is_expired(c; drift=Minute(0))
+
+            # Expired now
+            c = AWSCredentials("", ""; expiry=now(UTC))
+            @test _is_expired(c; drift=Minute(0))
+
+            # Will expire
+            c = AWSCredentials("", ""; expiry=now(UTC) + Second(1))
+            @test !_is_expired(c; drift=Minute(0))
+        end
+
+        @testset "default drift" begin
+            drift = Minute(5)  # Needs to be kept in sync with the `drift` keyword default
+            offsets = (-drift - Minute(1), -drift, zero(drift), drift, drift + Minute(1))
+            for offset in offsets
+                @testset let offset = offset, drift = drift
+                    c = AWSCredentials("", ""; expiry=now(UTC) + offset)
+                    if offset <= drift
+                        @test _is_expired(c)
+                    else
+                        @test !_is_expired(c)
+                    end
+                end
+            end
+        end
     end
 
     @testset "Renewal" begin
@@ -401,7 +433,7 @@ end
         @test creds.access_key_id == "access_key_id"
         @test creds.secret_key == "secret_key"
 
-        # Creds should take on value of a returned AWSCredentials except renew function
+        # Creds fields should be updated to use most of the returned AWSCredentials fields
         function gen_credentials()
             i = 0
             return () -> (i += 1; AWSCredentials("NEW_ID_$i", "NEW_KEY_$i"))
@@ -411,48 +443,54 @@ end
             "access_key_id", "secret_key"; renew=gen_credentials(), expiry=now(UTC)
         )
 
+        expected_renew = creds.renew
+        expected_lock = creds.lock
+
         @test creds.renew !== nothing
         renewed = creds.renew()
 
         @test creds.access_key_id == "access_key_id"
         @test creds.secret_key == "secret_key"
-        @test creds.expiry <= now(UTC)
-        @test AWS._will_expire(creds)
+        @test _is_expired(creds)
+        @test creds.renew === expected_renew
+        @test creds.lock === expected_lock
 
         @test renewed.access_key_id === "NEW_ID_1"
         @test renewed.secret_key == "NEW_KEY_1"
+        @test !_is_expired(renewed)
         @test renewed.renew === nothing
-        @test renewed.expiry == typemax(DateTime)
-        @test !AWS._will_expire(renewed)
-        renew = creds.renew
+        @test renewed.renew !== expected_renew
+        @test renewed.lock !== expected_lock
 
-        # Check renewal on time out
+        # Check renewal on when expired
         newcreds = check_credentials(creds; force_refresh=false)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_2"
         @test creds.secret_key == "NEW_KEY_2"
+        @test !_is_expired(creds)
         @test creds.renew !== nothing
-        @test creds.renew === renew
-        @test creds.expiry == typemax(DateTime)
-        @test !AWS._will_expire(creds)
+        @test creds.renew === expected_renew
+        @test creds.lock === expected_lock
 
-        # Check renewal doesn't happen if not forced or timed out
+        # Check renewal doesn't happen if not forced or not expired
         newcreds = check_credentials(creds; force_refresh=false)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_2"
         @test creds.secret_key == "NEW_KEY_2"
+        @test !_is_expired(creds)
         @test creds.renew !== nothing
-        @test creds.renew === renew
-        @test creds.expiry == typemax(DateTime)
+        @test creds.renew === expected_renew
+        @test creds.lock === expected_lock
 
         # Check forced renewal works
         newcreds = check_credentials(creds; force_refresh=true)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_3"
         @test creds.secret_key == "NEW_KEY_3"
+        @test !_is_expired(creds)
         @test creds.renew !== nothing
-        @test creds.renew === renew
-        @test creds.expiry == typemax(DateTime)
+        @test creds.renew === expected_renew
+        @test creds.lock === expected_lock
     end
 
     mktempdir() do dir
@@ -553,7 +591,7 @@ end
 
             @testset "Refresh" begin
                 withenv("AWS_DEFAULT_PROFILE" => "test") do
-                    # Check credentials refresh on timeout
+                    # Check credentials refresh when expired
                     config = AWSConfig()
                     creds = config.credentials
                     creds.access_key_id = "EXPIRED_ACCESS_ID"
