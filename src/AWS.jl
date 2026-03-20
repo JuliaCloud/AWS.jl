@@ -6,10 +6,11 @@ using Dates
 using Downloads: Downloads, Downloader, Curl
 using HTTP
 using JSON: JSON
+using MD5: md5
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Random
-using SHA: sha1
+using SHA: sha1, sha256, hmac_sha256
 using ScopedValues: ScopedValues, ScopedValue, @with
 using Sockets
 using URIs
@@ -34,9 +35,6 @@ include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include(joinpath("api_generation", "APIGeneration.jl"))
 include("IMDS.jl")
-include("Cryptography.jl")
-
-using .Cryptography: hmac_md5, hmac_sha256, md5, sha256
 
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "response.jl"))
