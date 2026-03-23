@@ -278,7 +278,9 @@ function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
     end
 end
 
-@deprecate check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false) refresh!(aws_creds; force=force_refresh) true
+@deprecate check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false) refresh!(
+    aws_creds; force=force_refresh
+) true
 
 function check_credentials(aws_creds::Nothing; force_refresh::Bool=true)
     Base.depwarn(
@@ -286,4 +288,4 @@ function check_credentials(aws_creds::Nothing; force_refresh::Bool=true)
         :check_credentials!,
     )
     return nothing
- end
+end

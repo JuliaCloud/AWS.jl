@@ -417,9 +417,7 @@ end
     function create_credentials(; expired_at, created_at)
         function renew_credentials()
             return AWSCredentials(
-                "RENEWED_ACCESS_KEY_ID",
-                "RENEWED_SECRET_KEY";
-                expiry=now(UTC) + Hour(1),
+                "RENEWED_ACCESS_KEY_ID", "RENEWED_SECRET_KEY"; expiry=now(UTC) + Hour(1)
             )
         end
 
@@ -457,8 +455,6 @@ end
         @test _is_recently_renewed(renewed_creds)
         @test renewed_creds.renew === nothing
     end
-
-
 
     @testset "refresh!" begin
         @testset "renew unset" begin
@@ -603,8 +599,7 @@ end
                     )
                 else
                     AWSCredentials(
-                        "TOO_MANY_REFRESHES_ACCESS_KEY_ID",
-                        "TOO_MANY_REFRESHES_SECRET_KEY"
+                        "TOO_MANY_REFRESHES_ACCESS_KEY_ID", "TOO_MANY_REFRESHES_SECRET_KEY"
                     )
                 end
             end
@@ -634,7 +629,6 @@ end
             @test _is_recently_renewed(creds)
         end
     end
-
 
     mktempdir() do dir
         config_file = joinpath(dir, "config")
