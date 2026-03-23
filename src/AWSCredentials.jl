@@ -33,15 +33,16 @@ localhost_is_lambda() = haskey(ENV, "LAMBDA_TASK_ROOT")
     AWSCredentials
 
 When you interact with AWS, you specify your [AWS Security Credentials](http://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html)
-to verify who you are and whether you have permission to access the resources that you are requesting.
-AWS uses the security credentials to authenticate and authorize your requests.
-The fields `access_key_id` and `secret_key` hold the access keys used to authenticate API requests
-(see [Creating, Modifying, and Viewing Access Keys](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey)).
-[Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
-The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
+to verify who you are and whether you have permission to access the resources that you are
+requesting. AWS uses the security credentials to authenticate and authorize your requests.
+The fields `access_key_id` and `secret_key` hold the access keys used to authenticate API
+requests (see [Creating, Modifying, and Viewing Access Keys](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey)).
+[Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html)
+require the extra session `token` field. The `user_arn` and `account_number` fields are used
+to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWS.jl searches for credentials in multiple locations and stops once any credentials are found.
-The credential preference order mostly [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
+AWS.jl searches for credentials in multiple locations and stops once any credentials are
+found. The credential preference order mostly [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
 and is as follows:
 
 1. Credentials or a profile passed directly to the `AWSCredentials`
@@ -54,14 +55,16 @@ and is as follows:
 8. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
 9. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
 
-Once the credentials are found, the method by which they were accessed is stored in the `renew` field
-and the `DateTime` at which they will expire is stored in the `expiry` field.
-This allows the credentials to be refreshed as needed using [`refresh!`](@ref AWS.refresh!).
-If `renew` is set to `nothing`, no attempt will be made to refresh the credentials.
-Any renewal function is expected to return `nothing` on failure or a populated `AWSCredentials` object on success.
-The `renew` field of the returned `AWSCredentials` will be discarded and does not need to be set.
+Once the credentials are found, the method by which they were accessed is stored in the
+`renew` field and the `DateTime` at which they will expire is stored in the `expiry` field.
+This allows the credentials to be refreshed as needed using `refresh!`. If `renew` is set to
+`nothing`, no attempt will be made to refresh the credentials. Any renewal function is
+expected to return `nothing` on failure or a populated `AWSCredentials` object on success.
+The `renew` field of the returned `AWSCredentials` will be discarded and does not need to be
+set.
 
-To specify the profile to use from `~/.aws/credentials`, do, for example, `AWSCredentials(profile="profile-name")`.
+To specify the profile to use from `~/.aws/credentials`, do, for example,
+`AWSCredentials(profile="profile-name")`.
 """
 mutable struct AWSCredentials
     access_key_id::String
@@ -215,16 +218,19 @@ _is_recently_renewed(c::AWSCredentials) = now(UTC) - c.renewed_at <= Minute(1)
 Refresh the credentials if they are expired or our about to. Using `force` will cause the
 credentials to be renewed immediately.
 
-# Arguments
+## Arguments
+
 - `creds::AWSCredentials`: The `AWSCredentials` to be updated in-place.
 
-# Keywords
+## Keywords
+
 - `force::Bool=false`: Renew the credentials immediately. Should only be used interactively
    as renewing too frequently can cause issues with some credential backends.
 
-# Throws
-- `NoCredentials("Can't find AWS credentials!")`: When no credentials could be found when executing
-  the `renew` function associated with `creds`.
+## Throws
+
+- `NoCredentials("Can't find AWS credentials!")`: When no credentials could be found when
+  executing the `renew` function associated with `creds`.
 """
 function refresh!(creds::AWSCredentials; force::Bool=false)
     renew = creds.renew
