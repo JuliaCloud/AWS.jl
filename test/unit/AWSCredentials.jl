@@ -402,14 +402,14 @@ end
             drift = Minute(5)  # Needs to be kept in sync with the `drift` keyword default
             offsets = (-drift - Minute(1), -drift, zero(drift), drift, drift + Minute(1))
             for offset in offsets
-                @testset let offset = offset, drift = drift
+                # @testset let offset = offset, drift = drift
                     c = AWSCredentials("", ""; expiry=now(UTC) + offset)
                     if offset <= drift
                         @test _is_expired(c)
                     else
                         @test !_is_expired(c)
                     end
-                end
+                # end
             end
         end
     end
