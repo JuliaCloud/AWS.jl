@@ -197,51 +197,48 @@ specified by `drift`).
 _is_expired(c::AWSCredentials; drift::Period=Minute(5)) = c.expiry - now(UTC) <= drift
 
 """
-    check_credentials(
-        aws_creds::AWSCredentials, force_refresh::Bool=false
-    ) -> AWSCredentials
+    refresh!(creds::AWSCredentials; force::Bool=false) -> AWSCredentials
 
-Checks current AWSCredentials, refreshing them if they are soon to expire. If
-`force_refresh` is `true` the credentials will be renewed immediately
+Refresh the credentials if they are expired or our about to. Using `force` will cause the
+credentials to be renewed immediately.
 
 # Arguments
-- `aws_creds::AWSCredentials`: AWSCredentials to be checked / refreshed
+- `creds::AWSCredentials`: The `AWSCredentials` to be updated in-place.
 
 # Keywords
-- `force_refresh::Bool=false`: `true` to refresh the credentials
+- `force::Bool=false`: Renew the credentials immediately. Should only be used interactively
+   as renewing too frequently can cause issues with some credential backends.
 
 # Throws
-- `error("Can't find AWS credentials!")`: If no credentials can be found
+- `NoCredentials("Can't find AWS credentials!")`: When no credentials could be found when executing
+  the `renew` function associated with `creds`.
 """
-function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
-    credential_method = aws_creds.renew
+function refresh!(creds::AWSCredentials; force::Bool=false)
+    renew = creds.renew
 
     # Return existing credentials if no `renew` function was defined
-    credential_method === nothing && return aws_creds
+    renew === nothing && return creds
 
-    # Refresh credentials when forced or they are about to expire
-    if force_refresh || _is_expired(aws_creds)
-        expired_at = aws_creds.expiry
-        @lock aws_creds.lock begin
-
-            # Avoid renewing the credentials immediately if they have renewed while we were
-            # awaiting the lock to be released.
-            if aws_creds.expiry <= expired_at
-                new_aws_creds = credential_method()
-                if new_aws_creds === nothing
+    # Refresh credentials when forced or they are about to expire and we haven't just
+    # refreshed them.
+    if force || _is_expired(creds)
+        @lock creds.lock begin
+            if force || _is_expired(creds)
+                new_creds = renew()
+                if new_creds === nothing
                     throw(NoCredentials("Can't find AWS credentials!"))
                 end
 
+                # Mutate `creds` with fields from `new_creds`
                 for f in _AWS_CREDENTIALS_REFRESH_FIELDS
-                    setfield!(aws_creds, f, getfield(new_aws_creds, f))
+                    setfield!(creds, f, getfield(new_creds, f))
                 end
             end
         end
     end
 
-    return aws_creds
+    return creds
 end
-check_credentials(aws_creds::Nothing) = aws_creds
 
 """
     ec2_instance_credentials(profile::AbstractString) -> AWSCredentials

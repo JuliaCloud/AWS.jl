@@ -1,5 +1,11 @@
 using AWS
-using AWS: AWSCredentials, AWSServices, _is_expired, assume_role_creds
+using AWS:
+    AWSCredentials,
+    AWSServices,
+    _is_expired,
+    _is_recently_renewed,
+    assume_role_creds,
+    refresh!
 using AWS.AWSExceptions:
     AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
 using AWS.APIGeneration:

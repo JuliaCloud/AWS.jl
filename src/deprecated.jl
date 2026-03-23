@@ -277,3 +277,13 @@ function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
         setfield!(dest, f, getfield(src, f))
     end
 end
+
+@deprecate check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false) refresh!(aws_creds; force=force_refresh)
+
+function check_credentials(aws_creds::Nothing; force_refresh::Bool=true)
+    Base.depwarn(
+        "`check_credentials(::Nothing)` is deprecated and will be removed in the future.",
+        :check_credentials!,
+    )
+    return nothing
+ end

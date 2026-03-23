@@ -414,84 +414,134 @@ end
         end
     end
 
-    @testset "Renewal" begin
-        # Credentials shouldn't throw an error if no renew function is supplied
-        creds = AWSCredentials("access_key_id", "secret_key"; renew=nothing)
-        newcreds = check_credentials(creds; force_refresh=true)
-
-        # Creds should remain unchanged if no renew function exists
-        @test creds === newcreds
-        @test creds.access_key_id == "access_key_id"
-        @test creds.secret_key == "secret_key"
-        @test creds.renew === nothing
-
-        # Creds should error if the renew function returns nothing
-        creds = AWSCredentials("access_key_id", "secret_key"; renew=() -> nothing)
-        @test_throws NoCredentials check_credentials(creds; force_refresh=true)
-
-        # Creds should remain unchanged
-        @test creds.access_key_id == "access_key_id"
-        @test creds.secret_key == "secret_key"
-
-        # Creds fields should be updated to use most of the returned AWSCredentials fields
-        function gen_credentials()
-            i = 0
-            return () -> (i += 1; AWSCredentials("NEW_ID_$i", "NEW_KEY_$i"))
+    function create_credentials(; expired_at)
+        function renew_credentials()
+            return AWSCredentials(
+                "RENEWED_ACCESS_KEY_ID",
+                "RENEWED_SECRET_KEY";
+                expiry=now(UTC) + Hour(1),
+            )
         end
 
         creds = AWSCredentials(
-            "access_key_id", "secret_key"; renew=gen_credentials(), expiry=now(UTC)
+            "ORG_ACCESS_KEY_ID",
+            "ORG_SECRET_KEY";
+            renew=renew_credentials,
+            expiry=expired_at,
         )
 
-        expected_renew = creds.renew
-        expected_lock = creds.lock
-
-        @test creds.renew !== nothing
-        renewed = creds.renew()
-
-        @test creds.access_key_id == "access_key_id"
-        @test creds.secret_key == "secret_key"
-        @test _is_expired(creds)
-        @test creds.renew === expected_renew
-        @test creds.lock === expected_lock
-
-        @test renewed.access_key_id === "NEW_ID_1"
-        @test renewed.secret_key == "NEW_KEY_1"
-        @test !_is_expired(renewed)
-        @test renewed.renew === nothing
-        @test renewed.renew !== expected_renew
-        @test renewed.lock !== expected_lock
-
-        # Check renewal on when expired
-        newcreds = check_credentials(creds; force_refresh=false)
-        @test creds === newcreds
-        @test creds.access_key_id == "NEW_ID_2"
-        @test creds.secret_key == "NEW_KEY_2"
-        @test !_is_expired(creds)
-        @test creds.renew !== nothing
-        @test creds.renew === expected_renew
-        @test creds.lock === expected_lock
-
-        # Check renewal doesn't happen if not forced or not expired
-        newcreds = check_credentials(creds; force_refresh=false)
-        @test creds === newcreds
-        @test creds.access_key_id == "NEW_ID_2"
-        @test creds.secret_key == "NEW_KEY_2"
-        @test !_is_expired(creds)
-        @test creds.renew !== nothing
-        @test creds.renew === expected_renew
-        @test creds.lock === expected_lock
-
-        # Check forced renewal works
-        newcreds = check_credentials(creds; force_refresh=true)
-        @test creds === newcreds
-        @test creds.access_key_id == "NEW_ID_3"
-        @test creds.secret_key == "NEW_KEY_3"
-        @test !_is_expired(creds)
-        @test creds.renew !== nothing
-        @test creds.renew === expected_renew
-        @test creds.lock === expected_lock
+        return creds
     end
+
+    @testset "renew not in-place" begin
+        creds = create_credentials(;
+            expired_at=now(UTC),            # expired
+        )
+        @test _is_expired(creds)
+        @test !_is_recently_renewed(creds)
+
+        renewed_creds = creds.renew()
+
+        @test creds !== renewed_creds
+
+        @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
+        @test creds.secret_key == "ORG_SECRET_KEY"
+        @test _is_expired(creds)
+
+        @test renewed_creds.access_key_id === "RENEWED_ACCESS_KEY_ID"
+        @test renewed_creds.secret_key == "RENEWED_SECRET_KEY"
+        @test !_is_expired(renewed_creds)
+        @test renewed_creds.renew === nothing
+    end
+
+
+
+    @testset "refresh!" begin
+        @testset "renew unset" begin
+            # Credentials shouldn't throw an error if the renew field is unset
+            creds = AWSCredentials("ACCESS_KEY_ID", "SECRET_KEY"; renew=nothing)
+            newcreds = refresh!(creds)
+
+            # Credentials remain unchanged
+            @test creds === newcreds
+            @test creds.access_key_id == "ACCESS_KEY_ID"
+            @test creds.secret_key == "SECRET_KEY"
+            @test creds.renew === nothing
+        end
+
+        @testset "no new credentials" begin
+            # Throw an error if the renew function returns `nothing` indicating the renew
+            # could not find any new credentials.
+            creds = AWSCredentials("ACCESS_KEY_ID", "SECRET_KEY"; renew=() -> nothing)
+            @test_throws NoCredentials refresh!(creds; force=true)
+
+            # Credentials remain unchanged
+            @test creds.access_key_id == "ACCESS_KEY_ID"
+            @test creds.secret_key == "SECRET_KEY"
+        end
+
+        @testset "in-place mutation" begin
+            creds = create_credentials(;
+                expired_at=now(UTC),            # expired
+            )
+            @test _is_expired(creds)
+
+            # Keep track of the fields we expect to be be unchanged after mutating
+            expected_renew = creds.renew
+            expected_lock = creds.lock
+
+            renewed_creds = refresh!(creds)
+
+            @test renewed_creds === creds
+            @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
+            @test creds.secret_key == "RENEWED_SECRET_KEY"
+            @test !_is_expired(creds)
+
+            # The `renew` and `lock` fields are unchanged
+            @test creds.renew === expected_renew
+            @test creds.lock === expected_lock
+        end
+
+        @testset "expired" begin
+            creds = create_credentials(;
+                expired_at=now(UTC) - Hour(1),  # expired
+            )
+            @test _is_expired(creds)
+
+            refresh!(creds)
+
+            @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
+            @test creds.secret_key == "RENEWED_SECRET_KEY"
+            @test !_is_expired(creds)
+        end
+
+        @testset "not expired" begin
+            creds = create_credentials(;
+                expired_at=now(UTC) + Hour(1),  # not expired
+            )
+            @test !_is_expired(creds)
+
+            refresh!(creds)
+
+            @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
+            @test creds.secret_key == "ORG_SECRET_KEY"
+            @test !_is_expired(creds)
+        end
+
+        @testset "force" begin
+            creds = create_credentials(;
+                expired_at=now(UTC) + Hour(1),  # not expired
+            )
+            @test !_is_expired(creds)
+
+            refresh!(creds; force=true)
+
+            @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
+            @test creds.secret_key == "RENEWED_SECRET_KEY"
+            @test !_is_expired(creds)
+        end
+    end
+
 
     mktempdir() do dir
         config_file = joinpath(dir, "config")
@@ -603,7 +653,7 @@ end
 
                     @test renew() isa AWSCredentials
 
-                    creds = check_credentials(config.credentials)
+                    creds = refresh!(config.credentials)
 
                     @test creds.access_key_id == "TEST_ACCESS_ID"
                     @test creds.secret_key == "TEST_ACCESS_KEY"
@@ -615,7 +665,7 @@ end
 
                     # Check force_refresh
                     creds.access_key_id = "WRONG_ACCESS_KEY"
-                    creds = check_credentials(creds; force_refresh=true)
+                    refresh!(creds; force=true)
                     @test creds.access_key_id == "TEST_ACCESS_ID"
                 end
             end
@@ -635,7 +685,7 @@ end
                     # Check profile persists on renewal
                     creds.access_key_id = "WRONG_ACCESS_ID2"
                     creds.secret_key = "WRONG_ACCESS_KEY2"
-                    creds = check_credentials(creds; force_refresh=true)
+                    refresh!(creds; force=true)
 
                     @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                     @test creds.secret_key == "RIGHT_ACCESS_KEY2"
@@ -1424,22 +1474,23 @@ end
             ) do
                 apply(patch) do
                     result = credentials_from_webtoken()
+                    init_expired_at = result.expiry
 
                     @test result.access_key_id == access_key
                     @test result.secret_key == secret_key
                     @test result.token == session_token
                     @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
-                    expiry = result.expiry
+
                     sleep(0.1)
-                    result = check_credentials(result)
+                    refresh!(result)
 
                     @test result.access_key_id == access_key
                     @test result.secret_key == secret_key
                     @test result.token == session_token
                     @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
-                    @test expiry != result.expiry
+                    @test result.expiry > init_expired_at
                 end
             end
 
@@ -1540,18 +1591,19 @@ end
                 "AWS_ACCESS_KEY_ID" => test_values["AccessKeyId"],
                 "AWS_SECRET_ACCESS_KEY" => test_values["SecretAccessKey"],
             ) do
-                testAWSCredentials = AWSCredentials(
-                    test_values["AccessKeyId"],
-                    test_values["SecretAccessKey"];
+                creds = AWSCredentials(
+                    "FOO",
+                    "BAR";
                     expiry=Dates.now(UTC) - Minute(10),
                     renew=env_var_credentials,
                 )
 
-                result = check_credentials(testAWSCredentials; force_refresh=true)
-                @test result.access_key_id == testAWSCredentials.access_key_id
-                @test result.secret_key == testAWSCredentials.secret_key
-                @test result.expiry == typemax(DateTime)
-                @test result.renew == testAWSCredentials.renew
+                refresh!(creds; force=true)
+
+                @test creds.access_key_id == test_values["AccessKeyId"]
+                @test creds.secret_key == test_values["SecretAccessKey"]
+                @test creds.expiry == typemax(DateTime)
+                @test creds.renew === env_var_credentials
             end
         end
     end
