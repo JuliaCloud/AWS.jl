@@ -164,7 +164,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
         if e isa AWSException && e.code in EXPIRED_ERROR_CODES
-            check_credentials(credentials(aws); force_refresh=true)
+            refresh!(credentials(aws); force=true)
             return true
         end
 

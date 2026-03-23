@@ -10,7 +10,6 @@ export AWSCredentials,
     aws_get_profile_settings,
     aws_get_region,
     aws_user_arn,
-    check_credentials,
     credentials_from_webtoken,
     dot_aws_config,
     dot_aws_config_file,
@@ -57,7 +56,7 @@ and is as follows:
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
 and the `DateTime` at which they will expire is stored in the `expiry` field.
-This allows the credentials to be refreshed as needed using [`check_credentials`](@ref).
+This allows the credentials to be refreshed as needed using [`refresh!`](@ref).
 If `renew` is set to `nothing`, no attempt will be made to refresh the credentials.
 Any renewal function is expected to return `nothing` on failure or a populated `AWSCredentials` object on success.
 The `renew` field of the returned `AWSCredentials` will be discarded and does not need to be set.
