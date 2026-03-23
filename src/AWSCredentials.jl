@@ -72,6 +72,11 @@ mutable struct AWSCredentials
     account_number::String
     expiry::DateTime  # Implicit UTC timestamp
     renew::Union{Function,Nothing}  # Function which can be used to refresh credentials
+
+    # UTC timestamp when we created or last renewed the credentials. Only ever uses the
+    # system clock.
+    renewed_at::DateTime
+
     lock::ReentrantLock
 
     function AWSCredentials(
@@ -91,6 +96,7 @@ mutable struct AWSCredentials
             account_number,
             expiry,
             renew,
+            now(UTC),
             ReentrantLock(),
         )
     end
@@ -197,6 +203,14 @@ specified by `drift`).
 _is_expired(c::AWSCredentials; drift::Period=Minute(5)) = c.expiry - now(UTC) <= drift
 
 """
+    _is_recently_renewed(creds::AWSCredentials) -> Bool
+
+Determine if the credentials have been recently renewed to avoid issues with refreshing
+too often. We currently limit credential refreshing to occur once per minute.
+"""
+_is_recently_renewed(c::AWSCredentials) = now(UTC) - c.renewed_at <= Minute(1)
+
+"""
     refresh!(creds::AWSCredentials; force::Bool=false) -> AWSCredentials
 
 Refresh the credentials if they are expired or our about to. Using `force` will cause the
@@ -221,9 +235,9 @@ function refresh!(creds::AWSCredentials; force::Bool=false)
 
     # Refresh credentials when forced or they are about to expire and we haven't just
     # refreshed them.
-    if force || _is_expired(creds)
+    if force || _is_expired(creds) && !_is_recently_renewed(creds)
         @lock creds.lock begin
-            if force || _is_expired(creds)
+            if force || _is_expired(creds) && !_is_recently_renewed(creds)
                 new_creds = renew()
                 if new_creds === nothing
                     throw(NoCredentials("Can't find AWS credentials!"))

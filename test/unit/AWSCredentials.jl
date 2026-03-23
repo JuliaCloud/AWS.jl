@@ -414,7 +414,7 @@ end
         end
     end
 
-    function create_credentials(; expired_at)
+    function create_credentials(; expired_at, created_at)
         function renew_credentials()
             return AWSCredentials(
                 "RENEWED_ACCESS_KEY_ID",
@@ -429,6 +429,7 @@ end
             renew=renew_credentials,
             expiry=expired_at,
         )
+        creds.renewed_at = created_at
 
         return creds
     end
@@ -436,6 +437,7 @@ end
     @testset "renew not in-place" begin
         creds = create_credentials(;
             expired_at=now(UTC),            # expired
+            created_at=now(UTC) - Hour(1),  # was not created recently
         )
         @test _is_expired(creds)
         @test !_is_recently_renewed(creds)
@@ -447,10 +449,12 @@ end
         @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
         @test creds.secret_key == "ORG_SECRET_KEY"
         @test _is_expired(creds)
+        @test !_is_recently_renewed(creds)
 
         @test renewed_creds.access_key_id === "RENEWED_ACCESS_KEY_ID"
         @test renewed_creds.secret_key == "RENEWED_SECRET_KEY"
         @test !_is_expired(renewed_creds)
+        @test _is_recently_renewed(renewed_creds)
         @test renewed_creds.renew === nothing
     end
 
@@ -483,8 +487,10 @@ end
         @testset "in-place mutation" begin
             creds = create_credentials(;
                 expired_at=now(UTC),            # expired
+                created_at=now(UTC) - Hour(1),  # not recently renewed
             )
             @test _is_expired(creds)
+            @test !_is_recently_renewed(creds)
 
             # Keep track of the fields we expect to be be unchanged after mutating
             expected_renew = creds.renew
@@ -496,49 +502,136 @@ end
             @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
             @test creds.secret_key == "RENEWED_SECRET_KEY"
             @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
 
             # The `renew` and `lock` fields are unchanged
             @test creds.renew === expected_renew
             @test creds.lock === expected_lock
         end
 
-        @testset "expired" begin
+        @testset "expired / not recently renewed" begin
             creds = create_credentials(;
                 expired_at=now(UTC) - Hour(1),  # expired
+                created_at=now(UTC) - Hour(1),  # not recently renewed
             )
             @test _is_expired(creds)
+            @test !_is_recently_renewed(creds)
 
             refresh!(creds)
 
             @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
             @test creds.secret_key == "RENEWED_SECRET_KEY"
             @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
         end
 
-        @testset "not expired" begin
+        @testset "expired / recently renewed" begin
+            creds = create_credentials(;
+                expired_at=now(UTC) - Hour(1),  # expired
+                created_at=now(UTC),            # recently renewed
+            )
+            @test _is_expired(creds)
+            @test _is_recently_renewed(creds)
+
+            # Even though the credentials are expired we avoid renewing them as we just
+            # recently updated them.
+            refresh!(creds)
+
+            @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
+            @test creds.secret_key == "ORG_SECRET_KEY"
+            @test _is_expired(creds)
+            @test _is_recently_renewed(creds)
+        end
+
+        @testset "not expired / not recently renewed" begin
             creds = create_credentials(;
                 expired_at=now(UTC) + Hour(1),  # not expired
+                created_at=now(UTC) - Hour(1),  # not recently renewed
             )
             @test !_is_expired(creds)
+            @test !_is_recently_renewed(creds)
 
             refresh!(creds)
 
             @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
             @test creds.secret_key == "ORG_SECRET_KEY"
             @test !_is_expired(creds)
+            @test !_is_recently_renewed(creds)
+        end
+
+        @testset "not expired / recently renewed" begin
+            creds = create_credentials(;
+                expired_at=now(UTC) + Hour(1),  # not expired
+                created_at=now(UTC),            # recently renewed
+            )
+            @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
+
+            refresh!(creds)
+
+            @test creds.access_key_id == "ORG_ACCESS_KEY_ID"
+            @test creds.secret_key == "ORG_SECRET_KEY"
+            @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
         end
 
         @testset "force" begin
             creds = create_credentials(;
                 expired_at=now(UTC) + Hour(1),  # not expired
+                created_at=now(UTC),            # recently renewed
             )
             @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
 
             refresh!(creds; force=true)
 
             @test creds.access_key_id == "RENEWED_ACCESS_KEY_ID"
             @test creds.secret_key == "RENEWED_SECRET_KEY"
             @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
+        end
+
+        @testset "rate limit" begin
+            count = Threads.Atomic{Int}(0)
+            function renew_credentials()
+                count[] += 1
+                return if count[] == 1
+                    AWSCredentials(
+                        "REFRESHED_ACCESS_KEY_ID",
+                        "REFRESHED_SECRET_KEY";
+                        expiry=now(UTC) + Hour(1),
+                    )
+                else
+                    AWSCredentials(
+                        "TOO_MANY_REFRESHES_ACCESS_KEY_ID",
+                        "TOO_MANY_REFRESHES_SECRET_KEY"
+                    )
+                end
+            end
+
+            creds = AWSCredentials(
+                "EXPIRED_ACCESS_KEY_ID",
+                "EXPIRED_SECRET_KEY";
+                expiry=now(UTC) - Hour(1),  # expired
+                renew=renew_credentials,
+            )
+            creds.renewed_at = now(UTC) - Hour(1)  # not recently renewed
+
+            @test _is_expired(creds)
+            @test !_is_recently_renewed(creds)
+
+            # All of these threads should attempt to update the credentials. However, only the
+            # first thread to acquire the lock will do so as the remaining threads will be
+            # skip calling `renew`.
+            Threads.@threads for i in 1:10
+                refresh!(creds)
+            end
+
+            @test count[] == 1
+            @test creds.access_key_id == "REFRESHED_ACCESS_KEY_ID"
+            @test creds.secret_key == "REFRESHED_SECRET_KEY"
+            @test !_is_expired(creds)
+            @test _is_recently_renewed(creds)
         end
     end
 
@@ -647,6 +740,7 @@ end
                     creds.access_key_id = "EXPIRED_ACCESS_ID"
                     creds.secret_key = "EXPIRED_ACCESS_KEY"
                     creds.expiry = now(UTC)
+                    creds.renewed_at = now(UTC) - Hour(1)
 
                     @test creds.renew !== nothing
                     renew = creds.renew
@@ -1475,6 +1569,7 @@ end
                 apply(patch) do
                     result = credentials_from_webtoken()
                     init_expired_at = result.expiry
+                    init_renewed_at = result.renewed_at
 
                     @test result.access_key_id == access_key
                     @test result.secret_key == secret_key
@@ -1482,7 +1577,7 @@ end
                     @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
 
-                    sleep(0.1)
+                    result.renewed_at -= Hour(1)  # ignore rate limiting
                     refresh!(result)
 
                     @test result.access_key_id == access_key
@@ -1490,7 +1585,8 @@ end
                     @test result.token == session_token
                     @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
-                    @test result.expiry > init_expired_at
+                    @test result.expiry >= init_expired_at
+                    @test result.renewed_at > init_renewed_at
                 end
             end
 
