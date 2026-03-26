@@ -106,7 +106,7 @@ try
             S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
 
             r = S3.get_object(BUCKET_NAME, file_name)
-            @test read(r.io) == expected
+            @test read(seekstart(r.io)) == expected
 
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test r.io isa Base.BufferStream
@@ -118,9 +118,7 @@ try
             else
                 @test r.io isa IOBuffer
                 @test isopen(r.io)
-
-                seekstart(r.io)
-                @test read(r.io) == expected
+                @test read(seekstart(r.io)) == expected
             end
         finally
             S3.delete_object(BUCKET_NAME, file_name)

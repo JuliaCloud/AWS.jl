@@ -84,7 +84,7 @@ with_aws_config(
                 S3.put_object(bucket_name, file_name, Dict("body" => body))
 
                 r = S3.get_object(bucket_name, file_name)
-                raw = read(r.io)
+                raw = read(seekstart(r.io))
                 @test raw isa Vector{UInt8}
                 @test raw == expected
 
@@ -99,8 +99,7 @@ with_aws_config(
                 else
                     @test r.io isa IOBuffer
                     @test isopen(r.io)
-                    seekstart(r.io)
-                    @test read(r.io) == expected
+                    @test read(seekstart(r.io)) == expected
                 end
             finally
                 S3.delete_object(bucket_name, file_name)
