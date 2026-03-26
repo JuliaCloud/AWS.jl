@@ -62,11 +62,7 @@ try
             # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
             #   => BUG: header `response_stream` is pushed into the query...
             io = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => io),
-            )
+            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => io))
             if bytesavailable(io) > 0
                 @test String(readavailable(io)) == body
             else
