@@ -103,6 +103,9 @@ end
             secret_name = "aws-jl-test---" * _now_formatted()
             secret_string = "sshhh it is a secret!"
 
+            # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_CreateSecret.html#SecretsManager-CreateSecret-request-ClientRequestToken
+            client_request_token = randstring(32)
+
             function _get_secret_string(secret_name)
                 response = Secrets_Manager.get_secret_value(secret_name)
 
@@ -112,7 +115,8 @@ end
             Secrets_Manager.create_secret(
                 secret_name,
                 LittleDict(
-                    "SecretString" => secret_string, "ClientRequestToken" => randstring()
+                    "SecretString" => secret_string,
+                    "ClientRequestToken" => client_request_token,
                 ),
             )
 
@@ -131,6 +135,9 @@ end
             secret_name = "aws-jl-test---" * _now_formatted()
             secret_string = "sshhh it is a secret!"
 
+            # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_CreateSecret.html#SecretsManager-CreateSecret-request-ClientRequestToken
+            client_request_token = randstring(32)
+
             function _get_secret_string(secret_name)
                 response = AWSServices.secrets_manager(
                     "GetSecretValue", LittleDict("SecretId" => secret_name)
@@ -144,7 +151,7 @@ end
                 LittleDict(
                     "Name" => secret_name,
                     "SecretString" => secret_string,
-                    "ClientRequestToken" => randstring(),
+                    "ClientRequestToken" => client_request_token,
                 ),
             )
 
