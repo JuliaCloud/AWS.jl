@@ -65,7 +65,7 @@ try
             S3.get_object(
                 BUCKET_NAME,
                 file_name,
-                Dict("response_stream" => io, "return_stream" => true),
+                Dict("response_stream" => io),
             )
             if bytesavailable(io) > 0
                 @test String(readavailable(io)) == body
@@ -78,6 +78,8 @@ try
         end
     end
 
+    # https://github.com/JuliaCloud/AWS.jl/issues/466
+    # https://github.com/JuliaCloud/AWS.jl/issues/471
     @testset "issue 466" begin
         file_name = "hang.txt"
 
@@ -87,28 +89,8 @@ try
             # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
-            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                @test isopen(stream)
-            end
-
             stream = Base.BufferStream()
             S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
-            else
-                # See: https://github.com/JuliaCloud/AWS.jl/issues/471
-                @test_broken isopen(stream)
-            end
-
-            stream = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => stream, "return_stream" => true),
-            )
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
@@ -127,23 +109,22 @@ try
         try
             S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
 
-            raw = S3.get_object(BUCKET_NAME, file_name, Dict("return_raw" => true))
-            @test raw == expected
+            r = S3.get_object(BUCKET_NAME, file_name)
+            @test read(r.io) == expected
 
-            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test stream isa Base.BufferStream
-                @test !isopen(stream)
+                @test r.io isa Base.BufferStream
+                @test !isopen(r.io)
 
-                if !isopen(stream)
-                    @test read(stream) == expected
+                if !isopen(r.io)
+                    @test read(r.io) == expected
                 end
             else
-                @test stream isa IOBuffer
-                @test isopen(stream)
+                @test r.io isa IOBuffer
+                @test isopen(r.io)
 
-                seekstart(stream)
-                @test read(stream) == expected
+                seekstart(r.io)
+                @test read(r.io) == expected
             end
         finally
             S3.delete_object(BUCKET_NAME, file_name)
