@@ -112,7 +112,7 @@ end
             Secrets_Manager.create_secret(
                 secret_name,
                 LittleDict(
-                    "SecretString" => secret_string, "ClientRequestToken" => string(uuid4())
+                    "SecretString" => secret_string, "ClientRequestToken" => randstring()
                 ),
             )
 
@@ -144,7 +144,7 @@ end
                 LittleDict(
                     "Name" => secret_name,
                     "SecretString" => secret_string,
-                    "ClientRequestToken" => string(uuid4()),
+                    "ClientRequestToken" => randstring(),
                 ),
             )
 
@@ -291,7 +291,7 @@ end
 
         @testset "high-level" begin
             bucket_name = "aws-jl-test---" * _now_formatted()
-            file_name = string(uuid4())
+            file_name = randstring()
 
             function _bucket_exists(bucket_name)
                 try
@@ -414,7 +414,7 @@ end
             bucket_name = "aws-jl-test---" * _now_formatted()
 
             # Testing a file name with various special & Unicode characters
-            file_name = "$(uuid4())/📁!!/@ +*"
+            file_name = "$(randstring())/📁!!/@ +*"
 
             function _bucket_exists(bucket_name)
                 try
