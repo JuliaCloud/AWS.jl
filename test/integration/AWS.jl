@@ -383,18 +383,18 @@ end
                 # PUT with parameters operation
                 body = Array{UInt8}("sample-file-body")
                 AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
-                @test AWSServices.s3("GET", "/$bucket_name/$file_name") == body
+                r = AWSServices.s3("GET", "/$bucket_name/$file_name")
+                parsed = parse(r)
+                @test parsed == body
 
                 # GET operation
-                result = AWSServices.s3("GET", "/$bucket_name")
-                @test result["Contents"]["Key"] == file_name
+                r = AWSServices.s3("GET", "/$bucket_name")
+                @test r["Contents"]["Key"] == file_name
 
                 # GET with parameters operation
                 max_keys = 1
-                result = AWSServices.s3(
-                    "GET", "/$bucket_name", Dict("max_keys" => max_keys)
-                )
-                @test length([result["Contents"]]) == max_keys
+                r = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
+                @test length([r["Contents"]]) == max_keys
 
                 # POST with parameters operation
                 body = """
