@@ -109,12 +109,9 @@ try
             @test read(seekstart(r.io)) == expected
 
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test r.io isa Base.BufferStream
-                @test !isopen(r.io)
-
-                if !isopen(r.io)
-                    @test read(r.io) == expected
-                end
+                @test r.io isa IOBuffer
+                @test isopen(r.io)
+                @test read(seekstart(r.io)) == expected
             else
                 @test r.io isa IOBuffer
                 @test isopen(r.io)
