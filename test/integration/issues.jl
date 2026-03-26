@@ -85,13 +85,15 @@ try
             # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
+            r = S3.get_object(BUCKET_NAME, file_name)
+            @test r.io isa IOBuffer
+            @test isopen(r.io)
+
             stream = Base.BufferStream()
-            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test isopen(stream)
-            else
-                @test isopen(stream)
-            end
+            r = S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
+            @test r.io isa Base.BufferStream
+            @test r.io === stream
+            @test isopen(stream)
         finally
             S3.delete_object(BUCKET_NAME, file_name)
         end
@@ -106,17 +108,12 @@ try
             S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
 
             r = S3.get_object(BUCKET_NAME, file_name)
-            @test read(seekstart(r.io)) == expected
+            @test r.io isa IOBuffer
+            @test isopen(r.io)
 
-            if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test r.io isa IOBuffer
-                @test isopen(r.io)
-                @test read(seekstart(r.io)) == expected
-            else
-                @test r.io isa IOBuffer
-                @test isopen(r.io)
-                @test read(seekstart(r.io)) == expected
-            end
+            raw = read(seekstart(r.io))
+            @test raw isa Vector{UInt8}
+            @test raw == expected
         finally
             S3.delete_object(BUCKET_NAME, file_name)
         end
