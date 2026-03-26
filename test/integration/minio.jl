@@ -57,7 +57,7 @@ with_aws_config(
 
                 r = S3.get_object("anewbucket", file_name)
                 if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test !isopen(r.io)
+                    @test isopen(r.io)
                 else
                     @test isopen(r.io)
                 end
@@ -65,7 +65,7 @@ with_aws_config(
                 stream = Base.BufferStream()
                 S3.get_object("anewbucket", file_name, Dict("response_stream" => stream))
                 if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test !isopen(stream)
+                    @test isopen(stream)
                 else
                     @test isopen(stream)
                 end

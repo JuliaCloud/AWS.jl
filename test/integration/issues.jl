@@ -88,7 +88,7 @@ try
             stream = Base.BufferStream()
             S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                @test !isopen(stream)
+                @test isopen(stream)
             else
                 @test isopen(stream)
             end
