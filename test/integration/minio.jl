@@ -55,34 +55,17 @@ with_aws_config(
 
                 # Note: Using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
-                stream = S3.get_object(
-                    "anewbucket", file_name, Dict("return_stream" => true)
-                )
-                if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test !isopen(stream)
-                else
-                    @test isopen(stream)
-                end
+                r = S3.get_object("anewbucket", file_name)
+                @test r.io isa IOBuffer
+                @test isopen(r.io)
 
                 stream = Base.BufferStream()
-                S3.get_object("anewbucket", file_name, Dict("response_stream" => stream))
-                if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test !isopen(stream)
-                else
-                    @test_broken isopen(stream)
-                end
-
-                stream = Base.BufferStream()
-                S3.get_object(
-                    "anewbucket",
-                    file_name,
-                    Dict("response_stream" => stream, "return_stream" => true),
+                r = S3.get_object(
+                    "anewbucket", file_name, Dict("response_stream" => stream)
                 )
-                if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test !isopen(stream)
-                else
-                    @test isopen(stream)
-                end
+                @test r.io isa Base.BufferStream
+                @test r.io === stream
+                @test isopen(stream)
             finally
                 S3.delete_object("anewbucket", file_name)
             end
@@ -97,26 +80,13 @@ with_aws_config(
             try
                 S3.put_object(bucket_name, file_name, Dict("body" => body))
 
-                raw = S3.get_object(bucket_name, file_name, Dict("return_raw" => true))
+                r = S3.get_object(bucket_name, file_name)
+                @test r.io isa IOBuffer
+                @test isopen(r.io)
+
+                raw = read(seekstart(r.io))
                 @test raw isa Vector{UInt8}
                 @test raw == expected
-
-                stream = S3.get_object(
-                    bucket_name, file_name, Dict("return_stream" => true)
-                )
-                if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-                    @test stream isa Base.BufferStream
-                    @test !isopen(stream)
-
-                    if !isopen(stream)
-                        @test read(stream) == expected
-                    end
-                else
-                    @test stream isa IOBuffer
-                    @test isopen(stream)
-                    seekstart(stream)
-                    @test read(stream) == expected
-                end
             finally
                 S3.delete_object(bucket_name, file_name)
             end
