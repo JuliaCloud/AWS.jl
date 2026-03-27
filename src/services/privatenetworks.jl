@@ -11,8 +11,8 @@ using AWS.UUIDs: uuid4
 Acknowledges that the specified network order was received.
 
 # Arguments
-- `order_arn`: The Amazon Resource Name (ARN) of the order.
 
+- `order_arn`: The Amazon Resource Name (ARN) of the order.
 """
 function acknowledge_order_receipt end
 
@@ -51,12 +51,15 @@ end
 Activates the specified device identifier.
 
 # Arguments
+
 - `device_identifier_arn`: The Amazon Resource Name (ARN) of the device identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
 function activate_device_identifier end
 
@@ -99,21 +102,32 @@ end
 Activates the specified network site.
 
 # Arguments
+
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 - `shipping_address`: The shipping address of the network site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+
 - `"commitmentConfiguration"`: Determines the duration and renewal status of the commitment
-  period for all pending radio units. If you include commitmentConfiguration in the
-  ActivateNetworkSiteRequest action, you must specify the following:   The commitment period
-  for the radio unit. You can choose a 60-day, 1-year, or 3-year period.   Whether you want
-  your commitment period to automatically renew for one more year after your current
-  commitment period expires.   For pricing, see Amazon Web Services Private 5G Pricing. If
-  you do not include commitmentConfiguration in the ActivateNetworkSiteRequest action, the
-  commitment period is set to 60-days.
+  period for all pending radio units.
+
+  If you include `commitmentConfiguration` in the `ActivateNetworkSiteRequest` action, you
+  must specify the following:
+
+  - The commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year
+    period.
+  - Whether you want your commitment period to automatically renew for one more year after
+    your current commitment period expires.
+
+  For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
+
+  If you do not include `commitmentConfiguration` in the `ActivateNetworkSiteRequest`
+  action, the commitment period is set to 60-days.
 """
 function activate_network_site end
 
@@ -158,21 +172,27 @@ end
     configure_access_point(access_point_arn)
     configure_access_point(access_point_arn, params::Dict{String,<:Any})
 
-Configures the specified network resource.   Use this action to specify the geographic
-position of the hardware. You must provide Certified Professional Installer (CPI)
-credentials in the request so that we can obtain spectrum grants. For more information, see
-Radio units in the Amazon Web Services Private 5G User Guide.
+Configures the specified network resource.
+
+Use this action to specify the geographic position of the hardware. You must provide
+Certified Professional Installer (CPI) credentials in the request so that we can obtain
+spectrum grants. For more information, see [Radio units](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html)
+in the *Amazon Web Services Private 5G User Guide*.
 
 # Arguments
+
 - `access_point_arn`: The Amazon Resource Name (ARN) of the network resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cpiSecretKey"`: A Base64 encoded string of the CPI certificate associated with the CPI
   user who is certifying the coordinates of the network resource.
 - `"cpiUserId"`: The CPI user ID of the CPI user who is certifying the coordinates of the
   network resource.
-- `"cpiUserPassword"`: The CPI password associated with the CPI certificate in cpiSecretKey.
+- `"cpiUserPassword"`: The CPI password associated with the CPI certificate in
+  `cpiSecretKey`.
 - `"cpiUsername"`: The CPI user name of the CPI user who is certifying the coordinates of
   the radio unit.
 - `"position"`: The position of the network resource.
@@ -214,15 +234,18 @@ end
 Creates a network.
 
 # Arguments
+
 - `network_name`: The name of the network. You can't change the name after you create the
   network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description of the network.
-- `"tags"`:  The tags to apply to the network.
+- `"tags"`: The tags to apply to the network.
 """
 function create_network end
 
@@ -259,21 +282,24 @@ end
 Creates a network site.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 - `network_site_name`: The name of the site. You can't change the name after you create the
   site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"availabilityZone"`: The Availability Zone that is the parent of this site. You can't
   change the Availability Zone after you create the site.
 - `"availabilityZoneId"`: The ID of the Availability Zone that is the parent of this site.
   You can't change the Availability Zone after you create the site.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description of the site.
 - `"pendingPlan"`: Information about the pending plan for this site.
-- `"tags"`:  The tags to apply to the network site.
+- `"tags"`: The tags to apply to the network site.
 """
 function create_network_site end
 
@@ -319,12 +345,15 @@ end
 Deactivates the specified device identifier.
 
 # Arguments
+
 - `device_identifier_arn`: The Amazon Resource Name (ARN) of the device identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
 function deactivate_device_identifier end
 
@@ -365,16 +394,19 @@ end
     delete_network(network_arn, params::Dict{String,<:Any})
 
 Deletes the specified network. You must delete network sites before you delete the network.
-For more information, see DeleteNetworkSite in the API Reference for Amazon Web Services
-Private 5G.
+For more information, see [DeleteNetworkSite](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_DeleteNetworkSite.html)
+in the *API Reference for Amazon Web Services Private 5G*.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
 function delete_network end
 
@@ -403,16 +435,19 @@ end
     delete_network_site(network_site_arn, params::Dict{String,<:Any})
 
 Deletes the specified network site. Return the hardware after you delete the network site.
-You are responsible for minimum charges. For more information, see Hardware returns in the
-Amazon Web Services Private 5G User Guide.
+You are responsible for minimum charges. For more information, see [Hardware returns](https://docs.aws.amazon.com/private-networks/latest/userguide/hardware-maintenance.html)
+in the *Amazon Web Services Private 5G User Guide*.
 
 # Arguments
+
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
 function delete_network_site end
 
@@ -448,8 +483,8 @@ end
 Gets the specified device identifier.
 
 # Arguments
-- `device_identifier_arn`: The Amazon Resource Name (ARN) of the device identifier.
 
+- `device_identifier_arn`: The Amazon Resource Name (ARN) of the device identifier.
 """
 function get_device_identifier end
 
@@ -485,8 +520,8 @@ end
 Gets the specified network.
 
 # Arguments
-- `network_arn`: The Amazon Resource Name (ARN) of the network.
 
+- `network_arn`: The Amazon Resource Name (ARN) of the network.
 """
 function get_network end
 
@@ -517,8 +552,8 @@ end
 Gets the specified network resource.
 
 # Arguments
-- `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
 
+- `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
 """
 function get_network_resource end
 
@@ -554,8 +589,8 @@ end
 Gets the specified network site.
 
 # Arguments
-- `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 
+- `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 """
 function get_network_site end
 
@@ -591,8 +626,8 @@ end
 Gets the specified order.
 
 # Arguments
-- `order_arn`: The Amazon Resource Name (ARN) of the order.
 
+- `order_arn`: The Amazon Resource Name (ARN) of the order.
 """
 function get_order end
 
@@ -618,21 +653,31 @@ end
 
 Lists device identifiers. Add filters to your request to return a more specific list of
 results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of
-device identifiers, or the ARN of the traffic group. If you specify multiple filters,
-filters are joined with an OR, and the request returns results that match all of the
-specified filters.
+device identifiers, or the ARN of the traffic group.
+
+If you specify multiple filters, filters are joined with an OR, and the request returns
+results that match all of the specified filters.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.    ORDER - The Amazon Resource Name (ARN) of the order.
-  STATUS - The status (ACTIVE | INACTIVE).    TRAFFIC_GROUP - The Amazon Resource Name (ARN)
-  of the traffic group.   Filter values are case sensitive. If you specify multiple values
-  for a filter, the values are joined with an OR, and the request returns all results that
-  match any of the specified values.
+
+- `"filters"`: The filters.
+
+  - `ORDER` - The Amazon Resource Name (ARN) of the order.
+  - `STATUS` - The status (`ACTIVE` | `INACTIVE`).
+  - `TRAFFIC_GROUP` - The Amazon Resource Name (ARN) of the traffic group.
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an `OR`, and the request returns all results that match any of the
+  specified values.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"startToken"`: The token for the next page of results.
 """
 function list_device_identifiers end
@@ -671,20 +716,31 @@ end
 
 Lists network resources. Add filters to your request to return a more specific list of
 results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of
-network resources. If you specify multiple filters, filters are joined with an OR, and the
-request returns results that match all of the specified filters.
+network resources.
+
+If you specify multiple filters, filters are joined with an OR, and the request returns
+results that match all of the specified filters.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.    ORDER - The Amazon Resource Name (ARN) of the order.
-  STATUS - The status (AVAILABLE | DELETED | DELETING | PENDING | PENDING_RETURN |
-  PROVISIONING | SHIPPED).   Filter values are case sensitive. If you specify multiple values
-  for a filter, the values are joined with an OR, and the request returns all results that
-  match any of the specified values.
+
+- `"filters"`: The filters.
+
+  - `ORDER` - The Amazon Resource Name (ARN) of the order.
+  - `STATUS` - The status (`AVAILABLE` | `DELETED` | `DELETING` | `PENDING` |
+    `PENDING_RETURN` | `PROVISIONING` | `SHIPPED`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an `OR`, and the request returns all results that match any of the
+  specified values.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"startToken"`: The token for the next page of results.
 """
 function list_network_resources end
@@ -725,16 +781,25 @@ Lists network sites. Add filters to your request to return a more specific list 
 Use filters to match the status of the network site.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: The filters. Add filters to your request to return a more specific list of
-  results. Use filters to match the status of the network sites.    STATUS - The status
-  (AVAILABLE | CREATED | DELETED | DEPROVISIONING | PROVISIONING).   Filter values are case
-  sensitive. If you specify multiple values for a filter, the values are joined with an OR,
-  and the request returns all results that match any of the specified values.
+  results. Use filters to match the status of the network sites.
+
+  - `STATUS` - The status (`AVAILABLE` | `CREATED` | `DELETED` | `DEPROVISIONING` |
+    `PROVISIONING`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an `OR`, and the request returns all results that match any of the
+  specified values.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"startToken"`: The token for the next page of results.
 """
 function list_network_sites end
@@ -773,12 +838,20 @@ Lists networks. Add filters to your request to return a more specific list of re
 filters to match the status of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.    STATUS - The status (AVAILABLE | CREATED | DELETED |
-  DEPROVISIONING | PROVISIONING).   Filter values are case sensitive. If you specify multiple
-  values for a filter, the values are joined with an OR, and the request returns all results
-  that match any of the specified values.
+
+- `"filters"`: The filters.
+
+  - `STATUS` - The status (`AVAILABLE` | `CREATED` | `DELETED` | `DEPROVISIONING` |
+    `PROVISIONING`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an `OR`, and the request returns all results that match any of the
+  specified values.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"startToken"`: The token for the next page of results.
 """
 function list_networks end
@@ -803,20 +876,30 @@ end
 
 Lists orders. Add filters to your request to return a more specific list of results. Use
 filters to match the Amazon Resource Name (ARN) of the network site or the status of the
-order. If you specify multiple filters, filters are joined with an OR, and the request
-returns results that match all of the specified filters.
+order.
+
+If you specify multiple filters, filters are joined with an OR, and the request returns
+results that match all of the specified filters.
 
 # Arguments
+
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.    NETWORK_SITE - The Amazon Resource Name (ARN) of the network
-  site.    STATUS - The status (ACKNOWLEDGING | ACKNOWLEDGED | UNACKNOWLEDGED).   Filter
-  values are case sensitive. If you specify multiple values for a filter, the values are
-  joined with an OR, and the request returns all results that match any of the specified
-  values.
+
+- `"filters"`: The filters.
+
+  - `NETWORK_SITE` - The Amazon Resource Name (ARN) of the network site.
+  - `STATUS` - The status (`ACKNOWLEDGING` | `ACKNOWLEDGED` | `UNACKNOWLEDGED`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an `OR`, and the request returns all results that match any of the
+  specified values.
+
 - `"maxResults"`: The maximum number of results to return.
+
 - `"startToken"`: The token for the next page of results.
 """
 function list_orders end
@@ -854,8 +937,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -882,7 +965,6 @@ end
     ping(params::Dict{String,<:Any})
 
 Checks the health of the service.
-
 """
 function ping end
 
@@ -902,39 +984,54 @@ end
     start_network_resource_update(network_resource_arn, update_type)
     start_network_resource_update(network_resource_arn, update_type, params::Dict{String,<:Any})
 
-Use this action to do the following tasks:   Update the duration and renewal status of the
-commitment period for a radio unit. The update goes into effect immediately.   Request a
-replacement for a network resource.   Request that you return a network resource.   After
-you submit a request to replace or return a network resource, the status of the network
-resource changes to CREATING_SHIPPING_LABEL. The shipping label is available when the
-status of the network resource is PENDING_RETURN. After the network resource is
-successfully returned, its status changes to DELETED. For more information, see Return a
-radio unit.
+Use this action to do the following tasks:
+
+- Update the duration and renewal status of the commitment period for a radio unit. The
+  update goes into effect immediately.
+- Request a replacement for a network resource.
+- Request that you return a network resource.
+
+After you submit a request to replace or return a network resource, the status of the
+network resource changes to `CREATING_SHIPPING_LABEL`. The shipping label is available when
+the status of the network resource is `PENDING_RETURN`. After the network resource is
+successfully returned, its status changes to `DELETED`. For more information, see [Return a radio unit](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html#return-radio-unit).
 
 # Arguments
+
 - `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
-- `update_type`: The update type.    REPLACE - Submits a request to replace a defective
-  radio unit. We provide a shipping label that you can use for the return process and we ship
-  a replacement radio unit to you.    RETURN - Submits a request to return a radio unit that
-  you no longer need. We provide a shipping label that you can use for the return process.
-  COMMITMENT - Submits a request to change or renew the commitment period. If you choose this
-  value, then you must set  commitmentConfiguration .
+
+- `update_type`: The update type.
+
+  - `REPLACE` - Submits a request to replace a defective radio unit. We provide a shipping
+    label that you can use for the return process and we ship a replacement radio unit to
+    you.
+  - `RETURN` - Submits a request to return a radio unit that you no longer need. We provide
+    a shipping label that you can use for the return process.
+  - `COMMITMENT` - Submits a request to change or renew the commitment period. If you choose
+    this value, then you must set [`commitmentConfiguration`](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_StartNetworkResourceUpdate.html#privatenetworks-StartNetworkResourceUpdate-request-commitmentConfiguration).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"commitmentConfiguration"`: Use this action to extend and automatically renew the
-  commitment period for the radio unit. You can do the following:   Change a 60-day
-  commitment to a 1-year or 3-year commitment. The change is immediate and the hourly rate
-  decreases to the rate for the new commitment period.   Change a 1-year commitment to a
-  3-year commitment. The change is immediate and the hourly rate decreases to the rate for
-  the 3-year commitment period.   Set a 1-year commitment to automatically renew for an
-  additional 1 year. The hourly rate for the additional year will continue to be the same as
-  your existing 1-year rate.   Set a 3-year commitment to automatically renew for an
-  additional 1 year. The hourly rate for the additional year will continue to be the same as
-  your existing 3-year rate.   Turn off a previously-enabled automatic renewal on a 1-year or
-  3-year commitment. You cannot use the automatic-renewal option for a 60-day commitment.
-  For pricing, see Amazon Web Services Private 5G Pricing.
+  commitment period for the radio unit. You can do the following:
+
+  - Change a 60-day commitment to a 1-year or 3-year commitment. The change is immediate and
+    the hourly rate decreases to the rate for the new commitment period.
+  - Change a 1-year commitment to a 3-year commitment. The change is immediate and the
+    hourly rate decreases to the rate for the 3-year commitment period.
+  - Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate
+    for the additional year will continue to be the same as your existing 1-year rate.
+  - Set a 3-year commitment to automatically renew for an additional 1 year. The hourly rate
+    for the additional year will continue to be the same as your existing 3-year rate.
+  - Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment. You
+    cannot use the automatic-renewal option for a 60-day commitment.
+
+  For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
+
 - `"returnReason"`: The reason for the return. Providing a reason for a return is optional.
+
 - `"shippingAddress"`: The shipping address. If you don't provide a shipping address when
   replacing or returning a network resource, we use the address from the original order for
   the network resource.
@@ -982,12 +1079,12 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Adds tags to the specified resource.
+Adds tags to the specified resource.
 
 # Arguments
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
-- `tags`: The tags to add to the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tags`: The tags to add to the resource.
 """
 function tag_resource end
 
@@ -1023,9 +1120,9 @@ end
 Removes tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource end
 
@@ -1063,12 +1160,15 @@ end
 Updates the specified network site.
 
 # Arguments
+
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description.
 """
 function update_network_site end
@@ -1108,13 +1208,16 @@ end
 Updates the specified network site plan.
 
 # Arguments
+
 - `network_site_arn`: The Amazon Resource Name (ARN) of the network site.
 - `pending_plan`: The pending plan.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to ensure idempotency.
+  idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 """
 function update_network_site_plan end
 

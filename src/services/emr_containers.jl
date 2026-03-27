@@ -12,10 +12,10 @@ Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark scr
 SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
+
 - `job_run_id`: The ID of the job run to cancel.
 - `virtual_cluster_id`: The ID of the virtual cluster for which the job run will be
   canceled.
-
 """
 function cancel_job_run end
 
@@ -55,12 +55,15 @@ recurring StartJobRun API request values, enforcing certain values in StartJobRu
 request.
 
 # Arguments
+
 - `client_token`: The client token of the job template.
 - `job_template_data`: The job template data which holds values of StartJobRun API request.
 - `name`: The specified name of the job template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"kmsKeyArn"`: The KMS key ARN used to encrypt the job template.
 - `"tags"`: The tags that are associated with the job template.
 """
@@ -116,6 +119,7 @@ Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon
 to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
 
 # Arguments
+
 - `client_token`: The client idempotency token for this create call.
 - `execution_role_arn`: The ARN of the execution role.
 - `name`: The name of the managed endpoint.
@@ -125,7 +129,9 @@ to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual
   created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"certificateArn"`: The certificate ARN provided by users for the managed endpoint. This
   field is under deprecation and will be removed in future releases.
 - `"configurationOverrides"`: The configuration settings that will be used to override
@@ -193,19 +199,22 @@ end
     create_security_configuration(client_token, name, security_configuration_data)
     create_security_configuration(client_token, name, security_configuration_data, params::Dict{String,<:Any})
 
-Creates a security configuration. Security configurations in Amazon EMR on EKS are
-templates for different security setups. You can use security configurations to configure
-the Lake Formation integration setup. You can also create a security configuration to
-re-use a security setup each time you create a virtual cluster.
+Creates a security configuration. Security configurations in Amazon EMR on EKS are templates
+for different security setups. You can use security configurations to configure the Lake
+Formation integration setup. You can also create a security configuration to re-use a
+security setup each time you create a virtual cluster.
 
 # Arguments
+
 - `client_token`: The client idempotency token to use when creating the security
   configuration.
 - `name`: The name of the security configuration.
 - `security_configuration_data`: Security configuration input for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to add to the security configuration.
 """
 function create_security_configuration end
@@ -259,19 +268,22 @@ end
     create_virtual_cluster(client_token, container_provider, name)
     create_virtual_cluster(client_token, container_provider, name, params::Dict{String,<:Any})
 
-Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
-can create, describe, list and delete virtual clusters. They do not consume any additional
+Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can
+create, describe, list and delete virtual clusters. They do not consume any additional
 resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
 Given this relationship, you can model virtual clusters the same way you model Kubernetes
 namespaces to meet your requirements.
 
 # Arguments
+
 - `client_token`: The client token of the virtual cluster.
 - `container_provider`: The container provider of the virtual cluster.
 - `name`: The specified name of the virtual cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"securityConfigurationId"`: The ID of the security configuration.
 - `"tags"`: The tags assigned to the virtual cluster.
 """
@@ -329,8 +341,8 @@ recurring StartJobRun API request values, enforcing certain values in StartJobRu
 request.
 
 # Arguments
-- `template_id`: The ID of the job template that will be deleted.
 
+- `template_id`: The ID of the job template that will be deleted.
 """
 function delete_job_template end
 
@@ -362,9 +374,9 @@ Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon
 to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
 
 # Arguments
+
 - `endpoint_id`: The ID of the managed endpoint.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
-
 """
 function delete_managed_endpoint end
 
@@ -398,15 +410,15 @@ end
     delete_virtual_cluster(virtual_cluster_id)
     delete_virtual_cluster(virtual_cluster_id, params::Dict{String,<:Any})
 
-Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
-can create, describe, list and delete virtual clusters. They do not consume any additional
+Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can
+create, describe, list and delete virtual clusters. They do not consume any additional
 resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
 Given this relationship, you can model virtual clusters the same way you model Kubernetes
 namespaces to meet your requirements.
 
 # Arguments
-- `virtual_cluster_id`: The ID of the virtual cluster that will be deleted.
 
+- `virtual_cluster_id`: The ID of the virtual cluster that will be deleted.
 """
 function delete_virtual_cluster end
 
@@ -443,9 +455,9 @@ Displays detailed information about a job run. A job run is a unit of work, such
 jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
+
 - `job_run_id`: The ID of the job run request.
 - `virtual_cluster_id`: The ID of the virtual cluster for which the job run is submitted.
-
 """
 function describe_job_run end
 
@@ -485,8 +497,8 @@ allows two use cases: avoid repeating recurring StartJobRun API request values, 
 certain values in StartJobRun API request.
 
 # Arguments
-- `template_id`: The ID of the job template that will be described.
 
+- `template_id`: The ID of the job template that will be described.
 """
 function describe_job_template end
 
@@ -516,14 +528,14 @@ end
     describe_managed_endpoint(endpoint_id, virtual_cluster_id)
     describe_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
 
-Displays detailed information about a managed endpoint. A managed endpoint is a gateway
-that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
-communicate with your virtual cluster.
+Displays detailed information about a managed endpoint. A managed endpoint is a gateway that
+connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate
+with your virtual cluster.
 
 # Arguments
+
 - `endpoint_id`: This output displays ID of the managed endpoint.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
-
 """
 function describe_managed_endpoint end
 
@@ -558,14 +570,14 @@ end
     describe_security_configuration(security_configuration_id, params::Dict{String,<:Any})
 
 Displays detailed information about a specified security configuration. Security
-configurations in Amazon EMR on EKS are templates for different security setups. You can
-use security configurations to configure the Lake Formation integration setup. You can also
+configurations in Amazon EMR on EKS are templates for different security setups. You can use
+security configurations to configure the Lake Formation integration setup. You can also
 create a security configuration to re-use a security setup each time you create a virtual
 cluster.
 
 # Arguments
-- `security_configuration_id`: The ID of the security configuration.
 
+- `security_configuration_id`: The ID of the security configuration.
 """
 function describe_security_configuration end
 
@@ -605,8 +617,8 @@ cluster maps to a single Kubernetes namespace. Given this relationship, you can 
 virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
 
 # Arguments
-- `virtual_cluster_id`: The ID of the virtual cluster that will be described.
 
+- `virtual_cluster_id`: The ID of the virtual cluster that will be described.
 """
 function describe_virtual_cluster end
 
@@ -642,6 +654,7 @@ end
 Generate a session token to connect to a managed endpoint.
 
 # Arguments
+
 - `credential_type`: Type of the token requested. Currently supported and default value of
   this field is “TOKEN.”
 - `endpoint_id`: The ARN of the managed endpoint for which the request is submitted.
@@ -650,12 +663,14 @@ Generate a session token to connect to a managed endpoint.
   to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client idempotency token of the job run request.
 - `"durationInSeconds"`: Duration in seconds for which the session token is valid. The
   default duration is 15 minutes and the maximum is 12 hours.
-- `"logContext"`: String identifier used to separate sections of the execution logs
-  uploaded to S3.
+- `"logContext"`: String identifier used to separate sections of the execution logs uploaded
+  to S3.
 """
 function get_managed_endpoint_session_credentials end
 
@@ -714,10 +729,13 @@ Lists job runs based on a set of parameters. A job run is a unit of work, such a
 jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
+
 - `virtual_cluster_id`: The ID of the virtual cluster for which to list the job run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"createdAfter"`: The date and time after which the job runs were submitted.
 - `"createdBefore"`: The date and time before which the job runs were submitted.
 - `"maxResults"`: The maximum number of job runs that can be listed.
@@ -756,15 +774,17 @@ end
 
 Lists job templates based on a set of parameters. Job template stores values of StartJobRun
 API request in a template and can be used to start a job run. Job template allows two use
-cases: avoid repeating recurring StartJobRun API request values, enforcing certain values
-in StartJobRun API request.
+cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in
+StartJobRun API request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"createdAfter"`: The date and time after which the job templates were created.
-- `"createdBefore"`:  The date and time before which the job templates were created.
-- `"maxResults"`:  The maximum number of job templates that can be listed.
-- `"nextToken"`:  The token for the next set of job templates to return.
+- `"createdBefore"`: The date and time before which the job templates were created.
+- `"maxResults"`: The maximum number of job templates that can be listed.
+- `"nextToken"`: The token for the next set of job templates to return.
 """
 function list_job_templates end
 
@@ -791,14 +811,17 @@ connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can co
 with your virtual cluster.
 
 # Arguments
+
 - `virtual_cluster_id`: The ID of the virtual cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createdAfter"`:  The date and time after which the endpoints are created.
+
+- `"createdAfter"`: The date and time after which the endpoints are created.
 - `"createdBefore"`: The date and time before which the endpoints are created.
 - `"maxResults"`: The maximum number of managed endpoints that can be listed.
-- `"nextToken"`:  The token for the next set of managed endpoints to return.
+- `"nextToken"`: The token for the next set of managed endpoints to return.
 - `"states"`: The states of the managed endpoints.
 - `"types"`: The types of the managed endpoints.
 """
@@ -839,7 +862,9 @@ configurations to configure the Lake Formation integration setup. You can also c
 security configuration to re-use a security setup each time you create a virtual cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"createdAfter"`: The date and time after which the security configuration was created.
 - `"createdBefore"`: The date and time before which the security configuration was created.
 - `"maxResults"`: The maximum number of security configurations the operation can list.
@@ -872,8 +897,8 @@ end
 Lists the tags assigned to the resources.
 
 # Arguments
-- `resource_arn`: The ARN of tagged resources.
 
+- `resource_arn`: The ARN of tagged resources.
 """
 function list_tags_for_resource end
 
@@ -906,15 +931,17 @@ single Kubernetes namespace. Given this relationship, you can model virtual clus
 same way you model Kubernetes namespaces to meet your requirements.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"containerProviderId"`: The container provider ID of the virtual cluster.
 - `"containerProviderType"`: The container provider type of the virtual cluster. Amazon EKS
   is the only supported type as of now.
 - `"createdAfter"`: The date and time after which the virtual clusters are created.
 - `"createdBefore"`: The date and time before which the virtual clusters are created.
-- `"eksAccessEntryIntegrated"`: Optional Boolean that specifies whether the operation
-  should return the virtual clusters that have the access entry integration enabled or
-  disabled. If not specified, the operation returns all applicable virtual clusters.
+- `"eksAccessEntryIntegrated"`: Optional Boolean that specifies whether the operation should
+  return the virtual clusters that have the access entry integration enabled or disabled. If
+  not specified, the operation returns all applicable virtual clusters.
 - `"maxResults"`: The maximum number of virtual clusters that can be listed.
 - `"nextToken"`: The token for the next set of virtual clusters to return.
 - `"states"`: The states of the requested virtual clusters.
@@ -943,11 +970,14 @@ Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark scri
 SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
+
 - `client_token`: The client idempotency token of the job run request.
 - `virtual_cluster_id`: The virtual cluster ID for which the job run request is submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"configurationOverrides"`: The configuration overrides for the job run.
 - `"executionRoleArn"`: The execution role ARN for the job run.
 - `"jobDriver"`: The job driver for the job run.
@@ -1003,9 +1033,9 @@ owner and stack level. We recommend that you devise a consistent set of tag keys
 resource type. You can then search and filter the resources based on the tags that you add.
 
 # Arguments
+
 - `resource_arn`: The ARN of resources.
 - `tags`: The tags assigned to resources.
-
 """
 function tag_resource end
 
@@ -1041,9 +1071,9 @@ end
 Removes tags from resources.
 
 # Arguments
+
 - `resource_arn`: The ARN of resources.
 - `tag_keys`: The tag keys of the resources.
-
 """
 function untag_resource end
 

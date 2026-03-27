@@ -11,10 +11,10 @@ using AWS.UUIDs: uuid4
 This operation clones an existing backend.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `target_environment_name`: The name of the destination backend environment to be created.
-
 """
 function clone_backend end
 
@@ -63,12 +63,15 @@ This operation creates a backend for an Amplify app. Backends are automatically 
 the time of app creation.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `app_name`: The name of the app.
 - `backend_environment_name`: The name of the backend environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceConfig"`: The resource configuration for creating a backend.
 - `"resourceName"`: The name of the resource.
 """
@@ -126,11 +129,11 @@ end
 Creates a new backend API resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_config`: The resource configuration for this request.
 - `resource_name`: The name of this resource.
-
 """
 function create_backend_api end
 
@@ -188,11 +191,11 @@ end
 Creates a new backend authentication resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_config`: The resource configuration for this request object.
 - `resource_name`: The name of this resource.
-
 """
 function create_backend_auth end
 
@@ -250,10 +253,13 @@ end
 Creates a config object for a backend.
 
 # Arguments
+
 - `app_id`: The app ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"backendManagerAppId"`: The app ID for the backend manager.
 """
 function create_backend_config end
@@ -283,11 +289,11 @@ end
 Creates a backend storage resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_config`: The resource configuration for creating backend storage.
 - `resource_name`: The name of the storage resource.
-
 """
 function create_backend_storage end
 
@@ -345,8 +351,8 @@ end
 Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
 
 # Arguments
-- `app_id`: The app ID.
 
+- `app_id`: The app ID.
 """
 function create_token end
 
@@ -375,9 +381,9 @@ end
 Removes an existing environment from your Amplify project.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
-
 """
 function delete_backend end
 
@@ -414,12 +420,15 @@ end
 Deletes an existing backend API resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
@@ -465,10 +474,10 @@ end
 Deletes an existing backend authentication resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
-
 """
 function delete_backend_auth end
 
@@ -512,11 +521,11 @@ end
 Removes the specified backend storage resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of the storage resource.
 - `service_name`: The name of the storage service.
-
 """
 function delete_backend_storage end
 
@@ -568,9 +577,9 @@ end
 Deletes the challenge token based on the given appId and sessionId.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `session_id`: The session ID.
-
 """
 function delete_token end
 
@@ -605,10 +614,10 @@ end
 Generates a model schema for an existing backend API resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
-
 """
 function generate_backend_apimodels end
 
@@ -652,10 +661,13 @@ end
 Provides project-level details for your Amplify UI project.
 
 # Arguments
+
 - `app_id`: The app ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"backendEnvironmentName"`: The name of the backend environment.
 """
 function get_backend end
@@ -685,12 +697,15 @@ end
 Gets the details for a backend API.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
@@ -736,10 +751,10 @@ end
 Gets a model introspection schema for an existing backend API resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
-
 """
 function get_backend_apimodels end
 
@@ -783,10 +798,10 @@ end
 Gets a backend auth details.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
-
 """
 function get_backend_auth end
 
@@ -830,10 +845,10 @@ end
 Returns information about a specific job.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `job_id`: The ID for the job.
-
 """
 function get_backend_job end
 
@@ -871,10 +886,10 @@ end
 Gets details for a backend storage resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of the storage resource.
-
 """
 function get_backend_storage end
 
@@ -918,9 +933,9 @@ end
 Gets the challenge token based on the given appId and sessionId.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `session_id`: The session ID.
-
 """
 function get_token end
 
@@ -955,6 +970,7 @@ end
 Imports an existing backend authentication resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `native_client_id`: The ID of the Amazon Cognito native client.
@@ -962,7 +978,9 @@ Imports an existing backend authentication resource.
 - `web_client_id`: The ID of the Amazon Cognito web client.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"identityPoolId"`: The ID of the Amazon Cognito identity pool.
 """
 function import_backend_auth end
@@ -1023,12 +1041,15 @@ end
 Imports an existing backend storage resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `service_name`: The name of the storage service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bucketName"`: The name of the S3 bucket.
 """
 function import_backend_storage end
@@ -1073,11 +1094,14 @@ end
 Lists the jobs for the backend of an Amplify app.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobId"`: The ID for the job.
 - `"maxResults"`: The maximum number of results that you want in the response.
 - `"nextToken"`: The token for the next set of results.
@@ -1121,7 +1145,9 @@ end
 The list of S3 buckets in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: Reserved for future use.
 """
 function list_s3_buckets end
@@ -1145,10 +1171,13 @@ end
 Removes all backend environments from your Amplify project.
 
 # Arguments
+
 - `app_id`: The app ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cleanAmplifyApp"`: Cleans up the Amplify Console app if this value is set to true.
 """
 function remove_all_backends end
@@ -1178,8 +1207,8 @@ end
 Removes the AWS resources required to access the Amplify Admin UI.
 
 # Arguments
-- `app_id`: The app ID.
 
+- `app_id`: The app ID.
 """
 function remove_backend_config end
 
@@ -1211,12 +1240,15 @@ end
 Updates an existing backend API resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
@@ -1262,11 +1294,11 @@ end
 Updates an existing backend authentication resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_config`: The resource configuration for this request object.
 - `resource_name`: The name of this resource.
-
 """
 function update_backend_auth end
 
@@ -1320,10 +1352,13 @@ end
 Updates the AWS resources required to access the Amplify Admin UI.
 
 # Arguments
+
 - `app_id`: The app ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"loginAuthConfig"`: Describes the Amazon Cognito configuration for Admin UI access.
 """
 function update_backend_config end
@@ -1356,12 +1391,15 @@ end
 Updates a specific job.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `job_id`: The ID for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"operation"`: Filters the list of response objects to include only those with the
   specified operation name.
 - `"status"`: Filters the list of response objects to include only those with the specified
@@ -1403,11 +1441,11 @@ end
 Updates an existing backend storage resource.
 
 # Arguments
+
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_config`: The resource configuration for updating backend storage.
 - `resource_name`: The name of the storage resource.
-
 """
 function update_backend_storage end
 

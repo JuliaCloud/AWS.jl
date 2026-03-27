@@ -12,12 +12,15 @@ Instantiates a capability based on the specified parameters. A trading capabilit
 the information required to transform incoming EDI documents into JSON or XML outputs.
 
 # Arguments
+
 - `configuration`: Specifies a structure that contains the details for a capability.
 - `name`: Specifies the name of the capability, used to identify it.
-- `type`: Specifies the type of the capability. Currently, only edi is supported.
+- `type`: Specifies the type of the capability. Currently, only `edi` is supported.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Reserved for future use.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
   an EDI document that can be used with this capability. Each item contains the name of the
@@ -75,10 +78,11 @@ end
     create_partnership(capabilities, email, name, profile_id, params::Dict{String,<:Any})
 
 Creates a partnership between a customer and a trading partner, based on the supplied
-parameters. A partnership represents the connection between you and your trading partner.
-It ties together a profile and one or more trading capabilities.
+parameters. A partnership represents the connection between you and your trading partner. It
+ties together a profile and one or more trading capabilities.
 
 # Arguments
+
 - `capabilities`: Specifies a list of the capabilities associated with this partnership.
 - `email`: Specifies the email address associated with this trading partner.
 - `name`: Specifies a descriptive name for the partnership.
@@ -86,7 +90,9 @@ It ties together a profile and one or more trading capabilities.
   to this partnership.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Reserved for future use.
 - `"phone"`: Specifies the phone number associated with the partnership.
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
@@ -145,17 +151,20 @@ end
     create_profile(business_name, logging, name, phone, params::Dict{String,<:Any})
 
 Creates a customer profile. You can have up to five customer profiles, each representing a
-distinct private network. A profile is the mechanism used to create the concept of a
-private network.
+distinct private network. A profile is the mechanism used to create the concept of a private
+network.
 
 # Arguments
+
 - `business_name`: Specifies the name for the business associated with this profile.
 - `logging`: Specifies whether or not logging is enabled for this profile.
 - `name`: Specifies the name of the profile.
 - `phone`: Specifies the phone number associated with the profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Reserved for future use.
 - `"email"`: Specifies the email address associated with this customer profile.
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
@@ -213,21 +222,24 @@ end
     create_transformer(edi_type, file_format, mapping_template, name)
     create_transformer(edi_type, file_format, mapping_template, name, params::Dict{String,<:Any})
 
-Creates a transformer. A transformer describes how to process the incoming EDI documents
-and extract the necessary information to the output file.
+Creates a transformer. A transformer describes how to process the incoming EDI documents and
+extract the necessary information to the output file.
 
 # Arguments
+
 - `edi_type`: Specifies the details for the EDI standard that is being used for the
   transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
   messages that define specific business documents.
-- `file_format`: Specifies that the currently supported file formats for EDI
-  transformations are JSON and XML.
+- `file_format`: Specifies that the currently supported file formats for EDI transformations
+  are `JSON` and `XML`.
 - `mapping_template`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
 - `name`: Specifies the name of the transformer, used to identify it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Reserved for future use.
 - `"sampleDocument"`: Specifies a sample EDI document that is used by a transformer as a
   guide for processing the EDI data.
@@ -294,8 +306,8 @@ Deletes the specified capability. A trading capability contains the information 
 transform incoming EDI documents into JSON or XML outputs.
 
 # Arguments
-- `capability_id`: Specifies a system-assigned unique identifier for the capability.
 
+- `capability_id`: Specifies a system-assigned unique identifier for the capability.
 """
 function delete_capability end
 
@@ -331,8 +343,8 @@ Deletes the specified partnership. A partnership represents the connection betwe
 your trading partner. It ties together a profile and one or more trading capabilities.
 
 # Arguments
-- `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 
+- `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 """
 function delete_partnership end
 
@@ -370,8 +382,8 @@ Deletes the specified profile. A profile is the mechanism used to create the con
 private network.
 
 # Arguments
-- `profile_id`: Specifies the unique, system-generated identifier for the profile.
 
+- `profile_id`: Specifies the unique, system-generated identifier for the profile.
 """
 function delete_profile end
 
@@ -407,8 +419,8 @@ Deletes the specified transformer. A transformer describes how to process the in
 documents and extract the necessary information to the output file.
 
 # Arguments
-- `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 
+- `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 """
 function delete_transformer end
 
@@ -446,8 +458,8 @@ Retrieves the details for the specified capability. A trading capability contain
 information required to transform incoming EDI documents into JSON or XML outputs.
 
 # Arguments
-- `capability_id`: Specifies a system-assigned unique identifier for the capability.
 
+- `capability_id`: Specifies a system-assigned unique identifier for the capability.
 """
 function get_capability end
 
@@ -480,12 +492,12 @@ end
     get_partnership(partnership_id, params::Dict{String,<:Any})
 
 Retrieves the details for a partnership, based on the partner and profile IDs specified. A
-partnership represents the connection between you and your trading partner. It ties
-together a profile and one or more trading capabilities.
+partnership represents the connection between you and your trading partner. It ties together
+a profile and one or more trading capabilities.
 
 # Arguments
-- `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 
+- `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 """
 function get_partnership end
 
@@ -521,8 +533,8 @@ Retrieves the details for the profile specified by the profile ID. A profile is 
 mechanism used to create the concept of a private network.
 
 # Arguments
-- `profile_id`: Specifies the unique, system-generated identifier for the profile.
 
+- `profile_id`: Specifies the unique, system-generated identifier for the profile.
 """
 function get_profile end
 
@@ -555,12 +567,12 @@ end
     get_transformer(transformer_id, params::Dict{String,<:Any})
 
 Retrieves the details for the transformer specified by the transformer ID. A transformer
-describes how to process the incoming EDI documents and extract the necessary information
-to the output file.
+describes how to process the incoming EDI documents and extract the necessary information to
+the output file.
 
 # Arguments
-- `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 
+- `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 """
 function get_transformer end
 
@@ -595,10 +607,10 @@ end
 Returns the details of the transformer run, based on the Transformer job ID.
 
 # Arguments
+
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 - `transformer_job_id`: Specifies the unique, system-generated identifier for a transformer
   run.
-
 """
 function get_transformer_job end
 
@@ -646,10 +658,12 @@ specified region. A trading capability contains the information required to tran
 incoming EDI documents into JSON or XML outputs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the maximum number of capabilities to return.
-- `"nextToken"`: When additional results are obtained from the command, a NextToken
-  parameter is returned in the output. You can then pass the NextToken parameter in a
+- `"nextToken"`: When additional results are obtained from the command, a `NextToken`
+  parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
 function list_capabilities end
@@ -673,13 +687,15 @@ specified region. A partnership represents the connection between you and your t
 partner. It ties together a profile and one or more trading capabilities.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the maximum number of capabilities to return.
-- `"nextToken"`: When additional results are obtained from the command, a NextToken
-  parameter is returned in the output. You can then pass the NextToken parameter in a
+- `"nextToken"`: When additional results are obtained from the command, a `NextToken`
+  parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
-- `"profileId"`: Specifies the unique, system-generated identifier for the profile
-  connected to this partnership.
+- `"profileId"`: Specifies the unique, system-generated identifier for the profile connected
+  to this partnership.
 """
 function list_partnerships end
 
@@ -702,10 +718,12 @@ specified region. A profile is the mechanism used to create the concept of a pri
 network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the maximum number of profiles to return.
-- `"nextToken"`: When additional results are obtained from the command, a NextToken
-  parameter is returned in the output. You can then pass the NextToken parameter in a
+- `"nextToken"`: When additional results are obtained from the command, a `NextToken`
+  parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
 function list_profiles end
@@ -728,10 +746,10 @@ Lists all of the tags associated with the Amazon Resource Name (ARN) that you sp
 resource can be a capability, partnership, profile, or transformer.
 
 # Arguments
-- `resource_arn`: Requests the tags associated with a particular Amazon Resource Name
-  (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a
-  capability, partnership, profile, or transformer.
 
+- `resource_arn`: Requests the tags associated with a particular Amazon Resource Name (ARN).
+  An ARN is an identifier for a specific Amazon Web Services resource, such as a capability,
+  partnership, profile, or transformer.
 """
 function list_tags_for_resource end
 
@@ -769,10 +787,12 @@ Lists the available transformers. A transformer describes how to process the inc
 documents and extract the necessary information to the output file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the number of items to return for the API response.
-- `"nextToken"`: When additional results are obtained from the command, a NextToken
-  parameter is returned in the output. You can then pass the NextToken parameter in a
+- `"nextToken"`: When additional results are obtained from the command, a `NextToken`
+  parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
 function list_transformers end
@@ -792,12 +812,14 @@ end
     start_transformer_job(input_file, output_location, transformer_id, params::Dict{String,<:Any})
 
 Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into
-the output structures used by Amazon Web Services B2BI Data Interchange. If you only want
-to transform EDI (electronic data interchange) documents, you don't need to create
-profiles, partnerships or capabilities. Just create and configure a transformer, and then
-run the StartTransformerJob API to process your files.
+the output structures used by Amazon Web Services B2BI Data Interchange.
+
+If you only want to transform EDI (electronic data interchange) documents, you don't need to
+create profiles, partnerships or capabilities. Just create and configure a transformer, and
+then run the `StartTransformerJob` API to process your files.
 
 # Arguments
+
 - `input_file`: Specifies the location of the input file for the transformation. The
   location consists of an Amazon S3 bucket and prefix.
 - `output_location`: Specifies the location of the output file for the transformation. The
@@ -805,7 +827,9 @@ run the StartTransformerJob API to process your files.
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Reserved for future use.
 """
 function start_transformer_job end
@@ -860,16 +884,17 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN).
-Resources are capability, partnership, profile, transformers and other entities. There is
-no response returned from this call.
+Resources are capability, partnership, profile, transformers and other entities.
+
+There is no response returned from this call.
 
 # Arguments
-- `resource_arn`: Specifies an Amazon Resource Name (ARN) for a specific Amazon Web
-  Services resource, such as a capability, partnership, profile, or transformer.
+
+- `resource_arn`: Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services
+  resource, such as a capability, partnership, profile, or transformer.
 - `tags`: Specifies the key-value pairs assigned to ARNs that you can use to group and
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
-
 """
 function tag_resource end
 
@@ -906,18 +931,18 @@ end
     test_mapping(file_format, input_file_content, mapping_template)
     test_mapping(file_format, input_file_content, mapping_template, params::Dict{String,<:Any})
 
-Maps the input file according to the provided template file. The API call downloads the
-file contents from the Amazon S3 location, and passes the contents in as a string, to the
-inputFileContent parameter.
+Maps the input file according to the provided template file. The API call downloads the file
+contents from the Amazon S3 location, and passes the contents in as a string, to the
+`inputFileContent` parameter.
 
 # Arguments
-- `file_format`: Specifies that the currently supported file formats for EDI
-  transformations are JSON and XML.
-- `input_file_content`: Specify the contents of the EDI (electronic data interchange) XML
-  or JSON file that is used as input for the transform.
+
+- `file_format`: Specifies that the currently supported file formats for EDI transformations
+  are `JSON` and `XML`.
+- `input_file_content`: Specify the contents of the EDI (electronic data interchange) XML or
+  JSON file that is used as input for the transform.
 - `mapping_template`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
-
 """
 function test_mapping end
 
@@ -972,14 +997,14 @@ Parses the input EDI (electronic data interchange) file. The input file has a fi
 limit of 250 KB.
 
 # Arguments
+
 - `edi_type`: Specifies the details for the EDI standard that is being used for the
   transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
   messages that define specific business documents.
-- `file_format`: Specifies that the currently supported file formats for EDI
-  transformations are JSON and XML.
-- `input_file`: Specifies an S3Location object, which contains the Amazon S3 bucket and
+- `file_format`: Specifies that the currently supported file formats for EDI transformations
+  are `JSON` and `XML`.
+- `input_file`: Specifies an `S3Location` object, which contains the Amazon S3 bucket and
   prefix for the location of the input file.
-
 """
 function test_parsing end
 
@@ -1029,12 +1054,12 @@ Detaches a key-value pair from the specified resource, as identified by its Amaz
 Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
 
 # Arguments
-- `resource_arn`: Specifies an Amazon Resource Name (ARN) for a specific Amazon Web
-  Services resource, such as a capability, partnership, profile, or transformer.
+
+- `resource_arn`: Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services
+  resource, such as a capability, partnership, profile, or transformer.
 - `tag_keys`: Specifies the key-value pairs assigned to ARNs that you can use to group and
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
-
 """
 function untag_resource end
 
@@ -1078,10 +1103,13 @@ trading capability contains the information required to transform incoming EDI d
 into JSON or XML outputs.
 
 # Arguments
+
 - `capability_id`: Specifies a system-assigned unique identifier for the capability.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"configuration"`: Specifies a structure that contains the details for a capability.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
   an EDI document that can be used with this capability. Each item contains the name of the
@@ -1119,14 +1147,17 @@ end
     update_partnership(partnership_id, params::Dict{String,<:Any})
 
 Updates some of the parameters for a partnership between a customer and trading partner. A
-partnership represents the connection between you and your trading partner. It ties
-together a profile and one or more trading capabilities.
+partnership represents the connection between you and your trading partner. It ties together
+a profile and one or more trading capabilities.
 
 # Arguments
+
 - `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capabilities"`: List of the capabilities associated with this partnership.
 - `"name"`: The name of the partnership, used to identify it.
 """
@@ -1166,10 +1197,13 @@ Updates the specified parameters for a profile. A profile is the mechanism used 
 the concept of a private network.
 
 # Arguments
+
 - `profile_id`: Specifies the unique, system-generated identifier for the profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"businessName"`: Specifies the name for the business associated with this profile.
 - `"email"`: Specifies the email address associated with this customer profile.
 - `"name"`: The name of the profile, used to identify it.
@@ -1209,22 +1243,25 @@ Updates the specified parameters for a transformer. A transformer describes how 
 the incoming EDI documents and extract the necessary information to the output file.
 
 # Arguments
+
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ediType"`: Specifies the details for the EDI standard that is being used for the
   transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
   messages that define specific business documents.
 - `"fileFormat"`: Specifies that the currently supported file formats for EDI
-  transformations are JSON and XML.
+  transformations are `JSON` and `XML`.
 - `"mappingTemplate"`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
 - `"name"`: Specify a new name for the transformer, if you want to update it.
 - `"sampleDocument"`: Specifies a sample EDI document that is used by a transformer as a
   guide for processing the EDI data.
 - `"status"`: Specifies the transformer's status. You can update the state of the
-  transformer, from active to inactive, or inactive to active.
+  transformer, from `active` to `inactive`, or `inactive` to `active`.
 """
 function update_transformer end
 

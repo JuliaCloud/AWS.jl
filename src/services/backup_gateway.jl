@@ -12,11 +12,11 @@ Associates a backup gateway with your server. After you complete the association
 you can back up and restore your VMs through the gateway.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the ListGateways
+
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the `ListGateways`
   operation to return a list of gateways for your account and Amazon Web Services Region.
 - `server_arn`: The Amazon Resource Name (ARN) of the server that hosts your virtual
   machines.
-
 """
 function associate_gateway_to_server end
 
@@ -56,15 +56,18 @@ end
     create_gateway(activation_key, gateway_display_name, gateway_type, params::Dict{String,<:Any})
 
 Creates a backup gateway. After you create a gateway, you can associate it with a server
-using the AssociateGatewayToServer operation.
+using the [`associate_gateway_to_server`](@ref) operation.
 
 # Arguments
+
 - `activation_key`: The activation key of the created gateway.
 - `gateway_display_name`: The display name of the created gateway.
 - `gateway_type`: The type of created gateway.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair.
 """
 function create_gateway end
@@ -119,8 +122,8 @@ end
 Deletes a backup gateway.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to delete.
 
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to delete.
 """
 function delete_gateway end
 
@@ -155,8 +158,8 @@ end
 Deletes a hypervisor.
 
 # Arguments
-- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor to delete.
 
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor to delete.
 """
 function delete_hypervisor end
 
@@ -194,8 +197,8 @@ Disassociates a backup gateway from the specified server. After the disassociati
 finishes, the gateway can no longer access the virtual machines on the server.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to disassociate.
 
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to disassociate.
 """
 function disassociate_gateway_from_server end
 
@@ -229,14 +232,14 @@ end
     get_bandwidth_rate_limit_schedule(gateway_arn)
     get_bandwidth_rate_limit_schedule(gateway_arn, params::Dict{String,<:Any})
 
-Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways
-do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
+Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do
+not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
 effect. Use this to get a gateway's bandwidth rate limit schedule.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways
-  operation to return a list of gateways for your account and Amazon Web Services Region.
 
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
+  operation to return a list of gateways for your account and Amazon Web Services Region.
 """
 function get_bandwidth_rate_limit_schedule end
 
@@ -273,8 +276,8 @@ end
 By providing the ARN (Amazon Resource Name), this API returns the gateway.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway.
 
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway.
 """
 function get_gateway end
 
@@ -311,8 +314,8 @@ connect. A hypervisor is hardware, software, or firmware that creates and manage
 machines, and allocates resources to them.
 
 # Arguments
-- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
 function get_hypervisor end
 
@@ -345,12 +348,12 @@ end
     get_hypervisor_property_mappings(hypervisor_arn, params::Dict{String,<:Any})
 
 This action retrieves the property mappings for the specified hypervisor. A hypervisor
-property mapping displays the relationship of entity properties available from the
-on-premises hypervisor to the properties available in Amazon Web Services.
+property mapping displays the relationship of entity properties available from the on-
+premises hypervisor to the properties available in Amazon Web Services.
 
 # Arguments
-- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
 function get_hypervisor_property_mappings end
 
@@ -387,8 +390,8 @@ end
 By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the virtual machine.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the virtual machine.
 """
 function get_virtual_machine end
 
@@ -425,12 +428,15 @@ end
 Connect to a hypervisor by importing its configuration.
 
 # Arguments
-- `host`: The server host of the hypervisor. This can be either an IP address or a
-  fully-qualified domain name (FQDN).
+
+- `host`: The server host of the hypervisor. This can be either an IP address or a fully-
+  qualified domain name (FQDN).
 - `name`: The name of the hypervisor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"KmsKeyArn"`: The Key Management Service for the hypervisor.
 - `"Password"`: The password for the hypervisor.
 - `"Tags"`: The tags of the hypervisor configuration to import.
@@ -473,10 +479,12 @@ Lists backup gateways owned by an Amazon Web Services account in an Amazon Web S
 Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of gateways to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return MaxResults number of resources, NextToken allows you to
+  if a request is made to return `MaxResults` number of resources, `NextToken` allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_gateways end
@@ -500,10 +508,12 @@ end
 Lists your hypervisors.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of hypervisors to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return maxResults number of resources, NextToken allows you to
+  if a request is made to return `maxResults` number of resources, `NextToken` allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_hypervisors end
@@ -527,8 +537,8 @@ end
 Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource's tags to list.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource's tags to list.
 """
 function list_tags_for_resource end
 
@@ -565,12 +575,14 @@ end
 Lists your virtual machines.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"HypervisorArn"`: The Amazon Resource Name (ARN) of the hypervisor connected to your
   virtual machine.
 - `"MaxResults"`: The maximum number of virtual machines to list.
 - `"NextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return maxResults number of resources, NextToken allows you to
+  if a request is made to return `maxResults` number of resources, `NextToken` allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_virtual_machines end
@@ -594,16 +606,16 @@ end
     put_bandwidth_rate_limit_schedule(bandwidth_rate_limit_intervals, gateway_arn, params::Dict{String,<:Any})
 
 This action sets the bandwidth rate limit schedule for a specified gateway. By default,
-gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate
-limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
+gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting
+is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
 
 # Arguments
+
 - `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
   intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
   array is empty.
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
-
 """
 function put_bandwidth_rate_limit_schedule end
 
@@ -655,11 +667,11 @@ mapping displays the relationship of entity properties available from the on-pre
 hypervisor to the properties available in Amazon Web Services.
 
 # Arguments
+
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 - `iam_role_arn`: The Amazon Resource Name (ARN) of the IAM role.
-- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware
-  tags to the Amazon Web Services tags.
-
+- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware tags
+  to the Amazon Web Services tags.
 """
 function put_hypervisor_property_mappings end
 
@@ -713,15 +725,20 @@ end
 Set the maintenance start time for a gateway.
 
 # Arguments
+
 - `gateway_arn`: The Amazon Resource Name (ARN) for the gateway, used to specify its
   maintenance start time.
 - `hour_of_day`: The hour of the day to start maintenance on a gateway.
 - `minute_of_hour`: The minute of the hour to start maintenance on a gateway.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DayOfMonth"`: The day of the month start maintenance on a gateway. Valid values range
-  from Sunday to Saturday.
+
+- `"DayOfMonth"`: The day of the month start maintenance on a gateway.
+
+  Valid values range from `Sunday` to `Saturday`.
+
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
 function put_maintenance_start_time end
@@ -773,8 +790,8 @@ end
 This action sends a request to sync metadata across the specified virtual machines.
 
 # Arguments
-- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
+- `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 """
 function start_virtual_machines_metadata_sync end
 
@@ -811,9 +828,9 @@ end
 Tag the resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
 - `tags`: A list of tags to assign to the resource.
-
 """
 function tag_resource end
 
@@ -854,12 +871,15 @@ Tests your hypervisor configuration to validate that backup gateway can connect 
 hypervisor and its resources.
 
 # Arguments
+
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to the hypervisor to test.
-- `host`: The server host of the hypervisor. This can be either an IP address or a
-  fully-qualified domain name (FQDN).
+- `host`: The server host of the hypervisor. This can be either an IP address or a fully-
+  qualified domain name (FQDN).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Password"`: The password for the hypervisor.
 - `"Username"`: The username for the hypervisor.
 """
@@ -901,9 +921,9 @@ end
 Removes tags from the resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to remove tags.
 - `tag_keys`: The list of tag keys specifying which tags to remove.
-
 """
 function untag_resource end
 
@@ -946,10 +966,13 @@ Updates a gateway's name. Specify which gateway to update using the Amazon Resou
 (ARN) of the gateway in your request.
 
 # Arguments
+
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GatewayDisplayName"`: The updated display name of the gateway.
 """
 function update_gateway_information end
@@ -985,12 +1008,15 @@ end
     update_gateway_software_now(gateway_arn, params::Dict{String,<:Any})
 
 Updates the gateway virtual machine (VM) software. The request immediately triggers the
-software update.  When you make this request, you get a 200 OK success response
-immediately. However, it might take some time for the update to complete.
+software update.
+
+!!! note
+    When you make this request, you get a `200 OK` success response immediately. However, it
+    might take some time for the update to complete.
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to be updated.
 
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to be updated.
 """
 function update_gateway_software_now end
 
@@ -1028,12 +1054,15 @@ Updates a hypervisor metadata, including its host, username, and password. Speci
 hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
 
 # Arguments
+
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Host"`: The updated host of the hypervisor. This can be either an IP address or a
-  fully-qualified domain name (FQDN).
+
+- `"Host"`: The updated host of the hypervisor. This can be either an IP address or a fully-
+  qualified domain name (FQDN).
 - `"LogGroupArn"`: The Amazon Resource Name (ARN) of the group of gateways within the
   requested log.
 - `"Name"`: The updated name for the hypervisor

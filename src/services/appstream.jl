@@ -11,9 +11,9 @@ using AWS.UUIDs: uuid4
 Associates the specified app block builder with the specified app block.
 
 # Arguments
+
 - `app_block_arn`: The ARN of the app block.
 - `app_block_builder_name`: The name of the app block builder.
-
 """
 function associate_app_block_builder_app_block end
 
@@ -61,9 +61,9 @@ Associates the specified application with the specified fleet. This is only supp
 Elastic fleets.
 
 # Arguments
+
 - `application_arn`: The ARN of the application.
 - `fleet_name`: The name of the fleet.
-
 """
 function associate_application_fleet end
 
@@ -107,10 +107,10 @@ end
 Associates an application to entitle.
 
 # Arguments
+
 - `application_identifier`: The identifier of the application.
 - `entitlement_name`: The name of the entitlement.
 - `stack_name`: The name of the stack.
-
 """
 function associate_application_to_entitlement end
 
@@ -164,9 +164,9 @@ end
 Associates the specified fleet with the specified stack.
 
 # Arguments
+
 - `fleet_name`: The name of the fleet.
 - `stack_name`: The name of the stack.
-
 """
 function associate_fleet end
 
@@ -209,8 +209,8 @@ Associates the specified users with the specified stacks. Users in a user pool c
 assigned to stacks with fleets that are joined to an Active Directory domain.
 
 # Arguments
-- `user_stack_associations`: The list of UserStackAssociation objects.
 
+- `user_stack_associations`: The list of UserStackAssociation objects.
 """
 function batch_associate_user_stack end
 
@@ -251,8 +251,8 @@ end
 Disassociates the specified users from the specified stacks.
 
 # Arguments
-- `user_stack_associations`: The list of UserStackAssociation objects.
 
+- `user_stack_associations`: The list of UserStackAssociation objects.
 """
 function batch_disassociate_user_stack end
 
@@ -290,10 +290,11 @@ end
     copy_image(destination_image_name, destination_region, source_image_name)
     copy_image(destination_image_name, destination_region, source_image_name, params::Dict{String,<:Any})
 
-Copies the image within the same region or to a new region within the same AWS account.
-Note that any tags you added to the image will not be copied.
+Copies the image within the same region or to a new region within the same AWS account. Note
+that any tags you added to the image will not be copied.
 
 # Arguments
+
 - `destination_image_name`: The name that the image will have when it is copied to the
   destination.
 - `destination_region`: The destination region to which the image will be copied. This
@@ -301,7 +302,9 @@ Note that any tags you added to the image will not be copied.
 - `source_image_name`: The name of the image to copy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DestinationImageDescription"`: The description that the image will have when it is
   copied to the destination.
 """
@@ -354,26 +357,32 @@ end
     create_app_block(name, source_s3_location)
     create_app_block(name, source_s3_location, params::Dict{String,<:Any})
 
-Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the
-details about the virtual hard disk in an S3 bucket. It also stores the setup script with
-details about how to mount the virtual hard disk. The virtual hard disk includes the
-application binaries and other files necessary to launch your applications. Multiple
-applications can be assigned to a single app block. This is only supported for Elastic
-fleets.
+Creates an app block.
+
+App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual
+hard disk in an S3 bucket. It also stores the setup script with details about how to mount
+the virtual hard disk. The virtual hard disk includes the application binaries and other
+files necessary to launch your applications. Multiple applications can be assigned to a
+single app block.
+
+This is only supported for Elastic fleets.
 
 # Arguments
+
 - `name`: The name of the app block.
 - `source_s3_location`: The source S3 location of the app block.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the app block.
 - `"DisplayName"`: The display name of the app block. This is not displayed to the user.
 - `"PackagingType"`: The packaging type of the app block.
 - `"PostSetupScriptDetails"`: The post setup script details of the app block. This can only
-  be provided for the APPSTREAM2 PackagingType.
+  be provided for the `APPSTREAM2` PackagingType.
 - `"SetupScriptDetails"`: The setup script details of the app block. This must be provided
-  for the CUSTOM PackagingType.
+  for the `CUSTOM` PackagingType.
 - `"Tags"`: The tags assigned to the app block.
 """
 function create_app_block end
@@ -416,36 +425,63 @@ end
 Creates an app block builder.
 
 # Arguments
+
 - `instance_type`: The instance type to use when launching the app block builder. The
-  following instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+  following instance types are available:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+
 - `name`: The unique name for the app block builder.
-- `platform`: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid
-  value.
-- `vpc_config`: The VPC configuration for the app block builder. App block builders require
-  that you specify at least two subnets in different availability zones.
+
+- `platform`: The platform of the app block builder.
+
+  `WINDOWS_SERVER_2019` is the only valid value.
+
+- `vpc_config`: The VPC configuration for the app block builder.
+
+  App block builders require that you specify at least two subnets in different availability
+  zones.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Administrators can connect to the app block builder only through the specified endpoints.
+
 - `"Description"`: The description of the app block builder.
+
 - `"DisplayName"`: The display name of the app block builder.
+
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
   block builder.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
-  builder. To assume a role, the app block builder calls the AWS Security Token Service (STS)
-  AssumeRole API operation and passes the ARN of the role to use. The operation creates a new
-  session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
-  creates the appstream_machine_role credential profile on the instance. For more
-  information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running
-  on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
-- `"Tags"`: The tags to associate with the app block builder. A tag is a key-value pair,
-  and the value is optional. For example, Environment=Test. If you do not specify a value,
-  Environment=.  If you do not specify a value, the value is set to an empty string.
+  builder. To assume a role, the app block builder calls the AWS Security Token Service
+  (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation
+  creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary
+  credentials and creates the **appstream_machine_role** credential profile on the instance.
+
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
+- `"Tags"`: The tags to associate with the app block builder. A tag is a key-value pair, and
+  the value is optional. For example, Environment=Test. If you do not specify a value,
+  Environment=.
+
+  If you do not specify a value, the value is set to an empty string.
+
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following special characters:  _ . : / = +  - @ For more information, see Tagging Your
-  Resources in the Amazon AppStream 2.0 Administration Guide.
+  the following special characters:
+
+  _ . : / = + \\ - @
+
+  For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
 """
 function create_app_block_builder end
 
@@ -503,10 +539,13 @@ end
 Creates a URL to start a create app block builder streaming session.
 
 # Arguments
+
 - `app_block_builder_name`: The name of the app block builder.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
@@ -546,14 +585,18 @@ end
     create_application(app_block_arn, icon_s3_location, instance_families, launch_path, name, platforms)
     create_application(app_block_arn, icon_s3_location, instance_families, launch_path, name, platforms, params::Dict{String,<:Any})
 
-Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the
-details about how to launch applications on Elastic fleet streaming instances. An
-application consists of the launch details, icon, and display name. Applications are
-associated with an app block that contains the application binaries and other files. The
-applications assigned to an Elastic fleet are the applications users can launch.  This is
-only supported for Elastic fleets.
+Creates an application.
+
+Applications are an Amazon AppStream 2.0 resource that stores the details about how to
+launch applications on Elastic fleet streaming instances. An application consists of the
+launch details, icon, and display name. Applications are associated with an app block that
+contains the application binaries and other files. The applications assigned to an Elastic
+fleet are the applications users can launch.
+
+This is only supported for Elastic fleets.
 
 # Arguments
+
 - `app_block_arn`: The app block ARN to which the application should be associated
 - `icon_s3_location`: The location in S3 of the application icon.
 - `instance_families`: The instance families the application supports. Valid values are
@@ -561,14 +604,16 @@ only supported for Elastic fleets.
 - `launch_path`: The launch path of the application.
 - `name`: The name of the application. This name is visible to users when display name is
   not specified.
-- `platforms`: The platforms the application supports. WINDOWS_SERVER_2019 and
-  AMAZON_LINUX2 are supported for Elastic fleets.
+- `platforms`: The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2
+  are supported for Elastic fleets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the application.
-- `"DisplayName"`: The display name of the application. This name is visible to users in
-  the application catalog.
+- `"DisplayName"`: The display name of the application. This name is visible to users in the
+  application catalog.
 - `"LaunchParameters"`: The launch parameters of the application.
 - `"Tags"`: The tags assigned to the application.
 - `"WorkingDirectory"`: The working directory of the application.
@@ -639,21 +684,25 @@ information required to join fleets and image builders to Microsoft Active Direc
 domains.
 
 # Arguments
+
 - `directory_name`: The fully qualified name of the directory (for example,
   corp.example.com).
 - `organizational_unit_distinguished_names`: The distinguished names of the organizational
   units for computer accounts.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateBasedAuthProperties"`: The certificate-based authentication properties used
   to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory
   domain-joined streaming instances. Fallback is turned on by default when certificate-based
-  authentication is Enabled . Fallback allows users to log in using their AD domain password
-  if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen.
-  Enabled_no_directory_login_fallback enables certificate-based authentication, but does not
-  allow users to log in using their AD domain password. Users will be disconnected to
-  re-authenticate using certificates.
+  authentication is **Enabled** . Fallback allows users to log in using their AD domain
+  password if certificate-based authentication is unsuccessful, or to unlock a desktop lock
+  screen. **Enabled_no_directory_login_fallback** enables certificate-based authentication,
+  but does not allow users to log in using their AD domain password. Users will be
+  disconnected to re-authenticate using certificates.
+
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
@@ -705,18 +754,21 @@ end
 
 Creates a new entitlement. Entitlements control access to specific applications within a
 stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities.
-Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in
-a stack. Entitlements don't apply to the desktop stream view application, or to
-applications managed by a dynamic app provider using the Dynamic Application Framework.
+Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a
+stack. Entitlements don't apply to the desktop stream view application, or to applications
+managed by a dynamic app provider using the Dynamic Application Framework.
 
 # Arguments
+
 - `app_visibility`: Specifies whether all or selected apps are entitled.
 - `attributes`: The attributes of the entitlement.
 - `name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the entitlement.
 """
 function create_entitlement end
@@ -776,99 +828,181 @@ Creates a fleet. A fleet consists of streaming instances that your users access 
 applications and desktops.
 
 # Arguments
+
 - `instance_type`: The instance type to use when launching fleet instances. The following
-  instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
-  stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge
-  stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large
-  stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
-  stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
-  stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge
-  stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge
-  stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
-  stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge
-  stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
-   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge
-   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge
-  stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge
-  stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
-  The following instance types are available for Elastic fleets:   stream.standard.small
-  stream.standard.medium   stream.standard.large   stream.standard.xlarge
-  stream.standard.2xlarge
+  instance types are available:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+  - stream.compute.large
+  - stream.compute.xlarge
+  - stream.compute.2xlarge
+  - stream.compute.4xlarge
+  - stream.compute.8xlarge
+  - stream.memory.large
+  - stream.memory.xlarge
+  - stream.memory.2xlarge
+  - stream.memory.4xlarge
+  - stream.memory.8xlarge
+  - stream.memory.z1d.large
+  - stream.memory.z1d.xlarge
+  - stream.memory.z1d.2xlarge
+  - stream.memory.z1d.3xlarge
+  - stream.memory.z1d.6xlarge
+  - stream.memory.z1d.12xlarge
+  - stream.graphics-design.large
+  - stream.graphics-design.xlarge
+  - stream.graphics-design.2xlarge
+  - stream.graphics-design.4xlarge
+  - stream.graphics-desktop.2xlarge
+  - stream.graphics.g4dn.xlarge
+  - stream.graphics.g4dn.2xlarge
+  - stream.graphics.g4dn.4xlarge
+  - stream.graphics.g4dn.8xlarge
+  - stream.graphics.g4dn.12xlarge
+  - stream.graphics.g4dn.16xlarge
+  - stream.graphics.g5.xlarge
+  - stream.graphics.g5.2xlarge
+  - stream.graphics.g5.4xlarge
+  - stream.graphics.g5.8xlarge
+  - stream.graphics.g5.12xlarge
+  - stream.graphics.g5.16xlarge
+  - stream.graphics.g5.24xlarge
+  - stream.graphics-pro.4xlarge
+  - stream.graphics-pro.8xlarge
+  - stream.graphics-pro.16xlarge
+
+  The following instance types are available for Elastic fleets:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+
 - `name`: A unique name for the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ComputeCapacity"`: The desired capacity for the fleet. This is not allowed for Elastic
   fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
+
 - `"Description"`: The description to display.
-- `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains
-  active after users disconnect. If users try to reconnect to the streaming session after a
+
+- `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains active
+  after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
-  their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 36000.
+  their previous session. Otherwise, they are connected to a new session with a new
+  streaming instance.
+
+  Specify a value between 60 and 36000.
+
 - `"DisplayName"`: The fleet name to display.
+
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
+
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the
   fleet.
-- `"FleetType"`: The fleet type.  ALWAYS_ON  Provides users with instant-on access to their
-  apps. You are charged for all running instances in your fleet, even if no users are
-  streaming apps.  ON_DEMAND  Provide users with access to applications after they connect,
-  which takes one to two minutes. You are charged for instance streaming when users are
-  connected and a small hourly fee for instances that are not streaming apps.
+
+- `"FleetType"`: The fleet type.
+
+  ### ALWAYS_ON
+
+  Provides users with instant-on access to their apps. You are charged for all running
+  instances in your fleet, even if no users are streaming apps.
+
+  ### ON_DEMAND
+
+  Provide users with access to applications after they connect, which takes one to two
+  minutes. You are charged for instance streaming when users are connected and a small
+  hourly fee for instances that are not streaming apps.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
-  assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API
-  operation and passes the ARN of the role to use. The operation creates a new session with
-  temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the
-  appstream_machine_role credential profile on the instance. For more information, see Using
-  an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0
-  Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+  assume a role, a fleet instance calls the AWS Security Token Service (STS) `AssumeRole`
+  API operation and passes the ARN of the role to use. The operation creates a new session
+  with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates
+  the **appstream_machine_role** credential profile on the instance.
+
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"IdleDisconnectTimeoutInSeconds"`: The amount of time that users can be idle (inactive)
   before they are disconnected from their streaming session and the
-  DisconnectTimeoutInSeconds time interval begins. Users are notified before they are
+  `DisconnectTimeoutInSeconds` time interval begins. Users are notified before they are
   disconnected due to inactivity. If they try to reconnect to the streaming session before
-  the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to
+  the time interval specified in `DisconnectTimeoutInSeconds` elapses, they are connected to
   their previous session. Users are considered idle when they stop providing keyboard or
   mouse input during their streaming session. File uploads and downloads, audio in, audio
   out, and pixels changing do not qualify as user activity. If users continue to be idle
-  after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
+  after the time interval in `IdleDisconnectTimeoutInSeconds` elapses, they are
+  disconnected.
+
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
-  this feature, we recommend that you specify a value that corresponds exactly to a whole
-  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
-  rounded to the nearest minute. For example, if you specify a value of 70, users are
-  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
-  between two different minutes, the value is rounded up. For example, if you specify a value
-  of 90, users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.
+
+  !!! note
+      If you enable this feature, we recommend that you specify a value that corresponds
+      exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do
+      this, the value is rounded to the nearest minute. For example, if you specify a value
+      of 70, users are disconnected after 1 minute of inactivity. If you specify a value
+      that is at the midpoint between two different minutes, the value is rounded up. For
+      example, if you specify a value of 90, users are disconnected after 2 minutes of
+      inactivity.
+
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
+
 - `"ImageName"`: The name of the image used to create the fleet.
+
 - `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
   required for Elastic fleets, and not allowed for other fleet types.
+
 - `"MaxSessionsPerInstance"`: The maximum number of user sessions on an instance. This only
   applies to multi-session fleets.
+
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
-  new instance. Specify a value between 600 and 432000.
+  new instance.
+
+  Specify a value between 600 and 432000.
+
 - `"Platform"`: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for
   Elastic fleets.
+
 - `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
   file. This only applies to Elastic fleets.
+
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
-  from the fleet. When APP is specified, only the windows of applications opened by users
-  display. When DESKTOP is specified, the standard desktop that is provided by the operating
-  system displays. The default value is APP.
+  from the fleet. When `APP` is specified, only the windows of applications opened by users
+  display. When `DESKTOP` is specified, the standard desktop that is provided by the
+  operating system displays.
+
+  The default value is `APP`.
+
 - `"Tags"`: The tags to associate with the fleet. A tag is a key-value pair, and the value
   is optional. For example, Environment=Test. If you do not specify a value, Environment=.
-  If you do not specify a value, the value is set to an empty string. Generally allowed
-  characters are: letters, numbers, and spaces representable in UTF-8, and the following
-  special characters:  _ . : / = +  - @ For more information, see Tagging Your Resources in
-  the Amazon AppStream 2.0 Administration Guide.
-- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices
-  a user can redirect to the fleet streaming session, when using the Windows native client.
+
+  If you do not specify a value, the value is set to an empty string.
+
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:
+
+  _ . : / = + \\ - @
+
+  For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
+- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices a
+  user can redirect to the fleet streaming session, when using the Windows native client.
   This is allowed but not required for Elastic fleets.
+
 - `"VpcConfig"`: The VPC configuration for the fleet. This is required for Elastic fleets,
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
@@ -911,51 +1045,98 @@ end
     create_image_builder(instance_type, name, params::Dict{String,<:Any})
 
 Creates an image builder. An image builder is a virtual machine that is used to create an
-image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
+image.
+
+The initial state of the builder is `PENDING`. When it is ready, the state is `RUNNING`.
 
 # Arguments
+
 - `instance_type`: The instance type to use when launching the image builder. The following
-  instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.compute.large   stream.compute.xlarge
-  stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge
-  stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
-   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
-  stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge
-  stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge
-  stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
-  stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge
-  stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
-   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
-  stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
+  instance types are available:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.compute.large
+  - stream.compute.xlarge
+  - stream.compute.2xlarge
+  - stream.compute.4xlarge
+  - stream.compute.8xlarge
+  - stream.memory.large
+  - stream.memory.xlarge
+  - stream.memory.2xlarge
+  - stream.memory.4xlarge
+  - stream.memory.8xlarge
+  - stream.memory.z1d.large
+  - stream.memory.z1d.xlarge
+  - stream.memory.z1d.2xlarge
+  - stream.memory.z1d.3xlarge
+  - stream.memory.z1d.6xlarge
+  - stream.memory.z1d.12xlarge
+  - stream.graphics-design.large
+  - stream.graphics-design.xlarge
+  - stream.graphics-design.2xlarge
+  - stream.graphics-design.4xlarge
+  - stream.graphics-desktop.2xlarge
+  - stream.graphics.g4dn.xlarge
+  - stream.graphics.g4dn.2xlarge
+  - stream.graphics.g4dn.4xlarge
+  - stream.graphics.g4dn.8xlarge
+  - stream.graphics.g4dn.12xlarge
+  - stream.graphics.g4dn.16xlarge
+  - stream.graphics-pro.4xlarge
+  - stream.graphics-pro.8xlarge
+  - stream.graphics-pro.16xlarge
+
 - `name`: A unique name for the image builder.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Administrators can connect to the image builder only through the specified endpoints.
+
 - `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+
 - `"Description"`: The description to display.
+
 - `"DisplayName"`: The image builder name to display.
+
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the image builder to a Microsoft Active Directory domain.
-- `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the
-  image builder.
+
+- `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the image
+  builder.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the image
   builder. To assume a role, the image builder calls the AWS Security Token Service (STS)
-  AssumeRole API operation and passes the ARN of the role to use. The operation creates a new
-  session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
-  creates the appstream_machine_role credential profile on the instance. For more
-  information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running
-  on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+  `AssumeRole` API operation and passes the ARN of the role to use. The operation creates a
+  new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials
+  and creates the **appstream_machine_role** credential profile on the instance.
+
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
+
 - `"ImageName"`: The name of the image used to create the image builder.
-- `"Tags"`: The tags to associate with the image builder. A tag is a key-value pair, and
-  the value is optional. For example, Environment=Test. If you do not specify a value,
-  Environment=.  Generally allowed characters are: letters, numbers, and spaces representable
-  in UTF-8, and the following special characters:  _ . : / = +  - @ If you do not specify a
-  value, the value is set to an empty string. For more information about tags, see Tagging
-  Your Resources in the Amazon AppStream 2.0 Administration Guide.
+
+- `"Tags"`: The tags to associate with the image builder. A tag is a key-value pair, and the
+  value is optional. For example, Environment=Test. If you do not specify a value,
+  Environment=.
+
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:
+
+  _ . : / = + \\ - @
+
+  If you do not specify a value, the value is set to an empty string.
+
+  For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"VpcConfig"`: The VPC configuration for the image builder. You can specify only one
   subnet.
 """
@@ -999,10 +1180,13 @@ end
 Creates a URL to start an image builder streaming session.
 
 # Arguments
+
 - `name`: The name of the image builder.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
@@ -1038,32 +1222,51 @@ Creates a stack to start streaming applications to users. A stack consists of an
 fleet, user access policies, and storage configurations.
 
 # Arguments
+
 - `name`: The name of the stack.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+
 - `"ApplicationSettings"`: The persistent application settings for users of a stack. When
   these settings are enabled, changes that users make to applications and Windows settings
   are automatically saved after each session and applied to the next session.
+
 - `"Description"`: The description to display.
+
 - `"DisplayName"`: The stack name to display.
+
 - `"EmbedHostDomains"`: The domains where AppStream 2.0 streaming sessions can be embedded
   in an iframe. You must approve the domains that you want to host embedded AppStream 2.0
   streaming sessions.
+
 - `"FeedbackURL"`: The URL that users are redirected to after they click the Send Feedback
   link. If no URL is specified, no Send Feedback link is displayed.
+
 - `"RedirectURL"`: The URL that users are redirected to after their streaming session ends.
+
 - `"StorageConnectors"`: The storage connectors to enable.
+
 - `"StreamingExperienceSettings"`: The streaming protocol you want your stack to prefer.
   This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
+
 - `"Tags"`: The tags to associate with the stack. A tag is a key-value pair, and the value
   is optional. For example, Environment=Test. If you do not specify a value, Environment=.
-  If you do not specify a value, the value is set to an empty string. Generally allowed
-  characters are: letters, numbers, and spaces representable in UTF-8, and the following
-  special characters:  _ . : / = +  - @ For more information about tags, see Tagging Your
-  Resources in the Amazon AppStream 2.0 Administration Guide.
+
+  If you do not specify a value, the value is set to an empty string.
+
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:
+
+  _ . : / = + \\ - @
+
+  For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
@@ -1097,18 +1300,21 @@ Creates a temporary URL to start an AppStream 2.0 streaming session for the spec
 A streaming URL enables application streaming to be tested without user setup.
 
 # Arguments
+
 - `fleet_name`: The name of the fleet.
 - `stack_name`: The name of the stack.
 - `user_id`: The identifier of the user.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationId"`: The name of the application to launch after the session starts. This
-  is the name that you specified as Name in the Image Assistant. If your fleet is enabled for
-  the Desktop stream view, you can also choose to launch directly to the operating system
-  desktop. To do so, specify Desktop.
-- `"SessionContext"`: The session context. For more information, see Session Context in the
-  Amazon AppStream 2.0 Administration Guide.
+
+- `"ApplicationId"`: The name of the application to launch after the session starts. This is
+  the name that you specified as **Name** in the Image Assistant. If your fleet is enabled
+  for the **Desktop** stream view, you can also choose to launch directly to the operating
+  system desktop. To do so, specify **Desktop**.
+- `"SessionContext"`: The session context. For more information, see [Session Context](https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters)
+  in the *Amazon AppStream 2.0 Administration Guide*.
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 60 seconds.
 """
@@ -1158,6 +1364,7 @@ Creates custom branding that customizes the appearance of the streaming applicat
 page.
 
 # Arguments
+
 - `favicon_s3_location`: The S3 location of the favicon. The favicon enables users to
   recognize their application streaming site in a browser full of tabs or bookmarks. It is
   displayed at the top of the browser tab for the application streaming site during users'
@@ -1172,7 +1379,9 @@ page.
   application streaming sessions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FooterLinks"`: The links that are displayed in the footer of the streaming application
   catalog page. These links are helpful resources for users, such as the organization's IT
   support and product marketing sites.
@@ -1235,30 +1444,45 @@ end
     create_updated_image(existing_image_name, new_image_name, params::Dict{String,<:Any})
 
 Creates a new image with the latest Windows operating system updates, driver updates, and
-AppStream 2.0 agent software. For more information, see the \"Update an Image by Using
-Managed AppStream 2.0 Image Updates\" section in Administer Your AppStream 2.0 Images, in
-the Amazon AppStream 2.0 Administration Guide.
+AppStream 2.0 agent software.
+
+For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates"
+section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html),
+in the *Amazon AppStream 2.0 Administration Guide*.
 
 # Arguments
+
 - `existing_image_name`: The name of the image to update.
 - `new_image_name`: The name of the new image. The name must be unique within the AWS
   account and Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dryRun"`: Indicates whether to display the status of image update availability before
   AppStream 2.0 initiates the process of creating a new updated image. If this value is set
-  to true, AppStream 2.0 displays whether image updates are available. If this value is set
-  to false, AppStream 2.0 initiates the process of creating a new updated image without
-  displaying whether image updates are available.
+  to `true`, AppStream 2.0 displays whether image updates are available. If this value is
+  set to `false`, AppStream 2.0 initiates the process of creating a new updated image
+  without displaying whether image updates are available.
+
 - `"newImageDescription"`: The description to display for the new image.
+
 - `"newImageDisplayName"`: The name to display for the new image.
-- `"newImageTags"`: The tags to associate with the new image. A tag is a key-value pair,
-  and the value is optional. For example, Environment=Test. If you do not specify a value,
-  Environment=.  Generally allowed characters are: letters, numbers, and spaces representable
-  in UTF-8, and the following special characters:  _ . : / = +  - @ If you do not specify a
-  value, the value is set to an empty string. For more information about tags, see Tagging
-  Your Resources in the Amazon AppStream 2.0 Administration Guide.
+
+- `"newImageTags"`: The tags to associate with the new image. A tag is a key-value pair, and
+  the value is optional. For example, Environment=Test. If you do not specify a value,
+  Environment=.
+
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:
+
+  _ . : / = + \\ - @
+
+  If you do not specify a value, the value is set to an empty string.
+
+  For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
 """
 function create_updated_image end
 
@@ -1302,7 +1526,6 @@ end
     create_usage_report_subscription(params::Dict{String,<:Any})
 
 Creates a usage report subscription. Usage reports are generated daily.
-
 """
 function create_usage_report_subscription end
 
@@ -1329,22 +1552,32 @@ end
 Creates a new user in the user pool.
 
 # Arguments
+
 - `authentication_type`: The authentication type for the user. You must specify USERPOOL.
-- `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
-  During login, if they specify an email address that doesn't use the same capitalization as
-  the email address specified when their user pool account was created, a \"user does not
-  exist\" error message displays.
+
+- `user_name`: The email address of the user.
+
+  !!! note
+      Users' email addresses are case-sensitive. During login, if they specify an email
+      address that doesn't use the same capitalization as the email address specified when
+      their user pool account was created, a "user does not exist" error message displays.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FirstName"`: The first name, or given name, of the user.
+
 - `"LastName"`: The last name, or surname, of the user.
+
 - `"MessageAction"`: The action to take for the welcome email that is sent to a user after
   the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you
   specify RESEND, do not specify the first name or last name of the user. If the value is
-  null, the email is sent.   The temporary password in the welcome email is valid for only 7
-  days. If users don’t set their passwords within 7 days, you must send them a new welcome
-  email.
+  null, the email is sent.
+
+  !!! note
+      The temporary password in the welcome email is valid for only 7 days. If users don’t
+      set their passwords within 7 days, you must send them a new welcome email.
 """
 function create_user end
 
@@ -1390,8 +1623,8 @@ end
 Deletes an app block.
 
 # Arguments
-- `name`: The name of the app block.
 
+- `name`: The name of the app block.
 """
 function delete_app_block end
 
@@ -1419,12 +1652,13 @@ end
     delete_app_block_builder(name)
     delete_app_block_builder(name, params::Dict{String,<:Any})
 
-Deletes an app block builder. An app block builder can only be deleted when it has no
-association with an app block.
+Deletes an app block builder.
+
+An app block builder can only be deleted when it has no association with an app block.
 
 # Arguments
-- `name`: The name of the app block builder.
 
+- `name`: The name of the app block builder.
 """
 function delete_app_block_builder end
 
@@ -1455,8 +1689,8 @@ end
 Deletes an application.
 
 # Arguments
-- `name`: The name of the application.
 
+- `name`: The name of the application.
 """
 function delete_application end
 
@@ -1488,8 +1722,8 @@ Deletes the specified Directory Config object from AppStream 2.0. This object in
 information required to join streaming instances to an Active Directory domain.
 
 # Arguments
-- `directory_name`: The name of the directory configuration.
 
+- `directory_name`: The name of the directory configuration.
 """
 function delete_directory_config end
 
@@ -1526,9 +1760,9 @@ end
 Deletes the specified entitlement.
 
 # Arguments
+
 - `name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
-
 """
 function delete_entitlement end
 
@@ -1568,8 +1802,8 @@ end
 Deletes the specified fleet.
 
 # Arguments
-- `name`: The name of the fleet.
 
+- `name`: The name of the fleet.
 """
 function delete_fleet end
 
@@ -1601,8 +1835,8 @@ Deletes the specified image. You cannot delete an image when it is in use. After
 an image, you cannot provision new capacity using the image.
 
 # Arguments
-- `name`: The name of the image.
 
+- `name`: The name of the image.
 """
 function delete_image end
 
@@ -1633,8 +1867,8 @@ end
 Deletes the specified image builder and releases the capacity.
 
 # Arguments
-- `name`: The name of the image builder.
 
+- `name`: The name of the image builder.
 """
 function delete_image_builder end
 
@@ -1667,10 +1901,10 @@ image, AWS accounts to which you previously granted these permissions can no lon
 image.
 
 # Arguments
+
 - `name`: The name of the private image.
 - `shared_account_id`: The 12-digit identifier of the AWS account for which to delete image
   permissions.
-
 """
 function delete_image_permissions end
 
@@ -1714,8 +1948,8 @@ environment provided by the stack is no longer available to users. Also, any res
 made for application streaming sessions for the stack are released.
 
 # Arguments
-- `name`: The name of the stack.
 
+- `name`: The name of the stack.
 """
 function delete_stack end
 
@@ -1747,8 +1981,8 @@ Deletes custom branding that customizes the appearance of the streaming applicat
 page.
 
 # Arguments
-- `stack_name`: The name of the stack for the theme.
 
+- `stack_name`: The name of the stack for the theme.
 """
 function delete_theme_for_stack end
 
@@ -1783,7 +2017,6 @@ end
     delete_usage_report_subscription(params::Dict{String,<:Any})
 
 Disables usage report generation.
-
 """
 function delete_usage_report_subscription end
 
@@ -1810,9 +2043,13 @@ end
 Deletes a user from the user pool.
 
 # Arguments
-- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
-- `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
+- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
+
+- `user_name`: The email address of the user.
+
+  !!! note
+      Users' email addresses are case-sensitive.
 """
 function delete_user end
 
@@ -1858,7 +2095,9 @@ end
 Retrieves a list that describes one or more app block builder associations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AppBlockArn"`: The ARN of the app block.
 - `"AppBlockBuilderName"`: The name of the app block builder.
 - `"MaxResults"`: The maximum size of each page of results.
@@ -1895,7 +2134,9 @@ end
 Retrieves a list that describes one or more app block builders.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results. The maximum value is 25.
 - `"Names"`: The names of the app block builders.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
@@ -1924,7 +2165,9 @@ end
 Retrieves a list that describes one or more app blocks.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Arns"`: The ARNs of the app blocks.
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
@@ -1952,7 +2195,9 @@ Retrieves a list that describes one or more application fleet associations. Eith
 ApplicationArn or FleetName must be specified.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationArn"`: The ARN of the application.
 - `"FleetName"`: The name of the fleet.
 - `"MaxResults"`: The maximum size of each page of results.
@@ -1987,7 +2232,9 @@ end
 Retrieves a list that describes one or more applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Arns"`: The ARNs for the applications.
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
@@ -2011,15 +2258,18 @@ end
     describe_directory_configs()
     describe_directory_configs(params::Dict{String,<:Any})
 
-Retrieves a list that describes one or more specified Directory Config objects for
-AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config
-objects in the account are described. These objects include the configuration information
-required to join fleets and image builders to Microsoft Active Directory domains.  Although
-the response syntax in this topic includes the account password, this password is not
-returned in the actual response.
+Retrieves a list that describes one or more specified Directory Config objects for AppStream
+2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in
+  the account are described. These objects include the configuration information required to
+  join fleets and image builders to Microsoft Active Directory domains.
+
+Although the response syntax in this topic includes the account password, this password is
+not returned in the actual response.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryNames"`: The directory names.
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -2048,10 +2298,13 @@ end
 Retrieves a list that describes one of more entitlements.
 
 # Arguments
+
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"Name"`: The name of the entitlement.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
@@ -2093,7 +2346,9 @@ Retrieves a list that describes one or more specified fleets, if the fleet names
 provided. Otherwise, all fleets in the account are described.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Names"`: The names of the fleets to describe.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -2118,7 +2373,9 @@ Retrieves a list that describes one or more specified image builders, if the ima
 names are provided. Otherwise, all image builders in the account are described.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"Names"`: The names of the image builders to describe.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -2146,11 +2403,14 @@ Retrieves a list that describes the permissions for shared AWS account IDs on a 
 image that you own.
 
 # Arguments
-- `name`: The name of the private image for which to describe permissions. The image must
-  be one that you own.
+
+- `name`: The name of the private image for which to describe permissions. The image must be
+  one that you own.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -2189,7 +2449,9 @@ Retrieves a list that describes one or more specified images, if the image names
 ARNs are provided. Otherwise, all images in the account are described.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Arns"`: The ARNs of the public, private, and shared images to describe.
 - `"MaxResults"`: The maximum size of each page of results.
 - `"Names"`: The names of the public or private images to describe.
@@ -2213,23 +2475,26 @@ end
     describe_sessions(fleet_name, stack_name)
     describe_sessions(fleet_name, stack_name, params::Dict{String,<:Any})
 
-Retrieves a list that describes the streaming sessions for a specified stack and fleet. If
-a UserId is provided for the stack and fleet, only streaming sessions for that user are
+Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a
+UserId is provided for the stack and fleet, only streaming sessions for that user are
 described. If an authentication type is not provided, the default is to authenticate users
 using a streaming URL.
 
 # Arguments
+
 - `fleet_name`: The name of the fleet. This value is case-sensitive.
 - `stack_name`: The name of the stack. This value is case-sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AuthenticationType"`: The authentication method. Specify API for a user authenticated
-  using a streaming URL or SAML for a SAML federated user. The default is to authenticate
+
+- `"AuthenticationType"`: The authentication method. Specify `API` for a user authenticated
+  using a streaming URL or `SAML` for a SAML federated user. The default is to authenticate
   users using a streaming URL.
 - `"InstanceId"`: The identifier for the instance hosting the session.
-- `"Limit"`: The size of each page of results. The default value is 20 and the maximum
-  value is 50.
+- `"Limit"`: The size of each page of results. The default value is 20 and the maximum value
+  is 50.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 - `"UserId"`: The user identifier (ID). If you specify a user ID, you must also specify the
@@ -2276,7 +2541,9 @@ Retrieves a list that describes one or more specified stacks, if the stack names
 provided. Otherwise, all stacks in the account are described.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Names"`: The names of the stacks to describe.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -2301,8 +2568,8 @@ Retrieves a list that describes the theme for a specified stack. A theme is cust
 that customizes the appearance of the streaming application catalog page.
 
 # Arguments
-- `stack_name`: The name of the stack for the theme.
 
+- `stack_name`: The name of the stack for the theme.
 """
 function describe_theme_for_stack end
 
@@ -2339,7 +2606,9 @@ end
 Retrieves a list that describes one or more usage report subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -2369,20 +2638,31 @@ end
     describe_user_stack_associations()
     describe_user_stack_associations(params::Dict{String,<:Any})
 
-Retrieves a list that describes the UserStackAssociation objects. You must specify either
-or both of the following:   The stack name   The user name (email address of the user
-associated with the stack) and the authentication type for the user
+Retrieves a list that describes the UserStackAssociation objects. You must specify either or
+both of the following:
+
+- The stack name
+- The user name (email address of the user associated with the stack) and the authentication
+  type for the user
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AuthenticationType"`: The authentication type for the user who is associated with the
   stack. You must specify USERPOOL.
+
 - `"MaxResults"`: The maximum size of each page of results.
+
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
+
 - `"StackName"`: The name of the stack that is associated with the user.
-- `"UserName"`: The email address of the user who is associated with the stack.  Users'
-  email addresses are case-sensitive.
+
+- `"UserName"`: The email address of the user who is associated with the stack.
+
+  !!! note
+      Users' email addresses are case-sensitive.
 """
 function describe_user_stack_associations end
 
@@ -2409,11 +2689,14 @@ end
 Retrieves a list that describes one or more specified users in the user pool.
 
 # Arguments
-- `authentication_type`: The authentication type for the users in the user pool to
-  describe. You must specify USERPOOL.
+
+- `authentication_type`: The authentication type for the users in the user pool to describe.
+  You must specify USERPOOL.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -2456,9 +2739,13 @@ Disables the specified user in the user pool. Users can't sign in to AppStream 2
 they are re-enabled. This action does not delete the user.
 
 # Arguments
-- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
-- `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
+- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
+
+- `user_name`: The email address of the user.
+
+  !!! note
+      Users' email addresses are case-sensitive.
 """
 function disable_user end
 
@@ -2504,9 +2791,9 @@ end
 Disassociates a specified app block builder from a specified app block.
 
 # Arguments
+
 - `app_block_arn`: The ARN of the app block.
 - `app_block_builder_name`: The name of the app block builder.
-
 """
 function disassociate_app_block_builder_app_block end
 
@@ -2553,9 +2840,9 @@ end
 Disassociates the specified application from the fleet.
 
 # Arguments
+
 - `application_arn`: The ARN of the application.
 - `fleet_name`: The name of the fleet.
-
 """
 function disassociate_application_fleet end
 
@@ -2599,11 +2886,11 @@ end
 Deletes the specified application from the specified entitlement.
 
 # Arguments
+
 - `application_identifier`: The identifier of the application to remove from the
   entitlement.
 - `entitlement_name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
-
 """
 function disassociate_application_from_entitlement end
 
@@ -2657,9 +2944,9 @@ end
 Disassociates the specified fleet from the specified stack.
 
 # Arguments
+
 - `fleet_name`: The name of the fleet.
 - `stack_name`: The name of the stack.
-
 """
 function disassociate_fleet end
 
@@ -2698,16 +2985,19 @@ end
     enable_user(authentication_type, user_name)
     enable_user(authentication_type, user_name, params::Dict{String,<:Any})
 
-Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0
-and open applications from the stacks to which they are assigned.
+Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and
+open applications from the stacks to which they are assigned.
 
 # Arguments
-- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
-- `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
-  During login, if they specify an email address that doesn't use the same capitalization as
-  the email address specified when their user pool account was created, a \"user does not
-  exist\" error message displays.
 
+- `authentication_type`: The authentication type for the user. You must specify USERPOOL.
+
+- `user_name`: The email address of the user.
+
+  !!! note
+      Users' email addresses are case-sensitive. During login, if they specify an email
+      address that doesn't use the same capitalization as the email address specified when
+      their user pool account was created, a "user does not exist" error message displays.
 """
 function enable_user end
 
@@ -2753,8 +3043,8 @@ end
 Immediately stops the specified streaming session.
 
 # Arguments
-- `session_id`: The identifier of the streaming session.
 
+- `session_id`: The identifier of the streaming session.
 """
 function expire_session end
 
@@ -2789,10 +3079,13 @@ end
 Retrieves the name of the fleet that is associated with the specified stack.
 
 # Arguments
+
 - `stack_name`: The name of the stack.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
@@ -2831,10 +3124,13 @@ end
 Retrieves the name of the stack with which the specified fleet is associated.
 
 # Arguments
+
 - `fleet_name`: The name of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
@@ -2873,11 +3169,14 @@ end
 Retrieves a list of entitled applications.
 
 # Arguments
+
 - `entitlement_name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of each page of results.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
@@ -2921,13 +3220,15 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag
-AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags,
-see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream
+2.0 image builders, images, fleets, and stacks.
+
+For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+in the *Amazon AppStream 2.0 Administration Guide*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -2961,13 +3262,16 @@ end
     start_app_block_builder(name)
     start_app_block_builder(name, params::Dict{String,<:Any})
 
-Starts an app block builder. An app block builder can only be started when it's associated
-with an app block. Starting an app block builder starts a new instance, which is equivalent
-to an elastic fleet instance with application builder assistance functionality.
+Starts an app block builder.
+
+An app block builder can only be started when it's associated with an app block.
+
+Starting an app block builder starts a new instance, which is equivalent to an elastic fleet
+instance with application builder assistance functionality.
 
 # Arguments
-- `name`: The name of the app block builder.
 
+- `name`: The name of the app block builder.
 """
 function start_app_block_builder end
 
@@ -2998,8 +3302,8 @@ end
 Starts the specified fleet.
 
 # Arguments
-- `name`: The name of the fleet.
 
+- `name`: The name of the fleet.
 """
 function start_fleet end
 
@@ -3030,10 +3334,13 @@ end
 Starts the specified image builder.
 
 # Arguments
+
 - `name`: The name of the image builder.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
 """
@@ -3063,12 +3370,14 @@ end
     stop_app_block_builder(name)
     stop_app_block_builder(name, params::Dict{String,<:Any})
 
-Stops an app block builder. Stopping an app block builder terminates the instance, and the
-instance state is not persisted.
+Stops an app block builder.
+
+Stopping an app block builder terminates the instance, and the instance state is not
+persisted.
 
 # Arguments
-- `name`: The name of the app block builder.
 
+- `name`: The name of the app block builder.
 """
 function stop_app_block_builder end
 
@@ -3099,8 +3408,8 @@ end
 Stops the specified fleet.
 
 # Arguments
-- `name`: The name of the fleet.
 
+- `name`: The name of the fleet.
 """
 function stop_fleet end
 
@@ -3131,8 +3440,8 @@ end
 Stops the specified image builder.
 
 # Arguments
-- `name`: The name of the image builder.
 
+- `name`: The name of the image builder.
 """
 function stop_image_builder end
 
@@ -3161,20 +3470,30 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag
-AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an
-optional value. If a resource already has a tag with the same key, this operation updates
-its value. To list the current tags for your resources, use ListTagsForResource. To
-disassociate tags from your resources, use UntagResource. For more information about tags,
-see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+AppStream 2.0 image builders, images, fleets, and stacks.
+
+Each tag consists of a key and an optional value. If a resource already has a tag with the
+same key, this operation updates its value.
+
+To list the current tags for your resources, use [`list_tags_for_resource`](@ref). To
+disassociate tags from your resources, use [`untag_resource`](@ref).
+
+For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+in the *Amazon AppStream 2.0 Administration Guide*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `tags`: The tags to associate. A tag is a key-value pair, and the value is optional. For
-  example, Environment=Test. If you do not specify a value, Environment=.  If you do not
-  specify a value, the value is set to an empty string. Generally allowed characters are:
-  letters, numbers, and spaces representable in UTF-8, and the following special characters:
-  _ . : / = +  - @
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+
+- `tags`: The tags to associate. A tag is a key-value pair, and the value is optional. For
+  example, Environment=Test. If you do not specify a value, Environment=.
+
+  If you do not specify a value, the value is set to an empty string.
+
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:
+
+  _ . : / = + \\ - @
 """
 function tag_resource end
 
@@ -3211,14 +3530,17 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list
-the current tags for your resources, use ListTagsForResource. For more information about
-tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+Disassociates one or more specified tags from the specified AppStream 2.0 resource.
+
+To list the current tags for your resources, use [`list_tags_for_resource`](@ref).
+
+For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html)
+in the *Amazon AppStream 2.0 Administration Guide*.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys for the tags to disassociate.
-
 """
 function untag_resource end
 
@@ -3257,37 +3579,59 @@ end
     update_app_block_builder(name)
     update_app_block_builder(name, params::Dict{String,<:Any})
 
-Updates an app block builder. If the app block builder is in the STARTING or STOPPING
-state, you can't update it. If the app block builder is in the RUNNING state, you can only
-update the DisplayName and Description. If the app block builder is in the STOPPED state,
-you can update any attribute except the Name.
+Updates an app block builder.
+
+If the app block builder is in the `STARTING` or `STOPPING` state, you can't update it. If
+the app block builder is in the `RUNNING` state, you can only update the DisplayName and
+Description. If the app block builder is in the `STOPPED` state, you can update any
+attribute except the Name.
 
 # Arguments
+
 - `name`: The unique name for the app block builder.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Administrators can connect to the app block builder only through the specified endpoints.
+
 - `"AttributesToDelete"`: The attributes to delete from the app block builder.
+
 - `"Description"`: The description of the app block builder.
+
 - `"DisplayName"`: The display name of the app block builder.
+
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
   block builder.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
-  builder. To assume a role, the app block builder calls the AWS Security Token Service (STS)
-  AssumeRole API operation and passes the ARN of the role to use. The operation creates a new
-  session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
-  creates the appstream_machine_role credential profile on the instance. For more
-  information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running
-  on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+  builder. To assume a role, the app block builder calls the AWS Security Token Service
+  (STS) `AssumeRole` API operation and passes the ARN of the role to use. The operation
+  creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary
+  credentials and creates the **appstream_machine_role** credential profile on the instance.
+
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"InstanceType"`: The instance type to use when launching the app block builder. The
-  following instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
-- `"Platform"`: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only
-  valid value.
-- `"VpcConfig"`: The VPC configuration for the app block builder. App block builders
-  require that you specify at least two subnets in different availability zones.
+  following instance types are available:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+
+- `"Platform"`: The platform of the app block builder.
+
+  `WINDOWS_SERVER_2019` is the only valid value.
+
+- `"VpcConfig"`: The VPC configuration for the app block builder.
+
+  App block builders require that you specify at least two subnets in different availability
+  zones.
 """
 function update_app_block_builder end
 
@@ -3318,16 +3662,19 @@ end
 Updates the specified application.
 
 # Arguments
+
 - `name`: The name of the application. This name is visible to users when display name is
   not specified.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AppBlockArn"`: The ARN of the app block.
 - `"AttributesToDelete"`: The attributes to delete for an application.
 - `"Description"`: The description of the application.
-- `"DisplayName"`: The display name of the application. This name is visible to users in
-  the application catalog.
+- `"DisplayName"`: The display name of the application. This name is visible to users in the
+  application catalog.
 - `"IconS3Location"`: The icon S3 location of the application.
 - `"LaunchParameters"`: The launch parameters of the application.
 - `"LaunchPath"`: The launch path of the application.
@@ -3364,20 +3711,25 @@ configuration information required to join fleets and image builders to Microsof
 Directory domains.
 
 # Arguments
+
 - `directory_name`: The name of the Directory Config object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateBasedAuthProperties"`: The certificate-based authentication properties used
   to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory
   domain-joined streaming instances. Fallback is turned on by default when certificate-based
-  authentication is Enabled . Fallback allows users to log in using their AD domain password
-  if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen.
-  Enabled_no_directory_login_fallback enables certificate-based authentication, but does not
-  allow users to log in using their AD domain password. Users will be disconnected to
-  re-authenticate using certificates.
+  authentication is **Enabled** . Fallback allows users to log in using their AD domain
+  password if certificate-based authentication is unsuccessful, or to unlock a desktop lock
+  screen. **Enabled_no_directory_login_fallback** enables certificate-based authentication,
+  but does not allow users to log in using their AD domain password. Users will be
+  disconnected to re-authenticate using certificates.
+
 - `"OrganizationalUnitDistinguishedNames"`: The distinguished names of the organizational
   units for computer accounts.
+
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
@@ -3416,11 +3768,14 @@ end
 Updates the specified entitlement.
 
 # Arguments
+
 - `name`: The name of the entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AppVisibility"`: Specifies whether all or only selected apps are entitled.
 - `"Attributes"`: The attributes of the entitlement.
 - `"Description"`: The description of the entitlement.
@@ -3460,95 +3815,169 @@ end
     update_fleet()
     update_fleet(params::Dict{String,<:Any})
 
-Updates the specified fleet. If the fleet is in the STOPPED state, you can update any
-attribute except the fleet name. If the fleet is in the RUNNING state, you can update the
-following based on the fleet type:   Always-On and On-Demand fleet types You can update the
-DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and
-DisconnectTimeoutInSeconds attributes.   Elastic fleet type You can update the DisplayName,
-IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions,
-SessionScriptS3Location and UsbDeviceFilterStrings attributes.   If the fleet is in the
-STARTING or STOPPED state, you can't update it.
+Updates the specified fleet.
+
+If the fleet is in the `STOPPED` state, you can update any attribute except the fleet name.
+
+If the fleet is in the `RUNNING` state, you can update the following based on the fleet
+type:
+
+- Always-On and On-Demand fleet types
+
+You can update the `DisplayName`, `ComputeCapacity`, `ImageARN`, `ImageName`,
+`IdleDisconnectTimeoutInSeconds`, and `DisconnectTimeoutInSeconds` attributes.
+- Elastic fleet type
+
+You can update the `DisplayName`, `IdleDisconnectTimeoutInSeconds`,
+`DisconnectTimeoutInSeconds`, `MaxConcurrentSessions`, `SessionScriptS3Location` and
+`UsbDeviceFilterStrings` attributes.
+
+If the fleet is in the `STARTING` or `STOPPED` state, you can't update it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttributesToDelete"`: The fleet attributes to delete.
+
 - `"ComputeCapacity"`: The desired capacity for the fleet. This is not allowed for Elastic
   fleets.
+
 - `"DeleteVpcConfig"`: Deletes the VPC association for the specified fleet.
+
 - `"Description"`: The description to display.
-- `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains
-  active after users disconnect. If users try to reconnect to the streaming session after a
+
+- `"DisconnectTimeoutInSeconds"`: The amount of time that a streaming session remains active
+  after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
-  their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 36000.
+  their previous session. Otherwise, they are connected to a new session with a new
+  streaming instance.
+
+  Specify a value between 60 and 36000.
+
 - `"DisplayName"`: The fleet name to display.
+
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain.
+
 - `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the
   fleet.
+
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To
-  assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API
-  operation and passes the ARN of the role to use. The operation creates a new session with
-  temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the
-  appstream_machine_role credential profile on the instance. For more information, see Using
-  an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0
-  Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+  assume a role, a fleet instance calls the AWS Security Token Service (STS) `AssumeRole`
+  API operation and passes the ARN of the role to use. The operation creates a new session
+  with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates
+  the **appstream_machine_role** credential profile on the instance.
+
+  For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+  in the *Amazon AppStream 2.0 Administration Guide*.
+
 - `"IdleDisconnectTimeoutInSeconds"`: The amount of time that users can be idle (inactive)
   before they are disconnected from their streaming session and the
-  DisconnectTimeoutInSeconds time interval begins. Users are notified before they are
+  `DisconnectTimeoutInSeconds` time interval begins. Users are notified before they are
   disconnected due to inactivity. If users try to reconnect to the streaming session before
-  the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to
+  the time interval specified in `DisconnectTimeoutInSeconds` elapses, they are connected to
   their previous session. Users are considered idle when they stop providing keyboard or
   mouse input during their streaming session. File uploads and downloads, audio in, audio
   out, and pixels changing do not qualify as user activity. If users continue to be idle
-  after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
+  after the time interval in `IdleDisconnectTimeoutInSeconds` elapses, they are
+  disconnected.
+
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
-  this feature, we recommend that you specify a value that corresponds exactly to a whole
-  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
-  rounded to the nearest minute. For example, if you specify a value of 70, users are
-  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
-  between two different minutes, the value is rounded up. For example, if you specify a value
-  of 90, users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.
+
+  !!! note
+      If you enable this feature, we recommend that you specify a value that corresponds
+      exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do
+      this, the value is rounded to the nearest minute. For example, if you specify a value
+      of 70, users are disconnected after 1 minute of inactivity. If you specify a value
+      that is at the midpoint between two different minutes, the value is rounded up. For
+      example, if you specify a value of 90, users are disconnected after 2 minutes of
+      inactivity.
+
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
+
 - `"ImageName"`: The name of the image used to create the fleet.
+
 - `"InstanceType"`: The instance type to use when launching fleet instances. The following
-  instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
-  stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge
-  stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large
-  stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
-  stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
-  stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge
-  stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge
-  stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
-  stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge
-  stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
-   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
-  stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
-  The following instance types are available for Elastic fleets:   stream.standard.small
-  stream.standard.medium   stream.standard.large   stream.standard.xlarge
-  stream.standard.2xlarge
+  instance types are available:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+  - stream.compute.large
+  - stream.compute.xlarge
+  - stream.compute.2xlarge
+  - stream.compute.4xlarge
+  - stream.compute.8xlarge
+  - stream.memory.large
+  - stream.memory.xlarge
+  - stream.memory.2xlarge
+  - stream.memory.4xlarge
+  - stream.memory.8xlarge
+  - stream.memory.z1d.large
+  - stream.memory.z1d.xlarge
+  - stream.memory.z1d.2xlarge
+  - stream.memory.z1d.3xlarge
+  - stream.memory.z1d.6xlarge
+  - stream.memory.z1d.12xlarge
+  - stream.graphics-design.large
+  - stream.graphics-design.xlarge
+  - stream.graphics-design.2xlarge
+  - stream.graphics-design.4xlarge
+  - stream.graphics-desktop.2xlarge
+  - stream.graphics.g4dn.xlarge
+  - stream.graphics.g4dn.2xlarge
+  - stream.graphics.g4dn.4xlarge
+  - stream.graphics.g4dn.8xlarge
+  - stream.graphics.g4dn.12xlarge
+  - stream.graphics.g4dn.16xlarge
+  - stream.graphics-pro.4xlarge
+  - stream.graphics-pro.8xlarge
+  - stream.graphics-pro.16xlarge
+
+  The following instance types are available for Elastic fleets:
+
+  - stream.standard.small
+  - stream.standard.medium
+  - stream.standard.large
+  - stream.standard.xlarge
+  - stream.standard.2xlarge
+
 - `"MaxConcurrentSessions"`: The maximum number of concurrent sessions for a fleet.
+
 - `"MaxSessionsPerInstance"`: The maximum number of user sessions on an instance. This only
   applies to multi-session fleets.
+
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
-  new instance. Specify a value between 600 and 432000.
+  new instance.
+
+  Specify a value between 600 and 432000.
+
 - `"Name"`: A unique name for the fleet.
+
 - `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
   supported for Elastic fleets.
+
 - `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
   file. This only applies to Elastic fleets.
+
 - `"StreamView"`: The AppStream 2.0 view that is displayed to your users when they stream
-  from the fleet. When APP is specified, only the windows of applications opened by users
-  display. When DESKTOP is specified, the standard desktop that is provided by the operating
-  system displays. The default value is APP.
-- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices
-  a user can redirect to the fleet streaming session, when using the Windows native client.
+  from the fleet. When `APP` is specified, only the windows of applications opened by users
+  display. When `DESKTOP` is specified, the standard desktop that is provided by the
+  operating system displays.
+
+  The default value is `APP`.
+
+- `"UsbDeviceFilterStrings"`: The USB device filter strings that specify which USB devices a
+  user can redirect to the fleet streaming session, when using the Windows native client.
   This is allowed but not required for Elastic fleets.
+
 - `"VpcConfig"`: The VPC configuration for the fleet. This is required for Elastic fleets,
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
@@ -3572,11 +4001,11 @@ end
 Adds or updates permissions for the specified private image.
 
 # Arguments
+
 - `image_permissions`: The permissions for the image.
 - `name`: The name of the private image.
 - `shared_account_id`: The 12-digit identifier of the AWS account for which you want add or
   update image permissions.
-
 """
 function update_image_permissions end
 
@@ -3630,10 +4059,13 @@ end
 Updates the specified fields for the specified stack.
 
 # Arguments
+
 - `name`: The name of the stack.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
   Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
 - `"ApplicationSettings"`: The persistent application settings for users of a stack. When
@@ -3686,10 +4118,13 @@ Updates custom branding that customizes the appearance of the streaming applicat
 page.
 
 # Arguments
+
 - `stack_name`: The name of the stack for the theme.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttributesToDelete"`: The attributes to delete.
 - `"FaviconS3Location"`: The S3 location of the favicon. The favicon enables users to
   recognize their application streaming site in a browser full of tabs or bookmarks. It is

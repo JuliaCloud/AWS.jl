@@ -13,10 +13,10 @@ services. The role's permissions should allow Greengrass core Lambda functions t
 actions against the cloud.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 - `role_arn`: The ARN of the role you wish to associate with this group. The existence of
   the role is not validated.
-
 """
 function associate_role_to_group end
 
@@ -57,8 +57,8 @@ role must have at least minimum permissions in the policy
 ''AWSGreengrassResourceAccessRolePolicy''.
 
 # Arguments
-- `role_arn`: The ARN of the service role you wish to associate with your account.
 
+- `role_arn`: The ARN of the service role you wish to associate with your account.
 """
 function associate_service_role_to_account end
 
@@ -96,7 +96,9 @@ Creates a connector definition. You may provide the initial version of the conne
 definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the connector definition.
 - `"Name"`: The name of the connector definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -132,10 +134,13 @@ end
 Creates a version of a connector definition which has already been defined.
 
 # Arguments
+
 - `connector_definition_id`: The ID of the connector definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Connectors"`: A list of references to connectors in this version, with their
   corresponding configuration settings.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -171,12 +176,14 @@ end
     create_core_definition()
     create_core_definition(params::Dict{String,<:Any})
 
-Creates a core definition. You may provide the initial version of the core definition now
-or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain
+Creates a core definition. You may provide the initial version of the core definition now or
+use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain
 exactly one Greengrass core.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the core definition.
 - `"Name"`: The name of the core definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -206,14 +213,17 @@ end
     create_core_definition_version(core_definition_id)
     create_core_definition_version(core_definition_id, params::Dict{String,<:Any})
 
-Creates a version of a core definition that has already been defined. Greengrass groups
-must each contain exactly one Greengrass core.
+Creates a version of a core definition that has already been defined. Greengrass groups must
+each contain exactly one Greengrass core.
 
 # Arguments
+
 - `core_definition_id`: The ID of the core definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Cores"`: A list of cores in the core definition version.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -248,16 +258,19 @@ end
     create_deployment(deployment_type, group_id)
     create_deployment(deployment_type, group_id, params::Dict{String,<:Any})
 
-Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the
-''X-Amzn-Client-Token'' token and the request parameters.
+Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-
+Amzn-Client-Token'' token and the request parameters.
 
 # Arguments
+
 - `deployment_type`: The type of deployment. When used for ''CreateDeployment'', only
   ''NewDeployment'' and ''Redeployment'' are valid.
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeploymentId"`: The ID of the deployment if you wish to redeploy a previous deployment.
 - `"GroupVersionId"`: The ID of the group version to be deployed.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -301,7 +314,9 @@ Creates a device definition. You may provide the initial version of the device d
 now or use ''CreateDeviceDefinitionVersion'' at a later time.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the device definition.
 - `"Name"`: The name of the device definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -337,10 +352,13 @@ end
 Creates a version of a device definition that has already been defined.
 
 # Arguments
+
 - `device_definition_id`: The ID of the device definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Devices"`: A list of devices in the definition version.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -376,12 +394,14 @@ end
     create_function_definition(params::Dict{String,<:Any})
 
 Creates a Lambda function definition which contains a list of Lambda functions and their
-configurations to be used in a group. You can create an initial version of the definition
-by providing a list of Lambda functions and their configurations now, or use
+configurations to be used in a group. You can create an initial version of the definition by
+providing a list of Lambda functions and their configurations now, or use
 ''CreateFunctionDefinitionVersion'' later.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the function definition.
 - `"Name"`: The name of the function definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -417,10 +437,13 @@ end
 Creates a version of a Lambda function definition that has already been defined.
 
 # Arguments
+
 - `function_definition_id`: The ID of the Lambda function definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DefaultConfig"`: The default configuration that applies to all Lambda functions in this
   function definition version. Individual Lambda functions can override these settings.
 - `"Functions"`: A list of Lambda functions in this function definition version.
@@ -463,10 +486,13 @@ Creates a group. You may provide the initial version of the group or use
 application to create and deploy Greengrass groups.
 
 # Arguments
+
 - `name`: The name of the group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the group.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
@@ -502,10 +528,13 @@ end
 Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
 function create_group_certificate_authority end
@@ -542,10 +571,13 @@ end
 Creates a version of a group which has already been defined.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConnectorDefinitionVersionArn"`: The ARN of the connector definition version for this
   group.
 - `"CoreDefinitionVersionArn"`: The ARN of the core definition version for this group.
@@ -592,7 +624,9 @@ Creates a logger definition. You may provide the initial version of the logger d
 now or use ''CreateLoggerDefinitionVersion'' at a later time.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the logger definition.
 - `"Name"`: The name of the logger definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -628,10 +662,13 @@ end
 Creates a version of a logger definition that has already been defined.
 
 # Arguments
+
 - `logger_definition_id`: The ID of the logger definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Loggers"`: A list of loggers.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -667,11 +704,13 @@ end
     create_resource_definition(params::Dict{String,<:Any})
 
 Creates a resource definition which contains a list of resources to be used in a group. You
-can create an initial version of the definition by providing a list of resources now, or
-use ''CreateResourceDefinitionVersion'' later.
+can create an initial version of the definition by providing a list of resources now, or use
+''CreateResourceDefinitionVersion'' later.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the resource definition.
 - `"Name"`: The name of the resource definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -707,10 +746,13 @@ end
 Creates a version of a resource definition that has already been defined.
 
 # Arguments
+
 - `resource_definition_id`: The ID of the resource definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Resources"`: A list of resources.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -747,10 +789,11 @@ end
 
 Creates a software update for a core or group of cores (specified as an IoT thing group.)
 Use this to update the OTA Agent as well as the Greengrass core software. It makes use of
-the IoT Jobs feature which provides additional commands to manage a Greengrass core
-software update job.
+the IoT Jobs feature which provides additional commands to manage a Greengrass core software
+update job.
 
 # Arguments
+
 - `s3_url_signer_role`:
 - `software_to_update`:
 - `update_targets`:
@@ -758,7 +801,9 @@ software update job.
 - `update_targets_operating_system`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"UpdateAgentLogLevel"`:
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -825,7 +870,9 @@ Creates a subscription definition. You may provide the initial version of the su
 definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InitialVersion"`: Information about the initial version of the subscription definition.
 - `"Name"`: The name of the subscription definition.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
@@ -863,10 +910,13 @@ end
 Creates a version of a subscription definition which has already been defined.
 
 # Arguments
+
 - `subscription_definition_id`: The ID of the subscription definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Subscriptions"`: A list of subscriptions.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -904,8 +954,8 @@ end
 Deletes a connector definition.
 
 # Arguments
-- `connector_definition_id`: The ID of the connector definition.
 
+- `connector_definition_id`: The ID of the connector definition.
 """
 function delete_connector_definition end
 
@@ -941,8 +991,8 @@ end
 Deletes a core definition.
 
 # Arguments
-- `core_definition_id`: The ID of the core definition.
 
+- `core_definition_id`: The ID of the core definition.
 """
 function delete_core_definition end
 
@@ -978,8 +1028,8 @@ end
 Deletes a device definition.
 
 # Arguments
-- `device_definition_id`: The ID of the device definition.
 
+- `device_definition_id`: The ID of the device definition.
 """
 function delete_device_definition end
 
@@ -1015,8 +1065,8 @@ end
 Deletes a Lambda function definition.
 
 # Arguments
-- `function_definition_id`: The ID of the Lambda function definition.
 
+- `function_definition_id`: The ID of the Lambda function definition.
 """
 function delete_function_definition end
 
@@ -1052,8 +1102,8 @@ end
 Deletes a group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function delete_group end
 
@@ -1087,8 +1137,8 @@ end
 Deletes a logger definition.
 
 # Arguments
-- `logger_definition_id`: The ID of the logger definition.
 
+- `logger_definition_id`: The ID of the logger definition.
 """
 function delete_logger_definition end
 
@@ -1124,8 +1174,8 @@ end
 Deletes a resource definition.
 
 # Arguments
-- `resource_definition_id`: The ID of the resource definition.
 
+- `resource_definition_id`: The ID of the resource definition.
 """
 function delete_resource_definition end
 
@@ -1161,8 +1211,8 @@ end
 Deletes a subscription definition.
 
 # Arguments
-- `subscription_definition_id`: The ID of the subscription definition.
 
+- `subscription_definition_id`: The ID of the subscription definition.
 """
 function delete_subscription_definition end
 
@@ -1198,8 +1248,8 @@ end
 Disassociates the role from a group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function disassociate_role_from_group end
 
@@ -1234,7 +1284,6 @@ end
 
 Disassociates the service role from your account. Without a service role, deployments will
 not work.
-
 """
 function disassociate_service_role_from_account end
 
@@ -1265,8 +1314,8 @@ end
 Retrieves the role associated with a particular group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function get_associated_role end
 
@@ -1300,8 +1349,8 @@ end
 Returns the status of a bulk deployment.
 
 # Arguments
-- `bulk_deployment_id`: The ID of the bulk deployment.
 
+- `bulk_deployment_id`: The ID of the bulk deployment.
 """
 function get_bulk_deployment_status end
 
@@ -1337,8 +1386,8 @@ end
 Retrieves the connectivity information for a core.
 
 # Arguments
-- `thing_name`: The thing name.
 
+- `thing_name`: The thing name.
 """
 function get_connectivity_info end
 
@@ -1374,8 +1423,8 @@ end
 Retrieves information about a connector definition.
 
 # Arguments
-- `connector_definition_id`: The ID of the connector definition.
 
+- `connector_definition_id`: The ID of the connector definition.
 """
 function get_connector_definition end
 
@@ -1413,15 +1462,19 @@ the version contains. Connectors are prebuilt modules that interact with local
 infrastructure, device protocols, AWS, and other cloud services.
 
 # Arguments
+
 - `connector_definition_id`: The ID of the connector definition.
+
 - `connector_definition_version_id`: The ID of the connector definition version. This value
   maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
-  is returned by ''ListConnectorDefinitionVersions'' requests. If the version is the last one
-  that was associated with a connector definition, the value also maps to the
+  is returned by ''ListConnectorDefinitionVersions'' requests. If the version is the last
+  one that was associated with a connector definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
@@ -1462,8 +1515,8 @@ end
 Retrieves information about a core definition version.
 
 # Arguments
-- `core_definition_id`: The ID of the core definition.
 
+- `core_definition_id`: The ID of the core definition.
 """
 function get_core_definition end
 
@@ -1499,13 +1552,14 @@ end
 Retrieves information about a core definition version.
 
 # Arguments
+
 - `core_definition_id`: The ID of the core definition.
+
 - `core_definition_version_id`: The ID of the core definition version. This value maps to
   the ''Version'' property of the corresponding ''VersionInformation'' object, which is
   returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that
   was associated with a core definition, the value also maps to the ''LatestVersion''
   property of the corresponding ''DefinitionInformation'' object.
-
 """
 function get_core_definition_version end
 
@@ -1544,9 +1598,9 @@ end
 Returns the status of a deployment.
 
 # Arguments
+
 - `deployment_id`: The ID of the deployment.
 - `group_id`: The ID of the Greengrass group.
-
 """
 function get_deployment_status end
 
@@ -1583,8 +1637,8 @@ end
 Retrieves information about a device definition.
 
 # Arguments
-- `device_definition_id`: The ID of the device definition.
 
+- `device_definition_id`: The ID of the device definition.
 """
 function get_device_definition end
 
@@ -1620,7 +1674,9 @@ end
 Retrieves information about a device definition version.
 
 # Arguments
+
 - `device_definition_id`: The ID of the device definition.
+
 - `device_definition_version_id`: The ID of the device definition version. This value maps
   to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
   returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last one that
@@ -1628,7 +1684,9 @@ Retrieves information about a device definition version.
   property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
@@ -1670,8 +1728,8 @@ Retrieves information about a Lambda function definition, including its creation
 latest version.
 
 # Arguments
-- `function_definition_id`: The ID of the Lambda function definition.
 
+- `function_definition_id`: The ID of the Lambda function definition.
 """
 function get_function_definition end
 
@@ -1708,7 +1766,9 @@ Retrieves information about a Lambda function definition version, including whic
 functions are included in the version and their configurations.
 
 # Arguments
+
 - `function_definition_id`: The ID of the Lambda function definition.
+
 - `function_definition_version_id`: The ID of the function definition version. This value
   maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
   is returned by ''ListFunctionDefinitionVersions'' requests. If the version is the last one
@@ -1716,7 +1776,9 @@ functions are included in the version and their configurations.
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
@@ -1757,8 +1819,8 @@ end
 Retrieves information about a group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function get_group end
 
@@ -1789,9 +1851,9 @@ end
 Retreives the CA associated with a group. Returns the public key of the CA.
 
 # Arguments
+
 - `certificate_authority_id`: The ID of the certificate authority.
 - `group_id`: The ID of the Greengrass group.
-
 """
 function get_group_certificate_authority end
 
@@ -1828,8 +1890,8 @@ end
 Retrieves the current configuration for the CA used by the group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function get_group_certificate_configuration end
 
@@ -1865,13 +1927,14 @@ end
 Retrieves information about a group version.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
+
 - `group_version_id`: The ID of the group version. This value maps to the ''Version''
   property of the corresponding ''VersionInformation'' object, which is returned by
   ''ListGroupVersions'' requests. If the version is the last one that was associated with a
   group, the value also maps to the ''LatestVersion'' property of the corresponding
   ''GroupInformation'' object.
-
 """
 function get_group_version end
 
@@ -1908,8 +1971,8 @@ end
 Retrieves information about a logger definition.
 
 # Arguments
-- `logger_definition_id`: The ID of the logger definition.
 
+- `logger_definition_id`: The ID of the logger definition.
 """
 function get_logger_definition end
 
@@ -1945,7 +2008,9 @@ end
 Retrieves information about a logger definition version.
 
 # Arguments
+
 - `logger_definition_id`: The ID of the logger definition.
+
 - `logger_definition_version_id`: The ID of the logger definition version. This value maps
   to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
   returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last one that
@@ -1953,7 +2018,9 @@ Retrieves information about a logger definition version.
   property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
@@ -1995,8 +2062,8 @@ Retrieves information about a resource definition, including its creation time a
 version.
 
 # Arguments
-- `resource_definition_id`: The ID of the resource definition.
 
+- `resource_definition_id`: The ID of the resource definition.
 """
 function get_resource_definition end
 
@@ -2033,13 +2100,14 @@ Retrieves information about a resource definition version, including which resou
 included in the version.
 
 # Arguments
+
 - `resource_definition_id`: The ID of the resource definition.
+
 - `resource_definition_version_id`: The ID of the resource definition version. This value
   maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which
   is returned by ''ListResourceDefinitionVersions'' requests. If the version is the last one
   that was associated with a resource definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
-
 """
 function get_resource_definition_version end
 
@@ -2076,7 +2144,6 @@ end
     get_service_role_for_account(params::Dict{String,<:Any})
 
 Retrieves the service role that is attached to your account.
-
 """
 function get_service_role_for_account end
 
@@ -2105,8 +2172,8 @@ end
 Retrieves information about a subscription definition.
 
 # Arguments
-- `subscription_definition_id`: The ID of the subscription definition.
 
+- `subscription_definition_id`: The ID of the subscription definition.
 """
 function get_subscription_definition end
 
@@ -2142,15 +2209,19 @@ end
 Retrieves information about a subscription definition version.
 
 # Arguments
+
 - `subscription_definition_id`: The ID of the subscription definition.
+
 - `subscription_definition_version_id`: The ID of the subscription definition version. This
   value maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
-  which is returned by ''ListSubscriptionDefinitionVersions'' requests. If the version is the
-  last one that was associated with a subscription definition, the value also maps to the
-  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  which is returned by ''ListSubscriptionDefinitionVersions'' requests. If the version is
+  the last one that was associated with a subscription definition, the value also maps to
+  the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
@@ -2191,8 +2262,8 @@ end
 Get the runtime configuration of a thing.
 
 # Arguments
-- `thing_name`: The thing name.
 
+- `thing_name`: The thing name.
 """
 function get_thing_runtime_configuration end
 
@@ -2229,10 +2300,13 @@ Gets a paginated list of the deployments that have been started in a bulk deploy
 operation, and their current deployment status.
 
 # Arguments
+
 - `bulk_deployment_id`: The ID of the bulk deployment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2271,7 +2345,9 @@ end
 Returns a list of bulk deployments.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2305,10 +2381,13 @@ Connectors run on the Greengrass core and contain built-in integration with loca
 infrastructure, device protocols, AWS, and other cloud services.
 
 # Arguments
+
 - `connector_definition_id`: The ID of the connector definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2347,7 +2426,9 @@ end
 Retrieves a list of connector definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2382,10 +2463,13 @@ end
 Lists the versions of a core definition.
 
 # Arguments
+
 - `core_definition_id`: The ID of the core definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2424,7 +2508,9 @@ end
 Retrieves a list of core definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2456,10 +2542,13 @@ end
 Returns a history of deployments for the group.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2496,10 +2585,13 @@ end
 Lists the versions of a device definition.
 
 # Arguments
+
 - `device_definition_id`: The ID of the device definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2538,7 +2630,9 @@ end
 Retrieves a list of device definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2570,10 +2664,13 @@ end
 Lists the versions of a Lambda function definition.
 
 # Arguments
+
 - `function_definition_id`: The ID of the Lambda function definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2612,7 +2709,9 @@ end
 Retrieves a list of Lambda function definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2647,8 +2746,8 @@ end
 Retrieves the current CAs for a group.
 
 # Arguments
-- `group_id`: The ID of the Greengrass group.
 
+- `group_id`: The ID of the Greengrass group.
 """
 function list_group_certificate_authorities end
 
@@ -2684,10 +2783,13 @@ end
 Lists the versions of a group.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2724,7 +2826,9 @@ end
 Retrieves a list of groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2752,10 +2856,13 @@ end
 Lists the versions of a logger definition.
 
 # Arguments
+
 - `logger_definition_id`: The ID of the logger definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2794,7 +2901,9 @@ end
 Retrieves a list of logger definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2826,10 +2935,13 @@ end
 Lists the versions of a resource definition.
 
 # Arguments
+
 - `resource_definition_id`: The ID of the resource definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2868,7 +2980,9 @@ end
 Retrieves a list of resource definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2903,10 +3017,13 @@ end
 Lists the versions of a subscription definition.
 
 # Arguments
+
 - `subscription_definition_id`: The ID of the subscription definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2945,7 +3062,9 @@ end
 Retrieves a list of subscription definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request.
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
@@ -2980,8 +3099,8 @@ end
 Retrieves a list of resource tags for a resource arn.
 
 # Arguments
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -3010,10 +3129,13 @@ end
 Resets a group's deployments.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Force"`: If true, performs a best-effort only core reset.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
@@ -3048,23 +3170,27 @@ end
 
 Deploys multiple groups in one operation. This action starts the bulk deployment of a
 specified set of group versions. Each group version deployment will be triggered with an
-adaptive rate that has a fixed upper limit. We recommend that you include an
-''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are
-idempotent with respect to the token and the request parameters.
+adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-
+Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent
+with respect to the token and the request parameters.
 
 # Arguments
+
 - `execution_role_arn`: The ARN of the execution role to associate with the bulk deployment
   operation. This IAM role must allow the ''greengrass:CreateDeployment'' action for all
   group versions that are listed in the input file. This IAM role must have access to the S3
   bucket containing the input file.
-- `input_file_uri`: The URI of the input file contained in the S3 bucket. The execution
-  role must have ''getObject'' permissions on this bucket to access the input file. The input
+
+- `input_file_uri`: The URI of the input file contained in the S3 bucket. The execution role
+  must have ''getObject'' permissions on this bucket to access the input file. The input
   file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a list of
   group and version IDs and the deployment type. This file must be less than 100 MB.
   Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
@@ -3111,14 +3237,14 @@ end
     stop_bulk_deployment(bulk_deployment_id)
     stop_bulk_deployment(bulk_deployment_id, params::Dict{String,<:Any})
 
-Stops the execution of a bulk deployment. This action returns a status of ''Stopping''
-until the deployment is stopped. You cannot start a new bulk deployment while a previous
+Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until
+the deployment is stopped. You cannot start a new bulk deployment while a previous
 deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments
 or cancel pending deployments.
 
 # Arguments
-- `bulk_deployment_id`: The ID of the bulk deployment.
 
+- `bulk_deployment_id`: The ID of the bulk deployment.
 """
 function stop_bulk_deployment end
 
@@ -3156,10 +3282,13 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`:
 """
 function tag_resource end
@@ -3187,9 +3316,9 @@ end
 Remove resource tags from a Greengrass Resource.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: An array of tag keys to delete
-
 """
 function untag_resource end
 
@@ -3229,10 +3358,13 @@ which has this core will receive this information in order to find the location 
 and connect to it.
 
 # Arguments
+
 - `thing_name`: The thing name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConnectivityInfo"`: A list of connectivity info.
 """
 function update_connectivity_info end
@@ -3269,10 +3401,13 @@ end
 Updates a connector definition.
 
 # Arguments
+
 - `connector_definition_id`: The ID of the connector definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_connector_definition end
@@ -3309,10 +3444,13 @@ end
 Updates a core definition.
 
 # Arguments
+
 - `core_definition_id`: The ID of the core definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_core_definition end
@@ -3349,10 +3487,13 @@ end
 Updates a device definition.
 
 # Arguments
+
 - `device_definition_id`: The ID of the device definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_device_definition end
@@ -3389,10 +3530,13 @@ end
 Updates a Lambda function definition.
 
 # Arguments
+
 - `function_definition_id`: The ID of the Lambda function definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_function_definition end
@@ -3429,10 +3573,13 @@ end
 Updates a group.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_group end
@@ -3464,10 +3611,13 @@ end
 Updates the Certificate expiry time for a group.
 
 # Arguments
+
 - `group_id`: The ID of the Greengrass group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateExpiryInMilliseconds"`: The amount of time remaining before the certificate
   expires, in milliseconds.
 """
@@ -3505,10 +3655,13 @@ end
 Updates a logger definition.
 
 # Arguments
+
 - `logger_definition_id`: The ID of the logger definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_logger_definition end
@@ -3545,10 +3698,13 @@ end
 Updates a resource definition.
 
 # Arguments
+
 - `resource_definition_id`: The ID of the resource definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_resource_definition end
@@ -3585,10 +3741,13 @@ end
 Updates a subscription definition.
 
 # Arguments
+
 - `subscription_definition_id`: The ID of the subscription definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the definition.
 """
 function update_subscription_definition end
@@ -3625,10 +3784,13 @@ end
 Updates the runtime configuration of a thing.
 
 # Arguments
+
 - `thing_name`: The thing name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TelemetryConfiguration"`: Configuration for telemetry service.
 """
 function update_thing_runtime_configuration end

@@ -11,14 +11,17 @@ using AWS.UUIDs: uuid4
 Creates a migration workflow template.
 
 # Arguments
+
 - `template_name`: The name of the migration workflow template.
 - `template_source`: The source of the migration workflow template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see Idempotency in the Smithy
-  documentation.
+  idempotency of the request. For more information, see [Idempotency](https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait)
+  in the Smithy documentation.
 - `"tags"`: The tags to add to the migration workflow template.
 - `"templateDescription"`: A description of the migration workflow template.
 """
@@ -72,12 +75,15 @@ end
 Create a workflow to orchestrate your migrations.
 
 # Arguments
+
 - `input_parameters`: The input parameters required to create a migration workflow.
 - `name`: The name of the migration workflow.
 - `template_id`: The ID of the template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationConfigurationId"`: The configuration ID of the application configured in
   Application Discovery Service.
 - `"description"`: The description of the migration workflow.
@@ -133,6 +139,7 @@ end
 Create a step in the migration workflow.
 
 # Arguments
+
 - `name`: The name of the step.
 - `step_action_type`: The action type of the step. You must run and update the status of a
   manual step for the workflow to continue after the completion of the step.
@@ -140,7 +147,9 @@ Create a step in the migration workflow.
 - `workflow_id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the step.
 - `"next"`: The next step.
 - `"outputs"`: The key value pairs added for the expected output.
@@ -207,11 +216,14 @@ end
 Create a step group in a migration workflow.
 
 # Arguments
+
 - `name`: The name of the step group.
 - `workflow_id`: The ID of the migration workflow that will contain the step group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the step group.
 - `"next"`: The next step group.
 - `"previous"`: The previous step group.
@@ -256,8 +268,8 @@ end
 Deletes a migration workflow template.
 
 # Arguments
-- `id`: The ID of the request to delete a migration workflow template.
 
+- `id`: The ID of the request to delete a migration workflow template.
 """
 function delete_template end
 
@@ -279,12 +291,12 @@ end
     delete_workflow(id)
     delete_workflow(id, params::Dict{String,<:Any})
 
-Delete a migration workflow. You must pause a running workflow in Migration Hub
-Orchestrator console to delete it.
+Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator
+console to delete it.
 
 # Arguments
-- `id`: The ID of the migration workflow you want to delete.
 
+- `id`: The ID of the migration workflow you want to delete.
 """
 function delete_workflow end
 
@@ -313,10 +325,10 @@ end
 Delete a step in a migration workflow. Pause the workflow to delete a running step.
 
 # Arguments
+
 - `id`: The ID of the step you want to delete.
 - `step_group_id`: The ID of the step group that contains the step you want to delete.
 - `workflow_id`: The ID of the migration workflow.
-
 """
 function delete_workflow_step end
 
@@ -361,9 +373,9 @@ end
 Delete a step group in a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step group you want to delete.
 - `workflow_id`: The ID of the migration workflow.
-
 """
 function delete_workflow_step_group end
 
@@ -403,8 +415,8 @@ end
 Get the template you want to use for creating a migration workflow.
 
 # Arguments
-- `id`: The ID of the template.
 
+- `id`: The ID of the template.
 """
 function get_template end
 
@@ -436,10 +448,10 @@ end
 Get a specific step in a template.
 
 # Arguments
+
 - `id`: The ID of the step.
 - `step_group_id`: The ID of the step group.
 - `template_id`: The ID of the template.
-
 """
 function get_template_step end
 
@@ -484,9 +496,9 @@ end
 Get a step group in a template.
 
 # Arguments
+
 - `id`: The ID of the step group.
 - `template_id`: The ID of the template.
-
 """
 function get_template_step_group end
 
@@ -523,8 +535,8 @@ end
 Get migration workflow.
 
 # Arguments
-- `id`: The ID of the migration workflow.
 
+- `id`: The ID of the migration workflow.
 """
 function get_workflow end
 
@@ -553,10 +565,10 @@ end
 Get a step in the migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step.
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
-
 """
 function get_workflow_step end
 
@@ -601,9 +613,9 @@ end
 Get the step group of a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
-
 """
 function get_workflow_step_group end
 
@@ -643,7 +655,9 @@ end
 List AWS Migration Hub Orchestrator plugins.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of plugins that can be returned.
 - `"nextToken"`: The pagination token.
 """
@@ -670,8 +684,8 @@ end
 List the tags added to a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -700,10 +714,13 @@ end
 List the step groups in a template.
 
 # Arguments
+
 - `template_id`: The ID of the template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
@@ -741,11 +758,14 @@ end
 List the steps in a template.
 
 # Arguments
+
 - `step_group_id`: The ID of the step group.
 - `template_id`: The ID of the template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
@@ -791,7 +811,9 @@ end
 List the templates available in Migration Hub Orchestrator to create a migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"name"`: The name of the template.
 - `"nextToken"`: The pagination token.
@@ -823,10 +845,13 @@ end
 List the step groups in a migration workflow.
 
 # Arguments
+
 - `workflow_id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
@@ -867,11 +892,14 @@ end
 List the steps in a workflow.
 
 # Arguments
+
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"nextToken"`: The pagination token.
 """
@@ -910,9 +938,11 @@ end
 List the migration workflows.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"adsApplicationConfigurationName"`: The name of the application configured in
-  Application Discovery Service.
+
+- `"adsApplicationConfigurationName"`: The name of the application configured in Application
+  Discovery Service.
 - `"maxResults"`: The maximum number of results that can be returned.
 - `"name"`: The name of the migration workflow.
 - `"nextToken"`: The pagination token.
@@ -942,10 +972,10 @@ end
 Retry a failed step in a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step.
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
-
 """
 function retry_workflow_step end
 
@@ -990,8 +1020,8 @@ end
 Start a migration workflow.
 
 # Arguments
-- `id`: The ID of the migration workflow.
 
+- `id`: The ID of the migration workflow.
 """
 function start_workflow end
 
@@ -1023,8 +1053,8 @@ end
 Stop an ongoing migration workflow.
 
 # Arguments
-- `id`: The ID of the migration workflow.
 
+- `id`: The ID of the migration workflow.
 """
 function stop_workflow end
 
@@ -1053,11 +1083,11 @@ end
 Tag a resource by specifying its Amazon Resource Name (ARN).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add
   tags.
 - `tags`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
-
 """
 function tag_resource end
 
@@ -1093,10 +1123,10 @@ end
 Deletes the tags for a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which you want to
   remove tags.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
-
 """
 function untag_resource end
 
@@ -1134,10 +1164,13 @@ end
 Updates a migration workflow template.
 
 # Arguments
+
 - `id`: The ID of the request to update a migration workflow template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"templateDescription"`: The description of the migration workflow template to update.
@@ -1176,10 +1209,13 @@ end
 Update a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the migration workflow.
 - `"inputParameters"`: The input parameters required to update a migration workflow.
 - `"name"`: The name of the migration workflow.
@@ -1212,12 +1248,15 @@ end
 Update a step in a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step.
 - `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the step.
 - `"name"`: The name of the step.
 - `"next"`: The next step.
@@ -1273,11 +1312,14 @@ end
 Update the step group in a migration workflow.
 
 # Arguments
+
 - `id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the step group.
 - `"name"`: The name of the step group.
 - `"next"`: The next step group.

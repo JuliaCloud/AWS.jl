@@ -12,19 +12,21 @@ Creates a storage container to hold objects. A container is similar to a bucket 
 Amazon S3 service.
 
 # Arguments
+
 - `container_name`: The name for the container. The name must be from 1 to 255 characters.
-  Container names must be unique to your AWS account within a specific region. As an example,
-  you could create a container named movies in every region, as long as you don’t have an
-  existing container with that name.
+  Container names must be unique to your AWS account within a specific region. As an
+  example, you could create a container named `movies` in every region, as long as you don’t
+  have an existing container with that name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: An array of key:value pairs that you define. These values can be anything that
-  you want. Typically, the tag key represents a category (such as \"environment\") and the
-  tag value represents a specific value within that category (such as \"test,\"
-  \"development,\" or \"production\"). You can add up to 50 tags to each container. For more
-  information about tagging, including naming and usage conventions, see Tagging Resources in
-  MediaStore.
+  you want. Typically, the tag key represents a category (such as "environment") and the tag
+  value represents a specific value within that category (such as "test," "development," or
+  "production"). You can add up to 50 tags to each container. For more information about
+  tagging, including naming and usage conventions, see [Tagging Resources in MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html).
 """
 function create_container end
 
@@ -56,13 +58,13 @@ end
     delete_container(container_name)
     delete_container(container_name, params::Dict{String,<:Any})
 
-Deletes the specified container. Before you make a DeleteContainer request, delete any
+Deletes the specified container. Before you make a `DeleteContainer` request, delete any
 objects in the container or in any folders in the container. You can delete only empty
 containers.
 
 # Arguments
-- `container_name`: The name of the container to delete.
 
+- `container_name`: The name of the container to delete.
 """
 function delete_container end
 
@@ -97,8 +99,8 @@ end
 Deletes the access policy that is associated with the specified container.
 
 # Arguments
-- `container_name`: The name of the container that holds the policy.
 
+- `container_name`: The name of the container that holds the policy.
 """
 function delete_container_policy end
 
@@ -133,13 +135,15 @@ end
     delete_cors_policy(container_name, params::Dict{String,<:Any})
 
 Deletes the cross-origin resource sharing (CORS) configuration information that is set for
-the container. To use this operation, you must have permission to perform the
-MediaStore:DeleteCorsPolicy action. The container owner has this permission by default and
-can grant this permission to others.
+the container.
+
+To use this operation, you must have permission to perform the `MediaStore:DeleteCorsPolicy`
+action. The container owner has this permission by default and can grant this permission to
+others.
 
 # Arguments
-- `container_name`: The name of the container to remove the policy from.
 
+- `container_name`: The name of the container to remove the policy from.
 """
 function delete_cors_policy end
 
@@ -177,8 +181,8 @@ Removes an object lifecycle policy from a container. It takes up to 20 minutes f
 change to take effect.
 
 # Arguments
-- `container_name`: The name of the container that holds the object lifecycle policy.
 
+- `container_name`: The name of the container that holds the object lifecycle policy.
 """
 function delete_lifecycle_policy end
 
@@ -216,9 +220,9 @@ Deletes the metric policy that is associated with the specified container. If th
 metric policy associated with the container, MediaStore doesn't send metrics to CloudWatch.
 
 # Arguments
-- `container_name`: The name of the container that is associated with the metric policy
-  that you want to delete.
 
+- `container_name`: The name of the container that is associated with the metric policy that
+  you want to delete.
 """
 function delete_metric_policy end
 
@@ -254,13 +258,15 @@ end
 
 Retrieves the properties of the requested container. This request is commonly used to
 retrieve the endpoint of a container. An endpoint is a value assigned by the service when a
-new container is created. A container's endpoint does not change after it has been
-assigned. The DescribeContainer request returns a single Container object based on
-ContainerName. To return all Container objects that are associated with a specified AWS
-account, use ListContainers.
+new container is created. A container's endpoint does not change after it has been assigned.
+The `DescribeContainer` request returns a single `Container` object based on
+`ContainerName`. To return all `Container` objects that are associated with a specified AWS
+account, use [`list_containers`](@ref).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ContainerName"`: The name of the container to query.
 """
 function describe_container end
@@ -281,12 +287,12 @@ end
     get_container_policy(container_name)
     get_container_policy(container_name, params::Dict{String,<:Any})
 
-Retrieves the access policy for the specified container. For information about the data
-that is included in an access policy, see the AWS Identity and Access Management User Guide.
+Retrieves the access policy for the specified container. For information about the data that
+is included in an access policy, see the [AWS Identity and Access Management User Guide](https://aws.amazon.com/documentation/iam/).
 
 # Arguments
-- `container_name`: The name of the container.
 
+- `container_name`: The name of the container.
 """
 function get_container_policy end
 
@@ -321,13 +327,14 @@ end
     get_cors_policy(container_name, params::Dict{String,<:Any})
 
 Returns the cross-origin resource sharing (CORS) configuration information that is set for
-the container. To use this operation, you must have permission to perform the
-MediaStore:GetCorsPolicy action. By default, the container owner has this permission and
-can grant it to others.
+the container.
+
+To use this operation, you must have permission to perform the `MediaStore:GetCorsPolicy`
+action. By default, the container owner has this permission and can grant it to others.
 
 # Arguments
-- `container_name`: The name of the container that the policy is assigned to.
 
+- `container_name`: The name of the container that the policy is assigned to.
 """
 function get_cors_policy end
 
@@ -362,9 +369,9 @@ end
 Retrieves the object lifecycle policy that is assigned to a container.
 
 # Arguments
+
 - `container_name`: The name of the container that the object lifecycle policy is assigned
   to.
-
 """
 function get_lifecycle_policy end
 
@@ -401,8 +408,8 @@ end
 Returns the metric policy for the specified container.
 
 # Arguments
-- `container_name`: The name of the container that is associated with the metric policy.
 
+- `container_name`: The name of the container that is associated with the metric policy.
 """
 function get_metric_policy end
 
@@ -436,19 +443,23 @@ end
     list_containers()
     list_containers(params::Dict{String,<:Any})
 
-Lists the properties of all containers in AWS Elemental MediaStore.  You can query to
-receive all the containers in one response. Or you can include the MaxResults parameter to
-receive a limited number of containers in each response. In this case, the response
-includes a token. To get the next set of containers, send the command again, this time with
-the NextToken parameter (with the returned token as its value). The next set of responses
-appears, with a token if there are still more containers to receive.  See also
-DescribeContainer, which gets the properties of one container.
+Lists the properties of all containers in AWS Elemental MediaStore.
+
+You can query to receive all the containers in one response. Or you can include the
+`MaxResults` parameter to receive a limited number of containers in each response. In this
+case, the response includes a token. To get the next set of containers, send the command
+again, this time with the `NextToken` parameter (with the returned token as its value). The
+next set of responses appears, with a token if there are still more containers to receive.
+
+See also [`describe_container`](@ref), which gets the properties of one container.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Enter the maximum number of containers in the response. Use from 1 to 255
   characters.
-- `"NextToken"`: Only if you used MaxResults in the first command, enter the token (which
+- `"NextToken"`: Only if you used `MaxResults` in the first command, enter the token (which
   was included in the previous response) to obtain the next set of containers. This token is
   included in a response only if there actually are more containers to list.
 """
@@ -471,8 +482,8 @@ end
 Returns a list of the tags assigned to the specified container.
 
 # Arguments
-- `resource`: The Amazon Resource Name (ARN) for the container.
 
+- `resource`: The Amazon Resource Name (ARN) for the container.
 """
 function list_tags_for_resource end
 
@@ -507,16 +518,19 @@ end
     put_container_policy(container_name, policy, params::Dict{String,<:Any})
 
 Creates an access policy for the specified container to restrict the users and clients that
-can access it. For information about the data that is included in an access policy, see the
-AWS Identity and Access Management User Guide. For this release of the REST API, you can
-create only one policy for a container. If you enter PutContainerPolicy twice, the second
-command modifies the existing policy.
+can access it. For information about the data that is included in an access policy, see the [AWS Identity and Access Management User Guide](https://aws.amazon.com/documentation/iam/).
+
+For this release of the REST API, you can create only one policy for a container. If you
+enter `PutContainerPolicy` twice, the second command modifies the existing policy.
 
 # Arguments
-- `container_name`: The name of the container.
-- `policy`: The contents of the policy, which includes the following:    One Version tag
-  One Statement tag that contains the standard tags for the policy.
 
+- `container_name`: The name of the container.
+
+- `policy`: The contents of the policy, which includes the following:
+
+  - One `Version` tag
+  - One `Statement` tag that contains the standard tags for the policy.
 """
 function put_container_policy end
 
@@ -556,20 +570,22 @@ end
     put_cors_policy(container_name, cors_policy, params::Dict{String,<:Any})
 
 Sets the cross-origin resource sharing (CORS) configuration on a container so that the
-container can service cross-origin requests. For example, you might want to enable a
-request whose origin is http://www.example.com to access your AWS Elemental MediaStore
-container at my.example.container.com by using the browser's XMLHttpRequest capability. To
-enable CORS on a container, you attach a CORS policy to the container. In the CORS policy,
-you configure rules that identify origins and the HTTP methods that can be executed on your
-container. The policy can contain up to 398,000 characters. You can add up to 100 rules to
-a CORS policy. If more than one rule applies, the service uses the first applicable rule
-listed. To learn more about CORS, see Cross-Origin Resource Sharing (CORS) in AWS Elemental
-MediaStore.
+container can service cross-origin requests. For example, you might want to enable a request
+whose origin is http://www.example.com to access your AWS Elemental MediaStore container at
+my.example.container.com by using the browser's XMLHttpRequest capability.
+
+To enable CORS on a container, you attach a CORS policy to the container. In the CORS
+policy, you configure rules that identify origins and the HTTP methods that can be executed
+on your container. The policy can contain up to 398,000 characters. You can add up to 100
+rules to a CORS policy. If more than one rule applies, the service uses the first applicable
+rule listed.
+
+To learn more about CORS, see [Cross-Origin Resource Sharing (CORS) in AWS Elemental MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/cors-policy.html).
 
 # Arguments
+
 - `container_name`: The name of the container that you want to assign the CORS policy to.
 - `cors_policy`: The CORS policy to apply to the container.
-
 """
 function put_cors_policy end
 
@@ -612,14 +628,15 @@ end
 
 Writes an object lifecycle policy to a container. If the container already has an object
 lifecycle policy, the service replaces the existing policy with the new policy. It takes up
-to 20 minutes for the change to take effect. For information about how to construct an
-object lifecycle policy, see Components of an Object Lifecycle Policy.
+to 20 minutes for the change to take effect.
+
+For information about how to construct an object lifecycle policy, see [Components of an Object Lifecycle Policy](https://docs.aws.amazon.com/mediastore/latest/ug/policies-object-lifecycle-components.html).
 
 # Arguments
+
 - `container_name`: The name of the container that you want to assign the object lifecycle
   policy to.
 - `lifecycle_policy`: The object lifecycle policy to apply to the container.
-
 """
 function put_lifecycle_policy end
 
@@ -663,23 +680,25 @@ end
     put_metric_policy(container_name, metric_policy, params::Dict{String,<:Any})
 
 The metric policy that you want to add to the container. A metric policy allows AWS
-Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for
-the new policy to take effect.
+Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes for the
+new policy to take effect.
 
 # Arguments
+
 - `container_name`: The name of the container that you want to add the metric policy to.
+
 - `metric_policy`: The metric policy that you want to associate with the container. In the
   policy, you must indicate whether you want MediaStore to send container-level metrics. You
   can also include up to five rules to define groups of objects that you want MediaStore to
-  send object-level metrics for. If you include rules in the policy, construct each rule with
-  both of the following:   An object group that defines which objects to include in the
-  group. The definition can be a path or a file name, but it can't have more than 900
-  characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), .
-  (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are
-  acceptable.   An object group name that allows you to refer to the object group. The name
-  can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _
-  (underscore).
+  send object-level metrics for. If you include rules in the policy, construct each rule
+  with both of the following:
 
+  - An object group that defines which objects to include in the group. The definition can
+    be a path or a file name, but it can't have more than 900 characters. Valid characters
+    are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~
+    (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable.
+  - An object group name that allows you to refer to the object group. The name can't have
+    more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).
 """
 function put_metric_policy end
 
@@ -725,8 +744,8 @@ container, MediaStore delivers access logs for objects stored in that container 
 CloudWatch Logs.
 
 # Arguments
-- `container_name`: The name of the container that you want to start access logging on.
 
+- `container_name`: The name of the container that you want to start access logging on.
 """
 function start_access_logging end
 
@@ -761,12 +780,12 @@ end
     stop_access_logging(container_name, params::Dict{String,<:Any})
 
 Stops access logging on the specified container. When you stop access logging on a
-container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access
-logs are not saved and are not retrievable.
+container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs
+are not saved and are not retrievable.
 
 # Arguments
-- `container_name`: The name of the container that you want to stop access logging on.
 
+- `container_name`: The name of the container that you want to stop access logging on.
 """
 function stop_access_logging end
 
@@ -800,21 +819,22 @@ end
     tag_resource(resource, tags)
     tag_resource(resource, tags, params::Dict{String,<:Any})
 
-Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs
-that you can associate with AWS resources. For example, the tag key might be \"customer\"
-and the tag value might be \"companyA.\" You can specify one or more tags to add to each
-container. You can add up to 50 tags to each container. For more information about tagging,
-including naming and usage conventions, see Tagging Resources in MediaStore.
+Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs that
+you can associate with AWS resources. For example, the tag key might be "customer" and the
+tag value might be "companyA." You can specify one or more tags to add to each container.
+You can add up to 50 tags to each container. For more information about tagging, including
+naming and usage conventions, see [Tagging Resources in MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html).
 
 # Arguments
+
 - `resource`: The Amazon Resource Name (ARN) for the container.
+
 - `tags`: An array of key:value pairs that you want to add to the container. You need to
   specify only the tags that you want to add or update. For example, suppose a container
-  already has two tags (customer:CompanyA and priority:High). You want to change the priority
-  tag and also add a third tag (type:Contract). For TagResource, you specify the following
-  tags: priority:Medium, type:Contract. The result is that your container has three tags:
-  customer:CompanyA, priority:Medium, and type:Contract.
-
+  already has two tags (customer:CompanyA and priority:High). You want to change the
+  priority tag and also add a third tag (type:Contract). For TagResource, you specify the
+  following tags: priority:Medium, type:Contract. The result is that your container has
+  three tags: customer:CompanyA, priority:Medium, and type:Contract.
 """
 function tag_resource end
 
@@ -852,12 +872,12 @@ end
 Removes tags from the specified container. You can specify one or more tags to remove.
 
 # Arguments
+
 - `resource`: The Amazon Resource Name (ARN) for the container.
 - `tag_keys`: A comma-separated list of keys for tags that you want to remove from the
   container. For example, if your container has two tags (customer:CompanyA and
   priority:High) and you want to remove one of the tags (priority:High), you specify the key
   for the tag that you want to remove (priority).
-
 """
 function untag_resource end
 

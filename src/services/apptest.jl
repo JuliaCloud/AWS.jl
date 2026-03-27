@@ -11,11 +11,14 @@ using AWS.UUIDs: uuid4
 Creates a test case.
 
 # Arguments
+
 - `name`: The name of the test case.
 - `steps`: The steps in the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test case.
 - `"description"`: The description of the test case.
 - `"tags"`: The specified tags of the test case.
@@ -64,11 +67,14 @@ end
 Creates a test configuration.
 
 # Arguments
+
 - `name`: The name of the test configuration.
 - `resources`: The defined resources of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test configuration.
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
@@ -123,11 +129,14 @@ end
 Creates a test suite.
 
 # Arguments
+
 - `name`: The name of the test suite.
 - `test_cases`: The test cases in the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps of the test suite.
 - `"clientToken"`: The client token of the test suite.
@@ -182,8 +191,8 @@ end
 Deletes a test case.
 
 # Arguments
-- `test_case_id`: The test case ID of the test case.
 
+- `test_case_id`: The test case ID of the test case.
 """
 function delete_test_case end
 
@@ -214,8 +223,8 @@ end
 Deletes a test configuration.
 
 # Arguments
-- `test_configuration_id`: The test ID of the test configuration.
 
+- `test_configuration_id`: The test ID of the test configuration.
 """
 function delete_test_configuration end
 
@@ -251,8 +260,8 @@ end
 Deletes a test run.
 
 # Arguments
-- `test_run_id`: The run ID of the test run.
 
+- `test_run_id`: The run ID of the test run.
 """
 function delete_test_run end
 
@@ -283,8 +292,8 @@ end
 Deletes a test suite.
 
 # Arguments
-- `test_suite_id`: The test ID of the test suite.
 
+- `test_suite_id`: The test ID of the test suite.
 """
 function delete_test_suite end
 
@@ -315,10 +324,13 @@ end
 Gets a test case.
 
 # Arguments
+
 - `test_case_id`: The request test ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseVersion"`: The test case version of the test case.
 """
 function get_test_case end
@@ -350,10 +362,13 @@ end
 Gets a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The request test configuration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testConfigurationVersion"`: The test configuration version.
 """
 function get_test_configuration end
@@ -390,11 +405,14 @@ end
 Gets a test run step.
 
 # Arguments
+
 - `step_name`: The step name of the test run step.
 - `test_run_id`: The test run ID of the test run step.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseId"`: The test case ID of a test run step.
 - `"testSuiteId"`: The test suite ID of a test run step.
 """
@@ -433,10 +451,13 @@ end
 Gets a test suite.
 
 # Arguments
+
 - `test_suite_id`: The ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testSuiteVersion"`: The version of the test suite.
 """
 function get_test_suite end
@@ -468,8 +489,8 @@ end
 Lists tags for a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -498,7 +519,9 @@ end
 Lists test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test case.
 - `"nextToken"`: The next token of the test cases.
 - `"testCaseIds"`: The IDs of the test cases.
@@ -522,7 +545,9 @@ end
 Lists test configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test configuration.
 - `"nextToken"`: The next token for the test configurations.
 - `"testConfigurationIds"`: The configuration IDs of the test configurations.
@@ -550,10 +575,13 @@ end
 Lists test run steps.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test run steps.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run steps to return in one page of results.
 - `"nextToken"`: The token from a previous step to retrieve the next page of results.
 - `"testCaseId"`: The test case ID of the test run steps.
@@ -588,10 +616,13 @@ end
 Lists test run test cases.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run test cases to return in one page of
   results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
@@ -630,7 +661,9 @@ end
 Lists test runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test runs to return in one page of results.
 - `"nextToken"`: The token from the previous request to retrieve the next page of test run
   results.
@@ -656,7 +689,9 @@ end
 Lists test suites.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test suites to return in one page of results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 - `"testSuiteIds"`: The suite ID of the test suites.
@@ -682,10 +717,13 @@ end
 Starts a test run.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test run.
 - `"tags"`: The tags of the test run.
 - `"testConfigurationId"`: The configuration ID of the test run.
@@ -731,9 +769,9 @@ end
 Specifies tags of a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the tag resource.
 - `tags`: The tags of the resource.
-
 """
 function tag_resource end
 
@@ -769,9 +807,9 @@ end
 Untags a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys of the resource.
-
 """
 function untag_resource end
 
@@ -809,10 +847,13 @@ end
 Updates a test case.
 
 # Arguments
+
 - `test_case_id`: The test case ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test case.
 - `"steps"`: The steps of the test case.
 """
@@ -845,10 +886,13 @@ end
 Updates a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The test configuration ID of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
 - `"resources"`: The resources of the test configuration.
@@ -888,10 +932,13 @@ end
 Updates a test suite.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps for the test suite.
 - `"description"`: The description of the test suite.

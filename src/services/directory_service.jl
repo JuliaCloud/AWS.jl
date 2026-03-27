@@ -11,9 +11,9 @@ using AWS.UUIDs: uuid4
 Accepts a directory sharing request that was sent from the directory owner account.
 
 # Arguments
+
 - `shared_directory_id`: Identifier of the shared directory in the directory consumer
   account. This identifier is different for each directory owner account.
-
 """
 function accept_shared_directory end
 
@@ -51,39 +51,54 @@ end
 
 If the DNS server for your self-managed domain uses a publicly addressable IP address, you
 must add a CIDR address block to correctly route traffic to and from your Microsoft AD on
-Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to
-facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web
-Services to a peer VPC.  Before you call AddIpRoutes, ensure that all of the required
-permissions have been explicitly granted through a policy. For details about what
-permissions are required to run the AddIpRoutes operation, see Directory Service API
-Permissions: Actions, Resources, and Conditions Reference.
+Amazon Web Services. *AddIpRoutes* adds this address block. You can also use *AddIpRoutes*
+to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon
+Web Services to a peer VPC.
+
+Before you call *AddIpRoutes*, ensure that all of the required permissions have been
+explicitly granted through a policy. For details about what permissions are required to run
+the *AddIpRoutes* operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 # Arguments
+
 - `directory_id`: Identifier (ID) of the directory to which to add the address block.
 - `ip_routes`: IP address blocks, using CIDR format, of the traffic to route. This is often
   the IP address block of the DNS server used for your self-managed domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"UpdateSecurityGroupForDirectoryControllers"`: If set to true, updates the inbound and
-  outbound rules of the security group that has the description: \"Amazon Web Services
-  created security group for directory ID directory controllers.\" Following are the new
-  rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
-  Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP
-  Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP,
-  Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source:
-  0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type:
-  Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule,
-  Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range:
-  445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source:
-  0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type:
-  Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP
-  Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP,
-  Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
-    Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All,
-  Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All,
-  Destination: 0.0.0.0/0   These security rules impact an internal network interface that is
-  not exposed publicly.
+  outbound rules of the security group that has the description: "Amazon Web Services
+  created security group for *directory ID* directory controllers." Following are the new
+  rules:
+
+  Inbound:
+
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0
+  - Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
+  - Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
+  - Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
+  - Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+
+  Outbound:
+
+  - Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0
+
+  These security rules impact an internal network interface that is not exposed publicly.
 """
 function add_ip_routes end
 
@@ -125,12 +140,12 @@ end
 Adds two domain controllers in the specified Region for the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory to which you want to add Region
   replication.
 - `region_name`: The name of the Region where you want to add domain controllers for
-  replication. For example, us-east-1.
+  replication. For example, `us-east-1`.
 - `vpcsettings`:
-
 """
 function add_region end
 
@@ -183,9 +198,9 @@ maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must
 to each resource.
 
 # Arguments
+
 - `resource_id`: Identifier (ID) for the directory to which to add the tag.
 - `tags`: The tags to be assigned to the directory.
-
 """
 function add_tags_to_resource end
 
@@ -222,15 +237,15 @@ end
     cancel_schema_extension(directory_id, schema_extension_id)
     cancel_schema_extension(directory_id, schema_extension_id, params::Dict{String,<:Any})
 
-Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema
-extension has started replicating to all domain controllers, the task can no longer be
-canceled. A schema extension can be canceled during any of the following states;
-Initializing, CreatingSnapshot, and UpdatingSchema.
+Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension
+has started replicating to all domain controllers, the task can no longer be canceled. A
+schema extension can be canceled during any of the following states; `Initializing`,
+`CreatingSnapshot`, and `UpdatingSchema`.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory whose schema extension will be canceled.
 - `schema_extension_id`: The identifier of the schema extension that will be canceled.
-
 """
 function cancel_schema_extension end
 
@@ -273,23 +288,27 @@ end
     connect_directory(connect_settings, name, password, size)
     connect_directory(connect_settings, name, password, size, params::Dict{String,<:Any})
 
-Creates an AD Connector to connect to a self-managed directory. Before you call
-ConnectDirectory, ensure that all of the required permissions have been explicitly granted
-through a policy. For details about what permissions are required to run the
-ConnectDirectory operation, see Directory Service API Permissions: Actions, Resources, and
-Conditions Reference.
+Creates an AD Connector to connect to a self-managed directory.
+
+Before you call `ConnectDirectory`, ensure that all of the required permissions have been
+explicitly granted through a policy. For details about what permissions are required to run
+the [`connect_directory`](@ref) operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 # Arguments
-- `connect_settings`: A DirectoryConnectSettings object that contains additional
+
+- `connect_settings`: A `DirectoryConnectSettings` object that contains additional
   information for the operation.
-- `name`: The fully qualified name of your self-managed directory, such as corp.example.com.
+- `name`: The fully qualified name of your self-managed directory, such as
+  `corp.example.com`.
 - `password`: The password for your self-managed user account.
 - `size`: The size of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the directory.
-- `"ShortName"`: The NetBIOS name of your self-managed directory, such as CORP.
+- `"ShortName"`: The NetBIOS name of your self-managed directory, such as `CORP`.
 - `"Tags"`: The tags to be assigned to AD Connector.
 """
 function connect_directory end
@@ -346,16 +365,20 @@ end
     create_alias(alias, directory_id, params::Dict{String,<:Any})
 
 Creates an alias for a directory and assigns the alias to the directory. The alias is used
-to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com.
-After an alias has been created, it cannot be deleted or reused, so this operation should
-only be used when absolutely necessary.
+to construct the access URL for the directory, such as `http://&lt;alias&gt;.awsapps.com`.
+
+!!! important
+    After an alias has been created, it cannot be deleted or reused, so this operation
+    should only be used when absolutely necessary.
 
 # Arguments
-- `alias`: The requested alias. The alias must be unique amongst all aliases in Amazon Web
-  Services. This operation throws an EntityAlreadyExistsException error if the alias already
-  exists.
-- `directory_id`: The identifier of the directory for which to create the alias.
 
+- `alias`: The requested alias.
+
+  The alias must be unique amongst all aliases in Amazon Web Services. This operation throws
+  an `EntityAlreadyExistsException` error if the alias already exists.
+
+- `directory_id`: The identifier of the directory for which to create the alias.
 """
 function create_alias end
 
@@ -397,15 +420,18 @@ end
 Creates an Active Directory computer object in the specified directory.
 
 # Arguments
+
 - `computer_name`: The name of the computer account.
 - `directory_id`: The identifier of the directory in which to create the computer account.
 - `password`: A one-time password that is used to join the computer to the directory. You
   should generate a random, strong password to use for this parameter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComputerAttributes"`: An array of Attribute objects that contain any LDAP attributes to
-  apply to the computer account.
+
+- `"ComputerAttributes"`: An array of `Attribute` objects that contain any LDAP attributes
+  to apply to the computer account.
 - `"OrganizationalUnitDistinguishedName"`: The fully-qualified distinguished name of the
   organizational unit to place the computer account in.
 """
@@ -460,13 +486,13 @@ Conditional forwarders are required in order to set up a trust relationship with
 domain. The conditional forwarder points to the trusted domain.
 
 # Arguments
+
 - `directory_id`: The directory ID of the Amazon Web Services directory for which you are
   creating the conditional forwarder.
 - `dns_ip_addrs`: The IP addresses of the remote DNS server associated with
   RemoteDomainName.
 - `remote_domain_name`: The fully qualified domain name (FQDN) of the remote domain with
   which you will set up a trust relationship.
-
 """
 function create_conditional_forwarder end
 
@@ -517,34 +543,47 @@ end
     create_directory(name, password, size)
     create_directory(name, password, size, params::Dict{String,<:Any})
 
-Creates a Simple AD directory. For more information, see Simple Active Directory in the
-Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the
-required permissions have been explicitly granted through a policy. For details about what
-permissions are required to run the CreateDirectory operation, see Directory Service API
-Permissions: Actions, Resources, and Conditions Reference.
+Creates a Simple AD directory. For more information, see [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html)
+in the *Directory Service Admin Guide*.
+
+Before you call `CreateDirectory`, ensure that all of the required permissions have been
+explicitly granted through a policy. For details about what permissions are required to run
+the [`create_directory`](@ref) operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 # Arguments
-- `name`: The fully qualified name for the directory, such as corp.example.com.
+
+- `name`: The fully qualified name for the directory, such as `corp.example.com`.
+
 - `password`: The password for the directory administrator. The directory creation process
-  creates a directory administrator account with the user name Administrator and this
-  password. If you need to change the password for the administrator account, you can use the
-  ResetUserPassword API call. The regex pattern for this string is made up of the following
-  conditions:   Length (?=^.{8,64}) – Must be between 8 and 64 characters   AND any 3 of
-  the following password complexity rules required by Active Directory:   Numbers and upper
-  case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z])   Numbers and special characters and lower
-  case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z])   Special characters and upper case and lower
-  case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z])   Numbers and upper case and special
-  characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s])   For additional information about how
-  Active Directory passwords are enforced, see Password must meet complexity requirements on
-  the Microsoft website.
+  creates a directory administrator account with the user name `Administrator` and this
+  password.
+
+  If you need to change the password for the administrator account, you can use the
+  `ResetUserPassword` API call.
+
+  The regex pattern for this string is made up of the following conditions:
+
+  - Length (?=^.{8,64}\$) – Must be between 8 and 64 characters
+
+  AND any 3 of the following password complexity rules required by Active Directory:
+
+  - Numbers and upper case and lowercase (?=.*\\d)(?=.*[A-Z])(?=.*[a-z])
+- Numbers and special characters and lower case (?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])
+- Special characters and upper case and lower case (?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])
+- Numbers and upper case and special characters (?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s])
+
+For additional information about how Active Directory passwords are enforced, see [Password must meet complexity requirements](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements) on the Microsoft website.
+
 - `size`: The size of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the directory.
-- `"ShortName"`: The NetBIOS name of the directory, such as CORP.
+- `"ShortName"`: The NetBIOS name of the directory, such as `CORP`.
 - `"Tags"`: The tags to be assigned to the Simple AD directory.
-- `"VpcSettings"`: A DirectoryVpcSettings object that contains additional information for
+- `"VpcSettings"`: A `DirectoryVpcSettings` object that contains additional information for
   the operation.
 """
 function create_directory end
@@ -589,11 +628,11 @@ Creates a subscription to forward real-time Directory Service domain controller 
 logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
 
 # Arguments
+
 - `directory_id`: Identifier of the directory to which you want to subscribe and receive
   real-time logs to your specified CloudWatch log group.
 - `log_group_name`: The name of the CloudWatch log group where the real-time domain
   controller logs are forwarded.
-
 """
 function create_log_subscription end
 
@@ -634,32 +673,38 @@ end
     create_microsoft_ad(name, password, vpc_settings)
     create_microsoft_ad(name, password, vpc_settings, params::Dict{String,<:Any})
 
-Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information,
-see Managed Microsoft AD in the Directory Service Admin Guide. Before you call
-CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted
-through a policy. For details about what permissions are required to run the
-CreateMicrosoftAD operation, see Directory Service API Permissions: Actions, Resources, and
-Conditions Reference.
+Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html)
+in the *Directory Service Admin Guide*.
+
+Before you call *CreateMicrosoftAD*, ensure that all of the required permissions have been
+explicitly granted through a policy. For details about what permissions are required to run
+the *CreateMicrosoftAD* operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 # Arguments
+
 - `name`: The fully qualified domain name for the Managed Microsoft AD directory, such as
-  corp.example.com. This name will resolve inside your VPC only. It does not need to be
+  `corp.example.com`. This name will resolve inside your VPC only. It does not need to be
   publicly resolvable.
-- `password`: The password for the default administrative user named Admin. If you need to
-  change the password for the administrator account, you can use the ResetUserPassword API
-  call.
-- `vpc_settings`: Contains VPC information for the CreateDirectory or CreateMicrosoftAD
+
+- `password`: The password for the default administrative user named `Admin`.
+
+  If you need to change the password for the administrator account, you can use the
+  `ResetUserPassword` API call.
+
+- `vpc_settings`: Contains VPC information for the `CreateDirectory` or `CreateMicrosoftAD`
   operation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the directory. This label will appear on the Amazon
-  Web Services console Directory Details page after the directory is created.
-- `"Edition"`: Managed Microsoft AD is available in two editions: Standard and Enterprise.
-  Enterprise is the default.
-- `"ShortName"`: The NetBIOS name for your domain, such as CORP. If you don't specify a
-  NetBIOS name, it will default to the first part of your directory DNS. For example, CORP
-  for the directory DNS corp.example.com.
+
+- `"Description"`: A description for the directory. This label will appear on the Amazon Web
+  Services console `Directory Details` page after the directory is created.
+- `"Edition"`: Managed Microsoft AD is available in two editions: `Standard` and
+  `Enterprise`. `Enterprise` is the default.
+- `"ShortName"`: The NetBIOS name for your domain, such as `CORP`. If you don't specify a
+  NetBIOS name, it will default to the first part of your directory DNS. For example, `CORP`
+  for the directory DNS `corp.example.com`.
 - `"Tags"`: The tags to be assigned to the Managed Microsoft AD directory.
 """
 function create_microsoft_ad end
@@ -705,13 +750,19 @@ end
     create_snapshot(directory_id, params::Dict{String,<:Any})
 
 Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services
-cloud.  You cannot take snapshots of AD Connector directories.
+cloud.
+
+!!! note
+    You cannot take snapshots of AD Connector directories.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory of which to take a snapshot.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The descriptive name to apply to the snapshot.
 """
 function create_snapshot end
@@ -748,11 +799,14 @@ Directory Service for Microsoft Active Directory allows you to configure trust
 relationships. For example, you can establish a trust between your Managed Microsoft AD
 directory, and your existing self-managed Microsoft Active Directory. This would allow you
 to provide users and groups access to resources in either domain, with a single set of
-credentials. This action initiates the creation of the Amazon Web Services side of a trust
-relationship between an Managed Microsoft AD directory and an external domain. You can
-create either a forest trust or an external trust.
+credentials.
+
+This action initiates the creation of the Amazon Web Services side of a trust relationship
+between an Managed Microsoft AD directory and an external domain. You can create either a
+forest trust or an external trust.
 
 # Arguments
+
 - `directory_id`: The Directory ID of the Managed Microsoft AD directory for which to
   establish the trust relationship.
 - `remote_domain_name`: The Fully Qualified Domain Name (FQDN) of the external domain for
@@ -762,11 +816,13 @@ create either a forest trust or an external trust.
   creating the trust relationship on the external domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalForwarderIpAddrs"`: The IP addresses of the remote DNS server associated
-  with RemoteDomainName.
+
+- `"ConditionalForwarderIpAddrs"`: The IP addresses of the remote DNS server associated with
+  RemoteDomainName.
 - `"SelectiveAuth"`: Optional parameter to enable selective authentication for the trust.
-- `"TrustType"`: The trust relationship type. Forest is the default.
+- `"TrustType"`: The trust relationship type. `Forest` is the default.
 """
 function create_trust end
 
@@ -824,10 +880,10 @@ end
 Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
 
 # Arguments
+
 - `directory_id`: The directory ID for which you are deleting the conditional forwarder.
 - `remote_domain_name`: The fully qualified domain name (FQDN) of the remote domain with
   which you are deleting the conditional forwarder.
-
 """
 function delete_conditional_forwarder end
 
@@ -870,14 +926,15 @@ end
     delete_directory(directory_id)
     delete_directory(directory_id, params::Dict{String,<:Any})
 
-Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of
-the required permissions have been explicitly granted through a policy. For details about
-what permissions are required to run the DeleteDirectory operation, see Directory Service
-API Permissions: Actions, Resources, and Conditions Reference.
+Deletes an Directory Service directory.
+
+Before you call `DeleteDirectory`, ensure that all of the required permissions have been
+explicitly granted through a policy. For details about what permissions are required to run
+the [`delete_directory`](@ref) operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
 
 # Arguments
-- `directory_id`: The identifier of the directory to delete.
 
+- `directory_id`: The identifier of the directory to delete.
 """
 function delete_directory end
 
@@ -912,8 +969,8 @@ end
 Deletes the specified log subscription.
 
 # Arguments
-- `directory_id`: Identifier of the directory whose log subscription you want to delete.
 
+- `directory_id`: Identifier of the directory whose log subscription you want to delete.
 """
 function delete_log_subscription end
 
@@ -950,8 +1007,8 @@ end
 Deletes a directory snapshot.
 
 # Arguments
-- `snapshot_id`: The identifier of the directory snapshot to be deleted.
 
+- `snapshot_id`: The identifier of the directory snapshot to be deleted.
 """
 function delete_snapshot end
 
@@ -987,10 +1044,13 @@ Deletes an existing trust relationship between your Managed Microsoft AD directo
 external domain.
 
 # Arguments
+
 - `trust_id`: The Trust ID of the trust relationship to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeleteAssociatedConditionalForwarder"`: Delete a conditional forwarder as part of a
   DeleteTrustRequest.
 """
@@ -1026,9 +1086,9 @@ Deletes from the system the certificate that was registered for secure LDAP or c
 certificate authentication.
 
 # Arguments
+
 - `certificate_id`: The identifier of the certificate.
 - `directory_id`: The identifier of the directory.
-
 """
 function deregister_certificate end
 
@@ -1072,11 +1132,11 @@ end
 Removes the specified directory as a publisher to the specified Amazon SNS topic.
 
 # Arguments
+
 - `directory_id`: The Directory ID to remove as a publisher. This directory will no longer
   send messages to the specified Amazon SNS topic.
 - `topic_name`: The name of the Amazon SNS topic from which to remove the directory as a
   publisher.
-
 """
 function deregister_event_topic end
 
@@ -1119,9 +1179,9 @@ Displays information about the certificate registered for secure LDAP or client 
 authentication.
 
 # Arguments
+
 - `certificate_id`: The identifier of the certificate.
 - `directory_id`: The identifier of the directory.
-
 """
 function describe_certificate end
 
@@ -1164,18 +1224,22 @@ end
 
 Retrieves information about the type of client authentication for the specified directory,
 if the type is specified. If no type is specified, information about all client
-authentication types that are supported for the specified directory is retrieved.
-Currently, only SmartCard is supported.
+authentication types that are supported for the specified directory is retrieved. Currently,
+only `SmartCard` is supported.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which to retrieve information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
-- `"NextToken"`: The DescribeClientAuthenticationSettingsResult.NextToken value from a
-  previous call to DescribeClientAuthenticationSettings. Pass null if this is the first call.
+- `"NextToken"`: The *DescribeClientAuthenticationSettingsResult.NextToken* value from a
+  previous call to `DescribeClientAuthenticationSettings`. Pass null if this is the first
+  call.
 - `"Type"`: The type of client authentication for which to retrieve information. If no type
   is specified, a list of all client authentication types that are supported for the
   specified directory is retrieved.
@@ -1212,16 +1276,20 @@ end
     describe_conditional_forwarders(directory_id)
     describe_conditional_forwarders(directory_id, params::Dict{String,<:Any})
 
-Obtains information about the conditional forwarders for this account. If no input
-parameters are provided for RemoteDomainNames, this request describes all conditional
-forwarders for the specified directory ID.
+Obtains information about the conditional forwarders for this account.
+
+If no input parameters are provided for RemoteDomainNames, this request describes all
+conditional forwarders for the specified directory ID.
 
 # Arguments
+
 - `directory_id`: The directory ID for which to get the list of associated conditional
   forwarders.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RemoteDomainNames"`: The fully qualified domain names (FQDN) of the remote domains for
   which to get the list of associated conditional forwarders. If this member is null, all
   conditional forwarders are returned.
@@ -1258,24 +1326,34 @@ end
     describe_directories()
     describe_directories(params::Dict{String,<:Any})
 
-Obtains information about the directories that belong to this account. You can retrieve
-information about specific directories by passing the directory identifiers in the
-DirectoryIds parameter. Otherwise, all directories that belong to the current account are
-returned. This operation supports pagination with the use of the NextToken request and
-response parameters. If more results are available, the DescribeDirectoriesResult.NextToken
-member contains a token that you pass in the next call to DescribeDirectories to retrieve
-the next set of items. You can also specify a maximum number of return results with the
-Limit parameter.
+Obtains information about the directories that belong to this account.
+
+You can retrieve information about specific directories by passing the directory identifiers
+in the `DirectoryIds` parameter. Otherwise, all directories that belong to the current
+account are returned.
+
+This operation supports pagination with the use of the `NextToken` request and response
+parameters. If more results are available, the `DescribeDirectoriesResult.NextToken` member
+contains a token that you pass in the next call to [`describe_directories`](@ref) to
+retrieve the next set of items.
+
+You can also specify a maximum number of return results with the `Limit` parameter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryIds"`: A list of identifiers of the directories for which to obtain the
-  information. If this member is null, all directories that belong to the current account are
-  returned. An empty list results in an InvalidParameterException being thrown.
+  information. If this member is null, all directories that belong to the current account
+  are returned.
+
+  An empty list results in an `InvalidParameterException` being thrown.
+
 - `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
-- `"NextToken"`: The DescribeDirectoriesResult.NextToken value from a previous call to
-  DescribeDirectories. Pass null if this is the first call.
+
+- `"NextToken"`: The `DescribeDirectoriesResult.NextToken` value from a previous call to
+  `DescribeDirectories`. Pass null if this is the first call.
 """
 function describe_directories end
 
@@ -1300,16 +1378,19 @@ end
 Provides information about any domain controllers in your directory.
 
 # Arguments
+
 - `directory_id`: Identifier of the directory for which to retrieve the domain controller
   information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DomainControllerIds"`: A list of identifiers for the domain controllers whose
   information will be provided.
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: The DescribeDomainControllers.NextToken value from a previous call to
-  DescribeDomainControllers. Pass null if this is the first call.
+- `"NextToken"`: The *DescribeDomainControllers.NextToken* value from a previous call to
+  `DescribeDomainControllers`. Pass null if this is the first call.
 """
 function describe_domain_controllers end
 
@@ -1343,17 +1424,23 @@ end
     describe_event_topics()
     describe_event_topics(params::Dict{String,<:Any})
 
-Obtains information about which Amazon SNS topics receive status messages from the
-specified directory. If no input parameters are provided, such as DirectoryId or TopicName,
-this request describes all of the associations in the account.
+Obtains information about which Amazon SNS topics receive status messages from the specified
+directory.
+
+If no input parameters are provided, such as DirectoryId or TopicName, this request
+describes all of the associations in the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryId"`: The Directory ID for which to get the list of associated Amazon SNS
   topics. If this member is null, associations for all Directory IDs are returned.
+
 - `"TopicNames"`: A list of Amazon SNS topic names for which to obtain the information. If
-  this member is null, all associations for the specified Directory ID are returned. An empty
-  list results in an InvalidParameterException being thrown.
+  this member is null, all associations for the specified Directory ID are returned.
+
+  An empty list results in an `InvalidParameterException` being thrown.
 """
 function describe_event_topics end
 
@@ -1378,13 +1465,16 @@ end
 Describes the status of LDAP security for the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: Specifies the number of items that should be displayed on one page.
 - `"NextToken"`: The type of next token used for pagination.
-- `"Type"`: The type of LDAP security to enable. Currently only the value Client is
+- `"Type"`: The type of LDAP security to enable. Currently only the value `Client` is
   supported.
 """
 function describe_ldapssettings end
@@ -1422,13 +1512,16 @@ end
 Provides information about the Regions that are configured for multi-Region replication.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The DescribeRegionsResult.NextToken value from a previous call to
-  DescribeRegions. Pass null if this is the first call.
-- `"RegionName"`: The name of the Region. For example, us-east-1.
+
+- `"NextToken"`: The `DescribeRegionsResult.NextToken` value from a previous call to
+  `DescribeRegions`. Pass null if this is the first call.
+- `"RegionName"`: The name of the Region. For example, `us-east-1`.
 """
 function describe_regions end
 
@@ -1463,12 +1556,15 @@ end
 Retrieves information about the configurable settings for the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which to retrieve information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The DescribeSettingsResult.NextToken value from a previous call to
-  DescribeSettings. Pass null if this is the first call.
+
+- `"NextToken"`: The `DescribeSettingsResult.NextToken` value from a previous call to
+  `DescribeSettings`. Pass null if this is the first call.
 - `"Status"`: The status of the directory settings for which to retrieve information.
 """
 function describe_settings end
@@ -1504,14 +1600,17 @@ end
 Returns the shared directories in your account.
 
 # Arguments
+
 - `owner_directory_id`: Returns the identifier of the directory in the directory owner
   account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: The number of shared directories to return in the response object.
-- `"NextToken"`: The DescribeSharedDirectoriesResult.NextToken value from a previous call
-  to DescribeSharedDirectories. Pass null if this is the first call.
+- `"NextToken"`: The `DescribeSharedDirectoriesResult.NextToken` value from a previous call
+  to `DescribeSharedDirectories`. Pass null if this is the first call.
 - `"SharedDirectoryIds"`: A list of identifiers of all shared directories in your account.
 """
 function describe_shared_directories end
@@ -1548,21 +1647,26 @@ end
     describe_snapshots()
     describe_snapshots(params::Dict{String,<:Any})
 
-Obtains information about the directory snapshots that belong to this account. This
-operation supports pagination with the use of the NextToken request and response
-parameters. If more results are available, the DescribeSnapshots.NextToken member contains
-a token that you pass in the next call to DescribeSnapshots to retrieve the next set of
-items. You can also specify a maximum number of return results with the Limit parameter.
+Obtains information about the directory snapshots that belong to this account.
+
+This operation supports pagination with the use of the *NextToken* request and response
+parameters. If more results are available, the *DescribeSnapshots.NextToken* member contains
+a token that you pass in the next call to [`describe_snapshots`](@ref) to retrieve the next
+set of items.
+
+You can also specify a maximum number of return results with the *Limit* parameter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryId"`: The identifier of the directory for which to retrieve snapshot
   information.
 - `"Limit"`: The maximum number of objects to return.
-- `"NextToken"`: The DescribeSnapshotsResult.NextToken value from a previous call to
-  DescribeSnapshots. Pass null if this is the first call.
+- `"NextToken"`: The *DescribeSnapshotsResult.NextToken* value from a previous call to
+  `DescribeSnapshots`. Pass null if this is the first call.
 - `"SnapshotIds"`: A list of identifiers of the snapshots to obtain the information for. If
-  this member is null or empty, all snapshots are returned using the Limit and NextToken
+  this member is null or empty, all snapshots are returned using the *Limit* and *NextToken*
   members.
 """
 function describe_snapshots end
@@ -1585,20 +1689,28 @@ end
     describe_trusts()
     describe_trusts(params::Dict{String,<:Any})
 
-Obtains information about the trust relationships for this account. If no input parameters
-are provided, such as DirectoryId or TrustIds, this request describes all the trust
-relationships belonging to the account.
+Obtains information about the trust relationships for this account.
+
+If no input parameters are provided, such as DirectoryId or TrustIds, this request describes
+all the trust relationships belonging to the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryId"`: The Directory ID of the Amazon Web Services directory that is a part of
   the requested trust relationship.
+
 - `"Limit"`: The maximum number of objects to return.
-- `"NextToken"`: The DescribeTrustsResult.NextToken value from a previous call to
-  DescribeTrusts. Pass null if this is the first call.
+
+- `"NextToken"`: The *DescribeTrustsResult.NextToken* value from a previous call to
+  `DescribeTrusts`. Pass null if this is the first call.
+
 - `"TrustIds"`: A list of identifiers of the trust relationships for which to obtain the
   information. If this member is null, all trust relationships that belong to the current
-  account are returned. An empty list results in an InvalidParameterException being thrown.
+  account are returned.
+
+  An empty list results in an `InvalidParameterException` being thrown.
 """
 function describe_trusts end
 
@@ -1618,17 +1730,20 @@ end
     describe_update_directory(directory_id, update_type)
     describe_update_directory(directory_id, update_type, params::Dict{String,<:Any})
 
- Describes the updates of a directory for a particular update type.
+Describes the updates of a directory for a particular update type.
 
 # Arguments
-- `directory_id`:  The unique identifier of the directory.
-- `update_type`:  The type of updates you want to describe for the directory.
+
+- `directory_id`: The unique identifier of the directory.
+- `update_type`: The type of updates you want to describe for the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`:  The DescribeUpdateDirectoryResult. NextToken value from a previous call
-  to DescribeUpdateDirectory. Pass null if this is the first call.
-- `"RegionName"`:  The name of the Region.
+
+- `"NextToken"`: The `DescribeUpdateDirectoryResult`. NextToken value from a previous call
+  to `DescribeUpdateDirectory`. Pass null if this is the first call.
+- `"RegionName"`: The name of the Region.
 """
 function describe_update_directory end
 
@@ -1670,10 +1785,10 @@ end
 Disables alternative client authentication methods for the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory
 - `type`: The type of client authentication to disable. Currently, only the parameter,
-  SmartCard is supported.
-
+  `SmartCard` is supported.
 """
 function disable_client_authentication end
 
@@ -1715,9 +1830,10 @@ end
 Deactivates LDAP secure calls for the specified directory.
 
 # Arguments
-- `directory_id`: The identifier of the directory.
-- `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
+- `directory_id`: The identifier of the directory.
+- `type`: The type of LDAP security to enable. Currently only the value `Client` is
+  supported.
 """
 function disable_ldaps end
 
@@ -1760,8 +1876,8 @@ Disables multi-factor authentication (MFA) with the Remote Authentication Dial I
 Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 
 # Arguments
-- `directory_id`: The identifier of the directory for which to disable MFA.
 
+- `directory_id`: The identifier of the directory for which to disable MFA.
 """
 function disable_radius end
 
@@ -1796,18 +1912,25 @@ end
 Disables single-sign on for a directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which to disable single-sign on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Password"`: The password of an alternate account to use to disable single-sign on. This
-  is only used for AD Connector directories. For more information, see the UserName parameter.
+  is only used for AD Connector directories. For more information, see the *UserName*
+  parameter.
+
 - `"UserName"`: The username of an alternate account to use to disable single-sign on. This
   is only used for AD Connector directories. This account must have privileges to remove a
-  service principal name. If the AD Connector service account does not have privileges to
-  remove a service principal name, you can specify an alternate account with the UserName and
-  Password parameters. These credentials are only used to disable single sign-on and are not
-  stored by the service. The AD Connector service account is not changed.
+  service principal name.
+
+  If the AD Connector service account does not have privileges to remove a service principal
+  name, you can specify an alternate account with the *UserName* and *Password* parameters.
+  These credentials are only used to disable single sign-on and are not stored by the
+  service. The AD Connector service account is not changed.
 """
 function disable_sso end
 
@@ -1842,11 +1965,11 @@ end
 Enables alternative client authentication methods for the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the specified directory.
-- `type`: The type of client authentication to enable. Currently only the value SmartCard
+- `type`: The type of client authentication to enable. Currently only the value `SmartCard`
   is supported. Smart card authentication in AD Connector requires that you enable Kerberos
   Constrained Delegation for the Service User to the LDAP service in your self-managed AD.
-
 """
 function enable_client_authentication end
 
@@ -1888,9 +2011,10 @@ end
 Activates the switch for the specific directory to always use LDAP secure calls.
 
 # Arguments
-- `directory_id`: The identifier of the directory.
-- `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
+- `directory_id`: The identifier of the directory.
+- `type`: The type of LDAP security to enable. Currently only the value `Client` is
+  supported.
 """
 function enable_ldaps end
 
@@ -1931,10 +2055,10 @@ Enables multi-factor authentication (MFA) with the Remote Authentication Dial In
 Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 
 # Arguments
-- `directory_id`: The identifier of the directory for which to enable MFA.
-- `radius_settings`: A RadiusSettings object that contains information about the RADIUS
-  server.
 
+- `directory_id`: The identifier of the directory for which to enable MFA.
+- `radius_settings`: A `RadiusSettings` object that contains information about the RADIUS
+  server.
 """
 function enable_radius end
 
@@ -1980,18 +2104,25 @@ access certain Amazon Web Services services from a computer joined to the direct
 having to enter their credentials separately.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which to enable single-sign on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Password"`: The password of an alternate account to use to enable single-sign on. This
-  is only used for AD Connector directories. For more information, see the UserName parameter.
+  is only used for AD Connector directories. For more information, see the *UserName*
+  parameter.
+
 - `"UserName"`: The username of an alternate account to use to enable single-sign on. This
   is only used for AD Connector directories. This account must have privileges to add a
-  service principal name. If the AD Connector service account does not have privileges to add
-  a service principal name, you can specify an alternate account with the UserName and
-  Password parameters. These credentials are only used to enable single sign-on and are not
-  stored by the service. The AD Connector service account is not changed.
+  service principal name.
+
+  If the AD Connector service account does not have privileges to add a service principal
+  name, you can specify an alternate account with the *UserName* and *Password* parameters.
+  These credentials are only used to enable single sign-on and are not stored by the
+  service. The AD Connector service account is not changed.
 """
 function enable_sso end
 
@@ -2024,7 +2155,6 @@ end
     get_directory_limits(params::Dict{String,<:Any})
 
 Obtains directory limit information for the current Region.
-
 """
 function get_directory_limits end
 
@@ -2049,8 +2179,8 @@ end
 Obtains the manual snapshot limits for a directory.
 
 # Arguments
-- `directory_id`: Contains the identifier of the directory to obtain the limits for.
 
+- `directory_id`: Contains the identifier of the directory to obtain the limits for.
 """
 function get_snapshot_limits end
 
@@ -2088,15 +2218,18 @@ For the specified directory, lists all the certificates registered for a secure 
 client certificate authentication.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: The number of items that should show up on one page
-- `"NextToken"`: A token for requesting another page of certificates if the NextToken
+- `"NextToken"`: A token for requesting another page of certificates if the `NextToken`
   response element indicates that more certificates are available. Use the value of the
-  returned NextToken element in your request until the token comes back as null. Pass null if
-  this is the first call.
+  returned `NextToken` element in your request until the token comes back as `null`. Pass
+  `null` if this is the first call.
 """
 function list_certificates end
 
@@ -2131,14 +2264,17 @@ end
 Lists the address blocks that you have added to a directory.
 
 # Arguments
+
 - `directory_id`: Identifier (ID) of the directory for which you want to retrieve the IP
   addresses.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: Maximum number of items to return. If this value is zero, the maximum number
-  of items is specified by the limitations of the operation.
-- `"NextToken"`: The ListIpRoutes.NextToken value from a previous call to ListIpRoutes.
+
+- `"Limit"`: Maximum number of items to return. If this value is zero, the maximum number of
+  items is specified by the limitations of the operation.
+- `"NextToken"`: The *ListIpRoutes.NextToken* value from a previous call to `ListIpRoutes`.
   Pass null if this is the first call.
 """
 function list_ip_routes end
@@ -2174,12 +2310,17 @@ end
 Lists the active log subscriptions for the Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryId"`: If a DirectoryID is provided, lists only the log subscription associated
-  with that directory. If no DirectoryId is provided, lists all log subscriptions associated
-  with your Amazon Web Services account. If there are no log subscriptions for the Amazon Web
-  Services account or the directory, an empty list will be returned.
+
+- `"DirectoryId"`: If a *DirectoryID* is provided, lists only the log subscription
+  associated with that directory. If no *DirectoryId* is provided, lists all log
+  subscriptions associated with your Amazon Web Services account. If there are no log
+  subscriptions for the Amazon Web Services account or the directory, an empty list will be
+  returned.
+
 - `"Limit"`: The maximum number of items returned.
+
 - `"NextToken"`: The token for the next set of items to return.
 """
 function list_log_subscriptions end
@@ -2205,14 +2346,17 @@ end
 Lists all schema extensions applied to a Microsoft AD Directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory from which to retrieve the schema
   extension information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: The ListSchemaExtensions.NextToken value from a previous call to
-  ListSchemaExtensions. Pass null if this is the first call.
+- `"NextToken"`: The `ListSchemaExtensions.NextToken` value from a previous call to
+  `ListSchemaExtensions`. Pass null if this is the first call.
 """
 function list_schema_extensions end
 
@@ -2249,10 +2393,13 @@ end
 Lists all tags on a directory.
 
 # Arguments
+
 - `resource_id`: Identifier (ID) of the directory for which you want to retrieve tags.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: Reserved for future use.
 - `"NextToken"`: Reserved for future use.
 """
@@ -2291,15 +2438,18 @@ end
 Registers a certificate for a secure LDAP or client certificate authentication.
 
 # Arguments
+
 - `certificate_data`: The certificate PEM string that needs to be registered.
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientCertAuthSettings"`: A ClientCertAuthSettings object that contains client
+
+- `"ClientCertAuthSettings"`: A `ClientCertAuthSettings` object that contains client
   certificate authentication settings.
 - `"Type"`: The function that the registered certificate performs. Valid values include
-  ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
+  `ClientLDAPS` or `ClientCertAuth`. The default value is `ClientLDAPS`.
 """
 function register_certificate end
 
@@ -2349,11 +2499,11 @@ from an Active status to an Impaired or Inoperable status. You also receive a no
 when the directory returns to an Active status.
 
 # Arguments
+
 - `directory_id`: The Directory ID that will publish status messages to the Amazon SNS
   topic.
 - `topic_name`: The Amazon SNS topic name to which the directory will publish status
   messages. This Amazon SNS topic must be in the same region as the specified Directory ID.
-
 """
 function register_event_topic end
 
@@ -2395,9 +2545,9 @@ end
 Rejects a directory sharing request that was sent from the directory owner account.
 
 # Arguments
+
 - `shared_directory_id`: Identifier of the shared directory in the directory consumer
   account. This identifier is different for each directory owner account.
-
 """
 function reject_shared_directory end
 
@@ -2436,10 +2586,10 @@ end
 Removes IP address blocks from a directory.
 
 # Arguments
+
 - `cidr_ips`: IP address blocks that you want to remove.
 - `directory_id`: Identifier (ID) of the directory from which you want to remove the IP
   addresses.
-
 """
 function remove_ip_routes end
 
@@ -2479,12 +2629,13 @@ end
     remove_region(directory_id, params::Dict{String,<:Any})
 
 Stops all replication and removes the domain controllers from the specified Region. You
-cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
+cannot remove the primary Region with this operation. Instead, use the `DeleteDirectory`
+API.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which you want to remove Region
   replication.
-
 """
 function remove_region end
 
@@ -2519,9 +2670,9 @@ end
 Removes tags from a directory.
 
 # Arguments
+
 - `resource_id`: Identifier (ID) of the directory from which to remove the tag.
 - `tag_keys`: The tag key (name) of the tag to be removed.
-
 """
 function remove_tags_from_resource end
 
@@ -2560,22 +2711,24 @@ end
     reset_user_password(directory_id, new_password, user_name)
     reset_user_password(directory_id, new_password, user_name, params::Dict{String,<:Any})
 
-Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You
-can reset the password for any user in your directory with the following exceptions:   For
-Simple AD, you cannot reset the password for any user that is a member of either the Domain
-Admins or Enterprise Admins group except for the administrator user.   For Managed
-Microsoft AD, you can only reset the password for a user that is in an OU based off of the
-NetBIOS name that you typed when you created your directory. For example, you cannot reset
-the password for a user in the Amazon Web Services Reserved OU. For more information about
-the OU structure for an Managed Microsoft AD directory, see What Gets Created in the
-Directory Service Administration Guide.
+Resets the password for any user in your Managed Microsoft AD or Simple AD directory.
+
+You can reset the password for any user in your directory with the following exceptions:
+
+- For Simple AD, you cannot reset the password for any user that is a member of either the
+  **Domain Admins** or **Enterprise Admins** group except for the administrator user.
+- For Managed Microsoft AD, you can only reset the password for a user that is in an OU
+  based off of the NetBIOS name that you typed when you created your directory. For example,
+  you cannot reset the password for a user in the **Amazon Web Services Reserved** OU. For
+  more information about the OU structure for an Managed Microsoft AD directory, see [What Gets Created](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html)
+  in the *Directory Service Administration Guide*.
 
 # Arguments
-- `directory_id`: Identifier of the Managed Microsoft AD or Simple AD directory in which
-  the user resides.
+
+- `directory_id`: Identifier of the Managed Microsoft AD or Simple AD directory in which the
+  user resides.
 - `new_password`: The new password that will be reset.
 - `user_name`: The user name of the user whose password will be reset.
-
 """
 function reset_user_password end
 
@@ -2623,16 +2776,19 @@ end
     restore_from_snapshot(snapshot_id)
     restore_from_snapshot(snapshot_id, params::Dict{String,<:Any})
 
-Restores a directory using an existing directory snapshot. When you restore a directory
-from a snapshot, any changes made to the directory after the snapshot date are overwritten.
+Restores a directory using an existing directory snapshot.
+
+When you restore a directory from a snapshot, any changes made to the directory after the
+snapshot date are overwritten.
+
 This action returns as soon as the restore operation is initiated. You can monitor the
-progress of the restore operation by calling the DescribeDirectories operation with the
-directory identifier. When the DirectoryDescription.Stage value changes to Active, the
-restore operation is complete.
+progress of the restore operation by calling the [`describe_directories`](@ref) operation
+with the directory identifier. When the **DirectoryDescription.Stage** value changes to
+`Active`, the restore operation is complete.
 
 # Arguments
-- `snapshot_id`: The identifier of the snapshot to restore from.
 
+- `snapshot_id`: The identifier of the snapshot to restore from.
 """
 function restore_from_snapshot end
 
@@ -2666,31 +2822,39 @@ end
     share_directory(directory_id, share_method, share_target)
     share_directory(directory_id, share_method, share_target, params::Dict{String,<:Any})
 
-Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory
+Shares a specified directory (`DirectoryId`) in your Amazon Web Services account (directory
 owner) with another Amazon Web Services account (directory consumer). With this operation
 you can use your directory from any Amazon Web Services account and from any Amazon VPC
-within an Amazon Web Services Region. When you share your Managed Microsoft AD directory,
-Directory Service creates a shared directory in the directory consumer account. This shared
-directory contains the metadata to provide access to the directory within the directory
-owner account. The shared directory is visible in all VPCs in the directory consumer
-account. The ShareMethod parameter determines whether the specified directory can be shared
-between Amazon Web Services accounts inside the same Amazon Web Services organization
-(ORGANIZATIONS). It also determines whether you can share the directory with any other
-Amazon Web Services account either inside or outside of the organization (HANDSHAKE). The
-ShareNotes parameter is only used when HANDSHAKE is called, which sends a directory sharing
-request to the directory consumer.
+within an Amazon Web Services Region.
+
+When you share your Managed Microsoft AD directory, Directory Service creates a shared
+directory in the directory consumer account. This shared directory contains the metadata to
+provide access to the directory within the directory owner account. The shared directory is
+visible in all VPCs in the directory consumer account.
+
+The `ShareMethod` parameter determines whether the specified directory can be shared between
+Amazon Web Services accounts inside the same Amazon Web Services organization
+(`ORGANIZATIONS`). It also determines whether you can share the directory with any other
+Amazon Web Services account either inside or outside of the organization (`HANDSHAKE`).
+
+The `ShareNotes` parameter is only used when `HANDSHAKE` is called, which sends a directory
+sharing request to the directory consumer.
 
 # Arguments
+
 - `directory_id`: Identifier of the Managed Microsoft AD directory that you want to share
   with other Amazon Web Services accounts.
 - `share_method`: The method used when sharing a directory to determine whether the
-  directory should be shared within your Amazon Web Services organization (ORGANIZATIONS) or
-  with any Amazon Web Services account by sending a directory sharing request (HANDSHAKE).
+  directory should be shared within your Amazon Web Services organization (`ORGANIZATIONS`)
+  or with any Amazon Web Services account by sending a directory sharing request
+  (`HANDSHAKE`).
 - `share_target`: Identifier for the directory consumer account with whom the directory is
   to be shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ShareNotes"`: A directory share request that is sent by the directory owner to the
   directory consumer. The request includes a typed message to help the directory consumer
   administrator determine whether to approve or reject the share invitation.
@@ -2747,15 +2911,15 @@ end
 Applies a schema extension to a Microsoft AD directory.
 
 # Arguments
+
 - `create_snapshot_before_schema_extension`: If true, creates a snapshot of the directory
   before applying the schema extension.
 - `description`: A description of the schema extension.
 - `directory_id`: The identifier of the directory for which the schema extension will be
   applied to.
 - `ldif_content`: The LDIF file represented as a string. To construct the LdifContent
-  string, precede each line as it would be formatted in an ldif file with n. See the example
-  request below for more details. The file size can be no larger than 1MB.
-
+  string, precede each line as it would be formatted in an ldif file with \\n. See the
+  example request below for more details. The file size can be no larger than 1MB.
 """
 function start_schema_extension end
 
@@ -2814,11 +2978,11 @@ end
 Stops the directory sharing between the directory owner and consumer accounts.
 
 # Arguments
-- `directory_id`: The identifier of the Managed Microsoft AD directory that you want to
-  stop sharing.
+
+- `directory_id`: The identifier of the Managed Microsoft AD directory that you want to stop
+  sharing.
 - `unshare_target`: Identifier for the directory consumer account with whom the directory
   has to be unshared.
-
 """
 function unshare_directory end
 
@@ -2862,13 +3026,13 @@ end
 Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
 
 # Arguments
+
 - `directory_id`: The directory ID of the Amazon Web Services directory for which to update
   the conditional forwarder.
 - `dns_ip_addrs`: The updated IP addresses of the remote DNS server associated with the
   conditional forwarder.
 - `remote_domain_name`: The fully qualified domain name (FQDN) of the remote domain with
   which you will set up a trust relationship.
-
 """
 function update_conditional_forwarder end
 
@@ -2919,18 +3083,21 @@ end
     update_directory_setup(directory_id, update_type)
     update_directory_setup(directory_id, update_type, params::Dict{String,<:Any})
 
- Updates the directory for a particular update type.
+Updates the directory for a particular update type.
 
 # Arguments
-- `directory_id`:  The identifier of the directory on which you want to perform the update.
-- `update_type`:  The type of update that needs to be performed on the directory. For
+
+- `directory_id`: The identifier of the directory on which you want to perform the update.
+- `update_type`: The type of update that needs to be performed on the directory. For
   example, OS.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CreateSnapshotBeforeUpdate"`:  The boolean that specifies if a snapshot for the
-  directory needs to be taken before updating the directory.
-- `"OSUpdateSettings"`:  The settings for the OS update that needs to be performed on the
+
+- `"CreateSnapshotBeforeUpdate"`: The boolean that specifies if a snapshot for the directory
+  needs to be taken before updating the directory.
+- `"OSUpdateSettings"`: The settings for the OS update that needs to be performed on the
   directory.
 """
 function update_directory_setup end
@@ -2970,17 +3137,17 @@ end
     update_number_of_domain_controllers(desired_number, directory_id)
     update_number_of_domain_controllers(desired_number, directory_id, params::Dict{String,<:Any})
 
-Adds or removes domain controllers to or from the directory. Based on the difference
-between current value and new value (provided through this API call), domain controllers
-will be added or removed. It may take up to 45 minutes for any new domain controllers to
-become fully active once the requested number of domain controllers is updated. During this
-time, you cannot make another update request.
+Adds or removes domain controllers to or from the directory. Based on the difference between
+current value and new value (provided through this API call), domain controllers will be
+added or removed. It may take up to 45 minutes for any new domain controllers to become
+fully active once the requested number of domain controllers is updated. During this time,
+you cannot make another update request.
 
 # Arguments
+
 - `desired_number`: The number of domain controllers desired in the directory.
 - `directory_id`: Identifier of the directory to which the domain controllers will be added
   or removed.
-
 """
 function update_number_of_domain_controllers end
 
@@ -3021,15 +3188,15 @@ end
     update_radius(directory_id, radius_settings)
     update_radius(directory_id, radius_settings, params::Dict{String,<:Any})
 
-Updates the Remote Authentication Dial In User Service (RADIUS) server information for an
-AD Connector or Microsoft AD directory.
+Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD
+Connector or Microsoft AD directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory for which to update the RADIUS server
   information.
-- `radius_settings`: A RadiusSettings object that contains information about the RADIUS
+- `radius_settings`: A `RadiusSettings` object that contains information about the RADIUS
   server.
-
 """
 function update_radius end
 
@@ -3073,9 +3240,9 @@ end
 Updates the configurable settings for the specified directory.
 
 # Arguments
-- `directory_id`: The identifier of the directory for which to update settings.
-- `settings`: The list of Setting objects.
 
+- `directory_id`: The identifier of the directory for which to update settings.
+- `settings`: The list of `Setting` objects.
 """
 function update_settings end
 
@@ -3118,10 +3285,13 @@ Updates the trust that has been set up between your Managed Microsoft AD directo
 self-managed Active Directory.
 
 # Arguments
+
 - `trust_id`: Identifier of the trust relationship.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SelectiveAuth"`: Updates selective authentication for the trust.
 """
 function update_trust end
@@ -3153,12 +3323,14 @@ end
     verify_trust(trust_id, params::Dict{String,<:Any})
 
 Directory Service for Microsoft Active Directory allows you to configure and verify trust
-relationships. This action verifies a trust relationship between your Managed Microsoft AD
-directory and an external domain.
+relationships.
+
+This action verifies a trust relationship between your Managed Microsoft AD directory and an
+external domain.
 
 # Arguments
-- `trust_id`: The unique Trust ID of the trust relationship to verify.
 
+- `trust_id`: The unique Trust ID of the trust relationship to verify.
 """
 function verify_trust end
 

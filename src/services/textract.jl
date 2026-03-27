@@ -8,43 +8,59 @@ using AWS.UUIDs: uuid4
     analyze_document(document, feature_types)
     analyze_document(document, feature_types, params::Dict{String,<:Any})
 
-Analyzes an input document for relationships between detected items.  The types of
-information returned are as follows:    Form data (key-value pairs). The related
-information is returned in two Block objects, each of type KEY_VALUE_SET: a KEY Block
-object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and
-value. Name: is the key. Ana Silva Carolina is the value.   Table and table cell data. A
-TABLE Block object contains information about a detected table. A CELL Block object is
-returned for each cell in a table.   Lines and words of text. A LINE Block object contains
-one or more WORD Block objects. All lines and words that are detected in the document are
-returned (including text that doesn't have a relationship with the value of FeatureTypes).
-  Signatures. A SIGNATURE Block object contains the location information of a signature in
-a document. If used in conjunction with forms or tables, a signature can be given a
-Key-Value pairing or be detected in the cell of a table.   Query. A QUERY Block object
-contains the query text, alias and link to the associated Query results block object.
-Query Result. A QUERY_RESULT Block object contains the answer to the query and an ID that
-connects it to the query asked. This Block also contains a confidence score.   Selection
-elements such as check boxes and option buttons (radio buttons) can be detected in form
-data and in tables. A SELECTION_ELEMENT Block object contains information about a selection
-element, including the selection status. You can choose which type of analysis to perform
-by specifying the FeatureTypes list.  The output is returned in a list of Block objects.
-AnalyzeDocument is a synchronous operation. To analyze documents asynchronously, use
-StartDocumentAnalysis. For more information, see Document Text Analysis.
+Analyzes an input document for relationships between detected items.
+
+The types of information returned are as follows:
+
+- Form data (key-value pairs). The related information is returned in two `Block` objects,
+  each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object. For
+  example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
+  Silva Carolina* is the value.
+- Table and table cell data. A TABLE `Block` object contains information about a detected
+  table. A CELL `Block` object is returned for each cell in a table.
+- Lines and words of text. A LINE `Block` object contains one or more WORD `Block` objects.
+  All lines and words that are detected in the document are returned (including text that
+  doesn't have a relationship with the value of `FeatureTypes`).
+- Signatures. A SIGNATURE `Block` object contains the location information of a signature in
+  a document. If used in conjunction with forms or tables, a signature can be given a Key-
+  Value pairing or be detected in the cell of a table.
+- Query. A QUERY Block object contains the query text, alias and link to the associated
+  Query results block object.
+- Query Result. A QUERY_RESULT Block object contains the answer to the query and an ID that
+  connects it to the query asked. This Block also contains a confidence score.
+
+Selection elements such as check boxes and option buttons (radio buttons) can be detected in
+form data and in tables. A SELECTION_ELEMENT `Block` object contains information about a
+selection element, including the selection status.
+
+You can choose which type of analysis to perform by specifying the `FeatureTypes` list.
+
+The output is returned in a list of `Block` objects.
+
+`AnalyzeDocument` is a synchronous operation. To analyze documents asynchronously, use [`start_document_analysis`](@ref).
+
+For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
 
 # Arguments
+
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
   the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document
-  must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call
-  Amazon Textract, you might not need to base64-encode image bytes that are passed using the
-  Bytes field.
+  must be an image in JPEG, PNG, PDF, or TIFF format.
+
+  If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode
+  image bytes that are passed using the `Bytes` field.
+
 - `feature_types`: A list of the types of analysis to perform. Add TABLES to the list to
   return information about the tables that are detected in the input document. Add FORMS to
   return detected form data. Add SIGNATURES to return the locations of detected signatures.
   Add LAYOUT to the list to return information about the layout of the document. All lines
   and words detected in the document are included in the response (including text that isn't
-  related to the value of FeatureTypes).
+  related to the value of `FeatureTypes`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdaptersConfig"`: Specifies the adapter to be used when analyzing a document.
 - `"HumanLoopConfig"`: Sets the configuration for the human in the loop workflow for
   analyzing documents.
@@ -88,15 +104,19 @@ end
     analyze_expense(document)
     analyze_expense(document, params::Dict{String,<:Any})
 
- AnalyzeExpense synchronously analyzes an input document for financially related
-relationships between text. Information is returned as ExpenseDocuments and seperated as
-follows:    LineItemGroups- A data set containing LineItems which store information about
-the lines of text, such as an item purchased and its price on a receipt.    SummaryFields-
-Contains all other information a receipt, such as header information or the vendors name.
+`AnalyzeExpense` synchronously analyzes an input document for financially related
+relationships between text.
+
+Information is returned as `ExpenseDocuments` and seperated as follows:
+
+- `LineItemGroups`- A data set containing `LineItems` which store information about the
+  lines of text, such as an item purchased and its price on a receipt.
+- `SummaryFields`- Contains all other information a receipt, such as header information or
+  the vendors name.
 
 # Arguments
-- `document`:
 
+- `document`:
 """
 function analyze_expense end
 
@@ -129,13 +149,13 @@ end
     analyze_id(document_pages, params::Dict{String,<:Any})
 
 Analyzes identity documents for relevant information. This information is extracted and
-returned as IdentityDocumentFields, which records both the normalized field and value of
-the extracted text. Unlike other Amazon Textract operations, AnalyzeID doesn't return any
+returned as `IdentityDocumentFields`, which records both the normalized field and value of
+the extracted text. Unlike other Amazon Textract operations, `AnalyzeID` doesn't return any
 Geometry data.
 
 # Arguments
-- `document_pages`: The document being passed to AnalyzeID.
 
+- `document_pages`: The document being passed to AnalyzeID.
 """
 function analyze_id end
 
@@ -169,17 +189,20 @@ end
 
 Creates an adapter, which can be fine-tuned for enhanced performance on user provided
 documents. Takes an AdapterName and FeatureType. Currently the only supported feature type
-is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can
+is `QUERIES`. You can also provide a Description, Tags, and a ClientRequestToken. You can
 choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By
 default, AutoUpdate is set to DISABLED.
 
 # Arguments
+
 - `adapter_name`: The name to be assigned to the adapter being created.
 - `feature_types`: The type of feature that the adapter is being trained on. Currrenly,
-  supported feature types are: QUERIES
+  supported feature types are: `QUERIES`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AutoUpdate"`: Controls whether or not the adapter should automatically update.
 - `"ClientRequestToken"`: Idempotent token is used to recognize the request. If the same
   token is used with multiple CreateAdapter requests, the same session is returned. This
@@ -238,6 +261,7 @@ bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an 
 ClientRequestToken, and optional tags.
 
 # Arguments
+
 - `adapter_id`: A string containing a unique ID for the adapter that will receive a new
   version.
 - `dataset_config`: Specifies a dataset used to train a new adapter version. Takes a
@@ -245,7 +269,9 @@ ClientRequestToken, and optional tags.
 - `output_config`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Idempotent token is used to recognize the request. If the same
   token is used with multiple CreateAdapterVersion requests, the same session is returned.
   This token is employed to avoid unintentionally creating the same session multiple times.
@@ -308,8 +334,8 @@ Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter s
 the ID.
 
 # Arguments
-- `adapter_id`: A string containing a unique ID for the adapter to be deleted.
 
+- `adapter_id`: A string containing a unique ID for the adapter to be deleted.
 """
 function delete_adapter end
 
@@ -346,10 +372,10 @@ a AdapterVersion. Deletes the adapter version specified by the AdapterId and the
 AdapterVersion.
 
 # Arguments
+
 - `adapter_id`: A string containing a unique ID for the adapter version that will be
   deleted.
 - `adapter_version`: Specifies the adapter version to be deleted.
-
 """
 function delete_adapter_version end
 
@@ -392,20 +418,26 @@ end
 
 Detects text in the input document. Amazon Textract can detect lines of text and the words
 that make up a line of text. The input document must be in one of the following image
-formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array
-of Block objects.  Each document page has as an associated Block of type PAGE. Each PAGE
-Block object is the parent of LINE Block objects that represent the lines of detected text
-on a page. A LINE Block object is a parent for each word that makes up the line. Words are
-represented by Block objects of type WORD.  DetectDocumentText is a synchronous operation.
-To analyze documents asynchronously, use StartDocumentTextDetection. For more information,
-see Document Text Detection.
+formats: JPEG, PNG, PDF, or TIFF. `DetectDocumentText` returns the detected text in an array
+of `Block` objects.
+
+Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object is
+the parent of LINE `Block` objects that represent the lines of detected text on a page. A
+LINE `Block` object is a parent for each word that makes up the line. Words are represented
+by `Block` objects of type WORD.
+
+`DetectDocumentText` is a synchronous operation. To analyze documents asynchronously, use [`start_document_text_detection`](@ref).
+
+For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
 
 # Arguments
+
 - `document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use
   the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document
-  must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract,
-  you might not need to base64-encode image bytes that are passed using the Bytes field.
+  must be an image in JPEG or PNG format.
 
+  If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode
+  image bytes that are passed using the `Bytes` field.
 """
 function detect_document_text end
 
@@ -441,8 +473,8 @@ Gets configuration information for an adapter specified by an AdapterId, returni
 information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
 
 # Arguments
-- `adapter_id`: A string containing a unique ID for the adapter.
 
+- `adapter_id`: A string containing a unique ID for the adapter.
 """
 function get_adapter end
 
@@ -479,11 +511,11 @@ AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, Ou
 Tags and EvaluationMetrics.
 
 # Arguments
-- `adapter_id`: A string specifying a unique ID for the adapter version you want to
-  retrieve information for.
+
+- `adapter_id`: A string specifying a unique ID for the adapter version you want to retrieve
+  information for.
 - `adapter_version`: A string specifying the adapter version you want to retrieve
   information for.
-
 """
 function get_adapter_version end
 
@@ -525,43 +557,60 @@ end
     get_document_analysis(job_id, params::Dict{String,<:Any})
 
 Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
-document. You start asynchronous text analysis by calling StartDocumentAnalysis, which
-returns a job identifier (JobId). When the text analysis operation finishes, Amazon
+document.
+
+You start asynchronous text analysis by calling [`start_document_analysis`](@ref), which
+returns a job identifier (`JobId`). When the text analysis operation finishes, Amazon
 Textract publishes a completion status to the Amazon Simple Notification Service (Amazon
-SNS) topic that's registered in the initial call to StartDocumentAnalysis. To get the
+SNS) topic that's registered in the initial call to `StartDocumentAnalysis`. To get the
 results of the text-detection operation, first check that the status value published to the
-Amazon SNS topic is SUCCEEDED. If so, call GetDocumentAnalysis, and pass the job identifier
-(JobId) from the initial call to StartDocumentAnalysis.  GetDocumentAnalysis returns an
-array of Block objects. The following types of information are returned:    Form data
-(key-value pairs). The related information is returned in two Block objects, each of type
-KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva
-Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
-Table and table cell data. A TABLE Block object contains information about a detected
-table. A CELL Block object is returned for each cell in a table.   Lines and words of text.
-A LINE Block object contains one or more WORD Block objects. All lines and words that are
-detected in the document are returned (including text that doesn't have a relationship with
-the value of the StartDocumentAnalysis FeatureTypes input parameter).    Query. A QUERY
-Block object contains the query text, alias and link to the associated Query results block
-object.   Query Results. A QUERY_RESULT Block object contains the answer to the query and
-an ID that connects it to the query asked. This Block also contains a confidence score.
-While processing a document with queries, look out for INVALID_REQUEST_PARAMETERS output.
-This indicates that either the per page query limit has been exceeded or that the operation
-is trying to query a page in the document which doesn’t exist.   Selection elements such
-as check boxes and option buttons (radio buttons) can be detected in form data and in
-tables. A SELECTION_ELEMENT Block object contains information about a selection element,
-including the selection status. Use the MaxResults parameter to limit the number of blocks
-that are returned. If there are more results than specified in MaxResults, the value of
-NextToken in the operation response contains a pagination token for getting the next set of
-results. To get the next page of results, call GetDocumentAnalysis, and populate the
-NextToken request parameter with the token value that's returned from the previous call to
-GetDocumentAnalysis. For more information, see Document Text Analysis.
+Amazon SNS topic is `SUCCEEDED`. If so, call `GetDocumentAnalysis`, and pass the job
+identifier (`JobId`) from the initial call to `StartDocumentAnalysis`.
+
+`GetDocumentAnalysis` returns an array of `Block` objects. The following types of
+information are returned:
+
+- Form data (key-value pairs). The related information is returned in two `Block` objects,
+  each of type `KEY_VALUE_SET`: a KEY `Block` object and a VALUE `Block` object. For
+  example, *Name: Ana Silva Carolina* contains a key and value. *Name:* is the key. *Ana
+  Silva Carolina* is the value.
+- Table and table cell data. A TABLE `Block` object contains information about a detected
+  table. A CELL `Block` object is returned for each cell in a table.
+- Lines and words of text. A LINE `Block` object contains one or more WORD `Block` objects.
+  All lines and words that are detected in the document are returned (including text that
+  doesn't have a relationship with the value of the `StartDocumentAnalysis` `FeatureTypes`
+  input parameter).
+- Query. A QUERY Block object contains the query text, alias and link to the associated
+  Query results block object.
+- Query Results. A QUERY_RESULT Block object contains the answer to the query and an ID that
+  connects it to the query asked. This Block also contains a confidence score.
+
+!!! note
+    While processing a document with queries, look out for `INVALID_REQUEST_PARAMETERS`
+    output. This indicates that either the per page query limit has been exceeded or that
+    the operation is trying to query a page in the document which doesn’t exist.
+
+Selection elements such as check boxes and option buttons (radio buttons) can be detected in
+form data and in tables. A SELECTION_ELEMENT `Block` object contains information about a
+selection element, including the selection status.
+
+Use the `MaxResults` parameter to limit the number of blocks that are returned. If there are
+more results than specified in `MaxResults`, the value of `NextToken` in the operation
+response contains a pagination token for getting the next set of results. To get the next
+page of results, call `GetDocumentAnalysis`, and populate the `next_token` request parameter
+with the token value that's returned from the previous call to `GetDocumentAnalysis`.
+
+For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
 
 # Arguments
-- `job_id`: A unique identifier for the text-detection job. The JobId is returned from
-  StartDocumentAnalysis. A JobId value is only valid for 7 days.
+
+- `job_id`: A unique identifier for the text-detection job. The `JobId` is returned from
+  `StartDocumentAnalysis`. A `JobId` value is only valid for 7 days.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum
   of 1,000 results is returned. The default value is 1,000.
@@ -597,30 +646,41 @@ end
 
 Gets the results for an Amazon Textract asynchronous operation that detects text in a
 document. Amazon Textract can detect lines of text and the words that make up a line of
-text. You start asynchronous text detection by calling StartDocumentTextDetection, which
-returns a job identifier (JobId). When the text detection operation finishes, Amazon
+text.
+
+You start asynchronous text detection by calling [`start_document_text_detection`](@ref),
+which returns a job identifier (`JobId`). When the text detection operation finishes, Amazon
 Textract publishes a completion status to the Amazon Simple Notification Service (Amazon
-SNS) topic that's registered in the initial call to StartDocumentTextDetection. To get the
+SNS) topic that's registered in the initial call to `StartDocumentTextDetection`. To get the
 results of the text-detection operation, first check that the status value published to the
-Amazon SNS topic is SUCCEEDED. If so, call GetDocumentTextDetection, and pass the job
-identifier (JobId) from the initial call to StartDocumentTextDetection.
-GetDocumentTextDetection returns an array of Block objects.  Each document page has as an
-associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects
-that represent the lines of detected text on a page. A LINE Block object is a parent for
-each word that makes up the line. Words are represented by Block objects of type WORD. Use
-the MaxResults parameter to limit the number of blocks that are returned. If there are more
-results than specified in MaxResults, the value of NextToken in the operation response
-contains a pagination token for getting the next set of results. To get the next page of
-results, call GetDocumentTextDetection, and populate the NextToken request parameter with
-the token value that's returned from the previous call to GetDocumentTextDetection. For
-more information, see Document Text Detection.
+Amazon SNS topic is `SUCCEEDED`. If so, call `GetDocumentTextDetection`, and pass the job
+identifier (`JobId`) from the initial call to `StartDocumentTextDetection`.
+
+`GetDocumentTextDetection` returns an array of `Block` objects.
+
+Each document page has as an associated `Block` of type PAGE. Each PAGE `Block` object is
+the parent of LINE `Block` objects that represent the lines of detected text on a page. A
+LINE `Block` object is a parent for each word that makes up the line. Words are represented
+by `Block` objects of type WORD.
+
+Use the MaxResults parameter to limit the number of blocks that are returned. If there are
+more results than specified in `MaxResults`, the value of `NextToken` in the operation
+response contains a pagination token for getting the next set of results. To get the next
+page of results, call `GetDocumentTextDetection`, and populate the `next_token` request
+parameter with the token value that's returned from the previous call to
+`GetDocumentTextDetection`.
+
+For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
 
 # Arguments
-- `job_id`: A unique identifier for the text detection job. The JobId is returned from
-  StartDocumentTextDetection. A JobId value is only valid for 7 days.
+
+- `job_id`: A unique identifier for the text detection job. The `JobId` is returned from
+  `StartDocumentTextDetection`. A `JobId` value is only valid for 7 days.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 1,000. If you specify a value greater than 1,000, a maximum of
   1,000 results is returned. The default value is 1,000.
@@ -658,26 +718,34 @@ end
 
 Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and
 receipts. Amazon Textract finds contact information, items purchased, and vendor name, from
-input invoices and receipts. You start asynchronous invoice/receipt analysis by calling
-StartExpenseAnalysis, which returns a job identifier (JobId). Upon completion of the
-invoice/receipt analysis, Amazon Textract publishes the completion status to the Amazon
-Simple Notification Service (Amazon SNS) topic. This topic must be registered in the
-initial call to StartExpenseAnalysis. To get the results of the invoice/receipt analysis
-operation, first ensure that the status value published to the Amazon SNS topic is
-SUCCEEDED. If so, call GetExpenseAnalysis, and pass the job identifier (JobId) from the
-initial call to StartExpenseAnalysis. Use the MaxResults parameter to limit the number of
-blocks that are returned. If there are more results than specified in MaxResults, the value
-of NextToken in the operation response contains a pagination token for getting the next set
-of results. To get the next page of results, call GetExpenseAnalysis, and populate the
-NextToken request parameter with the token value that's returned from the previous call to
-GetExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
+input invoices and receipts.
+
+You start asynchronous invoice/receipt analysis by calling [`start_expense_analysis`](@ref),
+which returns a job identifier (`JobId`). Upon completion of the invoice/receipt analysis,
+Amazon Textract publishes the completion status to the Amazon Simple Notification Service
+(Amazon SNS) topic. This topic must be registered in the initial call to
+`StartExpenseAnalysis`. To get the results of the invoice/receipt analysis operation, first
+ensure that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call
+`GetExpenseAnalysis`, and pass the job identifier (`JobId`) from the initial call to
+`StartExpenseAnalysis`.
+
+Use the MaxResults parameter to limit the number of blocks that are returned. If there are
+more results than specified in `MaxResults`, the value of `NextToken` in the operation
+response contains a pagination token for getting the next set of results. To get the next
+page of results, call `GetExpenseAnalysis`, and populate the `next_token` request parameter
+with the token value that's returned from the previous call to `GetExpenseAnalysis`.
+
+For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoices-receipts.html).
 
 # Arguments
-- `job_id`: A unique identifier for the text detection job. The JobId is returned from
-  StartExpenseAnalysis. A JobId value is only valid for 7 days.
+
+- `job_id`: A unique identifier for the text detection job. The `JobId` is returned from
+  `StartExpenseAnalysis`. A `JobId` value is only valid for 7 days.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 20. If you specify a value greater than 20, a maximum of 20
   results is returned. The default value is 20.
@@ -712,20 +780,26 @@ end
     get_lending_analysis(job_id, params::Dict{String,<:Any})
 
 Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
-lending document.  You start asynchronous text analysis by calling StartLendingAnalysis,
-which returns a job identifier (JobId). When the text analysis operation finishes, Amazon
-Textract publishes a completion status to the Amazon Simple Notification Service (Amazon
-SNS) topic that's registered in the initial call to StartLendingAnalysis.  To get the
-results of the text analysis operation, first check that the status value published to the
-Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the job identifier
-(JobId) from the initial call to StartLendingAnalysis.
+lending document.
+
+You start asynchronous text analysis by calling `StartLendingAnalysis`, which returns a job
+identifier (`JobId`). When the text analysis operation finishes, Amazon Textract publishes a
+completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's
+registered in the initial call to `StartLendingAnalysis`.
+
+To get the results of the text analysis operation, first check that the status value
+published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the
+job identifier (`JobId`) from the initial call to `StartLendingAnalysis`.
 
 # Arguments
-- `job_id`: A unique identifier for the lending or text-detection job. The JobId is
-  returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
+
+- `job_id`: A unique identifier for the lending or text-detection job. The `JobId` is
+  returned from `StartLendingAnalysis`. A `JobId` value is only valid for 7 days.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per paginated call. The largest
   value that you can specify is 30. If you specify a value greater than 30, a maximum of 30
   results is returned. The default value is 30.
@@ -759,22 +833,24 @@ end
     get_lending_analysis_summary(job_id)
     get_lending_analysis_summary(job_id, params::Dict{String,<:Any})
 
-Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a
-lending document. The returned summary consists of information about documents grouped
-together by a common document type. Information like detected signatures, page numbers, and
-split documents is returned with respect to the type of grouped document.  You start
-asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier
-(JobId). When the text analysis operation finishes, Amazon Textract publishes a completion
-status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in
-the initial call to StartLendingAnalysis.  To get the results of the text analysis
-operation, first check that the status value published to the Amazon SNS topic is
-SUCCEEDED. If so, call GetLendingAnalysisSummary, and pass the job identifier (JobId) from
-the initial call to StartLendingAnalysis.
+Gets summarized results for the [`start_lending_analysis`](@ref) operation, which analyzes
+text in a lending document. The returned summary consists of information about documents
+grouped together by a common document type. Information like detected signatures, page
+numbers, and split documents is returned with respect to the type of grouped document.
+
+You start asynchronous text analysis by calling `StartLendingAnalysis`, which returns a job
+identifier (`JobId`). When the text analysis operation finishes, Amazon Textract publishes a
+completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's
+registered in the initial call to `StartLendingAnalysis`.
+
+To get the results of the text analysis operation, first check that the status value
+published to the Amazon SNS topic is SUCCEEDED. If so, call `GetLendingAnalysisSummary`, and
+pass the job identifier (`JobId`) from the initial call to `StartLendingAnalysis`.
 
 # Arguments
-- `job_id`:  A unique identifier for the lending or text-detection job. The JobId is
-  returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
 
+- `job_id`: A unique identifier for the lending or text-detection job. The `JobId` is
+  returned from StartLendingAnalysis. A `JobId` value is only valid for 7 days.
 """
 function get_lending_analysis_summary end
 
@@ -807,7 +883,9 @@ end
 List all version of an adapter that meet the specified filtration criteria.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdapterId"`: A string containing a unique ID for the adapter to match for when listing
   adapter versions.
 - `"AfterCreationTime"`: Specifies the lower bound for the ListAdapterVersions operation.
@@ -841,7 +919,9 @@ end
 Lists all adapters that match the specified filtration criteria.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AfterCreationTime"`: Specifies the lower bound for the ListAdapters operation. Ensures
   ListAdapters returns only adapters created after the specified creation time.
 - `"BeforeCreationTime"`: Specifies the upper bound for the ListAdapters operation. Ensures
@@ -868,9 +948,9 @@ end
 Lists all tags for an Amazon Textract resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that specifies the resource to list tags
   for.
-
 """
 function list_tags_for_resource end
 
@@ -905,41 +985,50 @@ end
     start_document_analysis(document_location, feature_types, params::Dict{String,<:Any})
 
 Starts the asynchronous analysis of an input document for relationships between detected
-items such as key-value pairs, tables, and selection elements.  StartDocumentAnalysis can
-analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are
-stored in an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file
-name of the document.   StartDocumentAnalysis returns a job identifier (JobId) that you use
-to get the results of the operation. When text analysis is finished, Amazon Textract
-publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic
-that you specify in NotificationChannel. To get the results of the text analysis operation,
-first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so,
-call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to
-StartDocumentAnalysis. For more information, see Document Text Analysis.
+items such as key-value pairs, tables, and selection elements.
+
+`StartDocumentAnalysis` can analyze text in documents that are in JPEG, PNG, TIFF, and PDF
+format. The documents are stored in an Amazon S3 bucket. Use `DocumentLocation` to specify
+the bucket name and file name of the document.
+
+`StartDocumentAnalysis` returns a job identifier (`JobId`) that you use to get the results
+of the operation. When text analysis is finished, Amazon Textract publishes a completion
+status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in
+`NotificationChannel`. To get the results of the text analysis operation, first check that
+the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_document_analysis`](@ref),
+and pass the job identifier (`JobId`) from the initial call to `StartDocumentAnalysis`.
+
+For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
 
 # Arguments
+
 - `document_location`: The location of the document to be processed.
+
 - `feature_types`: A list of the types of analysis to perform. Add TABLES to the list to
   return information about the tables that are detected in the input document. Add FORMS to
   return detected form data. To perform both types of analysis, add TABLES and FORMS to
-  FeatureTypes. All lines and words detected in the document are included in the response
-  (including text that isn't related to the value of FeatureTypes).
+  `FeatureTypes`. All lines and words detected in the document are included in the response
+  (including text that isn't related to the value of `FeatureTypes`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdaptersConfig"`: Specifies the adapter to be used when analyzing a document.
 - `"ClientRequestToken"`: The idempotent token that you use to identify the start request.
-  If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is
-  returned. Use ClientRequestToken to prevent the same job from being accidentally started
-  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+  If you use the same token with multiple `StartDocumentAnalysis` requests, the same `JobId`
+  is returned. Use `ClientRequestToken` to prevent the same job from being accidentally
+  started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html).
 - `"JobTag"`: An identifier that you specify that's included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
-  server-side encryption of the objects in the customer bucket. When this parameter is not
-  enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
+  published to the Amazon SNS topic. For example, you can use `JobTag` to identify the type
+  of document that the completion notification corresponds to (such as a tax form or a
+  receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-
+  side encryption of the objects in the customer bucket. When this parameter is not enabled,
+  the result will be encrypted server side,using SSE-S3.
+- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
 - `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis
   operation.
@@ -986,36 +1075,44 @@ end
     start_document_text_detection(document_location)
     start_document_text_detection(document_location, params::Dict{String,<:Any})
 
-Starts the asynchronous detection of text in a document. Amazon Textract can detect lines
-of text and the words that make up a line of text.  StartDocumentTextDetection can analyze
-text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in
-an Amazon S3 bucket. Use DocumentLocation to specify the bucket name and file name of the
-document.   StartTextDetection returns a job identifier (JobId) that you use to get the
-results of the operation. When text detection is finished, Amazon Textract publishes a
-completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you
-specify in NotificationChannel. To get the results of the text detection operation, first
-check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
-GetDocumentTextDetection, and pass the job identifier (JobId) from the initial call to
-StartDocumentTextDetection. For more information, see Document Text Detection.
+Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of
+text and the words that make up a line of text.
+
+`StartDocumentTextDetection` can analyze text in documents that are in JPEG, PNG, TIFF, and
+PDF format. The documents are stored in an Amazon S3 bucket. Use `DocumentLocation` to
+specify the bucket name and file name of the document.
+
+`StartTextDetection` returns a job identifier (`JobId`) that you use to get the results of
+the operation. When text detection is finished, Amazon Textract publishes a completion
+status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in
+`NotificationChannel`. To get the results of the text detection operation, first check that
+the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_document_text_detection`](@ref),
+and pass the job identifier (`JobId`) from the initial call to `StartDocumentTextDetection`.
+
+For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
 
 # Arguments
+
 - `document_location`: The location of the document to be processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: The idempotent token that's used to identify the start request.
-  If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
-  is returned. Use ClientRequestToken to prevent the same job from being accidentally started
-  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+
+- `"ClientRequestToken"`: The idempotent token that's used to identify the start request. If
+  you use the same token with multiple `StartDocumentTextDetection` requests, the same
+  `JobId` is returned. Use `ClientRequestToken` to prevent the same job from being
+  accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html).
 - `"JobTag"`: An identifier that you specify that's included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
-  server-side encryption of the objects in the customer bucket. When this parameter is not
-  enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
+  published to the Amazon SNS topic. For example, you can use `JobTag` to identify the type
+  of document that the completion notification corresponds to (such as a tax form or a
+  receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-
+  side encryption of the objects in the customer bucket. When this parameter is not enabled,
+  the result will be encrypted server side,using SSE-S3.
+- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
 - `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
@@ -1055,39 +1152,48 @@ end
     start_expense_analysis(document_location, params::Dict{String,<:Any})
 
 Starts the asynchronous analysis of invoices or receipts for data like contact information,
-items purchased, and vendor names.  StartExpenseAnalysis can analyze text in documents that
-are in JPEG, PNG, and PDF format. The documents must be stored in an Amazon S3 bucket. Use
-the DocumentLocation parameter to specify the name of your S3 bucket and the name of the
-document in that bucket.   StartExpenseAnalysis returns a job identifier (JobId) that you
-will provide to GetExpenseAnalysis to retrieve the results of the operation. When the
-analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion
-status to the Amazon Simple Notification Service (Amazon SNS) topic that you provide to the
-NotificationChannel. To obtain the results of the invoice and receipt analysis operation,
-ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
-GetExpenseAnalysis, and pass the job identifier (JobId) that was returned by your call to
-StartExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
+items purchased, and vendor names.
+
+`StartExpenseAnalysis` can analyze text in documents that are in JPEG, PNG, and PDF format.
+The documents must be stored in an Amazon S3 bucket. Use the `DocumentLocation` parameter to
+specify the name of your S3 bucket and the name of the document in that bucket.
+
+`StartExpenseAnalysis` returns a job identifier (`JobId`) that you will provide to
+`GetExpenseAnalysis` to retrieve the results of the operation. When the analysis of the
+input invoices/receipts is finished, Amazon Textract publishes a completion status to the
+Amazon Simple Notification Service (Amazon SNS) topic that you provide to the
+`NotificationChannel`. To obtain the results of the invoice and receipt analysis operation,
+ensure that the status value published to the Amazon SNS topic is `SUCCEEDED`. If so, call [`get_expense_analysis`](@ref),
+and pass the job identifier (`JobId`) that was returned by your call to
+`StartExpenseAnalysis`.
+
+For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoice-receipts.html).
 
 # Arguments
+
 - `document_location`: The location of the document to be processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: The idempotent token that's used to identify the start request.
-  If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
-  is returned. Use ClientRequestToken to prevent the same job from being accidentally started
-  more than once. For more information, see Calling Amazon Textract Asynchronous Operations
+
+- `"ClientRequestToken"`: The idempotent token that's used to identify the start request. If
+  you use the same token with multiple `StartDocumentTextDetection` requests, the same
+  `JobId` is returned. Use `ClientRequestToken` to prevent the same job from being
+  accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html)
 - `"JobTag"`: An identifier you specify that's included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
-  server-side encryption of the objects in the customer bucket. When this parameter is not
-  enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
-  publish the completion status of the operation to.
+  published to the Amazon SNS topic. For example, you can use `JobTag` to identify the type
+  of document that the completion notification corresponds to (such as a tax form or a
+  receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-
+  side encryption of the objects in the customer bucket. When this parameter is not enabled,
+  the result will be encrypted server side,using SSE-S3.
+- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to publish
+  the completion status of the operation to.
 - `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
-  Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
-  operation.
+  Amazon Textract will save the results internally to be accessed by the
+  `GetExpenseAnalysis` operation.
 """
 function start_expense_analysis end
 
@@ -1123,40 +1229,50 @@ end
     start_lending_analysis(document_location)
     start_lending_analysis(document_location, params::Dict{String,<:Any})
 
-Starts the classification and analysis of an input document. StartLendingAnalysis initiates
-the classification and analysis of a packet of lending documents. StartLendingAnalysis
-operates on a document file located in an Amazon S3 bucket.  StartLendingAnalysis can
-analyze text in documents that are in one of the following formats: JPEG, PNG, TIFF, PDF.
-Use DocumentLocation to specify the bucket name and the file name of the document.
-StartLendingAnalysis returns a job identifier (JobId) that you use to get the results of
+Starts the classification and analysis of an input document. `StartLendingAnalysis`
+initiates the classification and analysis of a packet of lending documents.
+`StartLendingAnalysis` operates on a document file located in an Amazon S3 bucket.
+
+`StartLendingAnalysis` can analyze text in documents that are in one of the following
+formats: JPEG, PNG, TIFF, PDF. Use `DocumentLocation` to specify the bucket name and the
+file name of the document.
+
+`StartLendingAnalysis` returns a job identifier (`JobId`) that you use to get the results of
 the operation. When the text analysis is finished, Amazon Textract publishes a completion
 status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in
-NotificationChannel. To get the results of the text analysis operation, first check that
+`NotificationChannel`. To get the results of the text analysis operation, first check that
 the status value published to the Amazon SNS topic is SUCCEEDED. If the status is SUCCEEDED
-you can call either GetLendingAnalysis or GetLendingAnalysisSummary and provide the JobId
-to obtain the results of the analysis. If using OutputConfig to specify an Amazon S3
-bucket, the output will be contained within the specified prefix in a directory labeled
-with the job-id. In the directory there are 3 sub-directories:    detailedResponse
-(contains the GetLendingAnalysis response)   summaryResponse (for the
-GetLendingAnalysisSummary response)   splitDocuments (documents split across logical
-boundaries)
+you can call either `GetLendingAnalysis` or `GetLendingAnalysisSummary` and provide the
+`JobId` to obtain the results of the analysis.
+
+If using `OutputConfig` to specify an Amazon S3 bucket, the output will be contained within
+the specified prefix in a directory labeled with the job-id. In the directory there are 3
+sub-directories:
+
+- detailedResponse (contains the GetLendingAnalysis response)
+- summaryResponse (for the GetLendingAnalysisSummary response)
+- splitDocuments (documents split across logical boundaries)
 
 # Arguments
+
 - `document_location`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The idempotent token that you use to identify the start request.
-  If you use the same token with multiple StartLendingAnalysis requests, the same JobId is
-  returned. Use ClientRequestToken to prevent the same job from being accidentally started
-  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
+  If you use the same token with multiple `StartLendingAnalysis` requests, the same `JobId`
+  is returned. Use `ClientRequestToken` to prevent the same job from being accidentally
+  started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-sync.html).
 - `"JobTag"`: An identifier that you specify to be included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
-  Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
-  server-side encryption of the objects in the customer bucket. When this parameter is not
-  enabled, the result will be encrypted server side, using SSE-S3.
+  published to the Amazon SNS topic. For example, you can use `JobTag` to identify the type
+  of document that the completion notification corresponds to (such as a tax form or a
+  receipt).
+- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either Key
+  ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-
+  side encryption of the objects in the customer bucket. When this parameter is not enabled,
+  the result will be encrypted server side, using SSE-S3.
 - `"NotificationChannel"`:
 - `"OutputConfig"`:
 """
@@ -1197,9 +1313,9 @@ end
 Adds one or more tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that specifies the resource to be tagged.
 - `tags`: A set of tags (key-value pairs) that you want to assign to the resource.
-
 """
 function tag_resource end
 
@@ -1239,10 +1355,10 @@ end
 Removes any tags with the specified keys from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that specifies the resource to be untagged.
 - `tag_keys`: Specifies the tags to be removed from the resource specified by the
   ResourceARN.
-
 """
 function untag_resource end
 
@@ -1285,10 +1401,13 @@ Update the configuration for an adapter. FeatureTypes configurations cannot be u
 least one new parameter must be specified as an argument.
 
 # Arguments
+
 - `adapter_id`: A string containing a unique ID for the adapter that will be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdapterName"`: The new name to be applied to the adapter.
 - `"AutoUpdate"`: The new auto-update status to be applied to the adapter.
 - `"Description"`: The new description to be applied to the adapter.

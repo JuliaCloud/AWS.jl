@@ -12,34 +12,54 @@ Creates a link between a source account and a sink that you have created in a mo
 account. After the link is created, data is sent from the source account to the monitoring
 account. When you create a link, you can optionally specify filters that specify which
 metric namespaces and which log groups are shared from the source account to the monitoring
-account. Before you create a link, you must create a sink in the monitoring account and
-create a sink policy in that account. The sink policy must permit the source account to
-link to it. You can grant permission to source accounts by granting permission to an entire
-organization or to individual accounts. For more information, see CreateSink and
-PutSinkPolicy. Each monitoring account can be linked to as many as 100,000 source accounts.
+account.
+
+Before you create a link, you must create a sink in the monitoring account and create a sink
+policy in that account. The sink policy must permit the source account to link to it. You
+can grant permission to source accounts by granting permission to an entire organization or
+to individual accounts.
+
+For more information, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html)
+and [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html).
+
+Each monitoring account can be linked to as many as 100,000 source accounts.
+
 Each source account can be linked to as many as five monitoring accounts.
 
 # Arguments
+
 - `label_template`: Specify a friendly human-readable name to use to identify this source
-  account when you are viewing data from it in the monitoring account. You can use a custom
-  label or use the following variables:    AccountName is the name of the account
-  AccountEmail is the globally unique email address of the account    AccountEmailNoDomain is
-  the email address of the account without the domain name
+  account when you are viewing data from it in the monitoring account.
+
+  You can use a custom label or use the following variables:
+
+  - `\$AccountName` is the name of the account
+  - `\$AccountEmail` is the globally unique email address of the account
+  - `\$AccountEmailNoDomain` is the email address of the account without the domain name
+
 - `resource_types`: An array of strings that define which types of data that the source
   account shares with the monitoring account.
-- `sink_identifier`: The ARN of the sink to use to create this link. You can use ListSinks
-  to find the ARNs of sinks. For more information about sinks, see CreateSink.
+
+- `sink_identifier`: The ARN of the sink to use to create this link. You can use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html)
+  to find the ARNs of sinks.
+
+  For more information about sinks, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkConfiguration"`: Use this structure to optionally create filters that specify that
   only some metric namespaces or log groups are to be shared from the source account to the
   monitoring account.
-- `"Tags"`: Assigns one or more tags (key-value pairs) to the link.  Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. For
-  more information about using tags to control access, see Controlling access to Amazon Web
-  Services resources using tags.
+
+- `"Tags"`: Assigns one or more tags (key-value pairs) to the link.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 """
 function create_link end
 
@@ -92,24 +112,32 @@ end
     create_sink(name)
     create_sink(name, params::Dict{String,<:Any})
 
-Use this to create a sink in the current account, so that it can be used as a monitoring
+Use this to create a *sink* in the current account, so that it can be used as a monitoring
 account in CloudWatch cross-account observability. A sink is a resource that represents an
 attachment point in a monitoring account. Source accounts can link to the sink to send
-observability data. After you create a sink, you must create a sink policy that allows
-source accounts to attach to it. For more information, see PutSinkPolicy. Each account can
-contain one sink per Region. If you delete a sink, you can then create a new one in that
-Region.
+observability data.
+
+After you create a sink, you must create a sink policy that allows source accounts to attach
+to it. For more information, see [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html).
+
+Each account can contain one sink per Region. If you delete a sink, you can then create a
+new one in that Region.
 
 # Arguments
+
 - `name`: A name for the sink.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Assigns one or more tags (key-value pairs) to the link.  Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. For
-  more information about using tags to control access, see Controlling access to Amazon Web
-  Services resources using tags.
+
+- `"Tags"`: Assigns one or more tags (key-value pairs) to the link.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 """
 function create_sink end
 
@@ -143,8 +171,8 @@ Deletes a link between a monitoring account sink and a source account. You must 
 operation in the source account.
 
 # Arguments
-- `identifier`: The ARN of the link to delete.
 
+- `identifier`: The ARN of the link to delete.
 """
 function delete_link end
 
@@ -181,8 +209,8 @@ end
 Deletes a sink. You must delete all links to a sink before you can delete that sink.
 
 # Arguments
-- `identifier`: The ARN of the sink to delete.
 
+- `identifier`: The ARN of the sink to delete.
 """
 function delete_sink end
 
@@ -216,12 +244,13 @@ end
     get_link(identifier)
     get_link(identifier, params::Dict{String,<:Any})
 
-Returns complete information about one link. To use this operation, provide the link ARN.
-To retrieve a list of link ARNs, use ListLinks.
+Returns complete information about one link.
+
+To use this operation, provide the link ARN. To retrieve a list of link ARNs, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
 
 # Arguments
-- `identifier`: The ARN of the link to retrieve information for.
 
+- `identifier`: The ARN of the link to retrieve information for.
 """
 function get_link end
 
@@ -255,12 +284,13 @@ end
     get_sink(identifier)
     get_sink(identifier, params::Dict{String,<:Any})
 
-Returns complete information about one monitoring account sink. To use this operation,
-provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
+Returns complete information about one monitoring account sink.
+
+To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
 
 # Arguments
-- `identifier`: The ARN of the sink to retrieve information for.
 
+- `identifier`: The ARN of the sink to retrieve information for.
 """
 function get_sink end
 
@@ -298,8 +328,8 @@ Returns the current sink policy attached to this sink. The sink policy specifies
 accounts can attach to this sink as source accounts, and what types of data they can share.
 
 # Arguments
-- `sink_identifier`: The ARN of the sink to retrieve the policy of.
 
+- `sink_identifier`: The ARN of the sink to retrieve the policy of.
 """
 function get_sink_policy end
 
@@ -333,18 +363,23 @@ end
     list_attached_links(sink_identifier)
     list_attached_links(sink_identifier, params::Dict{String,<:Any})
 
-Returns a list of source account links that are linked to this monitoring account sink. To
-use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
-To find a list of links for one source account, use ListLinks.
+Returns a list of source account links that are linked to this monitoring account sink.
+
+To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
+
+To find a list of links for one source account, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
 
 # Arguments
+
 - `sink_identifier`: The ARN of the sink that you want to retrieve links for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Limits the number of returned links to the specified number.
-- `"NextToken"`: The token for the next set of items to return. You received this token
-  from a previous call.
+- `"NextToken"`: The token for the next set of items to return. You received this token from
+  a previous call.
 """
 function list_attached_links end
 
@@ -380,15 +415,19 @@ end
     list_links()
     list_links(params::Dict{String,<:Any})
 
-Use this operation in a source account to return a list of links to monitoring account
-sinks that this source account has. To find a list of links for one monitoring account
-sink, use ListAttachedLinks from within the monitoring account.
+Use this operation in a source account to return a list of links to monitoring account sinks
+that this source account has.
+
+To find a list of links for one monitoring account sink, use [ListAttachedLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListAttachedLinks.html)
+from within the monitoring account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Limits the number of returned links to the specified number.
-- `"NextToken"`: The token for the next set of items to return. You received this token
-  from a previous call.
+- `"NextToken"`: The token for the next set of items to return. You received this token from
+  a previous call.
 """
 function list_links end
 
@@ -410,10 +449,12 @@ Use this operation in a monitoring account to return the list of sinks created i
 account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Limits the number of returned links to the specified number.
-- `"NextToken"`: The token for the next set of items to return. You received this token
-  from a previous call.
+- `"NextToken"`: The token for the next set of items to return. You received this token from
+  a previous call.
 """
 function list_sinks end
 
@@ -434,14 +475,19 @@ end
 Displays the tags associated with a resource. Both sinks and links support tagging.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that you want to view tags for. The ARN format of
-  a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is
-  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see
-  CloudWatch Logs resources and operations.  Unlike tagging permissions in other Amazon Web
-  Services services, to retrieve the list of tags for links or sinks you must have the
-  oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and
-  untag links and sinks.
 
+- `resource_arn`: The ARN of the resource that you want to view tags for.
+
+  The ARN format of a sink is `arn:aws:oam:*Region*:*account-id*:sink/*sink-id*`
+
+  The ARN format of a link is `arn:aws:oam:*Region*:*account-id*:link/*link-id*`
+
+  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
+
+  !!! important
+      Unlike tagging permissions in other Amazon Web Services services, to retrieve the list
+      of tags for links or sinks you must have the `oam:RequestTag` permission. The
+      `aws:ReguestTag` permission does not allow you to tag and untag links and sinks.
 """
 function list_tags_for_resource end
 
@@ -465,22 +511,32 @@ end
     put_sink_policy(policy, sink_identifier)
     put_sink_policy(policy, sink_identifier, params::Dict{String,<:Any})
 
-Creates or updates the resource policy that grants permissions to source accounts to link
-to the monitoring account sink. When you create a sink policy, you can grant permissions to
-all accounts in an organization or to individual accounts. You can also use a sink policy
-to limit the types of data that is shared. The three types that you can allow or deny are:
-  Metrics - Specify with AWS::CloudWatch::Metric     Log groups - Specify with
-AWS::Logs::LogGroup     Traces - Specify with AWS::XRay::Trace     Application Insights -
-Applications - Specify with AWS::ApplicationInsights::Application    See the examples in
-this section to see how to specify permitted source accounts and data types.
+Creates or updates the resource policy that grants permissions to source accounts to link to
+the monitoring account sink. When you create a sink policy, you can grant permissions to all
+accounts in an organization or to individual accounts.
+
+You can also use a sink policy to limit the types of data that is shared. The three types
+that you can allow or deny are:
+
+- **Metrics** - Specify with `AWS::CloudWatch::Metric`
+- **Log groups** - Specify with `AWS::Logs::LogGroup`
+- **Traces** - Specify with `AWS::XRay::Trace`
+- **Application Insights - Applications** - Specify with
+  `AWS::ApplicationInsights::Application`
+
+See the examples in this section to see how to specify permitted source accounts and data
+types.
 
 # Arguments
-- `policy`: The JSON policy to use. If you are updating an existing policy, the entire
-  existing policy is replaced by what you specify here. The policy must be in JSON string
-  format with quotation marks escaped and no newlines. For examples of different types of
-  policies, see the Examples section on this page.
-- `sink_identifier`: The ARN of the sink to attach this policy to.
 
+- `policy`: The JSON policy to use. If you are updating an existing policy, the entire
+  existing policy is replaced by what you specify here.
+
+  The policy must be in JSON string format with quotation marks escaped and no newlines.
+
+  For examples of different types of policies, see the **Examples** section on this page.
+
+- `sink_identifier`: The ARN of the sink to attach this policy to.
 """
 function put_sink_policy end
 
@@ -522,25 +578,38 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links
-can be tagged.  Tags can help you organize and categorize your resources. You can also use
-them to scope user permissions by granting a user permission to access or change only
-resources with certain tag values. Tags don't have any semantic meaning to Amazon Web
-Services and are interpreted strictly as strings of characters. You can use the TagResource
-action with a resource that already has tags. If you specify a new tag key for the alarm,
-this tag is appended to the list of tags associated with the alarm. If you specify a tag
-key that is already associated with the alarm, the new tag value that you specify replaces
-the previous value for that tag. You can associate as many as 50 tags with a resource.
-Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and
-sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not
-allow you to tag and untag links and sinks.
+can be tagged.
+
+Tags can help you organize and categorize your resources. You can also use them to scope
+user permissions by granting a user permission to access or change only resources with
+certain tag values.
+
+Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+strings of characters.
+
+You can use the `TagResource` action with a resource that already has tags. If you specify a
+new tag key for the alarm, this tag is appended to the list of tags associated with the
+alarm. If you specify a tag key that is already associated with the alarm, the new tag value
+that you specify replaces the previous value for that tag.
+
+You can associate as many as 50 tags with a resource.
+
+!!! important
+    Unlike tagging permissions in other Amazon Web Services services, to tag or untag links
+    and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag`
+    permission does not allow you to tag and untag links and sinks.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that you're adding tags to. The ARN format of a
-  sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is
-  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see
-  CloudWatch Logs resources and operations.
-- `tags`: The list of key-value pairs to associate with the resource.
 
+- `resource_arn`: The ARN of the resource that you're adding tags to.
+
+  The ARN format of a sink is `arn:aws:oam:*Region*:*account-id*:sink/*sink-id*`
+
+  The ARN format of a link is `arn:aws:oam:*Region*:*account-id*:link/*link-id*`
+
+  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
+
+- `tags`: The list of key-value pairs to associate with the resource.
 """
 function tag_resource end
 
@@ -573,18 +642,24 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from the specified resource.  Unlike tagging permissions in other
-Amazon Web Services services, to tag or untag links and sinks you must have the
-oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and
-untag links and sinks.
+Removes one or more tags from the specified resource.
+
+!!! important
+    Unlike tagging permissions in other Amazon Web Services services, to tag or untag links
+    and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource`
+    permission does not allow you to tag and untag links and sinks.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that you're removing tags from. The ARN format of
-  a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is
-  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see
-  CloudWatch Logs resources and operations.
-- `tag_keys`: The list of tag keys to remove from the resource.
 
+- `resource_arn`: The ARN of the resource that you're removing tags from.
+
+  The ARN format of a sink is `arn:aws:oam:*Region*:*account-id*:sink/*sink-id*`
+
+  The ARN format of a link is `arn:aws:oam:*Region*:*account-id*:link/*link-id*`
+
+  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
+
+- `tag_keys`: The list of tag keys to remove from the resource.
 """
 function untag_resource end
 
@@ -621,19 +696,27 @@ end
 
 Use this operation to change what types of data are shared from a source account to its
 linked monitoring account sink. You can't change the sink or change the monitoring account
-with this operation. When you update a link, you can optionally specify filters that
-specify which metric namespaces and which log groups are shared from the source account to
-the monitoring account. To update the list of tags associated with the sink, use
-TagResource.
+with this operation.
+
+When you update a link, you can optionally specify filters that specify which metric
+namespaces and which log groups are shared from the source account to the monitoring
+account.
+
+To update the list of tags associated with the sink, use [TagResource](https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html).
 
 # Arguments
+
 - `identifier`: The ARN of the link that you want to update.
+
 - `resource_types`: An array of strings that define which types of data that the source
-  account will send to the monitoring account. Your input here replaces the current set of
-  data types that are shared.
+  account will send to the monitoring account.
+
+  Your input here replaces the current set of data types that are shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkConfiguration"`: Use this structure to filter which metric namespaces and which log
   groups are to be shared from the source account to the monitoring account.
 """

@@ -11,30 +11,44 @@ using AWS.UUIDs: uuid4
 Creates a connector using the specified properties.
 
 # Arguments
+
 - `capacity`: Information about the capacity allocated to the connector. Exactly one of the
   two properties must be specified.
+
 - `connector_configuration`: A map of keys to values that represent the configuration for
   the connector.
+
 - `connector_name`: The name of the connector.
+
 - `kafka_cluster`: Specifies which Apache Kafka cluster to connect to.
+
 - `kafka_cluster_client_authentication`: Details of the client authentication used by the
   Apache Kafka cluster.
+
 - `kafka_cluster_encryption_in_transit`: Details of encryption in transit to the Apache
   Kafka cluster.
+
 - `kafka_connect_version`: The version of Kafka Connect. It has to be compatible with both
   the Apache Kafka cluster's version and the plugins.
-- `plugins`:  Amazon MSK Connect does not currently support specifying multiple plugins as
-  a list. To use more than one plugin for your connector, you can create a single custom
-  plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to
-  use for the connector. You must specify a single-element list containing one customPlugin
-  object.
+
+- `plugins`: !!! important
+      Amazon MSK Connect does not currently support specifying multiple plugins as a list.
+      To use more than one plugin for your connector, you can create a single custom plugin
+      using a ZIP file that bundles multiple plugins together.
+
+  Specifies which plugin to use for the connector. You must specify a single-element list
+  containing one `customPlugin` object.
+
 - `service_execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role used by the
-  connector to access the Amazon Web Services resources that it needs. The types of resources
-  depends on the logic of the connector. For example, a connector that has Amazon S3 as a
-  destination must have permissions that allow it to write to the S3 destination bucket.
+  connector to access the Amazon Web Services resources that it needs. The types of
+  resources depends on the logic of the connector. For example, a connector that has Amazon
+  S3 as a destination must have permissions that allow it to write to the S3 destination
+  bucket.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"connectorDescription"`: A summary description of the connector.
 - `"logDelivery"`: Details about log delivery.
 - `"tags"`: The tags you want to attach to the connector.
@@ -118,12 +132,15 @@ end
 Creates a custom plugin using the specified properties.
 
 # Arguments
+
 - `content_type`: The type of the plugin file.
 - `location`: Information about the location of a custom plugin.
 - `name`: The name of the custom plugin.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A summary description of the custom plugin.
 - `"tags"`: The tags you want to attach to the custom plugin.
 """
@@ -174,11 +191,14 @@ end
 Creates a worker configuration using the specified properties.
 
 # Arguments
+
 - `name`: The name of the worker configuration.
 - `properties_file_content`: Base64 encoded contents of connect-distributed.properties file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A summary description of the worker configuration.
 - `"tags"`: The tags you want to attach to the worker configuration.
 """
@@ -226,10 +246,13 @@ end
 Deletes the specified connector.
 
 # Arguments
+
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currentVersion"`: The current version of the connector that you want to delete.
 """
 function delete_connector end
@@ -264,9 +287,9 @@ end
 Deletes a custom plugin.
 
 # Arguments
+
 - `custom_plugin_arn`: The Amazon Resource Name (ARN) of the custom plugin that you want to
   delete.
-
 """
 function delete_custom_plugin end
 
@@ -302,9 +325,9 @@ end
 Deletes the specified worker configuration.
 
 # Arguments
+
 - `worker_configuration_arn`: The Amazon Resource Name (ARN) of the worker configuration
   that you want to delete.
-
 """
 function delete_worker_configuration end
 
@@ -340,9 +363,9 @@ end
 Returns summary information about the connector.
 
 # Arguments
+
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to
   describe.
-
 """
 function describe_connector end
 
@@ -375,8 +398,8 @@ end
 A summary description of the custom plugin.
 
 # Arguments
-- `custom_plugin_arn`: Returns information about a custom plugin.
 
+- `custom_plugin_arn`: Returns information about a custom plugin.
 """
 function describe_custom_plugin end
 
@@ -412,9 +435,9 @@ end
 Returns information about a worker configuration.
 
 # Arguments
+
 - `worker_configuration_arn`: The Amazon Resource Name (ARN) of the worker configuration
   that you want to get information about.
-
 """
 function describe_worker_configuration end
 
@@ -452,13 +475,15 @@ connectors whose name starts with the specified prefix. The response also includ
 description of each of the listed connectors.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"connectorNamePrefix"`: The name prefix that you want to use to search for and list
   connectors.
 - `"maxResults"`: The maximum number of connectors to list in one response.
-- `"nextToken"`: If the response of a ListConnectors operation is truncated, it will
-  include a NextToken. Send this NextToken in a subsequent request to continue listing from
-  where the previous operation left off.
+- `"nextToken"`: If the response of a ListConnectors operation is truncated, it will include
+  a NextToken. Send this NextToken in a subsequent request to continue listing from where
+  the previous operation left off.
 """
 function list_connectors end
 
@@ -483,7 +508,9 @@ end
 Returns a list of all of the custom plugins in this account and Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of custom plugins to list in one response.
 - `"namePrefix"`: Lists custom plugin names that start with the specified text string.
 - `"nextToken"`: If the response of a ListCustomPlugins operation is truncated, it will
@@ -513,9 +540,9 @@ end
 Lists all the tags attached to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to list
   all attached tags.
-
 """
 function list_tags_for_resource end
 
@@ -548,7 +575,9 @@ end
 Returns a list of all of the worker configurations in this account and Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of worker configurations to list in one response.
 - `"namePrefix"`: Lists worker configuration names that start with the specified text
   string.
@@ -583,10 +612,10 @@ end
 Attaches tags to the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to
-  attach tags.
-- `tags`: The tags that you want to attach to the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to attach
+  tags.
+- `tags`: The tags that you want to attach to the resource.
 """
 function tag_resource end
 
@@ -622,10 +651,10 @@ end
 Removes tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which you want to
   remove tags.
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
-
 """
 function untag_resource end
 
@@ -663,10 +692,10 @@ end
 Updates the specified connector.
 
 # Arguments
+
 - `capacity`: The target capacity.
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to update.
 - `current_version`: The current version of the connector that you want to update.
-
 """
 function update_connector end
 

@@ -8,17 +8,25 @@ using AWS.UUIDs: uuid4
     associate_entity_to_thing(entity_id, thing_name)
     associate_entity_to_thing(entity_id, thing_name, params::Dict{String,<:Any})
 
-Associates a device with a concrete thing that is in the user's registry. A thing can be
-associated with only one device at a time. If you associate a thing with a new device id,
-its previous association will be removed.
+Associates a device with a concrete thing that is in the user's registry.
+
+A thing can be associated with only one device at a time. If you associate a thing with a
+new device id, its previous association will be removed.
 
 # Arguments
-- `entity_id`: The ID of the device to be associated with the thing. The ID should be in
-  the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
+
+- `entity_id`: The ID of the device to be associated with the thing.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+
 - `thing_name`: The name of the thing to which the entity is to be associated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
@@ -61,16 +69,21 @@ end
 
 Creates a workflow template. Workflows can be created only in the user's namespace. (The
 public namespace contains only entities.) The workflow can contain only entities in the
-specified namespace. The workflow is validated against the entities in the latest version
-of the user's namespace unless another namespace version is specified in the request.
+specified namespace. The workflow is validated against the entities in the latest version of
+the user's namespace unless another namespace version is specified in the request.
 
 # Arguments
-- `definition`: The workflow DefinitionDocument.
+
+- `definition`: The workflow `DefinitionDocument`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"compatibleNamespaceVersion"`: The namespace version in which the workflow is to be
-  created. If no value is specified, the latest version is used by default.
+  created.
+
+  If no value is specified, the latest version is used by default.
 """
 function create_flow_template end
 
@@ -104,35 +117,45 @@ end
     create_system_instance(definition, target)
     create_system_instance(definition, target, params::Dict{String,<:Any})
 
-Creates a system instance.  This action validates the system instance, prepares the
-deployment-related resources. For Greengrass deployments, it updates the Greengrass group
-that is specified by the greengrassGroupName parameter. It also adds a file to the S3
-bucket specified by the s3BucketName parameter. You need to call DeploySystemInstance after
-running this action. For Greengrass deployments, since this action modifies and adds
-resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling
-identity must have write permissions to both the specified Greengrass group and S3 bucket.
-Otherwise, the call will fail with an authorization error. For cloud deployments, this
-action requires a flowActionsRoleArn value. This is an IAM role that has permissions to
-access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes.
+Creates a system instance.
+
+This action validates the system instance, prepares the deployment-related resources. For
+Greengrass deployments, it updates the Greengrass group that is specified by the
+`greengrassGroupName` parameter. It also adds a file to the S3 bucket specified by the
+`s3BucketName` parameter. You need to call `DeploySystemInstance` after running this action.
+
+For Greengrass deployments, since this action modifies and adds resources to a Greengrass
+group and an S3 bucket on the caller's behalf, the calling identity must have write
+permissions to both the specified Greengrass group and S3 bucket. Otherwise, the call will
+fail with an authorization error.
+
+For cloud deployments, this action requires a `flowActionsRoleArn` value. This is an IAM
+role that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the
+flow uses when it executes.
+
 If the definition document doesn't specify a version of the user's namespace, the latest
 version will be used by default.
 
 # Arguments
+
 - `definition`:
-- `target`: The target type of the deployment. Valid values are GREENGRASS and CLOUD.
+- `target`: The target type of the deployment. Valid values are `GREENGRASS` and `CLOUD`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"flowActionsRoleArn"`: The ARN of the IAM role that AWS IoT Things Graph will assume
-  when it executes the flow. This role must have read and write access to AWS Lambda and AWS
-  IoT and any other AWS services that the flow uses when it executes. This value is required
-  if the value of the target parameter is CLOUD.
+
+- `"flowActionsRoleArn"`: The ARN of the IAM role that AWS IoT Things Graph will assume when
+  it executes the flow. This role must have read and write access to AWS Lambda and AWS IoT
+  and any other AWS services that the flow uses when it executes. This value is required if
+  the value of the `target` parameter is `CLOUD`.
 - `"greengrassGroupName"`: The name of the Greengrass group where the system instance will
-  be deployed. This value is required if the value of the target parameter is GREENGRASS.
+  be deployed. This value is required if the value of the `target` parameter is
+  `GREENGRASS`.
 - `"metricsConfiguration"`:
 - `"s3BucketName"`: The name of the Amazon Simple Storage Service bucket that will be used
   to store and deploy the system instance's resource file. This value is required if the
-  value of the target parameter is GREENGRASS.
+  value of the `target` parameter is `GREENGRASS`.
 - `"tags"`: Metadata, consisting of key-value pairs, that can be used to categorize your
   system instances.
 """
@@ -177,12 +200,17 @@ Creates a system. The system is validated against the entities in the latest ver
 user's namespace unless another namespace version is specified in the request.
 
 # Arguments
-- `definition`: The DefinitionDocument used to create the system.
+
+- `definition`: The `DefinitionDocument` used to create the system.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"compatibleNamespaceVersion"`: The namespace version in which the system is to be
-  created. If no value is specified, the latest version is used by default.
+  created.
+
+  If no value is specified, the latest version is used by default.
 """
 function create_system_template end
 
@@ -217,13 +245,16 @@ end
     delete_flow_template(id, params::Dict{String,<:Any})
 
 Deletes a workflow. Any new system or deployment that contains this workflow will fail to
-update or deploy. Existing deployments that contain the workflow will continue to run
-(since they use a snapshot of the workflow taken at the time of deployment).
+update or deploy. Existing deployments that contain the workflow will continue to run (since
+they use a snapshot of the workflow taken at the time of deployment).
 
 # Arguments
-- `id`: The ID of the workflow to be deleted. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
 
+- `id`: The ID of the workflow to be deleted.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function delete_flow_template end
 
@@ -254,7 +285,6 @@ end
 Deletes the specified namespace. This action deletes all of the entities in the namespace.
 Delete the systems and flows that use entities in the namespace before performing this
 action. This action takes no request parameters.
-
 """
 function delete_namespace end
 
@@ -274,12 +304,15 @@ end
     delete_system_instance()
     delete_system_instance(params::Dict{String,<:Any})
 
-Deletes a system instance. Only system instances that have never been deployed, or that
-have been undeployed can be deleted. Users can create a new system instance that has the
-same ID as a deleted system instance.
+Deletes a system instance. Only system instances that have never been deployed, or that have
+been undeployed can be deleted.
+
+Users can create a new system instance that has the same ID as a deleted system instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"id"`: The ID of the system instance to be deleted.
 """
 function delete_system_instance end
@@ -303,13 +336,16 @@ end
     delete_system_template(id, params::Dict{String,<:Any})
 
 Deletes a system. New deployments can't contain the system after its deletion. Existing
-deployments that contain the system will continue to work because they use a snapshot of
-the system that is taken when it is deployed.
+deployments that contain the system will continue to work because they use a snapshot of the
+system that is taken when it is deployed.
 
 # Arguments
-- `id`: The ID of the system to be deleted. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
 
+- `id`: The ID of the system to be deleted.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function delete_system_template end
 
@@ -337,20 +373,33 @@ end
     deploy_system_instance()
     deploy_system_instance(params::Dict{String,<:Any})
 
- Greengrass and Cloud Deployments  Deploys the system instance to the target specified in
-CreateSystemInstance.   Greengrass Deployments  If the system or any workflows and entities
-have been updated before this action is called, then the deployment will create a new
-Amazon Simple Storage Service resource file and then deploy it. Since this action creates a
-Greengrass deployment on the caller's behalf, the calling identity must have write
-permissions to the specified Greengrass group. Otherwise, the call will fail with an
-authorization error. For information about the artifacts that get added to your Greengrass
-core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
+**Greengrass and Cloud Deployments**
+
+Deploys the system instance to the target specified in `CreateSystemInstance`.
+
+**Greengrass Deployments**
+
+If the system or any workflows and entities have been updated before this action is called,
+then the deployment will create a new Amazon Simple Storage Service resource file and then
+deploy it.
+
+Since this action creates a Greengrass deployment on the caller's behalf, the calling
+identity must have write permissions to the specified Greengrass group. Otherwise, the call
+will fail with an authorization error.
+
+For information about the artifacts that get added to your Greengrass core device when you
+use this API, see [AWS IoT Things Graph and AWS IoT Greengrass](https://docs.aws.amazon.com/thingsgraph/latest/ug/iot-tg-greengrass.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"id"`: The ID of the system instance. This value is returned by the CreateSystemInstance
-  action. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT
-  ID/default:deployment:DEPLOYMENTNAME
+
+- `"id"`: The ID of the system instance. This value is returned by the
+  `CreateSystemInstance` action.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function deploy_system_instance end
 
@@ -376,9 +425,12 @@ Deprecates the specified workflow. This action marks the workflow for deletion. 
 flows can't be deployed, but existing deployments will continue to run.
 
 # Arguments
-- `id`: The ID of the workflow to be deleted. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
 
+- `id`: The ID of the workflow to be deleted.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function deprecate_flow_template end
 
@@ -409,9 +461,12 @@ end
 Deprecates the specified system.
 
 # Arguments
-- `id`: The ID of the system to delete. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
 
+- `id`: The ID of the system to delete.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function deprecate_system_template end
 
@@ -442,8 +497,10 @@ end
 Gets the latest version of the user's namespace and the public version that it is tracking.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"namespaceName"`: The name of the user's namespace. Set this to aws to get the public
+
+- `"namespaceName"`: The name of the user's namespace. Set this to `aws` to get the public
   namespace.
 """
 function describe_namespace end
@@ -469,9 +526,9 @@ entity that you need to dissociate because only one entity of a particular type 
 associated with a thing.
 
 # Arguments
+
 - `entity_type`: The entity type from which to disassociate the thing.
 - `thing_name`: The name of the thing to disassociate.
-
 """
 function dissociate_entity_from_thing end
 
@@ -511,16 +568,32 @@ end
     get_entities(ids, params::Dict{String,<:Any})
 
 Gets definitions of the specified entities. Uses the latest version of the user's namespace
-by default. This API returns the following TDM entities.   Properties   States   Events
-Actions   Capabilities   Mappings   Devices   Device Models   Services   This action
-doesn't return definitions for systems, flows, and deployments.
+by default. This API returns the following TDM entities.
+
+- Properties
+- States
+- Events
+- Actions
+- Capabilities
+- Mappings
+- Devices
+- Device Models
+- Services
+
+This action doesn't return definitions for systems, flows, and deployments.
 
 # Arguments
-- `ids`: An array of entity IDs. The IDs should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
+
+- `ids`: An array of entity IDs.
+
+  The IDs should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
@@ -550,15 +623,21 @@ end
     get_flow_template(id)
     get_flow_template(id, params::Dict{String,<:Any})
 
-Gets the latest version of the DefinitionDocument and FlowTemplateSummary for the specified
-workflow.
+Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the
+specified workflow.
 
 # Arguments
-- `id`: The ID of the workflow. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
+
+- `id`: The ID of the workflow.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"revisionNumber"`: The number of the workflow revision to retrieve.
 """
 function get_flow_template end
@@ -592,11 +671,17 @@ workflow has been deprecated, this action will return revisions that occurred be
 deprecation. This action won't work for workflows that have been deleted.
 
 # Arguments
-- `id`: The ID of the workflow. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
+
+- `id`: The ID of the workflow.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -628,7 +713,6 @@ end
     get_namespace_deletion_status(params::Dict{String,<:Any})
 
 Gets the status of a namespace deletion task.
-
 """
 function get_namespace_deletion_status end
 
@@ -653,10 +737,13 @@ end
 Gets a system instance.
 
 # Arguments
-- `id`: The ID of the system deployment instance. This value is returned by
-  CreateSystemInstance. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT
-  ID/default:deployment:DEPLOYMENTNAME
 
+- `id`: The ID of the system deployment instance. This value is returned by
+  `CreateSystemInstance`.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function get_system_instance end
 
@@ -687,11 +774,17 @@ end
 Gets a system.
 
 # Arguments
-- `id`: The ID of the system to get. This ID must be in the user's namespace. The ID should
-  be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
+
+- `id`: The ID of the system to get. This ID must be in the user's namespace.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"revisionNumber"`: The number that specifies the revision of the system to get.
 """
 function get_system_template end
@@ -725,11 +818,17 @@ stored. If the system has been deprecated, this action will return the revisions
 occurred before its deprecation. This action won't work with systems that have been deleted.
 
 # Arguments
-- `id`: The ID of the system template. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
+
+- `id`: The ID of the system template.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -765,9 +864,9 @@ end
 Gets the status of the specified upload.
 
 # Arguments
-- `upload_id`: The ID of the upload. This value is returned by the UploadEntityDefinitions
-  action.
 
+- `upload_id`: The ID of the upload. This value is returned by the `UploadEntityDefinitions`
+  action.
 """
 function get_upload_status end
 
@@ -802,10 +901,13 @@ end
 Returns a list of objects that contain information about events in a flow execution.
 
 # Arguments
+
 - `flow_execution_id`: The ID of the flow execution.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -847,11 +949,14 @@ end
 Lists all tags on an AWS IoT Things Graph resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are to be
   returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of tags to return.
 - `"nextToken"`: The token that specifies the next page of results to return.
 """
@@ -891,18 +996,26 @@ Searches for entities of the specified type. You can search for entities in your
 and the public namespace that you're tracking.
 
 # Arguments
+
 - `entity_types`: The entity types for which to search.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filter to apply to the search. Valid filters are NAME NAMESPACE,
-  SEMANTIC_TYPE_PATH and REFERENCED_ENTITY_ID. REFERENCED_ENTITY_ID filters on entities that
-  are used by the entity in the result set. For example, you can filter on the ID of a
-  property that is used in a state. Multiple filters function as OR criteria in the query.
-  Multiple values passed inside the filter function as AND criteria.
+
+- `"filters"`: Optional filter to apply to the search. Valid filters are `NAME` `NAMESPACE`,
+  `SEMANTIC_TYPE_PATH` and `REFERENCED_ENTITY_ID`. `REFERENCED_ENTITY_ID` filters on
+  entities that are used by the entity in the result set. For example, you can filter on the
+  ID of a property that is used in a state.
+
+  Multiple filters function as OR criteria in the query. Multiple values passed inside the
+  filter function as AND criteria.
+
 - `"maxResults"`: The maximum number of results to return in the response.
+
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
+
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
@@ -939,10 +1052,13 @@ end
 Searches for AWS IoT Things Graph workflow execution instances.
 
 # Arguments
+
 - `system_instance_id`: The ID of the system instance that contains the flow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"endTime"`: The date and time of the latest flow execution to return.
 - `"flowExecutionId"`: The ID of a flow execution.
 - `"maxResults"`: The maximum number of results to return in the response.
@@ -987,9 +1103,11 @@ end
 Searches for summary information about workflows.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: An array of objects that limit the result set. The only valid filter is
-  DEVICE_MODEL_ID.
+  `DEVICE_MODEL_ID`.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -1017,11 +1135,17 @@ end
 Searches for system instances in the user's account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Optional filter to apply to the search. Valid filters are
-  SYSTEM_TEMPLATE_ID, STATUS, and GREENGRASS_GROUP_NAME. Multiple filters function as OR
-  criteria in the query. Multiple values passed inside the filter function as AND criteria.
+  `SYSTEM_TEMPLATE_ID`, `STATUS`, and `GREENGRASS_GROUP_NAME`.
+
+  Multiple filters function as OR criteria in the query. Multiple values passed inside the
+  filter function as AND criteria.
+
 - `"maxResults"`: The maximum number of results to return in the response.
+
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
@@ -1049,9 +1173,11 @@ Searches for summary information about systems in the user's account. You can fi
 ID of a workflow to return only systems that use the specified workflow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: An array of filters that limit the result set. The only valid filter is
-  FLOW_TEMPLATE_ID.
+  `FLOW_TEMPLATE_ID`.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -1077,18 +1203,27 @@ end
     search_things(entity_id, params::Dict{String,<:Any})
 
 Searches for things associated with the specified entity. You can search by both device and
-device model. For example, if two different devices, camera1 and camera2, implement the
-camera device model, the user can associate thing1 to camera1 and thing2 to camera2.
-SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both
-thing1 and thing2. This action searches for exact matches and doesn't perform partial text
-matching.
+device model.
+
+For example, if two different devices, camera1 and camera2, implement the camera device
+model, the user can associate thing1 to camera1 and thing2 to camera2.
+`SearchThings(camera2)` will return only thing2, but `SearchThings(camera)` will return both
+thing1 and thing2.
+
+This action searches for exact matches and doesn't perform partial text matching.
 
 # Arguments
-- `entity_id`: The ID of the entity to which the things are associated. The IDs should be
-  in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
+
+- `entity_id`: The ID of the entity to which the things are associated.
+
+  The IDs should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
@@ -1128,9 +1263,9 @@ end
 Creates a tag for the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are returned.
 - `tags`: A list of tags to add to the resource.&gt;
-
 """
 function tag_resource end
 
@@ -1170,7 +1305,9 @@ end
 Removes a system instance from its target (Cloud or Greengrass).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"id"`: The ID of the system instance to remove from its target.
 """
 function undeploy_system_instance end
@@ -1196,14 +1333,16 @@ end
 Removes a tag from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are to be
   removed.
-- `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
-  value. Both the key and its associated value are removed.  This parameter to the API
-  requires a JSON text string argument. For information on how to format a JSON parameter for
-  the various command line tool environments, see Using JSON for Parameters in the AWS CLI
-  User Guide.
 
+- `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
+  value. Both the key and its associated value are removed.
+
+  This parameter to the API requires a JSON text string argument. For information on how to
+  format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
+  in the *AWS CLI User Guide*.
 """
 function untag_resource end
 
@@ -1248,15 +1387,23 @@ behavior, copy the workflow (creating a new workflow with a different ID), and u
 copy. The workflow can contain only entities in the specified namespace.
 
 # Arguments
-- `definition`: The DefinitionDocument that contains the updated workflow definition.
-- `id`: The ID of the workflow to be updated. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
+
+- `definition`: The `DefinitionDocument` that contains the updated workflow definition.
+
+- `id`: The ID of the workflow to be updated.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"compatibleNamespaceVersion"`: The version of the user's namespace. If no value is
-  specified, the latest version is used by default. Use the GetFlowTemplateRevisions if you
-  want to find earlier revisions of the flow to update.
+
+- `"compatibleNamespaceVersion"`: The version of the user's namespace.
+
+  If no value is specified, the latest version is used by default. Use the
+  `GetFlowTemplateRevisions` if you want to find earlier revisions of the flow to update.
 """
 function update_flow_template end
 
@@ -1298,15 +1445,23 @@ Any deployment that uses the system will see the changes in the system when it i
 redeployed.
 
 # Arguments
-- `definition`: The DefinitionDocument that contains the updated system definition.
-- `id`: The ID of the system to be updated. The ID should be in the following format.
-  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
+
+- `definition`: The `DefinitionDocument` that contains the updated system definition.
+
+- `id`: The ID of the system to be updated.
+
+  The ID should be in the following format.
+
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"compatibleNamespaceVersion"`: The version of the user's namespace. Defaults to the
-  latest version of the user's namespace. If no value is specified, the latest version is
-  used by default.
+  latest version of the user's namespace.
+
+  If no value is specified, the latest version is used by default.
 """
 function update_system_template end
 
@@ -1343,29 +1498,36 @@ end
     upload_entity_definitions()
     upload_entity_definitions(params::Dict{String,<:Any})
 
-Asynchronously uploads one or more entity definitions to the user's namespace. The document
-parameter is required if syncWithPublicNamespace and deleteExistingEntites are false. If
-the syncWithPublicNamespace parameter is set to true, the user's namespace will synchronize
-with the latest version of the public namespace. If deprecateExistingEntities is set to
-true, all entities in the latest version will be deleted before the new DefinitionDocument
-is uploaded. When a user uploads entity definitions for the first time, the service creates
-a new namespace for the user. The new namespace tracks the public namespace. Currently
-users can have only one namespace. The namespace version increments whenever a user uploads
-entity definitions that are backwards-incompatible and whenever a user sets the
-syncWithPublicNamespace parameter or the deprecateExistingEntities parameter to true. The
-IDs for all of the entities should be in URN format. Each entity must be in the user's
+Asynchronously uploads one or more entity definitions to the user's namespace. The
+`document` parameter is required if `syncWithPublicNamespace` and `deleteExistingEntites`
+are false. If the `syncWithPublicNamespace` parameter is set to `true`, the user's namespace
+will synchronize with the latest version of the public namespace. If
+`deprecateExistingEntities` is set to true, all entities in the latest version will be
+deleted before the new `DefinitionDocument` is uploaded.
+
+When a user uploads entity definitions for the first time, the service creates a new
+namespace for the user. The new namespace tracks the public namespace. Currently users can
+have only one namespace. The namespace version increments whenever a user uploads entity
+definitions that are backwards-incompatible and whenever a user sets the
+`syncWithPublicNamespace` parameter or the `deprecateExistingEntities` parameter to `true`.
+
+The IDs for all of the entities should be in URN format. Each entity must be in the user's
 namespace. Users can't create entities in the public namespace, but entity definitions can
-refer to entities in the public namespace. Valid entities are Device, DeviceModel, Service,
-Capability, State, Action, Event, Property, Mapping, Enum.
+refer to entities in the public namespace.
+
+Valid entities are `Device`, `DeviceModel`, `Service`, `Capability`, `State`, `Action`,
+`Event`, `Property`, `Mapping`, `Enum`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deprecateExistingEntities"`: A Boolean that specifies whether to deprecate all entities
-  in the latest version before uploading the new DefinitionDocument. If set to true, the
+  in the latest version before uploading the new `DefinitionDocument`. If set to `true`, the
   upload will create a new namespace version.
-- `"document"`: The DefinitionDocument that defines the updated entities.
+- `"document"`: The `DefinitionDocument` that defines the updated entities.
 - `"syncWithPublicNamespace"`: A Boolean that specifies whether to synchronize with the
-  latest version of the public namespace. If set to true, the upload will create a new
+  latest version of the public namespace. If set to `true`, the upload will create a new
   namespace version.
 """
 function upload_entity_definitions end

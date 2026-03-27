@@ -11,10 +11,13 @@ using AWS.UUIDs: uuid4
 Changes the Channel's properities to configure log subscription
 
 # Arguments
+
 - `id`: The ID of the channel to log subscription.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"egressAccessLogs"`:
 - `"ingressAccessLogs"`:
 """
@@ -45,12 +48,14 @@ end
 Creates a new Channel.
 
 # Arguments
-- `id`: The ID of the Channel. The ID must be unique within the region and it
-cannot be
+
+- `id`: The ID of the Channel. The ID must be unique within the region and it cannot be
   changed after a Channel is created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A short text description of the Channel.
 - `"tags"`:
 """
@@ -85,16 +90,14 @@ end
 Creates a new HarvestJob record.
 
 # Arguments
+
 - `end_time`: The end of the time-window which will be harvested
-- `id`: The ID of the HarvestJob. The ID must be unique within the region
-and it cannot be
+- `id`: The ID of the HarvestJob. The ID must be unique within the region and it cannot be
   changed after the HarvestJob is submitted
-- `origin_endpoint_id`: The ID of the OriginEndpoint that the HarvestJob will harvest
-  from.
-This cannot be changed after the HarvestJob is submitted.
+- `origin_endpoint_id`: The ID of the OriginEndpoint that the HarvestJob will harvest from.
+  This cannot be changed after the HarvestJob is submitted.
 - `s3_destination`:
 - `start_time`: The start of the time-window which will be harvested
-
 """
 function create_harvest_job end
 
@@ -158,36 +161,33 @@ end
 Creates a new OriginEndpoint record.
 
 # Arguments
-- `channel_id`: The ID of the Channel that the OriginEndpoint will be associated with.
-This
+
+- `channel_id`: The ID of the Channel that the OriginEndpoint will be associated with. This
   cannot be changed after the OriginEndpoint is created.
-- `id`: The ID of the OriginEndpoint.  The ID must be unique within the region
-and it
-  cannot be changed after the OriginEndpoint is created.
+- `id`: The ID of the OriginEndpoint. The ID must be unique within the region and it cannot
+  be changed after the OriginEndpoint is created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"authorization"`:
 - `"cmafPackage"`:
 - `"dashPackage"`:
 - `"description"`: A short text description of the OriginEndpoint.
 - `"hlsPackage"`:
 - `"manifestName"`: A short string that will be used as the filename of the OriginEndpoint
-  URL (defaults to \"index\").
+  URL (defaults to "index").
 - `"mssPackage"`:
 - `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
-  If set to ALLOW, the OriginEndpoint
-may by requested, pursuant to any other form of access
-  control. If set to DENY, the OriginEndpoint may not be
-requested. This can be helpful for
+  If set to ALLOW, the OriginEndpoint may by requested, pursuant to any other form of access
+  control. If set to DENY, the OriginEndpoint may not be requested. This can be helpful for
   Live to VOD harvesting, or for temporarily disabling origination
 - `"startoverWindowSeconds"`: Maximum duration (seconds) of content to retain for startover
-  playback.
-If not specified, startover playback will be disabled for the OriginEndpoint.
+  playback. If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"tags"`:
 - `"timeDelaySeconds"`: Amount of delay (seconds) to enforce on the playback of live
-  content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  content. If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
@@ -231,8 +231,8 @@ end
 Deletes an existing Channel.
 
 # Arguments
-- `id`: The ID of the Channel to delete.
 
+- `id`: The ID of the Channel to delete.
 """
 function delete_channel end
 
@@ -257,8 +257,8 @@ end
 Deletes an existing OriginEndpoint.
 
 # Arguments
-- `id`: The ID of the OriginEndpoint to delete.
 
+- `id`: The ID of the OriginEndpoint to delete.
 """
 function delete_origin_endpoint end
 
@@ -287,8 +287,8 @@ end
 Gets details about a Channel.
 
 # Arguments
-- `id`: The ID of a Channel.
 
+- `id`: The ID of a Channel.
 """
 function describe_channel end
 
@@ -313,8 +313,8 @@ end
 Gets details about an existing HarvestJob.
 
 # Arguments
-- `id`: The ID of the HarvestJob.
 
+- `id`: The ID of the HarvestJob.
 """
 function describe_harvest_job end
 
@@ -339,8 +339,8 @@ end
 Gets details about an existing OriginEndpoint.
 
 # Arguments
-- `id`: The ID of the OriginEndpoint.
 
+- `id`: The ID of the OriginEndpoint.
 """
 function describe_origin_endpoint end
 
@@ -369,7 +369,9 @@ end
 Returns a collection of Channels.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
@@ -394,7 +396,9 @@ end
 Returns a collection of HarvestJob records.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"includeChannelId"`: When specified, the request will return only HarvestJobs associated
   with the given Channel ID.
 - `"includeStatus"`: When specified, the request will return only HarvestJobs in the given
@@ -423,7 +427,9 @@ end
 Returns a collection of OriginEndpoint records.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"channelId"`: When specified, the request will return only OriginEndpoints associated
   with the given Channel ID.
 - `"maxResults"`: The upper bound on the number of records to return.
@@ -450,10 +456,9 @@ end
     list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
 
 
-
 # Arguments
-- `resource-arn`:
 
+- `resource-arn`:
 """
 function list_tags_for_resource end
 
@@ -483,8 +488,8 @@ Changes the Channel's first IngestEndpoint's username and password. WARNING - Th
 deprecated. Please use RotateIngestEndpointCredentials instead
 
 # Arguments
-- `id`: The ID of the channel to update.
 
+- `id`: The ID of the channel to update.
 """
 function rotate_channel_credentials end
 
@@ -513,9 +518,9 @@ end
 Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
 
 # Arguments
+
 - `id`: The ID of the channel the IngestEndpoint is on.
 - `ingest_endpoint_id`: The id of the IngestEndpoint whose credentials should be rotated
-
 """
 function rotate_ingest_endpoint_credentials end
 
@@ -550,11 +555,10 @@ end
     tag_resource(resource-arn, tags, params::Dict{String,<:Any})
 
 
-
 # Arguments
+
 - `resource-arn`:
 - `tags`:
-
 """
 function tag_resource end
 
@@ -590,11 +594,10 @@ end
     untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
 
 
-
 # Arguments
+
 - `resource-arn`:
 - `tag_keys`: The key(s) of tag to be deleted
-
 """
 function untag_resource end
 
@@ -632,10 +635,13 @@ end
 Updates an existing Channel.
 
 # Arguments
+
 - `id`: The ID of the Channel to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A short text description of the Channel.
 """
 function update_channel end
@@ -661,10 +667,13 @@ end
 Updates an existing OriginEndpoint.
 
 # Arguments
+
 - `id`: The ID of the OriginEndpoint to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"authorization"`:
 - `"cmafPackage"`:
 - `"dashPackage"`:
@@ -673,18 +682,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"manifestName"`: A short string that will be appended to the end of the Endpoint URL.
 - `"mssPackage"`:
 - `"origination"`: Control whether origination of video is allowed for this OriginEndpoint.
-  If set to ALLOW, the OriginEndpoint
-may by requested, pursuant to any other form of access
-  control. If set to DENY, the OriginEndpoint may not be
-requested. This can be helpful for
+  If set to ALLOW, the OriginEndpoint may by requested, pursuant to any other form of access
+  control. If set to DENY, the OriginEndpoint may not be requested. This can be helpful for
   Live to VOD harvesting, or for temporarily disabling origination
 - `"startoverWindowSeconds"`: Maximum duration (in seconds) of content to retain for
-  startover playback.
-If not specified, startover playback will be disabled for the
+  startover playback. If not specified, startover playback will be disabled for the
   OriginEndpoint.
 - `"timeDelaySeconds"`: Amount of delay (in seconds) to enforce on the playback of live
-  content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  content. If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """

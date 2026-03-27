@@ -9,25 +9,33 @@ using AWS.UUIDs: uuid4
     create_monitor(monitor_name, params::Dict{String,<:Any})
 
 Creates a monitor between a source subnet and destination IP address. Within a monitor
-you'll create one or more probes that monitor network traffic between your source Amazon
-Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and
-sends metrics to Amazon CloudWatch. You can also create a monitor with probes using this
-command. For each probe, you define the following:    source—The subnet IDs where the
-probes will be created.    destination— The target destination IP address for the probe.
-  destinationPort—Required only if the protocol is TCP.    protocol—The communication
-protocol between the source and destination. This will be either TCP or ICMP.
-packetSize—The size of the packets. This must be a number between 56 and 8500.
-(Optional) tags —Key-value pairs created and assigned to the probe.
+you'll create one or more probes that monitor network traffic between your source Amazon Web
+Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends
+metrics to Amazon CloudWatch.
+
+You can also create a monitor with probes using this command. For each probe, you define the
+following:
+
+- `source`—The subnet IDs where the probes will be created.
+- `destination`— The target destination IP address for the probe.
+- `destinationPort`—Required only if the protocol is `TCP`.
+- `protocol`—The communication protocol between the source and destination. This will be
+  either `TCP` or `ICMP`.
+- `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
+- (Optional) `tags` —Key-value pairs created and assigned to the probe.
 
 # Arguments
-- `monitor_name`: The name identifying the monitor. It can contain only letters,
-  underscores (_), or dashes (-), and can be up to 200 characters.
+
+- `monitor_name`: The name identifying the monitor. It can contain only letters, underscores
+  (_), or dashes (-), and can be up to 200 characters.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"aggregationPeriod"`: The time, in seconds, that metrics are aggregated and sent to
-  Amazon CloudWatch. Valid values are either 30 or 60. 60 is the default if no period is
-  chosen.
+  Amazon CloudWatch. Valid values are either `30` or `60`. `60` is the default if no period
+  is chosen.
 - `"clientToken"`: Unique, case-sensitive identifier to ensure the idempotency of the
   request. Only returned if a client token was provided in the request.
 - `"probes"`: Displays a list of all of the probes created for a monitor.
@@ -73,15 +81,18 @@ end
 
 Create a probe within a monitor. Once you create a probe, and it begins monitoring your
 network traffic, you'll incur billing charges for that probe. This action requires the
-monitorName parameter. Run ListMonitors to get a list of monitor names. Note the name of
-the monitorName you want to create the probe for.
+`monitorName` parameter. Run `ListMonitors` to get a list of monitor names. Note the name of
+the `monitorName` you want to create the probe for.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor to associated with the probe.
 - `probe`: Describes the details of an individual probe for a monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure the idempotency of the
   request. Only returned if a client token was provided in the request.
 - `"tags"`: The list of key-value pairs created and assigned to the probe.
@@ -125,12 +136,14 @@ end
     delete_monitor(monitor_name)
     delete_monitor(monitor_name, params::Dict{String,<:Any})
 
-Deletes a specified monitor. This action requires the monitorName parameter. Run
-ListMonitors to get a list of monitor names.
+Deletes a specified monitor.
+
+This action requires the `monitorName` parameter. Run `ListMonitors` to get a list of
+monitor names.
 
 # Arguments
-- `monitor_name`: The name of the monitor to delete.
 
+- `monitor_name`: The name of the monitor to delete.
 """
 function delete_monitor end
 
@@ -158,15 +171,17 @@ end
     delete_probe(monitor_name, probe_id)
     delete_probe(monitor_name, probe_id, params::Dict{String,<:Any})
 
-Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing
-fees for that probe. This action requires both the monitorName and probeId parameters. Run
-ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and
-probe IDs. You can only delete a single probe at a time using this action.
+Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees
+for that probe.
+
+This action requires both the `monitorName` and `probeId` parameters. Run `ListMonitors` to
+get a list of monitor names. Run `GetMonitor` to get a list of probes and probe IDs. You can
+only delete a single probe at a time using this action.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor to delete.
 - `probe_id`: The ID of the probe to delete.
-
 """
 function delete_probe end
 
@@ -200,12 +215,14 @@ end
     get_monitor(monitor_name)
     get_monitor(monitor_name, params::Dict{String,<:Any})
 
-Returns details about a specific monitor.  This action requires the monitorName parameter.
-Run ListMonitors to get a list of monitor names.
+Returns details about a specific monitor.
+
+This action requires the `monitorName` parameter. Run `ListMonitors` to get a list of
+monitor names.
 
 # Arguments
-- `monitor_name`: The name of the monitor that details are returned for.
 
+- `monitor_name`: The name of the monitor that details are returned for.
 """
 function get_monitor end
 
@@ -233,16 +250,16 @@ end
     get_probe(monitor_name, probe_id)
     get_probe(monitor_name, probe_id, params::Dict{String,<:Any})
 
-Returns the details about a probe. This action requires both the monitorName and probeId
-parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list
-of probes and probe IDs.
+Returns the details about a probe. This action requires both the `monitorName` and `probeId`
+parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` to get a
+list of probes and probe IDs.
 
 # Arguments
-- `monitor_name`: The name of the monitor associated with the probe. Run ListMonitors to
-  get a list of monitor names.
-- `probe_id`: The ID of the probe to get information about. Run GetMonitor action to get a
-  list of probes and probe IDs for the monitor.
 
+- `monitor_name`: The name of the monitor associated with the probe. Run `ListMonitors` to
+  get a list of monitor names.
+- `probe_id`: The ID of the probe to get information about. Run `GetMonitor` action to get a
+  list of probes and probe IDs for the monitor.
 """
 function get_probe end
 
@@ -277,11 +294,16 @@ end
 Returns a list of all of your monitors.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If MaxResults
-  is given a value larger than 100, only 100 results are returned.
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
 - `"nextToken"`: The token for the next page of results.
+
 - `"state"`: The list of all monitors and their states.
 """
 function list_monitors end
@@ -305,8 +327,8 @@ end
 Lists the tags assigned to this resource.
 
 # Arguments
-- `resource_arn`: The
 
+- `resource_arn`: The
 """
 function list_tags_for_resource end
 
@@ -335,9 +357,9 @@ end
 Adds key-value pairs to a monitor or probe.
 
 # Arguments
+
 - `resource_arn`: The ARN of the monitor or probe to tag.
 - `tags`: The list of key-value pairs assigned to the monitor or probe.
-
 """
 function tag_resource end
 
@@ -373,9 +395,9 @@ end
 Removes a key-value pair from a monitor or probe.
 
 # Arguments
+
 - `resource_arn`: The ARN of the monitor or probe that the tag should be removed from.
 - `tag_keys`: The key-value pa
-
 """
 function untag_resource end
 
@@ -410,15 +432,15 @@ end
     update_monitor(aggregation_period, monitor_name)
     update_monitor(aggregation_period, monitor_name, params::Dict{String,<:Any})
 
-Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of
-either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run
-ListMonitors to get a list of monitor names.
+Updates the `aggregationPeriod` for a monitor. Monitors support an `aggregationPeriod` of
+either `30` or `60` seconds. This action requires the `monitorName` and `probeId` parameter.
+Run `ListMonitors` to get a list of monitor names.
 
 # Arguments
-- `aggregation_period`: The aggregation time, in seconds, to change to. This must be either
-  30 or 60.
-- `monitor_name`: The name of the monitor to update.
 
+- `aggregation_period`: The aggregation time, in seconds, to change to. This must be either
+  `30` or `60`.
+- `monitor_name`: The name of the monitor to update.
 """
 function update_monitor end
 
@@ -457,30 +479,38 @@ end
     update_probe(monitor_name, probe_id)
     update_probe(monitor_name, probe_id, params::Dict{String,<:Any})
 
-Updates a monitor probe. This action requires both the monitorName and probeId parameters.
-Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and
-probe IDs.  You can update the following para create a monitor with probes using this
-command. For each probe, you define the following:    state—The state of the probe.
-destination— The target destination IP address for the probe.
-destinationPort—Required only if the protocol is TCP.    protocol—The communication
-protocol between the source and destination. This will be either TCP or ICMP.
-packetSize—The size of the packets. This must be a number between 56 and 8500.
-(Optional) tags —Key-value pairs created and assigned to the probe.
+Updates a monitor probe. This action requires both the `monitorName` and `probeId`
+parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` to get a
+list of probes and probe IDs.
+
+You can update the following para create a monitor with probes using this command. For each
+probe, you define the following:
+
+- `state`—The state of the probe.
+- `destination`— The target destination IP address for the probe.
+- `destinationPort`—Required only if the protocol is `TCP`.
+- `protocol`—The communication protocol between the source and destination. This will be
+  either `TCP` or `ICMP`.
+- `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
+- (Optional) `tags` —Key-value pairs created and assigned to the probe.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor that the probe was updated for.
 - `probe_id`: The ID of the probe to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"destination"`: The updated IP address for the probe destination. This must be either an
   IPv4 or IPv6 address.
 - `"destinationPort"`: The updated port for the probe destination. This is required only if
-  the protocol is TCP and must be a number between 1 and 65536.
+  the `protocol` is `TCP` and must be a number between `1` and `65536`.
 - `"packetSize"`: he updated packets size for network traffic between the source and
-  destination. This must be a number between 56 and 8500.
-- `"protocol"`: The updated network protocol for the destination. This can be either TCP or
-  ICMP. If the protocol is TCP, then port is also required.
+  destination. This must be a number between `56` and `8500`.
+- `"protocol"`: The updated network protocol for the destination. This can be either `TCP`
+  or `ICMP`. If the protocol is `TCP`, then `port` is also required.
 - `"state"`: The state of the probe update.
 """
 function update_probe end

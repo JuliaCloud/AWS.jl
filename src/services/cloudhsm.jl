@@ -8,17 +8,22 @@ using AWS.UUIDs: uuid4
     add_tags_to_resource(resource_arn, tag_list)
     add_tags_to_resource(resource_arn, tag_list, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Adds or overwrites one or
-more tags for the specified AWS CloudHSM resource. Each tag consists of a key and a value.
-Tag keys must be unique to each resource.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Adds or overwrites one or more tags for the specified AWS CloudHSM resource.
+
+Each tag consists of a key and a value. Tag keys must be unique to each resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
 - `tag_list`: One or more tags.
-
 """
 function add_tags_to_resource end
 
@@ -57,16 +62,20 @@ end
     create_hapg(label)
     create_hapg(label, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates a
-high-availability partition group. A high-availability partition group is a group of
-partitions that spans multiple physical HSMs.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Creates a high-availability partition group. A high-availability partition group is a group
+of partitions that spans multiple physical HSMs.
 
 # Arguments
-- `label`: The label of the new high-availability partition group.
 
+- `label`: The label of the new high-availability partition group.
 """
 function create_hapg end
 
@@ -94,18 +103,28 @@ end
     create_hsm(iam_role_arn, ssh_key, subnet_id, subscription_type)
     create_hsm(iam_role_arn, ssh_key, subnet_id, subscription_type, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates an uninitialized
-HSM instance. There is an upfront fee charged for each HSM instance that you create with
-the CreateHsm operation. If you accidentally provision an HSM and want to request a refund,
-delete the instance using the DeleteHsm operation, go to the AWS Support Center, create a
-new case, and select Account and Billing Support.  It can take up to 20 minutes to create
-and provision an HSM. You can monitor the status of the HSM with the DescribeHsm operation.
-The HSM is ready to be initialized when the status changes to RUNNING.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Creates an uninitialized HSM instance.
+
+There is an upfront fee charged for each HSM instance that you create with the [`create_hsm`](@ref)
+operation. If you accidentally provision an HSM and want to request a refund, delete the
+instance using the [`delete_hsm`](@ref) operation, go to the [AWS Support Center](https://console.aws.amazon.com/support/home),
+create a new case, and select **Account and Billing Support**.
+
+!!! important
+    It can take up to 20 minutes to create and provision an HSM. You can monitor the status
+    of the HSM with the [`describe_hsm`](@ref) operation. The HSM is ready to be initialized
+    when the status changes to `RUNNING`.
 
 # Arguments
+
 - `iam_role_arn`: The ARN of an IAM role to enable the AWS CloudHSM service to allocate an
   ENI on your behalf.
 - `ssh_key`: The SSH public key to install on the HSM.
@@ -113,12 +132,19 @@ The HSM is ready to be initialized when the status changes to RUNNING.
 - `subscription_type`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A user-defined token to ensure idempotence. Subsequent calls to this
   operation with the same token will be ignored.
-- `"EniIp"`: The IP address to assign to the HSM's ENI. If an IP address is not specified,
-  an IP address will be randomly chosen from the CIDR range of the subnet.
-- `"ExternalId"`: The external ID from IamRoleArn, if present.
+
+- `"EniIp"`: The IP address to assign to the HSM's ENI.
+
+  If an IP address is not specified, an IP address will be randomly chosen from the CIDR
+  range of the subnet.
+
+- `"ExternalId"`: The external ID from `IamRoleArn`, if present.
+
 - `"SyslogIp"`: The IP address for the syslog monitoring server. The AWS CloudHSM service
   only supports one syslog monitoring server.
 """
@@ -175,17 +201,25 @@ end
     create_luna_client(certificate)
     create_luna_client(certificate, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Creates an HSM client.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Creates an HSM client.
 
 # Arguments
+
 - `certificate`: The contents of a Base64-Encoded X.509 v3 certificate to be installed on
   the HSMs used by this client.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Label"`: The label for the client.
 """
 function create_luna_client end
@@ -218,15 +252,19 @@ end
     delete_hapg(hapg_arn)
     delete_hapg(hapg_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a
-high-availability partition group.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Deletes a high-availability partition group.
 
 # Arguments
-- `hapg_arn`: The ARN of the high-availability partition group to delete.
 
+- `hapg_arn`: The ARN of the high-availability partition group to delete.
 """
 function delete_hapg end
 
@@ -256,15 +294,20 @@ end
     delete_hsm(hsm_arn)
     delete_hsm(hsm_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes an HSM. After
-completion, this operation cannot be undone and your key material cannot be recovered.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Deletes an HSM. After completion, this operation cannot be undone and your key material
+cannot be recovered.
 
 # Arguments
-- `hsm_arn`: The ARN of the HSM to delete.
 
+- `hsm_arn`: The ARN of the HSM to delete.
 """
 function delete_hsm end
 
@@ -292,14 +335,19 @@ end
     delete_luna_client(client_arn)
     delete_luna_client(client_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a client.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Deletes a client.
 
 # Arguments
-- `client_arn`: The ARN of the client to delete.
 
+- `client_arn`: The ARN of the client to delete.
 """
 function delete_luna_client end
 
@@ -331,15 +379,19 @@ end
     describe_hapg(hapg_arn)
     describe_hapg(hapg_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves information
-about a high-availability partition group.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Retrieves information about a high-availability partition group.
 
 # Arguments
-- `hapg_arn`: The ARN of the high-availability partition group to describe.
 
+- `hapg_arn`: The ARN of the high-availability partition group to describe.
 """
 function describe_hapg end
 
@@ -369,18 +421,25 @@ end
     describe_hsm()
     describe_hsm(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves information
-about an HSM. You can identify the HSM by its ARN or its serial number.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Retrieves information about an HSM. You can identify the HSM by its ARN or its serial
+number.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HsmArn"`: The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be
-  specified.
-- `"HsmSerialNumber"`: The serial number of the HSM. Either the HsmArn or the
-  HsmSerialNumber parameter must be specified.
+
+- `"HsmArn"`: The ARN of the HSM. Either the `HsmArn` or the `SerialNumber` parameter must
+  be specified.
+- `"HsmSerialNumber"`: The serial number of the HSM. Either the `HsmArn` or the
+  `HsmSerialNumber` parameter must be specified.
 """
 function describe_hsm end
 
@@ -398,14 +457,20 @@ end
     describe_luna_client()
     describe_luna_client(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves information
-about an HSM client.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Retrieves information about an HSM client.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateFingerprint"`: The certificate fingerprint.
 - `"ClientArn"`: The ARN of the client.
 """
@@ -427,19 +492,23 @@ end
     get_config(client_arn, client_version, hapg_list)
     get_config(client_arn, client_version, hapg_list, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Gets the configuration
-files necessary to connect to all high availability partition groups the client is
-associated with.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Gets the configuration files necessary to connect to all high availability partition groups
+the client is associated with.
 
 # Arguments
+
 - `client_arn`: The ARN of the client.
 - `client_version`: The client version.
 - `hapg_list`: A list of ARNs that identify the high-availability partition groups that are
   associated with the client.
-
 """
 function get_config end
 
@@ -487,12 +556,15 @@ end
     list_available_zones()
     list_available_zones(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Availability
-Zones that have available AWS CloudHSM capacity.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
 
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Lists the Availability Zones that have available AWS CloudHSM capacity.
 """
 function list_available_zones end
 
@@ -512,19 +584,26 @@ end
     list_hapgs()
     list_hapgs(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the
-high-availability partition groups for the account. This operation supports pagination with
-the use of the NextToken member. If more results are available, the NextToken member of the
-response contains a token that you pass in the next call to ListHapgs to retrieve the next
-set of items.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Lists the high-availability partition groups for the account.
+
+This operation supports pagination with the use of the `NextToken` member. If more results
+are available, the `NextToken` member of the response contains a token that you pass in the
+next call to `ListHapgs` to retrieve the next set of items.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The NextToken value from a previous call to ListHapgs. Pass null if this
-  is the first call.
+
+- `"NextToken"`: The `NextToken` value from a previous call to `ListHapgs`. Pass null if
+  this is the first call.
 """
 function list_hapgs end
 
@@ -542,19 +621,26 @@ end
     list_hsms()
     list_hsms(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Retrieves the identifiers
-of all of the HSMs provisioned for the current customer. This operation supports pagination
-with the use of the NextToken member. If more results are available, the NextToken member
-of the response contains a token that you pass in the next call to ListHsms to retrieve the
-next set of items.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Retrieves the identifiers of all of the HSMs provisioned for the current customer.
+
+This operation supports pagination with the use of the `NextToken` member. If more results
+are available, the `NextToken` member of the response contains a token that you pass in the
+next call to `ListHsms` to retrieve the next set of items.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The NextToken value from a previous call to ListHsms. Pass null if this is
-  the first call.
+
+- `"NextToken"`: The `NextToken` value from a previous call to `ListHsms`. Pass null if this
+  is the first call.
 """
 function list_hsms end
 
@@ -572,18 +658,26 @@ end
     list_luna_clients()
     list_luna_clients(params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists all of the clients.
-This operation supports pagination with the use of the NextToken member. If more results
-are available, the NextToken member of the response contains a token that you pass in the
-next call to ListLunaClients to retrieve the next set of items.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Lists all of the clients.
+
+This operation supports pagination with the use of the `NextToken` member. If more results
+are available, the `NextToken` member of the response contains a token that you pass in the
+next call to `ListLunaClients` to retrieve the next set of items.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The NextToken value from a previous call to ListLunaClients. Pass null if
-  this is the first call.
+
+- `"NextToken"`: The `NextToken` value from a previous call to `ListLunaClients`. Pass null
+  if this is the first call.
 """
 function list_luna_clients end
 
@@ -601,15 +695,19 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Returns a list of all tags
-for the specified AWS CloudHSM resource.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Returns a list of all tags for the specified AWS CloudHSM resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
 """
 function list_tags_for_resource end
 
@@ -643,20 +741,27 @@ end
     modify_hapg(hapg_arn)
     modify_hapg(hapg_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Modifies an existing
-high-availability partition group.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Modifies an existing high-availability partition group.
 
 # Arguments
+
 - `hapg_arn`: The ARN of the high-availability partition group to modify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Label"`: The new label for the high-availability partition group.
-- `"PartitionSerialList"`: The list of partition serial numbers to make members of the
-  high-availability partition group.
+- `"PartitionSerialList"`: The list of partition serial numbers to make members of the high-
+  availability partition group.
 """
 function modify_hapg end
 
@@ -686,27 +791,42 @@ end
     modify_hsm(hsm_arn)
     modify_hsm(hsm_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Modifies an HSM.  This
-operation can result in the HSM being offline for up to 15 minutes while the AWS CloudHSM
-service is reconfigured. If you are modifying a production HSM, you should ensure that your
-AWS CloudHSM service is configured for high availability, and consider executing this
-operation during a maintenance window.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Modifies an HSM.
+
+!!! important
+    This operation can result in the HSM being offline for up to 15 minutes while the AWS
+    CloudHSM service is reconfigured. If you are modifying a production HSM, you should
+    ensure that your AWS CloudHSM service is configured for high availability, and consider
+    executing this operation during a maintenance window.
 
 # Arguments
+
 - `hsm_arn`: The ARN of the HSM to modify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EniIp"`: The new IP address for the elastic network interface (ENI) attached to the
-  HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP
+
+- `"EniIp"`: The new IP address for the elastic network interface (ENI) attached to the HSM.
+
+  If the HSM is moved to a different subnet, and an IP address is not specified, an IP
   address will be randomly chosen from the CIDR range of the new subnet.
+
 - `"ExternalId"`: The new external ID.
+
 - `"IamRoleArn"`: The new IAM role ARN.
+
 - `"SubnetId"`: The new identifier of the subnet that the HSM is in. The new subnet must be
   in the same Availability Zone as the current subnet.
+
 - `"SyslogIp"`: The new IP address for the syslog monitoring server. The AWS CloudHSM
   service only supports one syslog monitoring server.
 """
@@ -736,17 +856,23 @@ end
     modify_luna_client(certificate, client_arn)
     modify_luna_client(certificate, client_arn, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Modifies the certificate
-used by the client. This action can potentially start a workflow to install the new
-certificate on the client's HSMs.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Modifies the certificate used by the client.
+
+This action can potentially start a workflow to install the new certificate on the client's
+HSMs.
 
 # Arguments
+
 - `certificate`: The new certificate for the client.
 - `client_arn`: The ARN of the client.
-
 """
 function modify_luna_client end
 
@@ -785,18 +911,27 @@ end
     remove_tags_from_resource(resource_arn, tag_key_list)
     remove_tags_from_resource(resource_arn, tag_key_list, params::Dict{String,<:Any})
 
-This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM
-Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API
-Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM,
-the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Removes one or more tags
-from the specified AWS CloudHSM resource. To remove a tag, specify only the tag key to
-remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
+This is documentation for **AWS CloudHSM Classic**. For more information, see [AWS CloudHSM Classic FAQs](http://aws.amazon.com/cloudhsm/faqs-classic/),
+the [AWS CloudHSM Classic User Guide](https://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+and the [AWS CloudHSM Classic API Reference](https://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+
+**For information about the current version of AWS CloudHSM**, see [AWS CloudHSM](http://aws.amazon.com/cloudhsm/),
+the [AWS CloudHSM User Guide](https://docs.aws.amazon.com/cloudhsm/latest/userguide/), and
+the [AWS CloudHSM API Reference](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
+
+Removes one or more tags from the specified AWS CloudHSM resource.
+
+To remove a tag, specify only the tag key to remove (not the value). To overwrite the value
+for an existing tag, use [`add_tags_to_resource`](@ref).
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
-- `tag_key_list`: The tag key or keys to remove. Specify only the tag key to remove (not
-  the value). To overwrite the value for an existing tag, use AddTagsToResource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
+
+- `tag_key_list`: The tag key or keys to remove.
+
+  Specify only the tag key to remove (not the value). To overwrite the value for an existing
+  tag, use `AddTagsToResource`.
 """
 function remove_tags_from_resource end
 

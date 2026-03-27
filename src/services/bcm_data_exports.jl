@@ -9,25 +9,32 @@ using AWS.UUIDs: uuid4
     create_export(export, params::Dict{String,<:Any})
 
 Creates a data export and specifies the data query, the delivery preference, and any
-optional resource tags. A DataQuery consists of both a QueryStatement and
-TableConfigurations. The QueryStatement is an SQL statement. Data Exports only supports a
-limited subset of the SQL syntax. For more information on the SQL syntax that is supported,
-see Data query. To view the available tables and columns, see the Data Exports table
-dictionary. The TableConfigurations is a collection of specified TableProperties for the
-table being queried in the QueryStatement. TableProperties are additional configurations
-you can provide to change the data and schema of a table. Each table can have different
+optional resource tags.
+
+A `DataQuery` consists of both a `QueryStatement` and `TableConfigurations`.
+
+The `QueryStatement` is an SQL statement. Data Exports only supports a limited subset of the
+SQL syntax. For more information on the SQL syntax that is supported, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+To view the available tables and columns, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html).
+
+The `TableConfigurations` is a collection of specified `TableProperties` for the table being
+queried in the `QueryStatement`. TableProperties are additional configurations you can
+provide to change the data and schema of a table. Each table can have different
 TableProperties. However, tables are not required to have any TableProperties. Each table
-property has a default value that it assumes if not specified. For more information on
-table configurations, see Data query. To view the table properties available for each
-table, see the Data Exports table dictionary or use the ListTables API to get a response of
-all tables and their available properties.
+property has a default value that it assumes if not specified. For more information on table
+configurations, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+To view the table properties available for each table, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html)
+or use the `ListTables` API to get a response of all tables and their available properties.
 
 # Arguments
+
 - `export`: The details of the export, including data query, name, description, and
   destination configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ResourceTags"`: An optional list of tags to associate with the specified export. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
@@ -60,8 +67,8 @@ end
 Deletes an existing data export.
 
 # Arguments
-- `export_arn`: The Amazon Resource Name (ARN) for this export.
 
+- `export_arn`: The Amazon Resource Name (ARN) for this export.
 """
 function delete_export end
 
@@ -96,10 +103,10 @@ end
 Exports data based on the source data update.
 
 # Arguments
+
 - `execution_id`: The ID for this specific execution.
 - `export_arn`: The Amazon Resource Name (ARN) of the Export object that generated this
   specific execution.
-
 """
 function get_execution end
 
@@ -141,8 +148,8 @@ end
 Views the definition of an existing data export.
 
 # Arguments
-- `export_arn`: The Amazon Resource Name (ARN) for this export.
 
+- `export_arn`: The Amazon Resource Name (ARN) for this export.
 """
 function get_export end
 
@@ -174,14 +181,17 @@ end
     get_table(table_name)
     get_table(table_name, params::Dict{String,<:Any})
 
-Returns the metadata for the specified table and table properties. This includes the list
-of columns in the table schema, their data types, and column descriptions.
+Returns the metadata for the specified table and table properties. This includes the list of
+columns in the table schema, their data types, and column descriptions.
 
 # Arguments
+
 - `table_name`: The name of the table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TableProperties"`: TableProperties are additional configurations you can provide to
   change the data and schema of a table. Each table can have different TableProperties.
   Tables are not required to have any TableProperties. Each table property has a default
@@ -220,10 +230,13 @@ end
 Lists the historical executions for the export.
 
 # Arguments
+
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -260,7 +273,9 @@ end
 Lists all data export definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -285,7 +300,9 @@ end
 Lists all available tables in data exports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -310,10 +327,13 @@ end
 List tags associated with an existing data export.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -352,10 +372,10 @@ end
 Adds tags for an existing data export definition.
 
 # Arguments
-- `resource_arn`: The unique identifier for the resource.
-- `resource_tags`: The tags to associate with the resource. Each tag consists of a key and
-  a value, and each key must be unique for the resource.
 
+- `resource_arn`: The unique identifier for the resource.
+- `resource_tags`: The tags to associate with the resource. Each tag consists of a key and a
+  value, and each key must be unique for the resource.
 """
 function tag_resource end
 
@@ -399,9 +419,9 @@ end
 Deletes tags associated with an existing data export definition.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tag_keys`: The tag keys that are associated with the resource ARN.
-
 """
 function untag_resource end
 
@@ -448,9 +468,9 @@ Updates an existing data export by overwriting all export parameters. All export
 must be provided in the UpdateExport request.
 
 # Arguments
+
 - `export`: The name and query details for the export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
-
 """
 function update_export end
 

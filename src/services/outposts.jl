@@ -11,10 +11,10 @@ using AWS.UUIDs: uuid4
 Cancels the capacity task.
 
 # Arguments
+
 - `capacity_task_id`: ID of the capacity task that you want to cancel.
 - `outpost_id`: ID or ARN of the Outpost associated with the capacity task that you want to
   cancel.
-
 """
 function cancel_capacity_task end
 
@@ -51,8 +51,8 @@ end
 Cancels the specified order for an Outpost.
 
 # Arguments
-- `order_id`:  The ID of the order.
 
+- `order_id`: The ID of the order.
 """
 function cancel_order end
 
@@ -83,12 +83,15 @@ end
 Creates an order for an Outpost.
 
 # Arguments
+
 - `line_items`: The line items that make up the order.
-- `outpost_identifier`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_identifier`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 - `payment_option`: The payment option.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PaymentTerm"`: The payment terms.
 """
 function create_order end
@@ -142,18 +145,23 @@ end
     create_outpost(name, site_id)
     create_outpost(name, site_id, params::Dict{String,<:Any})
 
-Creates an Outpost. You can specify either an Availability one or an AZ ID.
+Creates an Outpost.
+
+You can specify either an Availability one or an AZ ID.
 
 # Arguments
+
 - `name`:
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AvailabilityZone"`:
 - `"AvailabilityZoneId"`:
 - `"Description"`:
-- `"SupportedHardwareType"`:  The type of hardware for this Outpost.
+- `"SupportedHardwareType"`: The type of hardware for this Outpost.
 - `"Tags"`: The tags to apply to the Outpost.
 """
 function create_outpost end
@@ -189,25 +197,28 @@ end
     create_site(name)
     create_site(name, params::Dict{String,<:Any})
 
- Creates a site for an Outpost.
+Creates a site for an Outpost.
 
 # Arguments
+
 - `name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"Notes"`: Additional information that you provide about site access requirements,
-  electrician scheduling, personal protective equipment, or regulation of equipment materials
-  that could affect your installation process.
-- `"OperatingAddress"`:  The location to install and power on the hardware. This address
+  electrician scheduling, personal protective equipment, or regulation of equipment
+  materials that could affect your installation process.
+- `"OperatingAddress"`: The location to install and power on the hardware. This address
   might be different from the shipping address.
-- `"RackPhysicalProperties"`:  Information about the physical and logistical details for
-  the rack at this site. For more information about hardware requirements for racks, see
-  Network readiness checklist in the Amazon Web Services Outposts User Guide.
-- `"ShippingAddress"`:  The location to ship the hardware. This address might be different
+- `"RackPhysicalProperties"`: Information about the physical and logistical details for the
+  rack at this site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist)
+  in the Amazon Web Services Outposts User Guide.
+- `"ShippingAddress"`: The location to ship the hardware. This address might be different
   from the operating address.
-- `"Tags"`:  The tags to apply to a site.
+- `"Tags"`: The tags to apply to a site.
 """
 function create_site end
 
@@ -240,8 +251,8 @@ end
 Deletes the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or ARN of the Outpost.
 
+- `outpost_id`: The ID or ARN of the Outpost.
 """
 function delete_outpost end
 
@@ -272,8 +283,8 @@ end
 Deletes the specified site.
 
 # Arguments
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function delete_site end
 
@@ -298,9 +309,9 @@ end
 Gets details of the specified capacity task.
 
 # Arguments
+
 - `capacity_task_id`: ID of the capacity task.
 - `outpost_id`: ID or ARN of the Outpost associated with the specified capacity task.
-
 """
 function get_capacity_task end
 
@@ -337,8 +348,8 @@ end
 Gets information about the specified catalog item.
 
 # Arguments
-- `catalog_item_id`: The ID of the catalog item.
 
+- `catalog_item_id`: The ID of the catalog item.
 """
 function get_catalog_item end
 
@@ -366,16 +377,19 @@ end
     get_connection(connection_id)
     get_connection(connection_id, params::Dict{String,<:Any})
 
-  Amazon Web Services uses this action to install Outpost servers.   Gets information about
-the specified connection.   Use CloudTrail to monitor this action or Amazon Web Services
-managed policy for Amazon Web Services Outposts to secure it. For more information, see
-Amazon Web Services managed policies for Amazon Web Services Outposts and  Logging Amazon
-Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web
-Services Outposts User Guide.
+!!! note
+    Amazon Web Services uses this action to install Outpost servers.
+
+Gets information about the specified connection.
+
+Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web
+Services Outposts to secure it. For more information, see [Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
+and [Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
+in the *Amazon Web Services Outposts User Guide*.
 
 # Arguments
-- `connection_id`:  The ID of the connection.
 
+- `connection_id`: The ID of the connection.
 """
 function get_connection end
 
@@ -406,8 +420,8 @@ end
 Gets information about the specified order.
 
 # Arguments
-- `order_id`: The ID of the order.
 
+- `order_id`: The ID of the order.
 """
 function get_order end
 
@@ -434,8 +448,8 @@ end
 Gets information about the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or ARN of the Outpost.
 
+- `outpost_id`: The ID or ARN of the Outpost.
 """
 function get_outpost end
 
@@ -462,10 +476,13 @@ end
 Gets the instance types for the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or ARN of the Outpost.
+
+- `outpost_id`: The ID or ARN of the Outpost.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -500,16 +517,19 @@ end
     get_outpost_supported_instance_types(order_id, outpost_id)
     get_outpost_supported_instance_types(order_id, outpost_id, params::Dict{String,<:Any})
 
-Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will
+Gets the instance types that an Outpost can support in `InstanceTypeCapacity`. This will
 generally include instance types that are not currently configured and therefore cannot be
 launched with the current Outpost capacity configuration.
 
 # Arguments
+
 - `order_id`: The ID for the Amazon Web Services Outposts order.
 - `outpost_id`: The ID or ARN of the Outpost.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -549,8 +569,8 @@ end
 Gets information about the specified Outpost site.
 
 # Arguments
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function get_site end
 
@@ -570,12 +590,12 @@ end
     get_site_address(address_type, site_id)
     get_site_address(address_type, site_id, params::Dict{String,<:Any})
 
- Gets the site address of the specified site.
+Gets the site address of the specified site.
 
 # Arguments
-- `address_type`: The type of the address you request.
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
+- `address_type`: The type of the address you request.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function get_site_address end
 
@@ -612,16 +632,21 @@ end
     list_assets(outpost_id)
     list_assets(outpost_id, params::Dict{String,<:Any})
 
-Lists the hardware assets for the specified Outpost. Use filters to return specific
-results. If you specify multiple filters, the results include only the resources that match
-all of the specified filters. For a filter where you can specify multiple values, the
-results include items that match any of the values that you specify for the filter.
+Lists the hardware assets for the specified Outpost.
+
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Arguments
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+
+- `outpost_id`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"HostIdFilter"`: Filters the results by the host ID of a Dedicated Host.
 - `"MaxResults"`:
 - `"NextToken"`:
@@ -653,16 +678,19 @@ end
     list_capacity_tasks()
     list_capacity_tasks(params::Dict{String,<:Any})
 
-Lists the capacity tasks for your Amazon Web Services account. Use filters to return
-specific results. If you specify multiple filters, the results include only the resources
-that match all of the specified filters. For a filter where you can specify multiple
-values, the results include items that match any of the values that you specify for the
-filter.
+Lists the capacity tasks for your Amazon Web Services account.
+
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CapacityTaskStatusFilter"`: A list of statuses. For example, REQUESTED or
-  WAITING_FOR_EVACUATION.
+
+- `"CapacityTaskStatusFilter"`: A list of statuses. For example, `REQUESTED` or
+  `WAITING_FOR_EVACUATION`.
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"OutpostIdentifierFilter"`: Filters the results by an Outpost ID or an Outpost ARN.
@@ -685,13 +713,17 @@ end
     list_catalog_items()
     list_catalog_items(params::Dict{String,<:Any})
 
-Lists the items in the catalog. Use filters to return specific results. If you specify
-multiple filters, the results include only the resources that match all of the specified
-filters. For a filter where you can specify multiple values, the results include items that
-match any of the values that you specify for the filter.
+Lists the items in the catalog.
+
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EC2FamilyFilter"`: Filters the results by EC2 family (for example, M5).
 - `"ItemClassFilter"`: Filters the results by item class.
 - `"MaxResults"`:
@@ -719,10 +751,12 @@ end
 Lists the Outpost orders for your Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
-- `"OutpostIdentifierFilter"`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `"OutpostIdentifierFilter"`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 """
 function list_orders end
 
@@ -742,16 +776,20 @@ end
     list_outposts()
     list_outposts(params::Dict{String,<:Any})
 
-Lists the Outposts for your Amazon Web Services account. Use filters to return specific
-results. If you specify multiple filters, the results include only the resources that match
-all of the specified filters. For a filter where you can specify multiple values, the
-results include items that match any of the values that you specify for the filter.
+Lists the Outposts for your Amazon Web Services account.
+
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AvailabilityZoneFilter"`: Filters the results by Availability Zone (for example,
-  us-east-1a).
-- `"AvailabilityZoneIdFilter"`: Filters the results by AZ ID (for example, use1-az1).
+  `us-east-1a`).
+- `"AvailabilityZoneIdFilter"`: Filters the results by AZ ID (for example, `use1-az1`).
 - `"LifeCycleStatusFilter"`: Filters the results by the lifecycle status.
 - `"MaxResults"`:
 - `"NextToken"`:
@@ -772,14 +810,18 @@ end
     list_sites()
     list_sites(params::Dict{String,<:Any})
 
-Lists the Outpost sites for your Amazon Web Services account. Use filters to return
-specific results. Use filters to return specific results. If you specify multiple filters,
-the results include only the resources that match all of the specified filters. For a
-filter where you can specify multiple values, the results include items that match any of
-the values that you specify for the filter.
+Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific
+results.
+
+Use filters to return specific results. If you specify multiple filters, the results include
+only the resources that match all of the specified filters. For a filter where you can
+specify multiple values, the results include items that match any of the values that you
+specify for the filter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"OperatingAddressCityFilter"`: Filters the results by city.
@@ -805,8 +847,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -835,13 +877,16 @@ end
 Starts the specified capacity task. You can have one active capacity task for an order.
 
 # Arguments
+
 - `instance_pools`: The instance pools specified in the capacity task.
-- `order_id`: The ID of the Amazon Web Services Outposts order associated with the
-  specified capacity task.
+- `order_id`: The ID of the Amazon Web Services Outposts order associated with the specified
+  capacity task.
 - `outpost_id`: The ID or ARN of the Outposts associated with the specified capacity task.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DryRun"`: You can request a dry run to determine if the instance type and instance size
   changes is above or below available instance capacity. Requesting a dry run does not make
   any changes to your plan.
@@ -886,22 +931,28 @@ end
     start_connection(asset_id, client_public_key, network_interface_device_index)
     start_connection(asset_id, client_public_key, network_interface_device_index, params::Dict{String,<:Any})
 
-  Amazon Web Services uses this action to install Outpost servers.   Starts the connection
-required for Outpost server installation.   Use CloudTrail to monitor this action or Amazon
-Web Services managed policy for Amazon Web Services Outposts to secure it. For more
-information, see  Amazon Web Services managed policies for Amazon Web Services Outposts and
- Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the
-Amazon Web Services Outposts User Guide.
+!!! note
+    Amazon Web Services uses this action to install Outpost servers.
+
+Starts the connection required for Outpost server installation.
+
+Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web
+Services Outposts to secure it. For more information, see [Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html)
+and [Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html)
+in the *Amazon Web Services Outposts User Guide*.
 
 # Arguments
-- `asset_id`:  The ID of the Outpost server.
-- `client_public_key`:  The public key of the client.
-- `network_interface_device_index`:  The device index of the network interface on the
-  Outpost server.
+
+- `asset_id`: The ID of the Outpost server.
+- `client_public_key`: The public key of the client.
+- `network_interface_device_index`: The device index of the network interface on the Outpost
+  server.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeviceSerialNumber"`:  The serial number of the dongle.
+
+- `"DeviceSerialNumber"`: The serial number of the dongle.
 """
 function start_connection end
 
@@ -957,9 +1008,9 @@ end
 Adds tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to add to the resource.
-
 """
 function tag_resource end
 
@@ -995,9 +1046,9 @@ end
 Removes tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource end
 
@@ -1032,16 +1083,19 @@ end
     update_outpost(outpost_id)
     update_outpost(outpost_id, params::Dict{String,<:Any})
 
- Updates an Outpost.
+Updates an Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or ARN of the Outpost.
+
+- `outpost_id`: The ID or ARN of the Outpost.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"Name"`:
-- `"SupportedHardwareType"`:  The type of hardware for this Outpost.
+- `"SupportedHardwareType"`: The type of hardware for this Outpost.
 """
 function update_outpost end
 
@@ -1072,10 +1126,13 @@ end
 Updates the specified site.
 
 # Arguments
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"Name"`:
 - `"Notes"`: Notes about a site.
@@ -1100,16 +1157,19 @@ end
     update_site_address(address, address_type, site_id)
     update_site_address(address, address_type, site_id, params::Dict{String,<:Any})
 
-Updates the address of the specified site. You can't update a site address if there is an
-order in progress. You must wait for the order to complete or cancel the order. You can
-update the operating address before you place an order at the site, or after all Outposts
-that belong to the site have been deactivated.
+Updates the address of the specified site.
+
+You can't update a site address if there is an order in progress. You must wait for the
+order to complete or cancel the order.
+
+You can update the operating address before you place an order at the site, or after all
+Outposts that belong to the site have been deactivated.
 
 # Arguments
-- `address`:  The address for the site.
-- `address_type`:  The type of the address.
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
 
+- `address`: The address for the site.
+- `address_type`: The type of the address.
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 """
 function update_site_address end
 
@@ -1152,47 +1212,77 @@ end
     update_site_rack_physical_properties(site_id, params::Dict{String,<:Any})
 
 Update the physical and logistical details for a rack at a site. For more information about
-hardware requirements for racks, see Network readiness checklist in the Amazon Web Services
-Outposts User Guide.  To update a rack at a site with an order of IN_PROGRESS, you must
-wait for the order to complete or cancel the order.
+hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist)
+in the Amazon Web Services Outposts User Guide.
+
+To update a rack at a site with an order of `IN_PROGRESS`, you must wait for the order to
+complete or cancel the order.
 
 # Arguments
-- `site_id`:  The ID or the Amazon Resource Name (ARN) of the site.
+
+- `site_id`: The ID or the Amazon Resource Name (ARN) of the site.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FiberOpticCableType"`: The type of fiber that you will use to attach the Outpost to
-  your network.
+
+- `"FiberOpticCableType"`: The type of fiber that you will use to attach the Outpost to your
+  network.
+
 - `"MaximumSupportedWeightLbs"`: The maximum rack weight that this site can support.
-  NO_LIMIT is over 2000lbs.
+  `NO_LIMIT` is over 2000lbs.
+
 - `"OpticalStandard"`: The type of optical standard that you will use to attach the Outpost
   to your network. This field is dependent on uplink speed, fiber type, and distance to the
-  upstream device. For more information about networking requirements for racks, see Network
-  in the Amazon Web Services Outposts User Guide.     OPTIC_10GBASE_SR: 10GBASE-SR
-  OPTIC_10GBASE_IR: 10GBASE-IR    OPTIC_10GBASE_LR: 10GBASE-LR    OPTIC_40GBASE_SR:
-  40GBASE-SR    OPTIC_40GBASE_ESR: 40GBASE-ESR    OPTIC_40GBASE_IR4_LR4L: 40GBASE-IR (LR4L)
-   OPTIC_40GBASE_LR4: 40GBASE-LR4    OPTIC_100GBASE_SR4: 100GBASE-SR4
-  OPTIC_100GBASE_CWDM4: 100GBASE-CWDM4    OPTIC_100GBASE_LR4: 100GBASE-LR4
-  OPTIC_100G_PSM4_MSA: 100G PSM4 MSA    OPTIC_1000BASE_LX: 1000Base-LX    OPTIC_1000BASE_SX :
-  1000Base-SX
+  upstream device. For more information about networking requirements for racks, see [Network](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#facility-networking)
+  in the Amazon Web Services Outposts User Guide.
+
+  - `OPTIC_10GBASE_SR`: 10GBASE-SR
+  - `OPTIC_10GBASE_IR`: 10GBASE-IR
+  - `OPTIC_10GBASE_LR`: 10GBASE-LR
+  - `OPTIC_40GBASE_SR`: 40GBASE-SR
+  - `OPTIC_40GBASE_ESR`: 40GBASE-ESR
+  - `OPTIC_40GBASE_IR4_LR4L`: 40GBASE-IR (LR4L)
+  - `OPTIC_40GBASE_LR4`: 40GBASE-LR4
+  - `OPTIC_100GBASE_SR4`: 100GBASE-SR4
+  - `OPTIC_100GBASE_CWDM4`: 100GBASE-CWDM4
+  - `OPTIC_100GBASE_LR4`: 100GBASE-LR4
+  - `OPTIC_100G_PSM4_MSA`: 100G PSM4 MSA
+  - `OPTIC_1000BASE_LX`: 1000Base-LX
+  - `OPTIC_1000BASE_SX` : 1000Base-SX
+
 - `"PowerConnector"`: The power connector that Amazon Web Services should plan to provide
-  for connections to the hardware. Note the correlation between PowerPhase and
-  PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase
-  IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red)
-  – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
-- `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position
-  for the rack.
+  for connections to the hardware. Note the correlation between `PowerPhase` and
+  `PowerConnector`.
+
+  - Single-phase AC feed
+    - **L6-30P** – (common in US); 30A; single phase
+    - **IEC309 (blue)** – P+N+E, 6hr; 32 A; single phase
+  - Three-phase AC feed
+    - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
+    - **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
+
+- `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position for
+  the rack.
+
 - `"PowerFeedDrop"`: Indicates whether the power feed comes above or below the rack.
-- `"PowerPhase"`: The power option that you can provide for hardware.    Single-phase AC
-  feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
+
+- `"PowerPhase"`: The power option that you can provide for hardware.
+
+  - Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz
+  - Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
+
 - `"UplinkCount"`: Racks come with two Outpost network devices. Depending on the supported
-  uplink speed at the site, the Outpost network devices provide a variable number of uplinks.
-  Specify the number of uplinks for each Outpost network device that you intend to use to
-  connect the rack to your network. Note the correlation between UplinkGbps and UplinkCount.
-    1Gbps - Uplinks available: 1, 2, 4, 6, 8   10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16
-    40 and 100 Gbps- Uplinks available: 1, 2, 4
-- `"UplinkGbps"`: The uplink speed the rack should support for the connection to the
-  Region.
+  uplink speed at the site, the Outpost network devices provide a variable number of
+  uplinks. Specify the number of uplinks for each Outpost network device that you intend to
+  use to connect the rack to your network. Note the correlation between `UplinkGbps` and
+  `UplinkCount`.
+
+  - 1Gbps - Uplinks available: 1, 2, 4, 6, 8
+  - 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16
+  - 40 and 100 Gbps- Uplinks available: 1, 2, 4
+
+- `"UplinkGbps"`: The uplink speed the rack should support for the connection to the Region.
 """
 function update_site_rack_physical_properties end
 

@@ -10,12 +10,13 @@ using AWS.UUIDs: uuid4
 
 Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.
 An HTTP 200 response indicates the association was successfully started, but doesn’t
-indicate whether it was completed. You can check if the association completed by using
-ListMembers for multiple accounts or GetMembers for a single account.
+indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html)
+for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html)
+for a single account.
 
 # Arguments
-- `account_id`: The Amazon Web Services account ID of the member account to be associated.
 
+- `account_id`: The Amazon Web Services account ID of the member account to be associated.
 """
 function associate_member end
 
@@ -53,7 +54,9 @@ Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts w
 environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountIds"`: The 12-digit Amazon Web Services account IDs of the accounts to retrieve
   Amazon Inspector status for.
 """
@@ -81,9 +84,9 @@ Retrieves code snippets from findings that Amazon Inspector detected code vulner
 in.
 
 # Arguments
+
 - `finding_arns`: An array of finding ARNs for the findings you want to retrieve code
   snippets from.
-
 """
 function batch_get_code_snippet end
 
@@ -122,8 +125,8 @@ end
 Gets vulnerability details for findings.
 
 # Arguments
-- `finding_arns`: A list of finding ARNs.
 
+- `finding_arns`: A list of finding ARNs.
 """
 function batch_get_finding_details end
 
@@ -162,8 +165,8 @@ end
 Gets free trial status for multiple Amazon Web Services accounts.
 
 # Arguments
-- `account_ids`: The account IDs to get free trial status for.
 
+- `account_ids`: The account IDs to get free trial status for.
 """
 function batch_get_free_trial_info end
 
@@ -204,9 +207,11 @@ within your organization. You must be the delegated administrator of an organiza
 Amazon Inspector to use this API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The unique identifiers for the Amazon Web Services accounts to retrieve
-  Amazon Inspector deep inspection activation status for.  &lt;/p&gt;
+
+- `"accountIds"`: <p>The unique identifiers for the Amazon Web Services accounts to retrieve
+  Amazon Inspector deep inspection activation status for. <pre>`&lt;/p&gt;`</pre>
 """
 function batch_get_member_ec2_deep_inspection_status end
 
@@ -242,9 +247,9 @@ in your organization. You must be the delegated administrator of an organization
 Inspector to use this API.
 
 # Arguments
+
 - `account_ids`: The unique identifiers for the Amazon Web Services accounts to change
   Amazon Inspector deep inspection status for.
-
 """
 function batch_update_member_ec2_deep_inspection_status end
 
@@ -283,8 +288,8 @@ end
 Cancels the given findings report.
 
 # Arguments
-- `report_id`: The ID of the report to be canceled.
 
+- `report_id`: The ID of the report to be canceled.
 """
 function cancel_findings_report end
 
@@ -323,8 +328,8 @@ end
 Cancels a software bill of materials (SBOM) report.
 
 # Arguments
-- `report_id`: The report ID of the SBOM export to cancel.
 
+- `report_id`: The report ID of the SBOM export to cancel.
 """
 function cancel_sbom_export end
 
@@ -361,14 +366,17 @@ end
 Creates a CIS scan configuration.
 
 # Arguments
+
 - `scan_name`: The scan name for the CIS scan configuration.
 - `schedule`: The schedule for the CIS scan configuration.
-- `security_level`:  The security level for the CIS scan configuration. Security level
-  refers to the Benchmark levels that CIS assigns to a profile.
+- `security_level`: The security level for the CIS scan configuration. Security level refers
+  to the Benchmark levels that CIS assigns to a profile.
 - `targets`: The targets for the CIS scan configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags for the CIS scan configuration.
 """
 function create_cis_scan_configuration end
@@ -427,9 +435,10 @@ end
     create_filter(action, filter_criteria, name, params::Dict{String,<:Any})
 
 Creates a filter resource using specified filter criteria. When the filter action is set to
-SUPPRESS this action creates a suppression rule.
+`SUPPRESS` this action creates a suppression rule.
 
 # Arguments
+
 - `action`: Defines the action that is to be applied to the findings that match the filter.
 - `filter_criteria`: Defines the criteria to be used in the filter for querying findings.
 - `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid
@@ -437,7 +446,9 @@ SUPPRESS this action creates a suppression rule.
   are not allowed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description of the filter.
 - `"reason"`: The reason for creating the filter.
 - `"tags"`: A list of tags for the filter.
@@ -486,16 +497,19 @@ end
     create_findings_report(report_format, s3_destination)
     create_findings_report(report_format, s3_destination, params::Dict{String,<:Any})
 
-Creates a finding report. By default only ACTIVE findings are returned in the report. To
-see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter
+Creates a finding report. By default only `ACTIVE` findings are returned in the report. To
+see `SUPRESSED` or `CLOSED` findings you must specify a value for the `findingStatus` filter
 criteria.
 
 # Arguments
+
 - `report_format`: The format to generate the report in.
 - `s3_destination`: The Amazon S3 export destination for the report.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: The filter criteria to apply to the results of the finding report.
 """
 function create_findings_report end
@@ -542,11 +556,14 @@ end
 Creates a software bill of materials (SBOM) report.
 
 # Arguments
+
 - `report_format`: The output format for the software bill of materials (SBOM) report.
 - `s3_destination`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceFilterCriteria"`: The resource filter criteria for the software bill of
   materials (SBOM) report.
 """
@@ -594,8 +611,8 @@ end
 Deletes a CIS scan configuration.
 
 # Arguments
-- `scan_configuration_arn`: The ARN of the CIS scan configuration.
 
+- `scan_configuration_arn`: The ARN of the CIS scan configuration.
 """
 function delete_cis_scan_configuration end
 
@@ -638,8 +655,8 @@ end
 Deletes a filter resource.
 
 # Arguments
-- `arn`: The Amazon Resource Number (ARN) of the filter to be deleted.
 
+- `arn`: The Amazon Resource Number (ARN) of the filter to be deleted.
 """
 function delete_filter end
 
@@ -670,7 +687,6 @@ end
     describe_organization_configuration(params::Dict{String,<:Any})
 
 Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
-
 """
 function describe_organization_configuration end
 
@@ -705,7 +721,9 @@ Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Di
 scan types in an account disables the Amazon Inspector service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountIds"`: An array of account IDs you want to disable Amazon Inspector scans for.
 - `"resourceTypes"`: The resource scan types you want to disable.
 """
@@ -730,9 +748,9 @@ end
 Disables the Amazon Inspector delegated administrator for your organization.
 
 # Arguments
+
 - `delegated_admin_account_id`: The Amazon Web Services account ID of the current Amazon
   Inspector delegated administrator.
-
 """
 function disable_delegated_admin_account end
 
@@ -775,8 +793,8 @@ end
 Disassociates a member account from an Amazon Inspector delegated administrator.
 
 # Arguments
-- `account_id`: The Amazon Web Services account ID of the member account to disassociate.
 
+- `account_id`: The Amazon Web Services account ID of the member account to disassociate.
 """
 function disassociate_member end
 
@@ -813,10 +831,13 @@ end
 Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
 
 # Arguments
+
 - `resource_types`: The resource scan types you want to enable.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountIds"`: A list of account IDs you want to enable Amazon Inspector scans for.
 - `"clientToken"`: The idempotency token for the request.
 """
@@ -863,11 +884,14 @@ end
 Enables the Amazon Inspector delegated administrator for your Organizations organization.
 
 # Arguments
+
 - `delegated_admin_account_id`: The Amazon Web Services account ID of the Amazon Inspector
   delegated administrator.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The idempotency token for the request.
 """
 function enable_delegated_admin_account end
@@ -917,12 +941,15 @@ end
 Retrieves a CIS scan report.
 
 # Arguments
+
 - `scan_arn`: The scan ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"reportFormat"`:  The format of the report. Valid values are PDF and CSV. If no value is
-  specified, the report format defaults to PDF.
+
+- `"reportFormat"`: The format of the report. Valid values are `PDF` and `CSV`. If no value
+  is specified, the report format defaults to `PDF`.
 - `"targetAccounts"`: The target accounts.
 """
 function get_cis_scan_report end
@@ -958,12 +985,15 @@ end
 Retrieves CIS scan result details.
 
 # Arguments
+
 - `account_id`: The account ID.
 - `scan_arn`: The scan ARN.
 - `target_resource_id`: The target resource ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: The filter criteria.
 - `"maxResults"`: The maximum number of CIS scan result details to be returned in a single
   page of results.
@@ -1021,7 +1051,6 @@ end
     get_configuration(params::Dict{String,<:Any})
 
 Retrieves setting configurations for Inspector scans.
-
 """
 function get_configuration end
 
@@ -1045,7 +1074,6 @@ end
 
 Retrieves information about the Amazon Inspector delegated administrator for your
 organization.
-
 """
 function get_delegated_admin_account end
 
@@ -1073,7 +1101,6 @@ end
 
 Retrieves the activation status of Amazon Inspector deep inspection and custom paths
 associated with your account.
-
 """
 function get_ec2_deep_inspection_configuration end
 
@@ -1107,9 +1134,9 @@ end
 Gets an encryption key.
 
 # Arguments
+
 - `resource_type`: The resource type the key encrypts.
 - `scan_type`: The scan type the key encrypts.
-
 """
 function get_encryption_key end
 
@@ -1153,7 +1180,9 @@ end
 Gets the status of a findings report.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportId"`: The ID of the report to retrieve the status of.
 """
 function get_findings_report_status end
@@ -1179,9 +1208,9 @@ end
 Gets member information for your organization.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the member account to retrieve
   information on.
-
 """
 function get_member end
 
@@ -1218,8 +1247,8 @@ end
 Gets details of a software bill of materials (SBOM) report.
 
 # Arguments
-- `report_id`: The report ID of the SBOM export to get details for.
 
+- `report_id`: The report ID of the SBOM export to get details for.
 """
 function get_sbom_export end
 
@@ -1256,15 +1285,19 @@ end
 Lists the permissions an account has to configure Amazon Inspector.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the NextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the NextToken value returned from the
+  previous request to continue listing results after the first page.
+
 - `"service"`: The service scan type to check permissions for.
 """
 function list_account_permissions end
@@ -1294,7 +1327,9 @@ end
 Lists CIS scan configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: The CIS scan configuration filter criteria.
 - `"maxResults"`: The maximum number of CIS scan configurations to be returned in a single
   page of results.
@@ -1330,10 +1365,13 @@ end
 Lists scan results aggregated by checks.
 
 # Arguments
+
 - `scan_arn`: The scan ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: The filter criteria.
 - `"maxResults"`: The maximum number of scan results aggregated by checks to be returned in
   a single page of results.
@@ -1377,10 +1415,13 @@ end
 Lists scan results aggregated by a target resource.
 
 # Arguments
+
 - `scan_arn`: The scan ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: The filter criteria.
 - `"maxResults"`: The maximum number of scan results aggregated by a target resource to be
   returned in a single page of results.
@@ -1424,7 +1465,9 @@ end
 Returns a CIS scan list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"detailLevel"`: The detail applied to the CIS scan.
 - `"filterCriteria"`: The CIS scan filter criteria.
 - `"maxResults"`: The maximum number of results to be returned.
@@ -1454,17 +1497,21 @@ end
 Lists coverage details for you environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: An object that contains details on the filters to apply to the
   coverage data for your environment.
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
 """
 function list_coverage end
 
@@ -1487,13 +1534,15 @@ end
 Lists Amazon Inspector coverage statistics for your environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: An object that contains details on the filters to apply to the
   coverage data for your environment.
 - `"groupBy"`: The value to group the results by.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
+  subsequent calls, use the `NextToken` value returned from the previous request to continue
   listing results after the first page.
 """
 function list_coverage_statistics end
@@ -1523,15 +1572,18 @@ end
 Lists information about the Amazon Inspector delegated administrator of your organization.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
 """
 function list_delegated_admin_accounts end
 
@@ -1560,17 +1612,22 @@ end
 Lists the filters associated with your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"action"`: The action the filter applies to matched findings.
+
 - `"arns"`: The Amazon resource number (ARN) of the filter.
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
 """
 function list_filters end
 
@@ -1593,22 +1650,28 @@ end
 Lists aggregated finding data for your environment based on specific criteria.
 
 # Arguments
+
 - `aggregation_type`: The type of the aggregation request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountIds"`: The Amazon Web Services account IDs to retrieve finding aggregation data
   for.
+
 - `"aggregationRequest"`: Details of the aggregation request that is used to filter your
   aggregation results.
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
 """
 function list_finding_aggregations end
 
@@ -1649,16 +1712,21 @@ end
 Lists findings for your environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterCriteria"`: Details on the filters to apply to your finding results.
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
+
 - `"sortCriteria"`: Details on the sort criteria to apply to your finding results.
 """
 function list_findings end
@@ -1683,17 +1751,21 @@ List members associated with the Amazon Inspector delegated administrator for yo
 organization.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
-- `"onlyAssociated"`: Specifies whether to list only currently associated members if True
-  or to list all members within the organization if False.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
+
+- `"onlyAssociated"`: Specifies whether to list only currently associated members if `True`
+  or to list all members within the organization if `False`.
 """
 function list_members end
 
@@ -1716,8 +1788,8 @@ end
 Lists all tags attached to a given resource.
 
 # Arguments
-- `resource_arn`: The Amazon resource number (ARN) of the resource to list tags of.
 
+- `resource_arn`: The Amazon resource number (ARN) of the resource to list tags of.
 """
 function list_tags_for_resource end
 
@@ -1746,16 +1818,20 @@ end
 Lists the Amazon Inspector usage totals over the last 30 days.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountIds"`: The Amazon Web Services account IDs to retrieve usage totals for.
+
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a nextToken value, use this
+  would return more than the maximum the response will return a `nextToken` value, use this
   value when you call the action again to get the remaining results.
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
-  response returns more than the maxResults maximum value it will also return a nextToken
-  value. For subsequent calls, use the nextToken value returned from the previous request to
-  continue listing results after the first page.
+  response returns more than the `maxResults` maximum value it will also return a
+  `nextToken` value. For subsequent calls, use the `nextToken` value returned from the
+  previous request to continue listing results after the first page.
 """
 function list_usage_totals end
 
@@ -1779,9 +1855,9 @@ Resets an encryption key. After the key is reset your resources will be encrypte
 Amazon Web Services owned key.
 
 # Arguments
+
 - `resource_type`: The resource type the key encrypts.
 - `scan_type`: The scan type the key encrypts.
-
 """
 function reset_encryption_key end
 
@@ -1825,13 +1901,16 @@ end
 Lists Amazon Inspector coverage details for a specific vulnerability.
 
 # Arguments
+
 - `filter_criteria`: The criteria used to filter the results of a vulnerability search.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
+  subsequent calls, use the `NextToken` value returned from the previous request to continue
   listing results after the first page.
 """
 function search_vulnerabilities end
@@ -1868,14 +1947,14 @@ end
     send_cis_session_health(scan_job_id, session_token)
     send_cis_session_health(scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
 # Arguments
+
 - `scan_job_id`: A unique identifier for the scan job.
 - `session_token`: The unique token that identifies the CIS session.
-
 """
 function send_cis_session_health end
 
@@ -1916,15 +1995,15 @@ end
     send_cis_session_telemetry(messages, scan_job_id, session_token)
     send_cis_session_telemetry(messages, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
 # Arguments
+
 - `messages`: The CIS session telemetry messages.
 - `scan_job_id`: A unique identifier for the scan job.
 - `session_token`: The unique token that identifies the CIS session.
-
 """
 function send_cis_session_telemetry end
 
@@ -1972,14 +2051,14 @@ end
     start_cis_session(message, scan_job_id)
     start_cis_session(message, scan_job_id, params::Dict{String,<:Any})
 
- Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
-with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
-a CIS scan session for the scan ID supplied by the service.
+Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a
+CIS scan session for the scan ID supplied by the service.
 
 # Arguments
+
 - `message`: The start CIS session message.
 - `scan_job_id`: A unique identifier for the scan job.
-
 """
 function start_cis_session end
 
@@ -2020,15 +2099,15 @@ end
     stop_cis_session(message, scan_job_id, session_token)
     stop_cis_session(message, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
-with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
-a CIS scan session for the scan ID supplied by the service.
+Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with
+the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS
+scan session for the scan ID supplied by the service.
 
 # Arguments
+
 - `message`: The stop CIS session message.
 - `scan_job_id`: A unique identifier for the scan job.
 - `session_token`: The unique token that identifies the CIS session.
-
 """
 function stop_cis_session end
 
@@ -2079,9 +2158,9 @@ end
 Adds tags to a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to apply a tag to.
 - `tags`: The tags to be added to a resource.
-
 """
 function tag_resource end
 
@@ -2117,9 +2196,9 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource to remove tags from.
 - `tag_keys`: The tag keys to remove from the resource.
-
 """
 function untag_resource end
 
@@ -2157,13 +2236,16 @@ end
 Updates a CIS scan configuration.
 
 # Arguments
+
 - `scan_configuration_arn`: The CIS scan configuration ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"scanName"`: The scan name for the CIS scan configuration.
 - `"schedule"`: The schedule for the CIS scan configuration.
-- `"securityLevel"`:  The security level for the CIS scan configuration. Security level
+- `"securityLevel"`: The security level for the CIS scan configuration. Security level
   refers to the Benchmark levels that CIS assigns to a profile.
 - `"targets"`: The targets for the CIS scan configuration.
 """
@@ -2210,9 +2292,11 @@ an Amazon Inspector delegated administrator this updates the setting for all acc
 manage. Member accounts in an organization cannot update this setting.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ec2Configuration"`: Specifies how the Amazon EC2 automated scan will be updated for
-  your environment.
+
+- `"ec2Configuration"`: Specifies how the Amazon EC2 automated scan will be updated for your
+  environment.
 - `"ecrConfiguration"`: Specifies how the ECR automated re-scan will be updated for your
   environment.
 """
@@ -2240,11 +2324,13 @@ Activates, deactivates Amazon Inspector deep inspection, or updates custom paths
 account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"activateDeepInspection"`: Specify TRUE to activate Amazon Inspector deep inspection in
-  your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate
-  deep inspection, instead the delegated administrator for the organization can deactivate a
-  member account using BatchUpdateMemberEc2DeepInspectionStatus.
+
+- `"activateDeepInspection"`: Specify `TRUE` to activate Amazon Inspector deep inspection in
+  your account, or `FALSE` to deactivate. Member accounts in an organization cannot
+  deactivate deep inspection, instead the delegated administrator for the organization can
+  deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
 - `"packagePaths"`: The Amazon Inspector deep inspection custom paths you are adding for
   your account.
 """
@@ -2277,14 +2363,14 @@ end
     update_encryption_key(kms_key_id, resource_type, scan_type)
     update_encryption_key(kms_key_id, resource_type, scan_type, params::Dict{String,<:Any})
 
-Updates an encryption key. A ResourceNotFoundException means that an Amazon Web Services
+Updates an encryption key. A `ResourceNotFoundException` means that an Amazon Web Services
 owned key is being used for encryption.
 
 # Arguments
+
 - `kms_key_id`: A KMS key ID for the encryption key.
 - `resource_type`: The resource type for the encryption key.
 - `scan_type`: The scan type for the encryption key.
-
 """
 function update_encryption_key end
 
@@ -2335,10 +2421,13 @@ end
 Specifies the action that is to be applied to the findings that match the filter.
 
 # Arguments
+
 - `filter_arn`: The Amazon Resource Number (ARN) of the filter to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
 - `"description"`: A description of the filter.
@@ -2378,13 +2467,13 @@ end
     update_org_ec2_deep_inspection_configuration(org_package_paths)
     update_org_ec2_deep_inspection_configuration(org_package_paths, params::Dict{String,<:Any})
 
-Updates the Amazon Inspector deep inspection custom paths for your organization. You must
-be an Amazon Inspector delegated administrator to use this API.
+Updates the Amazon Inspector deep inspection custom paths for your organization. You must be
+an Amazon Inspector delegated administrator to use this API.
 
 # Arguments
+
 - `org_package_paths`: The Amazon Inspector deep inspection custom paths you are adding for
   your organization.
-
 """
 function update_org_ec2_deep_inspection_configuration end
 
@@ -2425,9 +2514,9 @@ end
 Updates the configurations for your Amazon Inspector organization.
 
 # Arguments
+
 - `auto_enable`: Defines which scan types are enabled automatically for new members of your
   Amazon Inspector organization.
-
 """
 function update_organization_configuration end
 

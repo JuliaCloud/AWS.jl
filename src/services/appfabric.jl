@@ -8,14 +8,16 @@ using AWS.UUIDs: uuid4
     batch_get_user_access_tasks(app_bundle_identifier, task_id_list)
     batch_get_user_access_tasks(app_bundle_identifier, task_id_list, params::Dict{String,<:Any})
 
-Gets user access details in a batch request. This action polls data from the tasks that are
-kicked off by the StartUserAccessTasks action.
+Gets user access details in a batch request.
+
+This action polls data from the tasks that are kicked off by the `StartUserAccessTasks`
+action.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `task_id_list`: The tasks IDs to use for the request.
-
 """
 function batch_get_user_access_tasks end
 
@@ -64,15 +66,20 @@ Establishes a connection between Amazon Web Services AppFabric and an applicatio
 allows AppFabric to call the APIs of the application.
 
 # Arguments
+
 - `app_authorization_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the app authorization to use for the request.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle that contains the app authorization to use for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authRequest"`: Contains OAuth2 authorization information. This is required if the app
-  authorization for the request is configured with an OAuth2 (oauth2) authorization type.
+
+- `"authRequest"`: Contains OAuth2 authorization information.
+
+  This is required if the app authorization for the request is configured with an OAuth2
+  (`oauth2`) authorization type.
 """
 function connect_app_authorization end
 
@@ -112,29 +119,54 @@ Creates an app authorization within an app bundle, which allows AppFabric to con
 application.
 
 # Arguments
-- `app`: The name of the application. Valid values are:    SLACK     ASANA     JIRA
-  M365     M365AUDITLOGS     ZOOM     ZENDESK     OKTA     GOOGLE     DROPBOX     SMARTSHEET
-     CISCO
+
+- `app`: The name of the application.
+
+  Valid values are:
+
+  - `SLACK`
+  - `ASANA`
+  - `JIRA`
+  - `M365`
+  - `M365AUDITLOGS`
+  - `ZOOM`
+  - `ZENDESK`
+  - `OKTA`
+  - `GOOGLE`
+  - `DROPBOX`
+  - `SMARTSHEET`
+  - `CISCO`
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
+
 - `auth_type`: The authorization type for the app authorization.
+
 - `credential`: Contains credentials for the application, such as an API key or OAuth2
-  client ID and secret. Specify credentials that match the authorization type for your
-  request. For example, if the authorization type for your request is OAuth2 (oauth2), then
-  you should provide only the OAuth2 credentials.
+  client ID and secret.
+
+  Specify credentials that match the authorization type for your request. For example, if
+  the authorization type for your request is OAuth2 (`oauth2`), then you should provide only
+  the OAuth2 credentials.
+
 - `tenant`: Contains information about an application tenant, such as the application
   display name and identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_app_authorization end
@@ -199,18 +231,24 @@ end
 Creates an app bundle to collect data from an application using AppFabric.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"customerManagedKeyIdentifier"`: The Amazon Resource Name (ARN) of the Key Management
   Service (KMS) key to use to encrypt the application data. If this is not specified, an
   Amazon Web Services owned key is used for encryption.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_app_bundle end
@@ -246,24 +284,46 @@ end
 Creates a data ingestion for an application.
 
 # Arguments
-- `app`: The name of the application. Valid values are:    SLACK     ASANA     JIRA
-  M365     M365AUDITLOGS     ZOOM     ZENDESK     OKTA     GOOGLE     DROPBOX     SMARTSHEET
-     CISCO
+
+- `app`: The name of the application.
+
+  Valid values are:
+
+  - `SLACK`
+  - `ASANA`
+  - `JIRA`
+  - `M365`
+  - `M365AUDITLOGS`
+  - `ZOOM`
+  - `ZENDESK`
+  - `OKTA`
+  - `GOOGLE`
+  - `DROPBOX`
+  - `SMARTSHEET`
+  - `CISCO`
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
+
 - `ingestion_type`: The ingestion type.
+
 - `tenant_id`: The ID of the application tenant.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_ingestion end
@@ -325,6 +385,7 @@ Creates an ingestion destination, which specifies how an application's ingested 
 processed by Amazon Web Services AppFabric and where it's delivered.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `destination_configuration`: Contains information about the destination of ingested data.
@@ -333,15 +394,20 @@ processed by Amazon Web Services AppFabric and where it's delivered.
 - `processing_configuration`: Contains information about how ingested data is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_ingestion_destination end
@@ -397,15 +463,15 @@ end
     delete_app_authorization(app_authorization_identifier, app_bundle_identifier)
     delete_app_authorization(app_authorization_identifier, app_bundle_identifier, params::Dict{String,<:Any})
 
-Deletes an app authorization. You must delete the associated ingestion before you can
-delete an app authorization.
+Deletes an app authorization. You must delete the associated ingestion before you can delete
+an app authorization.
 
 # Arguments
+
 - `app_authorization_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the app authorization to use for the request.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
-
 """
 function delete_app_authorization end
 
@@ -445,9 +511,9 @@ Deletes an app bundle. You must delete all associated app authorizations before 
 delete an app bundle.
 
 # Arguments
-- `app_bundle_identifier`: The ID or Amazon Resource Name (ARN) of the app bundle that
-  needs to be deleted.
 
+- `app_bundle_identifier`: The ID or Amazon Resource Name (ARN) of the app bundle that needs
+  to be deleted.
 """
 function delete_app_bundle end
 
@@ -484,11 +550,11 @@ Deletes an ingestion. You must stop (disable) the ingestion and you must delete 
 associated ingestion destinations before you can delete an app ingestion.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function delete_ingestion end
 
@@ -524,20 +590,21 @@ end
     delete_ingestion_destination(app_bundle_identifier, ingestion_destination_identifier, ingestion_identifier)
     delete_ingestion_destination(app_bundle_identifier, ingestion_destination_identifier, ingestion_identifier, params::Dict{String,<:Any})
 
-Deletes an ingestion destination. This deletes the association between an ingestion and
-it's destination. It doesn't delete previously ingested data or the storage destination,
-such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is
-deleted while the associated ingestion is enabled, the ingestion will fail and is
-eventually disabled.
+Deletes an ingestion destination.
+
+This deletes the association between an ingestion and it's destination. It doesn't delete
+previously ingested data or the storage destination, such as the Amazon S3 bucket where the
+data is delivered. If the ingestion destination is deleted while the associated ingestion is
+enabled, the ingestion will fail and is eventually disabled.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_destination_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the ingestion destination to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function delete_ingestion_destination end
 
@@ -578,11 +645,11 @@ end
 Returns information about an app authorization.
 
 # Arguments
+
 - `app_authorization_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the app authorization to use for the request.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
-
 """
 function get_app_authorization end
 
@@ -621,9 +688,9 @@ end
 Returns information about an app bundle.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
-
 """
 function get_app_bundle end
 
@@ -659,11 +726,11 @@ end
 Returns information about an ingestion.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function get_ingestion end
 
@@ -702,13 +769,13 @@ end
 Returns information about an ingestion destination.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_destination_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the ingestion destination to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function get_ingestion_destination end
 
@@ -749,19 +816,25 @@ end
 Returns a list of all app authorizations configured for an app bundle.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_app_authorizations end
 
@@ -797,15 +870,20 @@ end
 Returns a list of app bundles.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_app_bundles end
 
@@ -828,21 +906,27 @@ end
 Returns a list of all ingestion destinations configured for an ingestion.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_ingestion_destinations end
 
@@ -881,19 +965,25 @@ end
 Returns a list of all ingestions configured for an app bundle.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_ingestions end
 
@@ -929,9 +1019,9 @@ end
 Returns a list of tags for a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to
   retrieve tags.
-
 """
 function list_tags_for_resource end
 
@@ -960,11 +1050,11 @@ end
 Starts (enables) an ingestion, which collects data from an application.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function start_ingestion end
 
@@ -1000,15 +1090,16 @@ end
     start_user_access_tasks(app_bundle_identifier, email)
     start_user_access_tasks(app_bundle_identifier, email, params::Dict{String,<:Any})
 
-Starts the tasks to search user access status for a specific email address. The tasks are
-stopped when the user access status data is found. The tasks are terminated when the API
-calls to the application time out.
+Starts the tasks to search user access status for a specific email address.
+
+The tasks are stopped when the user access status data is found. The tasks are terminated
+when the API calls to the application time out.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `email`: The email address of the target user.
-
 """
 function start_user_access_tasks end
 
@@ -1054,11 +1145,11 @@ end
 Stops (disables) an ingestion.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function stop_ingestion end
 
@@ -1097,9 +1188,9 @@ end
 Assigns one or more tags (key-value pairs) to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
-
 """
 function tag_resource end
 
@@ -1135,10 +1226,10 @@ end
 Removes a tag or tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to untag.
 - `tag_keys`: The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
-
 """
 function untag_resource end
 
@@ -1174,21 +1265,29 @@ end
     update_app_authorization(app_authorization_identifier, app_bundle_identifier, params::Dict{String,<:Any})
 
 Updates an app authorization within an app bundle, which allows AppFabric to connect to an
-application. If the app authorization was in a connected state, updating the app
-authorization will set it back to a PendingConnect state.
+application.
+
+If the app authorization was in a `connected` state, updating the app authorization will set
+it back to a `PendingConnect` state.
 
 # Arguments
+
 - `app_authorization_identifier`: The Amazon Resource Name (ARN) or Universal Unique
   Identifier (UUID) of the app authorization to use for the request.
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"credential"`: Contains credentials for the application, such as an API key or OAuth2
-  client ID and secret. Specify credentials that match the authorization type of the app
-  authorization to update. For example, if the authorization type of the app authorization is
-  OAuth2 (oauth2), then you should provide only the OAuth2 credentials.
+  client ID and secret.
+
+  Specify credentials that match the authorization type of the app authorization to update.
+  For example, if the authorization type of the app authorization is OAuth2 (`oauth2`), then
+  you should provide only the OAuth2 credentials.
+
 - `"tenant"`: Contains information about an application tenant, such as the application
   display name and identifier.
 """
@@ -1230,6 +1329,7 @@ Updates an ingestion destination, which specifies how an application's ingested 
 processed by Amazon Web Services AppFabric and where it's delivered.
 
 # Arguments
+
 - `app_bundle_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the app bundle to use for the request.
 - `destination_configuration`: Contains information about the destination of ingested data.
@@ -1237,7 +1337,6 @@ processed by Amazon Web Services AppFabric and where it's delivered.
   Identifier (UUID) of the ingestion destination to use for the request.
 - `ingestion_identifier`: The Amazon Resource Name (ARN) or Universal Unique Identifier
   (UUID) of the ingestion to use for the request.
-
 """
 function update_ingestion_destination end
 

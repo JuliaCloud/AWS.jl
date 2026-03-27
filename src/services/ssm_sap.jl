@@ -11,10 +11,13 @@ using AWS.UUIDs: uuid4
 Removes permissions associated with the target database.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActionType"`: Delete or restore the permissions on the target database.
 - `"SourceResourceArn"`: The Amazon Resource Name (ARN) of the source resource.
 """
@@ -52,12 +55,12 @@ end
     deregister_application(application_id)
     deregister_application(application_id, params::Dict{String,<:Any})
 
-Deregister an SAP application with AWS Systems Manager for SAP. This action does not
-aﬀect the existing setup of your SAP workloads on Amazon EC2.
+Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect
+the existing setup of your SAP workloads on Amazon EC2.
 
 # Arguments
-- `application_id`: The ID of the application.
 
+- `application_id`: The ID of the application.
 """
 function deregister_application end
 
@@ -97,7 +100,9 @@ Gets an application registered with AWS Systems Manager for SAP. It also returns
 components of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AppRegistryArn"`: The Amazon Resource Name (ARN) of the application registry.
 - `"ApplicationArn"`: The Amazon Resource Name (ARN) of the application.
 - `"ApplicationId"`: The ID of the application.
@@ -123,9 +128,9 @@ end
 Gets the component of an application registered with AWS Systems Manager for SAP.
 
 # Arguments
+
 - `application_id`: The ID of the application.
 - `component_id`: The ID of the component.
-
 """
 function get_component end
 
@@ -171,7 +176,9 @@ end
 Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationId"`: The ID of the application.
 - `"ComponentId"`: The ID of the component.
 - `"DatabaseArn"`: The Amazon Resource Name (ARN) of the database.
@@ -198,8 +205,8 @@ end
 Gets the details of an operation by specifying the operation ID.
 
 # Arguments
-- `operation_id`: The ID of the operation.
 
+- `operation_id`: The ID of the operation.
 """
 function get_operation end
 
@@ -236,10 +243,13 @@ end
 Gets permissions associated with the target database.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActionType"`:
 """
 function get_resource_permission end
@@ -279,7 +289,9 @@ end
 Lists all the applications registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filter of name, value, and operator.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
@@ -308,11 +320,17 @@ end
 Lists all the components registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationId"`: The ID of the application.
+
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value.
+
+  If you do not specify a value for MaxResults, the request returns 50 items per page by
+  default.
+
 - `"NextToken"`: The token for the next page of results.
 """
 function list_components end
@@ -336,7 +354,9 @@ end
 Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationId"`: The ID of the application.
 - `"ComponentId"`: The ID of the component.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
@@ -362,20 +382,30 @@ end
     list_operation_events(operation_id)
     list_operation_events(operation_id, params::Dict{String,<:Any})
 
-Returns a list of operations events. Available parameters include OperationID, as well as
-optional parameters MaxResults, NextToken, and Filters.
+Returns a list of operations events.
+
+Available parameters include `OperationID`, as well as optional parameters `MaxResults`,
+`NextToken`, and `Filters`.
 
 # Arguments
+
 - `operation_id`: The ID of the operation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Optionally specify filters to narrow the returned operation event items.
-  Valid filter names include status, resourceID, and resourceType. The valid operator for all
-  three filters is Equals.
+
+  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid operator
+  for all three filters is `Equals`.
+
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value.
+
+  If you do not specify a value for `MaxResults`, the request returns 50 items per page by
+  default.
+
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
@@ -416,10 +446,13 @@ end
 Lists the operations performed by AWS Systems Manager for SAP.
 
 # Arguments
+
 - `application_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filters of an operation.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If you do not
@@ -462,8 +495,8 @@ Lists all tags on an SAP HANA application and/or database registered with AWS Sy
 Manager for SAP.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -492,10 +525,10 @@ end
 Adds permissions to the target database.
 
 # Arguments
+
 - `action_type`:
 - `resource_arn`:
 - `source_resource_arn`:
-
 """
 function put_resource_permission end
 
@@ -549,19 +582,27 @@ end
     register_application(application_id, application_type, instances, params::Dict{String,<:Any})
 
 Register an SAP application with AWS Systems Manager for SAP. You must meet the following
-requirements before registering.  The SAP application you want to register with AWS Systems
-Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an
-Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must
-have access to the secrets created in AWS Secrets Manager to manage SAP applications and
-components.
+requirements before registering.
+
+The SAP application you want to register with AWS Systems Manager for SAP is running on
+Amazon EC2.
+
+AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required
+IAM permissions.
+
+Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to
+manage SAP applications and components.
 
 # Arguments
+
 - `application_id`: The ID of the application.
 - `application_type`: The type of the application.
 - `instances`: The Amazon EC2 instances on which your SAP application is running.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Credentials"`: The credentials of the SAP application.
 - `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database.
 - `"SapInstanceNumber"`: The SAP instance number of the application.
@@ -619,11 +660,13 @@ end
     start_application(application_id)
     start_application(application_id, params::Dict{String,<:Any})
 
-Request is an operation which starts an application. Parameter ApplicationId is required.
+Request is an operation which starts an application.
+
+Parameter `ApplicationId` is required.
 
 # Arguments
-- `application_id`: The ID of the application.
 
+- `application_id`: The ID of the application.
 """
 function start_application end
 
@@ -662,8 +705,8 @@ end
 Refreshes a registered application.
 
 # Arguments
-- `application_id`: The ID of the application.
 
+- `application_id`: The ID of the application.
 """
 function start_application_refresh end
 
@@ -699,19 +742,27 @@ end
     stop_application(application_id)
     stop_application(application_id, params::Dict{String,<:Any})
 
-Request is an operation to stop an application. Parameter ApplicationId is required.
-Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
+Request is an operation to stop an application.
+
+Parameter `ApplicationId` is required. Parameters `StopConnectedEntity` and
+`IncludeEc2InstanceShutdown` are optional.
 
 # Arguments
+
 - `application_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeEc2InstanceShutdown"`: Boolean. If included and if set to True, the
+
+- `"IncludeEc2InstanceShutdown"`: Boolean. If included and if set to `True`, the
   StopApplication operation will shut down the associated Amazon EC2 instance in addition to
   the application.
-- `"StopConnectedEntity"`: Specify the ConnectedEntityType. Accepted type is DBMS. If this
-  parameter is included, the connected DBMS (Database Management System) will be stopped.
+
+- `"StopConnectedEntity"`: Specify the `ConnectedEntityType`. Accepted type is `DBMS`.
+
+  If this parameter is included, the connected DBMS (Database Management System) will be
+  stopped.
 """
 function stop_application end
 
@@ -748,9 +799,9 @@ end
 Creates tag for a resource by specifying the ARN.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags on a resource.
-
 """
 function tag_resource end
 
@@ -786,10 +837,10 @@ end
 Delete the tags for a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Adds/updates or removes credentials for applications registered with AWS
   Systems Manager for SAP.
-
 """
 function untag_resource end
 
@@ -827,10 +878,13 @@ end
 Updates the settings of an application registered with AWS Systems Manager for SAP.
 
 # Arguments
+
 - `application_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Backint"`: Installation of AWS Backint Agent for SAP HANA.
 - `"CredentialsToAddOrUpdate"`: The credentials to be added or updated.
 - `"CredentialsToRemove"`: The credentials to be removed.

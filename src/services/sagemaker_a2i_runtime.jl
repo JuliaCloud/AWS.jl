@@ -8,12 +8,13 @@ using AWS.UUIDs: uuid4
     delete_human_loop(human_loop_name)
     delete_human_loop(human_loop_name, params::Dict{String,<:Any})
 
-Deletes the specified human loop for a flow definition. If the human loop was deleted, this
-operation will return a ResourceNotFoundException.
+Deletes the specified human loop for a flow definition.
+
+If the human loop was deleted, this operation will return a `ResourceNotFoundException`.
 
 # Arguments
-- `human_loop_name`: The name of the human loop that you want to delete.
 
+- `human_loop_name`: The name of the human loop that you want to delete.
 """
 function delete_human_loop end
 
@@ -47,11 +48,11 @@ end
     describe_human_loop(human_loop_name, params::Dict{String,<:Any})
 
 Returns information about the specified human loop. If the human loop was deleted, this
-operation will return a ResourceNotFoundException error.
+operation will return a `ResourceNotFoundException` error.
 
 # Arguments
-- `human_loop_name`: The name of the human loop that you want information about.
 
+- `human_loop_name`: The name of the human loop that you want information about.
 """
 function describe_human_loop end
 
@@ -85,20 +86,23 @@ Returns information about human loops, given the specified parameters. If a huma
 deleted, it will not be included.
 
 # Arguments
+
 - `flow_definition_arn`: The Amazon Resource Name (ARN) of a flow definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CreationTimeAfter"`: (Optional) The timestamp of the date when you want the human loops
-  to begin in ISO 8601 format. For example, 2020-02-24.
+  to begin in ISO 8601 format. For example, `2020-02-24`.
 - `"CreationTimeBefore"`: (Optional) The timestamp of the date before which you want the
-  human loops to begin in ISO 8601 format. For example, 2020-02-24.
+  human loops to begin in ISO 8601 format. For example, `2020-02-24`.
 - `"MaxResults"`: The total number of items to return. If the total number of available
-  items is more than the value specified in MaxResults, then a NextToken is returned in the
-  output. You can use this token to display the next page of results.
+  items is more than the value specified in `MaxResults`, then a `NextToken` is returned in
+  the output. You can use this token to display the next page of results.
 - `"NextToken"`: A token to display the next page of results.
-- `"SortOrder"`: Optional. The order for displaying results. Valid values: Ascending and
-  Descending.
+- `"SortOrder"`: Optional. The order for displaying results. Valid values: `Ascending` and
+  `Descending`.
 """
 function list_human_loops end
 
@@ -139,14 +143,17 @@ end
 Starts a human loop, provided that at least one activation condition is met.
 
 # Arguments
+
 - `flow_definition_arn`: The Amazon Resource Name (ARN) of the flow definition associated
   with this human loop.
 - `human_loop_input`: An object that contains information about the human loop.
 - `human_loop_name`: The name of the human loop.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataAttributes"`: Attributes of the specified data. Use DataAttributes to specify if
+
+- `"DataAttributes"`: Attributes of the specified data. Use `DataAttributes` to specify if
   your data is free of personally identifiable information and/or free of adult content.
 """
 function start_human_loop end
@@ -203,8 +210,8 @@ end
 Stops the specified human loop.
 
 # Arguments
-- `human_loop_name`: The name of the human loop that you want to stop.
 
+- `human_loop_name`: The name of the human loop that you want to stop.
 """
 function stop_human_loop end
 

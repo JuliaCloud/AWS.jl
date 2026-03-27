@@ -12,9 +12,9 @@ Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS 
 MediaConvert.
 
 # Arguments
+
 - `arn`: The ARN of the ACM certificate that you want to associate with your MediaConvert
   resource.
-
 """
 function associate_certificate end
 
@@ -47,8 +47,8 @@ end
 Permanently cancel a job. Once you have canceled a job, you can't start it again.
 
 # Arguments
-- `id`: The Job ID of the job to be cancelled.
 
+- `id`: The Job ID of the job to be cancelled.
 """
 function cancel_job end
 
@@ -78,53 +78,66 @@ Create a new transcoding job. For information about jobs and job settings, see t
 Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 # Arguments
+
 - `role`: Required. The IAM role you use for creating this job. For details about
   permissions, see the User Guide topic at the User Guide at
   https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
 - `settings`: JobSettings contains all the transcode settings for a job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerationSettings"`: Optional. Accelerated transcoding can significantly speed up
   jobs with long, visually complex content. Outputs that use this feature incur pro-tier
-  pricing. For information about feature limitations, see the AWS Elemental MediaConvert User
-  Guide.
+  pricing. For information about feature limitations, see the AWS Elemental MediaConvert
+  User Guide.
+
 - `"billingTagsSource"`: Optional. Choose a tag type that AWS Billing and Cost Management
   will use to sort your AWS Elemental MediaConvert costs on any billing report that you set
   up. Any transcoding outputs that don't have an associated tag will appear in your billing
   report unsorted. If you don't choose a valid value for this field, your job outputs will
   appear on the billing report unsorted.
+
 - `"clientRequestToken"`: Prevent duplicate jobs from being created and ensure idempotency
   for your requests. A client request token can be any string that includes up to 64 ASCII
   characters. If you reuse a client request token within one minute of a successful request,
   the API returns the job details of the original request instead. For more information see
   https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
-- `"hopDestinations"`: Optional. Use queue hopping to avoid overly long waits in the
-  backlog of the queue that you submit your job to. Specify an alternate queue and the
-  maximum time that your job will wait in the initial queue before hopping. For more
-  information about this feature, see the AWS Elemental MediaConvert User Guide.
-- `"jobTemplate"`: Optional. When you create a job, you can either specify a job template
-  or specify the transcoding settings individually.
+
+- `"hopDestinations"`: Optional. Use queue hopping to avoid overly long waits in the backlog
+  of the queue that you submit your job to. Specify an alternate queue and the maximum time
+  that your job will wait in the initial queue before hopping. For more information about
+  this feature, see the AWS Elemental MediaConvert User Guide.
+
+- `"jobTemplate"`: Optional. When you create a job, you can either specify a job template or
+  specify the transcoding settings individually.
+
 - `"priority"`: Optional. Specify the relative priority for this job. In any given queue,
   the service begins processing the job with the highest value first. When more than one job
   has the same priority, the service begins processing the job that you submitted first. If
   you don't specify a priority, the service uses the default value 0.
+
 - `"queue"`: Optional. When you create a job, you can specify a queue to send it to. If you
   don't specify, the job will go to the default queue. For more about queues, see the User
   Guide topic at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
+
 - `"simulateReservedQueue"`: Optional. Enable this setting when you run a test job to
   estimate how many reserved transcoding slots (RTS) you need. When this is enabled,
   MediaConvert runs your job from an on-demand queue with similar performance to what you
   will see with one RTS in a reserved queue. This setting is disabled by default.
+
 - `"statusUpdateInterval"`: Optional. Specify how often MediaConvert sends STATUS_UPDATE
   events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates.
   MediaConvert sends an update at this interval from the time the service begins processing
   your job to the time it completes the transcode or encounters an error.
+
 - `"tags"`: Optional. The tags that you want to add to the resource. You can tag resources
-  with a key-value pair or with only a key.  Use standard AWS tags on your job for automatic
+  with a key-value pair or with only a key. Use standard AWS tags on your job for automatic
   integration with AWS services and for custom integrations and workflows.
+
 - `"userMetadata"`: Optional. User-defined metadata that you want to associate with an
-  MediaConvert job. You specify metadata in key/value pairs.  Use only for existing
+  MediaConvert job. You specify metadata in key/value pairs. Use only for existing
   integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you
   use standard AWS tags.
 """
@@ -175,33 +188,36 @@ Create a new job template. For information about job templates see the User Guid
 http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 # Arguments
+
 - `name`: The name of the job template you are creating.
 - `settings`: JobTemplateSettings contains all the transcode settings saved in the template
   that will be applied to jobs created from it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerationSettings"`: Accelerated transcoding can significantly speed up jobs with
   long, visually complex content. Outputs that use this feature incur pro-tier pricing. For
   information about feature limitations, see the AWS Elemental MediaConvert User Guide.
 - `"category"`: Optional. A category for the job template you are creating
 - `"description"`: Optional. A description of the job template you are creating.
-- `"hopDestinations"`: Optional. Use queue hopping to avoid overly long waits in the
-  backlog of the queue that you submit your job to. Specify an alternate queue and the
-  maximum time that your job will wait in the initial queue before hopping. For more
-  information about this feature, see the AWS Elemental MediaConvert User Guide.
+- `"hopDestinations"`: Optional. Use queue hopping to avoid overly long waits in the backlog
+  of the queue that you submit your job to. Specify an alternate queue and the maximum time
+  that your job will wait in the initial queue before hopping. For more information about
+  this feature, see the AWS Elemental MediaConvert User Guide.
 - `"priority"`: Specify the relative priority for this job. In any given queue, the service
-  begins processing the job with the highest value first. When more than one job has the same
-  priority, the service begins processing the job that you submitted first. If you don't
-  specify a priority, the service uses the default value 0.
+  begins processing the job with the highest value first. When more than one job has the
+  same priority, the service begins processing the job that you submitted first. If you
+  don't specify a priority, the service uses the default value 0.
 - `"queue"`: Optional. The queue that jobs created from this template are assigned to. If
   you don't specify this, jobs will go to the default queue.
 - `"statusUpdateInterval"`: Specify how often MediaConvert sends STATUS_UPDATE events to
   Amazon CloudWatch Events. Set the interval, in seconds, between status updates.
   MediaConvert sends an update at this interval from the time the service begins processing
   your job to the time it completes the transcode or encounters an error.
-- `"tags"`: The tags that you want to add to the resource. You can tag resources with a
-  key-value pair or with only a key.
+- `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
+  value pair or with only a key.
 """
 function create_job_template end
 
@@ -244,15 +260,18 @@ Create a new preset. For information about job templates see the User Guide at
 http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 # Arguments
+
 - `name`: The name of the preset you are creating.
 - `settings`: Settings for preset
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: Optional. A category for the preset you are creating.
 - `"description"`: Optional. A description of the preset you are creating.
-- `"tags"`: The tags that you want to add to the resource. You can tag resources with a
-  key-value pair or with only a key.
+- `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
+  value pair or with only a key.
 """
 function create_preset end
 
@@ -289,27 +308,33 @@ end
     create_queue(name)
     create_queue(name, params::Dict{String,<:Any})
 
-Create a new transcoding queue. For information about queues, see Working With Queues in
-the User Guide at
-https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
+Create a new transcoding queue. For information about queues, see Working With Queues in the
+User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
 
 # Arguments
+
 - `name`: The name of the queue that you are creating.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Optional. A description of the queue that you are creating.
+
 - `"pricingPlan"`: Specifies whether the pricing plan for the queue is on-demand or
   reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For
   reserved, you pay for the transcoding capacity of the entire queue, regardless of how much
-  or how little you use it. Reserved pricing requires a 12-month commitment. When you use the
-  API to create a queue, the default is on-demand.
+  or how little you use it. Reserved pricing requires a 12-month commitment. When you use
+  the API to create a queue, the default is on-demand.
+
 - `"reservationPlanSettings"`: Details about the pricing plan for your reserved queue.
   Required for reserved queues and not applicable to on-demand queues.
+
 - `"status"`: Initial state of the queue. If you create a paused queue, then jobs in that
   queue won't begin.
-- `"tags"`: The tags that you want to add to the resource. You can tag resources with a
-  key-value pair or with only a key.
+
+- `"tags"`: The tags that you want to add to the resource. You can tag resources with a key-
+  value pair or with only a key.
 """
 function create_queue end
 
@@ -342,8 +367,8 @@ end
 Permanently delete a job template you have created.
 
 # Arguments
-- `name`: The name of the job template to be deleted.
 
+- `name`: The name of the job template to be deleted.
 """
 function delete_job_template end
 
@@ -373,7 +398,6 @@ end
     delete_policy(params::Dict{String,<:Any})
 
 Permanently delete a policy that you created.
-
 """
 function delete_policy end
 
@@ -398,8 +422,8 @@ end
 Permanently delete a preset you have created.
 
 # Arguments
-- `name`: The name of the preset to be deleted.
 
+- `name`: The name of the preset to be deleted.
 """
 function delete_preset end
 
@@ -428,8 +452,8 @@ end
 Permanently delete a queue you have created.
 
 # Arguments
-- `name`: The name of the queue that you want to delete.
 
+- `name`: The name of the queue that you want to delete.
 """
 function delete_queue end
 
@@ -456,11 +480,13 @@ end
     describe_endpoints(params::Dict{String,<:Any})
 
 Send a request with an empty body to the regional API endpoint to get your account API
-endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send
-your requests directly to the regional endpoint instead.
+endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your
+requests directly to the regional endpoint instead.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Optional. Max number of endpoints, up to twenty, that will be returned at
   one time.
 - `"mode"`: Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to
@@ -494,9 +520,9 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 (ACM) certificate and an AWS Elemental MediaConvert resource.
 
 # Arguments
-- `arn`: The ARN of the ACM certificate that you want to disassociate from your
-  MediaConvert resource.
 
+- `arn`: The ARN of the ACM certificate that you want to disassociate from your MediaConvert
+  resource.
 """
 function disassociate_certificate end
 
@@ -528,8 +554,8 @@ end
 Retrieve the JSON for a specific transcoding job.
 
 # Arguments
-- `id`: the job ID of the job.
 
+- `id`: the job ID of the job.
 """
 function get_job end
 
@@ -554,8 +580,8 @@ end
 Retrieve the JSON for a specific job template.
 
 # Arguments
-- `name`: The name of the job template.
 
+- `name`: The name of the job template.
 """
 function get_job_template end
 
@@ -585,7 +611,6 @@ end
     get_policy(params::Dict{String,<:Any})
 
 Retrieve the JSON for your policy.
-
 """
 function get_policy end
 
@@ -610,8 +635,8 @@ end
 Retrieve the JSON for a specific preset.
 
 # Arguments
-- `name`: The name of the preset.
 
+- `name`: The name of the preset.
 """
 function get_preset end
 
@@ -640,8 +665,8 @@ end
 Retrieve the JSON for a specific queue.
 
 # Arguments
-- `name`: The name of the queue that you want information about.
 
+- `name`: The name of the queue that you want information about.
 """
 function get_queue end
 
@@ -672,7 +697,9 @@ themselves, not just a list of them. To retrieve the next twenty templates, use 
 nextToken string returned with the array
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: Optionally, specify a job template category to limit responses to only job
   templates from that category.
 - `"listBy"`: Optional. When you request a list of job templates, you can choose to list
@@ -682,8 +709,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one time.
 - `"nextToken"`: Use this string, provided with the response to a previous request, to
   request the next batch of job templates.
-- `"order"`: Optional. When you request lists of resources, you can specify whether they
-  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_job_templates end
 
@@ -715,15 +742,17 @@ just a list of the jobs. To retrieve the twenty next most recent jobs, use the n
 string returned with the array.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Optional. Number of jobs, up to twenty, that will be returned at one time.
 - `"nextToken"`: Optional. Use this string, provided with the response to a previous
   request, to request the next batch of jobs.
-- `"order"`: Optional. When you request lists of resources, you can specify whether they
-  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
 - `"queue"`: Optional. Provide a queue name to get back only jobs from that queue.
-- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
-  or ERROR.
+- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or
+  ERROR.
 """
 function list_jobs end
 
@@ -750,7 +779,9 @@ themselves, not just a list of them. To retrieve the next twenty presets, use th
 string returned with the array.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: Optionally, specify a preset category to limit responses to only presets
   from that category.
 - `"listBy"`: Optional. When you request a list of presets, you can choose to list them
@@ -760,8 +791,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time
 - `"nextToken"`: Use this string, provided with the response to a previous request, to
   request the next batch of presets.
-- `"order"`: Optional. When you request lists of resources, you can specify whether they
-  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_presets end
 
@@ -788,7 +819,9 @@ themselves, not just a list of them. To retrieve the next twenty queues, use the
 string returned with the array.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"listBy"`: Optional. When you request a list of queues, you can choose to list them
   alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the
   service will list them by creation date.
@@ -796,8 +829,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time.
 - `"nextToken"`: Use this string, provided with the response to a previous request, to
   request the next batch of queues.
-- `"order"`: Optional. When you request lists of resources, you can specify whether they
-  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_queues end
 
@@ -822,9 +855,9 @@ end
 Retrieve the tags for a MediaConvert resource.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the resource that you want to list tags for. To
   get the ARN, send a GET request with the resource name.
-
 """
 function list_tags_for_resource end
 
@@ -854,10 +887,10 @@ Create or change your policy. For more information about policies, see the user 
 http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 # Arguments
+
 - `policy`: A policy configures behavior that you allow or disallow for your account. For
   information about MediaConvert policies, see the user guide at
   http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
-
 """
 function put_policy end
 
@@ -888,22 +921,24 @@ end
     search_jobs(params::Dict{String,<:Any})
 
 Retrieve a JSON array that includes job details for up to twenty of your most recent jobs.
-Optionally filter results further according to input file, queue, or status. To retrieve
-the twenty next most recent jobs, use the nextToken string returned with the array.
+Optionally filter results further according to input file, queue, or status. To retrieve the
+twenty next most recent jobs, use the nextToken string returned with the array.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"inputFile"`: Optional. Provide your input file URL or your partial input file name. The
   maximum length for an input file is 300 characters.
 - `"maxResults"`: Optional. Number of jobs, up to twenty, that will be returned at one time.
 - `"nextToken"`: Optional. Use this string, provided with the response to a previous
   request, to request the next batch of jobs.
-- `"order"`: Optional. When you request lists of resources, you can specify whether they
-  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
 - `"queue"`: Optional. Provide a queue name, or a queue ARN, to return only jobs from that
   queue.
-- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
-  or ERROR.
+- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or
+  ERROR.
 """
 function search_jobs end
 
@@ -926,15 +961,15 @@ end
     tag_resource(arn, tags, params::Dict{String,<:Any})
 
 Add tags to a MediaConvert queue, preset, or job template. For information about tagging,
-see the User Guide at
-https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-
+resources.html
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the resource that you want to tag. To get the
   ARN, send a GET request with the resource name.
-- `tags`: The tags that you want to add to the resource. You can tag resources with a
-  key-value pair or with only a key.
-
+- `tags`: The tags that you want to add to the resource. You can tag resources with a key-
+  value pair or with only a key.
 """
 function tag_resource end
 
@@ -970,15 +1005,18 @@ end
     untag_resource(arn, params::Dict{String,<:Any})
 
 Remove tags from a MediaConvert queue, preset, or job template. For information about
-tagging, see the User Guide at
-https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-
+resources.html
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
   To get the ARN, send a GET request with the resource name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tagKeys"`: The keys of the tags that you want to remove from the resource.
 """
 function untag_resource end
@@ -1008,10 +1046,13 @@ end
 Modify one of your existing job templates.
 
 # Arguments
+
 - `name`: The name of the job template you are modifying
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerationSettings"`: Accelerated transcoding can significantly speed up jobs with
   long, visually complex content. Outputs that use this feature incur pro-tier pricing. For
   information about feature limitations, see the AWS Elemental MediaConvert User Guide.
@@ -1019,9 +1060,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new description for the job template, if you are changing it.
 - `"hopDestinations"`: Optional list of hop destinations.
 - `"priority"`: Specify the relative priority for this job. In any given queue, the service
-  begins processing the job with the highest value first. When more than one job has the same
-  priority, the service begins processing the job that you submitted first. If you don't
-  specify a priority, the service uses the default value 0.
+  begins processing the job with the highest value first. When more than one job has the
+  same priority, the service begins processing the job that you submitted first. If you
+  don't specify a priority, the service uses the default value 0.
 - `"queue"`: The new queue for the job template, if you are changing it.
 - `"settings"`: JobTemplateSettings contains all the transcode settings saved in the
   template that will be applied to jobs created from it.
@@ -1060,10 +1101,13 @@ end
 Modify one of your existing presets.
 
 # Arguments
+
 - `name`: The name of the preset you are modifying.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: The new category for the preset, if you are changing it.
 - `"description"`: The new description for the preset, if you are changing it.
 - `"settings"`: Settings for preset
@@ -1095,18 +1139,23 @@ end
 Modify one of your existing queues.
 
 # Arguments
+
 - `name`: The name of the queue that you are modifying.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The new description for the queue, if you are changing it.
-- `"reservationPlanSettings"`: The new details of your pricing plan for your reserved
-  queue. When you set up a new pricing plan to replace an expired one, you enter into another
-  12-month commitment. When you add capacity to your queue by increasing the number of RTS,
-  you extend the term of your commitment to 12 months from when you add capacity. After you
-  make these commitments, you can't cancel them.
-- `"status"`: Pause or activate a queue by changing its status between ACTIVE and PAUSED.
-  If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause
+
+- `"reservationPlanSettings"`: The new details of your pricing plan for your reserved queue.
+  When you set up a new pricing plan to replace an expired one, you enter into another 12-
+  month commitment. When you add capacity to your queue by increasing the number of RTS, you
+  extend the term of your commitment to 12 months from when you add capacity. After you make
+  these commitments, you can't cancel them.
+
+- `"status"`: Pause or activate a queue by changing its status between ACTIVE and PAUSED. If
+  you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause
   the queue continue to run until they finish or result in an error.
 """
 function update_queue end

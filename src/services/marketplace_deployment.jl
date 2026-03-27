@@ -11,9 +11,9 @@ using AWS.UUIDs: uuid4
 Lists all tags that have been added to a deployment parameter resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the deployment parameter
   resource you want to list tags on.
-
 """
 function list_tags_for_resource end
 
@@ -39,18 +39,21 @@ end
     put_deployment_parameter(agreement_id, catalog, deployment_parameter, product_id)
     put_deployment_parameter(agreement_id, catalog, deployment_parameter, product_id, params::Dict{String,<:Any})
 
-Creates or updates a deployment parameter and is targeted by catalog and agreementId.
+Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
 
 # Arguments
+
 - `agreement_id`: The unique identifier of the agreement.
-- `catalog`: The catalog related to the request. Fixed value: AWS Marketplace
+- `catalog`: The catalog related to the request. Fixed value: `AWS Marketplace`
 - `deployment_parameter`: The deployment parameter targeted to the acceptor of an agreement
   for which to create the AWS Secret Manager resource.
 - `product_id`: The product for which AWS Marketplace will save secrets for the buyer’s
   account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The idempotency token for deployment parameters. A unique identifier for
   the new version.
 - `"expirationDate"`: The date when deployment parameters expire and are scheduled for
@@ -115,11 +118,14 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource you want to
   tag.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A map of key-value pairs, where each pair represents a tag present on the
   resource.
 """
@@ -148,10 +154,10 @@ end
 Removes a tag or list of tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource you want to
   remove the tag from.
 - `tag_keys`: A list of key names of tags to be removed.
-
 """
 function untag_resource end
 

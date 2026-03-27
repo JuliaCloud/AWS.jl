@@ -11,10 +11,13 @@ using AWS.UUIDs: uuid4
 Creates a discoverer.
 
 # Arguments
+
 - `source_arn`: The ARN of the event bus.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
   account. (default: true).
 - `"Description"`: A description for the discoverer.
@@ -55,10 +58,13 @@ end
 Creates a registry.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the registry to be created.
 - `"tags"`: Tags to associate with the registry.
 """
@@ -91,16 +97,22 @@ end
     create_schema(content, type, registry_name, schema_name)
     create_schema(content, type, registry_name, schema_name, params::Dict{String,<:Any})
 
-Creates a schema definition. Inactive schemas will be deleted after two years.
+Creates a schema definition.
+
+!!! note
+    Inactive schemas will be deleted after two years.
 
 # Arguments
+
 - `content`: The source of the schema definition.
 - `type`: The type of schema.
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the schema.
 - `"tags"`: Tags associated with the schema.
 """
@@ -150,8 +162,8 @@ end
 Deletes a discoverer.
 
 # Arguments
-- `discoverer_id`: The ID of the discoverer.
 
+- `discoverer_id`: The ID of the discoverer.
 """
 function delete_discoverer end
 
@@ -185,8 +197,8 @@ end
 Deletes a Registry.
 
 # Arguments
-- `registry_name`: The name of the registry.
 
+- `registry_name`: The name of the registry.
 """
 function delete_registry end
 
@@ -220,7 +232,9 @@ end
 Delete the resource-based policy attached to the specified registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"registryName"`: The name of the registry.
 """
 function delete_resource_policy end
@@ -244,9 +258,9 @@ end
 Delete a schema definition.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
-
 """
 function delete_schema end
 
@@ -283,10 +297,10 @@ end
 Delete the schema version definition
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 - `schema_version`: The version number of the schema
-
 """
 function delete_schema_version end
 
@@ -327,12 +341,15 @@ end
 Describe the code binding URI.
 
 # Arguments
+
 - `language`: The language of the code binding.
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function describe_code_binding end
@@ -371,8 +388,8 @@ end
 Describes the discoverer.
 
 # Arguments
-- `discoverer_id`: The ID of the discoverer.
 
+- `discoverer_id`: The ID of the discoverer.
 """
 function describe_discoverer end
 
@@ -408,8 +425,8 @@ end
 Describes the registry.
 
 # Arguments
-- `registry_name`: The name of the registry.
 
+- `registry_name`: The name of the registry.
 """
 function describe_registry end
 
@@ -443,11 +460,14 @@ end
 Retrieve the schema definition.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function describe_schema end
@@ -483,14 +503,16 @@ end
     export_schema(registry_name, schema_name, type, params::Dict{String,<:Any})
 
 
-
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 - `type`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function export_schema end
@@ -530,12 +552,15 @@ end
 Get the code binding source URI.
 
 # Arguments
+
 - `language`: The language of the code binding.
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function get_code_binding_source end
@@ -574,11 +599,11 @@ end
 Get the discovered schema that was generated based on sampled events.
 
 # Arguments
-- `events`: An array of strings where each string is a JSON event. These are the events
-  that were used to generate the schema. The array includes a single type of event and has a
+
+- `events`: An array of strings where each string is a JSON event. These are the events that
+  were used to generate the schema. The array includes a single type of event and has a
   maximum size of 10 events.
 - `type`: The type of event.
-
 """
 function get_discovered_schema end
 
@@ -618,7 +643,9 @@ end
 Retrieves the resource-based policy attached to a given registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"registryName"`: The name of the registry.
 """
 function get_resource_policy end
@@ -640,15 +667,17 @@ end
 List the discoverers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"discovererIdPrefix"`: Specifying this limits the results to only those discoverer IDs
   that start with the specified prefix.
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
-- `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start
-  with the specified prefix.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
+- `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start with
+  the specified prefix.
 """
 function list_discoverers end
 
@@ -671,15 +700,17 @@ end
 List the registries.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 - `"registryNamePrefix"`: Specifying this limits the results to only those registry names
   that start with the specified prefix.
-- `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or
-  the ones provided by AWS.
+- `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or the
+  ones provided by AWS.
 """
 function list_registries end
 
@@ -702,15 +733,18 @@ end
 Provides a list of the schema versions and related information.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 function list_schema_versions end
 
@@ -747,14 +781,17 @@ end
 List the schemas.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 - `"schemaNamePrefix"`: Specifying this limits the results to only those schema names that
   start with the specified prefix.
 """
@@ -790,8 +827,8 @@ end
 Get tags for resource.
 
 # Arguments
-- `resource-arn`: The ARN of the resource.
 
+- `resource-arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
@@ -820,12 +857,15 @@ end
 Put code binding URI
 
 # Arguments
+
 - `language`: The language of the code binding.
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function put_code_binding end
@@ -864,10 +904,13 @@ end
 The name of the policy.
 
 # Arguments
+
 - `policy`: The resource-based policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RevisionId"`: The revision ID of the policy.
 - `"registryName"`: The name of the registry.
 """
@@ -902,16 +945,19 @@ end
 Search the schemas
 
 # Arguments
+
 - `keywords`: Specifying this limits the results to only schemas that include the provided
   keywords.
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
-  the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
-  shared with other accounts.
+- `"nextToken"`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 function search_schemas end
 
@@ -951,8 +997,8 @@ end
 Starts the discoverer
 
 # Arguments
-- `discoverer_id`: The ID of the discoverer.
 
+- `discoverer_id`: The ID of the discoverer.
 """
 function start_discoverer end
 
@@ -986,8 +1032,8 @@ end
 Stops the discoverer
 
 # Arguments
-- `discoverer_id`: The ID of the discoverer.
 
+- `discoverer_id`: The ID of the discoverer.
 """
 function stop_discoverer end
 
@@ -1021,9 +1067,9 @@ end
 Add tags to a resource.
 
 # Arguments
+
 - `resource-arn`: The ARN of the resource.
 - `tags`: Tags associated with the resource.
-
 """
 function tag_resource end
 
@@ -1061,9 +1107,9 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource-arn`: The ARN of the resource.
 - `tag_keys`: Keys of key-value pairs.
-
 """
 function untag_resource end
 
@@ -1101,10 +1147,13 @@ end
 Updates the discoverer
 
 # Arguments
+
 - `discoverer_id`: The ID of the discoverer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
   account. (default: true)
 - `"Description"`: The description of the discoverer to update.
@@ -1141,10 +1190,13 @@ end
 Updates a registry.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the registry to update.
 """
 function update_registry end
@@ -1176,14 +1228,20 @@ end
     update_schema(registry_name, schema_name)
     update_schema(registry_name, schema_name, params::Dict{String,<:Any})
 
-Updates the schema definition Inactive schemas will be deleted after two years.
+Updates the schema definition
+
+!!! note
+    Inactive schemas will be deleted after two years.
 
 # Arguments
+
 - `registry_name`: The name of the registry.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientTokenId"`: The ID of the client token.
 - `"Content"`: The source of the schema definition.
 - `"Description"`: The description of the schema.

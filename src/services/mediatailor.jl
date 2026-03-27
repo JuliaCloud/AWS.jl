@@ -11,9 +11,9 @@ using AWS.UUIDs: uuid4
 Configures Amazon CloudWatch log settings for a channel.
 
 # Arguments
+
 - `channel_name`: The name of the channel.
 - `log_types`: The types of logs to collect.
-
 """
 function configure_logs_for_channel end
 
@@ -57,14 +57,17 @@ end
 Amazon CloudWatch log settings for a playback configuration.
 
 # Arguments
+
 - `percent_enabled`: The percentage of session logs that MediaTailor sends to your
   Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and
-  percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch
-  Logs. MediaTailor decides at random which of the playback configuration sessions to send
-  logs for. If you want to view logs for a specific session, you can use the debug log mode.
-  Valid values: 0 - 100
-- `playback_configuration_name`: The name of the playback configuration.
+  percentEnabled is set to `60`, MediaTailor sends logs for 600 of the sessions to
+  CloudWatch Logs. MediaTailor decides at random which of the playback configuration
+  sessions to send logs for. If you want to view logs for a specific session, you can use
+  the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html).
 
+  Valid values: `0` - `100`
+
+- `playback_configuration_name`: The name of the playback configuration.
 """
 function configure_logs_for_playback_configuration end
 
@@ -113,29 +116,37 @@ end
     create_channel(channel_name, outputs, playback_mode)
     create_channel(channel_name, outputs, playback_mode, params::Dict{String,<:Any})
 
-Creates a channel. For information about MediaTailor channels, see Working with channels in
-the MediaTailor User Guide.
+Creates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `channel_name`: The name of the channel.
+
 - `outputs`: The channel's output properties.
-- `playback_mode`: The type of playback mode to use for this channel.  LINEAR - The
-  programs in the schedule play once back-to-back in the schedule.  LOOP - The programs in
-  the schedule play back-to-back in an endless loop. When the last program in the schedule
-  stops playing, playback loops back to the first program in the schedule.
+
+- `playback_mode`: The type of playback mode to use for this channel.
+
+  `LINEAR` - The programs in the schedule play once back-to-back in the schedule.
+
+  `LOOP` - The programs in the schedule play back-to-back in an endless loop. When the last
+  program in the schedule stops playing, playback loops back to the first program in the
+  schedule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Audiences"`: The list of audiences defined in channel.
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
-  configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
-  support filler slate for channels using the LOOP PlaybackMode.
+  configure filler slate if your channel uses the `LINEAR` `PlaybackMode`. MediaTailor
+  doesn't support filler slate for channels using the `LOOP` `PlaybackMode`.
 - `"Tier"`: The tier of the channel.
-- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+- `"TimeShiftConfiguration"`: The time-shifted viewing configuration you want to associate
   to the channel.
 - `"tags"`: The tags to assign to the channel. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_channel end
 
@@ -180,16 +191,19 @@ end
 The live source configuration.
 
 # Arguments
+
 - `http_package_configurations`: A list of HTTP package configuration parameters for this
   live source.
 - `live_source_name`: The name of the live source.
 - `source_location_name`: The name of the source location.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to assign to the live source. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_live_source end
 
@@ -236,26 +250,30 @@ end
 
 Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to
 tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more
-information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
+information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `consumption`: The configuration settings for MediaTailor's consumption of the prefetched
-  ads from the ad decision server. Each consumption configuration contains an end time and an
-  optional start time that define the consumption window. Prefetch schedules automatically
-  expire no earlier than seven days after the end time.
+
+- `consumption`: The configuration settings for MediaTailor's *consumption* of the
+  prefetched ads from the ad decision server. Each consumption configuration contains an end
+  time and an optional start time that define the *consumption window*. Prefetch schedules
+  automatically expire no earlier than seven days after the end time.
 - `name`: The name to assign to the schedule request.
 - `playback_configuration_name`: The name to assign to the playback configuration.
 - `retrieval`: The configuration settings for retrieval of prefetched ads from the ad
-  decision server. Only one set of prefetched ads will be retrieved and subsequently consumed
-  for each ad break.
+  decision server. Only one set of prefetched ads will be retrieved and subsequently
+  consumed for each ad break.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamId"`: An optional stream identifier that MediaTailor uses to prefetch ads for
-  multiple streams that use the same playback configuration. If StreamId is specified,
-  MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not
-  specified, MediaTailor returns all of the prefetch schedules for the playback
-  configuration, regardless of StreamId.
+  multiple streams that use the same playback configuration. If `StreamId` is specified,
+  MediaTailor returns all of the prefetch schedules with an exact match on `StreamId`. If
+  not specified, MediaTailor returns all of the prefetch schedules for the playback
+  configuration, regardless of `StreamId`.
 """
 function create_prefetch_schedule end
 
@@ -302,17 +320,20 @@ end
     create_program(channel_name, program_name, schedule_configuration, source_location_name)
     create_program(channel_name, program_name, schedule_configuration, source_location_name, params::Dict{String,<:Any})
 
-Creates a program within a channel. For information about programs, see Working with
-programs in the MediaTailor User Guide.
+Creates a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `channel_name`: The name of the channel for this Program.
 - `program_name`: The name of the Program.
 - `schedule_configuration`: The schedule configuration settings.
 - `source_location_name`: The name of the source location.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdBreaks"`: The ad break configuration settings.
 - `"AudienceMedia"`: The list of AudienceMedia defined in program.
 - `"LiveSourceName"`: The name of the LiveSource for this Program.
@@ -370,24 +391,27 @@ end
     create_source_location(http_configuration, source_location_name, params::Dict{String,<:Any})
 
 Creates a source location. A source location is a container for sources. For more
-information about source locations, see Working with source locations in the MediaTailor
-User Guide.
+information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `http_configuration`: The source's HTTP package configurations.
 - `source_location_name`: The name associated with the source location.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessConfiguration"`: Access configuration parameters. Configures the type of
   authentication used to access content from your source location.
 - `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the server that
   serves segments.
 - `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
   associated with this resource.
-- `"tags"`: The tags to assign to the source location. Tags are key-value pairs that you
-  can associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+- `"tags"`: The tags to assign to the source location. Tags are key-value pairs that you can
+  associate with Amazon resources to help with organization, access control, and cost
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_source_location end
 
@@ -431,16 +455,19 @@ end
 The VOD source configuration parameters.
 
 # Arguments
+
 - `http_package_configurations`: A list of HTTP package configuration parameters for this
   VOD source.
 - `source_location_name`: The name of the source location for this VOD source.
 - `vod_source_name`: The name associated with the VOD source.&gt;
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to assign to the VOD source. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_vod_source end
 
@@ -485,12 +512,12 @@ end
     delete_channel(channel_name)
     delete_channel(channel_name, params::Dict{String,<:Any})
 
-Deletes a channel. For information about MediaTailor channels, see Working with channels in
-the MediaTailor User Guide.
+Deletes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `channel_name`: The name of the channel.
 
+- `channel_name`: The name of the channel.
 """
 function delete_channel end
 
@@ -521,8 +548,8 @@ end
 The channel policy to delete.
 
 # Arguments
-- `channel_name`: The name of the channel associated with this channel policy.
 
+- `channel_name`: The name of the channel associated with this channel policy.
 """
 function delete_channel_policy end
 
@@ -558,9 +585,9 @@ end
 The live source to delete.
 
 # Arguments
+
 - `live_source_name`: The name of the live source.
 - `source_location_name`: The name of the source location associated with this Live Source.
-
 """
 function delete_live_source end
 
@@ -594,12 +621,11 @@ end
     delete_playback_configuration(name)
     delete_playback_configuration(name, params::Dict{String,<:Any})
 
-Deletes a playback configuration. For information about MediaTailor configurations, see
-Working with configurations in AWS Elemental MediaTailor.
+Deletes a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
 
 # Arguments
-- `name`: The name of the playback configuration.
 
+- `name`: The name of the playback configuration.
 """
 function delete_playback_configuration end
 
@@ -631,16 +657,16 @@ end
     delete_prefetch_schedule(name, playback_configuration_name, params::Dict{String,<:Any})
 
 Deletes a prefetch schedule for a specific playback configuration. If you call
-DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404
-status code. For more information about ad prefetching, see Using ad prefetching in the
-MediaTailor User Guide.
+`DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404
+status code. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `name`: The name of the prefetch schedule. If the action is successful, the service sends
   back an HTTP 204 response with an empty HTTP body.
 - `playback_configuration_name`: The name of the playback configuration for this prefetch
   schedule.
-
 """
 function delete_prefetch_schedule end
 
@@ -674,13 +700,13 @@ end
     delete_program(channel_name, program_name)
     delete_program(channel_name, program_name, params::Dict{String,<:Any})
 
-Deletes a program within a channel. For information about programs, see Working with
-programs in the MediaTailor User Guide.
+Deletes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `channel_name`: The name of the channel.
 - `program_name`: The name of the program.
-
 """
 function delete_program end
 
@@ -715,12 +741,12 @@ end
     delete_source_location(source_location_name, params::Dict{String,<:Any})
 
 Deletes a source location. A source location is a container for sources. For more
-information about source locations, see Working with source locations in the MediaTailor
-User Guide.
+information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `source_location_name`: The name of the source location.
 
+- `source_location_name`: The name of the source location.
 """
 function delete_source_location end
 
@@ -756,9 +782,9 @@ end
 The video on demand (VOD) source to delete.
 
 # Arguments
+
 - `source_location_name`: The name of the source location associated with this VOD Source.
 - `vod_source_name`: The name of the VOD source.
-
 """
 function delete_vod_source end
 
@@ -792,12 +818,12 @@ end
     describe_channel(channel_name)
     describe_channel(channel_name, params::Dict{String,<:Any})
 
-Describes a channel. For information about MediaTailor channels, see Working with channels
-in the MediaTailor User Guide.
+Describes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `channel_name`: The name of the channel.
 
+- `channel_name`: The name of the channel.
 """
 function describe_channel end
 
@@ -828,9 +854,9 @@ end
 The live source to describe.
 
 # Arguments
+
 - `live_source_name`: The name of the live source.
 - `source_location_name`: The name of the source location associated with this Live Source.
-
 """
 function describe_live_source end
 
@@ -864,13 +890,13 @@ end
     describe_program(channel_name, program_name)
     describe_program(channel_name, program_name, params::Dict{String,<:Any})
 
-Describes a program within a channel. For information about programs, see Working with
-programs in the MediaTailor User Guide.
+Describes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `channel_name`: The name of the channel associated with this Program.
 - `program_name`: The name of the program.
-
 """
 function describe_program end
 
@@ -905,12 +931,12 @@ end
     describe_source_location(source_location_name, params::Dict{String,<:Any})
 
 Describes a source location. A source location is a container for sources. For more
-information about source locations, see Working with source locations in the MediaTailor
-User Guide.
+information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `source_location_name`: The name of the source location.
 
+- `source_location_name`: The name of the source location.
 """
 function describe_source_location end
 
@@ -947,9 +973,9 @@ Provides details about a specific video on demand (VOD) source in a specific sou
 location.
 
 # Arguments
+
 - `source_location_name`: The name of the source location associated with this VOD Source.
 - `vod_source_name`: The name of the VOD Source.
-
 """
 function describe_vod_source end
 
@@ -986,8 +1012,8 @@ end
 Returns the channel's IAM policy. IAM policies are used to control access to your channel.
 
 # Arguments
-- `channel_name`: The name of the channel associated with this Channel Policy.
 
+- `channel_name`: The name of the channel associated with this Channel Policy.
 """
 function get_channel_policy end
 
@@ -1018,21 +1044,31 @@ end
 Retrieves information about your channel's schedule.
 
 # Arguments
+
 - `channel_name`: The name of the channel associated with this Channel Schedule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"audience"`: The single audience for GetChannelScheduleRequest.
+
 - `"durationMinutes"`: The duration in minutes of the channel schedule.
+
 - `"maxResults"`: The maximum number of channel schedules that you want MediaTailor to
-  return in response to the current request. If there are more than MaxResults channel
-  schedules, use the value of NextToken in the response to get the next page of results.
-- `"nextToken"`: (Optional) If the playback configuration has more than MaxResults channel
-  schedules, use NextToken to get the second and subsequent pages of results. For the first
-  GetChannelScheduleRequest request, omit this value. For the second and subsequent requests,
-  get the value of NextToken from the previous response and specify that value for NextToken
-  in the request. If the previous response didn't include a NextToken element, there are no
-  more channel schedules to get.
+  return in response to the current request. If there are more than `MaxResults` channel
+  schedules, use the value of `NextToken` in the response to get the next page of results.
+
+- `"nextToken"`: (Optional) If the playback configuration has more than `MaxResults` channel
+  schedules, use `NextToken` to get the second and subsequent pages of results.
+
+  For the first `GetChannelScheduleRequest` request, omit this value.
+
+  For the second and subsequent requests, get the value of `NextToken` from the previous
+  response and specify that value for `NextToken` in the request.
+
+  If the previous response didn't include a `NextToken` element, there are no more channel
+  schedules to get.
 """
 function get_channel_schedule end
 
@@ -1065,12 +1101,11 @@ end
     get_playback_configuration(name)
     get_playback_configuration(name, params::Dict{String,<:Any})
 
-Retrieves a playback configuration. For information about MediaTailor configurations, see
-Working with configurations in AWS Elemental MediaTailor.
+Retrieves a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
 
 # Arguments
-- `name`: The identifier for the playback configuration.
 
+- `name`: The identifier for the playback configuration.
 """
 function get_playback_configuration end
 
@@ -1100,15 +1135,16 @@ end
 
 Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you
 to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more
-information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
+information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `name`: The name of the prefetch schedule. The name must be unique among all prefetch
   schedules that are associated with the specified playback configuration.
 - `playback_configuration_name`: Returns information about the prefetch schedule for a
-  specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch
+  specific playback configuration. If you call `GetPrefetchSchedule` on an expired prefetch
   schedule, MediaTailor returns an HTTP 404 status code.
-
 """
 function get_prefetch_schedule end
 
@@ -1145,13 +1181,16 @@ end
 Lists the alerts that are associated with a MediaTailor channel assembly resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of alerts that you want MediaTailor to return in
-  response to the current request. If there are more than MaxResults alerts, use the value of
-  NextToken in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` alerts, use the value
+  of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1190,10 +1229,12 @@ end
 Retrieves information about the channels that are associated with the current AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of channels that you want MediaTailor to return in
-  response to the current request. If there are more than MaxResults channels, use the value
-  of NextToken in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` channels, use the
+  value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1219,14 +1260,17 @@ Lists the live sources contained in a source location. A source represents a pie
 content.
 
 # Arguments
+
 - `source_location_name`: The name of the source location associated with this Live Sources
   list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of live sources that you want MediaTailor to return in
-  response to the current request. If there are more than MaxResults live sources, use the
-  value of NextToken in the response to get the next page of results.
+  response to the current request. If there are more than `MaxResults` live sources, use the
+  value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1262,13 +1306,16 @@ end
     list_playback_configurations(params::Dict{String,<:Any})
 
 Retrieves existing playback configurations. For information about MediaTailor
-configurations, see Working with Configurations in AWS Elemental MediaTailor.
+configurations, see [Working with Configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of playback configurations that you want MediaTailor
-  to return in response to the current request. If there are more than MaxResults playback
-  configurations, use the value of NextToken in the response to get the next page of results.
+
+- `"MaxResults"`: The maximum number of playback configurations that you want MediaTailor to
+  return in response to the current request. If there are more than `MaxResults` playback
+  configurations, use the value of `NextToken` in the response to get the next page of
+  results.
 - `"NextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1299,20 +1346,29 @@ end
 Lists the prefetch schedules for a playback configuration.
 
 # Arguments
+
 - `playback_configuration_name`: Retrieves the prefetch schedule(s) for a specific playback
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of prefetch schedules that you want MediaTailor to
-  return in response to the current request. If there are more than MaxResults prefetch
-  schedules, use the value of NextToken in the response to get the next page of results.
-- `"NextToken"`: (Optional) If the playback configuration has more than MaxResults prefetch
-  schedules, use NextToken to get the second and subsequent pages of results.  For the first
-  ListPrefetchSchedulesRequest request, omit this value.  For the second and subsequent
-  requests, get the value of NextToken from the previous response and specify that value for
-  NextToken in the request.  If the previous response didn't include a NextToken element,
-  there are no more prefetch schedules to get.
+  return in response to the current request. If there are more than `MaxResults` prefetch
+  schedules, use the value of `NextToken` in the response to get the next page of results.
+
+- `"NextToken"`: (Optional) If the playback configuration has more than `MaxResults`
+  prefetch schedules, use `NextToken` to get the second and subsequent pages of results.
+
+  For the first `ListPrefetchSchedulesRequest` request, omit this value.
+
+  For the second and subsequent requests, get the value of `NextToken` from the previous
+  response and specify that value for `NextToken` in the request.
+
+  If the previous response didn't include a `NextToken` element, there are no more prefetch
+  schedules to get.
+
 - `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
   schedules to include only specific streams.
 """
@@ -1347,14 +1403,16 @@ end
     list_source_locations()
     list_source_locations(params::Dict{String,<:Any})
 
-Lists the source locations for a channel. A source location defines the host server URL,
-and contains a list of sources.
+Lists the source locations for a channel. A source location defines the host server URL, and
+contains a list of sources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The maximum number of source locations that you want MediaTailor to
-  return in response to the current request. If there are more than MaxResults source
-  locations, use the value of NextToken in the response to get the next page of results.
+
+- `"maxResults"`: The maximum number of source locations that you want MediaTailor to return
+  in response to the current request. If there are more than `MaxResults` source locations,
+  use the value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1378,13 +1436,13 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-A list of tags that are associated with this resource. Tags are key-value pairs that you
-can associate with Amazon resources to help with organization, access control, and cost
-tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+A list of tags that are associated with this resource. Tags are key-value pairs that you can
+associate with Amazon resources to help with organization, access control, and cost
+tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) associated with this resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) associated with this resource.
 """
 function list_tags_for_resource end
 
@@ -1414,14 +1472,17 @@ Lists the VOD sources contained in a source location. A source represents a piec
 content.
 
 # Arguments
+
 - `source_location_name`: The name of the source location associated with this VOD Source
   list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The maximum number of VOD sources that you want MediaTailor to return in
-  response to the current request. If there are more than MaxResults VOD sources, use the
-  value of NextToken in the response to get the next page of results.
+
+- `"maxResults"`: The maximum number of VOD sources that you want MediaTailor to return in
+  response to the current request. If there are more than `MaxResults` VOD sources, use the
+  value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1460,9 +1521,9 @@ Creates an IAM policy for the channel. IAM policies are used to control access t
 channel.
 
 # Arguments
+
 - `channel_name`: The channel name associated with this Channel Policy.
 - `policy`: Adds an IAM role that determines the permissions of your channel.
-
 """
 function put_channel_policy end
 
@@ -1497,59 +1558,73 @@ end
     put_playback_configuration(name)
     put_playback_configuration(name, params::Dict{String,<:Any})
 
-Creates a playback configuration. For information about MediaTailor configurations, see
-Working with configurations in AWS Elemental MediaTailor.
+Creates a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
 
 # Arguments
+
 - `name`: The identifier for the playback configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdDecisionServerUrl"`: The URL for the ad decision server (ADS). This includes the
   specification of static parameters and placeholders for dynamic parameters. AWS Elemental
   MediaTailor substitutes player-specific and session-specific parameters as needed when
   calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum
   length is 25,000 characters.
+
 - `"AvailSuppression"`: The configuration for avail suppression, also known as ad
-  suppression. For more information about ad suppression, see Ad Suppression.
+  suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+
 - `"Bumper"`: The configuration for bumpers. Bumpers are short audio or video clips that
-  play at the start or before the end of an ad break. To learn more about bumpers, see
-  Bumpers.
+  play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
+
 - `"CdnConfiguration"`: The configuration for using a content delivery network (CDN), like
   Amazon CloudFront, for content and ad segment management.
+
 - `"ConfigurationAliases"`: The player parameters and aliases used as dynamic variables
-  during session initialization. For more information, see Domain Variables.
+  during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+
 - `"DashConfiguration"`: The configuration for DASH content.
-- `"InsertionMode"`: The setting that controls whether players can use stitched or guided
-  ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched
-  (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched
-  or guided ad insertion at session-initialization time. The default for players that do not
-  specify an insertion mode is stitched.
+
+- `"InsertionMode"`: The setting that controls whether players can use stitched or guided ad
+  insertion. The default, `STITCHED_ONLY`, forces all player sessions to use stitched
+  (server-side) ad insertion. Choosing `PLAYER_SELECT` allows players to select either
+  stitched or guided ad insertion at session-initialization time. The default for players
+  that do not specify an insertion mode is stitched.
+
 - `"LivePreRollConfiguration"`: The configuration for pre-roll ad insertion.
+
 - `"ManifestProcessingRules"`: The configuration for manifest processing rules. Manifest
-  processing rules enable customization of the personalized manifests created by MediaTailor.
+  processing rules enable customization of the personalized manifests created by
+  MediaTailor.
+
 - `"PersonalizationThresholdSeconds"`: Defines the maximum duration of underfilled ad time
   (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the
   personalization threshold, then the personalization of the ad break is abandoned and the
-  underlying content is shown. This feature applies to ad replacement in live and VOD
+  underlying content is shown. This feature applies to *ad replacement* in live and VOD
   streams, rather than ad insertion, because it relies on an underlying content stream. For
-  more information about ad break behavior, including ad replacement and insertion, see Ad
-  Behavior in AWS Elemental MediaTailor.
+  more information about ad break behavior, including ad replacement and insertion, see [Ad Behavior in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+
 - `"SlateAdUrl"`: The URL for a high-quality video asset to transcode and use to fill in
   time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in
   media content. Configuring the slate is optional for non-VPAID configurations. For VPAID,
   the slate is required because MediaTailor provides it in the slots that are designated for
   dynamic ad content. The slate must be a high-quality asset that contains both audio and
   video.
+
 - `"TranscodeProfileName"`: The name that is used to associate this playback configuration
   with a custom transcode profile. This overrides the dynamic transcoding defaults of
   MediaTailor. Use this only if you have already set up custom profiles with the help of AWS
   Support.
+
 - `"VideoContentSourceUrl"`: The URL prefix for the parent manifest for the stream, minus
   the asset ID. The maximum length is 512 characters.
+
 - `"tags"`: The tags to assign to the playback configuration. Tags are key-value pairs that
-  you can associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+  you can associate with Amazon resources to help with organization, access control, and
+  cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function put_playback_configuration end
 
@@ -1581,12 +1656,12 @@ end
     start_channel(channel_name)
     start_channel(channel_name, params::Dict{String,<:Any})
 
-Starts a channel. For information about MediaTailor channels, see Working with channels in
-the MediaTailor User Guide.
+Starts a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `channel_name`: The name of the channel.
 
+- `channel_name`: The name of the channel.
 """
 function start_channel end
 
@@ -1614,12 +1689,12 @@ end
     stop_channel(channel_name)
     stop_channel(channel_name, params::Dict{String,<:Any})
 
-Stops a channel. For information about MediaTailor channels, see Working with channels in
-the MediaTailor User Guide.
+Stops a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
-- `channel_name`: The name of the channel.
 
+- `channel_name`: The name of the channel.
 """
 function stop_channel end
 
@@ -1648,15 +1723,14 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 The resource to tag. Tags are key-value pairs that you can associate with Amazon resources
-to help with organization, access control, and cost tracking. For more information, see
-Tagging AWS Elemental MediaTailor Resources.
+to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource.
 - `tags`: The tags to assign to the resource. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
-
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function tag_resource end
 
@@ -1692,9 +1766,9 @@ end
 The resource to untag.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to untag.
 - `tag_keys`: The tag keys associated with the resource.
-
 """
 function untag_resource end
 
@@ -1729,20 +1803,23 @@ end
     update_channel(channel_name, outputs)
     update_channel(channel_name, outputs, params::Dict{String,<:Any})
 
-Updates a channel. For information about MediaTailor channels, see Working with channels in
-the MediaTailor User Guide.
+Updates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `channel_name`: The name of the channel.
 - `outputs`: The channel's output properties.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Audiences"`: The list of audiences defined in channel.
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
-  configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
-  support filler slate for channels using the LOOP PlaybackMode.
-- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+  configure filler slate if your channel uses the `LINEAR` `PlaybackMode`. MediaTailor
+  doesn't support filler slate for channels using the `LOOP` `PlaybackMode`.
+- `"TimeShiftConfiguration"`: The time-shifted viewing configuration you want to associate
   to the channel.
 """
 function update_channel end
@@ -1781,11 +1858,11 @@ end
 Updates a live source's configuration.
 
 # Arguments
+
 - `http_package_configurations`: A list of HTTP package configurations for the live source
   on this account.
 - `live_source_name`: The name of the live source.
 - `source_location_name`: The name of the source location associated with this Live Source.
-
 """
 function update_live_source end
 
@@ -1833,12 +1910,15 @@ end
 Updates a program within a channel.
 
 # Arguments
+
 - `channel_name`: The name of the channel for this Program.
 - `program_name`: The name of the Program.
 - `schedule_configuration`: The schedule configuration settings.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AdBreaks"`: The ad break configuration settings.
 - `"AudienceMedia"`: The list of AudienceMedia defined in program.
 """
@@ -1886,15 +1966,18 @@ end
     update_source_location(http_configuration, source_location_name, params::Dict{String,<:Any})
 
 Updates a source location. A source location is a container for sources. For more
-information about source locations, see Working with source locations in the MediaTailor
-User Guide.
+information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html)
+in the *MediaTailor User Guide*.
 
 # Arguments
+
 - `http_configuration`: The HTTP configuration for the source location.
 - `source_location_name`: The name of the source location.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessConfiguration"`: Access configuration parameters. Configures the type of
   authentication used to access content from your source location.
 - `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the host server
@@ -1944,11 +2027,11 @@ end
 Updates a VOD source's configuration.
 
 # Arguments
-- `http_package_configurations`: A list of HTTP package configurations for the VOD source
-  on this account.
+
+- `http_package_configurations`: A list of HTTP package configurations for the VOD source on
+  this account.
 - `source_location_name`: The name of the source location associated with this VOD Source.
 - `vod_source_name`: The name of the VOD source.
-
 """
 function update_vod_source end
 

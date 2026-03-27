@@ -11,22 +11,28 @@ using AWS.UUIDs: uuid4
 Creates an encrypted token that is used by a chat participant to establish an individual
 WebSocket chat connection to a room. When the token is used to connect to chat, the
 connection is valid for the session duration specified in the request. The token becomes
-invalid at the token-expiration timestamp included in the response. Use the capabilities
-field to permit an end user to send messages or moderate a room. The attributes field
-securely attaches structured data to the chat session; the data is included within each
-message sent by the end user and received by other participants in the room. Common use
-cases for attributes include passing end-user profile data like an icon, display name,
-colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat
-and never used directly by your application.
+invalid at the token-expiration timestamp included in the response.
+
+Use the `capabilities` field to permit an end user to send messages or moderate a room.
+
+The `attributes` field securely attaches structured data to the chat session; the data is
+included within each message sent by the end user and received by other participants in the
+room. Common use cases for attributes include passing end-user profile data like an icon,
+display name, colors, badges, and other display features.
+
+Encryption keys are owned by Amazon IVS Chat and never used directly by your application.
 
 # Arguments
+
 - `room_identifier`: Identifier of the room that the client is trying to access. Currently
   this must be an ARN.
 - `user_id`: Application-provided ID that uniquely identifies the user associated with this
   token. This can be any UTF-8 encoded text.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"attributes"`: Application-provided attributes to encode into the token and attach to a
   chat session. Map keys and values can contain UTF-8 encoded text. The maximum length of
   this field is 1 KB total.
@@ -77,17 +83,20 @@ end
 Creates a logging configuration that allows clients to store and record sent messages.
 
 # Arguments
+
 - `destination_configuration`: A complex type that contains a destination configuration for
   where chat content will be logged. There can be only one type of destination
-  (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+  (`cloudWatchLogs`, `firehose`, or `s3`) in a `destinationConfiguration`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: Logging-configuration name. The value does not need to be unique.
-- `"tags"`: Tags to attach to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags to attach to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
 """
 function create_logging_configuration end
 
@@ -130,20 +139,22 @@ end
 Creates a room that allows clients to connect and pass messages.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
   to the room.
 - `"maximumMessageLength"`: Maximum number of characters in a single message. Messages are
   expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count,
   not number of bytes. Default: 500.
-- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent
-  to the room (by all clients). Default: 10.
+- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent to
+  the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
 - `"name"`: Room name. The value does not need to be unique.
-- `"tags"`: Tags to attach to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no constraints beyond
-  what is documented there.
+- `"tags"`: Tags to attach to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
 function create_room end
 
@@ -166,8 +177,8 @@ end
 Deletes the specified logging configuration.
 
 # Arguments
-- `identifier`: Identifier of the logging configuration to be deleted.
 
+- `identifier`: Identifier of the logging configuration to be deleted.
 """
 function delete_logging_configuration end
 
@@ -205,17 +216,20 @@ end
 
 Sends an event to a specific room which directs clients to delete a specific message; that
 is, unrender it from view and delete it from the client’s chat history. This event’s
-EventName is aws:DELETE_MESSAGE. This replicates the  DeleteMessage WebSocket operation in
-the Amazon IVS Chat Messaging API.
+`EventName` is `aws:DELETE_MESSAGE`. This replicates the [DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html)
+WebSocket operation in the Amazon IVS Chat Messaging API.
 
 # Arguments
-- `id`: ID of the message to be deleted. This is the Id field in the received message (see
-  Message (Subscribe) in the Chat Messaging API).
+
+- `id`: ID of the message to be deleted. This is the `Id` field in the received message (see [Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html)
+  in the Chat Messaging API).
 - `room_identifier`: Identifier of the room where the message should be deleted. Currently
   this must be an ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reason"`: Reason for deleting the message.
 """
 function delete_message end
@@ -260,8 +274,8 @@ end
 Deletes the specified room.
 
 # Arguments
-- `identifier`: Identifier of the room to be deleted. Currently this must be an ARN.
 
+- `identifier`: Identifier of the room to be deleted. Currently this must be an ARN.
 """
 function delete_room end
 
@@ -295,16 +309,19 @@ end
     disconnect_user(room_identifier, user_id)
     disconnect_user(room_identifier, user_id, params::Dict{String,<:Any})
 
-Disconnects all connections using a specified user ID from a room. This replicates the
-DisconnectUser WebSocket operation in the Amazon IVS Chat Messaging API.
+Disconnects all connections using a specified user ID from a room. This replicates the [DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html)
+WebSocket operation in the Amazon IVS Chat Messaging API.
 
 # Arguments
+
 - `room_identifier`: Identifier of the room from which the user's clients should be
   disconnected. Currently this must be an ARN.
 - `user_id`: ID of the user (connection) to disconnect from the room.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reason"`: Reason for disconnecting the user.
 """
 function disconnect_user end
@@ -349,8 +366,8 @@ end
 Gets the specified logging configuration.
 
 # Arguments
-- `identifier`: Identifier of the logging configuration to be retrieved.
 
+- `identifier`: Identifier of the logging configuration to be retrieved.
 """
 function get_logging_configuration end
 
@@ -389,9 +406,9 @@ end
 Gets the specified room.
 
 # Arguments
+
 - `identifier`: Identifier of the room for which the configuration is to be retrieved.
   Currently this must be an ARN.
-
 """
 function get_room end
 
@@ -429,10 +446,12 @@ Gets summary information about all your logging configurations in the AWS region
 API request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of logging configurations to return. Default: 50.
 - `"nextToken"`: The first logging configurations to retrieve. This is used for pagination;
-  see the nextToken response field.
+  see the `nextToken` response field.
 """
 function list_logging_configurations end
 
@@ -459,17 +478,19 @@ end
     list_rooms(params::Dict{String,<:Any})
 
 Gets summary information about all your rooms in the AWS region where the API request is
-processed. Results are sorted in descending order of updateTime.
+processed. Results are sorted in descending order of `updateTime`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"loggingConfigurationIdentifier"`: Logging-configuration identifier.
 - `"maxResults"`: Maximum number of rooms to return. Default: 50.
 - `"messageReviewHandlerUri"`: Filters the list to match the specified message review
   handler URI.
 - `"name"`: Filters the list to match the specified room name.
-- `"nextToken"`: The first room to retrieve. This is used for pagination; see the nextToken
-  response field.
+- `"nextToken"`: The first room to retrieve. This is used for pagination; see the
+  `nextToken` response field.
 """
 function list_rooms end
 
@@ -492,8 +513,8 @@ end
 Gets information about AWS tags for the specified ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 
+- `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 """
 function list_tags_for_resource end
 
@@ -519,17 +540,19 @@ end
     send_event(event_name, room_identifier)
     send_event(event_name, room_identifier, params::Dict{String,<:Any})
 
-Sends an event to a room. Use this within your application’s business logic to send
-events to clients of a room; e.g., to notify clients to change the way the chat UI is
-rendered.
+Sends an event to a room. Use this within your application’s business logic to send events
+to clients of a room; e.g., to notify clients to change the way the chat UI is rendered.
 
 # Arguments
+
 - `event_name`: Application-defined name of the event to send to clients.
 - `room_identifier`: Identifier of the room to which the event will be sent. Currently this
   must be an ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"attributes"`: Application-defined metadata to attach to the event sent to clients. The
   maximum length of the metadata is 1 KB total.
 """
@@ -577,12 +600,12 @@ end
 Adds or updates tags for the AWS resource with the specified ARN.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to be tagged. The ARN must be URL-encoded.
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
-  string:string (key:value). See Tagging AWS Resources for details, including restrictions
-  that apply to tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no
-  constraints beyond what is documented there.
-
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
 function tag_resource end
 
@@ -618,12 +641,12 @@ end
 Removes tags from the resource with the specified ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no constraints beyond
-  what is documented there.
 
+- `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
 function untag_resource end
 
@@ -661,13 +684,16 @@ end
 Updates a specified logging configuration.
 
 # Arguments
+
 - `identifier`: Identifier of the logging configuration to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"destinationConfiguration"`: A complex type that contains a destination configuration
-  for where chat content will be logged. There can be only one type of destination
-  (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+
+- `"destinationConfiguration"`: A complex type that contains a destination configuration for
+  where chat content will be logged. There can be only one type of destination
+  (`cloudWatchLogs`, `firehose`, or `s3`) in a `destinationConfiguration`.
 - `"name"`: Logging-configuration name. The value does not need to be unique.
 """
 function update_logging_configuration end
@@ -707,19 +733,22 @@ end
 Updates a room’s configuration.
 
 # Arguments
+
 - `identifier`: Identifier of the room to be updated. Currently this must be an ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
   to the room.
 - `"maximumMessageLength"`: The maximum number of characters in a single message. Messages
   are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point
   count, not number of bytes. Default: 500.
-- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent
-  to the room (by all clients). Default: 10.
+- `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent to
+  the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
-  Specify an empty uri string to disassociate a message review handler from the specified
+  Specify an empty `uri` string to disassociate a message review handler from the specified
   room.
 - `"name"`: Room name. The value does not need to be unique.
 """

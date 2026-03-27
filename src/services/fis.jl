@@ -8,17 +8,24 @@ using AWS.UUIDs: uuid4
     create_experiment_template(actions, client_token, description, role_arn, stop_conditions)
     create_experiment_template(actions, client_token, description, role_arn, stop_conditions, params::Dict{String,<:Any})
 
-Creates an experiment template.  An experiment template includes the following components:
-  Targets: A target can be a specific resource in your Amazon Web Services environment, or
-one or more resources that match criteria that you specify, for example, resources that
-have specific tags.    Actions: The actions to carry out on the target. You can specify
-multiple actions, the duration of each action, and when to start each action during an
-experiment.    Stop conditions: If a stop condition is triggered while an experiment is
-running, the experiment is automatically stopped. You can define a stop condition as a
-CloudWatch alarm.   For more information, see experiment templates in the Fault Injection
-Service User Guide.
+Creates an experiment template.
+
+An experiment template includes the following components:
+
+- **Targets**: A target can be a specific resource in your Amazon Web Services environment,
+  or one or more resources that match criteria that you specify, for example, resources that
+  have specific tags.
+- **Actions**: The actions to carry out on the target. You can specify multiple actions, the
+  duration of each action, and when to start each action during an experiment.
+- **Stop conditions**: If a stop condition is triggered while an experiment is running, the
+  experiment is automatically stopped. You can define a stop condition as a CloudWatch
+  alarm.
+
+For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html)
+in the *Fault Injection Service User Guide*.
 
 # Arguments
+
 - `actions`: The actions for the experiment.
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
@@ -28,7 +35,9 @@ Service User Guide.
 - `stop_conditions`: The stop conditions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"experimentOptions"`: The experiment options for the experiment template.
 - `"logConfiguration"`: The configuration for experiment logging.
 - `"tags"`: The tags to apply to the experiment template.
@@ -94,17 +103,20 @@ end
     create_target_account_configuration(account_id, id, role_arn, params::Dict{String,<:Any})
 
 Creates a target account configuration for the experiment template. A target account
-configuration is required when accountTargeting of experimentOptions is set to
-multi-account. For more information, see experiment options in the Fault Injection Service
-User Guide.
+configuration is required when `accountTargeting` of `experimentOptions` is set to
+`multi-account`. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html)
+in the *Fault Injection Service User Guide*.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the target account.
 - `id`: The experiment template ID.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role for the target account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"description"`: The description of the target account.
@@ -152,8 +164,8 @@ end
 Deletes the specified experiment template.
 
 # Arguments
-- `id`: The ID of the experiment template.
 
+- `id`: The ID of the experiment template.
 """
 function delete_experiment_template end
 
@@ -182,9 +194,9 @@ end
 Deletes the specified target account configuration of the experiment template.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the target account.
 - `id`: The ID of the experiment template.
-
 """
 function delete_target_account_configuration end
 
@@ -221,8 +233,8 @@ end
 Gets information about the specified FIS action.
 
 # Arguments
-- `id`: The ID of the action.
 
+- `id`: The ID of the action.
 """
 function get_action end
 
@@ -243,8 +255,8 @@ end
 Gets information about the specified experiment.
 
 # Arguments
-- `id`: The ID of the experiment.
 
+- `id`: The ID of the experiment.
 """
 function get_experiment end
 
@@ -267,9 +279,9 @@ end
 Gets information about the specified target account configuration of the experiment.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the target account.
 - `id`: The ID of the experiment.
-
 """
 function get_experiment_target_account_configuration end
 
@@ -306,8 +318,8 @@ end
 Gets information about the specified experiment template.
 
 # Arguments
-- `id`: The ID of the experiment template.
 
+- `id`: The ID of the experiment template.
 """
 function get_experiment_template end
 
@@ -333,11 +345,11 @@ end
     get_safety_lever(id)
     get_safety_lever(id, params::Dict{String,<:Any})
 
- Gets information about the specified safety lever.
+Gets information about the specified safety lever.
 
 # Arguments
-- `id`:  The ID of the safety lever.
 
+- `id`: The ID of the safety lever.
 """
 function get_safety_lever end
 
@@ -361,9 +373,9 @@ Gets information about the specified target account configuration of the experim
 template.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the target account.
 - `id`: The ID of the experiment template.
-
 """
 function get_target_account_configuration end
 
@@ -400,8 +412,8 @@ end
 Gets information about the specified resource type.
 
 # Arguments
-- `resource_type`: The resource type.
 
+- `resource_type`: The resource type.
 """
 function get_target_resource_type end
 
@@ -437,9 +449,11 @@ end
 Lists the available FIS actions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_actions end
@@ -461,10 +475,13 @@ end
 Lists the resolved targets information of the specified experiment.
 
 # Arguments
+
 - `id`: The ID of the experiment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
@@ -502,10 +519,13 @@ end
 Lists the target account configurations of the specified experiment.
 
 # Arguments
+
 - `id`: The ID of the experiment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiment_target_account_configurations end
@@ -540,9 +560,11 @@ end
 Lists your experiment templates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiment_templates end
@@ -566,10 +588,12 @@ end
 Lists your experiments.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"experimentTemplateId"`: The ID of the experiment template.
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiments end
@@ -591,8 +615,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -619,10 +643,13 @@ end
 Lists the target account configurations of the specified experiment template.
 
 # Arguments
+
 - `id`: The ID of the experiment template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
@@ -659,9 +686,11 @@ end
 Lists the target resource types.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_target_resource_types end
@@ -685,12 +714,15 @@ end
 Starts running an experiment from the specified experiment template.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `experiment_template_id`: The ID of the experiment template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"experimentOptions"`: The experiment options for running the experiment.
 - `"tags"`: The tags to apply to the experiment.
 """
@@ -741,8 +773,8 @@ end
 Stops the specified experiment.
 
 # Arguments
-- `id`: The ID of the experiment.
 
+- `id`: The ID of the experiment.
 """
 function stop_experiment end
 
@@ -765,9 +797,9 @@ end
 Applies the specified tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags for the resource.
-
 """
 function tag_resource end
 
@@ -803,10 +835,13 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tagKeys"`: The tag keys to remove.
 """
 function untag_resource end
@@ -838,10 +873,13 @@ end
 Updates the specified experiment template.
 
 # Arguments
+
 - `id`: The ID of the experiment template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actions"`: The actions for the experiment.
 - `"description"`: A description for the template.
 - `"experimentOptions"`: The experiment options for the experiment template.
@@ -875,12 +913,12 @@ end
     update_safety_lever_state(id, state)
     update_safety_lever_state(id, state, params::Dict{String,<:Any})
 
- Updates the specified safety lever state.
+Updates the specified safety lever state.
 
 # Arguments
-- `id`:  The ID of the safety lever.
-- `state`:  The state of the safety lever.
 
+- `id`: The ID of the safety lever.
+- `state`: The state of the safety lever.
 """
 function update_safety_lever_state end
 
@@ -918,11 +956,14 @@ end
 Updates the target account configuration for the specified experiment template.
 
 # Arguments
+
 - `account_id`: The Amazon Web Services account ID of the target account.
 - `id`: The ID of the experiment template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the target account.
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role for the target account.
 """

@@ -12,22 +12,27 @@ Creates an Amazon Web Services Migration Hub Refactor Spaces application. The ac
 owns the environment also owns the applications created inside the environment, regardless
 of the account that creates the application. Refactor Spaces provisions an Amazon API
 Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside
-your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE
-you need to configure  VPC to VPC connectivity between your service VPC and the application
-proxy VPC to route traffic through the application proxy to a service with a private URL
-endpoint. For more information, see  Create an application in the Refactor Spaces User
-Guide.
+your account.
+
+In environments created with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
+of `NONE` you need to configure [VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html)
+between your service VPC and the application proxy VPC to route traffic through the
+application proxy to a service with a private URL endpoint. For more information, see [Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html)
+in the *Refactor Spaces User Guide*.
 
 # Arguments
+
 - `environment_identifier`: The unique identifier of the environment.
 - `name`: The name to use for the application.
 - `proxy_type`: The proxy type of the proxy created within the application.
 - `vpc_id`: The ID of the virtual private cloud (VPC).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApiGatewayProxy"`: A wrapper object holding the API Gateway endpoint type and stage
-  name for the proxy.
+
+- `"ApiGatewayProxy"`: A wrapper object holding the API Gateway endpoint type and stage name
+  for the proxy.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"Tags"`: The tags to assign to the application. A tag is a label that you assign to an
@@ -89,22 +94,26 @@ end
     create_environment(name, network_fabric_type, params::Dict{String,<:Any})
 
 Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns
-the environment resource, and all Refactor Spaces applications, services, and routes
-created within the environment. They are referred to as the environment owner. The
-environment owner has cross-account visibility and control of Refactor Spaces resources
-that are added to the environment by other accounts that the environment is shared with.
-When creating an environment with a CreateEnvironment:NetworkFabricType of TRANSIT_GATEWAY,
-Refactor Spaces provisions a transit gateway to enable services in VPCs to communicate
-directly across accounts. If CreateEnvironment:NetworkFabricType is NONE, Refactor Spaces
-does not create a transit gateway and you must use your network infrastructure to route
-traffic to services with private URL endpoints.
+the environment resource, and all Refactor Spaces applications, services, and routes created
+within the environment. They are referred to as the *environment owner*. The environment
+owner has cross-account visibility and control of Refactor Spaces resources that are added
+to the environment by other accounts that the environment is shared with.
+
+When creating an environment with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
+of `TRANSIT_GATEWAY`, Refactor Spaces provisions a transit gateway to enable services in
+VPCs to communicate directly across accounts. If [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
+is `NONE`, Refactor Spaces does not create a transit gateway and you must use your network
+infrastructure to route traffic to services with private URL endpoints.
 
 # Arguments
+
 - `name`: The name of the environment.
 - `network_fabric_type`: The network fabric type of the environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"Description"`: The description of the environment.
@@ -158,68 +167,89 @@ end
     create_route(application_identifier, environment_identifier, route_type, service_identifier)
     create_route(application_identifier, environment_identifier, route_type, service_identifier, params::Dict{String,<:Any})
 
-Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of
-the service resource is always the environment owner, regardless of which account creates
-the route. Routes target a service in the application. If an application does not have any
-routes, then the first route must be created as a DEFAULT RouteType. When created, the
-default route defaults to an active state so state is not a required input. However, like
-all other state values the state of the default route can be updated after creation, but
-only when all other routes are also inactive. Conversely, no route can be active without
-the default route also being active. When you create a route, Refactor Spaces configures
-the Amazon API Gateway to send traffic to the target service as follows:    URL Endpoints
+Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the
+service resource is always the environment owner, regardless of which account creates the
+route. Routes target a service in the application. If an application does not have any
+routes, then the first route must be created as a `DEFAULT` `RouteType`.
+
+When created, the default route defaults to an active state so state is not a required
+input. However, like all other state values the state of the default route can be updated
+after creation, but only when all other routes are also inactive. Conversely, no route can
+be active without the default route also being active.
+
+When you create a route, Refactor Spaces configures the Amazon API Gateway to send traffic
+to the target service as follows:
+
+- **URL Endpoints**
+
 If the service has a URL endpoint, and the endpoint resolves to a private IP address,
 Refactor Spaces routes traffic using the API Gateway VPC link. If a service endpoint
 resolves to a public IP address, Refactor Spaces routes traffic over the public internet.
 Services can have HTTP or HTTPS URL endpoints. For HTTPS URLs, publicly-signed certificates
 are supported. Private Certificate Authorities (CAs) are permitted only if the CA's domain
-is also publicly resolvable.  Refactor Spaces automatically resolves the public Domain Name
-System (DNS) names that are set in CreateService:UrlEndpoint when you create a service. The
-DNS names resolve when the DNS time-to-live (TTL) expires, or every 60 seconds for TTLs
-less than 60 seconds. This periodic DNS resolution ensures that the route configuration
-remains up-to-date.    One-time health check  A one-time health check is performed on the
-service when either the route is updated from inactive to active, or when it is created
-with an active state. If the health check fails, the route transitions the route state to
-FAILED, an error code of SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE is provided, and no traffic
-is sent to the service. For private URLs, a target group is created on the Network Load
-Balancer and the load balancer target group runs default target health checks. By default,
-the health check is run against the service endpoint URL. Optionally, the health check can
-be performed against a different protocol, port, and/or path using the
-CreateService:UrlEndpoint parameter. All other health check settings for the load balancer
-use the default values described in the Health checks for your target groups in the Elastic
-Load Balancing guide. The health check is considered successful if at least one target
-within the target group transitions to a healthy state.     Lambda function endpoints  If
-the service has an Lambda function endpoint, then Refactor Spaces configures the Lambda
+is also publicly resolvable.
+
+Refactor Spaces automatically resolves the public Domain Name System (DNS) names that are
+set in `CreateService:UrlEndpoint`when you create a service. The DNS names resolve when the
+DNS time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds. This
+periodic DNS resolution ensures that the route configuration remains up-to-date. **One-time
+health check**
+
+A one-time health check is performed on the service when either the route is updated from
+inactive to active, or when it is created with an active state. If the health check fails,
+the route transitions the route state to `FAILED`, an error code of
+`SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE` is provided, and no traffic is sent to the service.
+
+For private URLs, a target group is created on the Network Load Balancer and the load
+balancer target group runs default target health checks. By default, the health check is run
+against the service endpoint URL. Optionally, the health check can be performed against a
+different protocol, port, and/or path using the [CreateService:UrlEndpoint](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateService.html#migrationhubrefactorspaces-CreateService-request-UrlEndpoint)
+parameter. All other health check settings for the load balancer use the default values
+described in the [Health checks for your target groups](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html)
+in the *Elastic Load Balancing guide*. The health check is considered successful if at least
+one target within the target group transitions to a healthy state.
+- **Lambda function endpoints**
+
+If the service has an Lambda function endpoint, then Refactor Spaces configures the Lambda
 function's resource policy to allow the application's API Gateway to invoke the function.
+
 The Lambda function state is checked. If the function is not active, the function
 configuration is updated so that Lambda resources are provisioned. If the Lambda state is
-Failed, then the route creation fails. For more information, see the
-GetFunctionConfiguration's State response parameter in the Lambda Developer Guide. A check
-is performed to determine that a Lambda function with the specified ARN exists. If it does
-not exist, the health check fails. For public URLs, a connection is opened to the public
-endpoint. If the URL is not reachable, the health check fails.     Environments without a
-network bridge  When you create environments without a network bridge
-(CreateEnvironment:NetworkFabricType is NONE) and you use your own networking
-infrastructure, you need to configure VPC to VPC connectivity between your network and the
-application proxy VPC. Route creation from the application proxy to service endpoints will
-fail if your network is not configured to connect to the application proxy VPC. For more
-information, see  Create a route in the Refactor Spaces User Guide.
+`Failed`, then the route creation fails. For more information, see the [GetFunctionConfiguration's State response parameter](https://docs.aws.amazon.com/lambda/latest/dg/API_GetFunctionConfiguration.html#SSS-GetFunctionConfiguration-response-State)
+in the *Lambda Developer Guide*.
+
+A check is performed to determine that a Lambda function with the specified ARN exists. If
+it does not exist, the health check fails. For public URLs, a connection is opened to the
+public endpoint. If the URL is not reachable, the health check fails.
+
+**Environments without a network bridge**
+
+When you create environments without a network bridge ([CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType)
+is `NONE)` and you use your own networking infrastructure, you need to configure [VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html)
+between your network and the application proxy VPC. Route creation from the application
+proxy to service endpoints will fail if your network is not configured to connect to the
+application proxy VPC. For more information, see [Create a route](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-role.html)
+in the *Refactor Spaces User Guide*.
 
 # Arguments
+
 - `application_identifier`: The ID of the application within which the route is being
   created.
 - `environment_identifier`: The ID of the environment in which the route is created.
-- `route_type`: The route type of the route. DEFAULT indicates that all traffic that does
-  not match another route is forwarded to the default route. Applications must have a default
-  route before any other routes can be created. URI_PATH indicates a route that is based on a
-  URI path.
+- `route_type`: The route type of the route. `DEFAULT` indicates that all traffic that does
+  not match another route is forwarded to the default route. Applications must have a
+  default route before any other routes can be created. `URI_PATH` indicates a route that is
+  based on a URI path.
 - `service_identifier`: The ID of the service in which the route is created. Traffic that
   matches this route is forwarded to this service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"DefaultRoute"`:  Configuration for the default route type.
+- `"DefaultRoute"`: Configuration for the default route type.
 - `"Tags"`: The tags to assign to the route. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key-value pair..
 - `"UriPathRoute"`: The configuration for the URI path route type.
@@ -280,12 +310,16 @@ end
 Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of
 the service is always the environment owner, regardless of which account in the environment
 creates the service. Services have either a URL endpoint in a virtual private cloud (VPC),
-or a Lambda function endpoint.  If an Amazon Web Services resource is launched in a service
-VPC, and you want it to be accessible to all of an environment’s services with VPCs and
-routes, apply the RefactorSpacesSecurityGroup to the resource. Alternatively, to add more
-cross-account constraints, apply your own security group.
+or a Lambda function endpoint.
+
+!!! important
+    If an Amazon Web Services resource is launched in a service VPC, and you want it to be
+    accessible to all of an environment’s services with VPCs and routes, apply the
+    `RefactorSpacesSecurityGroup` to the resource. Alternatively, to add more cross-account
+    constraints, apply your own security group.
 
 # Arguments
+
 - `application_identifier`: The ID of the application which the service is created.
 - `endpoint_type`: The type of endpoint to use for the service. The type can be a URL in a
   VPC or an Lambda function.
@@ -293,17 +327,19 @@ cross-account constraints, apply your own security group.
 - `name`: The name of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"Description"`: The description of the service.
 - `"LambdaEndpoint"`: The configuration for the Lambda endpoint type.
-- `"Tags"`: The tags to assign to the service. A tag is a label that you assign to an
-  Amazon Web Services resource. Each tag consists of a key-value pair..
+- `"Tags"`: The tags to assign to the service. A tag is a label that you assign to an Amazon
+  Web Services resource. Each tag consists of a key-value pair..
 - `"UrlEndpoint"`: The configuration for the URL endpoint type. When creating a route to a
-  service, Refactor Spaces automatically resolves the address in the UrlEndpointInput object
-  URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60 seconds for
-  TTLs less than 60 seconds.
+  service, Refactor Spaces automatically resolves the address in the `UrlEndpointInput`
+  object URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60
+  seconds for TTLs less than 60 seconds.
 - `"VpcId"`: The ID of the VPC.
 """
 function create_service end
@@ -361,9 +397,9 @@ Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before
 delete an application, you must first delete any services or routes within the application.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
-
 """
 function delete_application end
 
@@ -404,8 +440,8 @@ delete an environment, you must first delete any applications and services withi
 environment.
 
 # Arguments
-- `environment_identifier`: The ID of the environment.
 
+- `environment_identifier`: The ID of the environment.
 """
 function delete_environment end
 
@@ -441,8 +477,8 @@ end
 Deletes the resource policy set for the environment.
 
 # Arguments
-- `identifier`: Amazon Resource Name (ARN) of the resource associated with the policy.
 
+- `identifier`: Amazon Resource Name (ARN) of the resource associated with the policy.
 """
 function delete_resource_policy end
 
@@ -478,10 +514,10 @@ end
 Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
 
 # Arguments
+
 - `application_identifier`: The ID of the application to delete the route from.
 - `environment_identifier`: The ID of the environment to delete the route from.
 - `route_identifier`: The ID of the route to delete.
-
 """
 function delete_route end
 
@@ -522,13 +558,17 @@ end
 Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
 
 # Arguments
-- `application_identifier`: Deletes a Refactor Spaces service.  The
-  RefactorSpacesSecurityGroup security group must be removed from all Amazon Web Services
-  resources in the virtual private cloud (VPC) prior to deleting a service with a URL
-  endpoint in a VPC.
-- `environment_identifier`: The ID of the environment that the service is in.
-- `service_identifier`: The ID of the service to delete.
 
+- `application_identifier`: Deletes a Refactor Spaces service.
+
+  !!! note
+      The `RefactorSpacesSecurityGroup` security group must be removed from all Amazon Web
+      Services resources in the virtual private cloud (VPC) prior to deleting a service with
+      a URL endpoint in a VPC.
+
+- `environment_identifier`: The ID of the environment that the service is in.
+
+- `service_identifier`: The ID of the service to delete.
 """
 function delete_service end
 
@@ -569,9 +609,9 @@ end
 Gets an Amazon Web Services Migration Hub Refactor Spaces application.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
-
 """
 function get_application end
 
@@ -610,8 +650,8 @@ end
 Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
 
 # Arguments
-- `environment_identifier`: The ID of the environment.
 
+- `environment_identifier`: The ID of the environment.
 """
 function get_environment end
 
@@ -647,8 +687,8 @@ end
 Gets the resource-based permission policy that is set for the given environment.
 
 # Arguments
-- `identifier`: The Amazon Resource Name (ARN) of the resource associated with the policy.
 
+- `identifier`: The Amazon Resource Name (ARN) of the resource associated with the policy.
 """
 function get_resource_policy end
 
@@ -679,10 +719,10 @@ end
 Gets an Amazon Web Services Migration Hub Refactor Spaces route.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 - `route_identifier`: The ID of the route.
-
 """
 function get_route end
 
@@ -723,10 +763,10 @@ end
 Gets an Amazon Web Services Migration Hub Refactor Spaces service.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 - `service_identifier`: The ID of the service.
-
 """
 function get_service end
 
@@ -768,12 +808,15 @@ Lists all the Amazon Web Services Migration Hub Refactor Spaces applications wit
 environment.
 
 # Arguments
+
 - `environment_identifier`: The ID of the environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_applications end
@@ -811,12 +854,15 @@ Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual priv
 (VPCs) that are part of the environment.
 
 # Arguments
+
 - `environment_identifier`: The ID of the environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_environment_vpcs end
@@ -854,9 +900,11 @@ Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a 
 account or shared with the caller account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_environments end
@@ -883,13 +931,16 @@ Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an
 application.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_routes end
@@ -930,13 +981,16 @@ Lists all the Amazon Web Services Migration Hub Refactor Spaces services within 
 application.
 
 # Arguments
+
 - `application_identifier`: The ID of the application.
 - `environment_identifier`: The ID of the environment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value.
+  the remaining results, make another call with the returned `nextToken` value.
 - `"nextToken"`: The token for the next page of results.
 """
 function list_services end
@@ -974,11 +1028,11 @@ end
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags of a resource. The caller account must be the same as the resource’s
-OwnerAccountId. Listing tags in other accounts is not supported.
+`OwnerAccountId`. Listing tags in other accounts is not supported.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -1007,14 +1061,14 @@ end
 Attaches a resource-based permission policy to the Amazon Web Services Migration Hub
 Refactor Spaces environment. The policy must contain the same actions and condition
 statements as the
-arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in
+`arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment` permission in
 Resource Access Manager. The policy must not contain new lines or blank lines.
 
 # Arguments
+
 - `policy`: A JSON-formatted string for an Amazon Web Services resource-based policy.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the policy is
   being attached.
-
 """
 function put_resource_policy end
 
@@ -1057,14 +1111,16 @@ end
 
 Removes the tags of a given resource. Tags are metadata which can be used to manage a
 resource. To tag a resource, the caller account must be the same as the resource’s
-OwnerAccountId. Tagging resources in other accounts is not supported.  Amazon Web Services
-Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an
-environment’s transit gateway.
+`OwnerAccountId`. Tagging resources in other accounts is not supported.
+
+!!! note
+    Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to
+    orchestrated resources, such as an environment’s transit gateway.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The new or modified tags for the resource.
-
 """
 function tag_resource end
 
@@ -1099,12 +1155,12 @@ end
 
 Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
 manage a resource. To untag a resource, the caller account must be the same as the
-resource’s OwnerAccountId. Untagging resources across accounts is not supported.
+resource’s `OwnerAccountId`. Untagging resources across accounts is not supported.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The list of keys of the tags to be removed from the resource.
-
 """
 function untag_resource end
 
@@ -1139,16 +1195,16 @@ end
     update_route(activation_state, application_identifier, environment_identifier, route_identifier)
     update_route(activation_state, application_identifier, environment_identifier, route_identifier, params::Dict{String,<:Any})
 
- Updates an Amazon Web Services Migration Hub Refactor Spaces route.
+Updates an Amazon Web Services Migration Hub Refactor Spaces route.
 
 # Arguments
-- `activation_state`:  If set to ACTIVE, traffic is forwarded to this route’s service
-  after the route is updated.
-- `application_identifier`:  The ID of the application within which the route is being
-  updated.
-- `environment_identifier`:  The ID of the environment in which the route is being updated.
-- `route_identifier`:  The unique identifier of the route to update.
 
+- `activation_state`: If set to `ACTIVE`, traffic is forwarded to this route’s service after
+  the route is updated.
+- `application_identifier`: The ID of the application within which the route is being
+  updated.
+- `environment_identifier`: The ID of the environment in which the route is being updated.
+- `route_identifier`: The unique identifier of the route to update.
 """
 function update_route end
 

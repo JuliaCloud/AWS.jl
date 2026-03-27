@@ -11,10 +11,13 @@ using AWS.UUIDs: uuid4
 Archive application.
 
 # Arguments
+
 - `application_id`: Application ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function archive_application end
@@ -54,10 +57,13 @@ end
 Archive wave.
 
 # Arguments
+
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function archive_wave end
@@ -91,11 +97,14 @@ end
 Associate applications to wave.
 
 # Arguments
+
 - `application_ids`: Application IDs list.
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function associate_applications end
@@ -140,11 +149,14 @@ end
 Associate source servers to application.
 
 # Arguments
+
 - `application_id`: Application ID.
 - `source_server_ids`: Source server IDs list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function associate_source_servers end
@@ -191,16 +203,19 @@ end
     change_server_life_cycle_state(life_cycle, source_server_id, params::Dict{String,<:Any})
 
 Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server
-IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works
-if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
+IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if
+the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
 
 # Arguments
+
 - `life_cycle`: The request to change the source server migration lifecycle state.
 - `source_server_id`: The request to change the source server migration lifecycle state by
   source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: The request to change the source server migration account ID.
 """
 function change_server_life_cycle_state end
@@ -247,10 +262,13 @@ end
 Create application.
 
 # Arguments
+
 - `name`: Application name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 - `"description"`: Application description.
 - `"tags"`: Application tags.
@@ -286,11 +304,14 @@ end
 Create Connector.
 
 # Arguments
+
 - `name`: Create Connector request name.
 - `ssm_instance_id`: Create Connector request SSM instance ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ssmCommandConfig"`: Create Connector request SSM command config.
 - `"tags"`: Create Connector request tags.
 """
@@ -336,7 +357,9 @@ end
 Creates a new Launch Configuration Template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associatePublicIpAddress"`: Associate public Ip address.
 - `"bootMode"`: Launch configuration template boot mode.
 - `"copyPrivateIp"`: Copy private Ip.
@@ -384,18 +407,19 @@ end
 Creates a new ReplicationConfigurationTemplate.
 
 # Arguments
-- `associate_default_security_group`: Request to associate the default Application
-  Migration Service Security group with the Replication Settings template.
+
+- `associate_default_security_group`: Request to associate the default Application Migration
+  Service Security group with the Replication Settings template.
 - `bandwidth_throttling`: Request to configure bandwidth throttling during Replication
   Settings template creation.
 - `create_public_ip`: Request to create Public IP during Replication Settings template
   creation.
 - `data_plane_routing`: Request to configure data plane routing during Replication Settings
   template creation.
-- `default_large_staging_disk_type`: Request to configure the default large staging disk
-  EBS volume type during Replication Settings template creation.
-- `ebs_encryption`: Request to configure EBS encryption during Replication Settings
-  template creation.
+- `default_large_staging_disk_type`: Request to configure the default large staging disk EBS
+  volume type during Replication Settings template creation.
+- `ebs_encryption`: Request to configure EBS encryption during Replication Settings template
+  creation.
 - `replication_server_instance_type`: Request to configure the Replication Server instance
   type during Replication Settings template creation.
 - `replication_servers_security_groups_ids`: Request to configure the Replication Server
@@ -408,7 +432,9 @@ Creates a new ReplicationConfigurationTemplate.
   Replication Settings template creation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ebsEncryptionKeyArn"`: Request to configure an EBS encryption key during Replication
   Settings template creation.
 - `"tags"`: Request to configure tags during Replication Settings template creation.
@@ -502,10 +528,13 @@ end
 Create wave.
 
 # Arguments
+
 - `name`: Wave name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 - `"description"`: Wave description.
 - `"tags"`: Wave tags.
@@ -541,10 +570,13 @@ end
 Delete application.
 
 # Arguments
+
 - `application_id`: Application ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function delete_application end
@@ -584,8 +616,8 @@ end
 Delete Connector.
 
 # Arguments
-- `connector_id`: Delete Connector request connector ID.
 
+- `connector_id`: Delete Connector request connector ID.
 """
 function delete_connector end
 
@@ -622,10 +654,13 @@ end
 Deletes a single Job by ID.
 
 # Arguments
+
 - `job_id`: Request to delete Job from service by Job ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to delete Job from service by Account ID.
 """
 function delete_job end
@@ -659,8 +694,8 @@ end
 Deletes a single Launch Configuration Template by ID.
 
 # Arguments
-- `launch_configuration_template_id`: ID of resource to be deleted.
 
+- `launch_configuration_template_id`: ID of resource to be deleted.
 """
 function delete_launch_configuration_template end
 
@@ -705,9 +740,9 @@ end
 Deletes a single Replication Configuration Template by ID
 
 # Arguments
+
 - `replication_configuration_template_id`: Request to delete Replication Configuration
   Template from service by Replication Configuration Template ID.
-
 """
 function delete_replication_configuration_template end
 
@@ -755,10 +790,13 @@ end
 Deletes a single source server by ID.
 
 # Arguments
+
 - `source_server_id`: Request to delete Source Server from service by Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to delete Source Server from service by Account ID.
 """
 function delete_source_server end
@@ -798,8 +836,8 @@ end
 Deletes a given vCenter client by ID.
 
 # Arguments
-- `vcenter_client_id`: ID of resource to be deleted.
 
+- `vcenter_client_id`: ID of resource to be deleted.
 """
 function delete_vcenter_client end
 
@@ -840,10 +878,13 @@ end
 Delete wave.
 
 # Arguments
+
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function delete_wave end
@@ -877,10 +918,13 @@ end
 Retrieves detailed job log items with paging.
 
 # Arguments
+
 - `job_id`: Request to describe Job log job ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to describe Job log Account ID.
 - `"maxResults"`: Request to describe Job log item maximum results.
 - `"nextToken"`: Request to describe Job log next token.
@@ -915,12 +959,14 @@ end
 
 Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs
 are returned. The response is sorted by creationDataTime - latest date first. Jobs are
-normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs
-are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs
-available only to *Support* and only used in response to relevant support tickets.
+normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are
+also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available
+only to *Support* and only used in response to relevant support tickets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to describe job log items by Account ID.
 - `"filters"`: Request to describe Job log filters.
 - `"maxResults"`: Request to describe job log items by max results.
@@ -945,7 +991,9 @@ end
 Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"launchConfigurationTemplateIDs"`: Request to filter Launch Configuration Templates list
   by Launch Configuration Template ID.
 - `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
@@ -983,7 +1031,9 @@ end
 Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Request to describe Replication Configuration template by max results.
 - `"nextToken"`: Request to describe Replication Configuration template by next token.
 - `"replicationConfigurationTemplateIDs"`: Request to describe Replication Configuration
@@ -1021,7 +1071,9 @@ end
 Retrieves all SourceServers or multiple SourceServers by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to filter Source Servers list by Accoun ID.
 - `"filters"`: Request to filter Source Servers list.
 - `"maxResults"`: Request to filter Source Servers list by maximum results.
@@ -1054,7 +1106,9 @@ end
 Returns a list of the installed vCenter clients.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum results to be returned in DescribeVcenterClients.
 - `"nextToken"`: Next pagination token to be provided for DescribeVcenterClients.
 """
@@ -1085,11 +1139,14 @@ end
 Disassociate applications from wave.
 
 # Arguments
+
 - `application_ids`: Application IDs list.
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function disassociate_applications end
@@ -1134,11 +1191,14 @@ end
 Disassociate source servers from application.
 
 # Arguments
+
 - `application_id`: Application ID.
 - `source_server_ids`: Source server IDs list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function disassociate_source_servers end
@@ -1185,21 +1245,24 @@ end
     disconnect_from_service(source_server_id, params::Dict{String,<:Any})
 
 Disconnects specific Source Servers from Application Migration Service. Data replication is
-stopped immediately. All AWS resources created by Application Migration Service for
-enabling the replication of these source servers will be terminated / deleted within 90
-minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the
-source server has not been prevented from communicating with the Application Migration
-Service service, then it will receive a command to uninstall itself (within approximately
-10 minutes). The following properties of the SourceServer will be changed immediately:
+stopped immediately. All AWS resources created by Application Migration Service for enabling
+the replication of these source servers will be terminated / deleted within 90 minutes.
+Launched Test or Cutover instances will NOT be terminated. If the agent on the source server
+has not been prevented from communicating with the Application Migration Service service,
+then it will receive a command to uninstall itself (within approximately 10 minutes). The
+following properties of the SourceServer will be changed immediately:
 dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes
 property for each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
+
 - `source_server_id`: Request to disconnect Source Server from service by Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to disconnect Source Server from service by Account ID.
 """
 function disconnect_from_service end
@@ -1247,10 +1310,13 @@ each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
+
 - `source_server_id`: Request to finalize Cutover by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to finalize Cutover by Source Account ID.
 """
 function finalize_cutover end
@@ -1290,10 +1356,13 @@ end
 Lists all LaunchConfigurations available, filtered by Source Server IDs.
 
 # Arguments
+
 - `source_server_id`: Request to get Launch Configuration information by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to get Launch Configuration information by Account ID.
 """
 function get_launch_configuration end
@@ -1333,10 +1402,13 @@ end
 Lists all ReplicationConfigurations, filtered by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: Request to get Replication Configuration by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request to get Replication Configuration by Account ID.
 """
 function get_replication_configuration end
@@ -1374,7 +1446,6 @@ end
     initialize_service(params::Dict{String,<:Any})
 
 Initialize Application Migration Service.
-
 """
 function initialize_service end
 
@@ -1397,7 +1468,9 @@ end
 Retrieves all applications or multiple applications by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Applications list Account ID.
 - `"filters"`: Applications list filters.
 - `"maxResults"`: Maximum results to return when listing applications.
@@ -1424,7 +1497,9 @@ end
 List Connectors.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: List Connectors Request filters.
 - `"maxResults"`: List Connectors Request max results.
 - `"nextToken"`: List Connectors Request next token.
@@ -1450,10 +1525,13 @@ end
 List export errors.
 
 # Arguments
+
 - `export_id`: List export errors request export id.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: List export errors request max results.
 - `"nextToken"`: List export errors request next token.
 """
@@ -1492,7 +1570,9 @@ end
 List exports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`:
 - `"maxResults"`: List export request max results.
 - `"nextToken"`: List export request next token.
@@ -1516,10 +1596,13 @@ end
 List import errors.
 
 # Arguments
+
 - `import_id`: List import errors request import id.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: List import errors request max results.
 - `"nextToken"`: List import errors request next token.
 """
@@ -1558,7 +1641,9 @@ end
 List imports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: List imports request filters.
 - `"maxResults"`: List imports request max results.
 - `"nextToken"`: List imports request next token.
@@ -1582,7 +1667,9 @@ end
 List Managed Accounts.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: List managed accounts request max results.
 - `"nextToken"`: List managed accounts request next token.
 """
@@ -1607,10 +1694,13 @@ end
 List source server post migration custom actions.
 
 # Arguments
+
 - `source_server_id`: Source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID to return when listing source server post migration custom
   actions.
 - `"filters"`: Filters to apply when listing source server post migration custom actions.
@@ -1655,8 +1745,8 @@ end
 List all tags for your Application Migration Service resources.
 
 # Arguments
-- `resource_arn`: List tags for resource request by ARN.
 
+- `resource_arn`: List tags for resource request by ARN.
 """
 function list_tags_for_resource end
 
@@ -1683,10 +1773,13 @@ end
 List template post migration custom actions.
 
 # Arguments
+
 - `launch_configuration_template_id`: Launch configuration template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Filters to apply when listing template post migration custom actions.
 - `"maxResults"`: Maximum amount of items to return when listing template post migration
   custom actions.
@@ -1735,7 +1828,9 @@ end
 Retrieves all waves or multiple waves by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Request account ID.
 - `"filters"`: Waves list filters.
 - `"maxResults"`: Maximum results to return when listing waves.
@@ -1757,15 +1852,18 @@ end
     mark_as_archived(source_server_id)
     mark_as_archived(source_server_id, params::Dict{String,<:Any})
 
-Archives specific Source Servers by setting the SourceServer.isArchived property to true
-for specified SourceServers by ID. This command only works for SourceServers with a
-lifecycle. state which equals DISCONNECTED or CUTOVER.
+Archives specific Source Servers by setting the SourceServer.isArchived property to true for
+specified SourceServers by ID. This command only works for SourceServers with a lifecycle.
+state which equals DISCONNECTED or CUTOVER.
 
 # Arguments
+
 - `source_server_id`: Mark as archived by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Mark as archived by Account ID.
 """
 function mark_as_archived end
@@ -1805,10 +1903,13 @@ end
 Pause Replication.
 
 # Arguments
+
 - `source_server_id`: Pause Replication Request source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Pause Replication Request account ID.
 """
 function pause_replication end
@@ -1848,6 +1949,7 @@ end
 Put source server post migration custom action.
 
 # Arguments
+
 - `action_id`: Source server post migration custom action ID.
 - `action_name`: Source server post migration custom action name.
 - `document_identifier`: Source server post migration custom action document identifier.
@@ -1855,7 +1957,9 @@ Put source server post migration custom action.
 - `source_server_id`: Source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Source server post migration custom account ID.
 - `"active"`: Source server post migration custom action active status.
 - `"category"`: Source server post migration custom action category.
@@ -1929,6 +2033,7 @@ end
 Put template post migration custom action.
 
 # Arguments
+
 - `action_id`: Template post migration custom action ID.
 - `action_name`: Template post migration custom action name.
 - `document_identifier`: Template post migration custom action document identifier.
@@ -1936,7 +2041,9 @@ Put template post migration custom action.
 - `order`: Template post migration custom action order.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"active"`: Template post migration custom action active status.
 - `"category"`: Template post migration custom action category.
 - `"description"`: Template post migration custom action description.
@@ -2010,11 +2117,14 @@ end
 Remove source server post migration custom action.
 
 # Arguments
+
 - `action_id`: Source server post migration custom action ID to remove.
 - `source_server_id`: Source server ID of the post migration custom action to remove.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Source server post migration account ID.
 """
 function remove_source_server_action end
@@ -2061,10 +2171,10 @@ end
 Remove template post migration custom action.
 
 # Arguments
-- `action_id`: Template post migration custom action ID to remove.
-- `launch_configuration_template_id`: Launch configuration template ID of the post
-  migration custom action to remove.
 
+- `action_id`: Template post migration custom action ID to remove.
+- `launch_configuration_template_id`: Launch configuration template ID of the post migration
+  custom action to remove.
 """
 function remove_template_action end
 
@@ -2116,10 +2226,13 @@ end
 Resume Replication.
 
 # Arguments
+
 - `source_server_id`: Resume Replication Request source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Resume Replication Request account ID.
 """
 function resume_replication end
@@ -2156,16 +2269,18 @@ end
     retry_data_replication(source_server_id)
     retry_data_replication(source_server_id, params::Dict{String,<:Any})
 
-Causes the data replication initiation sequence to begin immediately upon next Handshake
-for specified SourceServer IDs, regardless of when the previous initiation started. This
-command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED
-state.
+Causes the data replication initiation sequence to begin immediately upon next Handshake for
+specified SourceServer IDs, regardless of when the previous initiation started. This command
+will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
+
 - `source_server_id`: Retry data replication for Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Retry data replication for Account ID.
 """
 function retry_data_replication end
@@ -2207,10 +2322,13 @@ whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycl
 property to CUTTING_OVER.
 
 # Arguments
+
 - `source_server_ids`: Start Cutover by Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Start Cutover by Account IDs
 - `"tags"`: Start Cutover by Tags.
 """
@@ -2251,11 +2369,14 @@ end
 Start export.
 
 # Arguments
+
 - `s3_bucket`: Start export request s3 bucket.
 - `s3_key`: Start export request s3key.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"s3BucketOwner"`: Start export request s3 bucket owner.
 """
 function start_export end
@@ -2296,10 +2417,13 @@ end
 Start import.
 
 # Arguments
+
 - `s3_bucket_source`: Start import request s3 bucket source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Start import request client token.
 """
 function start_import end
@@ -2345,10 +2469,13 @@ end
 Starts replication for SNAPSHOT_SHIPPING agents.
 
 # Arguments
+
 - `source_server_id`: ID of source server on which to start replication.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID on which to start replication.
 """
 function start_replication end
@@ -2385,15 +2512,18 @@ end
     start_test(source_server_ids)
     start_test(source_server_ids, params::Dict{String,<:Any})
 
-Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job
-whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state
-property to TESTING.
+Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose
+initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to
+TESTING.
 
 # Arguments
+
 - `source_server_ids`: Start Test for Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Start Test for Account ID.
 - `"tags"`: Start Test by Tags.
 """
@@ -2434,10 +2564,13 @@ end
 Stop Replication.
 
 # Arguments
+
 - `source_server_id`: Stop Replication Request source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Stop Replication Request account ID.
 """
 function stop_replication end
@@ -2480,9 +2613,9 @@ the new value. Each resource can have a maximum of 50 tags. Each tag consists of
 optional value.
 
 # Arguments
+
 - `resource_arn`: Tag resource by ARN.
 - `tags`: Tag resource by Tags.
-
 """
 function tag_resource end
 
@@ -2520,10 +2653,13 @@ will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_O
 CUTOVER.
 
 # Arguments
+
 - `source_server_ids`: Terminate Target instance by Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Terminate Target instance by Account ID
 - `"tags"`: Terminate Target instance by Tags.
 """
@@ -2566,10 +2702,13 @@ end
 Unarchive application.
 
 # Arguments
+
 - `application_id`: Application ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function unarchive_application end
@@ -2609,10 +2748,13 @@ end
 Unarchive wave.
 
 # Arguments
+
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 """
 function unarchive_wave end
@@ -2647,9 +2789,9 @@ Deletes the specified set of tags from the specified set of Application Migratio
 resources.
 
 # Arguments
+
 - `resource_arn`: Untag resource by ARN.
 - `tag_keys`: Untag resource by Keys.
-
 """
 function untag_resource end
 
@@ -2687,10 +2829,13 @@ end
 Update application.
 
 # Arguments
+
 - `application_id`: Application ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 - `"description"`: Application description.
 - `"name"`: Application name.
@@ -2732,10 +2877,13 @@ end
 Update Connector.
 
 # Arguments
+
 - `connector_id`: Update Connector request connector ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: Update Connector request name.
 - `"ssmCommandConfig"`: Update Connector request SSM command config.
 """
@@ -2771,14 +2919,19 @@ end
     update_launch_configuration(source_server_id)
     update_launch_configuration(source_server_id, params::Dict{String,<:Any})
 
-Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are
-LEGACY_BIOS | UEFI
+Updates multiple LaunchConfigurations by Source Server ID.
+
+!!! note
+    bootMode valid values are `LEGACY_BIOS | UEFI`
 
 # Arguments
+
 - `source_server_id`: Update Launch configuration by Source Server ID request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Update Launch configuration Account ID.
 - `"bootMode"`: Update Launch configuration boot mode request.
 - `"copyPrivateIp"`: Update Launch configuration copy Private IP request.
@@ -2789,8 +2942,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mapAutoTaggingMpeID"`: Launch configuration map auto tagging MPE ID.
 - `"name"`: Update Launch configuration name request.
 - `"postLaunchActions"`:
-- `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance
-  right sizing request.
+- `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance right
+  sizing request.
 """
 function update_launch_configuration end
 
@@ -2829,10 +2982,13 @@ end
 Updates an existing Launch Configuration Template by ID.
 
 # Arguments
+
 - `launch_configuration_template_id`: Launch Configuration Template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associatePublicIpAddress"`: Associate public Ip address.
 - `"bootMode"`: Launch configuration template boot mode.
 - `"copyPrivateIp"`: Copy private Ip.
@@ -2890,10 +3046,13 @@ end
 Allows you to update multiple ReplicationConfigurations by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: Update replication configuration Source Server ID request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Update replication configuration Account ID request.
 - `"associateDefaultSecurityGroup"`: Update replication configuration associate default
   Application Migration Service Security group request.
@@ -2953,11 +3112,14 @@ end
 Updates multiple ReplicationConfigurationTemplates by ID.
 
 # Arguments
+
 - `replication_configuration_template_id`: Update replication configuration template
   template ID request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"arn"`: Update replication configuration template ARN request.
 - `"associateDefaultSecurityGroup"`: Update replication configuration template associate
   default Application Migration Service Security group request.
@@ -2978,8 +3140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stagingAreaSubnetId"`: Update replication configuration template Staging Area subnet ID
   request.
 - `"stagingAreaTags"`: Update replication configuration template Staging Area Tags request.
-- `"useDedicatedReplicationServer"`: Update replication configuration template use
-  dedicated Replication Server request.
+- `"useDedicatedReplicationServer"`: Update replication configuration template use dedicated
+  Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration template use Fips Endpoint request.
 """
 function update_replication_configuration_template end
@@ -3028,10 +3190,13 @@ end
 Update Source Server.
 
 # Arguments
+
 - `source_server_id`: Update Source Server request source server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Update Source Server request account ID.
 - `"connectorAction"`: Update Source Server request connector action.
 """
@@ -3073,11 +3238,14 @@ Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_S
 replication type.
 
 # Arguments
+
 - `replication_type`: Replication type to which to update source server.
 - `source_server_id`: ID of source server on which to update replication type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID on which to update replication type.
 """
 function update_source_server_replication_type end
@@ -3126,10 +3294,13 @@ end
 Update wave.
 
 # Arguments
+
 - `wave_id`: Wave ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountID"`: Account ID.
 - `"description"`: Wave description.
 - `"name"`: Wave name.

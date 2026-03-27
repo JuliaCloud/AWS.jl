@@ -12,9 +12,9 @@ Associate a Source Network to an existing CloudFormation Stack and modify launch
 to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
 
 # Arguments
+
 - `cfn_stack_name`: CloudFormation template to associate with a Source Network.
 - `source_network_id`: The Source Network ID to associate with CloudFormation template.
-
 """
 function associate_source_network_stack end
 
@@ -59,15 +59,18 @@ end
     create_extended_source_server(source_server_arn)
     create_extended_source_server(source_server_arn, params::Dict{String,<:Any})
 
-Create an extended source server in the target Account based on the source server in
-staging account.
+Create an extended source server in the target Account based on the source server in staging
+account.
 
 # Arguments
-- `source_server_arn`: This defines the ARN of the source server in staging Account based
-  on which you want to create an extended source server.
+
+- `source_server_arn`: This defines the ARN of the source server in staging Account based on
+  which you want to create an extended source server.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A list of tags associated with the extended source server.
 """
 function create_extended_source_server end
@@ -109,14 +112,16 @@ end
 Creates a new Launch Configuration Template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
-  server when performing a drill, recovery or failback to the previous region or availability
-  zone, using the instance ID of the source instance.
+  server when performing a drill, recovery or failback to the previous region or
+  availability zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
 - `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
@@ -154,10 +159,11 @@ end
 Creates a new ReplicationConfigurationTemplate.
 
 # Arguments
+
 - `associate_default_security_group`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.
-- `bandwidth_throttling`: Configure bandwidth throttling for the outbound data transfer
-  rate of the Source Server in Mbps.
+- `bandwidth_throttling`: Configure bandwidth throttling for the outbound data transfer rate
+  of the Source Server in Mbps.
 - `create_public_ip`: Whether to create a Public IP for the Recovery Instance by default.
 - `data_plane_routing`: The data plane routing mechanism that will be used for replication.
 - `default_large_staging_disk_type`: The Staging Disk EBS volume type to be used during
@@ -166,8 +172,8 @@ Creates a new ReplicationConfigurationTemplate.
 - `pit_policy`: The Point in time (PIT) policy to manage snapshots taken during replication.
 - `replication_server_instance_type`: The instance type to be used for the replication
   server.
-- `replication_servers_security_groups_ids`: The security group IDs that will be used by
-  the replication server.
+- `replication_servers_security_groups_ids`: The security group IDs that will be used by the
+  replication server.
 - `staging_area_subnet_id`: The subnet to be used by the replication staging area.
 - `staging_area_tags`: A set of tags to be associated with all resources created in the
   replication staging area: EC2 replication server, EBS volumes, EBS snapshots, etc.
@@ -175,7 +181,9 @@ Creates a new ReplicationConfigurationTemplate.
   replication staging area.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
   replicate newly added disks.
 - `"ebsEncryptionKeyArn"`: The ARN of the EBS encryption key to be used during replication.
@@ -273,12 +281,15 @@ end
 Create a new Source Network resource for a provided VPC ID.
 
 # Arguments
+
 - `origin_account_id`: Account containing the VPC to protect.
 - `origin_region`: Region containing the VPC to protect.
 - `vpc_id`: Which VPC ID to protect.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A set of tags to be associated with the Source Network resource.
 """
 function create_source_network end
@@ -332,8 +343,8 @@ end
 Deletes a single Job by ID.
 
 # Arguments
-- `job_id`: The ID of the Job to be deleted.
 
+- `job_id`: The ID of the Job to be deleted.
 """
 function delete_job end
 
@@ -366,9 +377,9 @@ end
 Deletes a resource launch action.
 
 # Arguments
+
 - `action_id`:
 - `resource_id`:
-
 """
 function delete_launch_action end
 
@@ -412,9 +423,9 @@ end
 Deletes a single Launch Configuration Template by ID.
 
 # Arguments
+
 - `launch_configuration_template_id`: The ID of the Launch Configuration Template to be
   deleted.
-
 """
 function delete_launch_configuration_template end
 
@@ -461,8 +472,8 @@ Elastic Disaster Recovery. The Recovery Instance must be disconnected first in o
 delete it.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 
+- `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 """
 function delete_recovery_instance end
 
@@ -503,9 +514,9 @@ end
 Deletes a single Replication Configuration Template by ID
 
 # Arguments
+
 - `replication_configuration_template_id`: The ID of the Replication Configuration Template
   to be deleted.
-
 """
 function delete_replication_configuration_template end
 
@@ -553,8 +564,8 @@ end
 Delete Source Network resource.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to delete.
 
+- `source_network_id`: ID of the Source Network to delete.
 """
 function delete_source_network end
 
@@ -595,8 +606,8 @@ end
 Deletes a single Source Server by ID. The Source Server must be disconnected first.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to be deleted.
 
+- `source_server_id`: The ID of the Source Server to be deleted.
 """
 function delete_source_server end
 
@@ -635,10 +646,13 @@ end
 Retrieves a detailed Job log with pagination.
 
 # Arguments
+
 - `job_id`: The ID of the Job for which Job log items will be retrieved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of Job log items to retrieve.
 - `"nextToken"`: The token of the next Job log items to retrieve.
 """
@@ -677,7 +691,9 @@ are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are
 available only to *Support* and only used in response to relevant support tickets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Jobs.
 - `"maxResults"`: Maximum number of Jobs to retrieve.
 - `"nextToken"`: The token of the next Job to retrieve.
@@ -701,7 +717,9 @@ end
 Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"launchConfigurationTemplateIDs"`: Request to filter Launch Configuration Templates list
   by Launch Configuration Template ID.
 - `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
@@ -739,7 +757,9 @@ end
 Lists all Recovery Instances or multiple Recovery Instances by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Recovery Instances.
 - `"maxResults"`: Maximum number of Recovery Instances to retrieve.
 - `"nextToken"`: The token of the next Recovery Instance to retrieve.
@@ -771,10 +791,13 @@ end
 Lists all Recovery Snapshots for a single Source Server.
 
 # Arguments
+
 - `source_server_id`: Filter Recovery Snapshots by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Recovery Snapshots.
 - `"maxResults"`: Maximum number of Recovery Snapshots to retrieve.
 - `"nextToken"`: The token of the next Recovery Snapshot to retrieve.
@@ -817,7 +840,9 @@ end
 Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of Replication Configuration Templates to retrieve.
 - `"nextToken"`: The token of the next Replication Configuration Template to retrieve.
 - `"replicationConfigurationTemplateIDs"`: The IDs of the Replication Configuration
@@ -855,7 +880,9 @@ end
 Lists all Source Networks or multiple Source Networks filtered by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Source Networks.
 - `"maxResults"`: Maximum number of Source Networks to retrieve.
 - `"nextToken"`: The token of the next Source Networks to retrieve.
@@ -887,7 +914,9 @@ end
 Lists all Source Servers or multiple Source Servers filtered by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Source Servers.
 - `"maxResults"`: Maximum number of Source Servers to retrieve.
 - `"nextToken"`: The token of the next Source Server to retrieve.
@@ -921,15 +950,14 @@ immediately. All AWS resources created by Elastic Disaster Recovery for enabling
 replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the
 agent on the Recovery Instance has not been prevented from communicating with the Elastic
 Disaster Recovery service, then it will receive a command to uninstall itself (within
-approximately 10 minutes). The following properties of the Recovery Instance will be
-changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED;
-The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set
-to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be
-nullified.
+approximately 10 minutes). The following properties of the Recovery Instance will be changed
+immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The
+totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to
+zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance to disconnect.
 
+- `recovery_instance_id`: The ID of the Recovery Instance to disconnect.
 """
 function disconnect_recovery_instance end
 
@@ -968,19 +996,19 @@ end
     disconnect_source_server(source_server_id, params::Dict{String,<:Any})
 
 Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is
-stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling
-the replication of the Source Server will be terminated / deleted within 90 minutes. You
-cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source
-Server has not been prevented from communicating with the Elastic Disaster Recovery
-service, then it will receive a command to uninstall itself (within approximately 10
-minutes). The following properties of the SourceServer will be changed immediately:
+stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the
+replication of the Source Server will be terminated / deleted within 90 minutes. You cannot
+disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server
+has not been prevented from communicating with the Elastic Disaster Recovery service, then
+it will receive a command to uninstall itself (within approximately 10 minutes). The
+following properties of the SourceServer will be changed immediately:
 dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes
 property for each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to disconnect.
 
+- `source_server_id`: The ID of the Source Server to disconnect.
 """
 function disconnect_source_server end
 
@@ -1019,9 +1047,9 @@ end
 Export the Source Network CloudFormation template to an S3 bucket.
 
 # Arguments
+
 - `source_network_id`: The Source Network ID to export its CloudFormation template to an S3
   bucket.
-
 """
 function export_source_network_cfn_template end
 
@@ -1062,9 +1090,9 @@ end
 Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance whose failback replication
   configuration should be returned.
-
 """
 function get_failback_replication_configuration end
 
@@ -1105,9 +1133,9 @@ end
 Gets a LaunchConfiguration, filtered by Source Server IDs.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server that we want to retrieve a Launch
   Configuration for.
-
 """
 function get_launch_configuration end
 
@@ -1146,8 +1174,8 @@ end
 Gets a ReplicationConfiguration, filtered by Source Server ID.
 
 # Arguments
-- `source_server_id`: The ID of the Source Serve for this Replication Configuration.r
 
+- `source_server_id`: The ID of the Source Serve for this Replication Configuration.r
 """
 function get_replication_configuration end
 
@@ -1184,7 +1212,6 @@ end
     initialize_service(params::Dict{String,<:Any})
 
 Initialize Elastic Disaster Recovery.
-
 """
 function initialize_service end
 
@@ -1204,16 +1231,19 @@ end
     list_extensible_source_servers(staging_account_id)
     list_extensible_source_servers(staging_account_id, params::Dict{String,<:Any})
 
-Returns a list of source servers on a staging account that are extensible, which means
-that: a. The source server is not already extended into this Account. b. The source server
-on the Account we’re reading from is not an extension of another source server.
+Returns a list of source servers on a staging account that are extensible, which means that:
+a. The source server is not already extended into this Account. b. The source server on the
+Account we’re reading from is not an extension of another source server.
 
 # Arguments
+
 - `staging_account_id`: The Id of the staging Account to retrieve extensible source servers
   from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of extensible source servers to retrieve.
 - `"nextToken"`: The token of the next extensible source server to retrieve.
 """
@@ -1256,10 +1286,13 @@ end
 Lists resource launch actions.
 
 # Arguments
+
 - `resource_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Filters to apply when listing resource launch actions.
 - `"maxResults"`: Maximum amount of items to return when listing resource launch actions.
 - `"nextToken"`: Next token to use when listing resource launch actions.
@@ -1299,7 +1332,9 @@ end
 Returns an array of staging accounts for existing extended source servers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of staging Accounts to retrieve.
 - `"nextToken"`: The token of the next staging Account to retrieve.
 """
@@ -1324,8 +1359,8 @@ end
 List all tags for your Elastic Disaster Recovery resources.
 
 # Arguments
-- `resource_arn`: The ARN of the resource whose tags should be returned.
 
+- `resource_arn`: The ARN of the resource whose tags should be returned.
 """
 function list_tags_for_resource end
 
@@ -1352,6 +1387,7 @@ end
 Puts a resource launch action.
 
 # Arguments
+
 - `action_code`: Launch action code.
 - `action_id`:
 - `action_version`:
@@ -1364,7 +1400,9 @@ Puts a resource launch action.
 - `resource_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`:
 """
 function put_launch_action end
@@ -1446,14 +1484,14 @@ end
     retry_data_replication(source_server_id)
     retry_data_replication(source_server_id, params::Dict{String,<:Any})
 
-WARNING: RetryDataReplication is deprecated. Causes the data replication initiation
-sequence to begin immediately upon next Handshake for the specified Source Server ID,
-regardless of when the previous initiation started. This command will work only if the
-Source Server is stalled or is in a DISCONNECTED or STOPPED state.
+WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence
+to begin immediately upon next Handshake for the specified Source Server ID, regardless of
+when the previous initiation started. This command will work only if the Source Server is
+stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server whose data replication should be retried.
 
+- `source_server_id`: The ID of the Source Server whose data replication should be retried.
 """
 function retry_data_replication end
 
@@ -1491,13 +1529,13 @@ end
 
 Start replication to origin / target region - applies only to protected instances that
 originated in EC2. For recovery instances on target region - starts replication back to
-origin region. For failback instances on origin region - starts replication to target
-region to re-protect them.
+origin region. For failback instances on origin region - starts replication to target region
+to re-protect them.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance that we want to reverse the
   replication for.
-
 """
 function reverse_replication end
 
@@ -1540,11 +1578,14 @@ Recovery Instance. This will run conversion on the failback client and will rebo
 machine, thus completing the failback process.
 
 # Arguments
-- `recovery_instance_ids`: The IDs of the Recovery Instance whose failback launch we want
-  to request.
+
+- `recovery_instance_ids`: The IDs of the Recovery Instance whose failback launch we want to
+  request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to be associated with the failback launch Job.
 """
 function start_failback_launch end
@@ -1585,14 +1626,17 @@ end
     start_recovery(source_servers)
     start_recovery(source_servers, params::Dict{String,<:Any})
 
-Launches Recovery Instances for the specified Source Servers. For each Source Server you
-may choose a point in time snapshot to launch from, or use an on demand snapshot.
+Launches Recovery Instances for the specified Source Servers. For each Source Server you may
+choose a point in time snapshot to launch from, or use an on demand snapshot.
 
 # Arguments
+
 - `source_servers`: The Source Servers that we want to start a Recovery Job for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isDrill"`: Whether this Source Server Recovery operation is a drill or not.
 - `"tags"`: The tags to be associated with the Recovery Job.
 """
@@ -1632,8 +1676,8 @@ Starts replication for a stopped Source Server. This action would make the Sourc
 protected again and restart billing for it.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to start replication for.
 
+- `source_server_id`: The ID of the Source Server to start replication for.
 """
 function start_replication end
 
@@ -1669,14 +1713,17 @@ end
     start_source_network_recovery(source_networks)
     start_source_network_recovery(source_networks, params::Dict{String,<:Any})
 
-Deploy VPC for the specified Source Network and modify launch templates to use this
-network. The VPC will be deployed using a dedicated CloudFormation stack.
+Deploy VPC for the specified Source Network and modify launch templates to use this network.
+The VPC will be deployed using a dedicated CloudFormation stack.
 
 # Arguments
+
 - `source_networks`: The Source Networks that we want to start a Recovery Job for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deployAsNew"`: Don't update existing CloudFormation Stack, recover the network using a
   new stack.
 - `"tags"`: The tags to be associated with the Source Network recovery Job.
@@ -1719,8 +1766,8 @@ Starts replication for a Source Network. This action would make the Source Netwo
 protected.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to replicate.
 
+- `source_network_id`: ID of the Source Network to replicate.
 """
 function start_source_network_replication end
 
@@ -1762,8 +1809,8 @@ Stops the failback process for a specified Recovery Instance. This changes the F
 State of the Recovery Instance back to FAILBACK_NOT_STARTED.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance we want to stop failback for.
 
+- `recovery_instance_id`: The ID of the Recovery Instance we want to stop failback for.
 """
 function stop_failback end
 
@@ -1801,12 +1848,12 @@ end
     stop_replication(source_server_id)
     stop_replication(source_server_id, params::Dict{String,<:Any})
 
-Stops replication for a Source Server. This action would make the Source Server
-unprotected, delete its existing snapshots and stop billing for it.
+Stops replication for a Source Server. This action would make the Source Server unprotected,
+delete its existing snapshots and stop billing for it.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to stop replication for.
 
+- `source_server_id`: The ID of the Source Server to stop replication for.
 """
 function stop_replication end
 
@@ -1846,8 +1893,8 @@ Stops replication for a Source Network. This action would make the Source Networ
 unprotected.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to stop replication.
 
+- `source_network_id`: ID of the Source Network to stop replication.
 """
 function stop_source_network_replication end
 
@@ -1891,9 +1938,9 @@ the new value. Each resource can have a maximum of 50 tags. Each tag consists of
 optional value.
 
 # Arguments
+
 - `resource_arn`: ARN of the resource for which tags are to be added or updated.
 - `tags`: Array of tags to be added or updated.
-
 """
 function tag_resource end
 
@@ -1931,8 +1978,8 @@ Instances, and then will delete the Recovery Instances from the Elastic Disaster
 service.
 
 # Arguments
-- `recovery_instance_ids`: The IDs of the Recovery Instances that should be terminated.
 
+- `recovery_instance_ids`: The IDs of the Recovery Instances that should be terminated.
 """
 function terminate_recovery_instances end
 
@@ -1976,9 +2023,9 @@ Deletes the specified set of tags from the specified set of Elastic Disaster Rec
 resources.
 
 # Arguments
+
 - `resource_arn`: ARN of the resource for which tags are to be removed.
 - `tag_keys`: Array of tags to be removed.
-
 """
 function untag_resource end
 
@@ -2016,10 +2063,13 @@ end
 Allows you to update the failback replication configuration of a Recovery Instance by ID.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bandwidthThrottling"`: Configure bandwidth throttling for the outbound data transfer
   rate of the Recovery Instance in Mbps.
 - `"name"`: The name of the Failback Replication Configuration.
@@ -2065,11 +2115,14 @@ end
 Updates a LaunchConfiguration by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server that we want to retrieve a Launch
   Configuration for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Whether we should copy the Private IP of the Source Server to the
   Recovery Instance.
 - `"copyTags"`: Whether we want to copy the tags of the Source Server to the EC2 machine of
@@ -2122,17 +2175,20 @@ end
 Updates an existing Launch Configuration Template by ID.
 
 # Arguments
+
 - `launch_configuration_template_id`: Launch Configuration Template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
-  server when performing a drill, recovery or failback to the previous region or availability
-  zone, using the instance ID of the source instance.
+  server when performing a drill, recovery or failback to the previous region or
+  availability zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
 - `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
@@ -2180,10 +2236,13 @@ end
 Allows you to update a ReplicationConfiguration by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server for this Replication Configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration.
 - `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
@@ -2247,10 +2306,13 @@ end
 Updates a ReplicationConfigurationTemplate by ID.
 
 # Arguments
+
 - `replication_configuration_template_id`: The Replication Configuration Template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"arn"`: The Replication Configuration Template ARN.
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.

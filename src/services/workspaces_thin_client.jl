@@ -11,31 +11,45 @@ using AWS.UUIDs: uuid4
 Creates an environment for your thin client devices.
 
 # Arguments
+
 - `desktop_arn`: The Amazon Resource Name (ARN) of the desktop to stream from Amazon
   WorkSpaces, WorkSpaces Web, or AppStream 2.0.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"desiredSoftwareSetId"`: The ID of the software set to apply.
+
 - `"desktopEndpoint"`: The URL for the identity provider login (only for environments that
   use AppStream 2.0).
+
 - `"deviceCreationTags"`: A map of the key-value pairs of the tag or tags to assign to the
   newly created devices for this environment.
+
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Key Management Service key to use to
   encrypt the environment.
+
 - `"maintenanceWindow"`: A specification for a time window to apply software updates.
+
 - `"name"`: The name for the environment.
+
 - `"softwareSetUpdateMode"`: An option to define which software updates to apply.
+
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
   within a maintenance window.
+
 - `"tags"`: A map of the key-value pairs of the tag or tags to assign to the resource.
 """
 function create_environment end
@@ -79,18 +93,23 @@ end
 Deletes a thin client device.
 
 # Arguments
+
 - `id`: The ID of the device to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function delete_device end
 
@@ -125,18 +144,23 @@ end
 Deletes an environment.
 
 # Arguments
+
 - `id`: The ID of the environment to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
 """
 function delete_environment end
 
@@ -171,18 +195,24 @@ end
 Deregisters a thin client device.
 
 # Arguments
+
 - `id`: The ID of the device to deregister.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an
-  IdempotentParameterMismatch error.
+  the idempotency of the request. This lets you safely retry the request without
+  accidentally performing the same operation a second time. Passing the same value to a
+  later call to an operation requires that you also pass the same value for all other
+  parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters, the
+  retry fails with an `IdempotentParameterMismatch` error.
+
 - `"targetDeviceStatus"`: The desired new status for the device.
 """
 function deregister_device end
@@ -218,8 +248,8 @@ end
 Returns information for a thin client device.
 
 # Arguments
-- `id`: The ID of the device for which to return information.
 
+- `id`: The ID of the device for which to return information.
 """
 function get_device end
 
@@ -244,8 +274,8 @@ end
 Returns information for an environment.
 
 # Arguments
-- `id`: The ID of the environment for which to return information.
 
+- `id`: The ID of the environment for which to return information.
 """
 function get_environment end
 
@@ -270,8 +300,8 @@ end
 Returns information for a software set.
 
 # Arguments
-- `id`: The ID of the software set for which to return information.
 
+- `id`: The ID of the software set for which to return information.
 """
 function get_software_set end
 
@@ -296,15 +326,20 @@ end
 Returns a list of thin client devices.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_devices end
 
@@ -329,15 +364,20 @@ end
 Returns a list of environments.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_environments end
 
@@ -362,15 +402,20 @@ end
 Returns a list of software sets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that are returned per call. You can use
-  nextToken to obtain further pages of results. This is only an upper limit. The actual
-  number of results returned per call might be fewer than the specified maximum.
-- `"nextToken"`: If nextToken is returned, there are more results available. The value of
-  nextToken is a unique pagination token for each page. Make the call again using the
+  `nextToken` to obtain further pages of results.
+
+  This is only an upper limit. The actual number of results returned per call might be fewer
+  than the specified maximum.
+
+- `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
+  `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  *HTTP 400 InvalidToken error*.
 """
 function list_software_sets end
 
@@ -395,9 +440,9 @@ end
 Returns a list of tags for a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to
   retrieve tags.
-
 """
 function list_tags_for_resource end
 
@@ -426,9 +471,9 @@ end
 Assigns one or more tags (key-value pairs) to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`: A map of the key-value pairs of the tag or tags to assign to the resource.
-
 """
 function tag_resource end
 
@@ -464,10 +509,10 @@ end
 Removes a tag or tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to untag.
 - `tag_keys`: The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
-
 """
 function untag_resource end
 
@@ -505,10 +550,13 @@ end
 Updates a thin client device.
 
 # Arguments
+
 - `id`: The ID of the device to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"desiredSoftwareSetId"`: The ID of the software set to apply.
 - `"name"`: The name of the device to update.
 - `"softwareSetUpdateSchedule"`: An option to define if software updates should be applied
@@ -537,10 +585,13 @@ end
 Updates an environment.
 
 # Arguments
+
 - `id`: The ID of the environment to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"desiredSoftwareSetId"`: The ID of the software set to apply.
 - `"desktopArn"`: The Amazon Resource Name (ARN) of the desktop to stream from Amazon
   WorkSpaces, WorkSpaces Web, or AppStream 2.0.
@@ -577,9 +628,9 @@ end
 Updates a software set.
 
 # Arguments
+
 - `id`: The ID of the software set to update.
 - `validation_status`: An option to define if the software set has been validated.
-
 """
 function update_software_set end
 

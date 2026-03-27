@@ -6,6 +6,19 @@ function _clean_high_level_definition(definition::String)
     return definition
 end
 
+@testset "_replace" begin
+    @testset "overlap" begin
+        @test _replace("aaa", r"^(.*)a" => (m -> "$(m[1])b"); overlap=false) == "aab"
+        @test _replace("aaa", r"^(.*)a" => (m -> "$(m[1])b"); overlap=true) == "bbb"
+    end
+
+    @testset "avoid overlap infinite loop" begin
+        # Unless the logic is carefully crafted we'll infinite loop when we perform a
+        # replacement with the exact same value we matched on
+        @test _replace("aaa", r"a" => (m -> m.match); overlap=true) == "aaa"
+    end
+end
+
 @testset "_get_service_files" begin
     apply(Patches._github_tree_patch) do
         service_files = _get_service_files(GitHub.OAuth2("foobar"))
@@ -176,49 +189,24 @@ end
     end
 end
 
-@testset "_clean_documentation" begin
-    documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action."
-    expected_result = "To remove one or more tags, use the RemoveTagsFromCertificate action.   To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action."
-    result = _clean_documentation(documentation)
+@testset "_html_to_markdown" begin
+    html = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action.</p>"
+    markdown = "To remove one or more tags, use the [`remove_tags_from_certificate`](@ref) action. \\\$ \\\\ To view all of the tags that have been applied to the certificate, use the `ListTagsForCertificate` action."
+    doc_refs = Dict("RemoveTagsFromCertificate" => "remove_tags_from_certificate")
+    @test _html_to_markdown(html, doc_refs) == markdown
 
-    @test result == expected_result
-end
+    # From S3 target "com.amazonaws.s3#GrantFullControl"
+    html = "<p>Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions\n      on the object.</p>\n         <p>By default, all objects are private. Only the owner has full access control. When uploading an\n      object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or\n      groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see\n        <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html\">Access Control List (ACL)\n        Overview</a> in the <i>Amazon S3 User Guide</i>.</p>\n         <p>You specify each grantee as a type=value pair, where the type is one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>id</code> – if the value specified is the canonical user ID of an Amazon Web Services account</p>\n            </li>\n            <li>\n               <p>\n                  <code>uri</code> – if you are granting permissions to a predefined group</p>\n            </li>\n            <li>\n               <p>\n                  <code>emailAddress</code> – if the value specified is the email address of an\n          Amazon Web Services account</p>\n               <note>\n                  <p>Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions: </p>\n                  <ul>\n                     <li>\n                        <p>US East (N. Virginia)</p>\n                     </li>\n                     <li>\n                        <p>US West (N. California)</p>\n                     </li>\n                     <li>\n                        <p> US West (Oregon)</p>\n                     </li>\n                     <li>\n                        <p> Asia Pacific (Singapore)</p>\n                     </li>\n                     <li>\n                        <p>Asia Pacific (Sydney)</p>\n                     </li>\n                     <li>\n                        <p>Asia Pacific (Tokyo)</p>\n                     </li>\n                     <li>\n                        <p>Europe (Ireland)</p>\n                     </li>\n                     <li>\n                        <p>South America (São Paulo)</p>\n                     </li>\n                  </ul>\n                  <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region\">Regions and Endpoints</a> in the Amazon Web Services General Reference.</p>\n               </note>\n            </li>\n         </ul>"
+    markdown = "Specify access permissions explicitly to give the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.\n\nBy default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the *Amazon S3 User Guide*.\n\nYou specify each grantee as a type=value pair, where the type is one of the following:\n\n- `id` – if the value specified is the canonical user ID of an Amazon Web Services account\n- `uri` – if you are granting permissions to a predefined group\n- `emailAddress` – if the value specified is the email address of an Amazon Web Services account\n\n  !!! note\n      Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:\n        - US East (N. Virginia)\n        - US West (N. California)\n        - US West (Oregon)\n        - Asia Pacific (Singapore)\n        - Asia Pacific (Sydney)\n        - Asia Pacific (Tokyo)\n        - Europe (Ireland)\n        - South America (São Paulo)\n      For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference."
+    @test _html_to_markdown(html) == markdown
 
-@testset "_clean_uri" begin
-    @testset "no parameters" begin
-        uri = "/v1/configurations/"
-        expected = "/v1/configurations/"
+    html = "<note> hello! </note>"
+    markdown = "!!! note\n    hello!"
+    @test _html_to_markdown(html) == markdown
 
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "single parameter" begin
-        uri = "/v1/configurations/{parameter-one}"
-        expected = "/v1/configurations/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "multiple parameters" begin
-        uri = "/v1/configurations/{parameter_one}/{parameter_two}"
-        expected = "/v1/configurations/\$(parameter_one)/\$(parameter_two)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "hyphen not in parameter" begin
-        uri = "/v1/configuration-parameters/{parameter-one}"
-        expected = "/v1/configuration-parameters/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "remove plus signs" begin
-        uri = "/v1/configuration-parameters/{parameter-one+}"
-        expected = "/v1/configuration-parameters/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
+    html = "<ul><li>list item.<note>foo</note><note>bar</note></li></ul>"
+    markdown = "- list item.\n\n  !!! note\n      foo\n\n  !!! note\n      bar"
+    @test _html_to_markdown(html) == markdown
 end
 
 @testset "_format_name" begin
@@ -569,118 +557,348 @@ end
         @test_throws BoundsError _validindex(str, 10)
     end
 
+    @testset "get_markdown_indent" begin
+        @test get_markdown_indent("foo") == 0
+        @test get_markdown_indent("  foo") == 2
+        @test get_markdown_indent("    foo") == 4
+
+        @test get_markdown_indent("  ") == 0
+        @test get_markdown_indent("    ") == 0
+
+        @test get_markdown_indent("- foo") == 2
+        @test get_markdown_indent("  - foo") == 4
+
+        @test get_markdown_indent("1. foo") == 3
+        @test get_markdown_indent("   1. foo") == 6
+        @test get_markdown_indent("2. foo") == 3
+        @test get_markdown_indent("   2. foo") == 6
+    end
+
     @testset "_splitline" begin
         str = "This is a short sentence."
 
         @testset "limit < 1" begin
-            @test_throws DomainError _splitline(str, 0)
-            @test_throws DomainError _splitline(str, -1)
+            @test_throws DomainError _splitline(""; limit=0)
+            @test_throws DomainError _splitline(""; limit=-1)
         end
 
-        @testset "limit == 1" begin
-            result = _splitline(str, 1)
-            @test result isa Tuple{String,String}
-            line1, line2 = result
-            @test line1 == string(first(str)) == "T"
-            @test line2 == str[2:end] == "his is a short sentence."
-        end
+        @testset "basic" begin
+            str = "foo-bar baz"
 
-        @testset "limit >= ncodeunits" begin
-            for limit in (ncodeunits(str), ncodeunits(str) + 1)
-                result = _splitline(str, limit)
-                @test result isa Tuple{String,String}
-                line1, line2 = result
-                @test line1 == str
-                @test line2 == ""
+            for limit in 1:(length(str) + 1)
+                @testset let limit = limit
+                    expected = if limit <= 6
+                        ("foo-", "bar baz")
+                    elseif limit <= 10
+                        ("foo-bar ", "baz")
+                    else
+                        ("foo-bar baz", "")
+                    end
+
+                    result = _splitline(str; limit)
+
+                    # Provides better context than using `isa`
+                    @test typeof(result) <: Tuple{AbstractString,AbstractString}
+
+                    @test result == expected
+                end
             end
         end
 
-        @testset "split on whitespace when possible" begin
-            abc = "Aa Bb Cc"
-            @test _splitline(abc, 1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
-            @test _splitline(abc, 2) == ("Aa", " Bb Cc")
-            @test _splitline(abc, 3) == ("Aa ", "Bb Cc")
-            @test _splitline(abc, 4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
-            @test _splitline(abc, 5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
-            @test _splitline(abc, 6) == ("Aa Bb ", "Cc")
-            @test _splitline(abc, ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
+        @testset "respect newlines" begin
+            str = "  foo\n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _splitline(str; limit) == ("  foo\n", "  bar")
+                end
+            end
+
+            # Even though we can split earlier (limit=5) we avoid treating trailing spaces
+            # towards our line length to avoid adding extra newlines.
+            str = "  foo \n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _splitline(str; limit) == ("  foo \n", "  bar")
+                end
+            end
+
+            @test _splitline("\nfoo"; limit=5) == ("\n", "foo")
         end
 
-        @testset "does not try to split mid-character" begin
-            str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
-            @test _splitline(str, 2) == ("jμ", "ΛIα")
-            @test _splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
-            @test _splitline(str, 4) == ("jμΛ", "Iα")
-        end
+        @testset "avoid split" begin
+            # Avoid splitting within a word
+            str = "jμΛIα"
+            @test _splitline(str; limit=1) == (str, "")
 
-        @testset "does not split on punctuation" begin
-            str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
-            result = _splitline(str, ncodeunits(str) - 1)
-            # don't split escaped closing quote `\"` into `\` and `"`
-            @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
+            # Avoid splittling code blocks (would otherwise split on a hypen)
+            str = "`arn:aws:health:us-west-1::event/EBS/AWS`"
+            @test _splitline(str; limit=1) == (str, "")
+
+            # Avoid splitting in links
+            str = "[I'm an inline-style link](https://localhost:8000/inline-link)"
+            @test _splitline(str; limit=1) == (str, "")
+
+            # Avoid splittine nested links
+            str = "[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE-VIDEO-ID-HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE-VIDEO-ID-HERE)"
+            @test _splitline(str; limit=1) == (str, "")
         end
     end
 
     @testset "_wraplines" begin
-        str = "This sentence contains exactly `η = 50` codeunits"
-
         @testset "limit < 1" begin
-            @test_throws DomainError _wraplines(str, 0)
-            @test_throws DomainError _wraplines(str, -1)
+            @test_throws DomainError _wraplines(""; limit=0)
+            @test_throws DomainError _wraplines(""; limit=-1)
         end
 
-        @testset "limit == 1" begin
-            wrapped = _wraplines(str, 1)
-            @test wrapped isa String
-            @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
-        end
+        @testset "basic" begin
+            str = "foo-bar baz"
 
-        @testset "limit >= ncodeunits" begin
-            for limit in (50, 99)
-                wrapped = _wraplines(str, limit)
-                @test wrapped isa String
-                @test wrapped == str
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    if limit <= 6
+                        # Lines are wrapped when they can be.
+                        @test _wraplines(str; limit) == "foo-\nbar\nbaz"
+                    elseif limit <= 7
+                        # Wrap immediately after "foo-bar" which could accidentally cause
+                        # the space to indent the next line.
+                        @test _wraplines(str; limit) == "foo-bar\nbaz"
+                    elseif limit <= 10
+                        # Limit is long enough we wrap at the the space.
+                        @test _wraplines(str; limit) == "foo-bar\nbaz"
+                    else
+                        # Limit is large enough that no wrapping occurs
+                        @test _wraplines(str; limit) == "foo-bar baz"
+                    end
+                end
             end
         end
 
-        @testset "1 < limit < ncodeunits" begin
-            @test _wraplines(str, 20) == """
-                This sentence
-                contains exactly
-                `η = 50` codeunits"""
-            @test _wraplines(str, 25) == """
-                This sentence contains
-                exactly `η = 50`
-                codeunits"""
-            @test _wraplines(str, 30) == """
-                This sentence contains
-                exactly `η = 50` codeunits"""
+        @testset "respect newlines" begin
+            str = "  foo\n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo\n  bar"
+                end
+            end
+
+            # Trim trailing spaces
+            str = "  foo \n  bar"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo\n  bar"
+                end
+            end
+
+            # Remove newlines at the end of the string
+            str = "  foo\n\n\n\n"
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    @test _wraplines(str; limit) == "  foo"
+                end
+            end
         end
 
-        @testset "trailing whitespace is stripped" begin
+        @testset "code-block" begin
+            # The `limit` is based upon number of characters
+            str = "This sentence contains exactly `η = 50` codeunits"
+
+            for limit in 1:length(str)
+                @testset let limit = limit
+                    if limit <= 12
+                        # Lines are wrapped for each word or code-block.
+                        @test _wraplines(str; limit) ==
+                            "This\nsentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                    elseif limit <= 15
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains\nexactly\n`η = 50`\ncodeunits"
+                    elseif limit <= 17
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains exactly\n`η = 50`\ncodeunits"
+                    elseif limit <= 21
+                        @test _wraplines(str; limit) ==
+                            "This sentence\ncontains exactly\n`η = 50` codeunits"
+                    elseif limit <= 25
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains\nexactly `η = 50`\ncodeunits"
+                    elseif limit <= 29
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains\nexactly `η = 50` codeunits"
+                    elseif limit <= 38
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly\n`η = 50` codeunits"
+                    elseif limit <= 48
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly `η = 50`\ncodeunits"
+                    else
+                        @test _wraplines(str; limit) ==
+                            "This sentence contains exactly `η = 50` codeunits"
+                    end
+                end
+            end
+        end
+
+        @testset "whitespace handling" begin
             str = "16charactersthen    fourspaces "
-            @test _wraplines(str, 16) == "16charactersthen\n    fourspaces"
-            @test _wraplines(str, 17) == "16charactersthen\n   fourspaces"
-            @test _wraplines(str, 18) == "16charactersthen\n  fourspaces"
+
+            for limit in 1:ncodeunits(str)
+                @testset let limit = limit
+                    if limit <= 29
+                        # Set line break before or on the first whitespace character.
+                        # Accidental indententation will be removed.
+                        @test _wraplines(str; limit) == "16charactersthen\nfourspaces"
+                    else
+                        @test _wraplines(str; limit) == "16charactersthen    fourspaces"
+                    end
+                end
+            end
         end
 
-        @testset "has default `limit=92` argument" begin
+        @testset "`limit=92` default" begin
             str = string(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str) == _wraplines(str, 92)
+            expected = """
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua."""
+            @test _wraplines(str) == expected
+            @test _wraplines(str; limit=92) == expected
         end
 
-        @testset "optional `delim` keyword" begin
+        @testset "auto-indent text" begin
+            str = string(
+                "  Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            )
+            expected = string(
+                "  Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit, sed do eiusmod tempor incididunt ut labore et\n",
+                "  dolore magna aliqua.",
+            )
+            @test _wraplines(str; limit=53) == expected
+        end
+
+        @testset "auto-indent unordered list" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
                 "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             )
-            @test _wraplines(str, 50; delim="\n  ") == """
-                - Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua."""
+            expected = """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit, sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua."""
+            @test _wraplines(str; limit=53) == expected
+        end
+
+        @testset "auto-indent ordered list" begin
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            )
+            expected = """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit, sed do eiusmod tempor incididunt ut labore
+                   et dolore magna aliqua."""
+            @test _wraplines(str; limit=53) == expected
+        end
+
+        @testset "auto-indent list nested" begin
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "  - Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "  - Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "- Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit.
+                  - Maecenas scelerisque erat vitae dignissim tempus.
+                  - Morbi lacinia tortor at nibh blandit, id dictum
+                    dui venenatis.
+                - Nunc a augue eu mauris scelerisque maximus id vel
+                  neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "   1. Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "   2. Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "2. Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit.
+                   1. Maecenas scelerisque erat vitae dignissim
+                      tempus.
+                   2. Morbi lacinia tortor at nibh blandit, id dictum
+                      dui venenatis.
+                2. Nunc a augue eu mauris scelerisque maximus id vel
+                   neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "   - Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "   - Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "2. Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                1. Lorem ipsum dolor sit amet, consectetur adipiscing
+                   elit.
+                   - Maecenas scelerisque erat vitae dignissim
+                     tempus.
+                   - Morbi lacinia tortor at nibh blandit, id dictum
+                     dui venenatis.
+                2. Nunc a augue eu mauris scelerisque maximus id vel
+                   neque."""
+            @test _wraplines(str; limit=53) == expected
+
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n",
+                "  1. Maecenas scelerisque erat vitae dignissim tempus.\n",
+                "  2. Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.\n",
+                "- Nunc a augue eu mauris scelerisque maximus id vel neque.",
+            )
+            expected = """
+                - Lorem ipsum dolor sit amet, consectetur adipiscing
+                  elit.
+                  1. Maecenas scelerisque erat vitae dignissim
+                     tempus.
+                  2. Morbi lacinia tortor at nibh blandit, id dictum
+                     dui venenatis.
+                - Nunc a augue eu mauris scelerisque maximus id vel
+                  neque."""
+            @test _wraplines(str; limit=53) == expected
+        end
+
+        @testset "`base_indent` keyword" begin
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n",
+                "Maecenas scelerisque erat vitae dignissim tempus.\n\n",
+                "note !!!\n",
+                "     Morbi lacinia tortor at nibh blandit, id dictum dui venenatis.",
+            )
+            expected = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit.\n\n",
+                "  Maecenas scelerisque erat vitae dignissim tempus.\n\n",
+                "  note !!!\n",
+                "       Morbi lacinia tortor at nibh blandit, id\n",
+                "       dictum dui venenatis.",
+            )
+            @test _wraplines(str; limit=53, base_indent=2) == expected
+
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit:\n\n",
+                "`arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`.",
+            )
+            expected = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+                "  elit:\n",
+                "\n",
+                "  `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`.",
+            )
+            @test _wraplines(str; limit=53, base_indent=2) == expected
         end
     end
 end

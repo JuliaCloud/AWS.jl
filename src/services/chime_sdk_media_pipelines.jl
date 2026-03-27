@@ -11,6 +11,7 @@ using AWS.UUIDs: uuid4
 Creates a media pipeline.
 
 # Arguments
+
 - `sink_arn`: The ARN of the sink type.
 - `sink_type`: Destination type to which the media artifacts are saved. You must use an S3
   bucket.
@@ -19,9 +20,11 @@ Creates a media pipeline.
   Meeting is the only supported source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChimeSdkMeetingConfiguration"`: The configuration for a specified media pipeline.
-  SourceType must be ChimeSdkMeeting.
+  `SourceType` must be `ChimeSdkMeeting`.
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
   API request idempotent. Use a unique token for each media pipeline request.
 - `"Tags"`: The tag key-value pairs.
@@ -86,11 +89,14 @@ end
 Creates a media concatenation pipeline.
 
 # Arguments
+
 - `sinks`: An object that specifies the data sinks for the media concatenation pipeline.
 - `sources`: An object that specifies the sources for the media concatenation pipeline.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
   API request idempotent. Use a unique token for each media concatenation pipeline request.
 - `"Tags"`: The tags associated with the media concatenation pipeline.
@@ -143,10 +149,13 @@ end
 Creates a media insights pipeline.
 
 # Arguments
+
 - `media_insights_pipeline_configuration_arn`: The ARN of the pipeline's configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The unique identifier for the media insights pipeline request.
 - `"KinesisVideoStreamRecordingSourceRuntimeConfiguration"`: The runtime configuration for
   the Kinesis video recording stream source.
@@ -156,7 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Consists of a key-value map of strings.
 - `"S3RecordingSinkRuntimeConfiguration"`: The runtime configuration for the S3 recording
   sink. If specified, the settings in this structure override any settings in
-  S3RecordingSinkConfiguration.
+  `S3RecordingSinkConfiguration`.
 - `"Tags"`: The tags assigned to the media insights pipeline.
 """
 function create_media_insights_pipeline end
@@ -209,16 +218,19 @@ end
 A structure that contains the static configurations for a media insights pipeline.
 
 # Arguments
+
 - `elements`: The elements in the request, such as a processor for Amazon Transcribe or a
   sink for a Kinesis Data Stream.
 - `media_insights_pipeline_configuration_name`: The name of the media insights pipeline
   configuration.
 - `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
-  Services resources, including Transcribe and Transcribe Call Analytics, on the caller’s
-  behalf.
+  Services resources, including `Transcribe` and `Transcribe Call Analytics`, on the
+  caller’s behalf.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The unique identifier for the media insights pipeline
   configuration request.
 - `"RealTimeAlertConfiguration"`: The configuration settings for the real-time alerts in a
@@ -283,11 +295,14 @@ end
 Creates a media live connector pipeline in an Amazon Chime SDK meeting.
 
 # Arguments
+
 - `sinks`: The media live connector pipeline's data sinks.
 - `sources`: The media live connector pipeline's data sources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The token assigned to the client making the request.
 - `"Tags"`: The tags associated with the media live connector pipeline.
 """
@@ -336,24 +351,34 @@ end
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration)
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration, params::Dict{String,<:Any})
 
-Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.  If a
-meeting uses an opt-in Region as its MediaRegion, the KVS stream must be in that same
-Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be
-in af-south-1. However, if the meeting uses a Region that AWS turns on by default, the KVS
-stream can be in any available Region, including an opt-in Region. For example, if the
-meeting uses ca-central-1, the KVS stream can be in eu-west-2, us-east-1, af-south-1, or
-any other Region that the Amazon Chime SDK supports. To learn which AWS Region a meeting
-uses, call the GetMeeting API and use the MediaRegion parameter from the response. For more
-information about opt-in Regions, refer to Available Regions in the Amazon Chime SDK
-Developer Guide, and Specify which AWS Regions your account can use, in the AWS Account
-Management Reference Guide.
+Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.
+
+!!! note
+    If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion),
+    the KVS stream must be in that same Region. For example, if a meeting uses the
+    `af-south-1` Region, the KVS stream must also be in `af-south-1`. However, if the
+    meeting uses a Region that AWS turns on by default, the KVS stream can be in any
+    available Region, including an opt-in Region. For example, if the meeting uses
+    `ca-central-1`, the KVS stream can be in `eu-west-2`, `us-east-1`, `af-south-1`, or any
+    other Region that the Amazon Chime SDK supports.
+
+    To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
+    API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
+    parameter from the response.
+
+    For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
+    in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
+    in the *AWS Account Management Reference Guide*.
 
 # Arguments
+
 - `pool_name`: The name of the pool.
 - `stream_configuration`: The configuration settings for the stream.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The token assigned to the client making the request.
 - `"Tags"`: The tags assigned to the stream pool.
 """
@@ -407,11 +432,14 @@ end
 Creates a streaming media pipeline.
 
 # Arguments
+
 - `sinks`: The data sink for the media pipeline.
 - `sources`: The data sources for the media pipeline.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The token assigned to the client making the request.
 - `"Tags"`: The tags assigned to the media pipeline.
 """
@@ -463,8 +491,8 @@ end
 Deletes the media pipeline.
 
 # Arguments
-- `media_pipeline_id`: The ID of the media pipeline being deleted.
 
+- `media_pipeline_id`: The ID of the media pipeline being deleted.
 """
 function delete_media_capture_pipeline end
 
@@ -500,9 +528,9 @@ end
 Deletes the specified configuration settings.
 
 # Arguments
+
 - `identifier`: The unique identifier of the resource to be deleted. Valid values include
   the name and ARN of the media insights pipeline configuration.
-
 """
 function delete_media_insights_pipeline_configuration end
 
@@ -538,8 +566,8 @@ end
 Deletes the media pipeline.
 
 # Arguments
-- `media_pipeline_id`: The ID of the media pipeline to delete.
 
+- `media_pipeline_id`: The ID of the media pipeline to delete.
 """
 function delete_media_pipeline end
 
@@ -575,9 +603,9 @@ end
 Deletes an Amazon Kinesis Video Stream pool.
 
 # Arguments
+
 - `identifier`: The unique identifier of the requested resource. Valid values include the
   name and ARN of the media pipeline Kinesis Video Stream pool.
-
 """
 function delete_media_pipeline_kinesis_video_stream_pool end
 
@@ -613,8 +641,8 @@ end
 Gets an existing media pipeline.
 
 # Arguments
-- `media_pipeline_id`: The ID of the pipeline that you want to get.
 
+- `media_pipeline_id`: The ID of the pipeline that you want to get.
 """
 function get_media_capture_pipeline end
 
@@ -650,9 +678,9 @@ end
 Gets the configuration settings for a media insights pipeline.
 
 # Arguments
+
 - `identifier`: The unique identifier of the requested resource. Valid values include the
   name and ARN of the media insights pipeline configuration.
-
 """
 function get_media_insights_pipeline_configuration end
 
@@ -688,8 +716,8 @@ end
 Gets an existing media pipeline.
 
 # Arguments
-- `media_pipeline_id`: The ID of the pipeline that you want to get.
 
+- `media_pipeline_id`: The ID of the pipeline that you want to get.
 """
 function get_media_pipeline end
 
@@ -725,9 +753,9 @@ end
 Gets an Kinesis video stream pool.
 
 # Arguments
+
 - `identifier`: The unique identifier of the requested resource. Valid values include the
   name and ARN of the media pipeline Kinesis Video Stream pool.
-
 """
 function get_media_pipeline_kinesis_video_stream_pool end
 
@@ -763,10 +791,10 @@ end
 Retrieves the details of the specified speaker search task.
 
 # Arguments
+
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 - `speaker_search_task_id`: The ID of the speaker search task.
-
 """
 function get_speaker_search_task end
 
@@ -803,10 +831,10 @@ end
 Retrieves the details of a voice tone analysis task.
 
 # Arguments
+
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 - `voice_tone_analysis_task_id`: The ID of the voice tone analysis task.
-
 """
 function get_voice_tone_analysis_task end
 
@@ -843,7 +871,9 @@ end
 Returns a list of media pipelines.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max-results"`: The maximum number of results to return in a single call. Valid Range: 1
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
@@ -875,7 +905,9 @@ end
 Lists the available media insights pipeline configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to return the next page of results.
 """
@@ -911,7 +943,9 @@ end
 Lists the video stream pools in the media pipeline.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token used to return the next page of results.
 """
@@ -947,7 +981,9 @@ end
 Returns a list of media pipelines.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max-results"`: The maximum number of results to return in a single call. Valid Range: 1
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
@@ -975,9 +1011,9 @@ end
 Lists the tags available for a media pipeline.
 
 # Arguments
+
 - `arn`: The ARN of the media pipeline associated with any tags. The ARN consists of the
   pipeline's region, resource ID, and pipeline ID.
-
 """
 function list_tags_for_resource end
 
@@ -1007,18 +1043,25 @@ end
     start_speaker_search_task(voice_profile_domain_arn, identifier)
     start_speaker_search_task(voice_profile_domain_arn, identifier, params::Dict{String,<:Any})
 
-Starts a speaker search task.  Before starting any speaker search tasks, you must provide
-all notices and obtain all consents from the speaker as required under applicable privacy
-and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK.
+Starts a speaker search task.
+
+!!! important
+    Before starting any speaker search tasks, you must provide all notices and obtain all
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
+    Amazon Chime SDK.
 
 # Arguments
+
 - `voice_profile_domain_arn`: The ARN of the voice profile domain that will store the voice
   profile.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The unique identifier for the client request. Use a different
   token for different speaker search tasks.
 - `"KinesisVideoStreamSourceTaskConfiguration"`: The task configuration for the Kinesis
@@ -1069,19 +1112,25 @@ end
     start_voice_tone_analysis_task(language_code, identifier)
     start_voice_tone_analysis_task(language_code, identifier, params::Dict{String,<:Any})
 
-Starts a voice tone analysis task. For more information about voice tone analysis, see
-Using Amazon Chime SDK voice analytics in the Amazon Chime SDK Developer Guide.  Before
-starting any voice tone analysis tasks, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the AWS service terms for the Amazon Chime SDK.
+Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html)
+in the *Amazon Chime SDK Developer Guide*.
+
+!!! important
+    Before starting any voice tone analysis tasks, you must provide all notices and obtain
+    all consents from the speaker as required under applicable privacy and biometrics laws,
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
+
 - `language_code`: The language code.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: The unique identifier for the client request. Use a different
   token for different voice tone analysis tasks.
 - `"KinesisVideoStreamSourceTaskConfiguration"`: The task configuration for the Kinesis
@@ -1133,10 +1182,10 @@ end
 Stops a speaker search task.
 
 # Arguments
+
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 - `speaker_search_task_id`: The speaker search task ID.
-
 """
 function stop_speaker_search_task end
 
@@ -1173,10 +1222,10 @@ end
 Stops a voice tone analysis task.
 
 # Arguments
+
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
 - `voice_tone_analysis_task_id`: The ID of the voice tone analysis task.
-
 """
 function stop_voice_tone_analysis_task end
 
@@ -1214,10 +1263,10 @@ The ARN of the media pipeline that you want to tag. Consists of the pipeline's e
 region, resource ID, and pipeline ID.
 
 # Arguments
+
 - `resource_arn`: The ARN of the media pipeline associated with any tags. The ARN consists
   of the pipeline's endpoint region, resource ID, and pipeline ID.
 - `tags`: The tags associated with the specified media pipeline.
-
 """
 function tag_resource end
 
@@ -1259,9 +1308,9 @@ end
 Removes any tags from a media pipeline.
 
 # Arguments
+
 - `resource_arn`: The ARN of the pipeline that you want to untag.
 - `tag_keys`: The key/value pairs in the tag that you want to remove.
-
 """
 function untag_resource end
 
@@ -1305,6 +1354,7 @@ end
 Updates the media insights pipeline's configuration settings.
 
 # Arguments
+
 - `elements`: The elements in the request, such as a processor for Amazon Transcribe or a
   sink for a Kinesis Data Stream..
 - `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
@@ -1313,7 +1363,9 @@ Updates the media insights pipeline's configuration settings.
   the name and ARN of the media insights pipeline configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RealTimeAlertConfiguration"`: The configuration settings for real-time alerts for the
   media insights pipeline.
 """
@@ -1367,10 +1419,10 @@ end
 Updates the status of a media insights pipeline.
 
 # Arguments
+
 - `update_status`: The requested status of the media insights pipeline.
 - `identifier`: The unique identifier of the resource to be updated. Valid values include
   the ID and ARN of the media insights pipeline.
-
 """
 function update_media_insights_pipeline_status end
 
@@ -1410,11 +1462,14 @@ end
 Updates an Amazon Kinesis Video Stream pool in a media pipeline.
 
 # Arguments
+
 - `identifier`: The unique identifier of the requested resource. Valid values include the
   name and ARN of the media pipeline Kinesis Video Stream pool.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamConfiguration"`: The configuration settings for the video stream.
 """
 function update_media_pipeline_kinesis_video_stream_pool end

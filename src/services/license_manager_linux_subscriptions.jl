@@ -12,9 +12,9 @@ Remove a third-party subscription provider from the Bring Your Own License (BYOL
 subscriptions registered to your account.
 
 # Arguments
+
 - `subscription_provider_arn`: The Amazon Resource Name (ARN) of the subscription provider
   resource to deregister.
-
 """
 function deregister_subscription_provider end
 
@@ -58,9 +58,9 @@ Get details for a Bring Your Own License (BYOL) subscription that's registered t
 account.
 
 # Arguments
+
 - `subscription_provider_arn`: The Amazon Resource Name (ARN) of the BYOL registration
   resource to get details for.
-
 """
 function get_registered_subscription_provider end
 
@@ -101,7 +101,6 @@ end
     get_service_settings(params::Dict{String,<:Any})
 
 Lists the Linux subscriptions service settings for your account.
-
 """
 function get_service_settings end
 
@@ -134,16 +133,36 @@ Lists the running Amazon EC2 instances that were discovered with commercial Linu
 subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of structures that you can use to filter the results by your
-  specified criteria. For example, you can specify Region in the Name, with the contains
-  operator to list all subscriptions that match a partial string in the Value, such as
-  us-west. For each filter, you can specify one of the following values for the Name key to
-  streamline results:    AccountID     AmiID     DualSubscription     InstanceID
-  InstanceType     ProductCode     Region     Status     UsageOperation    For each filter,
-  you can use one of the following Operator values to define the behavior of the filter:
-  contains     equals     Notequal
+  specified criteria. For example, you can specify `Region` in the `Name`, with the
+  `contains` operator to list all subscriptions that match a partial string in the `Value`,
+  such as `us-west`.
+
+  For each filter, you can specify one of the following values for the `Name` key to
+  streamline results:
+
+  - `AccountID`
+  - `AmiID`
+  - `DualSubscription`
+  - `InstanceID`
+  - `InstanceType`
+  - `ProductCode`
+  - `Region`
+  - `Status`
+  - `UsageOperation`
+
+  For each filter, you can use one of the following `Operator` values to define the behavior
+  of the filter:
+
+  - `contains`
+  - `equals`
+  - `Notequal`
+
 - `"MaxResults"`: The maximum items to return in a request.
+
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -181,14 +200,26 @@ organization, the returned results will include data aggregated across your acco
 Organizations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of structures that you can use to filter the results to those that
   match one or more sets of key-value pairs that you specify. For example, you can filter by
-  the name of Subscription with an optional operator to see subscriptions that match,
-  partially match, or don't match a certain subscription's name. The valid names for this
-  filter are:    Subscription    The valid Operators for this filter are:    contains
-  equals     Notequal
+  the name of `Subscription` with an optional operator to see subscriptions that match,
+  partially match, or don't match a certain subscription's name.
+
+  The valid names for this filter are:
+
+  - `Subscription`
+
+  The valid Operators for this filter are:
+
+  - `contains`
+  - `equals`
+  - `Notequal`
+
 - `"MaxResults"`: The maximum items to return in a request.
+
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -222,7 +253,9 @@ end
 List Bring Your Own License (BYOL) subscription registration resources for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum items to return in a request.
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -261,9 +294,9 @@ end
 List the metadata tags that are assigned to the specified Amazon Web Services resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list metadata
   tags.
-
 """
 function list_tags_for_resource end
 
@@ -293,13 +326,16 @@ Register the supported third-party subscription provider for your Bring Your Own
 (BYOL) subscription.
 
 # Arguments
+
 - `secret_arn`: The Amazon Resource Name (ARN) of the secret where you've stored your
   subscription provider's access token. For RHEL subscriptions managed through the Red Hat
   Subscription Manager (RHSM), the secret contains your Red Hat Offline token.
 - `subscription_provider_source`: The supported Linux subscription provider to register.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The metadata tags to assign to your registered Linux subscription provider
   resource.
 """
@@ -353,11 +389,11 @@ end
 Add metadata tags to the specified Amazon Web Services resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services resource to
   which to add the specified metadata tags.
 - `tags`: The metadata tags to assign to the Amazon Web Services resource. Tags are
   formatted as key value pairs.
-
 """
 function tag_resource end
 
@@ -393,10 +429,10 @@ end
 Remove one or more metadata tag from the specified Amazon Web Services resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services resource to
   remove the metadata tags from.
 - `tag_keys`: A list of metadata tag keys to remove from the requested resource.
-
 """
 function untag_resource end
 
@@ -434,6 +470,7 @@ end
 Updates the service settings for Linux subscriptions.
 
 # Arguments
+
 - `linux_subscriptions_discovery`: Describes if the discovery of Linux subscriptions is
   enabled.
 - `linux_subscriptions_discovery_settings`: The settings defined for Linux subscriptions
@@ -441,10 +478,12 @@ Updates the service settings for Linux subscriptions.
   Regions data will be aggregated from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AllowUpdate"`: Describes if updates are allowed to the service settings for Linux
-  subscriptions. If you allow updates, you can aggregate Linux subscription data in more than
-  one home Region.
+  subscriptions. If you allow updates, you can aggregate Linux subscription data in more
+  than one home Region.
 """
 function update_service_settings end
 

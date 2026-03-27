@@ -11,8 +11,8 @@ using AWS.UUIDs: uuid4
 Cancels an Amazon Braket job.
 
 # Arguments
-- `job_arn`: The ARN of the Amazon Braket job to cancel.
 
+- `job_arn`: The ARN of the Amazon Braket job to cancel.
 """
 function cancel_job end
 
@@ -37,9 +37,9 @@ end
 Cancels the specified task.
 
 # Arguments
+
 - `client_token`: The client token associated with the request.
 - `quantum_task_arn`: The ARN of the task to cancel.
-
 """
 function cancel_quantum_task end
 
@@ -79,32 +79,35 @@ end
 Creates an Amazon Braket job.
 
 # Arguments
+
 - `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
   the container image the job uses and information about the Python scripts used for entry
   and training.
 - `client_token`: A unique token that guarantees that the call to this API is idempotent.
 - `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
   Braket job.
-- `instance_config`: Configuration of the resource instances to use while running the
-  hybrid job on Amazon Braket.
+- `instance_config`: Configuration of the resource instances to use while running the hybrid
+  job on Amazon Braket.
 - `job_name`: The name of the Amazon Braket job.
 - `output_data_config`: The path to the S3 location where you want to store job artifacts
   and the encryption key used to store them.
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume
-  to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket
-  job container on behalf of user, and output resources to the users' s3 buckets.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to
+  perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job
+  container on behalf of user, and output resources to the users' s3 buckets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associations"`: The list of Amazon Braket resources associated with the hybrid job.
 - `"checkpointConfig"`: Information about the output locations for job checkpoint data.
 - `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket job that
   influence the quality of the training job. The values are set with a string of JSON
-  key:value pairs, where the key is the name of the hyperparameter and the value is the value
-  of th hyperparameter.
-- `"inputDataConfig"`: A list of parameters that specify the name and type of input data
-  and where it is located.
-- `"stoppingCondition"`:  The user-defined criteria that specifies when a job stops running.
+  key:value pairs, where the key is the name of the hyperparameter and the value is the
+  value of th hyperparameter.
+- `"inputDataConfig"`: A list of parameters that specify the name and type of input data and
+  where it is located.
+- `"stoppingCondition"`: The user-defined criteria that specifies when a job stops running.
 - `"tags"`: A tag object that consists of a key and an optional value, used to manage
   metadata for Amazon Braket resources.
 """
@@ -178,6 +181,7 @@ end
 Creates a quantum task.
 
 # Arguments
+
 - `action`: The action associated with the task.
 - `client_token`: The client token associated with the request.
 - `device_arn`: The ARN of the device to run the task on.
@@ -187,7 +191,9 @@ Creates a quantum task.
 - `shots`: The number of shots to use for the task.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associations"`: The list of Amazon Braket resources associated with the quantum task.
 - `"deviceParameters"`: The parameters for the device to run the task on.
 - `"jobToken"`: The token for an Amazon Braket job that associates it with the quantum task.
@@ -256,18 +262,20 @@ end
     get_device(device_arn)
     get_device(device_arn, params::Dict{String,<:Any})
 
-Retrieves the devices available in Amazon Braket.  For backwards compatibility with older
-versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get
-this information the user-agent needs to present a recent version of the BraketSchemas
-(1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see
-OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set
-AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples
-provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and
-JavaScript/TypeScript SDKs.
+Retrieves the devices available in Amazon Braket.
+
+!!! note
+    For backwards compatibility with older versions of BraketSchemas, OpenQASM information
+    is omitted from GetDevice API calls. To get this information the user-agent needs to
+    present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK
+    automatically reports this for you. If you do not see OpenQASM results in the GetDevice
+    response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment
+    variable to configure user-agent. See the code examples provided below for how to do
+    this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
 
 # Arguments
-- `device_arn`: The ARN of the device to retrieve.
 
+- `device_arn`: The ARN of the device to retrieve.
 """
 function get_device end
 
@@ -294,10 +302,13 @@ end
 Retrieves the specified Amazon Braket job.
 
 # Arguments
+
 - `job_arn`: The ARN of the job to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
 function get_job end
@@ -321,10 +332,13 @@ end
 Retrieves the specified quantum task.
 
 # Arguments
+
 - `quantum_task_arn`: The ARN of the task to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
 function get_quantum_task end
@@ -361,8 +375,8 @@ end
 Shows the tags associated with this resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn for the resource whose tags to display.
 
+- `resource_arn`: Specify the `resourceArn` for the resource whose tags to display.
 """
 function list_tags_for_resource end
 
@@ -391,13 +405,17 @@ end
 Searches for devices using the specified filters.
 
 # Arguments
+
 - `filters`: The filter values to use to search for a device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request ended.
+  token returned from the previous request continue results where the previous request
+  ended.
 """
 function search_devices end
 
@@ -432,10 +450,13 @@ end
 Searches for Amazon Braket jobs that match the specified filter values.
 
 # Arguments
+
 - `filters`: The filter values to use when searching for a job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request to continue results where the previous request
@@ -474,13 +495,17 @@ end
 Searches for tasks that match the specified filter values.
 
 # Arguments
-- `filters`: Array of SearchQuantumTasksFilter objects.
+
+- `filters`: Array of `SearchQuantumTasksFilter` objects.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request ended.
+  token returned from the previous request continue results where the previous request
+  ended.
 """
 function search_quantum_tasks end
 
@@ -515,9 +540,9 @@ end
 Add a tag to the specified resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn of the resource to which a tag will be added.
-- `tags`: Specify the tags to add to the resource.
 
+- `resource_arn`: Specify the `resourceArn` of the resource to which a tag will be added.
+- `tags`: Specify the tags to add to the resource.
 """
 function tag_resource end
 
@@ -553,9 +578,9 @@ end
 Remove tags from a resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn for the resource from which to remove the tags.
-- `tag_keys`: Specify the keys for the tags to remove from the resource.
 
+- `resource_arn`: Specify the `resourceArn` for the resource from which to remove the tags.
+- `tag_keys`: Specify the keys for the tags to remove from the resource.
 """
 function untag_resource end
 

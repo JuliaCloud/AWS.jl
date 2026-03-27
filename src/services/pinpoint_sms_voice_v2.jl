@@ -8,26 +8,32 @@ using AWS.UUIDs: uuid4
     associate_origination_identity(iso_country_code, origination_identity, pool_id)
     associate_origination_identity(iso_country_code, origination_identity, pool_id, params::Dict{String,<:Any})
 
-Associates the specified origination identity with a pool. If the origination identity is a
-phone number and is already associated with another pool, an error is returned. A sender ID
-can be associated with multiple pools. If the origination identity configuration doesn't
-match the pool's configuration, an error is returned.
+Associates the specified origination identity with a pool.
+
+If the origination identity is a phone number and is already associated with another pool,
+an error is returned. A sender ID can be associated with multiple pools.
+
+If the origination identity configuration doesn't match the pool's configuration, an error
+is returned.
 
 # Arguments
+
 - `iso_country_code`: The new two-character code, in ISO 3166-1 alpha-2 format, for the
   country or region of the origination identity.
 - `origination_identity`: The origination identity to use, such as PhoneNumberId,
-  PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the
-  values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the
-  values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId, or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn, while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
 - `pool_id`: The pool to update with the new Identity. This value can be either the PoolId
-  or PoolArn, and you can find these values using DescribePools.
+  or PoolArn, and you can find these values using `DescribePools`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 """
 function associate_origination_identity end
 
@@ -86,9 +92,9 @@ protect configuration at a time. A protect configuration can be associated with 
 configuration sets.
 
 # Arguments
+
 - `configuration_set_name`: The name of the ConfigurationSet.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
-
 """
 function associate_protect_configuration end
 
@@ -136,20 +142,26 @@ end
     create_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
 Creates a new configuration set. After you create the configuration set, you can add one or
-more event destinations to it. A configuration set is a set of rules that you apply to the
-SMS and voice messages that you send. When you send a message, you can optionally specify a
-single configuration set.
+more event destinations to it.
+
+A configuration set is a set of rules that you apply to the SMS and voice messages that you
+send.
+
+When you send a message, you can optionally specify a single configuration set.
 
 # Arguments
+
 - `configuration_set_name`: The name to use for the new configuration set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
-- `"Tags"`: An array of key and value pair tags that's associated with the new
-  configuration set.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
+- `"Tags"`: An array of key and value pair tags that's associated with the new configuration
+  set.
 """
 function create_configuration_set end
 
@@ -192,28 +204,38 @@ end
     create_event_destination(configuration_set_name, event_destination_name, matching_event_types)
     create_event_destination(configuration_set_name, event_destination_name, matching_event_types, params::Dict{String,<:Any})
 
-Creates a new event destination in a configuration set. An event destination is a location
-where you send message events. The event options are Amazon CloudWatch, Amazon Data
-Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can
-send information about that event to an event destination, or send notifications to
-endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain
-between 0 and 5 event destinations. Each event destination can contain a reference to a
-single destination, such as a CloudWatch or Firehose destination.
+Creates a new event destination in a configuration set.
+
+An event destination is a location where you send message events. The event options are
+Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is
+delivered successfully, you can send information about that event to an event destination,
+or send notifications to endpoints that are subscribed to an Amazon SNS topic.
+
+Each configuration set can contain between 0 and 5 event destinations. Each event
+destination can contain a reference to a single destination, such as a CloudWatch or
+Firehose destination.
 
 # Arguments
+
 - `configuration_set_name`: Either the name of the configuration set or the configuration
   set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be
-  found using the DescribeConfigurationSets action.
+  found using the `DescribeConfigurationSets` action.
+
 - `event_destination_name`: The name that identifies the event destination.
+
 - `matching_event_types`: An array of event types that determine which events to log. If
-  \"ALL\" is used, then AWS End User Messaging SMS and Voice logs every event type.  The
-  TEXT_SENT event type is not supported.
+  "ALL" is used, then AWS End User Messaging SMS and Voice logs every event type.
+
+  !!! note
+      The `TEXT_SENT` event type is not supported.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"CloudWatchLogsDestination"`: An object that contains information about an event
   destination for logging to Amazon CloudWatch Logs.
 - `"KinesisFirehoseDestination"`: An object that contains information about an event
@@ -272,21 +294,28 @@ end
     create_opt_out_list(opt_out_list_name)
     create_opt_out_list(opt_out_list_name, params::Dict{String,<:Any})
 
-Creates a new opt-out list. If the opt-out list name already exists, an error is returned.
-An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS
-or voice messages to them. If end user replies with the keyword \"STOP,\" an entry for the
-phone number is added to the opt-out list. In addition to STOP, your recipients can use any
+Creates a new opt-out list.
+
+If the opt-out list name already exists, an error is returned.
+
+An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or
+voice messages to them. If end user replies with the keyword "STOP," an entry for the phone
+number is added to the opt-out list. In addition to STOP, your recipients can use any
 supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out
-keywords, see  SMS opt out  in the AWS End User Messaging SMS User Guide.
+keywords, see [SMS opt out](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
+
 - `opt_out_list_name`: The name of the new OptOutList.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the new OptOutList.
 """
 function create_opt_out_list end
@@ -329,34 +358,43 @@ end
     create_pool(iso_country_code, message_type, origination_identity)
     create_pool(iso_country_code, message_type, origination_identity, params::Dict{String,<:Any})
 
-Creates a new pool and associates the specified origination identity to the pool. A pool
-can include one or more phone numbers and SenderIds that are associated with your Amazon
-Web Services account. The new pool inherits its configuration from the specified
-origination identity. This includes keywords, message type, opt-out list, two-way
-configuration, and self-managed opt-out configuration. Deletion protection isn't inherited
-from the origination identity and defaults to false. If the origination identity is a phone
-number and is already associated with another pool, an error is returned. A sender ID can
-be associated with multiple pools.
+Creates a new pool and associates the specified origination identity to the pool. A pool can
+include one or more phone numbers and SenderIds that are associated with your Amazon Web
+Services account.
+
+The new pool inherits its configuration from the specified origination identity. This
+includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-
+out configuration. Deletion protection isn't inherited from the origination identity and
+defaults to false.
+
+If the origination identity is a phone number and is already associated with another pool,
+an error is returned. A sender ID can be associated with multiple pools.
 
 # Arguments
+
 - `iso_country_code`: The new two-character code, in ISO 3166-1 alpha-2 format, for the
   country or region of the new pool.
+
 - `message_type`: The type of message. Valid values are TRANSACTIONAL for messages that are
-  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
-  time-sensitive. After the pool is created the MessageType can't be changed.
+  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
+  sensitive. After the pool is created the MessageType can't be changed.
+
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the
-  values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the
-  values for SenderId and SenderIdArn. After the pool is created you can add more origination
-  identities to the pool by using AssociateOriginationIdentity.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
+
+  After the pool is created you can add more origination identities to the pool by using [AssociateOriginationIdentity](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_AssociateOriginationIdentity.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the pool
-  can't be deleted. You can change this value using the UpdatePool action.
+  can't be deleted. You can change this value using the `UpdatePool` action.
 - `"Tags"`: An array of tags (key and value pairs) associated with the pool.
 """
 function create_pool end
@@ -410,18 +448,20 @@ end
     create_protect_configuration()
     create_protect_configuration(params::Dict{String,<:Any})
 
-Create a new protect configuration. By default all country rule sets for each capability
-are set to ALLOW. Update the country rule sets using
-UpdateProtectConfigurationCountryRuleSet. A protect configurations name is stored as a Tag
-with the key set to Name and value as the name of the protect configuration.
+Create a new protect configuration. By default all country rule sets for each capability are
+set to `ALLOW`. Update the country rule sets using
+`UpdateProtectConfigurationCountryRuleSet`. A protect configurations name is stored as a Tag
+with the key set to `Name` and value as the name of the protect configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
-- `"DeletionProtectionEnabled"`: When set to true deletion protection is enabled. By
-  default this is set to false.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
+- `"DeletionProtectionEnabled"`: When set to true deletion protection is enabled. By default
+  this is set to false.
 - `"Tags"`: An array of key and value pair tags that are associated with the resource.
 """
 function create_protect_configuration end
@@ -452,17 +492,20 @@ end
     create_registration(registration_type)
     create_registration(registration_type, params::Dict{String,<:Any})
 
-Creates a new registration based on the RegistrationType field.
+Creates a new registration based on the **RegistrationType** field.
 
 # Arguments
+
 - `registration_type`: The type of registration form to create. The list of
-  RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
+  **RegistrationTypes** can be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the registration.
 """
 function create_registration end
@@ -508,10 +551,10 @@ end
 Associate the registration with an origination identity such as a phone number or sender ID.
 
 # Arguments
+
 - `registration_id`: The unique identifier for the registration.
 - `resource_id`: The unique identifier for the origination identity. For example this could
-  be a PhoneNumberId or SenderId.
-
+  be a **PhoneNumberId** or **SenderId**.
 """
 function create_registration_association end
 
@@ -553,19 +596,20 @@ end
     create_registration_attachment(params::Dict{String,<:Any})
 
 Create a new registration attachment to use for uploading a file or a URL to a file. The
-maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example,
-many sender ID registrations require a signed “letter of authorization” (LOA) to be
-submitted.
+maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example, many
+sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttachmentBody"`: The registration file to upload. The maximum file size is 1MiB and
   valid file extensions are PDF, JPEG and PNG.
 - `"AttachmentUrl"`: A URL to the required registration file. For example, you can provide
   the S3 object URL.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the registration
   attachment.
 """
@@ -599,12 +643,12 @@ end
     create_registration_version(registration_id)
     create_registration_version(registration_id, params::Dict{String,<:Any})
 
-Create a new version of the registration and increase the VersionNumber. The previous
+Create a new version of the registration and increase the **VersionNumber**. The previous
 version of the registration becomes read-only.
 
 # Arguments
-- `registration_id`: The unique identifier for the registration.
 
+- `registration_id`: The unique identifier for the registration.
 """
 function create_registration_version end
 
@@ -642,13 +686,16 @@ You can only send messages to verified destination numbers when your account is 
 sandbox. You can add up to 10 verified destination numbers.
 
 # Arguments
+
 - `destination_phone_number`: The verified destination phone number, in E.164 format.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the destination number.
 """
 function create_verified_destination_number end
@@ -694,7 +741,6 @@ end
     delete_account_default_protect_configuration(params::Dict{String,<:Any})
 
 Removes the current account default protect configuration.
-
 """
 function delete_account_default_protect_configuration end
 
@@ -723,15 +769,17 @@ end
     delete_configuration_set(configuration_set_name)
     delete_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
-Deletes an existing configuration set. A configuration set is a set of rules that you apply
-to voice and SMS messages that you send. In a configuration set, you can specify a
-destination for specific types of events related to voice and SMS messages.
+Deletes an existing configuration set.
+
+A configuration set is a set of rules that you apply to voice and SMS messages that you
+send. In a configuration set, you can specify a destination for specific types of events
+related to voice and SMS messages.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set or the configuration set ARN
   that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found
-  using the DescribeConfigurationSets action.
-
+  using the `DescribeConfigurationSets` action.
 """
 function delete_configuration_set end
 
@@ -769,18 +817,19 @@ end
     delete_default_message_type(configuration_set_name)
     delete_default_message_type(configuration_set_name, params::Dict{String,<:Any})
 
-Deletes an existing default message type on a configuration set.  A message type is a type
-of messages that you plan to send. If you send account-related messages or time-sensitive
-messages such as one-time passcodes, choose Transactional. If you plan to send messages
-that contain marketing material or other promotional content, choose Promotional. This
-setting applies to your entire Amazon Web Services account.
+Deletes an existing default message type on a configuration set.
+
+A message type is a type of messages that you plan to send. If you send account-related
+messages or time-sensitive messages such as one-time passcodes, choose **Transactional**. If
+you plan to send messages that contain marketing material or other promotional content,
+choose **Promotional**. This setting applies to your entire Amazon Web Services account.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set or the configuration set
   Amazon Resource Name (ARN) to delete the default message type from. The
   ConfigurationSetName and ConfigurationSetArn can be found using the
-  DescribeConfigurationSets action.
-
+  `DescribeConfigurationSets` action.
 """
 function delete_default_message_type end
 
@@ -818,15 +867,16 @@ end
     delete_default_sender_id(configuration_set_name)
     delete_default_sender_id(configuration_set_name, params::Dict{String,<:Any})
 
-Deletes an existing default sender ID on a configuration set. A default sender ID is the
-identity that appears on recipients' devices when they receive SMS messages. Support for
-sender ID capabilities varies by country or region.
+Deletes an existing default sender ID on a configuration set.
+
+A default sender ID is the identity that appears on recipients' devices when they receive
+SMS messages. Support for sender ID capabilities varies by country or region.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set or the configuration set
   Amazon Resource Name (ARN) to delete the default sender ID from. The ConfigurationSetName
-  and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
-
+  and ConfigurationSetArn can be found using the `DescribeConfigurationSets` action.
 """
 function delete_default_sender_id end
 
@@ -864,17 +914,19 @@ end
     delete_event_destination(configuration_set_name, event_destination_name)
     delete_event_destination(configuration_set_name, event_destination_name, params::Dict{String,<:Any})
 
-Deletes an existing event destination. An event destination is a location where you send
-response information about the messages that you send. For example, when a message is
-delivered successfully, you can send information about that event to an Amazon CloudWatch
-destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
+Deletes an existing event destination.
+
+An event destination is a location where you send response information about the messages
+that you send. For example, when a message is delivered successfully, you can send
+information about that event to an Amazon CloudWatch destination, or send notifications to
+endpoints that are subscribed to an Amazon SNS topic.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set or the configuration set's
-  Amazon Resource Name (ARN) to remove the event destination from. The ConfigurateSetName and
-  ConfigurationSetArn can be found using the DescribeConfigurationSets action.
-- `event_destination_name`: The name of the event destination to delete.
 
+- `configuration_set_name`: The name of the configuration set or the configuration set's
+  Amazon Resource Name (ARN) to remove the event destination from. The ConfigurateSetName
+  and ConfigurationSetArn can be found using the `DescribeConfigurationSets` action.
+- `event_destination_name`: The name of the event destination to delete.
 """
 function delete_event_destination end
 
@@ -921,19 +973,23 @@ end
     delete_keyword(keyword, origination_identity)
     delete_keyword(keyword, origination_identity, params::Dict{String,<:Any})
 
-Deletes an existing keyword from an origination phone number or pool. A keyword is a word
-that you can search for on a particular phone number or pool. It is also a specific word or
-phrase that an end user can send to your number to elicit a response, such as an
-informational message or a special offer. When your number receives a message that begins
-with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message.
-Keywords \"HELP\" and \"STOP\" can't be deleted or modified.
+Deletes an existing keyword from an origination phone number or pool.
+
+A keyword is a word that you can search for on a particular phone number or pool. It is also
+a specific word or phrase that an end user can send to your number to elicit a response,
+such as an informational message or a special offer. When your number receives a message
+that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
+customizable message.
+
+Keywords "HELP" and "STOP" can't be deleted or modified.
 
 # Arguments
+
 - `keyword`: The keyword to delete.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for
-  PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.
-
+  PhoneNumberArn, PoolId or PoolArn. You can use `DescribePhoneNumbers` to find the values
+  for PhoneNumberId and PhoneNumberArn and `DescribePools` to find the values of PoolId and
+  PoolArn.
 """
 function delete_keyword end
 
@@ -977,10 +1033,10 @@ end
     delete_media_message_spend_limit_override(params::Dict{String,<:Any})
 
 Deletes an account-level monthly spending limit override for sending multimedia messages
-(MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit,
+(MMS). Deleting a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`,
 which is controlled by Amazon Web Services. For more information on spend limits (quotas)
-see Quotas for Server Migration Service in the Server Migration Service User Guide.
-
+see [Quotas for Server Migration Service](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+in the *Server Migration Service User Guide*.
 """
 function delete_media_message_spend_limit_override end
 
@@ -1008,13 +1064,15 @@ end
     delete_opt_out_list(opt_out_list_name, params::Dict{String,<:Any})
 
 Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are
-deleted. If the specified opt-out list name doesn't exist or is in-use by an origination
-phone number or pool, an error is returned.
+deleted.
+
+If the specified opt-out list name doesn't exist or is in-use by an origination phone number
+or pool, an error is returned.
 
 # Arguments
-- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList to delete. You
-  can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
 
+- `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList to delete. You
+  can use `DescribeOptOutLists` to find the values for OptOutListName and OptOutListArn.
 """
 function delete_opt_out_list end
 
@@ -1049,14 +1107,16 @@ end
     delete_opted_out_number(opt_out_list_name, opted_out_number, params::Dict{String,<:Any})
 
 Deletes an existing opted out destination phone number from the specified opt-out list.
-Each destination phone number can only be deleted once every 30 days. If the specified
-destination phone number doesn't exist or if the opt-out list doesn't exist, an error is
-returned.
+
+Each destination phone number can only be deleted once every 30 days.
+
+If the specified destination phone number doesn't exist or if the opt-out list doesn't
+exist, an error is returned.
 
 # Arguments
+
 - `opt_out_list_name`: The OptOutListName or OptOutListArn to remove the phone number from.
 - `opted_out_number`: The phone number, in E.164 format, to remove from the OptOutList.
-
 """
 function delete_opted_out_number end
 
@@ -1099,16 +1159,18 @@ end
     delete_pool(pool_id)
     delete_pool(pool_id, params::Dict{String,<:Any})
 
-Deletes an existing pool. Deleting a pool disassociates all origination identities from
-that pool. If the pool status isn't active or if deletion protection is enabled, an error
-is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one
-or more phone numbers and SenderIds that are associated with your Amazon Web Services
-account.
+Deletes an existing pool. Deleting a pool disassociates all origination identities from that
+pool.
+
+If the pool status isn't active or if deletion protection is enabled, an error is returned.
+
+A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone
+numbers and SenderIds that are associated with your Amazon Web Services account.
 
 # Arguments
-- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use DescribePools to find
-  the values for PoolId and PoolArn .
 
+- `pool_id`: The PoolId or PoolArn of the pool to delete. You can use `DescribePools` to
+  find the values for PoolId and PoolArn .
 """
 function delete_pool end
 
@@ -1141,8 +1203,8 @@ protection disabled and must not be associated as the account default protect co
 or associated with a configuration set.
 
 # Arguments
-- `protect_configuration_id`: The unique identifier for the protect configuration.
 
+- `protect_configuration_id`: The unique identifier for the protect configuration.
 """
 function delete_protect_configuration end
 
@@ -1183,8 +1245,8 @@ end
 Permanently delete an existing registration from your account.
 
 # Arguments
-- `registration_id`: The unique identifier for the registration.
 
+- `registration_id`: The unique identifier for the registration.
 """
 function delete_registration end
 
@@ -1221,8 +1283,8 @@ end
 Permanently delete the specified registration attachment.
 
 # Arguments
-- `registration_attachment_id`: The unique identifier for the registration attachment.
 
+- `registration_attachment_id`: The unique identifier for the registration attachment.
 """
 function delete_registration_attachment end
 
@@ -1263,10 +1325,10 @@ end
 Delete the value in a registration form field.
 
 # Arguments
-- `field_path`: The path to the registration form field. You can use
-  DescribeRegistrationFieldDefinitions for a list of FieldPaths.
-- `registration_id`: The unique identifier for the registration.
 
+- `field_path`: The path to the registration form field. You can use
+  `DescribeRegistrationFieldDefinitions` for a list of **FieldPaths**.
+- `registration_id`: The unique identifier for the registration.
 """
 function delete_registration_field_value end
 
@@ -1307,11 +1369,10 @@ end
     delete_text_message_spend_limit_override()
     delete_text_message_spend_limit_override(params::Dict{String,<:Any})
 
-Deletes an account-level monthly spending limit override for sending text messages.
-Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is
-controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas
- in the AWS End User Messaging SMS User Guide.
-
+Deletes an account-level monthly spending limit override for sending text messages. Deleting
+a spend limit override will set the `EnforcedLimit` to equal the `MaxLimit`, which is
+controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+in the *AWS End User Messaging SMS User Guide*.
 """
 function delete_text_message_spend_limit_override end
 
@@ -1341,9 +1402,9 @@ end
 Delete a verified destination phone number.
 
 # Arguments
-- `verified_destination_number_id`: The unique identifier for the verified destination
-  phone number.
 
+- `verified_destination_number_id`: The unique identifier for the verified destination phone
+  number.
 """
 function delete_verified_destination_number end
 
@@ -1383,11 +1444,10 @@ end
     delete_voice_message_spend_limit_override()
     delete_voice_message_spend_limit_override(params::Dict{String,<:Any})
 
-Deletes an account level monthly spend limit override for sending voice messages. Deleting
-a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by
-Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the
-AWS End User Messaging SMS User Guide.
-
+Deletes an account level monthly spend limit override for sending voice messages. Deleting a
+spend limit override sets the `EnforcedLimit` equal to the `MaxLimit`, which is controlled
+by Amazon Web Services. For more information on spending limits (quotas) see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+in the *AWS End User Messaging SMS User Guide*.
 """
 function delete_voice_message_spend_limit_override end
 
@@ -1416,13 +1476,16 @@ end
 
 Describes attributes of your Amazon Web Services account. The supported account attributes
 include account tier, which indicates whether your account is in the sandbox or production
-environment. When you're ready to move your account out of the sandbox, create an Amazon
-Web Services Support case for a service limit increase request. New accounts are placed
-into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients
-and SMS or voice recipients from fraud and abuse.
+environment. When you're ready to move your account out of the sandbox, create an Amazon Web
+Services Support case for a service limit increase request.
+
+New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web
+Services end recipients and SMS or voice recipients from fraud and abuse.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
@@ -1448,14 +1511,18 @@ end
     describe_account_limits(params::Dict{String,<:Any})
 
 Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for
-your account. The description for a quota includes the quota name, current usage toward
-that quota, and the quota's maximum value. When you establish an Amazon Web Services
-account, the account has initial quotas on the maximum number of configuration sets,
-opt-out lists, phone numbers, and pools that you can create in a given Region. For more
-information see Quotas  in the AWS End User Messaging SMS User Guide.
+your account. The description for a quota includes the quota name, current usage toward that
+quota, and the quota's maximum value.
+
+When you establish an Amazon Web Services account, the account has initial quotas on the
+maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can
+create in a given Region. For more information see [Quotas](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
@@ -1480,15 +1547,20 @@ end
     describe_configuration_sets()
     describe_configuration_sets(params::Dict{String,<:Any})
 
-Describes the specified configuration sets or all in your account. If you specify
-configuration set names, the output includes information for only the specified
-configuration sets. If you specify filters, the output includes information for only those
-configuration sets that meet the filter criteria. If you don't specify configuration set
-names or filters, the output includes information for all configuration sets. If you
-specify a configuration set name that isn't valid, an error is returned.
+Describes the specified configuration sets or all in your account.
+
+If you specify configuration set names, the output includes information for only the
+specified configuration sets. If you specify filters, the output includes information for
+only those configuration sets that meet the filter criteria. If you don't specify
+configuration set names or filters, the output includes information for all configuration
+sets.
+
+If you specify a configuration set name that isn't valid, an error is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConfigurationSetNames"`: An array of strings. Each element can be either a
   ConfigurationSetName or ConfigurationSetArn.
 - `"Filters"`: An array of filters to apply to the results that are returned.
@@ -1517,20 +1589,26 @@ end
     describe_keywords(origination_identity, params::Dict{String,<:Any})
 
 Describes the specified keywords or all keywords on your origination phone number or pool.
-A keyword is a word that you can search for on a particular phone number or pool. It is
-also a specific word or phrase that an end user can send to your number to elicit a
-response, such as an informational message or a special offer. When your number receives a
-message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
-customizable message. If you specify a keyword that isn't valid, an error is returned.
+
+A keyword is a word that you can search for on a particular phone number or pool. It is also
+a specific word or phrase that an end user can send to your number to elicit a response,
+such as an informational message or a special offer. When your number receives a message
+that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
+customizable message.
+
+If you specify a keyword that isn't valid, an error is returned.
 
 # Arguments
+
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the
-  values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the
-  values for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` to find the
+  values for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get
+  the values for SenderId and SenderIdArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of keyword filters to filter the results.
 - `"Keywords"`: An array of keywords to search for.
 - `"MaxResults"`: The maximum number of results to return per each request.
@@ -1573,14 +1651,19 @@ end
     describe_opt_out_lists()
     describe_opt_out_lists(params::Dict{String,<:Any})
 
-Describes the specified opt-out list or all opt-out lists in your account. If you specify
-opt-out list names, the output includes information for only the specified opt-out lists.
-Opt-out lists include only those that meet the filter criteria. If you don't specify
-opt-out list names or filters, the output includes information for all opt-out lists. If
-you specify an opt-out list name that isn't valid, an error is returned.
+Describes the specified opt-out list or all opt-out lists in your account.
+
+If you specify opt-out list names, the output includes information for only the specified
+opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't
+specify opt-out list names or filters, the output includes information for all opt-out
+lists.
+
+If you specify an opt-out list name that isn't valid, an error is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
@@ -1608,19 +1691,25 @@ end
     describe_opted_out_numbers(opt_out_list_name, params::Dict{String,<:Any})
 
 Describes the specified opted out destination numbers or all opted out destination numbers
-in an opt-out list. If you specify opted out numbers, the output includes information for
-only the specified opted out numbers. If you specify filters, the output includes
-information for only those opted out numbers that meet the filter criteria. If you don't
-specify opted out numbers or filters, the output includes information for all opted out
-destination numbers in your opt-out list. If you specify an opted out number that isn't
-valid, an error is returned.
+in an opt-out list.
+
+If you specify opted out numbers, the output includes information for only the specified
+opted out numbers. If you specify filters, the output includes information for only those
+opted out numbers that meet the filter criteria. If you don't specify opted out numbers or
+filters, the output includes information for all opted out destination numbers in your opt-
+out list.
+
+If you specify an opted out number that isn't valid, an error is returned.
 
 # Arguments
+
 - `opt_out_list_name`: The OptOutListName or OptOutListArn of the OptOutList. You can use
-  DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
+  `DescribeOptOutLists` to find the values for OptOutListName and OptOutListArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of OptedOutFilter objects to filter the results on.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -1660,20 +1749,24 @@ end
     describe_phone_numbers(params::Dict{String,<:Any})
 
 Describes the specified origination phone number, or all the phone numbers in your account.
+
 If you specify phone number IDs, the output includes information for only the specified
 phone numbers. If you specify filters, the output includes information for only those phone
-numbers that meet the filter criteria. If you don't specify phone number IDs or filters,
-the output includes information for all phone numbers. If you specify a phone number ID
-that isn't valid, an error is returned.
+numbers that meet the filter criteria. If you don't specify phone number IDs or filters, the
+output includes information for all phone numbers.
+
+If you specify a phone number ID that isn't valid, an error is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of PhoneNumberFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
-- `"PhoneNumberIds"`: The unique identifier of phone numbers to find information about.
-  This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.
+- `"PhoneNumberIds"`: The unique identifier of phone numbers to find information about. This
+  is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.
 """
 function describe_phone_numbers end
 
@@ -1695,16 +1788,22 @@ end
     describe_pools()
     describe_pools(params::Dict{String,<:Any})
 
-Retrieves the specified pools or all pools associated with your Amazon Web Services
-account. If you specify pool IDs, the output includes information for only the specified
-pools. If you specify filters, the output includes information for only those pools that
-meet the filter criteria. If you don't specify pool IDs or filters, the output includes
-information for all pools. If you specify a pool ID that isn't valid, an error is returned.
+Retrieves the specified pools or all pools associated with your Amazon Web Services account.
+
+If you specify pool IDs, the output includes information for only the specified pools. If
+you specify filters, the output includes information for only those pools that meet the
+filter criteria. If you don't specify pool IDs or filters, the output includes information
+for all pools.
+
+If you specify a pool ID that isn't valid, an error is returned.
+
 A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone
 numbers and SenderIds that are associated with your Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of PoolFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -1732,11 +1831,13 @@ end
     describe_protect_configurations()
     describe_protect_configurations(params::Dict{String,<:Any})
 
-Retrieves the protect configurations that match any of filters. If a filter isn’t
-provided then all protect configurations are returned.
+Retrieves the protect configurations that match any of filters. If a filter isn’t provided
+then all protect configurations are returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of ProtectConfigurationFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -1769,13 +1870,15 @@ Retrieves the specified registration attachments or all registration attachments
 with your Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of RegistrationAttachmentFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 - `"RegistrationAttachmentIds"`: The unique identifier of registration attachments to find.
-  This is an array of RegistrationAttachmentId.
+  This is an array of **RegistrationAttachmentId**.
 """
 function describe_registration_attachments end
 
@@ -1803,15 +1906,18 @@ end
     describe_registration_field_definitions(registration_type, params::Dict{String,<:Any})
 
 Retrieves the specified registration type field definitions. You can use
-DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out,
-and submitting each registration type.
+DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and
+submitting each registration type.
 
 # Arguments
-- `registration_type`: The type of registration form. The list of RegistrationTypes can be
-  found using the DescribeRegistrationTypeDefinitions action.
+
+- `registration_type`: The type of registration form. The list of **RegistrationTypes** can
+  be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FieldPaths"`: An array of paths to the registration form field.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -1855,10 +1961,13 @@ end
 Retrieves the specified registration field values.
 
 # Arguments
+
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FieldPaths"`: An array of paths to the registration form field.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -1903,11 +2012,14 @@ DescribeRegistrationSectionDefinitions to view the requirements for creating, fi
 and submitting each registration type.
 
 # Arguments
-- `registration_type`: The type of registration form. The list of RegistrationTypes can be
-  found using the DescribeRegistrationTypeDefinitions action.
+
+- `registration_type`: The type of registration form. The list of **RegistrationTypes** can
+  be found using the `DescribeRegistrationTypeDefinitions` action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
@@ -1952,13 +2064,15 @@ DescribeRegistrationTypeDefinitions to view the requirements for creating, filli
 submitting each registration type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of RegistrationFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
-- `"RegistrationTypes"`: The type of registration form. The list of RegistrationTypes can
-  be found using the DescribeRegistrationTypeDefinitions action.
+- `"RegistrationTypes"`: The type of registration form. The list of **RegistrationTypes**
+  can be found using the `DescribeRegistrationTypeDefinitions` action.
 """
 function describe_registration_type_definitions end
 
@@ -1988,10 +2102,13 @@ end
 Retrieves the specified registration version.
 
 # Arguments
+
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of RegistrationVersionFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -2033,7 +2150,9 @@ end
 Retrieves the specified registrations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of RegistrationFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -2061,14 +2180,19 @@ end
     describe_sender_ids(params::Dict{String,<:Any})
 
 Describes the specified SenderIds or all SenderIds associated with your Amazon Web Services
-account. If you specify SenderIds, the output includes information for only the specified
-SenderIds. If you specify filters, the output includes information for only those SenderIds
-that meet the filter criteria. If you don't specify SenderIds or filters, the output
-includes information for all SenderIds. f you specify a sender ID that isn't valid, an
-error is returned.
+account.
+
+If you specify SenderIds, the output includes information for only the specified SenderIds.
+If you specify filters, the output includes information for only those SenderIds that meet
+the filter criteria. If you don't specify SenderIds or filters, the output includes
+information for all SenderIds.
+
+f you specify a sender ID that isn't valid, an error is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of SenderIdFilter objects to filter the results.
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -2095,14 +2219,16 @@ end
     describe_spend_limits()
     describe_spend_limits(params::Dict{String,<:Any})
 
-Describes the current monthly spend limits for sending voice and text messages. When you
-establish an Amazon Web Services account, the account has initial monthly spend limit in a
-given Region. For more information on increasing your monthly spend limit, see  Requesting
-increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging
-SMS User Guide.
+Describes the current monthly spend limits for sending voice and text messages.
+
+When you establish an Amazon Web Services account, the account has initial monthly spend
+limit in a given Region. For more information on increasing your monthly spend limit, see [Requesting increases to your monthly SMS, MMS, or Voice spending quota](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
@@ -2130,7 +2256,9 @@ end
 Retrieves the specified verified destiona numbers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DestinationPhoneNumbers"`: An array of verified destination phone number, in E.164
   format.
 - `"Filters"`: An array of VerifiedDestinationNumberFilter objects to filter the results.
@@ -2164,24 +2292,28 @@ end
     disassociate_origination_identity(iso_country_code, origination_identity, pool_id)
     disassociate_origination_identity(iso_country_code, origination_identity, pool_id, params::Dict{String,<:Any})
 
-Removes the specified origination identity from an existing pool. If the origination
-identity isn't associated with the specified pool, an error is returned.
+Removes the specified origination identity from an existing pool.
+
+If the origination identity isn't associated with the specified pool, an error is returned.
 
 # Arguments
+
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values
-  for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for
-  SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` find the
+  values for PhoneNumberId and PhoneNumberArn, or use `DescribeSenderIds` to get the values
+  for SenderId and SenderIdArn.
 - `pool_id`: The unique identifier for the pool to disassociate with the origination
   identity. This value can be either the PoolId or PoolArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
-  of the request. If you don't specify a client token, a randomly generated token is used for
-  the request to ensure idempotency.
+  of the request. If you don't specify a client token, a randomly generated token is used
+  for the request to ensure idempotency.
 """
 function disassociate_origination_identity end
 
@@ -2237,9 +2369,9 @@ end
 Disassociate a protect configuration from a configuration set.
 
 # Arguments
+
 - `configuration_set_name`: The name of the ConfigurationSet.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
-
 """
 function disassociate_protect_configuration end
 
@@ -2289,8 +2421,8 @@ end
 Discard the current version of the registration.
 
 # Arguments
-- `registration_id`: The unique identifier for the registration.
 
+- `registration_id`: The unique identifier for the registration.
 """
 function discard_registration_version end
 
@@ -2327,10 +2459,10 @@ end
 Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
 
 # Arguments
-- `number_capability`: The capability type to return the CountryRuleSet for. Valid values
-  are SMS, VOICE, or MMS.
-- `protect_configuration_id`: The unique identifier for the protect configuration.
 
+- `number_capability`: The capability type to return the CountryRuleSet for. Valid values
+  are `SMS`, `VOICE`, or `MMS`.
+- `protect_configuration_id`: The unique identifier for the protect configuration.
 """
 function get_protect_configuration_country_rule_set end
 
@@ -2377,16 +2509,20 @@ end
     list_pool_origination_identities(pool_id)
     list_pool_origination_identities(pool_id, params::Dict{String,<:Any})
 
-Lists all associated origination identities in your pool. If you specify filters, the
-output includes information for only those origination identities that meet the filter
-criteria.
+Lists all associated origination identities in your pool.
+
+If you specify filters, the output includes information for only those origination
+identities that meet the filter criteria.
 
 # Arguments
+
 - `pool_id`: The unique identifier for the pool. This value can be either the PoolId or
   PoolArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of PoolOriginationIdentitiesFilter objects to filter the results..
 - `"MaxResults"`: The maximum number of results to return per each request.
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
@@ -2423,10 +2559,13 @@ end
 Retreive all of the origination identies that are associated with a registration.
 
 # Arguments
+
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of RegistrationAssociationFilter to apply to the results that are
   returned.
 - `"MaxResults"`: The maximum number of results to return per each request.
@@ -2468,8 +2607,8 @@ end
 List all tags associated with a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to query for.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to query for.
 """
 function list_tags_for_resource end
 
@@ -2503,26 +2642,34 @@ end
     put_keyword(keyword, keyword_message, origination_identity)
     put_keyword(keyword, keyword_message, origination_identity, params::Dict{String,<:Any})
 
-Creates or updates a keyword configuration on an origination phone number or pool.  A
-keyword is a word that you can search for on a particular phone number or pool. It is also
+Creates or updates a keyword configuration on an origination phone number or pool.
+
+A keyword is a word that you can search for on a particular phone number or pool. It is also
 a specific word or phrase that an end user can send to your number to elicit a response,
 such as an informational message or a special offer. When your number receives a message
 that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
-customizable message. If you specify a keyword that isn't valid, an error is returned.
+customizable message.
+
+If you specify a keyword that isn't valid, an error is returned.
 
 # Arguments
+
 - `keyword`: The new keyword to add.
 - `keyword_message`: The message associated with the keyword.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
-  PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values
-  for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values
-  for SenderId and SenderIdArn.
+  PhoneNumberArn, SenderId or SenderIdArn. You can use `DescribePhoneNumbers` get the values
+  for PhoneNumberId and PhoneNumberArn while `DescribeSenderIds` can be used to get the
+  values for SenderId and SenderIdArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"KeywordAction"`: The action to perform for the new keyword when it is received.
-  AUTOMATIC_RESPONSE: A message is sent to the recipient.   OPT_OUT: Keeps the recipient from
-  receiving future messages.   OPT_IN: The recipient wants to receive future messages.
+
+  - AUTOMATIC_RESPONSE: A message is sent to the recipient.
+  - OPT_OUT: Keeps the recipient from receiving future messages.
+  - OPT_IN: The recipient wants to receive future messages.
 """
 function put_keyword end
 
@@ -2573,13 +2720,15 @@ end
     put_opted_out_number(opt_out_list_name, opted_out_number)
     put_opted_out_number(opt_out_list_name, opted_out_number, params::Dict{String,<:Any})
 
-Creates an opted out destination phone number in the opt-out list. If the destination phone
-number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
+Creates an opted out destination phone number in the opt-out list.
+
+If the destination phone number isn't valid or if the specified opt-out list doesn't exist,
+an error is returned.
 
 # Arguments
+
 - `opt_out_list_name`: The OptOutListName or OptOutListArn to add the phone number to.
 - `opted_out_number`: The phone number to add to the OptOutList in E.164 format.
-
 """
 function put_opted_out_number end
 
@@ -2625,12 +2774,15 @@ end
 Creates or updates a field value for a registration.
 
 # Arguments
+
 - `field_path`: The path to the registration form field. You can use
-  DescribeRegistrationFieldDefinitions for a list of FieldPaths.
+  `DescribeRegistrationFieldDefinitions` for a list of **FieldPaths**.
 - `registration_id`: The unique identifier for the registration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RegistrationAttachmentId"`: The unique identifier for the registration attachment.
 - `"SelectChoices"`: An array of values for the form field.
 - `"TextValue"`: The text data for a free form field.
@@ -2674,14 +2826,16 @@ end
     release_phone_number(phone_number_id)
     release_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Releases an existing origination phone number in your account. Once released, a phone
-number is no longer available for sending messages. If the origination phone number has
-deletion protection enabled or is associated with a pool, an error is returned.
+Releases an existing origination phone number in your account. Once released, a phone number
+is no longer available for sending messages.
+
+If the origination phone number has deletion protection enabled or is associated with a
+pool, an error is returned.
 
 # Arguments
-- `phone_number_id`: The PhoneNumberId or PhoneNumberArn of the phone number to release.
-  You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.
 
+- `phone_number_id`: The PhoneNumberId or PhoneNumberArn of the phone number to release. You
+  can use `DescribePhoneNumbers` to get the values for PhoneNumberId and PhoneNumberArn.
 """
 function release_phone_number end
 
@@ -2718,10 +2872,10 @@ end
 Releases an existing sender ID in your account.
 
 # Arguments
+
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `sender_id`: The sender ID to release.
-
 """
 function release_sender_id end
 
@@ -2763,27 +2917,31 @@ end
     request_phone_number(iso_country_code, message_type, number_capabilities, number_type, params::Dict{String,<:Any})
 
 Request an origination phone number for use in your account. For more information on phone
-number request see Request a phone number in the AWS End User Messaging SMS User Guide.
+number request see [Request a phone number](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-request.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
+
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `message_type`: The type of message. Valid values are TRANSACTIONAL for messages that are
-  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
-  time-sensitive.
-- `number_capabilities`: Indicates if the phone number will be used for text messages,
-  voice messages, or both.
+  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
+  sensitive.
+- `number_capabilities`: Indicates if the phone number will be used for text messages, voice
+  messages, or both.
 - `number_type`: The type of phone number to request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
-- `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
-  phone number can't be deleted.
-- `"OptOutListName"`: The name of the OptOutList to associate with the phone number. You
-  can use the OptOutListName or OptOutListArn.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
+- `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the phone
+  number can't be deleted.
+- `"OptOutListName"`: The name of the OptOutList to associate with the phone number. You can
+  use the OptOutListName or OptOutListArn.
 - `"PoolId"`: The pool to associated with the phone number. You can use the PoolId or
   PoolArn.
 - `"RegistrationId"`: Use this field to attach your phone number for an external
@@ -2849,20 +3007,23 @@ end
 Request a new sender ID that doesn't require registration.
 
 # Arguments
+
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `sender_id`: The sender ID string to request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don't specify a client token, a randomly generated token
-  is used for the request to ensure idempotency.
+  idempotency of the request. If you don't specify a client token, a randomly generated
+  token is used for the request to ensure idempotency.
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
   sender ID can't be deleted.
 - `"MessageTypes"`: The type of message. Valid values are TRANSACTIONAL for messages that
-  are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
-  time-sensitive.
+  are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
+  sensitive.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the sender ID.
 """
 function request_sender_id end
@@ -2912,24 +3073,26 @@ end
 
 Before you can send test messages to a verified destination phone number you need to opt-in
 the verified destination phone number. Creates a new text message with a verification code
-and send it to a verified destination phone number. Once you have the verification code use
-VerifyDestinationNumber to opt-in the verified destination phone number to receive messages.
+and send it to a verified destination phone number. Once you have the verification code use [`verify_destination_number`](@ref)
+to opt-in the verified destination phone number to receive messages.
 
 # Arguments
+
 - `verification_channel`: Choose to send the verification code as an SMS or voice message.
-- `verified_destination_number_id`: The unique identifier for the verified destination
-  phone number.
+- `verified_destination_number_id`: The unique identifier for the verified destination phone
+  number.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either
-  the ConfigurationSetName or ConfigurationSetArn.
+
+- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either the
+  ConfigurationSetName or ConfigurationSetArn.
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
-- `"DestinationCountryParameters"`: This field is used for any country-specific
-  registration requirements. Currently, this setting is only used when you send messages to
-  recipients in India using a sender ID. For more information see Special requirements for
-  sending SMS messages to recipients in India.
+- `"DestinationCountryParameters"`: This field is used for any country-specific registration
+  requirements. Currently, this setting is only used when you send messages to recipients in
+  India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
 - `"LanguageCode"`: Choose the language to use for the message.
 - `"OriginationIdentity"`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
@@ -2982,26 +3145,39 @@ end
 Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
 
 # Arguments
+
 - `destination_phone_number`: The destination phone number in E.164 format.
 - `origination_identity`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either
-  the ConfigurationSetName or ConfigurationSetArn.
+
+- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either the
+  ConfigurationSetName or ConfigurationSetArn.
+
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
+
 - `"DryRun"`: When set to true, the message is checked and validated, but isn't sent to the
   end recipient.
+
 - `"MaxPrice"`: The maximum amount that you want to spend, in US dollars, per each MMS
   message.
-- `"MediaUrls"`: An array of URLs to each media file to send.  The media files have to be
-  stored in a publicly available S3 bucket. Supported media file formats are listed in MMS
-  file types, size and character limits. For more information on creating an S3 bucket and
-  managing objects, see Creating a bucket and Uploading objects in the S3 user guide.
+
+- `"MediaUrls"`: An array of URLs to each media file to send.
+
+  The media files have to be stored in a publicly available S3 bucket. Supported media file
+  formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html).
+  For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
+  and [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
+  in the S3 user guide.
+
 - `"MessageBody"`: The text body of the message.
+
 - `"ProtectConfigurationId"`: The unique identifier of the protect configuration to use.
+
 - `"TimeToLive"`: How long the text message is valid for. By default this is 72 hours.
 """
 function send_media_message end
@@ -3050,49 +3226,69 @@ end
     send_text_message(destination_phone_number, params::Dict{String,<:Any})
 
 Creates a new text message and sends it to a recipient's phone number. SendTextMessage only
-sends an SMS message to one recipient each time it is invoked. SMS throughput limits are
-measured in Message Parts per Second (MPS). Your MPS limit depends on the destination
-country of your messages, as well as the type of phone number (origination number) that you
-use to send the message. For more information about MPS, see Message Parts per Second (MPS)
-limits in the AWS End User Messaging SMS User Guide.
+sends an SMS message to one recipient each time it is invoked.
+
+SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends
+on the destination country of your messages, as well as the type of phone number
+(origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
+
 - `destination_phone_number`: The destination phone number in E.164 format.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either
-  the ConfigurationSetName or ConfigurationSetArn.
+
+- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either the
+  ConfigurationSetName or ConfigurationSetArn.
+
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
-- `"DestinationCountryParameters"`: This field is used for any country-specific
-  registration requirements. Currently, this setting is only used when you send messages to
-  recipients in India using a sender ID. For more information see Special requirements for
-  sending SMS messages to recipients in India.     IN_ENTITY_ID The entity ID or Principal
-  Entity (PE) ID that you received after completing the sender ID registration process.
-  IN_TEMPLATE_ID The template ID that you received after completing the sender ID
-  registration process.  Make sure that the Template ID that you specify matches your message
-  template exactly. If your message doesn't match the template that you provided during the
-  registration process, the mobile carriers might reject your message.
+
+- `"DestinationCountryParameters"`: This field is used for any country-specific registration
+  requirements. Currently, this setting is only used when you send messages to recipients in
+  India using a sender ID. For more information see [Special requirements for sending SMS messages to recipients in India](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-senderid-india.html).
+
+  - `IN_ENTITY_ID` The entity ID or Principal Entity (PE) ID that you received after
+    completing the sender ID registration process.
+  - `IN_TEMPLATE_ID` The template ID that you received after completing the sender ID
+    registration process.
+
+    !!! important
+        Make sure that the Template ID that you specify matches your message template
+        exactly. If your message doesn't match the template that you provided during the
+        registration process, the mobile carriers might reject your message.
+
 - `"DryRun"`: When set to true, the message is checked and validated, but isn't sent to the
-  end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS)
-  limit when using DryRun is five. If your origination identity has a lower MPS limit then
-  the lower MPS limit is used. For more information about MPS limits, see Message Parts per
-  Second (MPS) limits in the AWS End User Messaging SMS User Guide..
-- `"Keyword"`: When you register a short code in the US, you must specify a program name.
-  If you don’t have a US short code, omit this attribute.
+  end recipient. You are not charged for using `DryRun`.
+
+  The Message Parts per Second (MPS) limit when using `DryRun` is five. If your origination
+  identity has a lower MPS limit then the lower MPS limit is used. For more information
+  about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html)
+  in the *AWS End User Messaging SMS User Guide*..
+
+- `"Keyword"`: When you register a short code in the US, you must specify a program name. If
+  you don’t have a US short code, omit this attribute.
+
 - `"MaxPrice"`: The maximum amount that you want to spend, in US dollars, per each text
-  message. If the calculated amount to send the text message is greater than MaxPrice, the
+  message. If the calculated amount to send the text message is greater than `MaxPrice`, the
   message is not sent and an error is returned.
+
 - `"MessageBody"`: The body of the text message.
+
 - `"MessageType"`: The type of message. Valid values are for messages that are critical or
   time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+
 - `"OriginationIdentity"`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+
 - `"ProtectConfigurationId"`: The unique identifier for the protect configuration.
+
 - `"TimeToLive"`: How long the text message is valid for, in seconds. By default this is 72
   hours. If the messages isn't handed off before the TTL expires we stop attempting to hand
-  off the message and return TTL_EXPIRED event.
+  off the message and return `TTL_EXPIRED` event.
 """
 function send_text_message end
 
@@ -3130,32 +3326,43 @@ end
     send_voice_message(destination_phone_number, origination_identity)
     send_voice_message(destination_phone_number, origination_identity, params::Dict{String,<:Any})
 
-Allows you to send a request that sends a voice message. This operation uses Amazon Polly
+Allows you to send a request that sends a voice message. This operation uses [Amazon Polly](http://aws.amazon.com/polly/)
 to convert a text script into a voice message.
 
 # Arguments
+
 - `destination_phone_number`: The destination phone number in E.164 format.
 - `origination_identity`: The origination identity to use for the voice call. This can be
   the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either
-  the ConfigurationSetName or ConfigurationSetArn.
+
+- `"ConfigurationSetName"`: The name of the configuration set to use. This can be either the
+  ConfigurationSetName or ConfigurationSetArn.
+
 - `"Context"`: You can specify custom data in this field. If you do, that data is logged to
   the event destination.
+
 - `"DryRun"`: When set to true, the message is checked and validated, but isn't sent to the
   end recipient.
+
 - `"MaxPricePerMinute"`: The maximum amount to spend per voice message, in US dollars.
+
 - `"MessageBody"`: The text to convert to a voice message.
-- `"MessageBodyTextType"`: Specifies if the MessageBody field contains text or speech
-  synthesis markup language (SSML).   TEXT: This is the default value. When used the maximum
-  character limit is 3000.   SSML: When used the maximum character limit is 6000 including
-  SSML tagging.
+
+- `"MessageBodyTextType"`: Specifies if the MessageBody field contains text or [speech synthesis markup language (SSML)](https://docs.aws.amazon.com/polly/latest/dg/what-is.html).
+
+  - TEXT: This is the default value. When used the maximum character limit is 3000.
+  - SSML: When used the maximum character limit is 6000 including SSML tagging.
+
 - `"ProtectConfigurationId"`: The unique identifier for the protect configuration.
+
 - `"TimeToLive"`: How long the voice message is valid for. By default this is 72 hours.
-- `"VoiceId"`: The voice for the Amazon Polly service to use. By default this is set to
-  \"MATTHEW\".
+
+- `"VoiceId"`: The voice for the [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html)
+  service to use. By default this is set to "MATTHEW".
 """
 function send_voice_message end
 
@@ -3207,8 +3414,8 @@ protect configuration at a time. The current account default protect configurati
 replaced with the provided protect configuration.
 
 # Arguments
-- `protect_configuration_id`: The unique identifier for the protect configuration.
 
+- `protect_configuration_id`: The unique identifier for the protect configuration.
 """
 function set_account_default_protect_configuration end
 
@@ -3246,19 +3453,21 @@ end
     set_default_message_type(configuration_set_name, message_type)
     set_default_message_type(configuration_set_name, message_type, params::Dict{String,<:Any})
 
-Sets the default message type on a configuration set. Choose the category of SMS messages
-that you plan to send from this account. If you send account-related messages or
-time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to
-send messages that contain marketing material or other promotional content, choose
-Promotional. This setting applies to your entire Amazon Web Services account.
+Sets the default message type on a configuration set.
+
+Choose the category of SMS messages that you plan to send from this account. If you send
+account-related messages or time-sensitive messages such as one-time passcodes, choose
+**Transactional**. If you plan to send messages that contain marketing material or other
+promotional content, choose **Promotional**. This setting applies to your entire Amazon Web
+Services account.
 
 # Arguments
-- `configuration_set_name`: The configuration set to update with a new default message
-  type. This field can be the ConsigurationSetName or ConfigurationSetArn.
-- `message_type`: The type of message. Valid values are TRANSACTIONAL for messages that are
-  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
-  time-sensitive.
 
+- `configuration_set_name`: The configuration set to update with a new default message type.
+  This field can be the ConsigurationSetName or ConfigurationSetArn.
+- `message_type`: The type of message. Valid values are TRANSACTIONAL for messages that are
+  critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-
+  sensitive.
 """
 function set_default_message_type end
 
@@ -3302,20 +3511,22 @@ end
     set_default_sender_id(configuration_set_name, sender_id)
     set_default_sender_id(configuration_set_name, sender_id, params::Dict{String,<:Any})
 
-Sets default sender ID on a configuration set. When sending a text message to a destination
-country that supports sender IDs, the default sender ID on the configuration set specified
-will be used if no dedicated origination phone numbers or registered sender IDs are
-available in your account.
+Sets default sender ID on a configuration set.
+
+When sending a text message to a destination country that supports sender IDs, the default
+sender ID on the configuration set specified will be used if no dedicated origination phone
+numbers or registered sender IDs are available in your account.
 
 # Arguments
+
 - `configuration_set_name`: The configuration set to updated with a new default SenderId.
   This field can be the ConsigurationSetName or ConfigurationSetArn.
+
 - `sender_id`: The current sender ID for the configuration set. When sending a text message
   to a destination country which supports SenderIds, the default sender ID on the
-  configuration set specified on SendTextMessage will be used if no dedicated origination
+  configuration set specified on `SendTextMessage` will be used if no dedicated origination
   phone numbers or registered SenderIds are available in your account, instead of a generic
   sender ID, such as 'NOTICE'.
-
 """
 function set_default_sender_id end
 
@@ -3359,12 +3570,12 @@ end
     set_media_message_spend_limit_override(monthly_limit, params::Dict{String,<:Any})
 
 Sets an account level monthly spend limit override for sending MMS messages. The requested
-spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web
+spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web
 Services.
 
 # Arguments
-- `monthly_limit`: The new monthly limit to enforce on text messages.
 
+- `monthly_limit`: The new monthly limit to enforce on text messages.
 """
 function set_media_message_spend_limit_override end
 
@@ -3399,12 +3610,12 @@ end
     set_text_message_spend_limit_override(monthly_limit, params::Dict{String,<:Any})
 
 Sets an account level monthly spend limit override for sending text messages. The requested
-spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web
+spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web
 Services.
 
 # Arguments
-- `monthly_limit`: The new monthly limit to enforce on text messages.
 
+- `monthly_limit`: The new monthly limit to enforce on text messages.
 """
 function set_text_message_spend_limit_override end
 
@@ -3438,13 +3649,13 @@ end
     set_voice_message_spend_limit_override(monthly_limit)
     set_voice_message_spend_limit_override(monthly_limit, params::Dict{String,<:Any})
 
-Sets an account level monthly spend limit override for sending voice messages. The
-requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon
-Web Services.
+Sets an account level monthly spend limit override for sending voice messages. The requested
+spend limit must be less than or equal to the `MaxLimit`, which is set by Amazon Web
+Services.
 
 # Arguments
-- `monthly_limit`: The new monthly limit to enforce on voice messages.
 
+- `monthly_limit`: The new monthly limit to enforce on voice messages.
 """
 function set_voice_message_spend_limit_override end
 
@@ -3481,8 +3692,8 @@ end
 Submit the specified registration for review and approval.
 
 # Arguments
-- `registration_id`: The unique identifier for the registration.
 
+- `registration_id`: The unique identifier for the registration.
 """
 function submit_registration_version end
 
@@ -3519,13 +3730,13 @@ end
 Adds or overwrites only the specified tags for the specified resource. When you specify an
 existing tag key, the value is overwritten with the new value. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
-unique per resource. For more information about tags, see Tags  in the AWS End User
-Messaging SMS User Guide.
+unique per resource. For more information about tags, see [Tags](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: An array of key and value pair tags that are associated with the resource.
-
 """
 function tag_resource end
 
@@ -3563,12 +3774,13 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the association of the specified tags from a resource. For more information on tags
-see Tags  in the AWS End User Messaging SMS User Guide.
+see [Tags](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html)
+in the *AWS End User Messaging SMS User Guide*.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: An array of tag key values to unassociate with the resource.
-
 """
 function untag_resource end
 
@@ -3609,24 +3821,34 @@ end
 
 Updates an existing event destination in a configuration set. You can update the IAM role
 ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination.
+
 You may want to update an event destination to change its matching event types or updating
 the destination resource ARN. You can't change an event destination's type between
 CloudWatch Logs, Firehose, and Amazon SNS.
 
 # Arguments
+
 - `configuration_set_name`: The configuration set to update with the new event destination.
   Valid values for this can be the ConfigurationSetName or ConfigurationSetArn.
 - `event_destination_name`: The name to use for the event destination.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CloudWatchLogsDestination"`: An object that contains information about an event
   destination that sends data to CloudWatch Logs.
+
 - `"Enabled"`: When set to true logging is enabled.
+
 - `"KinesisFirehoseDestination"`: An object that contains information about an event
   destination for logging to Firehose.
-- `"MatchingEventTypes"`: An array of event types that determine which events to log.  The
-  TEXT_SENT event type is not supported.
+
+- `"MatchingEventTypes"`: An array of event types that determine which events to log.
+
+  !!! note
+      The `TEXT_SENT` event type is not supported.
+
 - `"SnsDestination"`: An object that contains information about an event destination that
   sends data to Amazon SNS.
 """
@@ -3675,29 +3897,39 @@ end
     update_phone_number(phone_number_id)
     update_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Updates the configuration of an existing origination phone number. You can update the
-opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or
-disable self-managed opt-outs, and enable or disable deletion protection. If the
-origination phone number is associated with a pool, an error is returned.
+Updates the configuration of an existing origination phone number. You can update the opt-
+out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or
+disable self-managed opt-outs, and enable or disable deletion protection.
+
+If the origination phone number is associated with a pool, an error is returned.
 
 # Arguments
+
 - `phone_number_id`: The unique identifier of the phone number. Valid values for this field
   can be either the PhoneNumberId or PhoneNumberArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
-  phone number can't be deleted.
-- `"OptOutListName"`: The OptOutList to add the phone number to. Valid values for this
-  field can be either the OutOutListName or OutOutListArn.
+
+- `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the phone
+  number can't be deleted.
+
+- `"OptOutListName"`: The OptOutList to add the phone number to. Valid values for this field
+  can be either the OutOutListName or OutOutListArn.
+
 - `"SelfManagedOptOutsEnabled"`: By default this is set to false. When an end recipient
   sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End
-  User Messaging SMS and Voice automatically replies with a customizable message and adds the
-  end recipient to the OptOutList. When set to true you're responsible for responding to HELP
-  and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+  User Messaging SMS and Voice automatically replies with a customizable message and adds
+  the end recipient to the OptOutList. When set to true you're responsible for responding to
+  HELP and STOP requests. You're also responsible for tracking and honoring opt-out
+  requests.
+
 - `"TwoWayChannelArn"`: The Amazon Resource Name (ARN) of the two way channel.
+
 - `"TwoWayChannelRole"`: An optional IAM Role Arn for a service to assume, to be able to
   post inbound SMS messages.
+
 - `"TwoWayEnabled"`: By default this is set to false. When set to true you can receive
   incoming text messages from your end recipients.
 """
@@ -3734,27 +3966,37 @@ end
     update_pool(pool_id, params::Dict{String,<:Any})
 
 Updates the configuration of an existing pool. You can update the opt-out list, enable or
-disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed
+disable two-way messaging, change the `TwoWayChannelArn`, enable or disable self-managed
 opt-outs, enable or disable deletion protection, and enable or disable shared routes.
 
 # Arguments
-- `pool_id`: The unique identifier of the pool to update. Valid values are either the
-  PoolId or PoolArn.
+
+- `pool_id`: The unique identifier of the pool to update. Valid values are either the PoolId
+  or PoolArn.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeletionProtectionEnabled"`: When set to true the pool can't be deleted.
+
 - `"OptOutListName"`: The OptOutList to associate with the pool. Valid values are either
   OptOutListName or OptOutListArn.
+
 - `"SelfManagedOptOutsEnabled"`: By default this is set to false. When an end recipient
   sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End
-  User Messaging SMS and Voice automatically replies with a customizable message and adds the
-  end recipient to the OptOutList. When set to true you're responsible for responding to HELP
-  and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+  User Messaging SMS and Voice automatically replies with a customizable message and adds
+  the end recipient to the OptOutList. When set to true you're responsible for responding to
+  HELP and STOP requests. You're also responsible for tracking and honoring opt-out
+  requests.
+
 - `"SharedRoutesEnabled"`: Indicates whether shared routes are enabled for the pool.
+
 - `"TwoWayChannelArn"`: The Amazon Resource Name (ARN) of the two way channel.
+
 - `"TwoWayChannelRole"`: An optional IAM Role Arn for a service to assume, to be able to
   post inbound SMS messages.
+
 - `"TwoWayEnabled"`: By default this is set to false. When set to true you can receive
   incoming text messages from your end recipients.
 """
@@ -3787,12 +4029,15 @@ end
 Update the setting for an existing protect configuration.
 
 # Arguments
+
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtectionEnabled"`: When set to true deletion protection is enabled. By
-  default this is set to false.
+
+- `"DeletionProtectionEnabled"`: When set to true deletion protection is enabled. By default
+  this is set to false.
 """
 function update_protect_configuration end
 
@@ -3830,18 +4075,18 @@ end
     update_protect_configuration_country_rule_set(country_rule_set_updates, number_capability, protect_configuration_id)
     update_protect_configuration_country_rule_set(country_rule_set_updates, number_capability, protect_configuration_id, params::Dict{String,<:Any})
 
-Update a country rule set to ALLOW or BLOCK messages to be sent to the specified
+Update a country rule set to `ALLOW` or `BLOCK` messages to be sent to the specified
 destination counties. You can update one or multiple countries at a time. The updates are
 only applied to the specified NumberCapability type.
 
 # Arguments
-- `country_rule_set_updates`: A map of ProtectConfigurationCountryRuleSetInformation
-  objects that contain the details for the requested NumberCapability. The Key is the
-  two-letter ISO country code. For a list of supported ISO country codes, see Supported
-  countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
+
+- `country_rule_set_updates`: A map of ProtectConfigurationCountryRuleSetInformation objects
+  that contain the details for the requested NumberCapability. The Key is the two-letter ISO
+  country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html)
+  in the AWS End User Messaging SMS User Guide.
 - `number_capability`: The number capability to apply the CountryRuleSetUpdates updates to.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
-
 """
 function update_protect_configuration_country_rule_set end
 
@@ -3895,12 +4140,15 @@ end
 Updates the configuration of an existing sender ID.
 
 # Arguments
+
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
   or region.
 - `sender_id`: The sender ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
   sender ID can't be deleted.
 """
@@ -3943,15 +4191,15 @@ end
     verify_destination_number(verification_code, verified_destination_number_id)
     verify_destination_number(verification_code, verified_destination_number_id, params::Dict{String,<:Any})
 
-Use the verification code that was received by the verified destination phone number to
-opt-in the verified destination phone number to receive more messages.
+Use the verification code that was received by the verified destination phone number to opt-
+in the verified destination phone number to receive more messages.
 
 # Arguments
+
 - `verification_code`: The verification code that was received by the verified destination
   phone number.
 - `verified_destination_number_id`: The unique identifier for the verififed destination
   phone number.
-
 """
 function verify_destination_number end
 

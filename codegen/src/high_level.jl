@@ -54,6 +54,9 @@ function _generate_high_level_definitions(
 )
     operation_definitions = String[]
 
+    # Determine the list of operation names to function names for docstring links
+    doc_refs = Dict(op["name"] => _format_name(op["name"]) for op in values(operations))
+
     for (_, operation) in operations
         operation_name = operation["name"]
         method = operation["http"]["method"]
@@ -62,7 +65,7 @@ function _generate_high_level_definitions(
         documentation = ""
 
         if haskey(operation, "documentation")
-            documentation = _clean_documentation(operation["documentation"])
+            documentation = _html_to_markdown(operation["documentation"], doc_refs)
         end
 
         required_parameters = Dict{String,Any}()
@@ -278,19 +281,36 @@ function _generate_high_level_definition(
                 $function_name($(args))
                 $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
 
-            $(_wraplines(documentation))\n
+            $(_wraplines(documentation))
             """
+
+        # Determine if any of the docstring arguments are considered long such that all
+        # arguments should be separated by two newlines.
+        long_arg(str) = occursin("\n\n", str) || count('\n', str) > 3
 
         # Add in the required parameters if applicable
         if !isempty(required_parameters)
-            operation_definition *= "# Arguments\n"
+            if !endswith(operation_definition, "\n\n")
+                operation_definition *= "\n"
+            end
 
+            operation_definition *= "# Arguments\n\n"
+
+            argument_docstrings = String[]
             for (required_key, required_value) in required_parameters
                 key = _format_name(required_key)
-                operation_definition *= _wraplines(
-                    "- `$key`: $(required_value["documentation"])"; delim="\n  "
+                push!(
+                    argument_docstrings,
+                    _wraplines(
+                        "- `$key`: $(required_value["documentation"])"; base_indent=2
+                    ),
                 )
-                operation_definition *= "\n"
+            end
+
+            operation_definition *= if any(long_arg, argument_docstrings)
+                join(argument_docstrings, "\n\n")
+            else
+                join(argument_docstrings, "\n")
             end
 
             operation_definition *= "\n"
@@ -298,18 +318,35 @@ function _generate_high_level_definition(
 
         # Add in the optional parameters if applicable
         if !isempty(optional_parameters)
-            operation_definition *= """
-                # Optional Parameters
-                Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-                """
-
-            for (optional_key, optional_value) in optional_parameters
-                operation_definition *= _wraplines(
-                    "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                    delim="\n  ",
-                )
+            if !endswith(operation_definition, "\n\n")
                 operation_definition *= "\n"
             end
+
+            operation_definition *= """
+                # Optional Parameters
+
+                Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+                """
+
+            optional_docstrings = String[]
+            for (optional_key, optional_value) in optional_parameters
+                push!(
+                    optional_docstrings,
+                    _wraplines(
+                        "- `\"$optional_key\"`: $(optional_value["documentation"])";
+                        base_indent=2,
+                    ),
+                )
+            end
+
+            operation_definition *= if any(long_arg, optional_docstrings)
+                join(optional_docstrings, "\n\n")
+            else
+                join(optional_docstrings, "\n")
+            end
+
+            operation_definition *= "\n"
         end
 
         return operation_definition *= repeat('"', 3)

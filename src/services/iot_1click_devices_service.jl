@@ -8,13 +8,12 @@ using AWS.UUIDs: uuid4
     claim_devices_by_claim_code(claim_code)
     claim_devices_by_claim_code(claim_code, params::Dict{String,<:Any})
 
-Adds device(s) to your account (i.e., claim one or more devices) if and only if you
-received a claim code with the device(s).
+Adds device(s) to your account (i.e., claim one or more devices) if and only if you received
+a claim code with the device(s).
 
 # Arguments
-- `claim_code`: The claim code, starting with \"C-\", as provided by the device
-  manufacturer.
 
+- `claim_code`: The claim code, starting with "C-", as provided by the device manufacturer.
 """
 function claim_devices_by_claim_code end
 
@@ -40,13 +39,12 @@ end
     describe_device(device_id)
     describe_device(device_id, params::Dict{String,<:Any})
 
-Given a device ID, returns a DescribeDeviceResponse object describing the
- details of the
+Given a device ID, returns a DescribeDeviceResponse object describing the details of the
 device.
 
 # Arguments
-- `device_id`: The unique identifier of the device.
 
+- `device_id`: The unique identifier of the device.
 """
 function describe_device end
 
@@ -71,21 +69,22 @@ end
     finalize_device_claim(device_id, params::Dict{String,<:Any})
 
 Given a device ID, finalizes the claim request for the associated device.
- Claiming a
-device consists of initiating a claim, then publishing a device event,
- and finalizing the
-claim. For a device of type button, a device event can
- be published by simply clicking the
-device.
+
+!!! note
+    Claiming a device consists of initiating a claim, then publishing a device event, and
+    finalizing the claim. For a device of type button, a device event can be published by
+    simply clicking the device.
 
 # Arguments
+
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A collection of key/value pairs defining the resource tags. For example, {
-  \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
-  Tagging Strategies.
+  "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
 function finalize_device_claim end
 
@@ -119,8 +118,8 @@ end
 Given a device ID, returns the invokable methods associated with the device.
 
 # Arguments
-- `device_id`: The unique identifier of the device.
 
+- `device_id`: The unique identifier of the device.
 """
 function get_device_methods end
 
@@ -149,16 +148,15 @@ end
     initiate_device_claim(device_id, params::Dict{String,<:Any})
 
 Given a device ID, initiates a claim request for the associated device.
- Claiming a device
-consists of initiating a claim, then publishing a device event,
- and finalizing the claim.
-For a device of type button, a device event can
- be published by simply clicking the
-device.
+
+!!! note
+    Claiming a device consists of initiating a claim, then publishing a device event, and
+    finalizing the claim. For a device of type button, a device event can be published by
+    simply clicking the device.
 
 # Arguments
-- `device_id`: The unique identifier of the device.
 
+- `device_id`: The unique identifier of the device.
 """
 function initiate_device_claim end
 
@@ -190,13 +188,16 @@ end
     invoke_device_method(device_id, params::Dict{String,<:Any})
 
 Given a device ID, issues a request to invoke a named device method (with possible
-parameters). See the \"Example POST\" code snippet below.
+parameters). See the "Example POST" code snippet below.
 
 # Arguments
+
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deviceMethod"`: The device method to invoke.
 - `"deviceMethodParameters"`: A JSON encoded string containing the device method request
   parameters.
@@ -227,24 +228,23 @@ end
     list_device_events(device_id, from_time_stamp, to_time_stamp)
     list_device_events(device_id, from_time_stamp, to_time_stamp, params::Dict{String,<:Any})
 
-Using a device ID, returns a DeviceEventsResponse object containing an
- array of events for
+Using a device ID, returns a DeviceEventsResponse object containing an array of events for
 the device.
 
 # Arguments
+
 - `device_id`: The unique identifier of the device.
 - `from_time_stamp`: The start date for the device event query, in ISO8061 format. For
-  example,
- 2018-03-28T15:45:12.880Z
-- `to_time_stamp`: The end date for the device event query, in ISO8061 format. For
-  example,
- 2018-03-28T15:45:12.880Z
+  example, 2018-03-28T15:45:12.880Z
+- `to_time_stamp`: The end date for the device event query, in ISO8061 format. For example,
+  2018-03-28T15:45:12.880Z
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
-  default value of
- 100 is used.
+
+- `"maxResults"`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_device_events end
@@ -292,11 +292,12 @@ end
 Lists the 1-Click compatible devices associated with your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deviceType"`: The type of the device, such as \"button\".
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
-  default value of
- 100 is used.
+
+- `"deviceType"`: The type of the device, such as "button".
+- `"maxResults"`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_devices end
@@ -322,8 +323,8 @@ end
 Lists the tags associated with the specified resource ARN.
 
 # Arguments
-- `resource-arn`: The ARN of the resource.
 
+- `resource-arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
@@ -349,16 +350,14 @@ end
     tag_resource(resource-arn, tags)
     tag_resource(resource-arn, tags, params::Dict{String,<:Any})
 
-Adds or updates the tags associated with the resource ARN. See AWS IoT 1-Click Service
-Limits for the maximum number of tags allowed per
- resource.
+Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits)
+for the maximum number of tags allowed per resource.
 
 # Arguments
-- `resource-arn`: The ARN of the resource.
-- `tags`: A collection of key/value pairs defining the resource tags. For example, {
-  \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
-  Tagging Strategies.
 
+- `resource-arn`: The ARN of the resource.
+- `tags`: A collection of key/value pairs defining the resource tags. For example, { "tags":
+  {"key1": "value1", "key2": "value2"} }. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
 function tag_resource end
 
@@ -396,8 +395,8 @@ end
 Disassociates a device from your AWS account using its device ID.
 
 # Arguments
-- `device_id`: The unique identifier of the device.
 
+- `device_id`: The unique identifier of the device.
 """
 function unclaim_device end
 
@@ -425,14 +424,13 @@ end
     untag_resource(resource-arn, tag_keys)
     untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
 
-Using tag keys, deletes the tags (key/value pairs) associated with the specified
- resource
+Using tag keys, deletes the tags (key/value pairs) associated with the specified resource
 ARN.
 
 # Arguments
-- `resource-arn`: The ARN of the resource.
-- `tag_keys`: A collections of tag keys. For example, {\"key1\",\"key2\"}
 
+- `resource-arn`: The ARN of the resource.
+- `tag_keys`: A collections of tag keys. For example, {"key1","key2"}
 """
 function untag_resource end
 
@@ -467,17 +465,18 @@ end
     update_device_state(device_id)
     update_device_state(device_id, params::Dict{String,<:Any})
 
-Using a Boolean value (true or false), this operation
- enables or disables the device given
-a device ID.
+Using a Boolean value (true or false), this operation enables or disables the device given a
+device ID.
 
 # Arguments
+
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"enabled"`: If true, the device is enabled. If false, the device is
- disabled.
+
+- `"enabled"`: If true, the device is enabled. If false, the device is disabled.
 """
 function update_device_state end
 

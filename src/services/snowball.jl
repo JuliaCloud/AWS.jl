@@ -8,13 +8,13 @@ using AWS.UUIDs: uuid4
     cancel_cluster(cluster_id)
     cancel_cluster(cluster_id, params::Dict{String,<:Any})
 
-Cancels a cluster job. You can only cancel a cluster job while it's in the AwaitingQuorum
+Cancels a cluster job. You can only cancel a cluster job while it's in the `AwaitingQuorum`
 status. You'll have at least an hour after creating a cluster job to cancel it.
 
 # Arguments
-- `cluster_id`: The 39-character ID for the cluster that you want to cancel, for example
-  CID123e4567-e89b-12d3-a456-426655440000.
 
+- `cluster_id`: The 39-character ID for the cluster that you want to cancel, for example
+  `CID123e4567-e89b-12d3-a456-426655440000`.
 """
 function cancel_cluster end
 
@@ -46,14 +46,14 @@ end
     cancel_job(job_id)
     cancel_job(job_id, params::Dict{String,<:Any})
 
-Cancels the specified job. You can only cancel a job before its JobState value changes to
-PreparingAppliance. Requesting the ListJobs or DescribeJob action returns a job's JobState
-as part of the response element data returned.
+Cancels the specified job. You can only cancel a job before its `JobState` value changes to
+`PreparingAppliance`. Requesting the `ListJobs` or `DescribeJob` action returns a job's
+`JobState` as part of the response element data returned.
 
 # Arguments
-- `job_id`: The 39-character job ID for the job that you want to cancel, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The 39-character job ID for the job that you want to cancel, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function cancel_job end
 
@@ -83,14 +83,13 @@ end
 
 Creates an address for a Snow device to be shipped to. In most regions, addresses are
 validated at the time of creation. The address you provide must be located within the
-serviceable area of your region. If the address is invalid or unsupported, then an
-exception is thrown. If providing an address as a JSON file through the cli-input-json
-option, include the full file path. For example, --cli-input-json
-file://create-address.json.
+serviceable area of your region. If the address is invalid or unsupported, then an exception
+is thrown. If providing an address as a JSON file through the `cli-input-json` option,
+include the full file path. For example, `--cli-input-json file://create-address.json`.
 
 # Arguments
-- `address`: The address that you want the Snow device shipped to.
 
+- `address`: The address that you want the Snow device shipped to.
 """
 function create_address end
 
@@ -120,78 +119,108 @@ end
     create_cluster(address_id, job_type, shipping_option, snowball_type)
     create_cluster(address_id, job_type, shipping_option, snowball_type, params::Dict{String,<:Any})
 
-Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action
-separately to create the jobs for each of these nodes. The cluster does not ship until
-these five node jobs have been created.
+Creates an empty cluster. Each cluster supports five nodes. You use the [`create_job`](@ref)
+action separately to create the jobs for each of these nodes. The cluster does not ship
+until these five node jobs have been created.
 
 # Arguments
+
 - `address_id`: The ID for the address that you want the cluster shipped to.
+
 - `job_type`: The type of job for this cluster. Currently, the only job type supported for
-  clusters is LOCAL_USE. For more information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+  clusters is `LOCAL_USE`.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
+
 - `shipping_option`: The shipping speed for each node in this cluster. This speed doesn't
   dictate how soon you'll get each Snowball Edge device, rather it represents how quickly
   each device moves to its destination while in transit. Regional shipping speeds are as
-  follows:    In Australia, you have access to express shipping. Typically, Snow devices
-  shipped express are delivered in about a day.   In the European Union (EU), you have access
-  to express shipping. Typically, Snow devices shipped express are delivered in about a day.
-  In addition, most countries in the EU have access to standard shipping, which typically
-  takes less than a week, one way.   In India, Snow devices are delivered in one to seven
-  days.   In the United States of America (US), you have access to one-day shipping and
-  two-day shipping.     In Australia, you have access to express shipping. Typically, devices
-  shipped express are delivered in about a day.   In the European Union (EU), you have access
-  to express shipping. Typically, Snow devices shipped express are delivered in about a day.
-  In addition, most countries in the EU have access to standard shipping, which typically
-  takes less than a week, one way.   In India, Snow devices are delivered in one to seven
-  days.   In the US, you have access to one-day shipping and two-day shipping.
-- `snowball_type`: The type of Snow Family devices to use for this cluster.   For cluster
-  jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  For
-  more information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+  follows:
+
+  - In Australia, you have access to express shipping. Typically, Snow devices shipped
+    express are delivered in about a day.
+  - In the European Union (EU), you have access to express shipping. Typically, Snow devices
+    shipped express are delivered in about a day. In addition, most countries in the EU have
+    access to standard shipping, which typically takes less than a week, one way.
+  - In India, Snow devices are delivered in one to seven days.
+  - In the United States of America (US), you have access to one-day shipping and two-day
+    shipping.
+
+  - In Australia, you have access to express shipping. Typically, devices shipped express
+    are delivered in about a day.
+  - In the European Union (EU), you have access to express shipping. Typically, Snow devices
+    shipped express are delivered in about a day. In addition, most countries in the EU have
+    access to standard shipping, which typically takes less than a week, one way.
+  - In India, Snow devices are delivered in one to seven days.
+  - In the US, you have access to one-day shipping and two-day shipping.
+
+- `snowball_type`: The type of Snow Family devices to use for this cluster.
+
+  !!! note
+      For cluster jobs, Amazon Web Services Snow Family currently supports only the `EDGE`
+      device type.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: An optional description of this specific cluster, for example
-  Environmental Data Cluster-01.
+  `Environmental Data Cluster-01`.
+
 - `"ForceCreateJobs"`: Force to create cluster when user attempts to overprovision or
   underprovision a cluster. A cluster is overprovisioned or underprovisioned if the initial
   size of the cluster is more (overprovisioned) or less (underprovisioned) than what needed
-  to meet capacity requirement specified with OnDeviceServiceConfiguration.
+  to meet capacity requirement specified with `OnDeviceServiceConfiguration`.
+
 - `"ForwardingAddressId"`: The forwarding address ID for a cluster. This field is not
   supported in most regions.
-- `"InitialClusterSize"`: If provided, each job will be automatically created and
-  associated with the new cluster. If not provided, will be treated as 0.
-- `"KmsKeyARN"`: The KmsKeyARN value that you want to associate with this cluster.
-  KmsKeyARN values are created by using the CreateKey API action in Key Management Service
-  (KMS).
+
+- `"InitialClusterSize"`: If provided, each job will be automatically created and associated
+  with the new cluster. If not provided, will be treated as 0.
+
+- `"KmsKeyARN"`: The `KmsKeyARN` value that you want to associate with this cluster.
+  `KmsKeyARN` values are created by using the [CreateKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
+  API action in Key Management Service (KMS).
+
 - `"LongTermPricingIds"`: Lists long-term pricing id that will be used to associate with
   jobs automatically created for the new cluster.
+
 - `"Notification"`: The Amazon Simple Notification Service (Amazon SNS) notification
   settings for this cluster.
+
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
+
 - `"RemoteManagement"`: Allows you to securely operate and manage Snow devices in a cluster
-  remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
+  remotely from outside of your internal network. When set to `INSTALLED_AUTOSTART`, remote
   management will automatically be available when the device arrives at your location.
   Otherwise, you need to use the Snowball Client to manage the device.
+
 - `"Resources"`: The resources associated with the cluster job. These resources include
   Amazon S3 buckets and optional Lambda functions written in the Python language.
-- `"RoleARN"`: The RoleARN that you want to associate with this cluster. RoleArn values are
-  created by using the CreateRole API action in Identity and Access Management (IAM).
-- `"SnowballCapacityPreference"`: If your job is being created in one of the US regions,
-  you have the option of specifying what size Snow device you'd like for this job. In all
-  other regions, Snowballs come with 80 TB in storage capacity. For more information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+
+- `"RoleARN"`: The `RoleARN` that you want to associate with this cluster. `RoleArn` values
+  are created by using the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
+  API action in Identity and Access Management (IAM).
+
+- `"SnowballCapacityPreference"`: If your job is being created in one of the US regions, you
+  have the option of specifying what size Snow device you'd like for this job. In all other
+  regions, Snowballs come with 80 TB in storage capacity.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
+
 - `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
 function create_cluster end
@@ -248,94 +277,174 @@ end
     create_job(params::Dict{String,<:Any})
 
 Creates a job to import or export data between Amazon S3 and your on-premises data center.
-Your Amazon Web Services account must have the right trust policies and permissions in
-place to create a job for a Snow device. If you're creating a job for a node in a cluster,
-you only need to provide the clusterId value; the other job attributes are inherited from
-the cluster.   Only the Snowball; Edge device type is supported when ordering clustered
-jobs. The device capacity is optional. Availability of device types differ by Amazon Web
-Services Region. For more information about Region availability, see Amazon Web Services
-Regional Services.    Snow Family devices and their capacities.    Device type: SNC1_SSD
-Capacity: T14   Description: Snowcone       Device type: SNC1_HDD    Capacity: T8
-Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball
-Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42
-Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity:
-T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE
-Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute    This
-device is replaced with T98.     Device type: STANDARD    Capacity: T50   Description:
-Original Snowball device  This device is only available in the Ningxia, Beijing, and
-Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80
-Description: Original Snowball device  This device is only available in the Ningxia,
-Beijing, and Singapore Amazon Web Services Region.        Snow Family device type:
-RACK_5U_C    Capacity: T13    Description: Snowblade.     Device type: V3_5S    Capacity:
-T240   Description: Snowball Edge Storage Optimized 210TB
+Your Amazon Web Services account must have the right trust policies and permissions in place
+to create a job for a Snow device. If you're creating a job for a node in a cluster, you
+only need to provide the `clusterId` value; the other job attributes are inherited from the
+cluster.
+
+!!! note
+    Only the Snowball; Edge device type is supported when ordering clustered jobs.
+
+    The device capacity is optional.
+
+    Availability of device types differ by Amazon Web Services Region. For more information
+    about Region availability, see [Amazon Web Services Regional Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&amp;loc=4).
+
+## Snow Family devices and their capacities.
+
+- Device type: **SNC1_SSD**
+  - Capacity: T14
+  - Description: Snowcone
+
+- Device type: **SNC1_HDD**
+  - Capacity: T8
+  - Description: Snowcone
+
+- Device type: **EDGE_S**
+  - Capacity: T98
+  - Description: Snowball Edge Storage Optimized for data transfer only
+
+- Device type: **EDGE_CG**
+  - Capacity: T42
+  - Description: Snowball Edge Compute Optimized with GPU
+
+- Device type: **EDGE_C**
+  - Capacity: T42
+  - Description: Snowball Edge Compute Optimized without GPU
+
+- Device type: **EDGE**
+  - Capacity: T100
+  - Description: Snowball Edge Storage Optimized with EC2 Compute
+
+!!! note
+    This device is replaced with T98.
+
+- Device type: **STANDARD**
+  - Capacity: T50
+  - Description: Original Snowball device
+
+    !!! note
+        This device is only available in the Ningxia, Beijing, and Singapore Amazon Web
+        Services Region
+
+- Device type: **STANDARD**
+  - Capacity: T80
+  - Description: Original Snowball device
+
+    !!! note
+        This device is only available in the Ningxia, Beijing, and Singapore Amazon Web
+        Services Region.
+
+- Snow Family device type: **RACK_5U_C**
+  - Capacity: T13
+  - Description: Snowblade.
+- Device type: **V3_5S**
+  - Capacity: T240
+  - Description: Snowball Edge Storage Optimized 210TB
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AddressId"`: The ID for the address that you want the Snow device shipped to.
+
 - `"ClusterId"`: The ID of a cluster. If you're creating a job for a node in a cluster, you
-  need to provide only this clusterId value. The other job attributes are inherited from the
-  cluster.
+  need to provide only this `clusterId` value. The other job attributes are inherited from
+  the cluster.
+
 - `"Description"`: Defines an optional description of this specific job, for example
-  Important Photos 2016-08-11.
-- `"DeviceConfiguration"`: Defines the device configuration for an Snowcone job. For more
-  information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+  `Important Photos 2016-08-11`.
+
+- `"DeviceConfiguration"`: Defines the device configuration for an Snowcone job.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
+
 - `"ForwardingAddressId"`: The forwarding address ID for a job. This field is not supported
   in most Regions.
+
 - `"ImpactLevel"`: The highest impact level of data that will be stored or processed on the
   device, provided at job creation.
+
 - `"JobType"`: Defines the type of job that you're creating.
-- `"KmsKeyARN"`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
-  created using the CreateKey Key Management Service (KMS) API action.
+
+- `"KmsKeyARN"`: The `KmsKeyARN` that you want to associate with this job. `KmsKeyARN`s are
+  created using the [CreateKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
+  Key Management Service (KMS) API action.
+
 - `"LongTermPricingId"`: The ID of the long-term pricing type for the device.
-- `"Notification"`: Defines the Amazon Simple Notification Service (Amazon SNS)
-  notification settings for this job.
+
+- `"Notification"`: Defines the Amazon Simple Notification Service (Amazon SNS) notification
+  settings for this job.
+
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
   Services Storage Gateway service Tape Gateway type.
+
 - `"PickupDetails"`: Information identifying the person picking up the device.
+
 - `"RemoteManagement"`: Allows you to securely operate and manage Snowcone devices remotely
-  from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management
-  will automatically be available when the device arrives at your location. Otherwise, you
-  need to use the Snowball Edge client to manage the device. When set to NOT_INSTALLED,
-  remote management will not be available on the device.
-- `"Resources"`: Defines the Amazon S3 buckets associated with this job. With IMPORT jobs,
-  you specify the bucket or buckets that your transferred data will be imported into. With
-  EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported
-  from. Optionally, you can also specify a KeyRange value. If you choose to export a range,
-  you define the length of the range by providing either an inclusive BeginMarker value, an
-  inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
-- `"RoleARN"`: The RoleARN that you want to associate with this job. RoleArns are created
-  using the CreateRole Identity and Access Management (IAM) API action.
+  from outside of your internal network. When set to `INSTALLED_AUTOSTART`, remote
+  management will automatically be available when the device arrives at your location.
+  Otherwise, you need to use the Snowball Edge client to manage the device. When set to
+  `NOT_INSTALLED`, remote management will not be available on the device.
+
+- `"Resources"`: Defines the Amazon S3 buckets associated with this job.
+
+  With `IMPORT` jobs, you specify the bucket or buckets that your transferred data will be
+  imported into.
+
+  With `EXPORT` jobs, you specify the bucket or buckets that your transferred data will be
+  exported from. Optionally, you can also specify a `KeyRange` value. If you choose to
+  export a range, you define the length of the range by providing either an inclusive
+  `BeginMarker` value, an inclusive `EndMarker` value, or both. Ranges are UTF-8 binary
+  sorted.
+
+- `"RoleARN"`: The `RoleARN` that you want to associate with this job. `RoleArn`s are
+  created using the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
+  Identity and Access Management (IAM) API action.
+
 - `"ShippingOption"`: The shipping speed for this job. This speed doesn't dictate how soon
   you'll get the Snow device, rather it represents how quickly the Snow device moves to its
-  destination while in transit. Regional shipping speeds are as follows:   In Australia, you
-  have access to express shipping. Typically, Snow devices shipped express are delivered in
-  about a day.   In the European Union (EU), you have access to express shipping. Typically,
-  Snow devices shipped express are delivered in about a day. In addition, most countries in
-  the EU have access to standard shipping, which typically takes less than a week, one way.
-  In India, Snow devices are delivered in one to seven days.   In the US, you have access to
-  one-day shipping and two-day shipping.
-- `"SnowballCapacityPreference"`: If your job is being created in one of the US regions,
-  you have the option of specifying what size Snow device you'd like for this job. In all
-  other regions, Snowballs come with 80 TB in storage capacity. For more information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `"SnowballType"`: The type of Snow Family devices to use for this job.   For cluster
-  jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The
-  type of Amazon Web Services Snow device to use for this job. Currently, the only supported
-  device type for cluster jobs is EDGE. For more information, see Snowball Edge Device
-  Options in the Snowball Edge Developer Guide. For more information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+  destination while in transit. Regional shipping speeds are as follows:
+
+  - In Australia, you have access to express shipping. Typically, Snow devices shipped
+    express are delivered in about a day.
+  - In the European Union (EU), you have access to express shipping. Typically, Snow devices
+    shipped express are delivered in about a day. In addition, most countries in the EU have
+    access to standard shipping, which typically takes less than a week, one way.
+  - In India, Snow devices are delivered in one to seven days.
+  - In the US, you have access to one-day shipping and two-day shipping.
+
+- `"SnowballCapacityPreference"`: If your job is being created in one of the US regions, you
+  have the option of specifying what size Snow device you'd like for this job. In all other
+  regions, Snowballs come with 80 TB in storage capacity.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
+
+- `"SnowballType"`: The type of Snow Family devices to use for this job.
+
+  !!! note
+      For cluster jobs, Amazon Web Services Snow Family currently supports only the `EDGE`
+      device type.
+
+  The type of Amazon Web Services Snow device to use for this job. Currently, the only
+  supported device type for cluster jobs is `EDGE`.
+
+  For more information, see [Snowball Edge Device Options](https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html)
+  in the Snowball Edge Developer Guide.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
+
 - `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
 function create_job end
@@ -359,12 +468,15 @@ or 3-year long-term pricing type for the device. You are billed upfront, and Ama
 Services provides discounts for long-term pricing.
 
 # Arguments
+
 - `long_term_pricing_type`: The type of long-term pricing option you want for the device,
   either 1-year or 3-year long-term pricing.
 - `snowball_type`: The type of Snow Family devices to use for the long-term pricing job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
   the device should be renewed.
 """
@@ -413,11 +525,14 @@ end
 Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
 
 # Arguments
+
 - `job_id`: The ID for a job that you want to create the return shipping label for; for
-  example, JID123e4567-e89b-12d3-a456-426655440000.
+  example, `JID123e4567-e89b-12d3-a456-426655440000`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ShippingOption"`: The shipping speed for a particular job. This speed doesn't dictate
   how soon the device is returned to Amazon Web Services. This speed represents how quickly
   it moves to its destination while in transit. Regional shipping speeds are as follows:
@@ -450,12 +565,12 @@ end
     describe_address(address_id)
     describe_address(address_id, params::Dict{String,<:Any})
 
-Takes an AddressId and returns specific details about that address in the form of an
-Address object.
+Takes an `AddressId` and returns specific details about that address in the form of an
+`Address` object.
 
 # Arguments
-- `address_id`: The automatically generated ID for a specific address.
 
+- `address_id`: The automatically generated ID for a specific address.
 """
 function describe_address end
 
@@ -487,16 +602,18 @@ end
     describe_addresses()
     describe_addresses(params::Dict{String,<:Any})
 
-Returns a specified number of ADDRESS objects. Calling this API in one of the US regions
+Returns a specified number of `ADDRESS` objects. Calling this API in one of the US regions
 will return addresses from the list of all addresses associated with this account in all US
 regions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of ADDRESS objects to return.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of ADDRESS objects, you have the option of specifying a value for NextToken as the
-  starting point for your list of returned addresses.
+
+- `"MaxResults"`: The number of `ADDRESS` objects to return.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of `ADDRESS` objects, you have the option of specifying a value for `NextToken` as
+  the starting point for your list of returned addresses.
 """
 function describe_addresses end
 
@@ -516,12 +633,12 @@ end
     describe_cluster(cluster_id)
     describe_cluster(cluster_id, params::Dict{String,<:Any})
 
-Returns information about a specific cluster including shipping information, cluster
-status, and other important metadata.
+Returns information about a specific cluster including shipping information, cluster status,
+and other important metadata.
 
 # Arguments
-- `cluster_id`: The automatically generated ID for a cluster.
 
+- `cluster_id`: The automatically generated ID for a cluster.
 """
 function describe_cluster end
 
@@ -557,9 +674,9 @@ Returns information about a specific job including shipping information, job sta
 other important metadata.
 
 # Arguments
-- `job_id`: The automatically generated ID for a job, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The automatically generated ID for a job, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function describe_job end
 
@@ -591,9 +708,9 @@ Information on the shipping label of a Snow device that is being returned to Ama
 Services.
 
 # Arguments
-- `job_id`: The automatically generated ID for a job, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The automatically generated ID for a job, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function describe_return_shipping_label end
 
@@ -624,23 +741,28 @@ end
     get_job_manifest(job_id, params::Dict{String,<:Any})
 
 Returns a link to an Amazon S3 presigned URL for the manifest file associated with the
-specified JobId value. You can access the manifest file for up to 60 minutes after this
-request has been made. To access the manifest file after 60 minutes have passed, you'll
-have to make another call to the GetJobManifest action. The manifest is an encrypted file
-that you can download after your job enters the WithCustomer status. This is the only valid
-status for calling this API as the manifest and UnlockCode code value are used for securing
-your device and should only be used when you have the device. The manifest is decrypted by
-using the UnlockCode code value, when you pass both values to the Snow device through the
-Snowball client when the client is started for the first time.  As a best practice, we
-recommend that you don't save a copy of an UnlockCode value in the same location as the
-manifest file for that job. Saving these separately helps prevent unauthorized parties from
-gaining access to the Snow device associated with that job. The credentials of a given job,
-including its manifest file and unlock code, expire 360 days after the job is created.
+specified `JobId` value. You can access the manifest file for up to 60 minutes after this
+request has been made. To access the manifest file after 60 minutes have passed, you'll have
+to make another call to the `GetJobManifest` action.
+
+The manifest is an encrypted file that you can download after your job enters the
+`WithCustomer` status. This is the only valid status for calling this API as the manifest
+and `UnlockCode` code value are used for securing your device and should only be used when
+you have the device. The manifest is decrypted by using the `UnlockCode` code value, when
+you pass both values to the Snow device through the Snowball client when the client is
+started for the first time.
+
+As a best practice, we recommend that you don't save a copy of an `UnlockCode` value in the
+same location as the manifest file for that job. Saving these separately helps prevent
+unauthorized parties from gaining access to the Snow device associated with that job.
+
+The credentials of a given job, including its manifest file and unlock code, expire 360 days
+after the job is created.
 
 # Arguments
-- `job_id`: The ID for a job that you want to get the manifest file for, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The ID for a job that you want to get the manifest file for, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function get_job_manifest end
 
@@ -668,21 +790,24 @@ end
     get_job_unlock_code(job_id)
     get_job_unlock_code(job_id, params::Dict{String,<:Any})
 
-Returns the UnlockCode code value for the specified job. A particular UnlockCode value can
-be accessed for up to 360 days after the associated job has been created. The UnlockCode
-value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is
-used to decrypt the manifest file when it is passed along with the manifest to the Snow
-device through the Snowball client when the client is started for the first time. The only
-valid status for calling this API is WithCustomer as the manifest and Unlock code values
-are used for securing your device and should only be used when you have the device. As a
-best practice, we recommend that you don't save a copy of the UnlockCode in the same
+Returns the `UnlockCode` code value for the specified job. A particular `UnlockCode` value
+can be accessed for up to 360 days after the associated job has been created.
+
+The `UnlockCode` value is a 29-character code with 25 alphanumeric characters and 4 hyphens.
+This code is used to decrypt the manifest file when it is passed along with the manifest to
+the Snow device through the Snowball client when the client is started for the first time.
+The only valid status for calling this API is `WithCustomer` as the manifest and `Unlock`
+code values are used for securing your device and should only be used when you have the
+device.
+
+As a best practice, we recommend that you don't save a copy of the `UnlockCode` in the same
 location as the manifest file for that job. Saving these separately helps prevent
 unauthorized parties from gaining access to the Snow device associated with that job.
 
 # Arguments
-- `job_id`: The ID for the job that you want to get the UnlockCode value for, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The ID for the job that you want to get the `UnlockCode` value for, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function get_job_unlock_code end
 
@@ -711,10 +836,10 @@ end
     get_snowball_usage(params::Dict{String,<:Any})
 
 Returns information about the Snow Family service limit for your account, and also the
-number of Snow devices your account has in use. The default service limit for the number of
-Snow devices that you can have at one time is 1. If you want to increase your service
-limit, contact Amazon Web Services Support.
+number of Snow devices your account has in use.
 
+The default service limit for the number of Snow devices that you can have at one time is 1.
+If you want to increase your service limit, contact Amazon Web Services Support.
 """
 function get_snowball_usage end
 
@@ -732,12 +857,12 @@ end
     get_software_updates(job_id)
     get_software_updates(job_id, params::Dict{String,<:Any})
 
-Returns an Amazon S3 presigned URL for an update file associated with a specified JobId.
+Returns an Amazon S3 presigned URL for an update file associated with a specified `JobId`.
 
 # Arguments
-- `job_id`: The ID for a job that you want to get the software update file for, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
 
+- `job_id`: The ID for a job that you want to get the software update file for, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 """
 function get_software_updates end
 
@@ -765,20 +890,23 @@ end
     list_cluster_jobs(cluster_id)
     list_cluster_jobs(cluster_id, params::Dict{String,<:Any})
 
-Returns an array of JobListEntry objects of the specified length. Each JobListEntry object
-is for a job in the specified cluster and contains a job's state, a job's ID, and other
-information.
+Returns an array of `JobListEntry` objects of the specified length. Each `JobListEntry`
+object is for a job in the specified cluster and contains a job's state, a job's ID, and
+other information.
 
 # Arguments
+
 - `cluster_id`: The 39-character ID for the cluster that you want to list, for example
-  CID123e4567-e89b-12d3-a456-426655440000.
+  `CID123e4567-e89b-12d3-a456-426655440000`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of JobListEntry objects to return.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of JobListEntry objects, you have the option of specifying NextToken as the starting
-  point for your returned list.
+
+- `"MaxResults"`: The number of `JobListEntry` objects to return.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of `JobListEntry` objects, you have the option of specifying `NextToken` as the
+  starting point for your returned list.
 """
 function list_cluster_jobs end
 
@@ -810,14 +938,17 @@ end
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry
-object contains a cluster's state, a cluster's ID, and other important status information.
+Returns an array of `ClusterListEntry` objects of the specified length. Each
+`ClusterListEntry` object contains a cluster's state, a cluster's ID, and other important
+status information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of ClusterListEntry objects to return.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of ClusterListEntry objects, you have the option of specifying NextToken as the
+
+- `"MaxResults"`: The number of `ClusterListEntry` objects to return.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of `ClusterListEntry` objects, you have the option of specifying `NextToken` as the
   starting point for your returned list.
 """
 function list_clusters end
@@ -838,19 +969,21 @@ end
 
 This action returns a list of the different Amazon EC2-compatible Amazon Machine Images
 (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on
-a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS
-- Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services
-Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market,
-but still supported for use on devices through Amazon EC2 VM Import/Export and running
-locally in AMIs.
+a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS -
+Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace.
+Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still
+supported for use on devices through Amazon EC2 VM Import/Export and running locally in
+AMIs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results for the list of compatible images.
   Currently, a Snowball Edge device can store 10 AMIs.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of compatible images, you can specify a value for NextToken as the starting point for
-  your list of returned images.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of compatible images, you can specify a value for `NextToken` as the starting point
+  for your list of returned images.
 """
 function list_compatible_images end
 
@@ -870,17 +1003,19 @@ end
     list_jobs()
     list_jobs(params::Dict{String,<:Any})
 
-Returns an array of JobListEntry objects of the specified length. Each JobListEntry object
-contains a job's state, a job's ID, and a value that indicates whether the job is a job
-part, in the case of export jobs. Calling this API action in one of the US regions will
+Returns an array of `JobListEntry` objects of the specified length. Each `JobListEntry`
+object contains a job's state, a job's ID, and a value that indicates whether the job is a
+job part, in the case of export jobs. Calling this API action in one of the US regions will
 return jobs from the list of all jobs associated with this account in all US regions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of JobListEntry objects to return.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of JobListEntry objects, you have the option of specifying NextToken as the starting
-  point for your returned list.
+
+- `"MaxResults"`: The number of `JobListEntry` objects to return.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of `JobListEntry` objects, you have the option of specifying `NextToken` as the
+  starting point for your returned list.
 """
 function list_jobs end
 
@@ -901,10 +1036,12 @@ end
 Lists all long-term pricing types.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of ListLongTermPricing objects to return.
+
+- `"MaxResults"`: The maximum number of `ListLongTermPricing` objects to return.
 - `"NextToken"`: Because HTTP requests are stateless, this is the starting point for your
-  next list of ListLongTermPricing to return.
+  next list of `ListLongTermPricing` to return.
 """
 function list_long_term_pricing end
 
@@ -927,11 +1064,13 @@ end
 A list of locations from which the customer can choose to pickup a device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of locations to list per page.
-- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
-  list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as
-  the starting point for your returned list.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes "next" in the
+  list of `ListPickupLocationsRequest` objects, you have the option of specifying
+  `NextToken` as the starting point for your returned list.
 """
 function list_pickup_locations end
 
@@ -952,18 +1091,21 @@ end
     list_service_versions(service_name, params::Dict{String,<:Any})
 
 Lists all supported versions for Snow on-device services. Returns an array of
-ServiceVersion object containing the supported versions for a particular service.
+`ServiceVersion` object containing the supported versions for a particular service.
 
 # Arguments
+
 - `service_name`: The name of the service for which you're requesting supported versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DependentServices"`: A list of names and versions of dependant services of the
-  requested service.
-- `"MaxResults"`: The maximum number of ListServiceVersions objects to return.
+
+- `"DependentServices"`: A list of names and versions of dependant services of the requested
+  service.
+- `"MaxResults"`: The maximum number of `ListServiceVersions` objects to return.
 - `"NextToken"`: Because HTTP requests are stateless, this is the starting point for the
-  next list of returned ListServiceVersionsRequest versions.
+  next list of returned `ListServiceVersionsRequest` versions.
 """
 function list_service_versions end
 
@@ -997,31 +1139,34 @@ end
     update_cluster(cluster_id)
     update_cluster(cluster_id, params::Dict{String,<:Any})
 
-While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of
-the information associated with a cluster. Once the cluster changes to a different job
+While a cluster's `ClusterState` value is in the `AwaitingQuorum` state, you can update some
+of the information associated with a cluster. Once the cluster changes to a different job
 state, usually 60 minutes after the cluster being created, this action is no longer
 available.
 
 # Arguments
+
 - `cluster_id`: The cluster ID of the cluster that you want to update, for example
-  CID123e4567-e89b-12d3-a456-426655440000.
+  `CID123e4567-e89b-12d3-a456-426655440000`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AddressId"`: The ID of the updated Address object.
+
+- `"AddressId"`: The ID of the updated `Address` object.
 - `"Description"`: The updated description of this cluster.
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a cluster. This
   field is not supported in most regions.
-- `"Notification"`: The new or updated Notification object.
+- `"Notification"`: The new or updated `Notification` object.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
-- `"Resources"`: The updated arrays of JobResource objects that can include updated
-  S3Resource objects or LambdaResource objects.
+- `"Resources"`: The updated arrays of `JobResource` objects that can include updated
+  `S3Resource` objects or `LambdaResource` objects.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
-  cluster. To create a role ARN, use the CreateRole API action in Identity and Access
-  Management (IAM).
-- `"ShippingOption"`: The updated shipping option value of this cluster's ShippingDetails
+  cluster. To create a role ARN, use the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)
+  API action in Identity and Access Management (IAM).
+- `"ShippingOption"`: The updated shipping option value of this cluster's `ShippingDetails`
   object.
 """
 function update_cluster end
@@ -1054,39 +1199,51 @@ end
     update_job(job_id)
     update_job(job_id, params::Dict{String,<:Any})
 
-While a job's JobState value is New, you can update some of the information associated with
-a job. Once the job changes to a different job state, usually within 60 minutes of the job
-being created, this action is no longer available.
+While a job's `JobState` value is `New`, you can update some of the information associated
+with a job. Once the job changes to a different job state, usually within 60 minutes of the
+job being created, this action is no longer available.
 
 # Arguments
+
 - `job_id`: The job ID of the job that you want to update, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
+  `JID123e4567-e89b-12d3-a456-426655440000`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AddressId"`: The ID of the updated Address object.
-- `"Description"`: The updated description of this job's JobMetadata object.
+
+- `"AddressId"`: The ID of the updated `Address` object.
+
+- `"Description"`: The updated description of this job's `JobMetadata` object.
+
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a job. This field
   is not supported in most regions.
-- `"Notification"`: The new or updated Notification object.
+
+- `"Notification"`: The new or updated `Notification` object.
+
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
   Services Storage Gateway service Tape Gateway type.
+
 - `"PickupDetails"`:
-- `"Resources"`: The updated JobResource object, or the updated JobResource object.
+
+- `"Resources"`: The updated `JobResource` object, or the updated `JobResource` object.
+
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
-  job. To create a role ARN, use the CreateRoleIdentity and Access Management (IAM) API
-  action.
-- `"ShippingOption"`: The updated shipping option value of this job's ShippingDetails
+  job. To create a role ARN, use the [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)Identity
+  and Access Management (IAM) API action.
+
+- `"ShippingOption"`: The updated shipping option value of this job's `ShippingDetails`
   object.
-- `"SnowballCapacityPreference"`: The updated SnowballCapacityPreference of this job's
-  JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more
-  information, see
-  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
-  Family Devices and Capacity) in the Snowcone User Guide or
-  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
-  (Snow Family Devices and Capacity) in the Snowcone User Guide.
+
+- `"SnowballCapacityPreference"`: The updated `SnowballCapacityPreference` of this job's
+  `JobMetadata` object. The 50 TB Snowballs are only available in the US regions.
+
+  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-
+  guide/snow-device-types.html" (Snow Family Devices and Capacity) in the *Snowcone User
+  Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
+  types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
 """
 function update_job end
 
@@ -1117,12 +1274,15 @@ end
 Updates the state when a shipment state changes to a different state.
 
 # Arguments
-- `job_id`: The job ID of the job whose shipment date you want to update, for example
-  JID123e4567-e89b-12d3-a456-426655440000.
-- `shipment_state`: The state of a device when it is being shipped.  Set to RECEIVED when
-  the device arrives at your location. Set to RETURNED when you have returned the device to
-  Amazon Web Services.
 
+- `job_id`: The job ID of the job whose shipment date you want to update, for example
+  `JID123e4567-e89b-12d3-a456-426655440000`.
+
+- `shipment_state`: The state of a device when it is being shipped.
+
+  Set to `RECEIVED` when the device arrives at your location.
+
+  Set to `RETURNED` when you have returned the device to Amazon Web Services.
 """
 function update_job_shipment_state end
 
@@ -1164,11 +1324,14 @@ end
 Updates the long-term pricing type.
 
 # Arguments
+
 - `long_term_pricing_id`: The ID of the long-term pricing type for the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IsLongTermPricingAutoRenew"`: If set to true, specifies that the current long-term
+
+- `"IsLongTermPricingAutoRenew"`: If set to `true`, specifies that the current long-term
   pricing type for the device should be automatically renewed before the long-term pricing
   contract expires.
 - `"ReplacementJob"`: Specifies that a device that is ordered with long-term pricing should

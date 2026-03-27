@@ -9,7 +9,6 @@ using AWS.UUIDs: uuid4
     get_account_settings(params::Dict{String,<:Any})
 
 Get the account settings for Artifact.
-
 """
 function get_account_settings end
 
@@ -38,11 +37,14 @@ end
 Get the content for a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 - `term_token`: Unique download token provided by GetTermForReport API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_report end
@@ -85,10 +87,13 @@ end
 Get the metadata for a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_report_metadata end
@@ -126,10 +131,13 @@ end
 Get the Term content associated with a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_term_for_report end
@@ -167,7 +175,9 @@ end
 List available reports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of resources to return in the paginated response.
 - `"nextToken"`: Pagination token to request the next page of resources.
 """
@@ -192,7 +202,9 @@ end
 Put the account settings for Artifact.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"notificationSubscriptionStatus"`: Desired notification subscription status.
 """
 function put_account_settings end

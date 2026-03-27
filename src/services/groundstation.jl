@@ -11,8 +11,8 @@ using AWS.UUIDs: uuid4
 Cancels a contact with a specified contact ID.
 
 # Arguments
-- `contact_id`: UUID of a contact.
 
+- `contact_id`: UUID of a contact.
 """
 function cancel_contact end
 
@@ -40,16 +40,20 @@ end
     create_config(config_data, name)
     create_config(config_data, name, params::Dict{String,<:Any})
 
-Creates a Config with the specified configData parameters. Only one type of configData can
-be specified.
+Creates a `Config` with the specified `configData` parameters.
+
+Only one type of `configData` can be specified.
 
 # Arguments
-- `config_data`: Parameters of a Config.
-- `name`: Name of a Config.
+
+- `config_data`: Parameters of a `Config`.
+- `name`: Name of a `Config`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"tags"`: Tags assigned to a Config.
+
+- `"tags"`: Tags assigned to a `Config`.
 """
 function create_config end
 
@@ -86,24 +90,31 @@ end
     create_dataflow_endpoint_group(endpoint_details)
     create_dataflow_endpoint_group(endpoint_details, params::Dict{String,<:Any})
 
-Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
-The name field in each endpoint is used in your mission profile DataflowEndpointConfig to
-specify which endpoints to use during a contact. When a contact uses multiple
-DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+Creates a `DataflowEndpoint` group containing the specified list of `DataflowEndpoint`
+objects.
+
+The `name` field in each endpoint is used in your mission profile `DataflowEndpointConfig`
+to specify which endpoints to use during a contact.
+
+When a contact uses multiple `DataflowEndpointConfig` objects, each `Config` must match a
+`DataflowEndpoint` in the same group.
 
 # Arguments
+
 - `endpoint_details`: Endpoint details of each endpoint in the dataflow endpoint group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends that
-  the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station
-  Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group
-  enters and exits the POSTPASS state.
+  the Ground Station Dataflow Endpoint Group will be in a `POSTPASS` state. A Ground Station
+  Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint
+  Group enters and exits the `POSTPASS` state.
 - `"contactPrePassDurationSeconds"`: Amount of time, in seconds, before a contact starts
-  that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground
+  that the Ground Station Dataflow Endpoint Group will be in a `PREPASS` state. A Ground
   Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow
-  Endpoint Group enters and exits the PREPASS state.
+  Endpoint Group enters and exits the `PREPASS` state.
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group end
@@ -142,24 +153,37 @@ end
     create_ephemeris(name, satellite_id)
     create_ephemeris(name, satellite_id, params::Dict{String,<:Any})
 
-Creates an Ephemeris with the specified EphemerisData.
+Creates an Ephemeris with the specified `EphemerisData`.
 
 # Arguments
+
 - `name`: A name string associated with the ephemeris. Used as a human-readable identifier
   for the ephemeris.
 - `satellite_id`: AWS Ground Station satellite ID for this ephemeris.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"enabled"`: Whether to set the ephemeris status to ENABLED after validation. Setting
-  this to false will set the ephemeris status to DISABLED after validation.
+
+- `"enabled"`: Whether to set the ephemeris status to `ENABLED` after validation.
+
+  Setting this to false will set the ephemeris status to `DISABLED` after validation.
+
 - `"ephemeris"`: Ephemeris data.
+
 - `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
-  will become EXPIRED.
+  will become `EXPIRED`.
+
 - `"kmsKeyArn"`: The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
-- `"priority"`: Customer-provided priority score to establish the order in which
-  overlapping ephemerides should be used. The default for customer-provided ephemeris
-  priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+
+- `"priority"`: Customer-provided priority score to establish the order in which overlapping
+  ephemerides should be used.
+
+  The default for customer-provided ephemeris priority is 1, and higher numbers take
+  precedence.
+
+  Priority must be 1 or greater
+
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris end
@@ -201,22 +225,27 @@ end
     create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn)
     create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn, params::Dict{String,<:Any})
 
-Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level
-list of strings has two elements: a from ARN and a to ARN.
+Creates a mission profile.
+
+`dataflowEdges` is a list of lists of strings. Each lower level list of strings has two
+elements: a *from* ARN and a *to* ARN.
 
 # Arguments
-- `dataflow_edges`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
-  Config and a to Config.
-- `minimum_viable_contact_duration_seconds`: Smallest amount of time in seconds that
-  you’d like to see for an available contact. AWS Ground Station will not present you with
+
+- `dataflow_edges`: A list of lists of ARNs. Each list of ARNs is an edge, with a *from*
+  `Config` and a *to* `Config`.
+- `minimum_viable_contact_duration_seconds`: Smallest amount of time in seconds that you’d
+  like to see for an available contact. AWS Ground Station will not present you with
   contacts shorter than this duration.
 - `name`: Name of a mission profile.
-- `tracking_config_arn`: ARN of a tracking Config.
+- `tracking_config_arn`: ARN of a tracking `Config`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a Ground Station Contact State Change event indicating the pass has finished.
+
+- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like to
+  receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time prior to contact start you’d like to
   receive a Ground Station Contact State Change event indicating an upcoming pass.
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
@@ -279,12 +308,12 @@ end
     delete_config(config_id, config_type)
     delete_config(config_id, config_type, params::Dict{String,<:Any})
 
-Deletes a Config.
+Deletes a `Config`.
 
 # Arguments
-- `config_id`: UUID of a Config.
-- `config_type`: Type of a Config.
 
+- `config_id`: UUID of a `Config`.
+- `config_type`: Type of a `Config`.
 """
 function delete_config end
 
@@ -321,8 +350,8 @@ end
 Deletes a dataflow endpoint group.
 
 # Arguments
-- `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 
+- `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 """
 function delete_dataflow_endpoint_group end
 
@@ -358,8 +387,8 @@ end
 Deletes an ephemeris
 
 # Arguments
-- `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
+- `ephemeris_id`: The AWS Ground Station ephemeris ID.
 """
 function delete_ephemeris end
 
@@ -390,8 +419,8 @@ end
 Deletes a mission profile.
 
 # Arguments
-- `mission_profile_id`: UUID of a mission profile.
 
+- `mission_profile_id`: UUID of a mission profile.
 """
 function delete_mission_profile end
 
@@ -427,8 +456,8 @@ end
 Describes an existing contact.
 
 # Arguments
-- `contact_id`: UUID of a contact.
 
+- `contact_id`: UUID of a contact.
 """
 function describe_contact end
 
@@ -455,8 +484,8 @@ end
 Describes an existing ephemeris.
 
 # Arguments
-- `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
+- `ephemeris_id`: The AWS Ground Station ephemeris ID.
 """
 function describe_ephemeris end
 
@@ -484,12 +513,14 @@ end
     get_agent_configuration(agent_id)
     get_agent_configuration(agent_id, params::Dict{String,<:Any})
 
-  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest
-configuration information for a registered agent.
+!!! note
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Gets the latest configuration information for a registered agent.
 
 # Arguments
-- `agent_id`: UUID of agent to get configuration information for.
 
+- `agent_id`: UUID of agent to get configuration information for.
 """
 function get_agent_configuration end
 
@@ -522,12 +553,14 @@ end
     get_config(config_id, config_type)
     get_config(config_id, config_type, params::Dict{String,<:Any})
 
-Returns Config information. Only one Config response can be returned.
+Returns `Config` information.
+
+Only one `Config` response can be returned.
 
 # Arguments
-- `config_id`: UUID of a Config.
-- `config_type`: Type of a Config.
 
+- `config_id`: UUID of a `Config`.
+- `config_type`: Type of a `Config`.
 """
 function get_config end
 
@@ -564,8 +597,8 @@ end
 Returns the dataflow endpoint group.
 
 # Arguments
-- `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 
+- `dataflow_endpoint_group_id`: UUID of a dataflow endpoint group.
 """
 function get_dataflow_endpoint_group end
 
@@ -601,9 +634,9 @@ end
 Returns the number of reserved minutes used by account.
 
 # Arguments
+
 - `month`: The month being requested, with a value of 1-12.
 - `year`: The year being requested, in the format of YYYY.
-
 """
 function get_minute_usage end
 
@@ -641,8 +674,8 @@ end
 Returns a mission profile.
 
 # Arguments
-- `mission_profile_id`: UUID of a mission profile.
 
+- `mission_profile_id`: UUID of a mission profile.
 """
 function get_mission_profile end
 
@@ -678,8 +711,8 @@ end
 Returns a satellite.
 
 # Arguments
-- `satellite_id`: UUID of a satellite.
 
+- `satellite_id`: UUID of a satellite.
 """
 function get_satellite end
 
@@ -707,13 +740,15 @@ end
     list_configs()
     list_configs(params::Dict{String,<:Any})
 
-Returns a list of Config objects.
+Returns a list of `Config` objects.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of Configs returned.
-- `"nextToken"`: Next token returned in the request of a previous ListConfigs call. Used to
-  get the next page of results.
+
+- `"maxResults"`: Maximum number of `Configs` returned.
+- `"nextToken"`: Next token returned in the request of a previous `ListConfigs` call. Used
+  to get the next page of results.
 """
 function list_configs end
 
@@ -733,20 +768,25 @@ end
     list_contacts(end_time, start_time, status_list)
     list_contacts(end_time, start_time, status_list, params::Dict{String,<:Any})
 
-Returns a list of contacts. If statusList contains AVAILABLE, the request must include
-groundStation, missionprofileArn, and satelliteArn.
+Returns a list of contacts.
+
+If `statusList` contains AVAILABLE, the request must include `groundStation`,
+`missionprofileArn`, and `satelliteArn`.
 
 # Arguments
+
 - `end_time`: End time of a contact in UTC.
 - `start_time`: Start time of a contact in UTC.
 - `status_list`: Status of a contact reservation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"groundStation"`: Name of a ground station.
 - `"maxResults"`: Maximum number of contacts returned.
 - `"missionProfileArn"`: ARN of a mission profile.
-- `"nextToken"`: Next token returned in the request of a previous ListContacts call. Used
+- `"nextToken"`: Next token returned in the request of a previous `ListContacts` call. Used
   to get the next page of results.
 - `"satelliteArn"`: ARN of a satellite.
 """
@@ -796,13 +836,15 @@ end
     list_dataflow_endpoint_groups()
     list_dataflow_endpoint_groups(params::Dict{String,<:Any})
 
-Returns a list of DataflowEndpoint groups.
+Returns a list of `DataflowEndpoint` groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of dataflow endpoint groups returned.
 - `"nextToken"`: Next token returned in the request of a previous
-  ListDataflowEndpointGroups call. Used to get the next page of results.
+  `ListDataflowEndpointGroups` call. Used to get the next page of results.
 """
 function list_dataflow_endpoint_groups end
 
@@ -827,14 +869,17 @@ end
 List existing ephemerides.
 
 # Arguments
+
 - `end_time`: The end time to list in UTC. The operation will return an ephemeris if its
-  expiration time is within the time range defined by the startTime and endTime.
+  expiration time is within the time range defined by the `startTime` and `endTime`.
 - `satellite_id`: The AWS Ground Station satellite ID to list ephemeris for.
-- `start_time`: The start time to list in UTC. The operation will return an ephemeris if
-  its expiration time is within the time range defined by the startTime and endTime.
+- `start_time`: The start time to list in UTC. The operation will return an ephemeris if its
+  expiration time is within the time range defined by the `startTime` and `endTime`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of ephemerides to return.
 - `"nextToken"`: Pagination token.
 - `"statusList"`: The list of ephemeris status to return.
@@ -888,7 +933,9 @@ end
 Returns a list of ground stations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of ground stations returned.
 - `"nextToken"`: Next token that can be supplied in the next call to get the next page of
   ground stations.
@@ -917,10 +964,12 @@ end
 Returns a list of mission profiles.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of mission profiles returned.
-- `"nextToken"`: Next token returned in the request of a previous ListMissionProfiles call.
-  Used to get the next page of results.
+- `"nextToken"`: Next token returned in the request of a previous `ListMissionProfiles`
+  call. Used to get the next page of results.
 """
 function list_mission_profiles end
 
@@ -945,7 +994,9 @@ end
 Returns a list of satellites.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of satellites returned.
 - `"nextToken"`: Next token that can be supplied in the next call to get the next page of
   satellites.
@@ -971,8 +1022,8 @@ end
 Returns a list of tags for a specified resource.
 
 # Arguments
-- `resource_arn`: ARN of a resource.
 
+- `resource_arn`: ARN of a resource.
 """
 function list_tags_for_resource end
 
@@ -998,13 +1049,15 @@ end
     register_agent(agent_details, discovery_data)
     register_agent(agent_details, discovery_data, params::Dict{String,<:Any})
 
-  For use by AWS Ground Station Agent and shouldn't be called directly.   Registers a new
-agent with AWS Ground Station.
+!!! note
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Registers a new agent with AWS Ground Station.
 
 # Arguments
+
 - `agent_details`: Detailed information about the agent being registered.
 - `discovery_data`: Data for associating an agent with the capabilities it is managing.
-
 """
 function register_agent end
 
@@ -1050,6 +1103,7 @@ end
 Reserves a contact using specified parameters.
 
 # Arguments
+
 - `end_time`: End time of a contact in UTC.
 - `ground_station`: Name of a ground station.
 - `mission_profile_arn`: ARN of a mission profile.
@@ -1057,7 +1111,9 @@ Reserves a contact using specified parameters.
 - `start_time`: Start time of a contact in UTC.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: Tags assigned to a contact.
 """
 function reserve_contact end
@@ -1122,9 +1178,9 @@ end
 Assigns a tag to a resource.
 
 # Arguments
+
 - `resource_arn`: ARN of a resource tag.
 - `tags`: Tags assigned to a resource.
-
 """
 function tag_resource end
 
@@ -1160,9 +1216,9 @@ end
 Deassigns a resource tag.
 
 # Arguments
+
 - `resource_arn`: ARN of a resource.
 - `tag_keys`: Keys of a resource tag.
-
 """
 function untag_resource end
 
@@ -1197,15 +1253,17 @@ end
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id)
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id, params::Dict{String,<:Any})
 
-  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status
-of the agent.
+!!! note
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Update the status of the agent.
 
 # Arguments
+
 - `agent_id`: UUID of agent to update.
 - `aggregate_status`: Aggregate status for agent.
 - `component_statuses`: List of component statuses for agent.
 - `task_id`: GUID of agent task.
-
 """
 function update_agent_status end
 
@@ -1260,15 +1318,17 @@ end
     update_config(config_data, config_id, config_type, name)
     update_config(config_data, config_id, config_type, name, params::Dict{String,<:Any})
 
-Updates the Config used when scheduling contacts. Updating a Config will not update the
-execution parameters for existing future contacts scheduled with this Config.
+Updates the `Config` used when scheduling contacts.
+
+Updating a `Config` will not update the execution parameters for existing future contacts
+scheduled with this `Config`.
 
 # Arguments
-- `config_data`: Parameters of a Config.
-- `config_id`: UUID of a Config.
-- `config_type`: Type of a Config.
-- `name`: Name of a Config.
 
+- `config_data`: Parameters of a `Config`.
+- `config_id`: UUID of a `Config`.
+- `config_type`: Type of a `Config`.
+- `name`: Name of a `Config`.
 """
 function update_config end
 
@@ -1316,17 +1376,25 @@ end
 Updates an existing ephemeris
 
 # Arguments
+
 - `enabled`: Whether the ephemeris is enabled or not. Changing this value will not require
   the ephemeris to be re-validated.
 - `ephemeris_id`: The AWS Ground Station ephemeris ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: A name string associated with the ephemeris. Used as a human-readable
-  identifier for the ephemeris.
-- `"priority"`: Customer-provided priority score to establish the order in which
-  overlapping ephemerides should be used. The default for customer-provided ephemeris
-  priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+
+- `"name"`: A name string associated with the ephemeris. Used as a human-readable identifier
+  for the ephemeris.
+
+- `"priority"`: Customer-provided priority score to establish the order in which overlapping
+  ephemerides should be used.
+
+  The default for customer-provided ephemeris priority is 1, and higher numbers take
+  precedence.
+
+  Priority must be 1 or greater
 """
 function update_ephemeris end
 
@@ -1361,27 +1429,32 @@ end
     update_mission_profile(mission_profile_id)
     update_mission_profile(mission_profile_id, params::Dict{String,<:Any})
 
-Updates a mission profile. Updating a mission profile will not update the execution
-parameters for existing future contacts.
+Updates a mission profile.
+
+Updating a mission profile will not update the execution parameters for existing future
+contacts.
 
 # Arguments
+
 - `mission_profile_id`: UUID of a mission profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a Ground Station Contact State Change event indicating the pass has finished.
-- `"contactPrePassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a Ground Station Contact State Change event indicating the pass has finished.
-- `"dataflowEdges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
-  Config and a to Config.
+
+- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like to
+  receive a Ground Station Contact State Change event indicating the pass has finished.
+- `"contactPrePassDurationSeconds"`: Amount of time after a contact ends that you’d like to
+  receive a Ground Station Contact State Change event indicating the pass has finished.
+- `"dataflowEdges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a *from*
+  `Config` and a *to* `Config`.
 - `"minimumViableContactDurationSeconds"`: Smallest amount of time in seconds that you’d
-  like to see for an available contact. AWS Ground Station will not present you with contacts
-  shorter than this duration.
+  like to see for an available contact. AWS Ground Station will not present you with
+  contacts shorter than this duration.
 - `"name"`: Name of a mission profile.
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
-- `"trackingConfigArn"`: ARN of a tracking Config.
+- `"trackingConfigArn"`: ARN of a tracking `Config`.
 """
 function update_mission_profile end
 

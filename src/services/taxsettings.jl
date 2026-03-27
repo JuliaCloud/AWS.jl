@@ -9,13 +9,15 @@ using AWS.UUIDs: uuid4
     batch_delete_tax_registration(account_ids, params::Dict{String,<:Any})
 
 Deletes tax registration for multiple accounts in batch. This can be used to delete tax
-registrations for up to five accounts in one batch.   This API operation can't be used to
-delete your tax registration in Brazil. Use the Payment preferences page in the Billing and
-Cost Management console instead.
+registrations for up to five accounts in one batch.
+
+!!! note
+    This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods)
+    page in the Billing and Cost Management console instead.
 
 # Arguments
-- `account_ids`: List of unique account identifiers.
 
+- `account_ids`: List of unique account identifiers.
 """
 function batch_delete_tax_registration end
 
@@ -53,58 +55,113 @@ end
 
 Adds or updates tax registration for multiple accounts in batch. This can be used to add or
 update tax registrations for up to five accounts in one batch. You can't set a TRN if
-there's a pending TRN. You'll need to delete the pending TRN first. To call this API
-operation for specific countries, see the following country-specific requirements.
-Bangladesh    You must specify the tax registration certificate document in the
-taxRegistrationDocuments field of the VerificationDetails object.    Brazil    You must
-complete the tax registration process in the Payment preferences page in the Billing and
-Cost Management console. After your TRN and billing address are verified, you can call this
-API operation.   For Amazon Web Services accounts created through Organizations, you can
-call this API operation when you don't have a billing address.    Georgia    The valid
-personType values are Physical Person and Business.    Kenya    You must specify the
-personType in the kenyaAdditionalInfo field of the additionalTaxInformation object.   If
-the personType is Physical Person, you must specify the tax registration certificate
-document in the taxRegistrationDocuments field of the VerificationDetails object.
-Malaysia    If you use this operation to set a tax registration number (TRN) in Malaysia,
-only resellers with a valid sales and service tax (SST) number are required to provide tax
-registration information.   By using this API operation to set a TRN in Malaysia, Amazon
-Web Services will regard you as self-declaring that you're an authorized business reseller
-registered with the Royal Malaysia Customs Department (RMCD) and have a valid SST number.
-Amazon Web Services reserves the right to seek additional information and/or take other
-actions to support your self-declaration as appropriate.   If you're not a reseller of
-Amazon Web Services, we don't recommend that you use this operation to set the TRN in
-Malaysia.   Only use this API operation to upload the TRNs for accounts through which
-you're reselling Amazon Web Services.   Amazon Web Services is currently registered under
-the following service tax codes. You must include at least one of the service tax codes in
-the service tax code strings to declare yourself as an authorized registered business
-reseller. Taxable service and service tax codes: Consultancy - 9907061674 Training or
-coaching service - 9907071685 IT service - 9907101676 Digital services and electronic
-medium - 9907121690    Nepal    The sector valid values are Business and Individual.
-Saudi Arabia    For address, you must specify addressLine3.    South Korea    You must
-specify the certifiedEmailId and legalName in the TaxRegistrationEntry object. Use Korean
-characters for legalName.   You must specify the businessRepresentativeName,
-itemOfBusiness, and lineOfBusiness in the southKoreaAdditionalInfo field of the
-additionalTaxInformation object. Use Korean characters for these fields.   You must specify
-the tax registration certificate document in the taxRegistrationDocuments field of the
-VerificationDetails object.   For the address object, use Korean characters for
-addressLine1, addressLine2 city, postalCode, and stateOrRegion.    Spain    You must
-specify the registrationType in the spainAdditionalInfo field of the
-additionalTaxInformation object.   If the registrationType is Local, you must specify the
-tax registration certificate document in the taxRegistrationDocuments field of the
-VerificationDetails object.    Turkey    You must specify the sector in the
-taxRegistrationEntry object.   If your sector is Business, Individual, or Government:
-Specify the taxOffice. If your sector is Individual, don't enter this value.   (Optional)
-Specify the kepEmailId. If your sector is Individual, don't enter this value.    Note: In
-the Tax Settings page of the Billing console, Government appears as Public institutions
- If your sector is Business and you're subject to KDV tax, you must specify your industry
-in the industries field.   For address, you must specify districtOrCounty.    Ukraine
-The sector valid values are Business and Individual.
+there's a pending TRN. You'll need to delete the pending TRN first.
+
+To call this API operation for specific countries, see the following country-specific
+requirements.
+
+**Bangladesh**
+
+- You must specify the tax registration certificate document in the
+  `taxRegistrationDocuments` field of the `VerificationDetails` object.
+
+**Brazil**
+
+- You must complete the tax registration process in the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods)
+  page in the Billing and Cost Management console. After your TRN and billing address are
+  verified, you can call this API operation.
+- For Amazon Web Services accounts created through Organizations, you can call this API
+  operation when you don't have a billing address.
+
+**Georgia**
+
+- The valid `personType` values are `Physical Person` and `Business`.
+
+**Kenya**
+
+- You must specify the `personType` in the `kenyaAdditionalInfo` field of the
+  `additionalTaxInformation` object.
+- If the `personType` is `Physical Person`, you must specify the tax registration
+  certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails`
+  object.
+
+**Malaysia**
+
+- If you use this operation to set a tax registration number (TRN) in Malaysia, only
+  resellers with a valid sales and service tax (SST) number are required to provide tax
+  registration information.
+- By using this API operation to set a TRN in Malaysia, Amazon Web Services will regard you
+  as self-declaring that you're an authorized business reseller registered with the Royal
+  Malaysia Customs Department (RMCD) and have a valid SST number.
+- Amazon Web Services reserves the right to seek additional information and/or take other
+  actions to support your self-declaration as appropriate.
+- If you're not a reseller of Amazon Web Services, we don't recommend that you use this
+  operation to set the TRN in Malaysia.
+- Only use this API operation to upload the TRNs for accounts through which you're reselling
+  Amazon Web Services.
+- Amazon Web Services is currently registered under the following service tax codes. You
+  must include at least one of the service tax codes in the service tax code strings to
+  declare yourself as an authorized registered business reseller.
+
+Taxable service and service tax codes:
+
+Consultancy - 9907061674
+
+Training or coaching service - 9907071685
+
+IT service - 9907101676
+
+Digital services and electronic medium - 9907121690
+
+**Nepal**
+
+- The sector valid values are `Business` and `Individual`.
+
+**Saudi Arabia**
+
+- For `address`, you must specify `addressLine3`.
+
+**South Korea**
+
+- You must specify the `certifiedEmailId` and `legalName` in the `TaxRegistrationEntry`
+  object. Use Korean characters for `legalName`.
+- You must specify the `businessRepresentativeName`, `itemOfBusiness`, and `lineOfBusiness`
+  in the `southKoreaAdditionalInfo` field of the `additionalTaxInformation` object. Use
+  Korean characters for these fields.
+- You must specify the tax registration certificate document in the
+  `taxRegistrationDocuments` field of the `VerificationDetails` object.
+- For the `address` object, use Korean characters for `addressLine1`, `addressLine2` `city`,
+  `postalCode`, and `stateOrRegion`.
+
+**Spain**
+
+- You must specify the `registrationType` in the `spainAdditionalInfo` field of the
+  `additionalTaxInformation` object.
+- If the `registrationType` is `Local`, you must specify the tax registration certificate
+  document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
+
+**Turkey**
+
+- You must specify the `sector` in the `taxRegistrationEntry` object.
+- If your `sector` is `Business`, `Individual`, or `Government`:
+  - Specify the `taxOffice`. If your `sector` is `Individual`, don't enter this value.
+  - (Optional) Specify the `kepEmailId`. If your `sector` is `Individual`, don't enter this
+    value.
+  - **Note:** In the **Tax Settings** page of the Billing console, `Government` appears as
+    **Public institutions**
+- If your `sector` is `Business` and you're subject to KDV tax, you must specify your
+  industry in the `industries` field.
+- For `address`, you must specify `districtOrCounty`.
+
+**Ukraine**
+
+- The sector valid values are `Business` and `Individual`.
 
 # Arguments
-- `account_ids`:  List of unique account identifiers.
-- `tax_registration_entry`: Your TRN information that will be stored to the accounts
-  mentioned in putEntries.
 
+- `account_ids`: List of unique account identifiers.
+- `tax_registration_entry`: Your TRN information that will be stored to the accounts
+  mentioned in `putEntries`.
 """
 function batch_put_tax_registration end
 
@@ -150,15 +207,19 @@ end
     delete_tax_registration()
     delete_tax_registration(params::Dict{String,<:Any})
 
-Deletes tax registration for a single account.   This API operation can't be used to delete
-your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost
-Management console instead.
+Deletes tax registration for a single account.
+
+!!! note
+    This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods)
+    page in the Billing and Cost Management console instead.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountId"`: Unique account identifier for the TRN information that needs to be
-  deleted. If this isn't passed, the account ID corresponding to the credentials of the API
-  caller will be used for this parameter.
+
+- `"accountId"`: Unique account identifier for the TRN information that needs to be deleted.
+  If this isn't passed, the account ID corresponding to the credentials of the API caller
+  will be used for this parameter.
 """
 function delete_tax_registration end
 
@@ -187,7 +248,9 @@ end
 Retrieves tax registration for a single account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountId"`: Your unique account identifier.
 """
 function get_tax_registration end
@@ -213,10 +276,10 @@ end
 Downloads your tax documents to the Amazon S3 bucket that you specify in your request.
 
 # Arguments
+
 - `destination_s3_location`: The Amazon S3 bucket that you specify to download your tax
   documents to.
 - `tax_document_metadata`: The metadata for your tax document.
-
 """
 function get_tax_registration_document end
 
@@ -265,12 +328,14 @@ end
     list_tax_registrations()
     list_tax_registrations(params::Dict{String,<:Any})
 
-Retrieves the tax registration of accounts listed in a consolidated billing family. This
-can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
+Retrieves the tax registration of accounts listed in a consolidated billing family. This can
+be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Number of accountDetails results you want in one response.
+
+- `"maxResults"`: Number of `accountDetails` results you want in one response.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_tax_registrations end
@@ -294,59 +359,117 @@ end
     put_tax_registration(tax_registration_entry, params::Dict{String,<:Any})
 
 Adds or updates tax registration for a single account. You can't set a TRN if there's a
-pending TRN. You'll need to delete the pending TRN first. To call this API operation for
-specific countries, see the following country-specific requirements.  Bangladesh    You
-must specify the tax registration certificate document in the taxRegistrationDocuments
-field of the VerificationDetails object.    Brazil    You must complete the tax
-registration process in the Payment preferences page in the Billing and Cost Management
-console. After your TRN and billing address are verified, you can call this API operation.
- For Amazon Web Services accounts created through Organizations, you can call this API
-operation when you don't have a billing address.    Georgia    The valid personType values
-are Physical Person and Business.    Kenya    You must specify the personType in the
-kenyaAdditionalInfo field of the additionalTaxInformation object.   If the personType is
-Physical Person, you must specify the tax registration certificate document in the
-taxRegistrationDocuments field of the VerificationDetails object.    Malaysia    If you use
-this operation to set a tax registration number (TRN) in Malaysia, only resellers with a
-valid sales and service tax (SST) number are required to provide tax registration
-information.   By using this API operation to set a TRN in Malaysia, Amazon Web Services
-will regard you as self-declaring that you're an authorized business reseller registered
-with the Royal Malaysia Customs Department (RMCD) and have a valid SST number.   Amazon Web
-Services reserves the right to seek additional information and/or take other actions to
-support your self-declaration as appropriate.   If you're not a reseller of Amazon Web
-Services, we don't recommend that you use this operation to set the TRN in Malaysia.   Only
-use this API operation to upload the TRNs for accounts through which you're reselling
-Amazon Web Services.   Amazon Web Services is currently registered under the following
-service tax codes. You must include at least one of the service tax codes in the service
-tax code strings to declare yourself as an authorized registered business reseller. Taxable
-service and service tax codes: Consultancy - 9907061674 Training or coaching service -
-9907071685 IT service - 9907101676 Digital services and electronic medium - 9907121690
-Nepal    The sector valid values are Business and Individual.    Saudi Arabia    For
-address, you must specify addressLine3.    South Korea    You must specify the
-certifiedEmailId and legalName in the TaxRegistrationEntry object. Use Korean characters
-for legalName.   You must specify the businessRepresentativeName, itemOfBusiness, and
-lineOfBusiness in the southKoreaAdditionalInfo field of the additionalTaxInformation
-object. Use Korean characters for these fields.   You must specify the tax registration
-certificate document in the taxRegistrationDocuments field of the VerificationDetails
-object.   For the address object, use Korean characters for addressLine1, addressLine2
-city, postalCode, and stateOrRegion.    Spain    You must specify the registrationType in
-the spainAdditionalInfo field of the additionalTaxInformation object.   If the
-registrationType is Local, you must specify the tax registration certificate document in
-the taxRegistrationDocuments field of the VerificationDetails object.    Turkey    You must
-specify the sector in the taxRegistrationEntry object.   If your sector is Business,
-Individual, or Government:   Specify the taxOffice. If your sector is Individual, don't
-enter this value.   (Optional) Specify the kepEmailId. If your sector is Individual, don't
-enter this value.    Note: In the Tax Settings page of the Billing console, Government
-appears as Public institutions      If your sector is Business and you're subject to KDV
-tax, you must specify your industry in the industries field.   For address, you must
-specify districtOrCounty.    Ukraine    The sector valid values are Business and
-Individual.
+pending TRN. You'll need to delete the pending TRN first.
+
+To call this API operation for specific countries, see the following country-specific
+requirements.
+
+**Bangladesh**
+
+- You must specify the tax registration certificate document in the
+  `taxRegistrationDocuments` field of the `VerificationDetails` object.
+
+**Brazil**
+
+- You must complete the tax registration process in the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods)
+  page in the Billing and Cost Management console. After your TRN and billing address are
+  verified, you can call this API operation.
+- For Amazon Web Services accounts created through Organizations, you can call this API
+  operation when you don't have a billing address.
+
+**Georgia**
+
+- The valid `personType` values are `Physical Person` and `Business`.
+
+**Kenya**
+
+- You must specify the `personType` in the `kenyaAdditionalInfo` field of the
+  `additionalTaxInformation` object.
+- If the `personType` is `Physical Person`, you must specify the tax registration
+  certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails`
+  object.
+
+**Malaysia**
+
+- If you use this operation to set a tax registration number (TRN) in Malaysia, only
+  resellers with a valid sales and service tax (SST) number are required to provide tax
+  registration information.
+- By using this API operation to set a TRN in Malaysia, Amazon Web Services will regard you
+  as self-declaring that you're an authorized business reseller registered with the Royal
+  Malaysia Customs Department (RMCD) and have a valid SST number.
+- Amazon Web Services reserves the right to seek additional information and/or take other
+  actions to support your self-declaration as appropriate.
+- If you're not a reseller of Amazon Web Services, we don't recommend that you use this
+  operation to set the TRN in Malaysia.
+- Only use this API operation to upload the TRNs for accounts through which you're reselling
+  Amazon Web Services.
+- Amazon Web Services is currently registered under the following service tax codes. You
+  must include at least one of the service tax codes in the service tax code strings to
+  declare yourself as an authorized registered business reseller.
+
+Taxable service and service tax codes:
+
+Consultancy - 9907061674
+
+Training or coaching service - 9907071685
+
+IT service - 9907101676
+
+Digital services and electronic medium - 9907121690
+
+**Nepal**
+
+- The sector valid values are `Business` and `Individual`.
+
+**Saudi Arabia**
+
+- For `address`, you must specify `addressLine3`.
+
+**South Korea**
+
+- You must specify the `certifiedEmailId` and `legalName` in the `TaxRegistrationEntry`
+  object. Use Korean characters for `legalName`.
+- You must specify the `businessRepresentativeName`, `itemOfBusiness`, and `lineOfBusiness`
+  in the `southKoreaAdditionalInfo` field of the `additionalTaxInformation` object. Use
+  Korean characters for these fields.
+- You must specify the tax registration certificate document in the
+  `taxRegistrationDocuments` field of the `VerificationDetails` object.
+- For the `address` object, use Korean characters for `addressLine1`, `addressLine2` `city`,
+  `postalCode`, and `stateOrRegion`.
+
+**Spain**
+
+- You must specify the `registrationType` in the `spainAdditionalInfo` field of the
+  `additionalTaxInformation` object.
+- If the `registrationType` is `Local`, you must specify the tax registration certificate
+  document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
+
+**Turkey**
+
+- You must specify the `sector` in the `taxRegistrationEntry` object.
+- If your `sector` is `Business`, `Individual`, or `Government`:
+  - Specify the `taxOffice`. If your `sector` is `Individual`, don't enter this value.
+  - (Optional) Specify the `kepEmailId`. If your `sector` is `Individual`, don't enter this
+    value.
+  - **Note:** In the **Tax Settings** page of the Billing console, `Government` appears as
+    **Public institutions**
+- If your `sector` is `Business` and you're subject to KDV tax, you must specify your
+  industry in the `industries` field.
+- For `address`, you must specify `districtOrCounty`.
+
+**Ukraine**
+
+- The sector valid values are `Business` and `Individual`.
 
 # Arguments
-- `tax_registration_entry`:  Your TRN information that will be stored to the account
-  mentioned in accountId.
+
+- `tax_registration_entry`: Your TRN information that will be stored to the account
+  mentioned in `accountId`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accountId"`: Your unique account identifier.
 """
 function put_tax_registration end

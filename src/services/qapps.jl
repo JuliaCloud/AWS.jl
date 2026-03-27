@@ -12,10 +12,10 @@ Associates a rating or review for a library item with the user submitting the re
 increments the rating count for the specified library item.
 
 # Arguments
+
 - `instance-id`: The unique identifier for the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the library item to associate the review with.
-
 """
 function associate_library_item_review end
 
@@ -63,15 +63,15 @@ end
     associate_qapp_with_user(app_id, instance-id, params::Dict{String,<:Any})
 
 This operation creates a link between the user's identity calling the operation and a
-specific Q App. This is useful to mark the Q App as a favorite for the user if the user
+specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user
 doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q
 Apps.
 
 # Arguments
+
 - `app_id`: The ID of the Amazon Q App to associate with the user.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
-
 """
 function associate_qapp_with_user end
 
@@ -121,12 +121,12 @@ Creates a new library item for an Amazon Q App, allowing it to be discovered and
 other allowed users.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Amazon Q App to publish to the library.
 - `app_version`: The version of the Amazon Q App to publish to the library.
 - `categories`: The categories to associate with the library item for easier discovery.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
-
 """
 function create_library_item end
 
@@ -184,17 +184,20 @@ end
     create_qapp(app_definition, instance-id, title, params::Dict{String,<:Any})
 
 Creates a new Amazon Q App based on the provided definition. The Q App definition specifies
-the cards and flow of the Q App. This operation also calculates the dependencies between
-the cards by inspecting the references in the prompts.
+the cards and flow of the Q App. This operation also calculates the dependencies between the
+cards by inspecting the references in the prompts.
 
 # Arguments
+
 - `app_definition`: The definition of the new Q App, specifying the cards and flow.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `title`: The title of the new Q App.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the new Q App.
 - `"tags"`: Optional tags to associate with the new Q App.
 """
@@ -246,14 +249,14 @@ end
     delete_library_item(instance-id, library_item_id)
     delete_library_item(instance-id, library_item_id, params::Dict{String,<:Any})
 
-Deletes a library item for an Amazon Q App, removing it from the library so it can no
-longer be discovered or used by other users.
+Deletes a library item for an Amazon Q App, removing it from the library so it can no longer
+be discovered or used by other users.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the library item to delete.
-
 """
 function delete_library_item end
 
@@ -304,10 +307,10 @@ Deletes an Amazon Q App owned by the user. If the Q App was previously published
 library, it is also removed from the library.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App to delete.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
-
 """
 function delete_qapp end
 
@@ -354,10 +357,10 @@ end
 Removes a rating or review previously submitted by the user for a library item.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the library item to remove the review from.
-
 """
 function disassociate_library_item_review end
 
@@ -407,10 +410,10 @@ end
 Disassociates a Q App from a user removing the user's access to run the Q App.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App to disassociate from the user.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
-
 """
 function disassociate_qapp_from_user end
 
@@ -460,12 +463,15 @@ Retrieves details about a library item for an Amazon Q App, including its metada
 categories, ratings, and usage statistics.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the library item to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The unique identifier of the Amazon Q App associated with the library item.
 """
 function get_library_item end
@@ -517,10 +523,10 @@ Retrieves the full details of an Q App, including its definition specifying the 
 flow.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App to retrieve.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
-
 """
 function get_qapp end
 
@@ -567,10 +573,10 @@ end
 Retrieves the current state and results for an active session of an Amazon Q App.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `session_id`: The unique identifier of the Q App session to retrieve.
-
 """
 function get_qapp_session end
 
@@ -617,12 +623,13 @@ end
     import_document(app_id, card_id, file_contents_base64, file_name, instance-id, scope)
     import_document(app_id, card_id, file_contents_base64, file_name, instance-id, scope, params::Dict{String,<:Any})
 
-Uploads a file that can then be used either as a default in a FileUploadCard from Q App
+Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App
 definition or as a file that is used inside a single Q App run. The purpose of the document
 is determined by a scope parameter that indicates whether it is at the app definition level
 or at the app session level.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App the file is associated with.
 - `card_id`: The unique identifier of the card the file is associated with, if applicable.
 - `file_contents_base64`: The base64-encoded contents of the file to upload.
@@ -633,7 +640,9 @@ or at the app session level.
   session.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"sessionId"`: The unique identifier of the Q App session the file is associated with, if
   applicable.
 """
@@ -700,15 +709,18 @@ end
     list_library_items(instance-id)
     list_library_items(instance-id, params::Dict{String,<:Any})
 
-Lists the library items for Amazon Q Apps that are published and available for users in
-your Amazon Web Services account.
+Lists the library items for Amazon Q Apps that are published and available for users in your
+Amazon Web Services account.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"categoryId"`: Optional category to filter the library items by.
 - `"limit"`: The maximum number of library items to return in the response.
 - `"nextToken"`: The token to request the next page of results.
@@ -756,11 +768,14 @@ or because they used it from the library in the past. The user identity is extra
 the credentials used to invoke this operation..
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"limit"`: The maximum number of Q Apps to return in the response.
 - `"nextToken"`: The token to request the next page of results.
 """
@@ -805,9 +820,9 @@ end
 Lists the tags associated with an Amazon Q Apps resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags should be
   listed.
-
 """
 function list_tags_for_resource end
 
@@ -832,15 +847,18 @@ end
     predict_qapp(instance-id, params::Dict{String,<:Any})
 
 Generates an Amazon Q App definition based on either a conversation or a problem statement
-provided as input.The resulting app definition can be used to call CreateQApp. This API
+provided as input.The resulting app definition can be used to call `CreateQApp`. This API
 doesn't create Amazon Q Apps directly.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"options"`: The input to generate the Q App definition from, either a conversation or
   problem statement.
 """
@@ -883,17 +901,22 @@ end
     start_qapp_session(app_id, app_version, instance-id, params::Dict{String,<:Any})
 
 Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be
-run.  Each Q App session will be condensed into a single conversation in the web
-experience.
+run.
+
+!!! note
+    Each Q App session will be condensed into a single conversation in the web experience.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App to start a session for.
 - `app_version`: The version of the Q App to use for the session.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"initialValues"`: Optional initial input values to provide for the Q App session.
 - `"tags"`: Optional tags to associate with the new Q App session.
 """
@@ -945,15 +968,15 @@ end
     stop_qapp_session(instance-id, session_id)
     stop_qapp_session(instance-id, session_id, params::Dict{String,<:Any})
 
-Stops an active session for an Amazon Q App.This deletes all data related to the session
-and makes it invalid for future uses. The results of the session will be persisted as part
-of the conversation.
+Stops an active session for an Amazon Q App.This deletes all data related to the session and
+makes it invalid for future uses. The results of the session will be persisted as part of
+the conversation.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `session_id`: The unique identifier of the Q App session to stop.
-
 """
 function stop_qapp_session end
 
@@ -1003,9 +1026,9 @@ end
 Associates tags with an Amazon Q Apps resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
 - `tags`: The tags to associate with the resource.
-
 """
 function tag_resource end
 
@@ -1041,10 +1064,10 @@ end
 Disassociates tags from an Amazon Q Apps resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to disassociate the tag
   from.
 - `tag_keys`: The keys of the tags to disassociate from the resource.
-
 """
 function untag_resource end
 
@@ -1082,15 +1105,17 @@ end
 Updates the library item for an Amazon Q App.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the library item to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"categories"`: The new categories to associate with the library item.
-- `"status"`: The new status to set for the library item, such as \"Published\" or
-  \"Hidden\".
+- `"status"`: The new status to set for the library item, such as "Published" or "Hidden".
 """
 function update_library_item end
 
@@ -1140,12 +1165,15 @@ end
 Updates the verification status of a library item for an Amazon Q App.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `library_item_id`: The unique identifier of the updated library item.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isVerified"`: The verification status of the library item
 """
 function update_library_item_metadata end
@@ -1197,12 +1225,15 @@ Updates an existing Amazon Q App, allowing modifications to its title, descripti
 definition.
 
 # Arguments
+
 - `app_id`: The unique identifier of the Q App to update.
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appDefinition"`: The new definition specifying the cards and flow for the Q App.
 - `"description"`: The new description for the Q App.
 - `"title"`: The new title for the Q App.
@@ -1249,18 +1280,21 @@ end
     update_qapp_session(instance-id, session_id)
     update_qapp_session(instance-id, session_id, params::Dict{String,<:Any})
 
-Updates the session for a given Q App sessionId. This is only valid when at least one card
-of the session is in the WAITING state. Data for each WAITING card can be provided as
+Updates the session for a given Q App `sessionId`. This is only valid when at least one card
+of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as
 input. If inputs are not provided, the call will be accepted but session will not move
-forward. Inputs for cards that are not in the WAITING status will be ignored.
+forward. Inputs for cards that are not in the `WAITING` status will be ignored.
 
 # Arguments
+
 - `instance-id`: The unique identifier of the Amazon Q Business application environment
   instance.
 - `session_id`: The unique identifier of the Q App session to provide input for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"values"`: The input values to provide for the current state of the Q App session.
 """
 function update_qapp_session end

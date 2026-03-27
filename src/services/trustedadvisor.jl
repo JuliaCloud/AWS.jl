@@ -11,9 +11,9 @@ using AWS.UUIDs: uuid4
 Update one or more exclusion status for a list of recommendation resources
 
 # Arguments
-- `recommendation_resource_exclusions`: A list of recommendation resource ARNs and
-  exclusion status to update
 
+- `recommendation_resource_exclusions`: A list of recommendation resource ARNs and exclusion
+  status to update
 """
 function batch_update_recommendation_resource_exclusion end
 
@@ -61,8 +61,8 @@ Get a specific recommendation within an AWS Organizations organization. This API
 only prioritized recommendations.
 
 # Arguments
-- `organization_recommendation_identifier`: The Recommendation identifier
 
+- `organization_recommendation_identifier`: The Recommendation identifier
 """
 function get_organization_recommendation end
 
@@ -98,8 +98,8 @@ end
 Get a specific Recommendation
 
 # Arguments
-- `recommendation_identifier`: The Recommendation identifier
 
+- `recommendation_identifier`: The Recommendation identifier
 """
 function get_recommendation end
 
@@ -135,7 +135,9 @@ end
 List a filterable set of Checks
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"awsService"`: The aws service associated with the check
 - `"language"`: The ISO 639-1 code for the language that you want your checks to appear in.
 - `"maxResults"`: The maximum number of results to return per page.
@@ -162,14 +164,17 @@ end
     list_organization_recommendation_accounts(organization_recommendation_identifier)
     list_organization_recommendation_accounts(organization_recommendation_identifier, params::Dict{String,<:Any})
 
-Lists the accounts that own the resources for an organization aggregate recommendation.
-This API only supports prioritized recommendations.
+Lists the accounts that own the resources for an organization aggregate recommendation. This
+API only supports prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -210,11 +215,14 @@ List Resources of a Recommendation within an Organization. This API only support
 prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The AWS Organization organization's
   Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
@@ -258,7 +266,9 @@ List a filterable set of Recommendations within an Organization. This API only s
 prioritized recommendations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -303,10 +313,13 @@ end
 List Resources of a Recommendation
 
 # Arguments
+
 - `recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -348,7 +361,9 @@ end
 List a filterable set of Recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -385,12 +400,15 @@ Update the lifecycle of a Recommendation within an Organization. This API only s
 prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `organization_recommendation_identifier`: The Recommendation identifier for AWS Trusted
   Advisor Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
@@ -434,12 +452,15 @@ end
 Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `recommendation_identifier`: The Recommendation identifier for AWS Trusted Advisor
   Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """

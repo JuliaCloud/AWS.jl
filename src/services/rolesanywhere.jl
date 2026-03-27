@@ -8,22 +8,27 @@ using AWS.UUIDs: uuid4
     create_profile(name, role_arns)
     create_profile(name, role_arns, params::Dict{String,<:Any})
 
-Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume.
-You use profiles to intersect permissions with IAM managed policies.  Required permissions:
- rolesanywhere:CreateProfile.
+Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume.
+You use profiles to intersect permissions with IAM managed policies.
+
+**Required permissions:** `rolesanywhere:CreateProfile`.
 
 # Arguments
+
 - `name`: The name of the profile.
 - `role_arns`: A list of IAM roles that this profile can assume in a temporary credential
   request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
-  valid for. See the Expiration section of the CreateSession API documentation page for more
-  details. In requests, if this value is not provided, the default value will be 3600.
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
+  valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
+  page for more details. In requests, if this value is not provided, the default value will
+  be 3600.
 - `"enabled"`: Specifies whether the profile is enabled.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
@@ -72,15 +77,19 @@ Creates a trust anchor to establish trust between IAM Roles Anywhere and your ce
 authority (CA). You can define a trust anchor as a reference to an Private Certificate
 Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads
 can authenticate with the trust anchor using certificates issued by the CA in exchange for
-temporary Amazon Web Services credentials.  Required permissions:
-rolesanywhere:CreateTrustAnchor.
+temporary Amazon Web Services credentials.
+
+**Required permissions:** `rolesanywhere:CreateTrustAnchor`.
 
 # Arguments
+
 - `name`: The name of the trust anchor.
 - `source`: The trust anchor type and its related certificate data.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"enabled"`: Specifies whether the trust anchor is enabled.
 - `"notificationSettings"`: A list of notification settings to be associated to the trust
   anchor.
@@ -124,14 +133,17 @@ end
 Delete an entry from the attribute mapping rules enforced by a given profile.
 
 # Arguments
+
 - `certificate_field`: Fields (x509Subject, x509Issuer and x509SAN) within X.509
   certificates.
 - `profile_id`: The unique identifier of the profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID
-  from a Subject.
+
+- `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID from
+  a Subject.
 """
 function delete_attribute_mapping end
 
@@ -170,12 +182,13 @@ end
     delete_crl(crl_id)
     delete_crl(crl_id, params::Dict{String,<:Any})
 
-Deletes a certificate revocation list (CRL).  Required permissions:
-rolesanywhere:DeleteCrl.
+Deletes a certificate revocation list (CRL).
+
+**Required permissions:** `rolesanywhere:DeleteCrl`.
 
 # Arguments
-- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
+- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
 function delete_crl end
 
@@ -197,11 +210,13 @@ end
     delete_profile(profile_id)
     delete_profile(profile_id, params::Dict{String,<:Any})
 
-Deletes a profile.  Required permissions:  rolesanywhere:DeleteProfile.
+Deletes a profile.
+
+**Required permissions:** `rolesanywhere:DeleteProfile`.
 
 # Arguments
-- `profile_id`: The unique identifier of the profile.
 
+- `profile_id`: The unique identifier of the profile.
 """
 function delete_profile end
 
@@ -229,11 +244,13 @@ end
     delete_trust_anchor(trust_anchor_id)
     delete_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
-Deletes a trust anchor.  Required permissions:  rolesanywhere:DeleteTrustAnchor.
+Deletes a trust anchor.
+
+**Required permissions:** `rolesanywhere:DeleteTrustAnchor`.
 
 # Arguments
-- `trust_anchor_id`: The unique identifier of the trust anchor.
 
+- `trust_anchor_id`: The unique identifier of the trust anchor.
 """
 function delete_trust_anchor end
 
@@ -266,12 +283,13 @@ end
     disable_crl(crl_id)
     disable_crl(crl_id, params::Dict{String,<:Any})
 
-Disables a certificate revocation list (CRL).  Required permissions:
-rolesanywhere:DisableCrl.
+Disables a certificate revocation list (CRL).
+
+**Required permissions:** `rolesanywhere:DisableCrl`.
 
 # Arguments
-- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
+- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
 function disable_crl end
 
@@ -294,11 +312,12 @@ end
     disable_profile(profile_id, params::Dict{String,<:Any})
 
 Disables a profile. When disabled, temporary credential requests with this profile fail.
-Required permissions:  rolesanywhere:DisableProfile.
+
+**Required permissions:** `rolesanywhere:DisableProfile`.
 
 # Arguments
-- `profile_id`: The unique identifier of the profile.
 
+- `profile_id`: The unique identifier of the profile.
 """
 function disable_profile end
 
@@ -327,11 +346,13 @@ end
     disable_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
 Disables a trust anchor. When disabled, temporary credential requests specifying this trust
-anchor are unauthorized.  Required permissions:  rolesanywhere:DisableTrustAnchor.
+anchor are unauthorized.
+
+**Required permissions:** `rolesanywhere:DisableTrustAnchor`.
 
 # Arguments
-- `trust_anchor_id`: The unique identifier of the trust anchor.
 
+- `trust_anchor_id`: The unique identifier of the trust anchor.
 """
 function disable_trust_anchor end
 
@@ -365,12 +386,13 @@ end
     enable_crl(crl_id, params::Dict{String,<:Any})
 
 Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL
-are unauthorized to receive session credentials.  Required permissions:
-rolesanywhere:EnableCrl.
+are unauthorized to receive session credentials.
+
+**Required permissions:** `rolesanywhere:EnableCrl`.
 
 # Arguments
-- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
+- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
 function enable_crl end
 
@@ -392,12 +414,13 @@ end
     enable_profile(profile_id)
     enable_profile(profile_id, params::Dict{String,<:Any})
 
-Enables temporary credential requests for a profile.   Required permissions:
-rolesanywhere:EnableProfile.
+Enables temporary credential requests for a profile.
+
+**Required permissions:** `rolesanywhere:EnableProfile`.
 
 # Arguments
-- `profile_id`: The unique identifier of the profile.
 
+- `profile_id`: The unique identifier of the profile.
 """
 function enable_profile end
 
@@ -426,11 +449,13 @@ end
     enable_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
 Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized
-for trust validation.   Required permissions:  rolesanywhere:EnableTrustAnchor.
+for trust validation.
+
+**Required permissions:** `rolesanywhere:EnableTrustAnchor`.
 
 # Arguments
-- `trust_anchor_id`: The unique identifier of the trust anchor.
 
+- `trust_anchor_id`: The unique identifier of the trust anchor.
 """
 function enable_trust_anchor end
 
@@ -463,11 +488,13 @@ end
     get_crl(crl_id)
     get_crl(crl_id, params::Dict{String,<:Any})
 
-Gets a certificate revocation list (CRL).  Required permissions:  rolesanywhere:GetCrl.
+Gets a certificate revocation list (CRL).
+
+**Required permissions:** `rolesanywhere:GetCrl`.
 
 # Arguments
-- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
+- `crl_id`: The unique identifier of the certificate revocation list (CRL).
 """
 function get_crl end
 
@@ -489,11 +516,13 @@ end
     get_profile(profile_id)
     get_profile(profile_id, params::Dict{String,<:Any})
 
-Gets a profile.  Required permissions:  rolesanywhere:GetProfile.
+Gets a profile.
+
+**Required permissions:** `rolesanywhere:GetProfile`.
 
 # Arguments
-- `profile_id`: The unique identifier of the profile.
 
+- `profile_id`: The unique identifier of the profile.
 """
 function get_profile end
 
@@ -517,14 +546,16 @@ end
     get_subject(subject_id)
     get_subject(subject_id, params::Dict{String,<:Any})
 
-Gets a subject, which associates a certificate identity with authentication attempts. The
+Gets a *subject*, which associates a certificate identity with authentication attempts. The
 subject stores auditing information such as the status of the last authentication attempt,
 the certificate data used in the attempt, and the last time the associated identity
-attempted authentication.   Required permissions:  rolesanywhere:GetSubject.
+attempted authentication.
+
+**Required permissions:** `rolesanywhere:GetSubject`.
 
 # Arguments
-- `subject_id`: The unique identifier of the subject.
 
+- `subject_id`: The unique identifier of the subject.
 """
 function get_subject end
 
@@ -548,11 +579,13 @@ end
     get_trust_anchor(trust_anchor_id)
     get_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
-Gets a trust anchor.  Required permissions:  rolesanywhere:GetTrustAnchor.
+Gets a trust anchor.
+
+**Required permissions:** `rolesanywhere:GetTrustAnchor`.
 
 # Arguments
-- `trust_anchor_id`: The unique identifier of the trust anchor.
 
+- `trust_anchor_id`: The unique identifier of the trust anchor.
 """
 function get_trust_anchor end
 
@@ -583,16 +616,21 @@ end
 Imports the certificate revocation list (CRL). A CRL is a list of certificates that have
 been revoked by the issuing certificate Authority (CA).In order to be properly imported, a
 CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing
-credentials.   Required permissions:  rolesanywhere:ImportCrl.
+credentials.
+
+**Required permissions:** `rolesanywhere:ImportCrl`.
 
 # Arguments
+
 - `crl_data`: The x509 v3 specified certificate revocation list (CRL).
 - `name`: The name of the certificate revocation list (CRL).
 - `trust_anchor_arn`: The ARN of the TrustAnchor the certificate revocation list (CRL) will
   provide revocation for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"enabled"`: Specifies whether the certificate revocation list (CRL) is enabled.
 - `"tags"`: A list of tags to attach to the certificate revocation list (CRL).
 """
@@ -641,13 +679,17 @@ end
     list_crls(params::Dict{String,<:Any})
 
 Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web
-Services Region.  Required permissions:  rolesanywhere:ListCrls.
+Services Region.
+
+**Required permissions:** `rolesanywhere:ListCrls`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request again
-  with this value.
+
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_crls end
@@ -668,14 +710,17 @@ end
     list_profiles()
     list_profiles(params::Dict{String,<:Any})
 
-Lists all profiles in the authenticated account and Amazon Web Services Region.  Required
-permissions:  rolesanywhere:ListProfiles.
+Lists all profiles in the authenticated account and Amazon Web Services Region.
+
+**Required permissions:** `rolesanywhere:ListProfiles`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request again
-  with this value.
+
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_profiles end
@@ -696,14 +741,17 @@ end
     list_subjects()
     list_subjects(params::Dict{String,<:Any})
 
-Lists the subjects in the authenticated account and Amazon Web Services Region.  Required
-permissions:  rolesanywhere:ListSubjects.
+Lists the subjects in the authenticated account and Amazon Web Services Region.
+
+**Required permissions:** `rolesanywhere:ListSubjects`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request again
-  with this value.
+
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_subjects end
@@ -724,12 +772,13 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags attached to the resource.  Required permissions:
-rolesanywhere:ListTagsForResource.
+Lists the tags attached to the resource.
+
+**Required permissions:** `rolesanywhere:ListTagsForResource`.
 
 # Arguments
-- `resource_arn`: The ARN of the resource.
 
+- `resource_arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
@@ -766,13 +815,16 @@ end
     list_trust_anchors(params::Dict{String,<:Any})
 
 Lists the trust anchors in the authenticated account and Amazon Web Services Region.
-Required permissions:  rolesanywhere:ListTrustAnchors.
+
+**Required permissions:** `rolesanywhere:ListTrustAnchors`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous request did not show all results. To get the next results, make the request again
-  with this value.
+
+- `"nextToken"`: A token that indicates where the output should continue from, if a previous
+  request did not show all results. To get the next results, make the request again with
+  this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_trust_anchors end
@@ -800,11 +852,11 @@ mapping specifies a certificate field and one or more specifiers that have conte
 meanings.
 
 # Arguments
+
 - `certificate_field`: Fields (x509Subject, x509Issuer and x509SAN) within X.509
   certificates.
 - `mapping_rules`: A list of mapping entries for every supported specifier or sub-field.
 - `profile_id`: The unique identifier of the profile.
-
 """
 function put_attribute_mapping end
 
@@ -853,15 +905,18 @@ end
     put_notification_settings(notification_settings, trust_anchor_id)
     put_notification_settings(notification_settings, trust_anchor_id, params::Dict{String,<:Any})
 
-Attaches a list of notification settings to a trust anchor. A notification setting includes
-information such as event name, threshold, status of the notification setting, and the
-channel to notify.  Required permissions:  rolesanywhere:PutNotificationSettings.
+Attaches a list of *notification settings* to a trust anchor.
+
+A notification setting includes information such as event name, threshold, status of the
+notification setting, and the channel to notify.
+
+**Required permissions:** `rolesanywhere:PutNotificationSettings`.
 
 # Arguments
+
 - `notification_settings`: A list of notification settings to be associated to the trust
   anchor.
 - `trust_anchor_id`: The unique identifier of the trust anchor.
-
 """
 function put_notification_settings end
 
@@ -907,14 +962,15 @@ end
     reset_notification_settings(notification_setting_keys, trust_anchor_id)
     reset_notification_settings(notification_setting_keys, trust_anchor_id, params::Dict{String,<:Any})
 
-Resets the custom notification setting to IAM Roles Anywhere default setting.   Required
-permissions:  rolesanywhere:ResetNotificationSettings.
+Resets the *custom notification setting* to IAM Roles Anywhere default setting.
+
+**Required permissions:** `rolesanywhere:ResetNotificationSettings`.
 
 # Arguments
+
 - `notification_setting_keys`: A list of notification setting keys to reset. A notification
   setting key includes the event and the channel.
 - `trust_anchor_id`: The unique identifier of the trust anchor.
-
 """
 function reset_notification_settings end
 
@@ -963,12 +1019,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Attaches tags to a resource.  Required permissions:  rolesanywhere:TagResource.
+Attaches tags to a resource.
+
+**Required permissions:** `rolesanywhere:TagResource`.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tags`: The tags to attach to the resource.
-
 """
 function tag_resource end
 
@@ -1007,12 +1065,14 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from the resource.  Required permissions:  rolesanywhere:UntagResource.
+Removes tags from the resource.
+
+**Required permissions:** `rolesanywhere:UntagResource`.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: A list of keys. Tag keys are the unique identifiers of tags.
-
 """
 function untag_resource end
 
@@ -1054,15 +1114,19 @@ end
     update_crl(crl_id, params::Dict{String,<:Any})
 
 Updates the certificate revocation list (CRL). A CRL is a list of certificates that have
-been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates
-against the CRL before issuing credentials.  Required permissions:
-rolesanywhere:UpdateCrl.
+been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against
+the CRL before issuing credentials.
+
+**Required permissions:** `rolesanywhere:UpdateCrl`.
 
 # Arguments
+
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"crlData"`: The x509 v3 specified certificate revocation list (CRL).
 - `"name"`: The name of the Crl.
 """
@@ -1086,20 +1150,25 @@ end
     update_profile(profile_id)
     update_profile(profile_id, params::Dict{String,<:Any})
 
-Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to
-assume. You use profiles to intersect permissions with IAM managed policies.  Required
-permissions:  rolesanywhere:UpdateProfile.
+Updates a *profile*, a list of the roles that IAM Roles Anywhere service is trusted to
+assume. You use profiles to intersect permissions with IAM managed policies.
+
+**Required permissions:** `rolesanywhere:UpdateProfile`.
 
 # Arguments
+
 - `profile_id`: The unique identifier of the profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
-  valid for. See the Expiration section of the CreateSession API documentation page for more
-  details. In requests, if this value is not provided, the default value will be 3600.
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
+  valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
+  page for more details. In requests, if this value is not provided, the default value will
+  be 3600.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.
@@ -1138,14 +1207,18 @@ Updates a trust anchor. You establish trust between IAM Roles Anywhere and your 
 authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference
 to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your
 Amazon Web Services workloads can authenticate with the trust anchor using certificates
-issued by the CA in exchange for temporary Amazon Web Services credentials.  Required
-permissions:  rolesanywhere:UpdateTrustAnchor.
+issued by the CA in exchange for temporary Amazon Web Services credentials.
+
+**Required permissions:** `rolesanywhere:UpdateTrustAnchor`.
 
 # Arguments
+
 - `trust_anchor_id`: The unique identifier of the trust anchor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: The name of the trust anchor.
 - `"source"`: The trust anchor type and its related certificate data.
 """

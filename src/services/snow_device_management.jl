@@ -9,13 +9,16 @@ using AWS.UUIDs: uuid4
     cancel_task(task_id, params::Dict{String,<:Any})
 
 Sends a cancel request for a specified task. You can cancel a task only if it's still in a
-QUEUED state. Tasks that are already running can't be cancelled.  A task might still run if
-it's processed from the queue before the CancelTask operation changes the task's state.
+`QUEUED` state. Tasks that are already running can't be cancelled.
+
+!!! note
+    A task might still run if it's processed from the queue before the [`cancel_task`](@ref)
+    operation changes the task's state.
 
 # Arguments
-- `task_id`: The ID of the task that you are attempting to cancel. You can retrieve a task
-  ID by using the ListTasks operation.
 
+- `task_id`: The ID of the task that you are attempting to cancel. You can retrieve a task
+  ID by using the `ListTasks` operation.
 """
 function cancel_task end
 
@@ -44,11 +47,14 @@ end
 Instructs one or more devices to start a task, such as unlocking or rebooting.
 
 # Arguments
+
 - `command`: The task to be performed. Only one task is executed on a device at a time.
 - `targets`: A list of managed device IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 - `"description"`: A description of the task and its targets.
@@ -98,12 +104,12 @@ end
     describe_device(managed_device_id)
     describe_device(managed_device_id, params::Dict{String,<:Any})
 
-Checks device-specific information, such as the device type, software version, IP
-addresses, and lock status.
+Checks device-specific information, such as the device type, software version, IP addresses,
+and lock status.
 
 # Arguments
-- `managed_device_id`: The ID of the device that you are checking the information of.
 
+- `managed_device_id`: The ID of the device that you are checking the information of.
 """
 function describe_device end
 
@@ -137,13 +143,13 @@ end
     describe_device_ec2_instances(instance_ids, managed_device_id, params::Dict{String,<:Any})
 
 Checks the current state of the Amazon EC2 instances. The output is similar to
-describeDevice, but the results are sourced from the device cache in the Amazon Web
+`describeDevice`, but the results are sourced from the device cache in the Amazon Web
 Services Cloud and include a subset of the available fields.
 
 # Arguments
+
 - `instance_ids`: A list of instance IDs associated with the managed device.
 - `managed_device_id`: The ID of the managed device.
-
 """
 function describe_device_ec2_instances end
 
@@ -183,9 +189,9 @@ end
 Checks the status of a remote task running on one or more target devices.
 
 # Arguments
+
 - `managed_device_id`: The ID of the managed device.
 - `task_id`: The ID of the task that the action is describing.
-
 """
 function describe_execution end
 
@@ -222,8 +228,8 @@ end
 Checks the metadata for a given task on a device.
 
 # Arguments
-- `task_id`: The ID of the task to be described.
 
+- `task_id`: The ID of the task to be described.
 """
 function describe_task end
 
@@ -249,10 +255,13 @@ Returns a list of the Amazon Web Services resources available for a device. Curr
 Amazon EC2 instances are the only supported resource type.
 
 # Arguments
+
 - `managed_device_id`: The ID of the managed device that you are listing the resources of.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of resources per page.
 - `"nextToken"`: A pagination token to continue to the next page of results.
 - `"type"`: A structure used to filter the results by type of resource.
@@ -293,7 +302,9 @@ Services Snow Device Management enabled in the Amazon Web Services Region where 
 is run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobId"`: The ID of the job used to order the device.
 - `"maxResults"`: The maximum number of devices to list per page.
 - `"nextToken"`: A pagination token to continue to the next page of results.
@@ -321,10 +332,13 @@ end
 Returns the status of tasks for one or more target devices.
 
 # Arguments
+
 - `task_id`: The ID of the task.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of tasks to list per page.
 - `"nextToken"`: A pagination token to continue to the next page of tasks.
 - `"state"`: A structure used to filter the tasks by their current state.
@@ -360,8 +374,8 @@ end
 Returns a list of tags for a managed device or task.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the device or task.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the device or task.
 """
 function list_tags_for_resource end
 
@@ -390,7 +404,9 @@ end
 Returns a list of tasks that can be filtered by state.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of tasks per page.
 - `"nextToken"`: A pagination token to continue to the next page of tasks.
 - `"state"`: A structure used to filter the list of tasks.
@@ -418,10 +434,10 @@ end
 Adds or replaces tags on a device or task.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the device or task.
 - `tags`: Optional metadata that you assign to a resource. You can use tags to categorize a
   resource in different ways, such as by purpose, owner, or environment.
-
 """
 function tag_resource end
 
@@ -457,10 +473,10 @@ end
 Removes a tag from a device or task.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the device or task.
 - `tag_keys`: Optional metadata that you assign to a resource. You can use tags to
   categorize a resource in different ways, such as by purpose, owner, or environment.
-
 """
 function untag_resource end
 

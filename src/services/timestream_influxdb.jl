@@ -11,16 +11,17 @@ using AWS.UUIDs: uuid4
 Creates a new Timestream for InfluxDB DB instance.
 
 # Arguments
+
 - `allocated_storage`: The amount of storage to allocate for your DB storage type in GiB
   (gibibytes).
 - `db_instance_type`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
-- `name`: The name that uniquely identifies the DB instance when interacting with the
-  Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix
-  included in the endpoint. DB instance names must be unique per customer and per region.
-- `password`: The password of the initial admin user created in InfluxDB. This password
-  will allow you to access the InfluxDB UI to perform various administrative tasks and also
-  use the InfluxDB CLI to create an operator token. These attributes will be stored in a
-  Secret created in AWS SecretManager in your account.
+- `name`: The name that uniquely identifies the DB instance when interacting with the Amazon
+  Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in
+  the endpoint. DB instance names must be unique per customer and per region.
+- `password`: The password of the initial admin user created in InfluxDB. This password will
+  allow you to access the InfluxDB UI to perform various administrative tasks and also use
+  the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret
+  created in AWS SecretManager in your account.
 - `vpc_security_group_ids`: A list of VPC security group IDs to associate with the DB
   instance.
 - `vpc_subnet_ids`: A list of VPC subnet IDs to associate with the DB instance. Provide at
@@ -28,28 +29,43 @@ Creates a new Timestream for InfluxDB DB instance.
   standby.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bucket"`: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a
-  bucket. A bucket combines the concept of a database and a retention period (the duration of
-  time that each data point persists). A bucket belongs to an organization.
+  bucket. A bucket combines the concept of a database and a retention period (the duration
+  of time that each data point persists). A bucket belongs to an organization.
+
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
+
 - `"dbStorageType"`: The Timestream for InfluxDB DB storage type to read and write InfluxDB
-  data. You can choose between 3 different types of provisioned Influx IOPS included storage
-  according to your workloads requirements:   Influx IO Included 3000 IOPS   Influx IO
-  Included 12000 IOPS   Influx IO Included 16000 IOPS
+  data.
+
+  You can choose between 3 different types of provisioned Influx IOPS included storage
+  according to your workloads requirements:
+
+  - Influx IO Included 3000 IOPS
+  - Influx IO Included 12000 IOPS
+  - Influx IO Included 16000 IOPS
+
 - `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
   instance or with a Multi-AZ standby for high availability.
+
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to a
   specified S3 bucket.
+
 - `"organization"`: The name of the initial organization for the initial admin user in
   InfluxDB. An InfluxDB organization is a workspace for a group of users.
+
 - `"publiclyAccessible"`: Configures the DB instance with a public IP to facilitate access.
+
 - `"tags"`: A list of key-value pairs to associate with the DB instance.
+
 - `"username"`: The username of the initial admin user created in InfluxDB. Must start with
-  a letter and can't end with a hyphen or contain two consecutive hyphens. For example,
-  my-user1. This username will allow you to access the InfluxDB UI to perform various
+  a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-
+  user1. This username will allow you to access the InfluxDB UI to perform various
   administrative tasks and also use the InfluxDB CLI to create an operator token. These
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
@@ -117,11 +133,14 @@ end
 Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
 
 # Arguments
+
 - `name`: The name of the DB parameter group. The name must be unique per customer and per
   region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description of the DB parameter group.
 - `"parameters"`: A list of the parameters that comprise the DB parameter group.
 - `"tags"`: A list of key-value pairs to associate with the DB parameter group.
@@ -155,8 +174,8 @@ end
 Deletes a Timestream for InfluxDB DB instance.
 
 # Arguments
-- `identifier`: The id of the DB instance.
 
+- `identifier`: The id of the DB instance.
 """
 function delete_db_instance end
 
@@ -191,8 +210,8 @@ end
 Returns a Timestream for InfluxDB DB instance.
 
 # Arguments
-- `identifier`: The id of the DB instance.
 
+- `identifier`: The id of the DB instance.
 """
 function get_db_instance end
 
@@ -227,8 +246,8 @@ end
 Returns a Timestream for InfluxDB DB parameter group.
 
 # Arguments
-- `identifier`: The id of the DB parameter group.
 
+- `identifier`: The id of the DB parameter group.
 """
 function get_db_parameter_group end
 
@@ -265,10 +284,12 @@ end
 Returns a list of Timestream for InfluxDB DB instances.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
-  of items available is more than the value specified, a NextToken is provided in the output.
-  To resume pagination, provide the NextToken value as argument of a subsequent API
+  of items available is more than the value specified, a NextToken is provided in the
+  output. To resume pagination, provide the NextToken value as argument of a subsequent API
   invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
@@ -296,10 +317,12 @@ end
 Returns a list of Timestream for InfluxDB DB parameter groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of items to return in the output. If the total number
-  of items available is more than the value specified, a NextToken is provided in the output.
-  To resume pagination, provide the NextToken value as argument of a subsequent API
+  of items available is more than the value specified, a NextToken is provided in the
+  output. To resume pagination, provide the NextToken value as argument of a subsequent API
   invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
@@ -327,8 +350,8 @@ end
 A list of tags applied to the resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 """
 function list_tags_for_resource end
 
@@ -366,9 +389,9 @@ Tags are composed of a Key/Value pairs. You can use tags to categorize and track
 Timestream for InfluxDB resources.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 - `tags`: A list of tags used to categorize and track resources.
-
 """
 function tag_resource end
 
@@ -408,9 +431,9 @@ end
 Removes the tag from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 - `tag_keys`: The keys used to identify the tags.
-
 """
 function untag_resource end
 
@@ -452,10 +475,13 @@ end
 Updates a Timestream for InfluxDB DB instance.
 
 # Arguments
+
 - `identifier`: The id of the DB instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dbInstanceType"`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB

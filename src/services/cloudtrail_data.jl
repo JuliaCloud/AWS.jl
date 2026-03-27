@@ -8,20 +8,23 @@ using AWS.UUIDs: uuid4
     put_audit_events(audit_events, channel_arn)
     put_audit_events(audit_events, channel_arn, params::Dict{String,<:Any})
 
-Ingests your application events into CloudTrail Lake. A required parameter, auditEvents,
-accepts the JSON records (also called payload) of events that you want CloudTrail to
-ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request.
+Ingests your application events into CloudTrail Lake. A required parameter, `auditEvents`,
+accepts the JSON records (also called *payload*) of events that you want CloudTrail to
+ingest. You can add up to 100 of these events (or up to 1 MB) per `PutAuditEvents` request.
 
 # Arguments
+
 - `audit_events`: The JSON payload of events that you want to ingest. You can also point to
   the JSON event payload in a file.
 - `channel_arn`: The ARN or ID (the ARN suffix) of a channel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"externalId"`: A unique identifier that is conditionally required when the channel's
-  resource policy includes an external ID. This value can be any string, such as a passphrase
-  or account number.
+  resource policy includes an external ID. This value can be any string, such as a
+  passphrase or account number.
 """
 function put_audit_events end
 

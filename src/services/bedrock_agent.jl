@@ -9,10 +9,11 @@ using AWS.UUIDs: uuid4
     associate_agent_knowledge_base(agent_id, agent_version, description, knowledge_base_id, params::Dict{String,<:Any})
 
 Associates a knowledge base with an agent. If a knowledge base is associated and its
-indexState is set to Enabled, the agent queries the knowledge base for information to
+`indexState` is set to `Enabled`, the agent queries the knowledge base for information to
 augment its response to the user.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent with which you want to associate the
   knowledge base.
 - `agent_version`: The version of the agent with which you want to associate the knowledge
@@ -22,9 +23,11 @@ augment its response to the user.
   agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"knowledgeBaseState"`: Specifies whether to use the knowledge base or not when sending
-  an InvokeAgent request.
+
+- `"knowledgeBaseState"`: Specifies whether to use the knowledge base or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 """
 function associate_agent_knowledge_base end
 
@@ -77,48 +80,65 @@ end
 
 Creates an agent that orchestrates interactions between foundation models, data sources,
 software applications, user conversations, and APIs to carry out tasks to help customers.
-Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon
-Resource Name (ARN) of the role with permissions to invoke API operations on an agent.
-(Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to
-encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the
-number of seconds for which the agent should maintain session information. After this time
-expires, the subsequent InvokeAgent request begins a new session.     To enable your agent
-to retain conversational context across multiple sessions, include a memoryConfiguration
-object. For more information, see Configure memory.   To override the default prompt
-behavior for agent orchestration and to use advanced prompts, include a
-promptOverrideConfiguration object. For more information, see Advanced prompts.   If your
-agent fails to be created, the response returns a list of failureReasons alongside a list
-of recommendedActions for you to troubleshoot.   The agent instructions will not be honored
-if your agent has only one knowledge base, uses default prompts, has no action group, and
-user input is disabled.
+
+- Specify the following fields for security purposes.
+  - `agentResourceRoleArn` – The Amazon Resource Name (ARN) of the role with permissions to
+    invoke API operations on an agent.
+  - (Optional) `customerEncryptionKeyArn` – The Amazon Resource Name (ARN) of a KMS key to
+    encrypt the creation of the agent.
+  - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the agent
+    should maintain session information. After this time expires, the subsequent
+    `InvokeAgent` request begins a new session.
+- To enable your agent to retain conversational context across multiple sessions, include a
+  `memoryConfiguration` object. For more information, see [Configure memory](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html).
+- To override the default prompt behavior for agent orchestration and to use advanced
+  prompts, include a `promptOverrideConfiguration` object. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+- If your agent fails to be created, the response returns a list of `failureReasons`
+  alongside a list of `recommendedActions` for you to troubleshoot.
+- The agent instructions will not be honored if your agent has only one knowledge base, uses
+  default prompts, has no action group, and user input is disabled.
 
 # Arguments
+
 - `agent_name`: A name for the agent that you create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"agentResourceRoleArn"`: The Amazon Resource Name (ARN) of the IAM role with permissions
   to invoke API operations on the agent.
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key with which to
   encrypt the agent.
+
 - `"description"`: A description of the agent.
+
 - `"foundationModel"`: The foundation model to be used for orchestration by the agent you
   create.
+
 - `"guardrailConfiguration"`: The unique Guardrail configuration assigned to the agent when
   it is created.
+
 - `"idleSessionTTLInSeconds"`: The number of seconds for which Amazon Bedrock keeps
-  information about a user's conversation with the agent. A user interaction remains active
-  for the amount of time specified. If no conversation occurs during this time, the session
-  expires and Amazon Bedrock deletes any data provided before the timeout.
+  information about a user's conversation with the agent.
+
+  A user interaction remains active for the amount of time specified. If no conversation
+  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
+  before the timeout.
+
 - `"instruction"`: Instructions that tell the agent what it should do and how it should
   interact with users.
-- `"memoryConfiguration"`:  Contains the details of the memory configured for the agent.
+
+- `"memoryConfiguration"`: Contains the details of the memory configured for the agent.
+
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
-  parts of an agent sequence. For more information, see Advanced prompts.
+  parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+
 - `"tags"`: Any tags that you want to attach to the agent.
 """
 function create_agent end
@@ -160,48 +180,67 @@ end
     create_agent_action_group(action_group_name, agent_id, agent_version, params::Dict{String,<:Any})
 
 Creates an action group for an agent. An action group represents the actions that an agent
-can carry out for the customer by defining the APIs that an agent can call and the logic
-for calling them. To allow your agent to request the user for additional information when
-trying to complete a task, add an action group with the parentActionGroupSignature field
-set to AMAZON.UserInput.  To allow your agent to generate, run, and troubleshoot code when
-trying to complete a task, add an action group with the parentActionGroupSignature field
-set to AMAZON.CodeInterpreter.  You must leave the description, apiSchema, and
-actionGroupExecutor fields blank for this action group. During orchestration, if your agent
-determines that it needs to invoke an API in an action group, but doesn't have enough
-information to complete the API request, it will invoke this action group instead and
-return an Observation reprompting the user for more information.
+can carry out for the customer by defining the APIs that an agent can call and the logic for
+calling them.
+
+To allow your agent to request the user for additional information when trying to complete a
+task, add an action group with the `parentActionGroupSignature` field set to
+`AMAZON.UserInput`.
+
+To allow your agent to generate, run, and troubleshoot code when trying to complete a task,
+add an action group with the `parentActionGroupSignature` field set to
+`AMAZON.CodeInterpreter`.
+
+You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for
+this action group. During orchestration, if your agent determines that it needs to invoke an
+API in an action group, but doesn't have enough information to complete the API request, it
+will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+reprompting the user for more information.
 
 # Arguments
+
 - `action_group_name`: The name to give the action group.
 - `agent_id`: The unique identifier of the agent for which to create the action group.
 - `agent_version`: The version of the agent for which to create the action group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionGroupExecutor"`: The Amazon Resource Name (ARN) of the Lambda function containing
   the business logic that is carried out upon invoking the action or the custom control
   method for handling the information elicited from the user.
+
 - `"actionGroupState"`: Specifies whether the action group is available for the agent to
-  invoke or not when sending an InvokeAgent request.
+  invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
+
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
   for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see Action group OpenAPI schemas.
+  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+
 - `"description"`: A description of the action group.
-- `"functionSchema"`: Contains details about the function schema for the action group or
-  the JSON or YAML-formatted payload defining the schema.
+
+- `"functionSchema"`: Contains details about the function schema for the action group or the
+  JSON or YAML-formatted payload defining the schema.
+
 - `"parentActionGroupSignature"`: To allow your agent to request the user for additional
-  information when trying to complete a task, set this field to AMAZON.UserInput. You must
-  leave the description, apiSchema, and actionGroupExecutor fields blank for this action
-  group. To allow your agent to generate, run, and troubleshoot code when trying to complete
-  a task, set this field to AMAZON.CodeInterpreter. You must leave the description,
-  apiSchema, and actionGroupExecutor fields blank for this action group. During
-  orchestration, if your agent determines that it needs to invoke an API in an action group,
-  but doesn't have enough information to complete the API request, it will invoke this action
-  group instead and return an Observation reprompting the user for more information.
+  information when trying to complete a task, set this field to `AMAZON.UserInput`. You must
+  leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this
+  action group.
+
+  To allow your agent to generate, run, and troubleshoot code when trying to complete a
+  task, set this field to `AMAZON.CodeInterpreter`. You must leave the `description`,
+  `apiSchema`, and `actionGroupExecutor` fields blank for this action group.
+
+  During orchestration, if your agent determines that it needs to invoke an API in an action
+  group, but doesn't have enough information to complete the API request, it will invoke
+  this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+  reprompting the user for more information.
 """
 function create_agent_action_group end
 
@@ -253,15 +292,17 @@ end
 Creates an alias of an agent that can be used to deploy the agent.
 
 # Arguments
+
 - `agent_alias_name`: The name of the alias.
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the alias of the agent.
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 - `"tags"`: Any tags that you want to attach to the alias of the agent.
@@ -309,32 +350,43 @@ end
     create_data_source(data_source_configuration, knowledge_base_id, name)
     create_data_source(data_source_configuration, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Creates a data source connector for a knowledge base.  You can't change the
-chunkingConfiguration after you create the data source connector.
+Creates a data source connector for a knowledge base.
+
+!!! important
+    You can't change the `chunkingConfiguration` after you create the data source connector.
 
 # Arguments
+
 - `data_source_configuration`: The connection configuration for the data source.
 - `knowledge_base_id`: The unique identifier of the knowledge base to which to add the data
   source.
 - `name`: The name of the data source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
-- `"dataDeletionPolicy"`: The data deletion policy for the data source. You can set the
-  data deletion policy to:   DELETE: Deletes all data from your data source that’s
-  converted into vector embeddings upon deletion of a knowledge base or data source resource.
-  Note that the vector store itself is not deleted, only the data. This flag is ignored if an
-  Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source
-  that’s converted into vector embeddings upon deletion of a knowledge base or data source
-  resource. Note that the vector store itself is not deleted if you delete a knowledge base
-  or data source resource.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+
+- `"dataDeletionPolicy"`: The data deletion policy for the data source.
+
+  You can set the data deletion policy to:
+
+  - DELETE: Deletes all data from your data source that’s converted into vector embeddings
+    upon deletion of a knowledge base or data source resource. Note that the **vector store
+    itself is not deleted**, only the data. This flag is ignored if an Amazon Web Services
+    account is deleted.
+  - RETAIN: Retains all data from your data source that’s converted into vector embeddings
+    upon deletion of a knowledge base or data source resource. Note that the **vector store
+    itself is not deleted** if you delete a knowledge base or data source resource.
+
 - `"description"`: A description of the data source.
+
 - `"serverSideEncryptionConfiguration"`: Contains details about the server-side encryption
   for the data source.
+
 - `"vectorIngestionConfiguration"`: Contains details about how to ingest the documents in
   the data source.
 """
@@ -392,26 +444,29 @@ end
 Creates a prompt flow that you can use to send an input through various steps to yield an
 output. Configure nodes, each of which corresponds to a step of the flow, and create
 connections between the nodes to create paths to different outputs. For more information,
-see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
+and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
-  to create and manage a flow. For more information, see Create a service role for flows in
-  Amazon Bedrock in the Amazon Bedrock User Guide.
+  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
+  in the Amazon Bedrock User Guide.
 - `name`: A name for the flow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
-  the flow.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
+  flow.
 - `"definition"`: A definition of the nodes and connections between nodes in the flow.
 - `"description"`: A description for the flow.
-- `"tags"`: Any tags that you want to attach to the flow. For more information, see Tagging
-  resources in Amazon Bedrock.
+- `"tags"`: Any tags that you want to attach to the flow. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 """
 function create_flow end
 
@@ -460,23 +515,25 @@ end
     create_flow_alias(flow_identifier, name, routing_configuration)
     create_flow_alias(flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
 
-Creates an alias of a flow for deployment. For more information, see Deploy a flow in
-Amazon Bedrock in the Amazon Bedrock User Guide.
+Creates an alias of a flow for deployment. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow for which to create an alias.
 - `name`: A name for the alias.
 - `routing_configuration`: Contains information about the version to which to map the alias.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description for the alias.
-- `"tags"`: Any tags that you want to attach to the alias of the flow. For more
-  information, see Tagging resources in Amazon Bedrock.
+- `"tags"`: Any tags that you want to attach to the alias of the flow. For more information,
+  see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 """
 function create_flow_alias end
 
@@ -529,18 +586,20 @@ end
     create_flow_version(flow_identifier)
     create_flow_version(flow_identifier, params::Dict{String,<:Any})
 
-Creates a version of the flow that you can deploy. For more information, see Deploy a flow
-in Amazon Bedrock in the Amazon Bedrock User Guide.
+Creates a version of the flow that you can deploy. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow that you want to create a version of.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the version of the flow.
 """
 function create_flow_version end
@@ -579,23 +638,29 @@ end
 
 Creates a knowledge base that contains data sources from which information can be queried
 and used by LLMs. To create a knowledge base, you must first set up your data sources and
-configure a supported vector store. For more information, see Set up your data for
-ingestion.  If you prefer to let Amazon Bedrock create and manage a vector store for you in
-Amazon OpenSearch Service, use the console. For more information, see Create a knowledge
-base.    Provide the name and an optional description.   Provide the Amazon Resource Name
-(ARN) with permissions to create a knowledge base in the roleArn field.   Provide the
-embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration
-object.   Provide the configuration for your vector store in the storageConfiguration
-object.   For an Amazon OpenSearch Service database, use the
-opensearchServerlessConfiguration object. For more information, see Create a vector store
-in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration
-object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone
-database, use the pineconeConfiguration object. For more information, see Create a vector
-store in Pinecone.   For a Redis Enterprise Cloud database, use the
-redisEnterpriseCloudConfiguration object. For more information, see Create a vector store
-in Redis Enterprise Cloud.
+configure a supported vector store. For more information, see [Set up your data for ingestion](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup.html).
+
+!!! note
+    If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon
+    OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
+
+- Provide the `name` and an optional `description`.
+- Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the
+  `roleArn` field.
+- Provide the embedding model to use in the `embeddingModelArn` field in the
+  `knowledgeBaseConfiguration` object.
+- Provide the configuration for your vector store in the `storageConfiguration` object.
+  - For an Amazon OpenSearch Service database, use the `opensearchServerlessConfiguration`
+    object. For more information, see [Create a vector store in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
+  - For an Amazon Aurora database, use the `RdsConfiguration` object. For more information,
+    see [Create a vector store in Amazon Aurora](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
+  - For a Pinecone database, use the `pineconeConfiguration` object. For more information,
+    see [Create a vector store in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
+  - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration`
+    object. For more information, see [Create a vector store in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-redis.html).
 
 # Arguments
+
 - `knowledge_base_configuration`: Contains details about the embeddings model used for the
   knowledge base.
 - `name`: A name for the knowledge base.
@@ -605,11 +670,12 @@ in Redis Enterprise Cloud.
   used for the knowledge base.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the knowledge base.
 - `"tags"`: Specify the key-value pairs for the tags that you want to attach to your
   knowledge base in this object.
@@ -672,25 +738,28 @@ end
     create_prompt(name, params::Dict{String,<:Any})
 
 Creates a prompt in your prompt library that you can add to a flow. For more information,
-see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt
-flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html), [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html)
+and [Prompt flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `name`: A name for the prompt.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
-  the prompt.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
+  prompt.
 - `"defaultVariant"`: The name of the default variant for the prompt. This value must match
-  the name field in the relevant PromptVariant object.
+  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
+  object.
 - `"description"`: A description for the prompt.
-- `"tags"`: Any tags that you want to attach to the prompt. For more information, see
-  Tagging resources in Amazon Bedrock.
+- `"tags"`: Any tags that you want to attach to the prompt. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 - `"variants"`: A list of objects, each containing details about a variant of the prompt.
 """
 function create_prompt end
@@ -728,22 +797,24 @@ end
     create_prompt_version(prompt_identifier, params::Dict{String,<:Any})
 
 Creates a static snapshot of your prompt that can be deployed to production. For more
-information, see Deploy prompts using Prompt management by creating versions in the Amazon
-Bedrock User Guide.
+information, see [Deploy prompts using Prompt management by creating versions](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
-- `prompt_identifier`: The unique identifier of the prompt that you want to create a
-  version of.
+
+- `prompt_identifier`: The unique identifier of the prompt that you want to create a version
+  of.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description for the version of the prompt.
 - `"tags"`: Any tags that you want to attach to the version of the prompt. For more
-  information, see Tagging resources in Amazon Bedrock.
+  information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
 """
 function create_prompt_version end
 
@@ -782,12 +853,15 @@ end
 Deletes an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
 function delete_agent end
@@ -815,14 +889,17 @@ end
 Deletes an action group in an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group to delete.
 - `agent_id`: The unique identifier of the agent that the action group belongs to.
 - `agent_version`: The version of the agent that the action group belongs to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
 function delete_agent_action_group end
@@ -861,9 +938,9 @@ end
 Deletes an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias to delete.
 - `agent_id`: The unique identifier of the agent that the alias belongs to.
-
 """
 function delete_agent_alias end
 
@@ -900,13 +977,16 @@ end
 Deletes a version of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent that the version belongs to.
 - `agent_version`: The version of the agent to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
 function delete_agent_version end
@@ -944,10 +1024,10 @@ end
 Deletes a data source from a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source to delete.
 - `knowledge_base_id`: The unique identifier of the knowledge base from which to delete the
   data source.
-
 """
 function delete_data_source end
 
@@ -984,12 +1064,15 @@ end
 Deletes a flow.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
 function delete_flow end
@@ -1021,9 +1104,9 @@ end
 Deletes an alias of a flow.
 
 # Arguments
+
 - `alias_identifier`: The unique identifier of the alias to be deleted.
 - `flow_identifier`: The unique identifier of the flow that the alias belongs to.
-
 """
 function delete_flow_alias end
 
@@ -1060,13 +1143,16 @@ end
 Deletes a version of a flow.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow whose version that you want to delete
 - `flow_version`: The version of the flow that you want to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
 function delete_flow_version end
@@ -1102,12 +1188,12 @@ end
     delete_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
 
 Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the
-knowledge base from any agents that it is associated with by making a
-DisassociateAgentKnowledgeBase request.
+knowledge base from any agents that it is associated with by making a [DisassociateAgentKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_DisassociateAgentKnowledgeBase.html)
+request.
 
 # Arguments
-- `knowledge_base_id`: The unique identifier of the knowledge base to delete.
 
+- `knowledge_base_id`: The unique identifier of the knowledge base to delete.
 """
 function delete_knowledge_base end
 
@@ -1140,16 +1226,19 @@ end
     delete_prompt(prompt_identifier)
     delete_prompt(prompt_identifier, params::Dict{String,<:Any})
 
-Deletes a prompt or a version of it, depending on whether you include the promptVersion
-field or not. For more information, see Delete prompts from the Prompt management tool and
-Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User
-Guide.
+Deletes a prompt or a version of it, depending on whether you include the `promptVersion`
+field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html)
+and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `prompt_identifier`: The unique identifier of the prompt.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"promptVersion"`: The version of the prompt to delete. To delete the prompt, omit this
   field.
 """
@@ -1185,11 +1274,11 @@ end
 Disassociates a knowledge base from an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent from which to disassociate the knowledge
   base.
 - `agent_version`: The version of the agent from which to disassociate the knowledge base.
 - `knowledge_base_id`: The unique identifier of the knowledge base to disassociate.
-
 """
 function disassociate_agent_knowledge_base end
 
@@ -1230,8 +1319,8 @@ end
 Gets information about an agent.
 
 # Arguments
-- `agent_id`: The unique identifier of the agent.
 
+- `agent_id`: The unique identifier of the agent.
 """
 function get_agent end
 
@@ -1258,10 +1347,10 @@ end
 Gets information about an action group for an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group for which to get information.
 - `agent_id`: The unique identifier of the agent that the action group belongs to.
 - `agent_version`: The version of the agent that the action group belongs to.
-
 """
 function get_agent_action_group end
 
@@ -1299,10 +1388,10 @@ end
 Gets information about an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias for which to get information.
 - `agent_id`: The unique identifier of the agent to which the alias to get information
   belongs.
-
 """
 function get_agent_alias end
 
@@ -1339,12 +1428,12 @@ end
 Gets information about a knowledge base associated with an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent with which the knowledge base is
   associated.
 - `agent_version`: The version of the agent with which the knowledge base is associated.
 - `knowledge_base_id`: The unique identifier of the knowledge base associated with the
   agent.
-
 """
 function get_agent_knowledge_base end
 
@@ -1385,9 +1474,9 @@ end
 Gets details about a version of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_version`: The version of the agent.
-
 """
 function get_agent_version end
 
@@ -1424,10 +1513,10 @@ end
 Gets information about a data source.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source.
 - `knowledge_base_id`: The unique identifier of the knowledge base that the data source was
   added to.
-
 """
 function get_data_source end
 
@@ -1461,12 +1550,12 @@ end
     get_flow(flow_identifier)
     get_flow(flow_identifier, params::Dict{String,<:Any})
 
-Retrieves information about a flow. For more information, see Manage a flow in Amazon
-Bedrock in the Amazon Bedrock User Guide.
+Retrieves information about a flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
-- `flow_identifier`: The unique identifier of the flow.
 
+- `flow_identifier`: The unique identifier of the flow.
 """
 function get_flow end
 
@@ -1494,13 +1583,13 @@ end
     get_flow_alias(alias_identifier, flow_identifier)
     get_flow_alias(alias_identifier, flow_identifier, params::Dict{String,<:Any})
 
-Retrieves information about a flow. For more information, see Deploy a flow in Amazon
-Bedrock in the Amazon Bedrock User Guide.
+Retrieves information about a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `alias_identifier`: The unique identifier of the alias for which to retrieve information.
 - `flow_identifier`: The unique identifier of the flow that the alias belongs to.
-
 """
 function get_flow_alias end
 
@@ -1534,13 +1623,13 @@ end
     get_flow_version(flow_identifier, flow_version)
     get_flow_version(flow_identifier, flow_version, params::Dict{String,<:Any})
 
-Retrieves information about a version of a flow. For more information, see Deploy a flow in
-Amazon Bedrock in the Amazon Bedrock User Guide.
+Retrieves information about a version of a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow for which to get information.
 - `flow_version`: The version of the flow for which to get information.
-
 """
 function get_flow_version end
 
@@ -1577,11 +1666,11 @@ end
 Gets information about a ingestion job, in which a data source is added to a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source in the ingestion job.
 - `ingestion_job_id`: The unique identifier of the ingestion job.
 - `knowledge_base_id`: The unique identifier of the knowledge base for which the ingestion
   job applies.
-
 """
 function get_ingestion_job end
 
@@ -1622,9 +1711,9 @@ end
 Gets information about a knoweldge base.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to get
   information.
-
 """
 function get_knowledge_base end
 
@@ -1657,18 +1746,22 @@ end
     get_prompt(prompt_identifier)
     get_prompt(prompt_identifier, params::Dict{String,<:Any})
 
-Retrieves information about the working draft (DRAFT version) of a prompt or a version of
-it, depending on whether you include the promptVersion field or not. For more information,
-see View information about prompts using Prompt management and View information about a
-version of your prompt in the Amazon Bedrock User Guide.
+Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of
+it, depending on whether you include the `promptVersion` field or not. For more information,
+see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
+and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `prompt_identifier`: The unique identifier of the prompt.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"promptVersion"`: The version of the prompt about which you want to retrieve
-  information. Omit this field to return information about the working draft of the prompt.
+
+- `"promptVersion"`: The version of the prompt about which you want to retrieve information.
+  Omit this field to return information about the working draft of the prompt.
 """
 function get_prompt end
 
@@ -1699,17 +1792,20 @@ end
 Lists the action groups for an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_version`: The version of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_agent_action_groups end
 
@@ -1746,16 +1842,19 @@ end
 Lists the aliases of an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_agent_aliases end
 
@@ -1789,19 +1888,22 @@ end
 Lists knowledge bases associated with an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent for which to return information about
   knowledge bases associated with it.
 - `agent_version`: The version of the agent for which to return information about knowledge
   bases associated with it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_agent_knowledge_bases end
 
@@ -1838,16 +1940,19 @@ end
 Lists the versions of an agent and information about each version.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_agent_versions end
 
@@ -1881,13 +1986,15 @@ end
 Lists the agents belonging to an account and information about each agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_agents end
 
@@ -1910,17 +2017,20 @@ end
 Lists the data sources in a knowledge base and information about each one.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to return a
   list of information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_data_sources end
 
@@ -1956,16 +2066,19 @@ end
 Returns a list of aliases for a flow.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow for which aliases are being returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_flow_aliases end
 
@@ -1998,20 +2111,23 @@ end
     list_flow_versions(flow_identifier)
     list_flow_versions(flow_identifier, params::Dict{String,<:Any})
 
-Returns a list of information about each flow. For more information, see Deploy a flow in
-Amazon Bedrock in the Amazon Bedrock User Guide.
+Returns a list of information about each flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `flow_identifier`: The unique identifier of the flow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_flow_versions end
 
@@ -2044,17 +2160,19 @@ end
     list_flows()
     list_flows(params::Dict{String,<:Any})
 
-Returns a list of flows and information about each flow. For more information, see Manage a
-flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+Returns a list of flows and information about each flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
+in the Amazon Bedrock User Guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_flows end
 
@@ -2077,20 +2195,23 @@ end
 Lists the ingestion jobs for a data source and information about each of them.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source for which to return ingestion
   jobs.
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to return
   ingestion jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Contains a definition of a filter for which to filter the results.
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: Contains details about how to sort the results.
 """
 function list_ingestion_jobs end
@@ -2128,13 +2249,15 @@ end
 Lists the knowledge bases in an account and information about each of them.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 """
 function list_knowledge_bases end
 
@@ -2156,19 +2279,21 @@ end
     list_prompts()
     list_prompts(params::Dict{String,<:Any})
 
-Returns either information about the working draft (DRAFT version) of each prompt in an
+Returns either information about the working draft (`DRAFT` version) of each prompt in an
 account, or information about of all versions of a prompt, depending on whether you include
-the promptIdentifier field or not. For more information, see View information about prompts
-using Prompt management in the Amazon Bedrock User Guide.
+the `promptIdentifier` field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
+in the Amazon Bedrock User Guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"promptIdentifier"`: The unique identifier of the prompt for whose versions you want to
   return information. Omit this field to list information about all prompts in an account.
 """
@@ -2193,8 +2318,8 @@ end
 List all the tags for the resource you specify.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list tags.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list tags.
 """
 function list_tags_for_resource end
 
@@ -2220,11 +2345,11 @@ end
     prepare_agent(agent_id)
     prepare_agent(agent_id, params::Dict{String,<:Any})
 
-Creates a DRAFT version of the agent that can be used for internal testing.
+Creates a `DRAFT` version of the agent that can be used for internal testing.
 
 # Arguments
-- `agent_id`: The unique identifier of the agent for which to create a DRAFT version.
 
+- `agent_id`: The unique identifier of the agent for which to create a `DRAFT` version.
 """
 function prepare_agent end
 
@@ -2248,12 +2373,12 @@ end
     prepare_flow(flow_identifier)
     prepare_flow(flow_identifier, params::Dict{String,<:Any})
 
-Prepares the DRAFT version of a flow so that it can be invoked. For more information, see
-Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
-- `flow_identifier`: The unique identifier of the flow.
 
+- `flow_identifier`: The unique identifier of the flow.
 """
 function prepare_flow end
 
@@ -2284,16 +2409,18 @@ end
 Begins an ingestion job, in which a data source is added to a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source to ingest.
 - `knowledge_base_id`: The unique identifier of the knowledge base to which to add the data
   source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the ingestion job.
 """
 function start_ingestion_job end
@@ -2331,14 +2458,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associate tags with a resource. For more information, see Tagging resources in the Amazon
-Bedrock User Guide.
+Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
 - `tags`: An object containing key-value pairs that define the tags to attach to the
   resource.
-
 """
 function tag_resource end
 
@@ -2374,9 +2501,9 @@ end
 Remove tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to remove tags.
 - `tag_keys`: A list of keys of the tags to remove from the resource.
-
 """
 function untag_resource end
 
@@ -2414,29 +2541,40 @@ end
 Updates the configuration of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_name`: Specifies a new name for the agent.
-- `agent_resource_role_arn`: The Amazon Resource Name (ARN) of the IAM role with
-  permissions to invoke API operations on the agent.
+- `agent_resource_role_arn`: The Amazon Resource Name (ARN) of the IAM role with permissions
+  to invoke API operations on the agent.
 - `foundation_model`: Specifies a new foundation model to be used for orchestration by the
   agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key with which to
   encrypt the agent.
+
 - `"description"`: Specifies a new description of the agent.
+
 - `"guardrailConfiguration"`: The unique Guardrail configuration assigned to the agent when
   it is updated.
+
 - `"idleSessionTTLInSeconds"`: The number of seconds for which Amazon Bedrock keeps
-  information about a user's conversation with the agent. A user interaction remains active
-  for the amount of time specified. If no conversation occurs during this time, the session
-  expires and Amazon Bedrock deletes any data provided before the timeout.
+  information about a user's conversation with the agent.
+
+  A user interaction remains active for the amount of time specified. If no conversation
+  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
+  before the timeout.
+
 - `"instruction"`: Specifies new instructions that tell the agent what it should do and how
   it should interact with users.
+
 - `"memoryConfiguration"`: Specifies the new memory configuration for the agent.
+
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
-  parts of an agent sequence. For more information, see Advanced prompts.
+  parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
 """
 function update_agent end
 
@@ -2494,31 +2632,42 @@ end
 Updates the configuration for an action group for an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group.
 - `action_group_name`: Specifies a new name for the action group.
 - `agent_id`: The unique identifier of the agent for which to update the action group.
-- `agent_version`: The unique identifier of the agent version for which to update the
-  action group.
+- `agent_version`: The unique identifier of the agent version for which to update the action
+  group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionGroupExecutor"`: The Amazon Resource Name (ARN) of the Lambda function containing
   the business logic that is carried out upon invoking the action.
+
 - `"actionGroupState"`: Specifies whether the action group is available for the agent to
-  invoke or not when sending an InvokeAgent request.
+  invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
+
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
   for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see Action group OpenAPI schemas.
+  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
+
 - `"description"`: Specifies a new name for the action group.
-- `"functionSchema"`: Contains details about the function schema for the action group or
-  the JSON or YAML-formatted payload defining the schema.
+
+- `"functionSchema"`: Contains details about the function schema for the action group or the
+  JSON or YAML-formatted payload defining the schema.
+
 - `"parentActionGroupSignature"`: To allow your agent to request the user for additional
-  information when trying to complete a task, set this field to AMAZON.UserInput. You must
-  leave the description, apiSchema, and actionGroupExecutor fields blank for this action
-  group. During orchestration, if your agent determines that it needs to invoke an API in an
-  action group, but doesn't have enough information to complete the API request, it will
-  invoke this action group instead and return an Observation reprompting the user for more
-  information.
+  information when trying to complete a task, set this field to `AMAZON.UserInput`. You must
+  leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this
+  action group.
+
+  During orchestration, if your agent determines that it needs to invoke an API in an action
+  group, but doesn't have enough information to complete the API request, it will invoke
+  this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+  reprompting the user for more information.
 """
 function update_agent_action_group end
 
@@ -2566,12 +2715,15 @@ end
 Updates configurations for an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias.
 - `agent_alias_name`: Specifies a new name for the alias.
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the alias.
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 """
@@ -2617,19 +2769,23 @@ end
 Updates the configuration for a knowledge base that has been associated with an agent.
 
 # Arguments
-- `agent_id`: The unique identifier of the agent associated with the knowledge base that
-  you want to update.
-- `agent_version`: The version of the agent associated with the knowledge base that you
+
+- `agent_id`: The unique identifier of the agent associated with the knowledge base that you
   want to update.
+- `agent_version`: The version of the agent associated with the knowledge base that you want
+  to update.
 - `knowledge_base_id`: The unique identifier of the knowledge base that has been associated
   with an agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the knowledge base associated with an
   agent.
 - `"knowledgeBaseState"`: Specifies whether the agent uses the knowledge base or not when
-  sending an InvokeAgent request.
+  sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 """
 function update_agent_knowledge_base end
 
@@ -2667,11 +2823,14 @@ end
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name)
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Updates the configurations for a data source connector.  You can't change the
-chunkingConfiguration after you create the data source connector. Specify the existing
-chunkingConfiguration.
+Updates the configurations for a data source connector.
+
+!!! important
+    You can't change the `chunkingConfiguration` after you create the data source connector.
+    Specify the existing `chunkingConfiguration`.
 
 # Arguments
+
 - `data_source_configuration`: The connection configuration for the data source that you
   want to update.
 - `data_source_id`: The unique identifier of the data source.
@@ -2679,7 +2838,9 @@ chunkingConfiguration.
 - `name`: Specifies a new name for the data source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dataDeletionPolicy"`: The data deletion policy for the data source that you want to
   update.
 - `"description"`: Specifies a new description for the data source.
@@ -2738,20 +2899,24 @@ end
     update_flow(execution_role_arn, flow_identifier, name, params::Dict{String,<:Any})
 
 Modifies a flow. Include both fields that you want to keep and fields that you want to
-change. For more information, see How it works and Create a flow in Amazon Bedrock in the
-Amazon Bedrock User Guide.
+change. For more information, see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
+and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
-  to create and manage a flow. For more information, see Create a service role for flows in
-  Amazon Bedrock in the Amazon Bedrock User Guide.
+  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
+  in the Amazon Bedrock User Guide.
 - `flow_identifier`: The unique identifier of the flow.
 - `name`: A name for the flow.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
-  the flow.
+
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
+  flow.
 - `"definition"`: A definition of the nodes and the connections between the nodes in the
   flow.
 - `"description"`: A description for the flow.
@@ -2800,17 +2965,20 @@ end
     update_flow_alias(alias_identifier, flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
 
 Modifies the alias of a flow. Include both fields that you want to keep and ones that you
-want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon
-Bedrock User Guide.
+want to change. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `alias_identifier`: The unique identifier of the alias.
 - `flow_identifier`: The unique identifier of the flow.
 - `name`: The name of the alias.
 - `routing_configuration`: Contains information about the version to which to map the alias.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the alias.
 """
 function update_flow_alias end
@@ -2862,12 +3030,20 @@ end
 
 Updates the configuration of a knowledge base with the fields that you specify. Because all
 fields will be overwritten, you must include the same values for fields that you want to
-keep the same. You can change the following fields:    name     description     roleArn
-You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must
-specify the same configurations as when you created the knowledge base. You can send a
-GetKnowledgeBase request and copy the same configurations.
+keep the same.
+
+You can change the following fields:
+
+- `name`
+- `description`
+- `roleArn`
+
+You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you
+must specify the same configurations as when you created the knowledge base. You can send a [GetKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetKnowledgeBase.html)
+request and copy the same configurations.
 
 # Arguments
+
 - `knowledge_base_configuration`: Specifies the configuration for the embeddings model used
   for the knowledge base. You must use the same configuration as when the knowledge base was
   created.
@@ -2876,10 +3052,13 @@ GetKnowledgeBase request and copy the same configurations.
 - `role_arn`: Specifies a different Amazon Resource Name (ARN) of the IAM role with
   permissions to invoke API operations on the knowledge base.
 - `storage_configuration`: Specifies the configuration for the vector store used for the
-  knowledge base. You must use the same configuration as when the knowledge base was created.
+  knowledge base. You must use the same configuration as when the knowledge base was
+  created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the knowledge base.
 """
 function update_knowledge_base end
@@ -2940,19 +3119,24 @@ end
     update_prompt(name, prompt_identifier, params::Dict{String,<:Any})
 
 Modifies a prompt in your prompt library. Include both fields that you want to keep and
-fields that you want to replace. For more information, see Prompt management in Amazon
-Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
+fields that you want to replace. For more information, see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html)
+and [Edit prompts in your prompt library](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-edit)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `name`: A name for the prompt.
 - `prompt_identifier`: The unique identifier of the prompt.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
-  the prompt.
+
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
+  prompt.
 - `"defaultVariant"`: The name of the default variant for the prompt. This value must match
-  the name field in the relevant PromptVariant object.
+  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
+  object.
 - `"description"`: A description for the prompt.
 - `"variants"`: A list of objects, each containing details about a variant of the prompt.
 """

@@ -11,13 +11,16 @@ using AWS.UUIDs: uuid4
 Specifies a domain to be associated to Amazon WorkLink.
 
 # Arguments
+
 - `acm_certificate_arn`: The ARN of an issued ACM certificate that is valid for the domain
   being associated.
 - `domain_name`: The fully qualified domain name (FQDN).
 - `fleet_arn`: The Amazon Resource Name (ARN) of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DisplayName"`: The name to display.
 """
 function associate_domain end
@@ -75,13 +78,16 @@ Associates a website authorization provider with a specified fleet. This is used
 authorize users against associated websites in the company network.
 
 # Arguments
+
 - `authorization_provider_type`: The authorization provider type.
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DomainName"`: The domain name of the authorization provider. This applies only to
-  SAML-based authorization providers.
+
+- `"DomainName"`: The domain name of the authorization provider. This applies only to SAML-
+  based authorization providers.
 """
 function associate_website_authorization_provider end
 
@@ -127,15 +133,18 @@ end
     associate_website_certificate_authority(certificate, fleet_arn)
     associate_website_certificate_authority(certificate, fleet_arn, params::Dict{String,<:Any})
 
-Imports the root certificate of a certificate authority (CA) used to obtain TLS
-certificates used by associated websites within the company network.
+Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates
+used by associated websites within the company network.
 
 # Arguments
+
 - `certificate`: The root certificate of the CA.
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DisplayName"`: The certificate name to display.
 """
 function associate_website_certificate_authority end
@@ -181,14 +190,17 @@ Creates a fleet. A fleet consists of resources and the configuration that delive
 associated websites to authorized users who download and set up the Amazon WorkLink app.
 
 # Arguments
+
 - `fleet_name`: A unique name for the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DisplayName"`: The fleet name to display.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
   traffic through the closest AWS Region to users, which may be outside of your home Region.
-- `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
+- `"Tags"`: The tags to add to the resource. A tag is a key-value pair.
 """
 function create_fleet end
 
@@ -225,8 +237,8 @@ end
 Deletes a fleet. Prevents users from accessing previously associated websites.
 
 # Arguments
-- `fleet_arn`: The ARN of the fleet.
 
+- `fleet_arn`: The ARN of the fleet.
 """
 function delete_fleet end
 
@@ -263,8 +275,8 @@ end
 Describes the configuration for delivering audit streams to the customer account.
 
 # Arguments
-- `fleet_arn`: The ARN of the fleet.
 
+- `fleet_arn`: The ARN of the fleet.
 """
 function describe_audit_stream_configuration end
 
@@ -304,8 +316,8 @@ Describes the networking configuration to access the internal websites associate
 specified fleet.
 
 # Arguments
-- `fleet_arn`: The ARN of the fleet.
 
+- `fleet_arn`: The ARN of the fleet.
 """
 function describe_company_network_configuration end
 
@@ -344,9 +356,9 @@ end
 Provides information about a user's device.
 
 # Arguments
+
 - `device_id`: A unique identifier for a registered user's device.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function describe_device end
 
@@ -390,8 +402,8 @@ end
 Describes the device policy configuration for the specified fleet.
 
 # Arguments
-- `fleet_arn`: The ARN of the fleet.
 
+- `fleet_arn`: The ARN of the fleet.
 """
 function describe_device_policy_configuration end
 
@@ -430,9 +442,9 @@ end
 Provides information about the domain.
 
 # Arguments
+
 - `domain_name`: The name of the domain.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function describe_domain end
 
@@ -473,12 +485,12 @@ end
     describe_fleet_metadata(fleet_arn)
     describe_fleet_metadata(fleet_arn, params::Dict{String,<:Any})
 
-Provides basic information for the specified fleet, excluding identity provider,
-networking, and device configuration details.
+Provides basic information for the specified fleet, excluding identity provider, networking,
+and device configuration details.
 
 # Arguments
-- `fleet_arn`: The Amazon Resource Name (ARN) of the fleet.
 
+- `fleet_arn`: The Amazon Resource Name (ARN) of the fleet.
 """
 function describe_fleet_metadata end
 
@@ -517,8 +529,8 @@ end
 Describes the identity provider configuration of the specified fleet.
 
 # Arguments
-- `fleet_arn`: The ARN of the fleet.
 
+- `fleet_arn`: The ARN of the fleet.
 """
 function describe_identity_provider_configuration end
 
@@ -557,9 +569,9 @@ end
 Provides information about the certificate authority.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 - `website_ca_id`: A unique identifier for the certificate authority.
-
 """
 function describe_website_certificate_authority end
 
@@ -600,13 +612,13 @@ end
     disassociate_domain(domain_name, fleet_arn)
     disassociate_domain(domain_name, fleet_arn, params::Dict{String,<:Any})
 
-Disassociates a domain from Amazon WorkLink. End users lose the ability to access the
-domain with Amazon WorkLink.
+Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain
+with Amazon WorkLink.
 
 # Arguments
+
 - `domain_name`: The name of the domain.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function disassociate_domain end
 
@@ -652,9 +664,9 @@ disassociation, users can't load any associated websites that require this autho
 provider.
 
 # Arguments
+
 - `authorization_provider_id`: A unique identifier for the authorization provider.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function disassociate_website_authorization_provider end
 
@@ -703,9 +715,9 @@ end
 Removes a certificate authority (CA).
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 - `website_ca_id`: A unique identifier for the CA.
-
 """
 function disassociate_website_certificate_authority end
 
@@ -749,10 +761,13 @@ end
 Retrieves a list of devices registered with the specified fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be included in the next page.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -792,10 +807,13 @@ end
 Retrieves a list of domains associated to a specified fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be included in the next page.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -835,7 +853,9 @@ end
 Retrieves a list of fleets for the current account and Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be included in the next page.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -861,8 +881,8 @@ end
 Retrieves a list of tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the fleet.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the fleet.
 """
 function list_tags_for_resource end
 
@@ -891,10 +911,13 @@ end
 Retrieves a list of website authorization providers associated with a specified fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be included in the next page.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -936,10 +959,13 @@ end
 Retrieves a list of certificate authorities added for the current account and Region.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be included in the next page.
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
@@ -981,9 +1007,9 @@ end
 Moves a domain to ACTIVE status if it was in the INACTIVE status.
 
 # Arguments
+
 - `domain_name`: The name of the domain.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function restore_domain_access end
 
@@ -1027,9 +1053,9 @@ end
 Moves a domain to INACTIVE status if it was in the ACTIVE status.
 
 # Arguments
+
 - `domain_name`: The name of the domain.
 - `fleet_arn`: The ARN of the fleet.
-
 """
 function revoke_domain_access end
 
@@ -1074,9 +1100,9 @@ Signs the user out from all of their devices. The user can sign in again if they
 credentials.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 - `username`: The name of the user.
-
 """
 function sign_out_user end
 
@@ -1122,9 +1148,9 @@ consists of a key and an optional value. If a resource already has a tag with th
 this operation updates its value.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the fleet.
 - `tags`: The tags to add to the resource. A tag is a key-value pair.
-
 """
 function tag_resource end
 
@@ -1160,9 +1186,9 @@ end
 Removes one or more tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the fleet.
 - `tag_keys`: The list of tag keys to remove from the resource.
-
 """
 function untag_resource end
 
@@ -1200,10 +1226,13 @@ end
 Updates the audit stream configuration for the fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AuditStreamArn"`: The ARN of the Amazon Kinesis data stream that receives the audit
   events.
 """
@@ -1244,12 +1273,12 @@ end
 Updates the company network configuration for the fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 - `security_group_ids`: The security groups associated with access to the provided subnets.
 - `subnet_ids`: The subnets used for X-ENI connections from Amazon WorkLink rendering
   containers.
 - `vpc_id`: The VPC with connectivity to associated websites.
-
 """
 function update_company_network_configuration end
 
@@ -1309,10 +1338,13 @@ end
 Updates the device policy configuration for the fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeviceCaCertificate"`: The certificate chain, including intermediate certificates and
   the root certificate authority certificate used to issue device certificates.
 """
@@ -1353,11 +1385,14 @@ end
 Updates domain metadata, such as DisplayName.
 
 # Arguments
+
 - `domain_name`: The name of the domain.
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DisplayName"`: The name to display.
 """
 function update_domain_metadata end
@@ -1402,10 +1437,13 @@ end
 Updates fleet metadata, such as DisplayName.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DisplayName"`: The fleet name to display. The existing DisplayName is unset if null is
   passed.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
@@ -1446,11 +1484,14 @@ end
 Updates the identity provider configuration for the fleet.
 
 # Arguments
+
 - `fleet_arn`: The ARN of the fleet.
 - `identity_provider_type`: The type of identity provider.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IdentityProviderSamlMetadata"`: The SAML metadata document provided by the customer’s
   identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """

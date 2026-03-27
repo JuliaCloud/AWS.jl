@@ -17,6 +17,7 @@ channel groups, such as putting redundant channels in the same AWS Region in dif
 channel groups.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -24,15 +25,27 @@ channel groups.
   You can't change the name after you create the channel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Enter any descriptive text that helps you to identify the channel.
+
 - `"InputType"`: The input type will be an immutable field which will be used to define
-  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to
-  HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming
-  specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF
-  Ingest specification (which defines CMAF segments with optional DASH manifests).
+  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default
+  to HLS to preserve current behavior.
+
+  The allowed values are:
+
+  - `HLS` - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+  - `CMAF` - The DASH-IF CMAF Ingest specification (which defines CMAF segments with
+    optional DASH manifests).
+
 - `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
-  \"Key1\": \"Value1\",   \"Key2\": \"Value2\"
+
+  `"Key1": "Value1",`
+
+  `"Key2": "Value2"`
+
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -81,21 +94,29 @@ end
 
 Create a channel group to group your channels and origin endpoints. A channel group is the
 top-level resource that consists of channels and origin endpoints that are associated with
-it and that provides predictable URLs for stream delivery. All channels and origin
-endpoints within the channel group are guaranteed to share the DNS. You can create only one
-channel group with each request.
+it and that provides predictable URLs for stream delivery. All channels and origin endpoints
+within the channel group are guaranteed to share the DNS. You can create only one channel
+group with each request.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
   You can't use spaces in the name. You can't change the name after you create the channel
   group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Enter any descriptive text that helps you to identify the channel group.
+
 - `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
-  \"Key1\": \"Value1\",   \"Key2\": \"Value2\"
+
+  `"Key1": "Value1",`
+
+  `"Key2": "Value2"`
+
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -149,34 +170,49 @@ can't be served from a channel until it has an endpoint. You can create only one
 with each request.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
 - `container_type`: The type of container to attach to this origin endpoint. A container
-  type is a file format that encapsulates one or more media streams, such as audio and video,
-  into a single file. You can't change the container type after you create the endpoint.
+  type is a file format that encapsulates one or more media streams, such as audio and
+  video, into a single file. You can't change the container type after you create the
+  endpoint.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and must be unique for your account in the AWS
   Region and channel. You can't use spaces in the name. You can't change the name after you
   create the endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DashManifests"`: A DASH manifest configuration.
+
 - `"Description"`: Enter any descriptive text that helps you to identify the origin
   endpoint.
+
 - `"ForceEndpointErrorConfiguration"`: The failover settings for the endpoint.
+
 - `"HlsManifests"`: An HTTP live streaming (HLS) manifest configuration.
+
 - `"LowLatencyHlsManifests"`: A low-latency HLS manifest configuration.
+
 - `"Segment"`: The segment configuration, including the segment name, duration, and other
   configuration values.
+
 - `"StartoverWindowSeconds"`: The size of the window (in seconds) to create a window of the
   live stream that's available for on-demand viewing. Viewers can start-over or catch-up on
-  content that falls within the window. The maximum startover window is 1,209,600 seconds (14
-  days).
+  content that falls within the window. The maximum startover window is 1,209,600 seconds
+  (14 days).
+
 - `"Tags"`: A comma-separated list of tag key:value pairs that you define. For example:
-  \"Key1\": \"Value1\",   \"Key2\": \"Value2\"
+
+  `"Key1": "Value1",`
+
+  `"Key2": "Value2"`
+
 - `"x-amzn-client-token"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
@@ -233,15 +269,15 @@ end
     delete_channel(channel_group_name, channel_name)
     delete_channel(channel_group_name, channel_name, params::Dict{String,<:Any})
 
-Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You
-must delete the channel's origin endpoints before you can delete the channel.
+Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must
+delete the channel's origin endpoints before you can delete the channel.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
-
 """
 function delete_channel end
 
@@ -280,9 +316,9 @@ before you can delete the channel group. If you delete a channel group, you'll l
 to the egress domain and will have to create a new channel group to replace it.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
-
 """
 function delete_channel_group end
 
@@ -318,11 +354,11 @@ end
 Delete a channel policy.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
-
 """
 function delete_channel_policy end
 
@@ -361,6 +397,7 @@ no longer respond to playback requests. You must delete all endpoints from a cha
 you can delete the channel.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -368,7 +405,6 @@ you can delete the channel.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
-
 """
 function delete_origin_endpoint end
 
@@ -409,6 +445,7 @@ end
 Delete an origin endpoint policy.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -416,7 +453,6 @@ Delete an origin endpoint policy.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
-
 """
 function delete_origin_endpoint_policy end
 
@@ -458,11 +494,11 @@ Retrieves the specified channel that's configured in AWS Elemental MediaPackage,
 the origin endpoints that are associated with it.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
-
 """
 function get_channel end
 
@@ -500,9 +536,9 @@ Retrieves the specified channel group that's configured in AWS Elemental MediaPa
 including the channels and origin endpoints that are associated with it.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
-
 """
 function get_channel_group end
 
@@ -535,16 +571,16 @@ end
     get_channel_policy(channel_group_name, channel_name)
     get_channel_policy(channel_group_name, channel_name, params::Dict{String,<:Any})
 
-Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage.
-With policies, you can specify who has access to AWS resources and what actions they can
-perform on those resources.
+Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With
+policies, you can specify who has access to AWS resources and what actions they can perform
+on those resources.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
-
 """
 function get_channel_policy end
 
@@ -582,6 +618,7 @@ Retrieves the specified origin endpoint that's configured in AWS Elemental Media
 obtain its playback URL and to view the packaging settings that it's currently using.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -589,7 +626,6 @@ obtain its playback URL and to view the packaging settings that it's currently u
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
-
 """
 function get_origin_endpoint end
 
@@ -631,6 +667,7 @@ Retrieves the specified origin endpoint policy that's configured in AWS Elementa
 MediaPackage.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -638,7 +675,6 @@ MediaPackage.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
-
 """
 function get_origin_endpoint_policy end
 
@@ -680,7 +716,9 @@ Retrieves all channel groups that are configured in AWS Elemental MediaPackage, 
 the channels and origin endpoints that are associated with it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
@@ -709,11 +747,14 @@ Retrieves all channels in a specific channel group that are configured in AWS El
 MediaPackage, including the origin endpoints that are associated with it.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
@@ -751,13 +792,16 @@ Retrieves all origin endpoints in a specific channel that are configured in AWS 
 MediaPackage.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The pagination token from the GET list request. Use the token to fetch the
   next page of results.
@@ -797,8 +841,8 @@ end
 Lists the tags assigned to a resource.
 
 # Arguments
-- `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for.
 
+- `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for.
 """
 function list_tags_for_resource end
 
@@ -825,16 +869,16 @@ end
     put_channel_policy(channel_group_name, channel_name, policy, params::Dict{String,<:Any})
 
 Attaches an IAM policy to the specified channel. With policies, you can specify who has
-access to AWS resources and what actions they can perform on those resources. You can
-attach only one policy with each request.
+access to AWS resources and what actions they can perform on those resources. You can attach
+only one policy with each request.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
 - `policy`: The policy to attach to the specified channel.
-
 """
 function put_channel_policy end
 
@@ -873,10 +917,11 @@ end
     put_origin_endpoint_policy(channel_group_name, channel_name, origin_endpoint_name, policy)
     put_origin_endpoint_policy(channel_group_name, channel_name, origin_endpoint_name, policy, params::Dict{String,<:Any})
 
-Attaches an IAM policy to the specified origin endpoint. You can attach only one policy
-with each request.
+Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with
+each request.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
@@ -885,7 +930,6 @@ with each request.
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
 - `policy`: The policy to attach to the specified origin endpoint.
-
 """
 function put_origin_endpoint_policy end
 
@@ -926,19 +970,20 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can
-help you organize and categorize your resources. You can also use them to scope user
-permissions, by granting a user permission to access or change only resources with certain
-tag values. You can use the TagResource operation with a resource that already has tags. If
-you specify a new tag key for the resource, this tag is appended to the list of tags
-associated with the resource. If you specify a tag key that is already associated with the
-resource, the new tag value that you specify replaces the previous value for that tag.
+Assigns one of more tags (key-value pairs) to the specified MediaPackage resource.
+
+Tags can help you organize and categorize your resources. You can also use them to scope
+user permissions, by granting a user permission to access or change only resources with
+certain tag values. You can use the TagResource operation with a resource that already has
+tags. If you specify a new tag key for the resource, this tag is appended to the list of
+tags associated with the resource. If you specify a tag key that is already associated with
+the resource, the new tag value that you specify replaces the previous value for that tag.
 
 # Arguments
-- `resource_arn`: The ARN of the MediaPackage resource that you're adding tags to.
-- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to
-  the resource.
 
+- `resource_arn`: The ARN of the MediaPackage resource that you're adding tags to.
+- `tags`: Contains a map of the key-value pairs for the resource tag or tags assigned to the
+  resource.
 """
 function tag_resource end
 
@@ -974,9 +1019,9 @@ end
 Removes one or more tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the MediaPackage resource that you're removing tags from.
 - `tag_keys`: The list of tag keys to remove from the resource.
-
 """
 function untag_resource end
 
@@ -1014,17 +1059,21 @@ end
 Update the specified channel. You can edit if MediaPackage sends ingest or egress access
 logs to the CloudWatch log group, if content will be encrypted, the description on a
 channel, and your channel's policy settings. You can't edit the name of the channel or
-CloudFront distribution details. Any edits you make that impact the video output may not be
-reflected for a few minutes.
+CloudFront distribution details.
+
+Any edits you make that impact the video output may not be reflected for a few minutes.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Any descriptive information that you want to add to the channel for
   future identification purposes.
 - `"x-amzn-update-if-match"`: The expected current Entity Tag (ETag) for the resource. If
@@ -1065,17 +1114,21 @@ end
 
 Update the specified channel group. You can edit the description on a channel group for
 easier identification later from the AWS Elemental MediaPackage console. You can't edit the
-name of the channel group. Any edits you make that impact the video output may not be
-reflected for a few minutes.
+name of the channel group.
+
+Any edits you make that impact the video output may not be reflected for a few minutes.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Any descriptive information that you want to add to the channel group
-  for future identification purposes.
+
+- `"Description"`: Any descriptive information that you want to add to the channel group for
+  future identification purposes.
 - `"x-amzn-update-if-match"`: The expected current Entity Tag (ETag) for the resource. If
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.
@@ -1112,23 +1165,27 @@ end
     update_origin_endpoint(channel_group_name, channel_name, container_type, origin_endpoint_name, params::Dict{String,<:Any})
 
 Update the specified origin endpoint. Edit the packaging preferences on an endpoint to
-optimize the viewing experience. You can't edit the name of the endpoint. Any edits you
-make that impact the video output may not be reflected for a few minutes.
+optimize the viewing experience. You can't edit the name of the endpoint.
+
+Any edits you make that impact the video output may not be reflected for a few minutes.
 
 # Arguments
+
 - `channel_group_name`: The name that describes the channel group. The name is the primary
   identifier for the channel group, and must be unique for your account in the AWS Region.
 - `channel_name`: The name that describes the channel. The name is the primary identifier
   for the channel, and must be unique for your account in the AWS Region and channel group.
-- `container_type`: The type of container attached to this origin endpoint. A container
-  type is a file format that encapsulates one or more media streams, such as audio and video,
+- `container_type`: The type of container attached to this origin endpoint. A container type
+  is a file format that encapsulates one or more media streams, such as audio and video,
   into a single file.
 - `origin_endpoint_name`: The name that describes the origin endpoint. The name is the
   primary identifier for the origin endpoint, and and must be unique for your account in the
   AWS Region and channel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DashManifests"`: A DASH manifest configuration.
 - `"Description"`: Any descriptive information that you want to add to the origin endpoint
   for future identification purposes.
@@ -1139,8 +1196,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration values.
 - `"StartoverWindowSeconds"`: The size of the window (in seconds) to create a window of the
   live stream that's available for on-demand viewing. Viewers can start-over or catch-up on
-  content that falls within the window. The maximum startover window is 1,209,600 seconds (14
-  days).
+  content that falls within the window. The maximum startover window is 1,209,600 seconds
+  (14 days).
 - `"x-amzn-update-if-match"`: The expected current Entity Tag (ETag) for the resource. If
   the specified ETag does not match the resource's current entity tag, the update request
   will be rejected.

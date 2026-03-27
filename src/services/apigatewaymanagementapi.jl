@@ -11,8 +11,8 @@ using AWS.UUIDs: uuid4
 Delete the connection with the provided id.
 
 # Arguments
-- `connection_id`:
 
+- `connection_id`:
 """
 function delete_connection end
 
@@ -46,8 +46,8 @@ end
 Get information about the connection with the provided id.
 
 # Arguments
-- `connection_id`:
 
+- `connection_id`:
 """
 function get_connection end
 
@@ -78,9 +78,9 @@ end
 Sends the provided data to the specified connection.
 
 # Arguments
+
 - `data`: The data to be sent to the client specified by its connection id.
 - `connection_id`: The identifier of the connection that a specific client is using.
-
 """
 function post_to_connection end
 
