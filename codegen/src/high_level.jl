@@ -32,7 +32,7 @@ function _generate_high_level_wrapper(service_files::AbstractArray{ServiceFile})
                 """
              # $AUTO_GENERATED_SIGNATURE
              # Note: `SERVICE_FEATURE_SET` is embedded by `@service`
-             using AWS: AbstractAWSConfig, current_aws_config
+             using AWS: AbstractAWSConfig, current_aws_config, _merge
              using AWS.AWSServices: $service_name
              using AWS.UUIDs: uuid4
              """,
