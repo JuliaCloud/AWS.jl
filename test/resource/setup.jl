@@ -6,10 +6,12 @@ using AWS
 using AWS: AWSException
 using JSON: JSON
 
-@service CloudFormation
-@service IAM
+# TODO: Remove `use_response_type` once AWS.jl v2 is released and we update the compat entry
+
+@service CloudFormation use_response_type=true
+@service IAM use_response_type=true
 # TODO: Support PascalCase, https://github.com/JuliaCloud/AWS.jl/issues/642
-@service Secrets_Manager
+@service Secrets_Manager use_response_type=true
 
 include("totp.jl")
 

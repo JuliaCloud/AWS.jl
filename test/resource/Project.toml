@@ -8,4 +8,4 @@ SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 [compat]
 AWS = "1.88"
 CodecBase = "0.3"
-JSON = "0.21"
+JSON = "1"
