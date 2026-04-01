@@ -240,9 +240,6 @@ function _smithy_to_legacy_structure(shape::AbstractDict)
         elseif haskey(member_traits, "smithy.api#httpQuery")
             legacy_member["location"] = "querystring"
             legacy_member["locationName"] = member_traits["smithy.api#httpQuery"]
-        elseif haskey(member_traits, "smithy.api#xmlName")
-            legacy_member["location"] = ""
-            legacy_member["locationName"] = member_traits["smithy.api#xmlName"]
         else
             legacy_member["location"] = ""
         end

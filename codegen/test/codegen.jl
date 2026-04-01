@@ -251,6 +251,27 @@ end
         result = _smithy_to_legacy_shape(shape)
         @test result["member"]["locationName"] == "item"
     end
+
+    @testset "struct member with xmlName does not set locationName" begin
+        # xmlName is for XML serialization only. For JSON protocol services (e.g. SQS),
+        # using xmlName as the locationName would produce the wrong JSON key in requests.
+        shape = Dict(
+            "type" => "structure",
+            "members" => Dict(
+                "Entries" => Dict(
+                    "target" => "smithy.api#String",
+                    "traits" => Dict(
+                        "smithy.api#xmlName" => "DeleteMessageBatchRequestEntry",
+                        "smithy.api#xmlFlattened" => Dict(),
+                    ),
+                ),
+            ),
+        )
+        result = _smithy_to_legacy_shape(shape)
+        m = result["members"]["Entries"]
+        @test m["location"] == ""
+        @test !haskey(m, "locationName")
+    end
 end
 
 @testset "_generate_low_level_definitions" begin
