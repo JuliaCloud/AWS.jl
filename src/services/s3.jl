@@ -270,7 +270,7 @@ The following operations are related to `CompleteMultipartUpload`:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CompleteMultipartUpload"`: The container for the multipart upload request information.
+- `"MultipartUpload"`: The container for the multipart upload request information.
 
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify that
   the data received is the same data that was originally sent. This header specifies the
