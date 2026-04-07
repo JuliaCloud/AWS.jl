@@ -99,6 +99,7 @@ Submit the request to AWS.
 function submit_request(aws::AbstractAWSConfig, request::Request; return_headers=nothing)
     aws_response = nothing
     TOO_MANY_REQUESTS = 429
+    REQUEST_TIME_TOO_SKEWED = "RequestTimeTooSkewed"
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
     REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
     THROTTLING_ERROR_CODES = [
@@ -189,6 +190,12 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
                 ),
             )
         end
+
+        # https://github.com/JuliaCloud/AWS.jl/issues/496
+        if e.code == REQUEST_TIME_TOO_SKEWED
+            return true
+        end
+
         return false
     end
 
