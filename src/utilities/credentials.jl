@@ -158,13 +158,6 @@ function _aws_get_profile(; default="default")
 end
 
 """
-Check if credentials will expire within 5 minutes
-"""
-function _will_expire(aws_creds::AWSCredentials)
-    return aws_creds.expiry - now(UTC) <= Minute(5)
-end
-
-"""
 Retrieve the EC2 meta data from the local AWS endpoint. Return the EC2 metadata request
 body, or `nothing` if not running on an EC2 instance.
 """
