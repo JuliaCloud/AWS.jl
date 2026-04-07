@@ -5,8 +5,8 @@ using AWS.AWSServices: synthetics
 using AWS.UUIDs: uuid4
 
 """
-    associate_resource(resource_arn, group_identifier)
-    associate_resource(resource_arn, group_identifier, params::Dict{String,<:Any})
+    associate_resource(group_identifier, resource_arn)
+    associate_resource(group_identifier, resource_arn, params::Dict{String,<:Any})
 
 Associates a canary with a group. Using groups can help you with managing and automating
 your canaries, and you can also view aggregated run results and statistics for all canaries
@@ -16,18 +16,18 @@ You must run this operation in the Region where the canary exists.
 
 # Arguments
 
-- `resource_arn`: The ARN of the canary that you want to associate with the specified group.
 - `group_identifier`: Specifies the group. You can specify the group name, the ARN, or the
   group ID as the `GroupIdentifier`.
+- `resource_arn`: The ARN of the canary that you want to associate with the specified group.
 """
 function associate_resource end
 
 function associate_resource(
-    ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+    GroupIdentifier, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
         "PATCH",
-        "/group/$(groupIdentifier)/associate",
+        "/group/$(GroupIdentifier)/associate",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -35,14 +35,14 @@ function associate_resource(
 end
 
 function associate_resource(
+    GroupIdentifier,
     ResourceArn,
-    groupIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "PATCH",
-        "/group/$(groupIdentifier)/associate",
+        "/group/$(GroupIdentifier)/associate",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
@@ -300,17 +300,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_canary end
 
-function delete_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_canary(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "DELETE", "/canary/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/canary/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "DELETE", "/canary/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/canary/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -331,20 +331,20 @@ must be made from its home Region. You can find the home Region of a group withi
 """
 function delete_group end
 
-function delete_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_group(GroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "DELETE", "/group/$(groupIdentifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/group/$(GroupIdentifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_group(
-    groupIdentifier,
+    GroupIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "DELETE",
-        "/group/$(groupIdentifier)",
+        "/group/$(GroupIdentifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -492,26 +492,26 @@ function describe_runtime_versions(
 end
 
 """
-    disassociate_resource(resource_arn, group_identifier)
-    disassociate_resource(resource_arn, group_identifier, params::Dict{String,<:Any})
+    disassociate_resource(group_identifier, resource_arn)
+    disassociate_resource(group_identifier, resource_arn, params::Dict{String,<:Any})
 
 Removes a canary from a group. You must run this operation in the Region where the canary
 exists.
 
 # Arguments
 
-- `resource_arn`: The ARN of the canary that you want to remove from the specified group.
 - `group_identifier`: Specifies the group. You can specify the group name, the ARN, or the
   group ID as the `GroupIdentifier`.
+- `resource_arn`: The ARN of the canary that you want to remove from the specified group.
 """
 function disassociate_resource end
 
 function disassociate_resource(
-    ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+    GroupIdentifier, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
         "PATCH",
-        "/group/$(groupIdentifier)/disassociate",
+        "/group/$(GroupIdentifier)/disassociate",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -519,14 +519,14 @@ function disassociate_resource(
 end
 
 function disassociate_resource(
+    GroupIdentifier,
     ResourceArn,
-    groupIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "PATCH",
-        "/group/$(groupIdentifier)/disassociate",
+        "/group/$(GroupIdentifier)/disassociate",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
@@ -548,15 +548,15 @@ that you want. To get a list of canaries and their names, use [DescribeCanaries]
 """
 function get_canary end
 
-function get_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return synthetics("GET", "/canary/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_canary(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return synthetics("GET", "/canary/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "GET", "/canary/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/canary/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -581,17 +581,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function get_canary_runs end
 
-function get_canary_runs(name; aws_config::AbstractAWSConfig=current_aws_config())
+function get_canary_runs(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "POST", "/canary/$(name)/runs"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/runs"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_canary_runs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "POST", "/canary/$(name)/runs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/runs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -609,20 +609,20 @@ operation from any Region.
 """
 function get_group end
 
-function get_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+function get_group(GroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "GET", "/group/$(groupIdentifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/group/$(GroupIdentifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_group(
-    groupIdentifier,
+    GroupIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "GET",
-        "/group/$(groupIdentifier)",
+        "/group/$(GroupIdentifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -653,24 +653,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_associated_groups end
 
 function list_associated_groups(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
         "POST",
-        "/resource/$(resourceArn)/groups";
+        "/resource/$(ResourceArn)/groups";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_associated_groups(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "POST",
-        "/resource/$(resourceArn)/groups",
+        "/resource/$(ResourceArn)/groups",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -702,24 +702,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_group_resources end
 
 function list_group_resources(
-    groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+    GroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
         "POST",
-        "/group/$(groupIdentifier)/resources";
+        "/group/$(GroupIdentifier)/resources";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_group_resources(
-    groupIdentifier,
+    GroupIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "POST",
-        "/group/$(groupIdentifier)/resources",
+        "/group/$(GroupIdentifier)/resources",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -774,20 +774,20 @@ Displays the tags associated with a canary or group.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
-        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -805,17 +805,17 @@ schedule, use [GetCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/AP
 """
 function start_canary end
 
-function start_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
+function start_canary(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "POST", "/canary/$(name)/start"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/start"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function start_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "POST", "/canary/$(name)/start", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/start", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -837,23 +837,23 @@ any point in the future.
 """
 function stop_canary end
 
-function stop_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
+function stop_canary(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "POST", "/canary/$(name)/stop"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/stop"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function stop_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "POST", "/canary/$(name)/stop", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/canary/$(Name)/stop", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns one or more tags (key-value pairs) to the specified canary or group.
 
@@ -873,21 +873,21 @@ You can associate as many as 50 tags with a canary or group.
 
 # Arguments
 
-- `tags`: The list of key-value pairs to associate with the resource.
-
 - `resource_arn`: The ARN of the canary or group that you're adding tags to.
 
   The ARN format of a canary is
   `arn:aws:synthetics:*Region*:*account-id*:canary:*canary-name*`.
 
   The ARN format of a group is `arn:aws:synthetics:*Region*:*account-id*:group:*group-name*`
+
+- `tags`: The list of key-value pairs to associate with the resource.
 """
 function tag_resource end
 
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -895,14 +895,14 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
 end
 
 function tag_resource(
+    ResourceArn,
     Tags,
-    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -929,11 +929,11 @@ Removes one or more tags from the specified resource.
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -941,14 +941,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return synthetics(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1033,16 +1033,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_canary end
 
-function update_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
+function update_canary(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
-        "PATCH", "/canary/$(name)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/canary/$(Name)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return synthetics(
-        "PATCH", "/canary/$(name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/canary/$(Name)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

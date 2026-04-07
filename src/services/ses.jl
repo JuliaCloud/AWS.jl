@@ -2117,8 +2117,8 @@ function send_bounce(
 end
 
 """
-    send_bulk_templated_email(default_template_data, destinations, source, template)
-    send_bulk_templated_email(default_template_data, destinations, source, template, params::Dict{String,<:Any})
+    send_bulk_templated_email(destinations, source, template)
+    send_bulk_templated_email(destinations, source, template, params::Dict{String,<:Any})
 
 Composes an email message to multiple destinations. The message body is created using an
 email template.
@@ -2139,13 +2139,6 @@ To send email using this operation, your call must meet the following requiremen
 - The number of destinations you can contact in a single call can be limited by your account's maximum sending rate.
 
 # Arguments
-
-- `default_template_data`: A list of replacement values to apply to the template when
-  replacement data is not specified in a Destination object. These values act as a default
-  or fallback option when no other data is available.
-
-  The template data is a JSON object, typically consisting of key-value pairs in which the
-  keys correspond to replacement tags in the email template.
 
 - `destinations`: One or more `Destination` objects. All of the recipients in a
   `Destination` receive the same version of the email. You can specify up to 50
@@ -2180,6 +2173,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultTags"`: A list of tags, in the form of name/value pairs, to apply to an email
   that you send to a destination using `SendBulkTemplatedEmail`.
+
+- `"DefaultTemplateData"`: A list of replacement values to apply to the template when
+  replacement data is not specified in a Destination object. These values act as a default
+  or fallback option when no other data is available.
+
+  The template data is a JSON object, typically consisting of key-value pairs in which the
+  keys correspond to replacement tags in the email template.
 
 - `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
   replies to the message, each reply-to address receives the reply.
@@ -2220,19 +2220,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function send_bulk_templated_email end
 
 function send_bulk_templated_email(
-    DefaultTemplateData,
-    Destinations,
-    Source,
-    Template;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    Destinations, Source, Template; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ses(
         "SendBulkTemplatedEmail",
         Dict{String,Any}(
-            "DefaultTemplateData" => DefaultTemplateData,
-            "Destinations" => Destinations,
-            "Source" => Source,
-            "Template" => Template,
+            "Destinations" => Destinations, "Source" => Source, "Template" => Template
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2240,7 +2233,6 @@ function send_bulk_templated_email(
 end
 
 function send_bulk_templated_email(
-    DefaultTemplateData,
     Destinations,
     Source,
     Template,
@@ -2253,7 +2245,6 @@ function send_bulk_templated_email(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "DefaultTemplateData" => DefaultTemplateData,
                     "Destinations" => Destinations,
                     "Source" => Source,
                     "Template" => Template,
@@ -2540,8 +2531,7 @@ in the *Amazon SES Developer Guide.*
     information, see [Sending Raw Email](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html)
     in the *Amazon SES Developer Guide*.
   - Per [RFC 5321](https://tools.ietf.org/html/rfc5321#section-4.5.3.1.6), the maximum
-    length of each line of text, including the &lt;CRLF&gt;, must not exceed 1,000
-    characters.
+    length of each line of text, including the <CRLF>, must not exceed 1,000 characters.
 
 # Optional Parameters
 

@@ -322,7 +322,7 @@ function list_tags_for_resource end
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "GET",
-        "/2022-01-01/osis/listTagsForResource/",
+        "/2022-01-01/osis/listTagsForResource",
         Dict{String,Any}("arn" => arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -334,7 +334,7 @@ function list_tags_for_resource(
 )
     return osis(
         "GET",
-        "/2022-01-01/osis/listTagsForResource/",
+        "/2022-01-01/osis/listTagsForResource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -427,7 +427,7 @@ function tag_resource end
 function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "POST",
-        "/2022-01-01/osis/tagResource/",
+        "/2022-01-01/osis/tagResource",
         Dict{String,Any}("Tags" => Tags, "arn" => arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -442,7 +442,7 @@ function tag_resource(
 )
     return osis(
         "POST",
-        "/2022-01-01/osis/tagResource/",
+        "/2022-01-01/osis/tagResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Tags" => Tags, "arn" => arn), params)
         );
@@ -467,7 +467,7 @@ function untag_resource end
 function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
         "POST",
-        "/2022-01-01/osis/untagResource/",
+        "/2022-01-01/osis/untagResource",
         Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -482,7 +482,7 @@ function untag_resource(
 )
     return osis(
         "POST",
-        "/2022-01-01/osis/untagResource/",
+        "/2022-01-01/osis/untagResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys, "arn" => arn), params)
         );

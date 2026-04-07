@@ -820,9 +820,8 @@ token doesn't exist, `CreateFileSystem` does the following:
 - `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
   from. For Windows and ONTAP `MULTI_AZ_1` deployment types,provide exactly two subnet IDs,
   one for the preferred file server and one for the standby file server. You specify one of
-  these subnets as the preferred subnet using the
-  `WindowsConfiguration &gt; PreferredSubnetID` or
-  `OntapConfiguration &gt; PreferredSubnetID` properties. For more information about Multi-
+  these subnets as the preferred subnet using the `WindowsConfiguration > PreferredSubnetID`
+  or `OntapConfiguration > PreferredSubnetID` properties. For more information about Multi-
   AZ file system configuration, see [Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html)
   in the *Amazon FSx for Windows User Guide* and [Availability and durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html)
   in the *Amazon FSx for ONTAP User Guide*.
@@ -978,7 +977,7 @@ message as long as the parameters are the same.
   from. For Windows `MULTI_AZ_1` file system deployment types, provide exactly two subnet
   IDs, one for the preferred file server and one for the standby file server. You specify
   one of these subnets as the preferred subnet using the
-  `WindowsConfiguration &gt; PreferredSubnetID` property.
+  `WindowsConfiguration > PreferredSubnetID` property.
 
   Windows `SINGLE_AZ_1` and `SINGLE_AZ_2` file system deployment types, Lustre file systems,
   and OpenZFS file systems provide exactly one subnet ID. The file server is launched in

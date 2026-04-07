@@ -1616,9 +1616,9 @@ end
     register_stream_consumer(consumer_name, stream_arn, params::Dict{String,<:Any})
 
 Registers a consumer with a Kinesis data stream. When you use this operation, the consumer
-you register can then call `SubscribeToShard` to receive data from the stream using enhanced
-fan-out, at a rate of up to 2 MiB per second for every shard you subscribe to. This rate is
-unaffected by the total number of consumers that read from the same stream.
+you register can then call [`subscribe_to_shard`](@ref) to receive data from the stream
+using enhanced fan-out, at a rate of up to 2 MiB per second for every shard you subscribe
+to. This rate is unaffected by the total number of consumers that read from the same stream.
 
 You can register up to 20 consumers per stream. A given consumer can only be registered with
 one stream at a time.
@@ -2001,6 +2001,87 @@ function stop_stream_encryption(
 end
 
 """
+    subscribe_to_shard(consumer_arn, shard_id, starting_position)
+    subscribe_to_shard(consumer_arn, shard_id, starting_position, params::Dict{String,<:Any})
+
+This operation establishes an HTTP/2 connection between the consumer you specify in the
+`ConsumerARN` parameter and the shard you specify in the `ShardId` parameter. After the
+connection is successfully established, Kinesis Data Streams pushes records from the shard
+to the consumer over this connection. Before you call this operation, call [`register_stream_consumer`](@ref)
+to register the consumer with Kinesis Data Streams.
+
+When the `SubscribeToShard` call succeeds, your consumer starts receiving events of type
+`SubscribeToShardEvent` over the HTTP/2 connection for up to 5 minutes, after which time you
+need to call `SubscribeToShard` again to renew the subscription if you want to continue to
+receive records.
+
+You can make one call to `SubscribeToShard` per second per registered consumer per shard.
+For example, if you have a 4000 shard stream and two registered stream consumers, you can
+make one `SubscribeToShard` request per second for each combination of shard and registered
+consumer, allowing you to subscribe both consumers to all 4000 shards in one second.
+
+If you call `SubscribeToShard` again with the same `ConsumerARN` and `ShardId` within 5
+seconds of a successful call, you'll get a `ResourceInUseException`. If you call
+`SubscribeToShard` 5 seconds or more after a successful call, the second call takes over the
+subscription and the previous connection expires or fails with a `ResourceInUseException`.
+
+For an example of how to use this operations, see [Enhanced Fan-Out Using the Kinesis Data Streams API](https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html).
+
+# Arguments
+
+- `consumer_arn`: For this parameter, use the value you obtained when you called
+  `RegisterStreamConsumer`.
+- `shard_id`: The ID of the shard you want to subscribe to. To see a list of all the shards
+  for a given stream, use `ListShards`.
+- `starting_position`: The starting position in the data stream from which to start
+  streaming.
+"""
+function subscribe_to_shard end
+
+function subscribe_to_shard(
+    ConsumerARN,
+    ShardId,
+    StartingPosition;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "SubscribeToShard",
+        Dict{String,Any}(
+            "ConsumerARN" => ConsumerARN,
+            "ShardId" => ShardId,
+            "StartingPosition" => StartingPosition,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function subscribe_to_shard(
+    ConsumerARN,
+    ShardId,
+    StartingPosition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis(
+        "SubscribeToShard",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConsumerARN" => ConsumerARN,
+                    "ShardId" => ShardId,
+                    "StartingPosition" => StartingPosition,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_shard_count(scaling_type, target_shard_count)
     update_shard_count(scaling_type, target_shard_count, params::Dict{String,<:Any})
 
@@ -2042,7 +2123,7 @@ This operation has the following default limits. By default, you cannot do the f
 
 For the default limits for an Amazon Web Services account, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
 in the *Amazon Kinesis Data Streams Developer Guide*. To request an increase in the call
-rate limit, the shard limit for this API, or your overall shard limit, use the [limits form](https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&amp;limitType=service-code-kinesis).
+rate limit, the shard limit for this API, or your overall shard limit, use the [limits form](https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis).
 
 # Arguments
 

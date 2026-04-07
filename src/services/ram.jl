@@ -289,9 +289,9 @@ operation.
 - `resource_type`: Specifies the name of the resource type that this customer managed
   permission applies to.
 
-  The format is `*&lt;service-code&gt;*:*&lt;resource-type&gt;*` and is not case sensitive.
-  For example, to specify an Amazon EC2 Subnet, you can use the string `ec2:subnet`. To see
-  the list of valid values for this parameter, query the `ListResourceTypes` operation.
+  The format is `*<service-code>*:*<resource-type>*` and is not case sensitive. For example,
+  to specify an Amazon EC2 Subnet, you can use the string `ec2:subnet`. To see the list of
+  valid values for this parameter, query the `ListResourceTypes` operation.
 
 # Optional Parameters
 
@@ -996,14 +996,14 @@ function get_permission(
 end
 
 """
-    get_resource_policies(resource_arns)
-    get_resource_policies(resource_arns, params::Dict{String,<:Any})
+    get_resource_policies(item)
+    get_resource_policies(item, params::Dict{String,<:Any})
 
 Retrieves the resource policies for the specified resources that you own and have shared.
 
 # Arguments
 
-- `resource_arns`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+- `item`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the resources whose policies you want to retrieve.
 
 # Optional Parameters
@@ -1025,32 +1025,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` response to request the next page of results.
 
 - `"principal"`: Specifies the principal.
+
+- `"resourceArns"`: Specifies the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the resources whose policies you want to retrieve.
 """
 function get_resource_policies end
 
-function get_resource_policies(
-    resourceArns; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function get_resource_policies(item; aws_config::AbstractAWSConfig=current_aws_config())
     return ram(
         "POST",
         "/getresourcepolicies",
-        Dict{String,Any}("resourceArns" => resourceArns);
+        Dict{String,Any}("item" => item);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_resource_policies(
-    resourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ram(
         "POST",
         "/getresourcepolicies",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArns" => resourceArns), params)
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("item" => item), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

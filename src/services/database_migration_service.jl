@@ -5,8 +5,8 @@ using AWS.AWSServices: database_migration_service
 using AWS.UUIDs: uuid4
 
 """
-    add_tags_to_resource(resource_arn, tags)
-    add_tags_to_resource(resource_arn, tags, params::Dict{String,<:Any})
+    add_tags_to_resource(resource_arn, tag)
+    add_tags_to_resource(resource_arn, tag, params::Dict{String,<:Any})
 
 Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet
 group, and migration task. These tags can also be used with cost allocation reporting to
@@ -21,16 +21,22 @@ data type description.
 
   For DMS, you can tag a replication instance, an endpoint, or a replication task.
 
-- `tags`: One or more tags to be assigned to the resource.
+- `tag`: One or more tags to be assigned to the resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: One or more tags to be assigned to the resource.
 """
 function add_tags_to_resource end
 
 function add_tags_to_resource(
-    ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, Tag; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return database_migration_service(
         "AddTagsToResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tag" => Tag);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -38,7 +44,7 @@ end
 
 function add_tags_to_resource(
     ResourceArn,
-    Tags,
+    Tag,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -46,9 +52,7 @@ function add_tags_to_resource(
         "AddTagsToResource",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
+                _merge, Dict{String,Any}("ResourceArn" => ResourceArn, "Tag" => Tag), params
             ),
         );
         aws_config,
@@ -1036,8 +1040,8 @@ function create_replication_instance(
 end
 
 """
-    create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_ids)
-    create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_ids, params::Dict{String,<:Any})
+    create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_identifier)
+    create_replication_subnet_group(replication_subnet_group_description, replication_subnet_group_identifier, subnet_identifier, params::Dict{String,<:Any})
 
 Creates a replication subnet group given a list of the subnet IDs in a VPC.
 
@@ -1064,12 +1068,13 @@ Next, choose Delete from Actions.
 
   Example: `mySubnetgroup`
 
-- `subnet_ids`: Two or more subnet IDs to be assigned to the subnet group.
+- `subnet_identifier`: Two or more subnet IDs to be assigned to the subnet group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"SubnetIds"`: Two or more subnet IDs to be assigned to the subnet group.
 - `"Tags"`: One or more tags to be assigned to the subnet group.
 """
 function create_replication_subnet_group end
@@ -1077,7 +1082,7 @@ function create_replication_subnet_group end
 function create_replication_subnet_group(
     ReplicationSubnetGroupDescription,
     ReplicationSubnetGroupIdentifier,
-    SubnetIds;
+    SubnetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return database_migration_service(
@@ -1085,7 +1090,7 @@ function create_replication_subnet_group(
         Dict{String,Any}(
             "ReplicationSubnetGroupDescription" => ReplicationSubnetGroupDescription,
             "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
-            "SubnetIds" => SubnetIds,
+            "SubnetIdentifier" => SubnetIdentifier,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1095,7 +1100,7 @@ end
 function create_replication_subnet_group(
     ReplicationSubnetGroupDescription,
     ReplicationSubnetGroupIdentifier,
-    SubnetIds,
+    SubnetIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1108,7 +1113,7 @@ function create_replication_subnet_group(
                     "ReplicationSubnetGroupDescription" =>
                         ReplicationSubnetGroupDescription,
                     "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
-                    "SubnetIds" => SubnetIds,
+                    "SubnetIdentifier" => SubnetIdentifier,
                 ),
                 params,
             ),
@@ -4820,15 +4825,15 @@ function modify_replication_instance(
 end
 
 """
-    modify_replication_subnet_group(replication_subnet_group_identifier, subnet_ids)
-    modify_replication_subnet_group(replication_subnet_group_identifier, subnet_ids, params::Dict{String,<:Any})
+    modify_replication_subnet_group(replication_subnet_group_identifier, subnet_identifier)
+    modify_replication_subnet_group(replication_subnet_group_identifier, subnet_identifier, params::Dict{String,<:Any})
 
 Modifies the settings for the specified replication subnet group.
 
 # Arguments
 
 - `replication_subnet_group_identifier`: The name of the replication instance subnet group.
-- `subnet_ids`: A list of subnet IDs.
+- `subnet_identifier`: A list of subnet IDs.
 
 # Optional Parameters
 
@@ -4836,19 +4841,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ReplicationSubnetGroupDescription"`: A description for the replication instance subnet
   group.
+- `"SubnetIds"`: A list of subnet IDs.
 """
 function modify_replication_subnet_group end
 
 function modify_replication_subnet_group(
     ReplicationSubnetGroupIdentifier,
-    SubnetIds;
+    SubnetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return database_migration_service(
         "ModifyReplicationSubnetGroup",
         Dict{String,Any}(
             "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
-            "SubnetIds" => SubnetIds,
+            "SubnetIdentifier" => SubnetIdentifier,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4857,7 +4863,7 @@ end
 
 function modify_replication_subnet_group(
     ReplicationSubnetGroupIdentifier,
-    SubnetIds,
+    SubnetIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -4868,7 +4874,7 @@ function modify_replication_subnet_group(
                 _merge,
                 Dict{String,Any}(
                     "ReplicationSubnetGroupIdentifier" => ReplicationSubnetGroupIdentifier,
-                    "SubnetIds" => SubnetIds,
+                    "SubnetIdentifier" => SubnetIdentifier,
                 ),
                 params,
             ),

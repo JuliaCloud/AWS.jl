@@ -15,14 +15,6 @@ Copy an image set.
 - `copy_image_set_information`: Copy image set information.
 - `datastore_id`: The data store identifier.
 - `source_image_set_id`: The source image set identifier.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"force"`: Setting this flag will force the `CopyImageSet` operation, even if Patient,
-  Study, or Series level metadata are mismatched across the `sourceImageSet` and
-  `destinationImageSet`.
 """
 function copy_image_set end
 
@@ -781,16 +773,6 @@ Update image set metadata attributes.
 - `image_set_id`: The image set identifier.
 - `latest_version`: The latest image set version identifier.
 - `update_image_set_metadata_updates`: Update image set metadata updates.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
-  following attributes:
-
-  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and `Tag.StudyID`
-  - Adding, removing, or updating private tags for an individual SOP Instance
 """
 function update_image_set_metadata end
 

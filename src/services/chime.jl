@@ -5,25 +5,25 @@ using AWS.AWSServices: chime
 using AWS.UUIDs: uuid4
 
 """
-    associate_phone_number_with_user(e164_phone_number, account_id, user_id)
-    associate_phone_number_with_user(e164_phone_number, account_id, user_id, params::Dict{String,<:Any})
+    associate_phone_number_with_user(account_id, e164_phone_number, user_id)
+    associate_phone_number_with_user(account_id, e164_phone_number, user_id, params::Dict{String,<:Any})
 
 Associates a phone number with the specified Amazon Chime user.
 
 # Arguments
 
-- `e164_phone_number`: The phone number, in E.164 format.
 - `account_id`: The Amazon Chime account ID.
+- `e164_phone_number`: The phone number, in E.164 format.
 - `user_id`: The user ID.
 """
 function associate_phone_number_with_user end
 
 function associate_phone_number_with_user(
-    E164PhoneNumber, accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, E164PhoneNumber, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number",
+        "/accounts/$(AccountId)/users/$(UserId)?operation=associate-phone-number",
         Dict{String,Any}("E164PhoneNumber" => E164PhoneNumber);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -31,15 +31,15 @@ function associate_phone_number_with_user(
 end
 
 function associate_phone_number_with_user(
+    AccountId,
     E164PhoneNumber,
-    accountId,
-    userId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number",
+        "/accounts/$(AccountId)/users/$(UserId)?operation=associate-phone-number",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumber" => E164PhoneNumber), params
@@ -81,11 +81,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_phone_numbers_with_voice_connector end
 
 function associate_phone_numbers_with_voice_connector(
-    E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    E164PhoneNumbers, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -94,13 +94,13 @@ end
 
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=associate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -143,12 +143,12 @@ function associate_phone_numbers_with_voice_connector_group end
 
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -157,13 +157,13 @@ end
 
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=associate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -175,24 +175,24 @@ function associate_phone_numbers_with_voice_connector_group(
 end
 
 """
-    associate_signin_delegate_groups_with_account(signin_delegate_groups, account_id)
-    associate_signin_delegate_groups_with_account(signin_delegate_groups, account_id, params::Dict{String,<:Any})
+    associate_signin_delegate_groups_with_account(account_id, signin_delegate_groups)
+    associate_signin_delegate_groups_with_account(account_id, signin_delegate_groups, params::Dict{String,<:Any})
 
 Associates the specified sign-in delegate groups with the specified Amazon Chime account.
 
 # Arguments
 
-- `signin_delegate_groups`: The sign-in delegate groups.
 - `account_id`: The Amazon Chime account ID.
+- `signin_delegate_groups`: The sign-in delegate groups.
 """
 function associate_signin_delegate_groups_with_account end
 
 function associate_signin_delegate_groups_with_account(
-    SigninDelegateGroups, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, SigninDelegateGroups; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)?operation=associate-signin-delegate-groups",
+        "/accounts/$(AccountId)?operation=associate-signin-delegate-groups",
         Dict{String,Any}("SigninDelegateGroups" => SigninDelegateGroups);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -200,14 +200,14 @@ function associate_signin_delegate_groups_with_account(
 end
 
 function associate_signin_delegate_groups_with_account(
+    AccountId,
     SigninDelegateGroups,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)?operation=associate-signin-delegate-groups",
+        "/accounts/$(AccountId)?operation=associate-signin-delegate-groups",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -246,11 +246,11 @@ in the *Amazon Chime SDK Developer Guide*.
 function batch_create_attendee end
 
 function batch_create_attendee(
-    Attendees, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    Attendees, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees?operation=batch-create",
+        "/meetings/$(MeetingId)/attendees?operation=batch-create",
         Dict{String,Any}("Attendees" => Attendees);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -259,13 +259,13 @@ end
 
 function batch_create_attendee(
     Attendees,
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees?operation=batch-create",
+        "/meetings/$(MeetingId)/attendees?operation=batch-create",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Attendees" => Attendees), params)
         );
@@ -275,8 +275,8 @@ function batch_create_attendee(
 end
 
 """
-    batch_create_channel_membership(member_arns, channel_arn)
-    batch_create_channel_membership(member_arns, channel_arn, params::Dict{String,<:Any})
+    batch_create_channel_membership(channel_arn, member_arns)
+    batch_create_channel_membership(channel_arn, member_arns, params::Dict{String,<:Any})
 
 Adds a specified number of users to a channel.
 
@@ -291,8 +291,8 @@ Adds a specified number of users to a channel.
 
 # Arguments
 
-- `member_arns`: The ARNs of the members you want to add to the channel.
 - `channel_arn`: The ARN of the channel to which you're adding users.
+- `member_arns`: The ARNs of the members you want to add to the channel.
 
 # Optional Parameters
 
@@ -307,11 +307,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function batch_create_channel_membership end
 
 function batch_create_channel_membership(
-    MemberArns, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/memberships?operation=batch-create",
+        "/channels/$(ChannelArn)/memberships?operation=batch-create",
         Dict{String,Any}("MemberArns" => MemberArns);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -319,14 +319,14 @@ function batch_create_channel_membership(
 end
 
 function batch_create_channel_membership(
+    ChannelArn,
     MemberArns,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/memberships?operation=batch-create",
+        "/channels/$(ChannelArn)/memberships?operation=batch-create",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MemberArns" => MemberArns), params)
         );
@@ -336,8 +336,8 @@ function batch_create_channel_membership(
 end
 
 """
-    batch_create_room_membership(membership_item_list, account_id, room_id)
-    batch_create_room_membership(membership_item_list, account_id, room_id, params::Dict{String,<:Any})
+    batch_create_room_membership(account_id, membership_item_list, room_id)
+    batch_create_room_membership(account_id, membership_item_list, room_id, params::Dict{String,<:Any})
 
 Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be
 users or bots. The member role designates whether the member is a chat room administrator or
@@ -345,21 +345,21 @@ a general chat room member.
 
 # Arguments
 
-- `membership_item_list`: The list of membership items.
 - `account_id`: The Amazon Chime account ID.
+- `membership_item_list`: The list of membership items.
 - `room_id`: The room ID.
 """
 function batch_create_room_membership end
 
 function batch_create_room_membership(
+    AccountId,
     MembershipItemList,
-    accountId,
-    roomId;
+    RoomId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships?operation=batch-create",
         Dict{String,Any}("MembershipItemList" => MembershipItemList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -367,15 +367,15 @@ function batch_create_room_membership(
 end
 
 function batch_create_room_membership(
+    AccountId,
     MembershipItemList,
-    accountId,
-    roomId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships?operation=batch-create",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("MembershipItemList" => MembershipItemList), params
@@ -431,8 +431,8 @@ function batch_delete_phone_number(
 end
 
 """
-    batch_suspend_user(user_id_list, account_id)
-    batch_suspend_user(user_id_list, account_id, params::Dict{String,<:Any})
+    batch_suspend_user(account_id, user_id_list)
+    batch_suspend_user(account_id, user_id_list, params::Dict{String,<:Any})
 
 Suspends up to 50 users from a `Team` or `EnterpriseLWA` Amazon Chime account. For more
 information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html)
@@ -451,17 +451,17 @@ To sign out users without suspending them, use the [`logout_user`](@ref) action.
 
 # Arguments
 
-- `user_id_list`: The request containing the user IDs to suspend.
 - `account_id`: The Amazon Chime account ID.
+- `user_id_list`: The request containing the user IDs to suspend.
 """
 function batch_suspend_user end
 
 function batch_suspend_user(
-    UserIdList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserIdList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=suspend",
+        "/accounts/$(AccountId)/users?operation=suspend",
         Dict{String,Any}("UserIdList" => UserIdList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -469,14 +469,14 @@ function batch_suspend_user(
 end
 
 function batch_suspend_user(
+    AccountId,
     UserIdList,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=suspend",
+        "/accounts/$(AccountId)/users?operation=suspend",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserIdList" => UserIdList), params)
         );
@@ -486,8 +486,8 @@ function batch_suspend_user(
 end
 
 """
-    batch_unsuspend_user(user_id_list, account_id)
-    batch_unsuspend_user(user_id_list, account_id, params::Dict{String,<:Any})
+    batch_unsuspend_user(account_id, user_id_list)
+    batch_unsuspend_user(account_id, user_id_list, params::Dict{String,<:Any})
 
 Removes the suspension from up to 50 previously suspended users for the specified Amazon
 Chime `EnterpriseLWA` account. Only users on `EnterpriseLWA` accounts can be unsuspended
@@ -499,17 +499,17 @@ Previously suspended users who are unsuspended using this action are returned to
 
 # Arguments
 
-- `user_id_list`: The request containing the user IDs to unsuspend.
 - `account_id`: The Amazon Chime account ID.
+- `user_id_list`: The request containing the user IDs to unsuspend.
 """
 function batch_unsuspend_user end
 
 function batch_unsuspend_user(
-    UserIdList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserIdList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=unsuspend",
+        "/accounts/$(AccountId)/users?operation=unsuspend",
         Dict{String,Any}("UserIdList" => UserIdList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -517,14 +517,14 @@ function batch_unsuspend_user(
 end
 
 function batch_unsuspend_user(
+    AccountId,
     UserIdList,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=unsuspend",
+        "/accounts/$(AccountId)/users?operation=unsuspend",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserIdList" => UserIdList), params)
         );
@@ -590,8 +590,8 @@ function batch_update_phone_number(
 end
 
 """
-    batch_update_user(update_user_request_items, account_id)
-    batch_update_user(update_user_request_items, account_id, params::Dict{String,<:Any})
+    batch_update_user(account_id, update_user_request_items)
+    batch_update_user(account_id, update_user_request_items, params::Dict{String,<:Any})
 
 Updates user details within the `UpdateUserRequestItem` object for up to 20 users for the
 specified Amazon Chime account. Currently, only `LicenseType` updates are supported for this
@@ -599,17 +599,17 @@ action.
 
 # Arguments
 
-- `update_user_request_items`: The request containing the user IDs and details to update.
 - `account_id`: The Amazon Chime account ID.
+- `update_user_request_items`: The request containing the user IDs and details to update.
 """
 function batch_update_user end
 
 function batch_update_user(
-    UpdateUserRequestItems, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UpdateUserRequestItems; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users",
+        "/accounts/$(AccountId)/users",
         Dict{String,Any}("UpdateUserRequestItems" => UpdateUserRequestItems);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -617,14 +617,14 @@ function batch_update_user(
 end
 
 function batch_update_user(
+    AccountId,
     UpdateUserRequestItems,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users",
+        "/accounts/$(AccountId)/users",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -769,11 +769,11 @@ Only an `AppInstanceUser` can be promoted to an `AppInstanceAdmin` role.
 function create_app_instance_admin end
 
 function create_app_instance_admin(
-    AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -782,13 +782,13 @@ end
 
 function create_app_instance_admin(
     AppInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -914,11 +914,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_attendee end
 
 function create_attendee(
-    ExternalUserId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees",
+        "/meetings/$(MeetingId)/attendees",
         Dict{String,Any}("ExternalUserId" => ExternalUserId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -927,13 +927,13 @@ end
 
 function create_attendee(
     ExternalUserId,
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees",
+        "/meetings/$(MeetingId)/attendees",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ExternalUserId" => ExternalUserId), params)
         );
@@ -943,15 +943,15 @@ function create_attendee(
 end
 
 """
-    create_bot(display_name, account_id)
-    create_bot(display_name, account_id, params::Dict{String,<:Any})
+    create_bot(account_id, display_name)
+    create_bot(account_id, display_name, params::Dict{String,<:Any})
 
 Creates a bot for an Amazon Chime Enterprise account.
 
 # Arguments
 
-- `display_name`: The bot display name.
 - `account_id`: The Amazon Chime account ID.
+- `display_name`: The bot display name.
 
 # Optional Parameters
 
@@ -962,11 +962,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_bot end
 
 function create_bot(
-    DisplayName, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, DisplayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots",
+        "/accounts/$(AccountId)/bots",
         Dict{String,Any}("DisplayName" => DisplayName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -974,14 +974,14 @@ function create_bot(
 end
 
 function create_bot(
+    AccountId,
     DisplayName,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots",
+        "/accounts/$(AccountId)/bots",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DisplayName" => DisplayName), params)
         );
@@ -1079,8 +1079,8 @@ function create_channel(
 end
 
 """
-    create_channel_ban(member_arn, channel_arn)
-    create_channel_ban(member_arn, channel_arn, params::Dict{String,<:Any})
+    create_channel_ban(channel_arn, member_arn)
+    create_channel_ban(channel_arn, member_arn, params::Dict{String,<:Any})
 
 Permanently bans a member from a channel. Moderators can't add banned members to a channel.
 To undo a ban, you first have to `DeleteChannelBan`, and then `CreateChannelMembership`.
@@ -1104,8 +1104,8 @@ the channel.
 
 # Arguments
 
-- `member_arn`: The ARN of the member being banned.
 - `channel_arn`: The ARN of the ban request.
+- `member_arn`: The ARN of the member being banned.
 
 # Optional Parameters
 
@@ -1116,11 +1116,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_channel_ban end
 
 function create_channel_ban(
-    MemberArn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/bans",
+        "/channels/$(ChannelArn)/bans",
         Dict{String,Any}("MemberArn" => MemberArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1128,14 +1128,14 @@ function create_channel_ban(
 end
 
 function create_channel_ban(
+    ChannelArn,
     MemberArn,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/bans",
+        "/channels/$(ChannelArn)/bans",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MemberArn" => MemberArn), params)
         );
@@ -1145,8 +1145,8 @@ function create_channel_ban(
 end
 
 """
-    create_channel_membership(member_arn, type, channel_arn)
-    create_channel_membership(member_arn, type, channel_arn, params::Dict{String,<:Any})
+    create_channel_membership(channel_arn, member_arn, type)
+    create_channel_membership(channel_arn, member_arn, type, params::Dict{String,<:Any})
 
 Adds a user to a channel. The `InvitedBy` response field is derived from the request header.
 A channel member can:
@@ -1178,12 +1178,12 @@ Privacy settings impact this action as follows:
 
 # Arguments
 
+- `channel_arn`: The ARN of the channel to which you're adding users.
 - `member_arn`: The ARN of the member you want to add to the channel.
 - `type`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
   returned as part of `ListChannelMemberships`. Hidden members are only returned if the type
   filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
   returned. This is only supported by moderators.
-- `channel_arn`: The ARN of the channel to which you're adding users.
 
 # Optional Parameters
 
@@ -1194,11 +1194,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_channel_membership end
 
 function create_channel_membership(
-    MemberArn, Type, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/memberships",
+        "/channels/$(ChannelArn)/memberships",
         Dict{String,Any}("MemberArn" => MemberArn, "Type" => Type);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1206,15 +1206,15 @@ function create_channel_membership(
 end
 
 function create_channel_membership(
+    ChannelArn,
     MemberArn,
     Type,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/memberships",
+        "/channels/$(ChannelArn)/memberships",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("MemberArn" => MemberArn, "Type" => Type), params
@@ -1226,8 +1226,8 @@ function create_channel_membership(
 end
 
 """
-    create_channel_moderator(channel_moderator_arn, channel_arn)
-    create_channel_moderator(channel_moderator_arn, channel_arn, params::Dict{String,<:Any})
+    create_channel_moderator(channel_arn, channel_moderator_arn)
+    create_channel_moderator(channel_arn, channel_moderator_arn, params::Dict{String,<:Any})
 
 Creates a new `ChannelModerator`. A channel moderator can:
 
@@ -1252,8 +1252,8 @@ Creates a new `ChannelModerator`. A channel moderator can:
 
 # Arguments
 
-- `channel_moderator_arn`: The ARN of the moderator.
 - `channel_arn`: The ARN of the channel.
+- `channel_moderator_arn`: The ARN of the moderator.
 
 # Optional Parameters
 
@@ -1264,11 +1264,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_channel_moderator end
 
 function create_channel_moderator(
-    ChannelModeratorArn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, ChannelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/moderators",
+        "/channels/$(ChannelArn)/moderators",
         Dict{String,Any}("ChannelModeratorArn" => ChannelModeratorArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1276,14 +1276,14 @@ function create_channel_moderator(
 end
 
 function create_channel_moderator(
+    ChannelArn,
     ChannelModeratorArn,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/moderators",
+        "/channels/$(ChannelArn)/moderators",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1459,8 +1459,8 @@ function create_meeting(
 end
 
 """
-    create_meeting_dial_out(from_phone_number, join_token, to_phone_number, meeting_id)
-    create_meeting_dial_out(from_phone_number, join_token, to_phone_number, meeting_id, params::Dict{String,<:Any})
+    create_meeting_dial_out(from_phone_number, join_token, meeting_id, to_phone_number)
+    create_meeting_dial_out(from_phone_number, join_token, meeting_id, to_phone_number, params::Dict{String,<:Any})
 
 Uses the join token and call metadata in a meeting request (From number, To number, and so
 forth) to initiate an outbound call to a public switched telephone network (PSTN) and join
@@ -1478,21 +1478,21 @@ To play welcome audio or implement an interactive voice response (IVR), use the
   call.
 - `join_token`: Token used by the Amazon Chime SDK attendee. Call the [CreateAttendee](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateAttendee.html)
   action to get a join token.
-- `to_phone_number`: Phone number called when inviting someone to a meeting.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
+- `to_phone_number`: Phone number called when inviting someone to a meeting.
 """
 function create_meeting_dial_out end
 
 function create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
-    ToPhoneNumber,
-    meetingId;
+    MeetingId,
+    ToPhoneNumber;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/dial-outs",
+        "/meetings/$(MeetingId)/dial-outs",
         Dict{String,Any}(
             "FromPhoneNumber" => FromPhoneNumber,
             "JoinToken" => JoinToken,
@@ -1506,14 +1506,14 @@ end
 function create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
+    MeetingId,
     ToPhoneNumber,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/dial-outs",
+        "/meetings/$(MeetingId)/dial-outs",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1700,12 +1700,12 @@ function create_proxy_session end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         Dict{String,Any}(
             "Capabilities" => Capabilities,
             "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
@@ -1718,13 +1718,13 @@ end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1741,15 +1741,15 @@ function create_proxy_session(
 end
 
 """
-    create_room(name, account_id)
-    create_room(name, account_id, params::Dict{String,<:Any})
+    create_room(account_id, name)
+    create_room(account_id, name, params::Dict{String,<:Any})
 
 Creates a chat room for the specified Amazon Chime Enterprise account.
 
 # Arguments
 
-- `name`: The room name.
 - `account_id`: The Amazon Chime account ID.
+- `name`: The room name.
 
 # Optional Parameters
 
@@ -1759,10 +1759,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_room end
 
-function create_room(Name, accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function create_room(AccountId, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms",
+        "/accounts/$(AccountId)/rooms",
         Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1770,14 +1770,14 @@ function create_room(Name, accountId; aws_config::AbstractAWSConfig=current_aws_
 end
 
 function create_room(
+    AccountId,
     Name,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms",
+        "/accounts/$(AccountId)/rooms",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1791,8 +1791,8 @@ function create_room(
 end
 
 """
-    create_room_membership(member_id, account_id, room_id)
-    create_room_membership(member_id, account_id, room_id, params::Dict{String,<:Any})
+    create_room_membership(account_id, member_id, room_id)
+    create_room_membership(account_id, member_id, room_id, params::Dict{String,<:Any})
 
 Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a
 user or a bot. The member role designates whether the member is a chat room administrator or
@@ -1800,8 +1800,8 @@ a general chat room member.
 
 # Arguments
 
-- `member_id`: The Amazon Chime member ID (user ID or bot ID).
 - `account_id`: The Amazon Chime account ID.
+- `member_id`: The Amazon Chime member ID (user ID or bot ID).
 - `room_id`: The room ID.
 
 # Optional Parameters
@@ -1813,11 +1813,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_room_membership end
 
 function create_room_membership(
-    MemberId, accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, MemberId, RoomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships",
         Dict{String,Any}("MemberId" => MemberId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1825,15 +1825,15 @@ function create_room_membership(
 end
 
 function create_room_membership(
+    AccountId,
     MemberId,
-    accountId,
-    roomId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MemberId" => MemberId), params)
         );
@@ -1905,8 +1905,8 @@ function create_sip_media_application(
 end
 
 """
-    create_sip_media_application_call(from_phone_number, to_phone_number, sip_media_application_id)
-    create_sip_media_application_call(from_phone_number, to_phone_number, sip_media_application_id, params::Dict{String,<:Any})
+    create_sip_media_application_call(from_phone_number, sip_media_application_id, to_phone_number)
+    create_sip_media_application_call(from_phone_number, sip_media_application_id, to_phone_number, params::Dict{String,<:Any})
 
 Creates an outbound call to a phone number from the phone number specified in the request,
 and it invokes the endpoint of the specified `sipMediaApplicationId`.
@@ -1924,8 +1924,8 @@ and it invokes the endpoint of the specified `sipMediaApplicationId`.
 
 - `from_phone_number`: The phone number that a user calls from. This is a phone number in
   your Amazon Chime phone number inventory.
-- `to_phone_number`: The phone number that the service should call.
 - `sip_media_application_id`: The ID of the SIP media application.
+- `to_phone_number`: The phone number that the service should call.
 
 # Optional Parameters
 
@@ -1937,13 +1937,13 @@ function create_sip_media_application_call end
 
 function create_sip_media_application_call(
     FromPhoneNumber,
-    ToPhoneNumber,
-    sipMediaApplicationId;
+    SipMediaApplicationId,
+    ToPhoneNumber;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls",
         Dict{String,Any}(
             "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
         );
@@ -1954,14 +1954,14 @@ end
 
 function create_sip_media_application_call(
     FromPhoneNumber,
+    SipMediaApplicationId,
     ToPhoneNumber,
-    sipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2087,23 +2087,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_user end
 
-function create_user(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function create_user(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=create";
+        "/accounts/$(AccountId)/users?operation=create";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_user(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=create",
+        "/accounts/$(AccountId)/users?operation=create",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2256,20 +2256,20 @@ After 90 days, deleted accounts are permanently removed from your `Disabled` acc
 """
 function delete_account end
 
-function delete_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_account(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "DELETE", "/accounts/$(accountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/accounts/$(AccountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_account(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)",
+        "/accounts/$(AccountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2298,24 +2298,24 @@ Deletes an `AppInstance` and all associated data asynchronously.
 function delete_app_instance end
 
 function delete_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)";
+        "/app-instances/$(AppInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2345,25 +2345,25 @@ Demotes an `AppInstanceAdmin` to an `AppInstanceUser`. This action does not dele
 function delete_app_instance_admin end
 
 function delete_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceAdminArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2392,24 +2392,24 @@ Deletes the streaming configurations of an `AppInstance`.
 function delete_app_instance_streaming_configurations end
 
 function delete_app_instance_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/streaming-configurations";
+        "/app-instances/$(AppInstanceArn)/streaming-configurations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_streaming_configurations(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        "/app-instances/$(AppInstanceArn)/streaming-configurations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2438,24 +2438,24 @@ Deletes an `AppInstanceUser`.
 function delete_app_instance_user end
 
 function delete_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)";
+        "/app-instance-users/$(AppInstanceUserArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_app_instance_user(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2488,25 +2488,25 @@ in the *Amazon Chime SDK Developer Guide*.
 function delete_attendee end
 
 function delete_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)";
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_attendee(
-    attendeeId,
-    meetingId,
+    AttendeeId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2545,20 +2545,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_channel end
 
-function delete_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_channel(ChannelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "DELETE", "/channels/$(channelArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/channels/$(ChannelArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_channel(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)",
+        "/channels/$(ChannelArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2598,25 +2598,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_channel_ban end
 
 function delete_channel_ban(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/bans/$(memberArn)";
+        "/channels/$(ChannelArn)/bans/$(MemberArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_channel_ban(
-    channelArn,
-    memberArn,
+    ChannelArn,
+    MemberArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/bans/$(memberArn)",
+        "/channels/$(ChannelArn)/bans/$(MemberArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2656,25 +2656,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_channel_membership end
 
 function delete_channel_membership(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/memberships/$(memberArn)";
+        "/channels/$(ChannelArn)/memberships/$(MemberArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_channel_membership(
-    channelArn,
-    memberArn,
+    ChannelArn,
+    MemberArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/memberships/$(memberArn)",
+        "/channels/$(ChannelArn)/memberships/$(MemberArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2716,25 +2716,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_channel_message end
 
 function delete_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/messages/$(messageId)";
+        "/channels/$(ChannelArn)/messages/$(MessageId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_channel_message(
-    channelArn,
-    messageId,
+    ChannelArn,
+    MessageId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/messages/$(messageId)",
+        "/channels/$(ChannelArn)/messages/$(MessageId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2774,25 +2774,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_channel_moderator end
 
 function delete_channel_moderator(
-    channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, ChannelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
+        "/channels/$(ChannelArn)/moderators/$(ChannelModeratorArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_channel_moderator(
-    channelArn,
-    channelModeratorArn,
+    ChannelArn,
+    ChannelModeratorArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+        "/channels/$(ChannelArn)/moderators/$(ChannelModeratorArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2813,25 +2813,25 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 function delete_events_configuration end
 
 function delete_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_events_configuration(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2860,24 +2860,24 @@ Deletes the media capture pipeline.
 function delete_media_capture_pipeline end
 
 function delete_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/media-capture-pipelines/$(mediaPipelineId)";
+        "/media-capture-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_media_capture_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/media-capture-pipelines/$(mediaPipelineId)",
+        "/media-capture-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2908,20 +2908,20 @@ in the *Amazon Chime SDK Developer Guide*.
 """
 function delete_meeting end
 
-function delete_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "DELETE", "/meetings/$(meetingId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/meetings/$(MeetingId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_meeting(
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/meetings/$(meetingId)",
+        "/meetings/$(MeetingId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2945,24 +2945,24 @@ permanently.
 function delete_phone_number end
 
 function delete_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2992,25 +2992,25 @@ Deletes the specified proxy session from the specified Amazon Chime Voice Connec
 function delete_proxy_session end
 
 function delete_proxy_session(
-    proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    ProxySessionId, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_proxy_session(
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3030,24 +3030,24 @@ Deletes a chat room in an Amazon Chime Enterprise account.
 """
 function delete_room end
 
-function delete_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_room(AccountId, RoomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)";
+        "/accounts/$(AccountId)/rooms/$(RoomId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_room(
-    accountId,
-    roomId,
+    AccountId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)",
+        "/accounts/$(AccountId)/rooms/$(RoomId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3069,26 +3069,26 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 function delete_room_membership end
 
 function delete_room_membership(
-    accountId, memberId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, MemberId, RoomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships/$(MemberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_room_membership(
-    accountId,
-    memberId,
-    roomId,
+    AccountId,
+    MemberId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships/$(MemberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3117,24 +3117,24 @@ Deletes a SIP media application.
 function delete_sip_media_application end
 
 function delete_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3162,20 +3162,20 @@ Deletes a SIP rule. You must disable a SIP rule before you can delete it.
 """
 function delete_sip_rule end
 
-function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_sip_rule(SipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "DELETE", "/sip-rules/$(sipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/sip-rules/$(SipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_sip_rule(
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3205,24 +3205,24 @@ Amazon Chime Voice Connector must be disassociated from it before it can be dele
 function delete_voice_connector end
 
 function delete_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)";
+        "/voice-connectors/$(VoiceConnectorId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3252,24 +3252,24 @@ Connector.
 function delete_voice_connector_emergency_calling_configuration end
 
 function delete_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_emergency_calling_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3299,24 +3299,24 @@ phone numbers associated with the group must be removed before it can be deleted
 function delete_voice_connector_group end
 
 function delete_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
+        "/voice-connector-groups/$(VoiceConnectorGroupId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_group(
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3349,24 +3349,24 @@ Deletes the origination settings for the specified Amazon Chime Voice Connector.
 function delete_voice_connector_origination end
 
 function delete_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination";
+        "/voice-connectors/$(VoiceConnectorId)/origination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_origination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3395,24 +3395,24 @@ Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
 function delete_voice_connector_proxy end
 
 function delete_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_proxy(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3441,24 +3441,24 @@ Deletes the streaming configuration for the specified Amazon Chime Voice Connect
 function delete_voice_connector_streaming_configuration end
 
 function delete_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_streaming_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3491,24 +3491,24 @@ Deletes the termination settings for the specified Amazon Chime Voice Connector.
 function delete_voice_connector_termination end
 
 function delete_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination";
+        "/voice-connectors/$(VoiceConnectorId)/termination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_termination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3540,11 +3540,11 @@ termination.
 function delete_voice_connector_termination_credentials end
 
 function delete_voice_connector_termination_credentials(
-    Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Usernames, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=delete",
         Dict{String,Any}("Usernames" => Usernames);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3553,13 +3553,13 @@ end
 
 function delete_voice_connector_termination_credentials(
     Usernames,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=delete",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Usernames" => Usernames), params)
         );
@@ -3590,24 +3590,24 @@ Returns the full details of an `AppInstance`.
 function describe_app_instance end
 
 function describe_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)";
+        "/app-instances/$(AppInstanceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3637,25 +3637,25 @@ Returns the full details of an `AppInstanceAdmin`.
 function describe_app_instance_admin end
 
 function describe_app_instance_admin(
-    appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceAdminArn, AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_admin(
-    appInstanceAdminArn,
-    appInstanceArn,
+    AppInstanceAdminArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
+        "/app-instances/$(AppInstanceArn)/admins/$(AppInstanceAdminArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3684,24 +3684,24 @@ Returns the full details of an `AppInstanceUser`.
 function describe_app_instance_user end
 
 function describe_app_instance_user(
-    appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)";
+        "/app-instance-users/$(AppInstanceUserArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_app_instance_user(
-    appInstanceUserArn,
+    AppInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3739,20 +3739,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function describe_channel end
 
-function describe_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_channel(ChannelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/channels/$(channelArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels/$(ChannelArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_channel(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)",
+        "/channels/$(ChannelArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3792,25 +3792,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_channel_ban end
 
 function describe_channel_ban(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/bans/$(memberArn)";
+        "/channels/$(ChannelArn)/bans/$(MemberArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_channel_ban(
-    channelArn,
-    memberArn,
+    ChannelArn,
+    MemberArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/bans/$(memberArn)",
+        "/channels/$(ChannelArn)/bans/$(MemberArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3850,25 +3850,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_channel_membership end
 
 function describe_channel_membership(
-    channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MemberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/memberships/$(memberArn)";
+        "/channels/$(ChannelArn)/memberships/$(MemberArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_channel_membership(
-    channelArn,
-    memberArn,
+    ChannelArn,
+    MemberArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/memberships/$(memberArn)",
+        "/channels/$(ChannelArn)/memberships/$(MemberArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3876,8 +3876,8 @@ function describe_channel_membership(
 end
 
 """
-    describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn)
-    describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, params::Dict{String,<:Any})
+    describe_channel_membership_for_app_instance_user(channel_arn, app-instance-user-arn)
+    describe_channel_membership_for_app_instance_user(channel_arn, app-instance-user-arn, params::Dict{String,<:Any})
 
 Returns the details of a channel based on the membership of the specified `AppInstanceUser`.
 
@@ -3896,8 +3896,8 @@ Returns the details of a channel based on the membership of the specified `AppIn
 
 # Arguments
 
-- `app-instance-user-arn`: The ARN of the user in a channel.
 - `channel_arn`: The ARN of the channel to which the user belongs.
+- `app-instance-user-arn`: The ARN of the user in a channel.
 
 # Optional Parameters
 
@@ -3908,11 +3908,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_channel_membership_for_app_instance_user end
 
 function describe_channel_membership_for_app_instance_user(
-    app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, app_instance_user_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-membership",
+        "/channels/$(ChannelArn)?scope=app-instance-user-membership",
         Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3920,14 +3920,14 @@ function describe_channel_membership_for_app_instance_user(
 end
 
 function describe_channel_membership_for_app_instance_user(
+    ChannelArn,
     app_instance_user_arn,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-membership",
+        "/channels/$(ChannelArn)?scope=app-instance-user-membership",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3941,8 +3941,8 @@ function describe_channel_membership_for_app_instance_user(
 end
 
 """
-    describe_channel_moderated_by_app_instance_user(app-instance-user-arn, channel_arn)
-    describe_channel_moderated_by_app_instance_user(app-instance-user-arn, channel_arn, params::Dict{String,<:Any})
+    describe_channel_moderated_by_app_instance_user(channel_arn, app-instance-user-arn)
+    describe_channel_moderated_by_app_instance_user(channel_arn, app-instance-user-arn, params::Dict{String,<:Any})
 
 Returns the full details of a channel moderated by the specified `AppInstanceUser`.
 
@@ -3961,8 +3961,8 @@ Returns the full details of a channel moderated by the specified `AppInstanceUse
 
 # Arguments
 
-- `app-instance-user-arn`: The ARN of the `AppInstanceUser` in the moderated channel.
 - `channel_arn`: The ARN of the moderated channel.
+- `app-instance-user-arn`: The ARN of the `AppInstanceUser` in the moderated channel.
 
 # Optional Parameters
 
@@ -3973,11 +3973,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_channel_moderated_by_app_instance_user end
 
 function describe_channel_moderated_by_app_instance_user(
-    app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, app_instance_user_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
+        "/channels/$(ChannelArn)?scope=app-instance-user-moderated-channel",
         Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3985,14 +3985,14 @@ function describe_channel_moderated_by_app_instance_user(
 end
 
 function describe_channel_moderated_by_app_instance_user(
+    ChannelArn,
     app_instance_user_arn,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
+        "/channels/$(ChannelArn)?scope=app-instance-user-moderated-channel",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -4038,25 +4038,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_channel_moderator end
 
 function describe_channel_moderator(
-    channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, ChannelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
+        "/channels/$(ChannelArn)/moderators/$(ChannelModeratorArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_channel_moderator(
-    channelArn,
-    channelModeratorArn,
+    ChannelArn,
+    ChannelModeratorArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)",
+        "/channels/$(ChannelArn)/moderators/$(ChannelModeratorArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4077,25 +4077,25 @@ Disassociates the primary provisioned phone number from the specified Amazon Chi
 function disassociate_phone_number_from_user end
 
 function disassociate_phone_number_from_user(
-    accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number";
+        "/accounts/$(AccountId)/users/$(UserId)?operation=disassociate-phone-number";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function disassociate_phone_number_from_user(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number",
+        "/accounts/$(AccountId)/users/$(UserId)?operation=disassociate-phone-number",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4125,11 +4125,11 @@ Disassociates the specified phone numbers from the specified Amazon Chime Voice 
 function disassociate_phone_numbers_from_voice_connector end
 
 function disassociate_phone_numbers_from_voice_connector(
-    E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    E164PhoneNumbers, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4138,13 +4138,13 @@ end
 
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=disassociate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -4180,12 +4180,12 @@ function disassociate_phone_numbers_from_voice_connector_group end
 
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4194,13 +4194,13 @@ end
 
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=disassociate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -4212,24 +4212,24 @@ function disassociate_phone_numbers_from_voice_connector_group(
 end
 
 """
-    disassociate_signin_delegate_groups_from_account(group_names, account_id)
-    disassociate_signin_delegate_groups_from_account(group_names, account_id, params::Dict{String,<:Any})
+    disassociate_signin_delegate_groups_from_account(account_id, group_names)
+    disassociate_signin_delegate_groups_from_account(account_id, group_names, params::Dict{String,<:Any})
 
 Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
 
 # Arguments
 
-- `group_names`: The sign-in delegate group names.
 - `account_id`: The Amazon Chime account ID.
+- `group_names`: The sign-in delegate group names.
 """
 function disassociate_signin_delegate_groups_from_account end
 
 function disassociate_signin_delegate_groups_from_account(
-    GroupNames, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, GroupNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups",
+        "/accounts/$(AccountId)?operation=disassociate-signin-delegate-groups",
         Dict{String,Any}("GroupNames" => GroupNames);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4237,14 +4237,14 @@ function disassociate_signin_delegate_groups_from_account(
 end
 
 function disassociate_signin_delegate_groups_from_account(
+    AccountId,
     GroupNames,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups",
+        "/accounts/$(AccountId)?operation=disassociate-signin-delegate-groups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GroupNames" => GroupNames), params)
         );
@@ -4266,19 +4266,19 @@ licenses.
 """
 function get_account end
 
-function get_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_account(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/accounts/$(accountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/$(AccountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_account(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
-        "GET", "/accounts/$(accountId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/$(AccountId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4296,23 +4296,23 @@ in the *Amazon Chime Administration Guide*.
 """
 function get_account_settings end
 
-function get_account_settings(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_account_settings(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/accounts/$(accountId)/settings";
+        "/accounts/$(AccountId)/settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_account_settings(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/settings",
+        "/accounts/$(AccountId)/settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4341,24 +4341,24 @@ Gets the retention settings for an `AppInstance`.
 function get_app_instance_retention_settings end
 
 function get_app_instance_retention_settings(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings";
+        "/app-instances/$(AppInstanceArn)/retention-settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_app_instance_retention_settings(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4387,24 +4387,24 @@ Gets the streaming settings for an `AppInstance`.
 function get_app_instance_streaming_configurations end
 
 function get_app_instance_streaming_configurations(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/streaming-configurations";
+        "/app-instances/$(AppInstanceArn)/streaming-configurations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_app_instance_streaming_configurations(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        "/app-instances/$(AppInstanceArn)/streaming-configurations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4436,25 +4436,25 @@ in the *Amazon Chime SDK Developer Guide*.
 function get_attendee end
 
 function get_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)";
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_attendee(
-    attendeeId,
-    meetingId,
+    AttendeeId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4475,24 +4475,24 @@ display name.
 """
 function get_bot end
 
-function get_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_bot(AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/accounts/$(accountId)/bots/$(botId)";
+        "/accounts/$(AccountId)/bots/$(BotId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_bot(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/bots/$(botId)",
+        "/accounts/$(AccountId)/bots/$(BotId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4532,25 +4532,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_channel_message end
 
 function get_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/messages/$(messageId)";
+        "/channels/$(ChannelArn)/messages/$(MessageId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_channel_message(
-    channelArn,
-    messageId,
+    ChannelArn,
+    MessageId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/messages/$(messageId)",
+        "/channels/$(ChannelArn)/messages/$(MessageId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4572,25 +4572,25 @@ as an HTTPS endpoint or Lambda function ARN.
 function get_events_configuration end
 
 function get_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_events_configuration(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4638,24 +4638,24 @@ Gets an existing media capture pipeline.
 function get_media_capture_pipeline end
 
 function get_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
+    MediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/media-capture-pipelines/$(mediaPipelineId)";
+        "/media-capture-pipelines/$(MediaPipelineId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_media_capture_pipeline(
-    mediaPipelineId,
+    MediaPipelineId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/media-capture-pipelines/$(mediaPipelineId)",
+        "/media-capture-pipelines/$(MediaPipelineId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4685,19 +4685,19 @@ in the *Amazon Chime SDK Developer Guide* .
 """
 function get_meeting end
 
-function get_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/meetings/$(meetingId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/meetings/$(MeetingId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_meeting(
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
-        "GET", "/meetings/$(meetingId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/meetings/$(MeetingId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -4751,23 +4751,23 @@ product type.
 """
 function get_phone_number end
 
-function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_phone_number(PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4788,24 +4788,24 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 function get_phone_number_order end
 
 function get_phone_number_order(
-    phoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)";
+        "/phone-number-orders/$(PhoneNumberOrderId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_phone_number_order(
-    phoneNumberOrderId,
+    PhoneNumberOrderId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)",
+        "/phone-number-orders/$(PhoneNumberOrderId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4858,25 +4858,25 @@ Gets the specified proxy session details for the specified Amazon Chime Voice Co
 function get_proxy_session end
 
 function get_proxy_session(
-    proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    ProxySessionId, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_proxy_session(
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4898,24 +4898,24 @@ in the *Amazon Chime Administration Guide*.
 function get_retention_settings end
 
 function get_retention_settings(
-    accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/retention-settings";
+        "/accounts/$(AccountId)/retention-settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_retention_settings(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/retention-settings",
+        "/accounts/$(AccountId)/retention-settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4936,24 +4936,24 @@ account.
 """
 function get_room end
 
-function get_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_room(AccountId, RoomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)";
+        "/accounts/$(AccountId)/rooms/$(RoomId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_room(
-    accountId,
-    roomId,
+    AccountId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)",
+        "/accounts/$(AccountId)/rooms/$(RoomId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4983,24 +4983,24 @@ endpoints.
 function get_sip_media_application end
 
 function get_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5029,24 +5029,24 @@ Returns the logging configuration for the specified SIP media application.
 function get_sip_media_application_logging_configuration end
 
 function get_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_sip_media_application_logging_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5075,20 +5075,20 @@ endpoints.
 """
 function get_sip_rule end
 
-function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_sip_rule(SipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/sip-rules/$(sipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sip-rules/$(SipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_sip_rule(
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5112,24 +5112,24 @@ action, and then filter by email address.
 """
 function get_user end
 
-function get_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_user(AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/accounts/$(accountId)/users/$(userId)";
+        "/accounts/$(AccountId)/users/$(UserId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_user(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/users/$(userId)",
+        "/accounts/$(AccountId)/users/$(UserId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5150,25 +5150,25 @@ Retrieves settings for the specified user ID, such as any associated phone numbe
 function get_user_settings end
 
 function get_user_settings(
-    accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/users/$(userId)/settings";
+        "/accounts/$(AccountId)/users/$(UserId)/settings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_user_settings(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/users/$(userId)/settings",
+        "/accounts/$(AccountId)/users/$(UserId)/settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5198,24 +5198,24 @@ outbound host, and encryption requirements.
 function get_voice_connector end
 
 function get_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)";
+        "/voice-connectors/$(VoiceConnectorId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5245,24 +5245,24 @@ Connector.
 function get_voice_connector_emergency_calling_configuration end
 
 function get_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_emergency_calling_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5292,24 +5292,24 @@ timestamps,name, and associated `VoiceConnectorItems`.
 function get_voice_connector_group end
 
 function get_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
+        "/voice-connector-groups/$(VoiceConnectorGroupId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_group(
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5339,24 +5339,24 @@ Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs
 function get_voice_connector_logging_configuration end
 
 function get_voice_connector_logging_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_logging_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5385,24 +5385,24 @@ Retrieves origination setting details for the specified Amazon Chime Voice Conne
 function get_voice_connector_origination end
 
 function get_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination";
+        "/voice-connectors/$(VoiceConnectorId)/origination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_origination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5431,24 +5431,24 @@ Gets the proxy configuration details for the specified Amazon Chime Voice Connec
 function get_voice_connector_proxy end
 
 function get_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_proxy(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5479,24 +5479,24 @@ shows the retention period, in hours, for the Amazon Kinesis data.
 function get_voice_connector_streaming_configuration end
 
 function get_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_streaming_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5525,24 +5525,24 @@ Retrieves termination setting details for the specified Amazon Chime Voice Conne
 function get_voice_connector_termination end
 
 function get_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination";
+        "/voice-connectors/$(VoiceConnectorId)/termination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_termination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5572,24 +5572,24 @@ infrastructure for the specified Amazon Chime Voice Connector.
 function get_voice_connector_termination_health end
 
 function get_voice_connector_termination_health(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health";
+        "/voice-connectors/$(VoiceConnectorId)/termination/health";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_termination_health(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health",
+        "/voice-connectors/$(VoiceConnectorId)/termination/health",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5597,16 +5597,16 @@ function get_voice_connector_termination_health(
 end
 
 """
-    invite_users(user_email_list, account_id)
-    invite_users(user_email_list, account_id, params::Dict{String,<:Any})
+    invite_users(account_id, user_email_list)
+    invite_users(account_id, user_email_list, params::Dict{String,<:Any})
 
 Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime `Team`
 account. Only `Team` account types are currently supported for this action.
 
 # Arguments
 
-- `user_email_list`: The user email addresses to which to send the email invitation.
 - `account_id`: The Amazon Chime account ID.
+- `user_email_list`: The user email addresses to which to send the email invitation.
 
 # Optional Parameters
 
@@ -5617,11 +5617,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function invite_users end
 
 function invite_users(
-    UserEmailList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserEmailList; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=add",
+        "/accounts/$(AccountId)/users?operation=add",
         Dict{String,Any}("UserEmailList" => UserEmailList);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5629,14 +5629,14 @@ function invite_users(
 end
 
 function invite_users(
+    AccountId,
     UserEmailList,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users?operation=add",
+        "/accounts/$(AccountId)/users?operation=add",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserEmailList" => UserEmailList), params)
         );
@@ -5705,24 +5705,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_app_instance_admins end
 
 function list_app_instance_admins(
-    appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins";
+        "/app-instances/$(AppInstanceArn)/admins";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_app_instance_admins(
-    appInstanceArn,
+    AppInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/app-instances/$(appInstanceArn)/admins",
+        "/app-instances/$(AppInstanceArn)/admins",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5843,25 +5843,25 @@ Lists the tags applied to an Amazon Chime SDK attendee resource.
 function list_attendee_tags end
 
 function list_attendee_tags(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags";
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_attendee_tags(
-    attendeeId,
-    meetingId,
+    AttendeeId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5898,23 +5898,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_attendees end
 
-function list_attendees(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_attendees(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees";
+        "/meetings/$(MeetingId)/attendees";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_attendees(
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/attendees",
+        "/meetings/$(MeetingId)/attendees",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5941,20 +5941,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_bots end
 
-function list_bots(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_bots(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/accounts/$(accountId)/bots"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/$(AccountId)/bots"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_bots(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/bots",
+        "/accounts/$(AccountId)/bots",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5995,20 +5995,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_channel_bans end
 
-function list_channel_bans(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
+function list_channel_bans(ChannelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/channels/$(channelArn)/bans"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/channels/$(ChannelArn)/bans"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_channel_bans(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/bans",
+        "/channels/$(ChannelArn)/bans",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6054,24 +6054,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_channel_memberships end
 
 function list_channel_memberships(
-    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/memberships";
+        "/channels/$(ChannelArn)/memberships";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_channel_memberships(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/memberships",
+        "/channels/$(ChannelArn)/memberships",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6177,24 +6177,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_channel_messages end
 
 function list_channel_messages(
-    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/messages";
+        "/channels/$(ChannelArn)/messages";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_channel_messages(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/messages",
+        "/channels/$(ChannelArn)/messages",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6236,24 +6236,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_channel_moderators end
 
 function list_channel_moderators(
-    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/moderators";
+        "/channels/$(ChannelArn)/moderators";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_channel_moderators(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/channels/$(channelArn)/moderators",
+        "/channels/$(ChannelArn)/moderators",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6267,7 +6267,7 @@ end
 Lists all Channels created under a single Chime App as a paginated list. You can specify
 filters to narrow results.
 
-## Functionality &amp; restrictions
+## Functionality & restrictions
 
 - Use privacy = `PUBLIC` to retrieve all public channels in the account.
 - Only an `AppInstanceAdmin` can set privacy = `PRIVATE` to list the private channels in an
@@ -6449,20 +6449,20 @@ Lists the tags applied to an Amazon Chime SDK meeting resource.
 """
 function list_meeting_tags end
 
-function list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_meeting_tags(MeetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/meetings/$(meetingId)/tags"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/meetings/$(MeetingId)/tags"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_meeting_tags(
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/meetings/$(meetingId)/tags",
+        "/meetings/$(MeetingId)/tags",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6590,24 +6590,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_proxy_sessions end
 
 function list_proxy_sessions(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_proxy_sessions(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6636,25 +6636,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_room_memberships end
 
 function list_room_memberships(
-    accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, RoomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships";
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_room_memberships(
-    accountId,
-    roomId,
+    AccountId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6683,20 +6683,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_rooms end
 
-function list_rooms(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_rooms(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/accounts/$(accountId)/rooms"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/$(AccountId)/rooms"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_rooms(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/rooms",
+        "/accounts/$(AccountId)/rooms",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6890,20 +6890,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_users end
 
-function list_users(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function list_users(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "GET", "/accounts/$(accountId)/users"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/accounts/$(AccountId)/users"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_users(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/accounts/$(accountId)/users",
+        "/accounts/$(AccountId)/users",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6974,24 +6974,24 @@ Lists the SIP credentials for the specified Amazon Chime Voice Connector.
 function list_voice_connector_termination_credentials end
 
 function list_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials";
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_voice_connector_termination_credentials(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7047,24 +7047,24 @@ Logs out the specified user from all of the devices they are currently logged in
 """
 function logout_user end
 
-function logout_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
+function logout_user(AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=logout";
+        "/accounts/$(AccountId)/users/$(UserId)?operation=logout";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function logout_user(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=logout",
+        "/accounts/$(AccountId)/users/$(UserId)?operation=logout",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7072,8 +7072,8 @@ function logout_user(
 end
 
 """
-    put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn)
-    put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn, params::Dict{String,<:Any})
+    put_app_instance_retention_settings(app_instance_arn, app_instance_retention_settings)
+    put_app_instance_retention_settings(app_instance_arn, app_instance_retention_settings, params::Dict{String,<:Any})
 
 Sets the amount of time in days that a given `AppInstance` retains data.
 
@@ -7088,19 +7088,19 @@ Sets the amount of time in days that a given `AppInstance` retains data.
 
 # Arguments
 
-- `app_instance_retention_settings`: The time in days to retain data. Data type: number.
 - `app_instance_arn`: The ARN of the `AppInstance`.
+- `app_instance_retention_settings`: The time in days to retain data. Data type: number.
 """
 function put_app_instance_retention_settings end
 
 function put_app_instance_retention_settings(
-    AppInstanceRetentionSettings,
-    appInstanceArn;
+    AppInstanceArn,
+    AppInstanceRetentionSettings;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7108,14 +7108,14 @@ function put_app_instance_retention_settings(
 end
 
 function put_app_instance_retention_settings(
+    AppInstanceArn,
     AppInstanceRetentionSettings,
-    appInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
+        "/app-instances/$(AppInstanceArn)/retention-settings",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7131,8 +7131,8 @@ function put_app_instance_retention_settings(
 end
 
 """
-    put_app_instance_streaming_configurations(app_instance_streaming_configurations, app_instance_arn)
-    put_app_instance_streaming_configurations(app_instance_streaming_configurations, app_instance_arn, params::Dict{String,<:Any})
+    put_app_instance_streaming_configurations(app_instance_arn, app_instance_streaming_configurations)
+    put_app_instance_streaming_configurations(app_instance_arn, app_instance_streaming_configurations, params::Dict{String,<:Any})
 
 The data streaming configurations of an `AppInstance`.
 
@@ -7147,20 +7147,20 @@ The data streaming configurations of an `AppInstance`.
 
 # Arguments
 
+- `app_instance_arn`: The ARN of the `AppInstance`.
 - `app_instance_streaming_configurations`: The streaming configurations set for an
   `AppInstance`.
-- `app_instance_arn`: The ARN of the `AppInstance`.
 """
 function put_app_instance_streaming_configurations end
 
 function put_app_instance_streaming_configurations(
-    AppInstanceStreamingConfigurations,
-    appInstanceArn;
+    AppInstanceArn,
+    AppInstanceStreamingConfigurations;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        "/app-instances/$(AppInstanceArn)/streaming-configurations",
         Dict{String,Any}(
             "AppInstanceStreamingConfigurations" => AppInstanceStreamingConfigurations
         );
@@ -7170,14 +7170,14 @@ function put_app_instance_streaming_configurations(
 end
 
 function put_app_instance_streaming_configurations(
+    AppInstanceArn,
     AppInstanceStreamingConfigurations,
-    appInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        "/app-instances/$(AppInstanceArn)/streaming-configurations",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7217,25 +7217,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_events_configuration end
 
 function put_events_configuration(
-    accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_events_configuration(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration",
+        "/accounts/$(AccountId)/bots/$(BotId)/events-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7243,8 +7243,8 @@ function put_events_configuration(
 end
 
 """
-    put_retention_settings(retention_settings, account_id)
-    put_retention_settings(retention_settings, account_id, params::Dict{String,<:Any})
+    put_retention_settings(account_id, retention_settings)
+    put_retention_settings(account_id, retention_settings, params::Dict{String,<:Any})
 
 Puts retention settings for the specified Amazon Chime Enterprise account. We recommend
 using AWS CloudTrail to monitor usage of this API for your account. For more information,
@@ -7258,17 +7258,17 @@ in the *Amazon Chime Administration Guide*.
 
 # Arguments
 
-- `retention_settings`: The retention settings.
 - `account_id`: The Amazon Chime account ID.
+- `retention_settings`: The retention settings.
 """
 function put_retention_settings end
 
 function put_retention_settings(
-    RetentionSettings, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, RetentionSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/retention-settings",
+        "/accounts/$(AccountId)/retention-settings",
         Dict{String,Any}("RetentionSettings" => RetentionSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7276,14 +7276,14 @@ function put_retention_settings(
 end
 
 function put_retention_settings(
+    AccountId,
     RetentionSettings,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/retention-settings",
+        "/accounts/$(AccountId)/retention-settings",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("RetentionSettings" => RetentionSettings), params
@@ -7322,24 +7322,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_sip_media_application_logging_configuration end
 
 function put_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_sip_media_application_logging_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7373,12 +7373,12 @@ function put_voice_connector_emergency_calling_configuration end
 
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         Dict{String,Any}("EmergencyCallingConfiguration" => EmergencyCallingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7387,13 +7387,13 @@ end
 
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7434,12 +7434,12 @@ function put_voice_connector_logging_configuration end
 
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7448,13 +7448,13 @@ end
 
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7494,11 +7494,11 @@ Adds origination settings for the specified Amazon Chime Voice Connector.
 function put_voice_connector_origination end
 
 function put_voice_connector_origination(
-    Origination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Origination, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         Dict{String,Any}("Origination" => Origination);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7507,13 +7507,13 @@ end
 
 function put_voice_connector_origination(
     Origination,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Origination" => Origination), params)
         );
@@ -7557,12 +7557,12 @@ function put_voice_connector_proxy end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         Dict{String,Any}(
             "DefaultSessionExpiryMinutes" => DefaultSessionExpiryMinutes,
             "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
@@ -7575,13 +7575,13 @@ end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7623,12 +7623,12 @@ function put_voice_connector_streaming_configuration end
 
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7637,13 +7637,13 @@ end
 
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -7683,11 +7683,11 @@ Adds termination settings for the specified Amazon Chime Voice Connector.
 function put_voice_connector_termination end
 
 function put_voice_connector_termination(
-    Termination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Termination, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         Dict{String,Any}("Termination" => Termination);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7696,13 +7696,13 @@ end
 
 function put_voice_connector_termination(
     Termination,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Termination" => Termination), params)
         );
@@ -7739,24 +7739,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_voice_connector_termination_credentials end
 
 function put_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put";
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=put";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_voice_connector_termination_credentials(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=put",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7797,25 +7797,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function redact_channel_message end
 
 function redact_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/messages/$(messageId)?operation=redact";
+        "/channels/$(ChannelArn)/messages/$(MessageId)?operation=redact";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function redact_channel_message(
-    channelArn,
-    messageId,
+    ChannelArn,
+    MessageId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/messages/$(messageId)?operation=redact",
+        "/channels/$(ChannelArn)/messages/$(MessageId)?operation=redact",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7837,26 +7837,26 @@ Redacts the specified message from the specified Amazon Chime conversation.
 function redact_conversation_message end
 
 function redact_conversation_message(
-    accountId, conversationId, messageId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, ConversationId, MessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact";
+        "/accounts/$(AccountId)/conversations/$(ConversationId)/messages/$(MessageId)?operation=redact";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function redact_conversation_message(
-    accountId,
-    conversationId,
-    messageId,
+    AccountId,
+    ConversationId,
+    MessageId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact",
+        "/accounts/$(AccountId)/conversations/$(ConversationId)/messages/$(MessageId)?operation=redact",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7878,26 +7878,26 @@ Redacts the specified message from the specified Amazon Chime channel.
 function redact_room_message end
 
 function redact_room_message(
-    accountId, messageId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, MessageId, RoomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact";
+        "/accounts/$(AccountId)/rooms/$(RoomId)/messages/$(MessageId)?operation=redact";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function redact_room_message(
-    accountId,
-    messageId,
-    roomId,
+    AccountId,
+    MessageId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/messages/$(MessageId)?operation=redact",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7918,25 +7918,25 @@ Regenerates the security token for a bot.
 function regenerate_security_token end
 
 function regenerate_security_token(
-    accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token";
+        "/accounts/$(AccountId)/bots/$(BotId)?operation=regenerate-security-token";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function regenerate_security_token(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token",
+        "/accounts/$(AccountId)/bots/$(BotId)?operation=regenerate-security-token",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7958,25 +7958,25 @@ the `User` object with the updated personal meeting PIN.
 function reset_personal_pin end
 
 function reset_personal_pin(
-    accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin";
+        "/accounts/$(AccountId)/users/$(UserId)?operation=reset-personal-pin";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function reset_personal_pin(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin",
+        "/accounts/$(AccountId)/users/$(UserId)?operation=reset-personal-pin",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7996,24 +7996,24 @@ Moves a phone number from the **Deletion queue** back into the phone number **In
 function restore_phone_number end
 
 function restore_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/phone-numbers/$(phoneNumberId)?operation=restore";
+        "/phone-numbers/$(PhoneNumberId)?operation=restore";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function restore_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/phone-numbers/$(phoneNumberId)?operation=restore",
+        "/phone-numbers/$(PhoneNumberId)?operation=restore",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8069,8 +8069,8 @@ function search_available_phone_numbers(
 end
 
 """
-    send_channel_message(client_request_token, content, persistence, type, channel_arn)
-    send_channel_message(client_request_token, content, persistence, type, channel_arn, params::Dict{String,<:Any})
+    send_channel_message(channel_arn, client_request_token, content, persistence, type)
+    send_channel_message(channel_arn, client_request_token, content, persistence, type, params::Dict{String,<:Any})
 
 Sends a message to a particular channel that the member is a part of.
 
@@ -8092,12 +8092,12 @@ Sends a message to a particular channel that the member is a part of.
 
 # Arguments
 
+- `channel_arn`: The ARN of the channel.
 - `client_request_token`: The `Idempotency` token for each client request.
 - `content`: The content of the message.
 - `persistence`: Boolean that controls whether the message is persisted on the back end.
   Required.
 - `type`: The type of message, `STANDARD` or `CONTROL`.
-- `channel_arn`: The ARN of the channel.
 
 # Optional Parameters
 
@@ -8109,16 +8109,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function send_channel_message end
 
 function send_channel_message(
+    ChannelArn,
     ClientRequestToken,
     Content,
     Persistence,
-    Type,
-    channelArn;
+    Type;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/messages",
+        "/channels/$(ChannelArn)/messages",
         Dict{String,Any}(
             "ClientRequestToken" => ClientRequestToken,
             "Content" => Content,
@@ -8131,17 +8131,17 @@ function send_channel_message(
 end
 
 function send_channel_message(
+    ChannelArn,
     ClientRequestToken,
     Content,
     Persistence,
     Type,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/channels/$(channelArn)/messages",
+        "/channels/$(ChannelArn)/messages",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -8160,8 +8160,8 @@ function send_channel_message(
 end
 
 """
-    start_meeting_transcription(transcription_configuration, meeting_id)
-    start_meeting_transcription(transcription_configuration, meeting_id, params::Dict{String,<:Any})
+    start_meeting_transcription(meeting_id, transcription_configuration)
+    start_meeting_transcription(meeting_id, transcription_configuration, params::Dict{String,<:Any})
 
 Starts transcription for the specified `meetingId`. For more information, refer to [Using Amazon Chime SDK live transcription](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html)
 in the *Amazon Chime SDK Developer Guide*.
@@ -8188,20 +8188,20 @@ API in the *Amazon Transcribe Developer Guide*.
 
 # Arguments
 
+- `meeting_id`: The unique ID of the meeting being transcribed.
 - `transcription_configuration`: The configuration for the current transcription operation.
   Must contain `EngineTranscribeSettings` or `EngineTranscribeMedicalSettings`.
-- `meeting_id`: The unique ID of the meeting being transcribed.
 """
 function start_meeting_transcription end
 
 function start_meeting_transcription(
-    TranscriptionConfiguration,
-    meetingId;
+    MeetingId,
+    TranscriptionConfiguration;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/transcription?operation=start",
+        "/meetings/$(MeetingId)/transcription?operation=start",
         Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8209,14 +8209,14 @@ function start_meeting_transcription(
 end
 
 function start_meeting_transcription(
+    MeetingId,
     TranscriptionConfiguration,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/transcription?operation=start",
+        "/meetings/$(MeetingId)/transcription?operation=start",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -8253,24 +8253,24 @@ Stops transcription for the specified `meetingId`.
 function stop_meeting_transcription end
 
 function stop_meeting_transcription(
-    meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    MeetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/transcription?operation=stop";
+        "/meetings/$(MeetingId)/transcription?operation=stop";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function stop_meeting_transcription(
-    meetingId,
+    MeetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/transcription?operation=stop",
+        "/meetings/$(MeetingId)/transcription?operation=stop",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8278,8 +8278,8 @@ function stop_meeting_transcription(
 end
 
 """
-    tag_attendee(tags, attendee_id, meeting_id)
-    tag_attendee(tags, attendee_id, meeting_id, params::Dict{String,<:Any})
+    tag_attendee(attendee_id, meeting_id, tags)
+    tag_attendee(attendee_id, meeting_id, tags, params::Dict{String,<:Any})
 
 Applies the specified tags to the specified Amazon Chime attendee.
 
@@ -8289,18 +8289,18 @@ Applies the specified tags to the specified Amazon Chime attendee.
 
 # Arguments
 
-- `tags`: The tag key-value pairs.
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
+- `tags`: The tag key-value pairs.
 """
 function tag_attendee end
 
 function tag_attendee(
-    Tags, attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    AttendeeId, MeetingId, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags?operation=add",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8308,15 +8308,15 @@ function tag_attendee(
 end
 
 function tag_attendee(
+    AttendeeId,
+    MeetingId,
     Tags,
-    attendeeId,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags?operation=add",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8324,8 +8324,8 @@ function tag_attendee(
 end
 
 """
-    tag_meeting(tags, meeting_id)
-    tag_meeting(tags, meeting_id, params::Dict{String,<:Any})
+    tag_meeting(meeting_id, tags)
+    tag_meeting(meeting_id, tags, params::Dict{String,<:Any})
 
 Applies the specified tags to the specified Amazon Chime SDK meeting.
 
@@ -8340,15 +8340,15 @@ Applies the specified tags to the specified Amazon Chime SDK meeting.
 
 # Arguments
 
-- `tags`: The tag key-value pairs.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
+- `tags`: The tag key-value pairs.
 """
 function tag_meeting end
 
-function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_meeting(MeetingId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/meetings/$(meetingId)/tags?operation=add",
+        "/meetings/$(MeetingId)/tags?operation=add",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8356,14 +8356,14 @@ function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=current_aws_
 end
 
 function tag_meeting(
+    MeetingId,
     Tags,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/tags?operation=add",
+        "/meetings/$(MeetingId)/tags?operation=add",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8424,8 +8424,8 @@ function tag_resource(
 end
 
 """
-    untag_attendee(tag_keys, attendee_id, meeting_id)
-    untag_attendee(tag_keys, attendee_id, meeting_id, params::Dict{String,<:Any})
+    untag_attendee(attendee_id, meeting_id, tag_keys)
+    untag_attendee(attendee_id, meeting_id, tag_keys, params::Dict{String,<:Any})
 
 Untags the specified tags from the specified Amazon Chime SDK attendee.
 
@@ -8435,18 +8435,18 @@ Untags the specified tags from the specified Amazon Chime SDK attendee.
 
 # Arguments
 
-- `tag_keys`: The tag keys.
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
+- `tag_keys`: The tag keys.
 """
 function untag_attendee end
 
 function untag_attendee(
-    TagKeys, attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    AttendeeId, MeetingId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags?operation=delete",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8454,15 +8454,15 @@ function untag_attendee(
 end
 
 function untag_attendee(
+    AttendeeId,
+    MeetingId,
     TagKeys,
-    attendeeId,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete",
+        "/meetings/$(MeetingId)/attendees/$(AttendeeId)/tags?operation=delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8470,8 +8470,8 @@ function untag_attendee(
 end
 
 """
-    untag_meeting(tag_keys, meeting_id)
-    untag_meeting(tag_keys, meeting_id, params::Dict{String,<:Any})
+    untag_meeting(meeting_id, tag_keys)
+    untag_meeting(meeting_id, tag_keys, params::Dict{String,<:Any})
 
 Untags the specified tags from the specified Amazon Chime SDK meeting.
 
@@ -8486,17 +8486,17 @@ Untags the specified tags from the specified Amazon Chime SDK meeting.
 
 # Arguments
 
-- `tag_keys`: The tag keys.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
+- `tag_keys`: The tag keys.
 """
 function untag_meeting end
 
 function untag_meeting(
-    TagKeys, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
+    MeetingId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/tags?operation=delete",
+        "/meetings/$(MeetingId)/tags?operation=delete",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8504,14 +8504,14 @@ function untag_meeting(
 end
 
 function untag_meeting(
+    MeetingId,
     TagKeys,
-    meetingId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/meetings/$(meetingId)/tags?operation=delete",
+        "/meetings/$(MeetingId)/tags?operation=delete",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8596,20 +8596,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_account end
 
-function update_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
+function update_account(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
-        "POST", "/accounts/$(accountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/accounts/$(AccountId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_account(
-    accountId,
+    AccountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)",
+        "/accounts/$(AccountId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8617,8 +8617,8 @@ function update_account(
 end
 
 """
-    update_account_settings(account_settings, account_id)
-    update_account_settings(account_settings, account_id, params::Dict{String,<:Any})
+    update_account_settings(account_id, account_settings)
+    update_account_settings(account_id, account_settings, params::Dict{String,<:Any})
 
 Updates the settings for the specified Amazon Chime account. You can update settings for
 remote control of shared screens, or for the dial-out option. For more information about
@@ -8627,17 +8627,17 @@ in the *Amazon Chime Administration Guide*.
 
 # Arguments
 
-- `account_settings`: The Amazon Chime account settings to update.
 - `account_id`: The Amazon Chime account ID.
+- `account_settings`: The Amazon Chime account settings to update.
 """
 function update_account_settings end
 
 function update_account_settings(
-    AccountSettings, accountId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, AccountSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/settings",
+        "/accounts/$(AccountId)/settings",
         Dict{String,Any}("AccountSettings" => AccountSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8645,14 +8645,14 @@ function update_account_settings(
 end
 
 function update_account_settings(
+    AccountId,
     AccountSettings,
-    accountId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/settings",
+        "/accounts/$(AccountId)/settings",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("AccountSettings" => AccountSettings), params
@@ -8664,8 +8664,8 @@ function update_account_settings(
 end
 
 """
-    update_app_instance(name, app_instance_arn)
-    update_app_instance(name, app_instance_arn, params::Dict{String,<:Any})
+    update_app_instance(app_instance_arn, name)
+    update_app_instance(app_instance_arn, name, params::Dict{String,<:Any})
 
 Updates `AppInstance` metadata.
 
@@ -8680,8 +8680,8 @@ Updates `AppInstance` metadata.
 
 # Arguments
 
-- `name`: The name that you want to change.
 - `app_instance_arn`: The ARN of the `AppInstance`.
+- `name`: The name that you want to change.
 
 # Optional Parameters
 
@@ -8692,11 +8692,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_app_instance end
 
 function update_app_instance(
-    Name, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8704,14 +8704,14 @@ function update_app_instance(
 end
 
 function update_app_instance(
+    AppInstanceArn,
     Name,
-    appInstanceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instances/$(appInstanceArn)",
+        "/app-instances/$(AppInstanceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8719,8 +8719,8 @@ function update_app_instance(
 end
 
 """
-    update_app_instance_user(name, app_instance_user_arn)
-    update_app_instance_user(name, app_instance_user_arn, params::Dict{String,<:Any})
+    update_app_instance_user(app_instance_user_arn, name)
+    update_app_instance_user(app_instance_user_arn, name, params::Dict{String,<:Any})
 
 Updates the details of an `AppInstanceUser`. You can update names and metadata.
 
@@ -8735,8 +8735,8 @@ Updates the details of an `AppInstanceUser`. You can update names and metadata.
 
 # Arguments
 
-- `name`: The name of the `AppInstanceUser`.
 - `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
+- `name`: The name of the `AppInstanceUser`.
 
 # Optional Parameters
 
@@ -8747,11 +8747,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_app_instance_user end
 
 function update_app_instance_user(
-    Name, appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
+    AppInstanceUserArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8759,14 +8759,14 @@ function update_app_instance_user(
 end
 
 function update_app_instance_user(
+    AppInstanceUserArn,
     Name,
-    appInstanceUserArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
+        "/app-instance-users/$(AppInstanceUserArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8793,24 +8793,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_bot end
 
-function update_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_config())
+function update_bot(AccountId, BotId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots/$(botId)";
+        "/accounts/$(AccountId)/bots/$(BotId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_bot(
-    accountId,
-    botId,
+    AccountId,
+    BotId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/bots/$(botId)",
+        "/accounts/$(AccountId)/bots/$(BotId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8818,8 +8818,8 @@ function update_bot(
 end
 
 """
-    update_channel(mode, name, channel_arn)
-    update_channel(mode, name, channel_arn, params::Dict{String,<:Any})
+    update_channel(channel_arn, mode, name)
+    update_channel(channel_arn, mode, name, params::Dict{String,<:Any})
 
 Update a channel's attributes.
 
@@ -8840,9 +8840,9 @@ Update a channel's attributes.
 
 # Arguments
 
+- `channel_arn`: The ARN of the channel.
 - `mode`: The mode of the update request.
 - `name`: The name of the channel.
-- `channel_arn`: The ARN of the channel.
 
 # Optional Parameters
 
@@ -8854,11 +8854,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_channel end
 
 function update_channel(
-    Mode, Name, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, Mode, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)",
+        "/channels/$(ChannelArn)",
         Dict{String,Any}("Mode" => Mode, "Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8866,15 +8866,15 @@ function update_channel(
 end
 
 function update_channel(
+    ChannelArn,
     Mode,
     Name,
-    channelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)",
+        "/channels/$(ChannelArn)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Mode" => Mode, "Name" => Name), params)
         );
@@ -8918,25 +8918,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_channel_message end
 
 function update_channel_message(
-    channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn, MessageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)/messages/$(messageId)";
+        "/channels/$(ChannelArn)/messages/$(MessageId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_channel_message(
-    channelArn,
-    messageId,
+    ChannelArn,
+    MessageId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)/messages/$(messageId)",
+        "/channels/$(ChannelArn)/messages/$(MessageId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -8975,24 +8975,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_channel_read_marker end
 
 function update_channel_read_marker(
-    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ChannelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)/readMarker";
+        "/channels/$(ChannelArn)/readMarker";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_channel_read_marker(
-    channelArn,
+    ChannelArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/channels/$(channelArn)/readMarker",
+        "/channels/$(ChannelArn)/readMarker",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9054,24 +9054,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_phone_number end
 
 function update_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9151,13 +9151,13 @@ function update_proxy_session end
 
 function update_proxy_session(
     Capabilities,
-    proxySessionId,
-    voiceConnectorId;
+    ProxySessionId,
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         Dict{String,Any}("Capabilities" => Capabilities);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9166,14 +9166,14 @@ end
 
 function update_proxy_session(
     Capabilities,
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
         );
@@ -9202,24 +9202,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_room end
 
-function update_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
+function update_room(AccountId, RoomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)";
+        "/accounts/$(AccountId)/rooms/$(RoomId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_room(
-    accountId,
-    roomId,
+    AccountId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)",
+        "/accounts/$(AccountId)/rooms/$(RoomId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9250,26 +9250,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_room_membership end
 
 function update_room_membership(
-    accountId, memberId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, MemberId, RoomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships/$(MemberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_room_membership(
-    accountId,
-    memberId,
-    roomId,
+    AccountId,
+    MemberId,
+    RoomId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)",
+        "/accounts/$(AccountId)/rooms/$(RoomId)/memberships/$(MemberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9305,24 +9305,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_sip_media_application end
 
 function update_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9356,13 +9356,13 @@ function update_sip_media_application_call end
 
 function update_sip_media_application_call(
     Arguments,
-    sipMediaApplicationId,
-    transactionId;
+    SipMediaApplicationId,
+    TransactionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls/$(TransactionId)",
         Dict{String,Any}("Arguments" => Arguments);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9371,14 +9371,14 @@ end
 
 function update_sip_media_application_call(
     Arguments,
-    sipMediaApplicationId,
-    transactionId,
+    SipMediaApplicationId,
+    TransactionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls/$(TransactionId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Arguments" => Arguments), params)
         );
@@ -9417,11 +9417,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_sip_rule end
 
 function update_sip_rule(
-    Name, sipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, SipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9430,13 +9430,13 @@ end
 
 function update_sip_rule(
     Name,
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9466,24 +9466,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_user end
 
-function update_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
+function update_user(AccountId, UserId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)";
+        "/accounts/$(AccountId)/users/$(UserId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_user(
-    accountId,
-    userId,
+    AccountId,
+    UserId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "POST",
-        "/accounts/$(accountId)/users/$(userId)",
+        "/accounts/$(AccountId)/users/$(UserId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9491,25 +9491,25 @@ function update_user(
 end
 
 """
-    update_user_settings(user_settings, account_id, user_id)
-    update_user_settings(user_settings, account_id, user_id, params::Dict{String,<:Any})
+    update_user_settings(account_id, user_id, user_settings)
+    update_user_settings(account_id, user_id, user_settings, params::Dict{String,<:Any})
 
 Updates the settings for the specified user, such as phone number settings.
 
 # Arguments
 
-- `user_settings`: The user settings to update.
 - `account_id`: The Amazon Chime account ID.
 - `user_id`: The user ID.
+- `user_settings`: The user settings to update.
 """
 function update_user_settings end
 
 function update_user_settings(
-    UserSettings, accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
+    AccountId, UserId, UserSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/users/$(userId)/settings",
+        "/accounts/$(AccountId)/users/$(UserId)/settings",
         Dict{String,Any}("UserSettings" => UserSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9517,15 +9517,15 @@ function update_user_settings(
 end
 
 function update_user_settings(
+    AccountId,
+    UserId,
     UserSettings,
-    accountId,
-    userId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/accounts/$(accountId)/users/$(userId)/settings",
+        "/accounts/$(AccountId)/users/$(UserId)/settings",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserSettings" => UserSettings), params)
         );
@@ -9561,12 +9561,12 @@ function update_voice_connector end
 function update_voice_connector(
     Name,
     RequireEncryption,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9576,13 +9576,13 @@ end
 function update_voice_connector(
     Name,
     RequireEncryption,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -9596,8 +9596,8 @@ function update_voice_connector(
 end
 
 """
-    update_voice_connector_group(name, voice_connector_items, voice_connector_group_id)
-    update_voice_connector_group(name, voice_connector_items, voice_connector_group_id, params::Dict{String,<:Any})
+    update_voice_connector_group(name, voice_connector_group_id, voice_connector_items)
+    update_voice_connector_group(name, voice_connector_group_id, voice_connector_items, params::Dict{String,<:Any})
 
 Updates details of the specified Amazon Chime Voice Connector group, such as the name and
 Amazon Chime Voice Connector priority ranking.
@@ -9614,20 +9614,20 @@ Amazon Chime Voice Connector priority ranking.
 # Arguments
 
 - `name`: The name of the Amazon Chime Voice Connector group.
-- `voice_connector_items`: The `VoiceConnectorItems` to associate with the group.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
+- `voice_connector_items`: The `VoiceConnectorItems` to associate with the group.
 """
 function update_voice_connector_group end
 
 function update_voice_connector_group(
     Name,
-    VoiceConnectorItems,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId,
+    VoiceConnectorItems;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         Dict{String,Any}("Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9636,14 +9636,14 @@ end
 
 function update_voice_connector_group(
     Name,
+    VoiceConnectorGroupId,
     VoiceConnectorItems,
-    voiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime(
         "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         Dict{String,Any}(
             mergewith(
                 _merge,

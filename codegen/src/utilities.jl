@@ -1,71 +1,281 @@
-mutable struct ServiceFile
-    repo::String
-    name::String
-    sha::String
-    definition::Union{AbstractDict,Nothing}
+struct ServiceFile
+    file_name::String
+    content::String
 end
 
-function ServiceFile(repo::String, blob::AbstractDict)
-    return ServiceFile(repo, blob["path"], blob["sha"], nothing)
+function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
+    m = match(r"^\Qhttps://api.github.com/repos/\E(?<repo>[^/]+/[^/]+)", tree["url"])
+    if isnothing(m)
+        throw(ArgumentError("Unable to determine GitHub repo from: \"$(tree["url"])\""))
+    end
+    github_repo = m[:repo]
+    blob = GitHub.blob(github_repo, tree["sha"]; auth)
+    return ServiceFile(tree["path"], String(blob))
 end
 
-function service_definition(
-    service_file::ServiceFile; auth::GitHub.Authorization=GitHub.AnonymousAuth()
-)
-    if service_file.definition === nothing
-        # Retrieve the contents of the ${service}.normal.json file
-        service_blob = GitHub.blob(service_file.repo, service_file.sha; auth=auth)
-        def = JSON.parse(String(base64decode(service_blob.content)))
-        service_file.definition = def
+# Avoid printing contents to the REPL as they can be quite large
+function Base.show(io::IO, sf::ServiceFile)
+    println(io, "ServiceFile($(repr(sf.file_name)), \"...\")")
+    return nothing
+end
+
+"""
+    _get_service_model_trees(; auth::GitHub.Authorization) -> Vector{Dict}
+
+List of all of the tree blobs pertaining to AWS service API definition files. These can be
+loaded by `ServiceFile`.
+"""
+function _get_service_model_trees(; auth::GitHub.Authorization, tree_sha::AbstractString)
+    # Navigating to: https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models
+    # via https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree
+    github_repo = "aws/aws-sdk-js-v3"  # Owner and repository name
+    subdir = "codegen/sdk-codegen/aws-models"
+    tree = @mock GitHub.tree(github_repo, tree_sha; auth)
+
+    function descend(tree::GitHub.Tree, dir)
+        sha = only(t["sha"] for t in tree.tree if t["type"] == "tree" && t["path"] == dir)
+        return @mock GitHub.tree(github_repo, sha; auth)
     end
 
-    return service_file.definition
+    for dir in split(subdir, '/')
+        tree = descend(tree, dir)
+    end
+
+    return filter!(tree.tree) do t
+        t["type"] == "blob" && endswith(t["path"], ".json")
+    end
 end
 
-function Base.:(==)(a::ServiceFile, b::ServiceFile)
-    return (
-        a.repo == b.repo &&
-        a.name == b.name &&
-        a.sha == b.sha &&
-        a.definition == b.definition
+function _parse_smithy_model(model::AbstractString)
+    return _parse_smithy_model(JSON.parse(model))
+end
+
+"""
+Convert a Smithy 2.0 model (parsed from JSON) into the legacy format which was used by
+`aws-sdk-js` and is expected by AWS.jl code generators.
+"""
+function _parse_smithy_model(model::AbstractDict)
+    smithy_version = get(model, "smithy", nothing)
+    if smithy_version != "2.0"
+        error("Model version is not Smithy 2.0 (found version \"$smithy_version\")")
+    end
+
+    raw_shapes = model["shapes"]
+
+    # Find the service shape
+    service_shape_id, service_shape = only(
+        (k, v) for (k, v) in raw_shapes if get(v, "type", nothing) == "service"
+    )
+
+    traits = get(service_shape, "traits", Dict())
+    service_info = get(traits, "aws.api#service", Dict())
+
+    # Extract service metadata
+    signing_name = get(get(traits, "aws.auth#sigv4", Dict()), "name", nothing)
+    endpoint_prefix = get(service_info, "endpointPrefix", signing_name)
+    service_id = get(service_info, "sdkId", _shape_name(service_shape_id))
+
+    # Version is on the service shape; fall back to extracting from docId (e.g. acm-pca)
+    api_version = get(service_shape, "version") do
+        doc_id = get(service_info, "docId", "")
+        m = match(r"\d{4}-\d{2}-\d{2}$", doc_id)
+        if !isnothing(m)
+            m.match
+        else
+            error("Unable to determine API version model: \"$endpoint_prefix\"")
+        end
+    end
+
+    protocol, json_version = _preferred_protocol(traits)
+
+    metadata = Dict{String,Any}(
+        "protocol" => protocol,
+        "endpointPrefix" => endpoint_prefix,
+        "serviceId" => service_id,
+        "apiVersion" => api_version,
+    )
+
+    # `signingName` only need to be defined when it differs from `endpointPrefix`
+    if signing_name !== nothing && signing_name != endpoint_prefix
+        metadata["signingName"] = signing_name
+    end
+
+    if protocol == "json"
+        metadata["jsonVersion"] = json_version
+        metadata["targetPrefix"] = _shape_name(service_shape_id)
+    end
+
+    # Build shapes dict (strip namespaces, convert member traits to legacy format)
+    shapes = Dict{String,Any}()
+    for (shape_id, shape) in raw_shapes
+        if get(shape, "type", nothing) in ("structure", "list", "set")
+            shapes[_shape_name(shape_id)] = _smithy_to_legacy_shape(shape)
+        end
+    end
+
+    # Build operations dict
+    operations = Dict{String,Any}()
+    for (k, v) in raw_shapes
+        get(v, "type", nothing) == "operation" || continue
+
+        operation_name = _shape_name(k)
+        operation_traits = get(v, "traits", Dict())
+        http = get(operation_traits, "smithy.api#http", nothing)
+
+        operation = Dict{String,Any}("name" => operation_name)
+
+        if haskey(operation_traits, "smithy.api#http")
+            http = operation_traits["smithy.api#http"]
+            operation["http"] = Dict{String,Any}(
+                "method" => http["method"], "requestUri" => http["uri"]
+            )
+        else
+            # JSON/Query/EC2 protocol operations don't use HTTP routing
+            operation["http"] = Dict{String,Any}("method" => "POST", "requestUri" => "/")
+        end
+
+        if haskey(v, "input")
+            operation["input"] = Dict{String,Any}(
+                "shape" => _shape_name(v["input"]["target"])
+            )
+        end
+
+        if haskey(operation_traits, "smithy.api#documentation")
+            operation["documentation"] = operation_traits["smithy.api#documentation"]
+        end
+
+        operations[operation_name] = operation
+    end
+
+    return Dict{String,Any}(
+        "metadata" => metadata, "operations" => operations, "shapes" => shapes
     )
 end
 
 """
-Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub repository.
+    _shape_name(id::String) -> String
+
+Extract the short name from a Smithy shape ID by stripping the namespace.
+
+Example: `"com.amazonaws.s3#BucketName"` => `"BucketName"`
 """
-function _get_service_files(auth::GitHub.Authorization)
-    github_repo = "aws/aws-sdk-js"  # Owner and repository name
-    master_tree = @mock GitHub.tree(github_repo, "master"; auth=auth)
-    apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
-    files = @mock GitHub.tree(github_repo, apis_sha)
-    tree_items = files.tree
-
-    service_file_blobs = filter!(tree_items) do t
-        t["type"] == "blob" && endswith(t["path"], ".normal.json")
-    end
-    service_file_blobs = _filter_latest_service_version(service_file_blobs)
-
-    return [ServiceFile(github_repo, blob) for blob in service_file_blobs]
+function _shape_name(id::String)
+    # https://smithy.io/2.0/spec/model.html#shape-id
+    return String(last(split(id, '#'; limit=2)))
 end
 
 """
-Return a list of all AWS Services and their latest version.
+    _preferred_protocol(traits::AbstractDict) -> Tuple{String,String}
+
+Determine the preferred legacy protocol and JSON version from the available Smithy protocol
+traits.
 """
-function _filter_latest_service_version(services::AbstractArray)
-    seen_services = Set{String}()
-    latest_versions = OrderedDict[]
+function _preferred_protocol(traits::AbstractDict)
+    # Order mostly doesn't matter here as only two services utilize multiple primary
+    # protocols:
+    #
+    # - monitoring: awsJson1_0, awsQuery, awsQueryCompatible
+    # - sqs: awsJson1_0, awsQueryCompatible
 
-    for service in reverse(services)
-        service_name, _ = _get_service_and_version(service["path"])
-
-        if !(service_name in seen_services)
-            push!(seen_services, service_name)
-            push!(latest_versions, service)
+    return if haskey(traits, "aws.protocols#awsQuery")
+        ("query", nothing)
+    elseif haskey(traits, "aws.protocols#ec2Query")
+        ("ec2", nothing)
+    elseif haskey(traits, "aws.protocols#restXml")
+        ("rest-xml", nothing)
+    elseif haskey(traits, "aws.protocols#restJson1")
+        ("rest-json", nothing)
+    elseif haskey(traits, "aws.protocols#awsJson1_1")
+        ("json", "1.1")
+    elseif haskey(traits, "aws.protocols#awsJson1_0")
+        ("json", "1.0")
+    else
+        aws_protocol_traits = filter(startswith("aws.protocols#"), collect(keys(traits)))
+        if !isempty(aws_protocol_traits)
+            throw(
+                ProtocolNotDefined(
+                    "Service only uses unsupported AWS protocol(s): $(join(aws_protocol_traits, ", "))",
+                ),
+            )
+        else
+            throw(ProtocolNotDefined("Service does not define any AWS protocols"))
         end
     end
+end
 
-    return latest_versions
+"""
+Convert a Smithy shape into the legacy `aws-sdk-js` model format.
+"""
+function _smithy_to_legacy_shape(shape::AbstractDict)
+    shape_type = get(shape, "type", nothing)
+    if shape_type == "structure"
+        return _smithy_to_legacy_structure(shape)
+    elseif shape_type in ("list", "set")
+        return _smithy_to_legacy_list(shape)
+    elseif !isnothing(shape_type)
+        throw(ArgumentError("Unhandled Smithy shape type: $shape_type"))
+    else
+        throw(ArgumentError("Smithy shape has no type"))
+    end
+end
+
+function _smithy_to_legacy_structure(shape::AbstractDict)
+    members = get(shape, "members", Dict())
+    required_list = String[]
+    legacy_members = Dict{String,Any}()
+
+    for (member_name, member) in members
+        member_traits = get(member, "traits", Dict())
+        legacy_member = Dict{String,Any}()
+
+        # Determine location and locationName from HTTP binding traits
+        if haskey(member_traits, "smithy.api#httpLabel")
+            legacy_member["location"] = "uri"
+            legacy_member["locationName"] = get(
+                member_traits, "smithy.api#xmlName", member_name
+            )
+        elseif haskey(member_traits, "smithy.api#httpHeader")
+            legacy_member["location"] = "header"
+            legacy_member["locationName"] = member_traits["smithy.api#httpHeader"]
+        elseif haskey(member_traits, "smithy.api#httpQuery")
+            legacy_member["location"] = "querystring"
+            legacy_member["locationName"] = member_traits["smithy.api#httpQuery"]
+        else
+            legacy_member["location"] = ""
+        end
+
+        legacy_member["shape"] = _shape_name(member["target"])
+
+        if haskey(member_traits, "smithy.api#documentation")
+            legacy_member["documentation"] = member_traits["smithy.api#documentation"]
+        end
+
+        if haskey(member_traits, "smithy.api#idempotencyToken")
+            legacy_member["idempotencyToken"] = true
+        end
+
+        if haskey(member_traits, "smithy.api#required")
+            push!(required_list, member_name)
+        end
+
+        legacy_members[member_name] = legacy_member
+    end
+
+    result = Dict{String,Any}("members" => legacy_members)
+    isempty(required_list) || (result["required"] = required_list)
+    return result
+end
+
+function _smithy_to_legacy_list(shape::AbstractDict)
+    member = get(shape, "member", Dict())
+    member_traits = get(member, "traits", Dict())
+    legacy_member = Dict{String,Any}()
+
+    if haskey(member_traits, "smithy.api#xmlName")
+        legacy_member["locationName"] = member_traits["smithy.api#xmlName"]
+    end
+
+    return Dict{String,Any}("member" => legacy_member)
 end
 
 """
@@ -519,29 +729,6 @@ function _replace(
 end
 
 """
-Get the `service` and `version` from a filename.
-Example filename: `{Service}-{Version}.normal.json`
-"""
-function _get_service_and_version(filename::String)
-    try
-        # Remove ".normal.json" suffix
-        service_and_version = join(split(filename, '.')[1:(end - 2)], '.')
-
-        service_and_version = split(service_and_version, '-')
-        service = join(service_and_version[1:(end - 3)], '-')
-        version = join(service_and_version[(end - 2):end], '-')
-
-        return (service, version)
-    catch e
-        if e isa BoundsError
-            throw(InvalidFileName("$filename is an invalid AWS JSON filename."))
-        else
-            rethrow()
-        end
-    end
-end
-
-"""
 Get the required and optional parameters for a given operation.
 """
 function _get_function_parameters(input::String, shapes::AbstractDict{String})
@@ -565,7 +752,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
         # Check to see if the nested shape has a locationName
         nested_shape = input_shape["members"][parameter]["shape"]
-        nested_member = get(shapes[nested_shape], "member", Dict())
+        nested_member = get(get(shapes, nested_shape, Dict()), "member", Dict())
 
         # If nested_shape[member] exists return locationName (if exists), otherwise return the original parameter name
         return get(nested_member, "locationName", parameter)
@@ -573,7 +760,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     required_parameters = LittleDict{String,Any}()
     optional_parameters = LittleDict{String,Any}()
-    input_shape = shapes[input]
+    input_shape = get(shapes, input, Dict())
 
     if haskey(input_shape, "required")
         for parameter in input_shape["required"]

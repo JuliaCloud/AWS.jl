@@ -10,9 +10,9 @@ using AWS.UUIDs: uuid4
 
 Use this operation to retrieve one or more *service level objective (SLO) budget reports*.
 
-An *error budget* is the amount of time or requests in an unhealthy state that your service
-can accumulate during an interval before your overall SLO budget health is breached and the
-SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly
+An *error budget* is the amount of time in unhealthy periods that your service can
+accumulate during an interval before your overall SLO budget health is breached and the SLO
+is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly
 interval translates to an error budget of 21.9 minutes of downtime in a 30-day month.
 
 Budget reports include a health indicator, the attainment value, and remaining budget.
@@ -62,8 +62,8 @@ function batch_get_service_level_objective_budget_report(
 end
 
 """
-    create_service_level_objective(name)
-    create_service_level_objective(name, params::Dict{String,<:Any})
+    create_service_level_objective(name, sli_config)
+    create_service_level_objective(name, sli_config, params::Dict{String,<:Any})
 
 Creates a service level objective (SLO), which can help you ensure that your critical
 business operations are meeting customer expectations. Use SLOs to set and track specific
@@ -74,49 +74,21 @@ the level that you want.
 Create an SLO to set a target for a service or operation’s availability or latency.
 CloudWatch measures this target frequently you can find whether it has been breached.
 
-The target performance quality that is defined for an SLO is the *attainment goal*.
-
-You can set SLO targets for your applications that are discovered by Application Signals,
-using critical metrics such as latency and availability. You can also set SLOs against any
-CloudWatch metric or math expression that produces a time series.
-
-When you create an SLO, you specify whether it is a *period-based SLO* or a *request-based
-SLO*. Each type of SLO has a different way of evaluating your application's performance
-against its attainment goal.
-
-- A *period-based SLO* uses defined *periods* of time within a specified total time
-  interval. For each period of time, Application Signals determines whether the application
-  met its goal. The attainment rate is calculated as the
-  `number of good periods/number of total periods`.
-
-For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within
-your interval, your application must meet its performance goal during at least 99.9% of the
-time periods.
-- A *request-based SLO* doesn't use pre-defined periods of time. Instead, the SLO measures
-  `number of good requests/number of total requests` during the interval. At any time, you
-  can find the ratio of good requests to total requests for the interval up to the time
-  stamp that you specify, and measure that ratio against the goal set in your SLO.
+When you create an SLO, you set an *attainment goal* for it. An *attainment goal* is the
+ratio of good periods that meet the threshold requirements to the total periods within the
+interval. For example, an attainment goal of 99.9% means that within your interval, you are
+targeting 99.9% of the periods to be in healthy state.
 
 After you have created an SLO, you can retrieve error budget reports for it. An *error
-budget* is the amount of time or amount of requests that your application can be non-
-compliant with the SLO's goal, and still have your application meet the goal.
+budget* is the number of periods or amount of time that your service can accumulate during
+an interval before your overall SLO budget health is breached and the SLO is considered to
+be unmet. for example, an SLO with a threshold that 99.95% of requests must be completed
+under 2000ms every month translates to an error budget of 21.9 minutes of downtime per
+month.
 
-- For a period-based SLO, the error budget starts at a number defined by the highest number
-  of periods that can fail to meet the threshold, while still meeting the overall goal. The
-  *remaining error budget* decreases with every failed period that is recorded. The error
-  budget within one interval can never increase.
-
-For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms
-every month translates to an error budget of 21.9 minutes of downtime per month.
-- For a request-based SLO, the remaining error budget is dynamic and can increase or
-  decrease, depending on the ratio of good requests to total requests.
-
-For more information about SLOs, see [Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
-
-When you perform a [`create_service_level_objective`](@ref) operation, Application Signals
-creates the *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it
-doesn't already exist in your account. This service- linked role has the following
-permissions:
+When you call this operation, Application Signals creates the
+*AWSServiceRoleForCloudWatchApplicationSignals* service-linked role, if it doesn't already
+exist in your account. This service- linked role has the following permissions:
 
 - `xray:GetServiceGraph`
 - `logs:StartQuery`
@@ -126,9 +98,17 @@ permissions:
 - `tag:GetResources`
 - `autoscaling:DescribeAutoScalingGroups`
 
+You can easily set SLO targets for your applications that are discovered by Application
+Signals, using critical metrics such as latency and availability. You can also set SLOs
+against any CloudWatch metric or math expression that produces a time series.
+
+For more information about SLOs, see [Service level objectives (SLOs)](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html).
+
 # Arguments
 
 - `name`: A name for this SLO.
+- `sli_config`: A structure that contains information about what service and what
+  performance metric that this SLO will monitor.
 
 # Optional Parameters
 
@@ -136,17 +116,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: An optional description for this SLO.
 
-- `"Goal"`: This structure contains the attributes that determine the goal of the SLO.
-
-- `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
-  information about what performance metric this SLO will monitor.
-
-  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
-
-- `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
-  about what performance metric this SLO will monitor.
-
-  You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same operation.
+- `"Goal"`: A structure that contains the attributes that determine the goal of the SLO.
+  This includes the time period for evaluation and the attainment threshold.
 
 - `"Tags"`: A list of key-value pairs to associate with the SLO. You can associate as many
   as 50 tags with an SLO. To be able to associate tags with the SLO when you create the SLO,
@@ -159,24 +130,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_service_level_objective end
 
 function create_service_level_objective(
-    Name; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, SliConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_signals(
         "POST",
         "/slo",
-        Dict{String,Any}("Name" => Name);
+        Dict{String,Any}("Name" => Name, "SliConfig" => SliConfig);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_service_level_objective(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Name,
+    SliConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_signals(
         "POST",
         "/slo",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "SliConfig" => SliConfig), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -221,8 +199,6 @@ Returns information about a service discovered by Application Signals.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-  Your requested start time will be rounded to the nearest hour.
-
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -239,8 +215,6 @@ Returns information about a service discovered by Application Signals.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
 """
 function get_service end
 
@@ -326,8 +300,6 @@ services.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-  Your requested end time will be rounded to the nearest hour.
-
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -344,8 +316,6 @@ services.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -411,8 +381,6 @@ are instrumented with CloudWatch RUM app monitors.
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-  Your requested start time will be rounded to the nearest hour.
-
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -429,8 +397,6 @@ are instrumented with CloudWatch RUM app monitors.
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -541,8 +507,6 @@ Signals. Only the operations that were invoked during the specified time range a
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
 
-  Your requested end time will be rounded to the nearest hour.
-
 - `key_attributes`: Use this field to specify which service you want to retrieve information
   for. You must specify at least the `Type`, `Name`, and `Environment` attributes.
 
@@ -559,8 +523,6 @@ Signals. Only the operations that were invoked during the specified time range a
 
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -625,13 +587,8 @@ Services are discovered through Application Signals instrumentation.
 
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
   HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
-
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: `1698778057`
-
-  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 
@@ -888,9 +845,6 @@ end
 Updates an existing service level objective (SLO). If you omit parameters, the previous
 values of those parameters are retained.
 
-You cannot change from a period-based SLO to a request-based SLO, or change from a request-
-based SLO to a period-based SLO.
-
 # Arguments
 
 - `id`: The Amazon Resource Name (ARN) or name of the service level objective that you want
@@ -901,17 +855,10 @@ based SLO to a period-based SLO.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the SLO.
-
 - `"Goal"`: A structure that contains the attributes that determine the goal of the SLO.
   This includes the time period for evaluation and the attainment threshold.
-
-- `"RequestBasedSliConfig"`: If this SLO is a request-based SLO, this structure defines the
-  information about what performance metric this SLO will monitor.
-
-  You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same operation.
-
-- `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
-  about what performance metric this SLO will monitor.
+- `"SliConfig"`: A structure that contains information about what performance metric this
+  SLO will monitor.
 """
 function update_service_level_objective end
 

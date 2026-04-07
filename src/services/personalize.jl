@@ -238,8 +238,8 @@ For more information about campaign costs, see [Amazon Personalize pricing](http
 
 A campaign can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- DELETE PENDING > DELETE IN_PROGRESS
 
 To get the campaign status, call [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html).
 
@@ -345,7 +345,7 @@ segments.
 
 A data deletion job can have one of the following statuses:
 
-- PENDING &gt; IN_PROGRESS &gt; COMPLETED -or- FAILED
+- PENDING > IN_PROGRESS > COMPLETED -or- FAILED
 
 To get the status of the data deletion job, call [DescribeDataDeletionJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html)
 API operation and specify the Amazon Resource Name (ARN) of the job. If the status is
@@ -443,8 +443,8 @@ creating a solution).
 
 A dataset can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- DELETE PENDING > DELETE IN_PROGRESS
 
 To get the status of the dataset, call [DescribeDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html).
 
@@ -545,7 +545,7 @@ in the Amazon Personalize developer guide.
 
 A dataset export job can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
 
 To get the status of the export job, call [DescribeDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html),
 and specify the Amazon Resource Name (ARN) of the dataset export job. The dataset export is
@@ -642,7 +642,7 @@ and solution versions trained with recipes for custom use cases and deployed wit
 
 A dataset group can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
 - DELETE PENDING
 
 To get the status of the dataset group, call [DescribeDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetGroup.html).
@@ -734,7 +734,7 @@ you use. For more information, see [How new data influences real-time recommenda
 
 A dataset import job can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
 
 To get the status of the import job, call [DescribeDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html),
 providing the Amazon Resource Name (ARN) of the dataset import job. The dataset import is
@@ -845,8 +845,8 @@ of the dataset group you specify in your event tracker.
 
 The event tracker can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- DELETE PENDING > DELETE IN_PROGRESS
 
 To get the status of the event tracker, call [DescribeEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html).
 
@@ -1080,10 +1080,9 @@ as necessary.
 
 A recommender can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS
-  &gt; ACTIVE
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE
+- DELETE PENDING > DELETE IN_PROGRESS
 
 To get the recommender status, call [DescribeRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html).
 
@@ -1218,10 +1217,11 @@ end
     create_solution(dataset_group_arn, name, params::Dict{String,<:Any})
 
 !!! important
-    By default, all new solutions use automatic training. With automatic training, you incur
-    training costs while your solution is active. To avoid unnecessary costs, when you are
-    finished you can [update the solution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
-    to turn off automatic training. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+    After you create a solution, you can’t change its configuration. By default, all new
+    solutions use automatic training. With automatic training, you incur training costs
+    while your solution is active. You can't stop automatic training for a solution. To
+    avoid unnecessary costs, make sure to delete the solution when you are finished. For
+    information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
 
 Creates the configuration for training a model (creating a solution version). This
 configuration includes the recipe to use for model training and optional training
@@ -1229,9 +1229,9 @@ configuration, such as columns to use in training and feature transformation par
 more information about configuring a solution, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
 
 By default, new solutions use automatic training to create solution versions every 7 days.
-You can change the training frequency. Automatic solution version creation starts within one
-hour after the solution is ACTIVE. If you manually create a solution version within the
-hour, the solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
+You can change the training frequency. Automatic solution version creation starts one hour
+after the solution is ACTIVE. If you manually create a solution version within the hour, the
+solution skips the first automatic training. For more information, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
 
 To turn off automatic training, set `performAutoTraining` to false. If you turn off
 automatic training, you must manually create a solution version by calling the [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html)
@@ -1254,8 +1254,8 @@ API.
 
 A solution can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- DELETE PENDING > DELETE IN_PROGRESS
 
 To get the status of the solution, call [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html).
 If you use manual training, the status must be ACTIVE before you call
@@ -1263,7 +1263,6 @@ If you use manual training, the status must be ACTIVE before you call
 
 ## Related APIs
 
-- [UpdateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html)
 - [ListSolutions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutions.html)
 - [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html)
 - [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
@@ -1308,9 +1307,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifying a `schedulingExpression` in the `AutoTrainingConfig` as part of solution
   configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
 
-  Automatic solution version creation starts within one hour after the solution is ACTIVE.
-  If you manually create a solution version within the hour, the solution skips the first
-  automatic training.
+  Automatic solution version creation starts one hour after the solution is ACTIVE. If you
+  manually create a solution version within the hour, the solution skips the first automatic
+  training.
 
   After training starts, you can get the solution version's Amazon Resource Name (ARN) with
   the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html)
@@ -1326,7 +1325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is required when `performAutoML` is false. For information about different Amazon
   Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
 
-- `"solutionConfig"`: The configuration properties for the solution. When `performAutoML` is
+- `"solutionConfig"`: The configuration to use with the solution. When `performAutoML` is
   set to true, Amazon Personalize only evaluates the `autoMLConfig` section of the solution
   configuration.
 
@@ -1952,8 +1951,8 @@ Describes the given campaign, including its status.
 
 A campaign can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- DELETE PENDING > DELETE IN_PROGRESS
 
 When the `status` is `CREATE FAILED`, the response includes the `failureReason` key, which
 describes why.
@@ -2414,10 +2413,9 @@ Describes the given recommender, including its status.
 
 A recommender can be in one of the following states:
 
-- CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-- STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt; START IN_PROGRESS
-  &gt; ACTIVE
-- DELETE PENDING &gt; DELETE IN_PROGRESS
+- CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+- STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE
+- DELETE PENDING > DELETE IN_PROGRESS
 
 When the `status` is `CREATE FAILED`, the response includes the `failureReason` key, which
 describes why.
@@ -3271,10 +3269,10 @@ IN_PROGRESS.
 Depending on the current state of the solution version, the solution version state changes
 as follows:
 
-- CREATE_PENDING &gt; CREATE_STOPPED
+- CREATE_PENDING > CREATE_STOPPED
 
 or
-- CREATE_IN_PROGRESS &gt; CREATE_STOPPING &gt; CREATE_STOPPED
+- CREATE_IN_PROGRESS > CREATE_STOPPING > CREATE_STOPPED
 
 You are billed for all of the training completed up until you stop the solution version
 creation. You cannot resume creating a solution version once it has been stopped.
@@ -3604,70 +3602,6 @@ function update_recommender(
                 ),
                 params,
             ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_solution(solution_arn)
-    update_solution(solution_arn, params::Dict{String,<:Any})
-
-Updates an Amazon Personalize solution to use a different automatic training configuration.
-When you update a solution, you can change whether the solution uses automatic training, and
-you can change the training frequency. For more information about updating a solution, see [Updating a solution](https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html).
-
-A solution update can be in one of the following states:
-
-CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-
-To get the status of a solution update, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html)
-API operation and find the status in the `latestSolutionUpdate`.
-
-# Arguments
-
-- `solution_arn`: The Amazon Resource Name (ARN) of the solution to update.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"performAutoTraining"`: Whether the solution uses automatic training to create new
-  solution versions (trained models). You can change the training frequency by specifying a
-  `schedulingExpression` in the `AutoTrainingConfig` as part of solution configuration.
-
-  If you turn on automatic training, the first automatic training starts within one hour
-  after the solution update completes. If you manually create a solution version within the
-  hour, the solution skips the first automatic training. For more information about
-  automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html).
-
-  After training starts, you can get the solution version's Amazon Resource Name (ARN) with
-  the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html)
-  API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
-
-- `"solutionUpdateConfig"`: The new configuration details of the solution.
-"""
-function update_solution end
-
-function update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return personalize(
-        "UpdateSolution",
-        Dict{String,Any}("solutionArn" => solutionArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_solution(
-    solutionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return personalize(
-        "UpdateSolution",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("solutionArn" => solutionArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

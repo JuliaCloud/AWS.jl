@@ -1513,18 +1513,18 @@ address.
 """
 function get_dedicated_ip end
 
-function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config())
+function get_dedicated_ip(Ip; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
-        "GET", "/v2/email/dedicated-ips/$(IP)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v2/email/dedicated-ips/$(Ip)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_dedicated_ip(
-    IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Ip, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sesv2(
         "GET",
-        "/v2/email/dedicated-ips/$(IP)",
+        "/v2/email/dedicated-ips/$(Ip)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1977,7 +1977,7 @@ function get_message_insights end
 function get_message_insights(MessageId; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
-        "/v2/email/insights/$(MessageId)/";
+        "/v2/email/insights/$(MessageId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1990,7 +1990,7 @@ function get_message_insights(
 )
     return sesv2(
         "GET",
-        "/v2/email/insights/$(MessageId)/",
+        "/v2/email/insights/$(MessageId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2694,14 +2694,15 @@ function put_account_dedicated_ip_warmup_attributes(
 end
 
 """
-    put_account_details(mail_type, website_url)
-    put_account_details(mail_type, website_url, params::Dict{String,<:Any})
+    put_account_details(mail_type, use_case_description, website_url)
+    put_account_details(mail_type, use_case_description, website_url, params::Dict{String,<:Any})
 
 Update your Amazon SES account details.
 
 # Arguments
 
 - `mail_type`: The type of email your account will send.
+- `use_case_description`: A description of the types of email that you plan to send.
 - `website_url`: The URL of your website. This information helps us better understand the
   type of content that you plan to send.
 
@@ -2723,18 +2724,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the value is `true`, then your account has production access. When your account has
   production access, you can send email to any address. The sending quota and maximum
   sending rate for your account vary based on your specific use case.
-
-- `"UseCaseDescription"`: A description of the types of email that you plan to send.
 """
 function put_account_details end
 
 function put_account_details(
-    MailType, WebsiteURL; aws_config::AbstractAWSConfig=current_aws_config()
+    MailType,
+    UseCaseDescription,
+    WebsiteURL;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sesv2(
         "POST",
         "/v2/email/account/details",
-        Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL);
+        Dict{String,Any}(
+            "MailType" => MailType,
+            "UseCaseDescription" => UseCaseDescription,
+            "WebsiteURL" => WebsiteURL,
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2742,6 +2748,7 @@ end
 
 function put_account_details(
     MailType,
+    UseCaseDescription,
     WebsiteURL,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2752,7 +2759,11 @@ function put_account_details(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL),
+                Dict{String,Any}(
+                    "MailType" => MailType,
+                    "UseCaseDescription" => UseCaseDescription,
+                    "WebsiteURL" => WebsiteURL,
+                ),
                 params,
             ),
         );
@@ -3187,11 +3198,11 @@ Move a dedicated IP address to an existing dedicated IP pool.
 function put_dedicated_ip_in_pool end
 
 function put_dedicated_ip_in_pool(
-    DestinationPoolName, IP; aws_config::AbstractAWSConfig=current_aws_config()
+    DestinationPoolName, Ip; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sesv2(
         "PUT",
-        "/v2/email/dedicated-ips/$(IP)/pool",
+        "/v2/email/dedicated-ips/$(Ip)/pool",
         Dict{String,Any}("DestinationPoolName" => DestinationPoolName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3200,13 +3211,13 @@ end
 
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
-    IP,
+    Ip,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sesv2(
         "PUT",
-        "/v2/email/dedicated-ips/$(IP)/pool",
+        "/v2/email/dedicated-ips/$(Ip)/pool",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3282,11 +3293,11 @@ end
 function put_dedicated_ip_warmup_attributes end
 
 function put_dedicated_ip_warmup_attributes(
-    IP, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
+    Ip, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sesv2(
         "PUT",
-        "/v2/email/dedicated-ips/$(IP)/warmup",
+        "/v2/email/dedicated-ips/$(Ip)/warmup",
         Dict{String,Any}("WarmupPercentage" => WarmupPercentage);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3294,14 +3305,14 @@ function put_dedicated_ip_warmup_attributes(
 end
 
 function put_dedicated_ip_warmup_attributes(
-    IP,
+    Ip,
     WarmupPercentage,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sesv2(
         "PUT",
-        "/v2/email/dedicated-ips/$(IP)/warmup",
+        "/v2/email/dedicated-ips/$(Ip)/warmup",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("WarmupPercentage" => WarmupPercentage), params
@@ -4075,7 +4086,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
   To remove more than one tag from the resource, append the `TagKeys` parameter and argument
   for each additional tag to remove, separated by an ampersand. For example:
-  `/v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2`
+  `/v2/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2`
 """
 function untag_resource end
 

@@ -90,7 +90,7 @@ end
     add_permission(action, function_name, principal, statement_id)
     add_permission(action, function_name, principal, statement_id, params::Dict{String,<:Any})
 
-Grants an Amazon Web Servicesservice, Amazon Web Services account, or Amazon Web Services
+Grants an Amazon Web Service, Amazon Web Services account, or Amazon Web Services
 organization permission to use a function. You can apply the policy at the function level,
 or specify a qualifier to restrict access to a single version or alias. If you use a
 qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias
@@ -98,12 +98,11 @@ to invoke the function. Note: Lambda does not support adding policies to version
 
 To grant permission to another account, specify the account ID as the `Principal`. To grant
 permission to an organization defined in Organizations, specify the organization ID as the
-`PrincipalOrgID`. For Amazon Web Servicesservices, the principal is a domain-style
-identifier that the service defines, such as `s3.amazonaws.com` or `sns.amazonaws.com`. For
-Amazon Web Servicesservices, you can also specify the ARN of the associated resource as the
-`SourceArn`. If you grant permission to a service principal without specifying the source,
-other accounts could potentially configure resources in their account to invoke your Lambda
-function.
+`PrincipalOrgID`. For Amazon Web Services, the principal is a domain-style identifier that
+the service defines, such as `s3.amazonaws.com` or `sns.amazonaws.com`. For Amazon Web
+Services, you can also specify the ARN of the associated resource as the `SourceArn`. If you
+grant permission to a service principal without specifying the source, other accounts could
+potentially configure resources in their account to invoke your Lambda function.
 
 This operation adds a statement to a resource-based permissions policy for the function. For
 more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
@@ -125,9 +124,9 @@ more information about function policies, see [Using resource-based policies for
   applies only to the full ARN. If you specify only the function name, it is limited to 64
   characters in length.
 
-- `principal`: The Amazon Web Servicesservice or Amazon Web Services account that invokes
-  the function. If you specify a service, use `SourceArn` or `SourceAccount` to limit who
-  can invoke the function through that service.
+- `principal`: The Amazon Web Service or Amazon Web Services account that invokes the
+  function. If you specify a service, use `SourceArn` or `SourceAccount` to limit who can
+  invoke the function through that service.
 
 - `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
@@ -152,13 +151,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Update the policy only if the revision ID matches the ID that's specified.
   Use this option to avoid modifying a policy that has changed since you last read it.
 
-- `"SourceAccount"`: For Amazon Web Servicesservice, the ID of the Amazon Web Services
-  account that owns the resource. Use this together with `SourceArn` to ensure that the
-  specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted
-  by its owner and recreated by another account.
+- `"SourceAccount"`: For Amazon Web Service, the ID of the Amazon Web Services account that
+  owns the resource. Use this together with `SourceArn` to ensure that the specified account
+  owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and
+  recreated by another account.
 
-- `"SourceArn"`: For Amazon Web Servicesservices, the ARN of the Amazon Web Services
-  resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
+- `"SourceArn"`: For Amazon Web Services, the ARN of the Amazon Web Services resource that
+  invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
 
   Note that Lambda configures the comparison using the `StringLike` operator.
 """
@@ -309,7 +308,7 @@ function create_code_signing_config(
 )
     return lambda(
         "POST",
-        "/2020-04-22/code-signing-configs/",
+        "/2020-04-22/code-signing-configs",
         Dict{String,Any}("AllowedPublishers" => AllowedPublishers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -323,7 +322,7 @@ function create_code_signing_config(
 )
     return lambda(
         "POST",
-        "/2020-04-22/code-signing-configs/",
+        "/2020-04-22/code-signing-configs",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("AllowedPublishers" => AllowedPublishers), params
@@ -443,26 +442,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
   response type enums applied to the event source mapping.
 
-- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that
-  Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-  By default, Lambda does not encrypt your filter criteria object. Specify this property to
-  encrypt data using your own customer managed key.
-
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   `MaximumBatchingWindowInSeconds` to any value from 0 seconds to 300 seconds in increments
   of seconds.
 
-  For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0
-  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
-  sources, the default batching window is 500 ms. Note that because you can only change
+  For streams and Amazon SQS event sources, the default batching window is 0 seconds. For
+  Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the
+  default batching window is 500 ms. Note that because you can only change
   `MaximumBatchingWindowInSeconds` in increments of seconds, you cannot revert back to the
   500 ms default batching window after you have changed it. To restore the default batching
 window, you must create a new event source mapping.
 
-  Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set
-  `BatchSize` to a value greater than 10, you must set `MaximumBatchingWindowInSeconds` to
-  at least 1.
+  Related setting: For streams and Amazon SQS event sources, when you set `BatchSize` to a
+  value greater than 10, you must set `MaximumBatchingWindowInSeconds` to at least 1.
 
 - `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
   than the specified age. The default value is infinite (-1).
@@ -507,7 +500,7 @@ function create_event_source_mapping(
 )
     return lambda(
         "POST",
-        "/2015-03-31/event-source-mappings/",
+        "/2015-03-31/event-source-mappings",
         Dict{String,Any}("FunctionName" => FunctionName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -521,7 +514,7 @@ function create_event_source_mapping(
 )
     return lambda(
         "POST",
-        "/2015-03-31/event-source-mappings/",
+        "/2015-03-31/event-source-mappings",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("FunctionName" => FunctionName), params)
         );
@@ -537,8 +530,8 @@ end
 Creates a Lambda function. To create a function, you need a [deployment package](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html)
 and an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role).
 The deployment package is a .zip file archive or container image that contains your function
-code. The execution role grants the function permission to use Amazon Web Servicesservices,
-such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
+code. The execution role grants the function permission to use Amazon Web Services, such as
+Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
 
 If the deployment package is a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html),
 then you set the package type to `Image`. For a container image, the code property must
@@ -577,13 +570,12 @@ the code package has a valid signature from a trusted publisher. The code-signin
 configuration includes set of signing profiles, which define the trusted publishers for this
 function.
 
-If another Amazon Web Services account or an Amazon Web Servicesservice invokes your
-function, use [`add_permission`](@ref) to grant permission by creating a resource-based
-Identity and Access Management (IAM) policy. You can grant permissions at the function
-level, on a version, or on an alias.
+If another Amazon Web Services account or an Amazon Web Service invokes your function, use [`add_permission`](@ref)
+to grant permission by creating a resource-based Identity and Access Management (IAM)
+policy. You can grant permissions at the function level, on a version, or on an alias.
 
 To invoke your function directly, use [`invoke`](@ref). To invoke your function in response
-to events in other Amazon Web Servicesservices, create an event source mapping ([`create_event_source_mapping`](@ref)),
+to events in other Amazon Web Services, create an event source mapping ([`create_event_source_mapping`](@ref)),
 or configure a function trigger in the other service. For more information, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html).
 
 # Arguments
@@ -662,14 +654,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Publish"`: Set to true to publish the first version of the function during creation.
 
 - `"Runtime"`: The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
-  Runtime is required if the deployment package is a .zip file archive. Specifying a runtime
-  results in an error if you're deploying a function using a container image.
+  Runtime is required if the deployment package is a .zip file archive.
 
-  The following list includes deprecated runtimes. Lambda blocks creating new functions and
-  updating existing functions shortly after each runtime is deprecated. For more
-  information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
-
-  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
 - `"SnapStart"`: The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html)
   setting.
@@ -935,8 +922,8 @@ parameter. Otherwise, all versions and aliases are deleted. This doesn't require
 have explicit permissions for [`delete_alias`](@ref).
 
 To delete Lambda event source mappings that invoke a function, use [`delete_event_source_mapping`](@ref).
-For Amazon Web Servicesservices and resources that invoke your function directly, delete the
-trigger in the service where you originally configured it.
+For Amazon Web Services and resources that invoke your function directly, delete the trigger
+in the service where you originally configured it.
 
 # Arguments
 
@@ -1288,7 +1275,7 @@ function get_account_settings end
 
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
-        "GET", "/2016-08-19/account-settings/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2016-08-19/account-settings"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1297,7 +1284,7 @@ function get_account_settings(
 )
     return lambda(
         "GET",
-        "/2016-08-19/account-settings/",
+        "/2016-08-19/account-settings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1676,44 +1663,6 @@ function get_function_event_invoke_config(
     return lambda(
         "GET",
         "/2019-09-25/functions/$(FunctionName)/event-invoke-config",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_function_recursion_config(function_name)
-    get_function_recursion_config(function_name, params::Dict{String,<:Any})
-
-Returns your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html)
-configuration.
-
-# Arguments
-
-- `function_name`:
-"""
-function get_function_recursion_config end
-
-function get_function_recursion_config(
-    FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lambda(
-        "GET",
-        "/2024-08-31/functions/$(FunctionName)/recursion-config";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_function_recursion_config(
-    FunctionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return lambda(
-        "GET",
-        "/2024-08-31/functions/$(FunctionName)/recursion-config",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2192,7 +2141,7 @@ function invoke_async(
 )
     return lambda(
         "POST",
-        "/2014-11-13/functions/$(FunctionName)/invoke-async/",
+        "/2014-11-13/functions/$(FunctionName)/invoke-async",
         Dict{String,Any}("InvokeArgs" => InvokeArgs);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2207,7 +2156,7 @@ function invoke_async(
 )
     return lambda(
         "POST",
-        "/2014-11-13/functions/$(FunctionName)/invoke-async/",
+        "/2014-11-13/functions/$(FunctionName)/invoke-async",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InvokeArgs" => InvokeArgs), params)
         );
@@ -2367,7 +2316,7 @@ function list_code_signing_configs end
 function list_code_signing_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
-        "/2020-04-22/code-signing-configs/";
+        "/2020-04-22/code-signing-configs";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2378,7 +2327,7 @@ function list_code_signing_configs(
 )
     return lambda(
         "GET",
-        "/2020-04-22/code-signing-configs/",
+        "/2020-04-22/code-signing-configs",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2430,7 +2379,7 @@ function list_event_source_mappings end
 function list_event_source_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "GET",
-        "/2015-03-31/event-source-mappings/";
+        "/2015-03-31/event-source-mappings";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2441,7 +2390,7 @@ function list_event_source_mappings(
 )
     return lambda(
         "GET",
-        "/2015-03-31/event-source-mappings/",
+        "/2015-03-31/event-source-mappings",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2596,7 +2545,7 @@ function list_functions end
 
 function list_functions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
-        "GET", "/2015-03-31/functions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2015-03-31/functions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2604,7 +2553,7 @@ function list_functions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lambda(
-        "GET", "/2015-03-31/functions/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2015-03-31/functions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2676,11 +2625,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CompatibleArchitecture"`: The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 
-- `"CompatibleRuntime"`: A runtime identifier.
+- `"CompatibleRuntime"`: A runtime identifier. For example, `java21`.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
-
-  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
 - `"Marker"`: A pagination token returned by a previous call.
 
@@ -2726,11 +2673,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CompatibleArchitecture"`: The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
 
-- `"CompatibleRuntime"`: A runtime identifier.
+- `"CompatibleRuntime"`: A runtime identifier. For example, `java21`.
 
-  The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
-
-  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
 - `"Marker"`: A pagination token returned by a previous call.
 
@@ -2805,31 +2750,33 @@ function list_provisioned_concurrency_configs(
 end
 
 """
-    list_tags(arn)
-    list_tags(arn, params::Dict{String,<:Any})
+    list_tags(resource)
+    list_tags(resource, params::Dict{String,<:Any})
 
 Returns a function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You
 can also view tags with [`get_function`](@ref).
 
 # Arguments
 
-- `arn`: The function's Amazon Resource Name (ARN). Note: Lambda does not support adding
-  tags to aliases or versions.
+- `resource`: The function's Amazon Resource Name (ARN). Note: Lambda does not support
+  adding tags to aliases or versions.
 """
 function list_tags end
 
-function list_tags(ARN; aws_config::AbstractAWSConfig=current_aws_config())
+function list_tags(Resource; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
-        "GET", "/2017-03-31/tags/$(ARN)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/2017-03-31/tags/$(Resource)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags(
-    ARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lambda(
         "GET",
-        "/2017-03-31/tags/$(ARN)",
+        "/2017-03-31/tags/$(Resource)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3236,87 +3183,6 @@ function put_function_event_invoke_config(
 end
 
 """
-    put_function_recursion_config(function_name, recursive_loop)
-    put_function_recursion_config(function_name, recursive_loop, params::Dict{String,<:Any})
-
-Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html)
-configuration.
-
-When you configure a Lambda function to output to the same service or resource that invokes
-the function, it's possible to create an infinite recursive loop. For example, a Lambda
-function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which
-then invokes the same function. This invocation causes the function to write another message
-to the queue, which in turn invokes the function again.
-
-Lambda can detect certain types of recursive loops shortly after they occur. When Lambda
-detects a recursive loop and your function's recursive loop detection configuration is set
-to `Terminate`, it stops your function being invoked and notifies you.
-
-# Arguments
-
-- `function_name`: The name or ARN of the Lambda function.
-
-  ## Name formats
-
-  - **Function name** – `my-function`.
-  - **Function ARN** – `arn:aws:lambda:us-west-2:123456789012:function:my-function`.
-  - **Partial ARN** – `123456789012:function:my-function`.
-
-  The length constraint applies only to the full ARN. If you specify only the function name,
-  it is limited to 64 characters in length.
-
-- `recursive_loop`: If you set your function's recursive loop detection configuration to
-  `Allow`, Lambda doesn't take any action when it detects your function being invoked as
-  part of a recursive loop. We recommend that you only use this setting if your design
-  intentionally uses a Lambda function to write data back to the same Amazon Web Services
-  resource that invokes it.
-
-  If you set your function's recursive loop detection configuration to `Terminate`, Lambda
-  stops your function being invoked and notifies you when it detects your function being
-  invoked as part of a recursive loop.
-
-  By default, Lambda sets your function's configuration to `Terminate`.
-
-  !!! important
-      If your design intentionally uses a Lambda function to write data back to the same
-      Amazon Web Services resource that invokes the function, then use caution and implement
-      suitable guard rails to prevent unexpected charges being billed to your Amazon Web
-      Services account. To learn more about best practices for using recursive invocation
-      patterns, see [Recursive patterns that cause run-away Lambda functions](https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway)
-      in Serverless Land.
-"""
-function put_function_recursion_config end
-
-function put_function_recursion_config(
-    FunctionName, RecursiveLoop; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lambda(
-        "PUT",
-        "/2024-08-31/functions/$(FunctionName)/recursion-config",
-        Dict{String,Any}("RecursiveLoop" => RecursiveLoop);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function put_function_recursion_config(
-    FunctionName,
-    RecursiveLoop,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return lambda(
-        "PUT",
-        "/2024-08-31/functions/$(FunctionName)/recursion-config",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("RecursiveLoop" => RecursiveLoop), params)
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier)
     put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier, params::Dict{String,<:Any})
 
@@ -3524,8 +3390,8 @@ end
     remove_permission(function_name, statement_id)
     remove_permission(function_name, statement_id, params::Dict{String,<:Any})
 
-Revokes function-use permission from an Amazon Web Servicesservice or another Amazon Web
-Services account. You can get the ID of the statement from the output of [`get_policy`](@ref).
+Revokes function-use permission from an Amazon Web Service or another Amazon Web Services
+account. You can get the ID of the statement from the output of [`get_policy`](@ref).
 
 # Arguments
 
@@ -3581,22 +3447,22 @@ function remove_permission(
 end
 
 """
-    tag_resource(arn, tags)
-    tag_resource(arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource, tags)
+    tag_resource(resource, tags, params::Dict{String,<:Any})
 
 Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function.
 
 # Arguments
 
-- `arn`: The function's Amazon Resource Name (ARN).
+- `resource`: The function's Amazon Resource Name (ARN).
 - `tags`: A list of tags to apply to the function.
 """
 function tag_resource end
 
-function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lambda(
         "POST",
-        "/2017-03-31/tags/$(ARN)",
+        "/2017-03-31/tags/$(Resource)",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3604,14 +3470,14 @@ function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_confi
 end
 
 function tag_resource(
-    ARN,
+    Resource,
     Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lambda(
         "POST",
-        "/2017-03-31/tags/$(ARN)",
+        "/2017-03-31/tags/$(Resource)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3619,22 +3485,24 @@ function tag_resource(
 end
 
 """
-    untag_resource(arn, tag_keys)
-    untag_resource(arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource, tag_keys)
+    untag_resource(resource, tag_keys, params::Dict{String,<:Any})
 
 Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function.
 
 # Arguments
 
-- `arn`: The function's Amazon Resource Name (ARN).
+- `resource`: The function's Amazon Resource Name (ARN).
 - `tag_keys`: A list of tag keys to remove from the function.
 """
 function untag_resource end
 
-function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
+function untag_resource(
+    Resource, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return lambda(
         "DELETE",
-        "/2017-03-31/tags/$(ARN)",
+        "/2017-03-31/tags/$(Resource)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3642,14 +3510,14 @@ function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_
 end
 
 function untag_resource(
-    ARN,
+    Resource,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lambda(
         "DELETE",
-        "/2017-03-31/tags/$(ARN)",
+        "/2017-03-31/tags/$(Resource)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3861,26 +3729,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
   response type enums applied to the event source mapping.
 
-- `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that
-  Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-  By default, Lambda does not encrypt your filter criteria object. Specify this property to
-  encrypt data using your own customer managed key.
-
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   `MaximumBatchingWindowInSeconds` to any value from 0 seconds to 300 seconds in increments
   of seconds.
 
-  For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0
-  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
-  sources, the default batching window is 500 ms. Note that because you can only change
+  For streams and Amazon SQS event sources, the default batching window is 0 seconds. For
+  Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the
+  default batching window is 500 ms. Note that because you can only change
   `MaximumBatchingWindowInSeconds` in increments of seconds, you cannot revert back to the
   500 ms default batching window after you have changed it. To restore the default batching
 window, you must create a new event source mapping.
 
-  Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set
-  `BatchSize` to a value greater than 10, you must set `MaximumBatchingWindowInSeconds` to
-  at least 1.
+  Related setting: For streams and Amazon SQS event sources, when you set `BatchSize` to a
+  value greater than 10, you must set `MaximumBatchingWindowInSeconds` to at least 1.
 
 - `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
   than the specified age. The default value is infinite (-1).
@@ -4038,7 +3900,7 @@ version. You can't modify the configuration of a published version, only the unp
 version.
 
 To configure function concurrency, use [`put_function_concurrency`](@ref). To grant invoke
-permissions to an Amazon Web Services account or Amazon Web Servicesservice, use [`add_permission`](@ref).
+permissions to an Amazon Web Services account or Amazon Web Service, use [`add_permission`](@ref).
 
 # Arguments
 
@@ -4105,14 +3967,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
 
 - `"Runtime"`: The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
-  Runtime is required if the deployment package is a .zip file archive. Specifying a runtime
-  results in an error if you're deploying a function using a container image.
+  Runtime is required if the deployment package is a .zip file archive.
 
-  The following list includes deprecated runtimes. Lambda blocks creating new functions and
-  updating existing functions shortly after each runtime is deprecated. For more
-  information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
-
-  For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+  The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
 
 - `"SnapStart"`: The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html)
   setting.

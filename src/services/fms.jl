@@ -1757,7 +1757,7 @@ policy from another Amazon Web Services service.
 
 # Arguments
 
-- `resource_set`: Details about the resource set to be created or updated.&gt;
+- `resource_set`: Details about the resource set to be created or updated.>
 
 # Optional Parameters
 

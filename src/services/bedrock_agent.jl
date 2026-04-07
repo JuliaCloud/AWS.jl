@@ -89,14 +89,10 @@ software applications, user conversations, and APIs to carry out tasks to help c
   - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the agent
     should maintain session information. After this time expires, the subsequent
     `InvokeAgent` request begins a new session.
-- To enable your agent to retain conversational context across multiple sessions, include a
-  `memoryConfiguration` object. For more information, see [Configure memory](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html).
 - To override the default prompt behavior for agent orchestration and to use advanced
   prompts, include a `promptOverrideConfiguration` object. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
-- If your agent fails to be created, the response returns a list of `failureReasons`
+- If you agent fails to be created, the response returns a list of `failureReasons`
   alongside a list of `recommendedActions` for you to troubleshoot.
-- The agent instructions will not be honored if your agent has only one knowledge base, uses
-  default prompts, has no action group, and user input is disabled.
 
 # Arguments
 
@@ -133,8 +129,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"instruction"`: Instructions that tell the agent what it should do and how it should
   interact with users.
-
-- `"memoryConfiguration"`: Contains the details of the memory configured for the agent.
 
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
   parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
@@ -185,16 +179,10 @@ calling them.
 
 To allow your agent to request the user for additional information when trying to complete a
 task, add an action group with the `parentActionGroupSignature` field set to
-`AMAZON.UserInput`.
-
-To allow your agent to generate, run, and troubleshoot code when trying to complete a task,
-add an action group with the `parentActionGroupSignature` field set to
-`AMAZON.CodeInterpreter`.
-
-You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for
-this action group. During orchestration, if your agent determines that it needs to invoke an
-API in an action group, but doesn't have enough information to complete the API request, it
-will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+`AMAZON.UserInput`. You must leave the `description`, `apiSchema`, and `actionGroupExecutor`
+fields blank for this action group. During orchestration, if your agent determines that it
+needs to invoke an API in an action group, but doesn't have enough information to complete
+the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
 reprompting the user for more information.
 
 # Arguments
@@ -232,10 +220,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information when trying to complete a task, set this field to `AMAZON.UserInput`. You must
   leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this
   action group.
-
-  To allow your agent to generate, run, and troubleshoot code when trying to complete a
-  task, set this field to `AMAZON.CodeInterpreter`. You must leave the `description`,
-  `apiSchema`, and `actionGroupExecutor` fields blank for this action group.
 
   During orchestration, if your agent determines that it needs to invoke an API in an action
   group, but doesn't have enough information to complete the API request, it will invoke
@@ -350,14 +334,14 @@ end
     create_data_source(data_source_configuration, knowledge_base_id, name)
     create_data_source(data_source_configuration, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Creates a data source connector for a knowledge base.
+Sets up a data source to be added to a knowledge base.
 
 !!! important
-    You can't change the `chunkingConfiguration` after you create the data source connector.
+    You can't change the `chunkingConfiguration` after you create the data source.
 
 # Arguments
 
-- `data_source_configuration`: The connection configuration for the data source.
+- `data_source_configuration`: Contains metadata about where the data source is stored.
 - `knowledge_base_id`: The unique identifier of the knowledge base to which to add the data
   source.
 - `name`: The name of the data source.
@@ -369,24 +353,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
   ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-
-- `"dataDeletionPolicy"`: The data deletion policy for the data source.
-
-  You can set the data deletion policy to:
-
-  - DELETE: Deletes all data from your data source that’s converted into vector embeddings
-    upon deletion of a knowledge base or data source resource. Note that the **vector store
-    itself is not deleted**, only the data. This flag is ignored if an Amazon Web Services
-    account is deleted.
-  - RETAIN: Retains all data from your data source that’s converted into vector embeddings
-    upon deletion of a knowledge base or data source resource. Note that the **vector store
-    itself is not deleted** if you delete a knowledge base or data source resource.
-
+- `"dataDeletionPolicy"`: The data deletion policy assigned to the data source.
 - `"description"`: A description of the data source.
-
 - `"serverSideEncryptionConfiguration"`: Contains details about the server-side encryption
   for the data source.
-
 - `"vectorIngestionConfiguration"`: Contains details about how to ingest the documents in
   the data source.
 """
@@ -431,201 +401,6 @@ function create_data_source(
                 ),
                 params,
             ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_flow(execution_role_arn, name)
-    create_flow(execution_role_arn, name, params::Dict{String,<:Any})
-
-Creates a prompt flow that you can use to send an input through various steps to yield an
-output. Configure nodes, each of which corresponds to a step of the flow, and create
-connections between the nodes to create paths to different outputs. For more information,
-see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
-and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
-  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
-  in the Amazon Bedrock User Guide.
-- `name`: A name for the flow.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
-  flow.
-- `"definition"`: A definition of the nodes and connections between nodes in the flow.
-- `"description"`: A description for the flow.
-- `"tags"`: Any tags that you want to attach to the flow. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
-"""
-function create_flow end
-
-function create_flow(
-    executionRoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/",
-        Dict{String,Any}(
-            "executionRoleArn" => executionRoleArn,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_flow(
-    executionRoleArn,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "executionRoleArn" => executionRoleArn,
-                    "name" => name,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_flow_alias(flow_identifier, name, routing_configuration)
-    create_flow_alias(flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
-
-Creates an alias of a flow for deployment. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow for which to create an alias.
-- `name`: A name for the alias.
-- `routing_configuration`: Contains information about the version to which to map the alias.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"description"`: A description for the alias.
-- `"tags"`: Any tags that you want to attach to the alias of the flow. For more information,
-  see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
-"""
-function create_flow_alias end
-
-function create_flow_alias(
-    flowIdentifier,
-    name,
-    routingConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/aliases",
-        Dict{String,Any}(
-            "name" => name,
-            "routingConfiguration" => routingConfiguration,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_flow_alias(
-    flowIdentifier,
-    name,
-    routingConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/aliases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "routingConfiguration" => routingConfiguration,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_flow_version(flow_identifier)
-    create_flow_version(flow_identifier, params::Dict{String,<:Any})
-
-Creates a version of the flow that you can deploy. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow that you want to create a version of.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"description"`: A description of the version of the flow.
-"""
-function create_flow_version end
-
-function create_flow_version(
-    flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/versions",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_flow_version(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/versions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -727,119 +502,6 @@ function create_knowledge_base(
                 ),
                 params,
             ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_prompt(name)
-    create_prompt(name, params::Dict{String,<:Any})
-
-Creates a prompt in your prompt library that you can add to a flow. For more information,
-see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html), [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html)
-and [Prompt flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `name`: A name for the prompt.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
-  prompt.
-- `"defaultVariant"`: The name of the default variant for the prompt. This value must match
-  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
-  object.
-- `"description"`: A description for the prompt.
-- `"tags"`: Any tags that you want to attach to the prompt. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
-- `"variants"`: A list of objects, each containing details about a variant of the prompt.
-"""
-function create_prompt end
-
-function create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST",
-        "/prompts/",
-        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_prompt(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/prompts/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_prompt_version(prompt_identifier)
-    create_prompt_version(prompt_identifier, params::Dict{String,<:Any})
-
-Creates a static snapshot of your prompt that can be deployed to production. For more
-information, see [Deploy prompts using Prompt management by creating versions](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `prompt_identifier`: The unique identifier of the prompt that you want to create a version
-  of.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
-  completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"description"`: A description for the version of the prompt.
-- `"tags"`: Any tags that you want to attach to the version of the prompt. For more
-  information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
-"""
-function create_prompt_version end
-
-function create_prompt_version(
-    promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/prompts/$(promptIdentifier)/versions",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_prompt_version(
-    promptIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/prompts/$(promptIdentifier)/versions",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1058,132 +720,6 @@ function delete_data_source(
 end
 
 """
-    delete_flow(flow_identifier)
-    delete_flow(flow_identifier, params::Dict{String,<:Any})
-
-Deletes a flow.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
-"""
-function delete_flow end
-
-function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "DELETE", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function delete_flow(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_flow_alias(alias_identifier, flow_identifier)
-    delete_flow_alias(alias_identifier, flow_identifier, params::Dict{String,<:Any})
-
-Deletes an alias of a flow.
-
-# Arguments
-
-- `alias_identifier`: The unique identifier of the alias to be deleted.
-- `flow_identifier`: The unique identifier of the flow that the alias belongs to.
-"""
-function delete_flow_alias end
-
-function delete_flow_alias(
-    aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_flow_alias(
-    aliasIdentifier,
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_flow_version(flow_identifier, flow_version)
-    delete_flow_version(flow_identifier, flow_version, params::Dict{String,<:Any})
-
-Deletes a version of a flow.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow whose version that you want to delete
-- `flow_version`: The version of the flow that you want to delete.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
-  the resource is in use. If you set it to `true`, the resource will be deleted even if the
-  resource is in use.
-"""
-function delete_flow_version end
-
-function delete_flow_version(
-    flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/versions/$(flowVersion)/";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_flow_version(
-    flowIdentifier,
-    flowVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/flows/$(flowIdentifier)/versions/$(flowVersion)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     delete_knowledge_base(knowledge_base_id)
     delete_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
 
@@ -1216,51 +752,6 @@ function delete_knowledge_base(
     return bedrock_agent(
         "DELETE",
         "/knowledgebases/$(knowledgeBaseId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_prompt(prompt_identifier)
-    delete_prompt(prompt_identifier, params::Dict{String,<:Any})
-
-Deletes a prompt or a version of it, depending on whether you include the `promptVersion`
-field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html)
-and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `prompt_identifier`: The unique identifier of the prompt.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"promptVersion"`: The version of the prompt to delete. To delete the prompt, omit this
-  field.
-"""
-function delete_prompt end
-
-function delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "DELETE",
-        "/prompts/$(promptIdentifier)/";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_prompt(
-    promptIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/prompts/$(promptIdentifier)/",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1547,119 +1038,6 @@ function get_data_source(
 end
 
 """
-    get_flow(flow_identifier)
-    get_flow(flow_identifier, params::Dict{String,<:Any})
-
-Retrieves information about a flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow.
-"""
-function get_flow end
-
-function get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "GET", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function get_flow(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_flow_alias(alias_identifier, flow_identifier)
-    get_flow_alias(alias_identifier, flow_identifier, params::Dict{String,<:Any})
-
-Retrieves information about a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `alias_identifier`: The unique identifier of the alias for which to retrieve information.
-- `flow_identifier`: The unique identifier of the flow that the alias belongs to.
-"""
-function get_flow_alias end
-
-function get_flow_alias(
-    aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_flow_alias(
-    aliasIdentifier,
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_flow_version(flow_identifier, flow_version)
-    get_flow_version(flow_identifier, flow_version, params::Dict{String,<:Any})
-
-Retrieves information about a version of a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow for which to get information.
-- `flow_version`: The version of the flow for which to get information.
-"""
-function get_flow_version end
-
-function get_flow_version(
-    flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/versions/$(flowVersion)/";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function get_flow_version(
-    flowIdentifier,
-    flowVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/versions/$(flowVersion)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     get_ingestion_job(data_source_id, ingestion_job_id, knowledge_base_id)
     get_ingestion_job(data_source_id, ingestion_job_id, knowledge_base_id, params::Dict{String,<:Any})
 
@@ -1736,49 +1114,6 @@ function get_knowledge_base(
     return bedrock_agent(
         "GET",
         "/knowledgebases/$(knowledgeBaseId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_prompt(prompt_identifier)
-    get_prompt(prompt_identifier, params::Dict{String,<:Any})
-
-Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of
-it, depending on whether you include the `promptVersion` field or not. For more information,
-see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
-and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `prompt_identifier`: The unique identifier of the prompt.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"promptVersion"`: The version of the prompt about which you want to retrieve information.
-  Omit this field to return information about the working draft of the prompt.
-"""
-function get_prompt end
-
-function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "GET", "/prompts/$(promptIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function get_prompt(
-    promptIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/prompts/$(promptIdentifier)/",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2060,135 +1395,6 @@ function list_data_sources(
 end
 
 """
-    list_flow_aliases(flow_identifier)
-    list_flow_aliases(flow_identifier, params::Dict{String,<:Any})
-
-Returns a list of aliases for a flow.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow for which aliases are being returned.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in
-  the `nextToken` field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the response
-  in this field to return the next batch of results.
-"""
-function list_flow_aliases end
-
-function list_flow_aliases(
-    flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/aliases";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function list_flow_aliases(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/aliases",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    list_flow_versions(flow_identifier)
-    list_flow_versions(flow_identifier, params::Dict{String,<:Any})
-
-Returns a list of information about each flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in
-  the `nextToken` field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the response
-  in this field to return the next batch of results.
-"""
-function list_flow_versions end
-
-function list_flow_versions(
-    flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/versions";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function list_flow_versions(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/flows/$(flowIdentifier)/versions",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    list_flows()
-    list_flows(params::Dict{String,<:Any})
-
-Returns a list of flows and information about each flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
-in the Amazon Bedrock User Guide.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in
-  the `nextToken` field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the response
-  in this field to return the next batch of results.
-"""
-function list_flows end
-
-function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent("GET", "/flows/"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function list_flows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET", "/flows/", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
     list_ingestion_jobs(data_source_id, knowledge_base_id)
     list_ingestion_jobs(data_source_id, knowledge_base_id, params::Dict{String,<:Any})
 
@@ -2276,42 +1482,6 @@ function list_knowledge_bases(
 end
 
 """
-    list_prompts()
-    list_prompts(params::Dict{String,<:Any})
-
-Returns either information about the working draft (`DRAFT` version) of each prompt in an
-account, or information about of all versions of a prompt, depending on whether you include
-the `promptIdentifier` field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
-in the Amazon Bedrock User Guide.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in
-  the `nextToken` field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the `maxResults` value
-  provided in the request, enter the token returned in the `nextToken` field in the response
-  in this field to return the next batch of results.
-- `"promptIdentifier"`: The unique identifier of the prompt for whose versions you want to
-  return information. Omit this field to list information about all prompts in an account.
-"""
-function list_prompts end
-
-function list_prompts(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent("GET", "/prompts/"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function list_prompts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET", "/prompts/", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -2366,39 +1536,6 @@ function prepare_agent(
 )
     return bedrock_agent(
         "POST", "/agents/$(agentId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
-    prepare_flow(flow_identifier)
-    prepare_flow(flow_identifier, params::Dict{String,<:Any})
-
-Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `flow_identifier`: The unique identifier of the flow.
-"""
-function prepare_flow end
-
-function prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST", "/flows/$(flowIdentifier)/"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function prepare_flow(
-    flowIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/flows/$(flowIdentifier)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2570,8 +1707,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"instruction"`: Specifies new instructions that tell the agent what it should do and how
   it should interact with users.
-
-- `"memoryConfiguration"`: Specifies the new memory configuration for the agent.
 
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
   parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
@@ -2823,26 +1958,26 @@ end
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name)
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Updates the configurations for a data source connector.
+Updates configurations for a data source.
 
 !!! important
-    You can't change the `chunkingConfiguration` after you create the data source connector.
-    Specify the existing `chunkingConfiguration`.
+    You can't change the `chunkingConfiguration` after you create the data source. Specify
+    the existing `chunkingConfiguration`.
 
 # Arguments
 
-- `data_source_configuration`: The connection configuration for the data source that you
-  want to update.
+- `data_source_configuration`: Contains details about the storage configuration of the data
+  source.
 - `data_source_id`: The unique identifier of the data source.
-- `knowledge_base_id`: The unique identifier of the knowledge base for the data source.
+- `knowledge_base_id`: The unique identifier of the knowledge base to which the data source
+  belongs.
 - `name`: Specifies a new name for the data source.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"dataDeletionPolicy"`: The data deletion policy for the data source that you want to
-  update.
+- `"dataDeletionPolicy"`: The data deletion policy of the updated data source.
 - `"description"`: Specifies a new description for the data source.
 - `"serverSideEncryptionConfiguration"`: Contains details about server-side encryption of
   the data source.
@@ -2885,136 +2020,6 @@ function update_data_source(
                 _merge,
                 Dict{String,Any}(
                     "dataSourceConfiguration" => dataSourceConfiguration, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_flow(execution_role_arn, flow_identifier, name)
-    update_flow(execution_role_arn, flow_identifier, name, params::Dict{String,<:Any})
-
-Modifies a flow. Include both fields that you want to keep and fields that you want to
-change. For more information, see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
-and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
-  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
-  in the Amazon Bedrock User Guide.
-- `flow_identifier`: The unique identifier of the flow.
-- `name`: A name for the flow.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
-  flow.
-- `"definition"`: A definition of the nodes and the connections between the nodes in the
-  flow.
-- `"description"`: A description for the flow.
-"""
-function update_flow end
-
-function update_flow(
-    executionRoleArn,
-    flowIdentifier,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/flows/$(flowIdentifier)/",
-        Dict{String,Any}("executionRoleArn" => executionRoleArn, "name" => name);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_flow(
-    executionRoleArn,
-    flowIdentifier,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/flows/$(flowIdentifier)/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("executionRoleArn" => executionRoleArn, "name" => name),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_flow_alias(alias_identifier, flow_identifier, name, routing_configuration)
-    update_flow_alias(alias_identifier, flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
-
-Modifies the alias of a flow. Include both fields that you want to keep and ones that you
-want to change. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `alias_identifier`: The unique identifier of the alias.
-- `flow_identifier`: The unique identifier of the flow.
-- `name`: The name of the alias.
-- `routing_configuration`: Contains information about the version to which to map the alias.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"description"`: A description for the alias.
-"""
-function update_flow_alias end
-
-function update_flow_alias(
-    aliasIdentifier,
-    flowIdentifier,
-    name,
-    routingConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
-        Dict{String,Any}("name" => name, "routingConfiguration" => routingConfiguration);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_flow_alias(
-    aliasIdentifier,
-    flowIdentifier,
-    name,
-    routingConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name, "routingConfiguration" => routingConfiguration
                 ),
                 params,
             ),
@@ -3109,61 +2114,6 @@ function update_knowledge_base(
                 params,
             ),
         );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_prompt(name, prompt_identifier)
-    update_prompt(name, prompt_identifier, params::Dict{String,<:Any})
-
-Modifies a prompt in your prompt library. Include both fields that you want to keep and
-fields that you want to replace. For more information, see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html)
-and [Edit prompts in your prompt library](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-edit)
-in the Amazon Bedrock User Guide.
-
-# Arguments
-
-- `name`: A name for the prompt.
-- `prompt_identifier`: The unique identifier of the prompt.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt the
-  prompt.
-- `"defaultVariant"`: The name of the default variant for the prompt. This value must match
-  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
-  object.
-- `"description"`: A description for the prompt.
-- `"variants"`: A list of objects, each containing details about a variant of the prompt.
-"""
-function update_prompt end
-
-function update_prompt(
-    name, promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "PUT",
-        "/prompts/$(promptIdentifier)/",
-        Dict{String,Any}("name" => name);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_prompt(
-    name,
-    promptIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/prompts/$(promptIdentifier)/",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

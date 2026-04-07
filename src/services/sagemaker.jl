@@ -574,20 +574,6 @@ end
 
 Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.
 
-An AutoML job in SageMaker is a fully automated process that allows you to build machine
-learning models with minimal effort and machine learning expertise. When initiating an
-AutoML job, you provide your data and optionally specify parameters tailored to your use
-case. SageMaker then automates the entire model development lifecycle, including data
-preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify
-and accelerate the model building process by automating various tasks and exploring
-different combinations of machine learning algorithms, data preprocessing techniques, and
-hyperparameter values. The output of an AutoML job comprises one or more trained models
-ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate
-model leaderboard, allowing you to select the best-performing model for deployment.
-
-For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
-in the SageMaker developer guide.
-
 !!! note
     We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html)
     and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html),
@@ -689,24 +675,6 @@ end
 
 Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.
 
-An AutoML job in SageMaker is a fully automated process that allows you to build machine
-learning models with minimal effort and machine learning expertise. When initiating an
-AutoML job, you provide your data and optionally specify parameters tailored to your use
-case. SageMaker then automates the entire model development lifecycle, including data
-preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify
-and accelerate the model building process by automating various tasks and exploring
-different combinations of machine learning algorithms, data preprocessing techniques, and
-hyperparameter values. The output of an AutoML job comprises one or more trained models
-ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate
-model leaderboard, allowing you to select the best-performing model for deployment.
-
-For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html)
-in the SageMaker developer guide.
-
-AutoML jobs V2 support various problem types such as regression, binary, and multiclass
-classification with tabular data, text and image classification, time-series forecasting,
-and fine-tuning of large language models (LLMs) for text generation.
-
 !!! note
     [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html)
     and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html)
@@ -751,8 +719,6 @@ You can find the best-performing model after you run an AutoML job V2 by calling
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AutoMLComputeConfig"`: Specifies the compute configuration for the AutoML job V2.
 
 - `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
   job. If not specified, the default objective metric depends on the problem type. For the
@@ -2226,6 +2192,9 @@ end
 
 Create a hub.
 
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
+
 # Arguments
 
 - `hub_description`: A description of the hub.
@@ -2265,67 +2234,6 @@ function create_hub(
             mergewith(
                 _merge,
                 Dict{String,Any}("HubDescription" => HubDescription, "HubName" => HubName),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_hub_content_reference(hub_name, sage_maker_public_hub_content_arn)
-    create_hub_content_reference(hub_name, sage_maker_public_hub_content_arn, params::Dict{String,<:Any})
-
-Create a hub content reference in order to add a model in the JumpStart public hub to a
-private hub.
-
-# Arguments
-
-- `hub_name`: The name of the hub to add the hub content reference to.
-- `sage_maker_public_hub_content_arn`: The ARN of the public hub content to reference.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"HubContentName"`: The name of the hub content to reference.
-- `"MinVersion"`: The minimum version of the hub content to reference.
-- `"Tags"`: Any tags associated with the hub content to reference.
-"""
-function create_hub_content_reference end
-
-function create_hub_content_reference(
-    HubName,
-    SageMakerPublicHubContentArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateHubContentReference",
-        Dict{String,Any}(
-            "HubName" => HubName,
-            "SageMakerPublicHubContentArn" => SageMakerPublicHubContentArn,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_hub_content_reference(
-    HubName,
-    SageMakerPublicHubContentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateHubContentReference",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HubName" => HubName,
-                    "SageMakerPublicHubContentArn" => SageMakerPublicHubContentArn,
-                ),
                 params,
             ),
         );
@@ -2585,7 +2493,7 @@ the Amazon ECR container image specified by `BaseImage`.
 - `base_image`: The registry path of the container image to use as the starting point for
   this version. The path is an Amazon ECR URI in the following format:
 
-  `&lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;`
+  `<acct-id>.dkr.ecr.<region>.amazonaws.com/<repo-name[:tag] or [@digest]>`
 
 - `client_token`: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web
   Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
@@ -3102,7 +3010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For named entity recognition jobs, in addition to `"labels"`, you must provide worker
   instructions in the label category configuration file using the `"instructions"`
   parameter:
-  `"instructions": {"shortInstruction":"&lt;h1&gt;Add header&lt;/h1&gt;&lt;p&gt;Add Instructions&lt;/p&gt;", "fullInstruction":"&lt;p&gt;Add additional instructions.&lt;/p&gt;"}`.
+  `"instructions": {"shortInstruction":"<h1>Add header</h1><p>Add Instructions", "fullInstruction":"Add additional instructions.</p>"}`.
   For details and an example, see [Create a Named Entity Recognition Labeling Job (API)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api).
 
   For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html)
@@ -3188,98 +3096,6 @@ function create_labeling_job(
                     "LabelingJobName" => LabelingJobName,
                     "OutputConfig" => OutputConfig,
                     "RoleArn" => RoleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_mlflow_tracking_server(artifact_store_uri, role_arn, tracking_server_name)
-    create_mlflow_tracking_server(artifact_store_uri, role_arn, tracking_server_name, params::Dict{String,<:Any})
-
-Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact
-store. For more information, see [Create an MLflow Tracking Server](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server.html).
-
-# Arguments
-
-- `artifact_store_uri`: The S3 URI for a general purpose bucket to use as the MLflow
-  Tracking Server artifact store.
-- `role_arn`: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow
-  Tracking Server uses to access the artifact store in Amazon S3. The role should have
-  `AmazonS3FullAccess` permissions. For more information on IAM permissions for tracking
-  server creation, see [Set up IAM permissions for MLflow](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html).
-- `tracking_server_name`: A unique string identifying the tracking server name. This string
-  is part of the tracking server ARN.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
-  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
-  this value to `True`. To disable automatic model registration, set this value to `False`.
-  If not specified, `AutomaticModelRegistration` defaults to `False`.
-
-- `"MlflowVersion"`: The version of MLflow that the tracking server uses. To see which
-  MLflow versions are available to use, see [How it works](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow.html#mlflow-create-tracking-server-how-it-works).
-
-- `"Tags"`: Tags consisting of key-value pairs used to manage metadata for the tracking
-  server.
-
-- `"TrackingServerSize"`: The size of the tracking server you want to create. You can choose
-  between `"Small"`, `"Medium"`, and `"Large"`. The default MLflow Tracking Server
-  configuration size is `"Small"`. You can choose a size depending on the projected use of
-  the tracking server such as the volume of data logged, number of users, and frequency of
-  use.
-
-  We recommend using a small tracking server for teams of up to 25 users, a medium tracking
-  server for teams of up to 50 users, and a large tracking server for teams of up to 100
-  users.
-
-- `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
-  Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For
-  example: TUE:03:30.
-"""
-function create_mlflow_tracking_server end
-
-function create_mlflow_tracking_server(
-    ArtifactStoreUri,
-    RoleArn,
-    TrackingServerName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateMlflowTrackingServer",
-        Dict{String,Any}(
-            "ArtifactStoreUri" => ArtifactStoreUri,
-            "RoleArn" => RoleArn,
-            "TrackingServerName" => TrackingServerName,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_mlflow_tracking_server(
-    ArtifactStoreUri,
-    RoleArn,
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ArtifactStoreUri" => ArtifactStoreUri,
-                    "RoleArn" => RoleArn,
-                    "TrackingServerName" => TrackingServerName,
                 ),
                 params,
             ),
@@ -4276,120 +4092,6 @@ function create_notebook_instance_lifecycle_config(
 end
 
 """
-    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition)
-    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
-
-Creates a job that optimizes a model for inference performance. To create the job, you
-provide the location of a source model, and you provide the settings for the optimization
-techniques that you want the job to apply. When the job completes successfully, SageMaker
-uploads the new optimized model to the output destination that you specify.
-
-For more information about how to use this action, and about the supported optimization
-techniques, see [Optimize model inference with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/model-optimize.html).
-
-# Arguments
-
-- `deployment_instance_type`: The type of instance that hosts the optimized model that you
-  create with the optimization job.
-
-- `model_source`: The location of the source model to optimize with an optimization job.
-
-- `optimization_configs`: Settings for each of the optimization techniques that the job
-  applies.
-
-- `optimization_job_name`: A custom name for the new optimization job.
-
-- `output_config`: Details for where to store the optimized model that you create with the
-  optimization job.
-
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to
-  perform tasks on your behalf.
-
-  During model optimization, Amazon SageMaker needs your permission to:
-
-  - Read input data from an S3 bucket
-  - Write model artifacts to an S3 bucket
-  - Write logs to Amazon CloudWatch Logs
-  - Publish metrics to Amazon CloudWatch
-
-  You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon
-  SageMaker, the caller of this API must have the `iam:PassRole` permission. For more
-  information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
-
-- `stopping_condition`:
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"OptimizationEnvironment"`: The environment variables to set in the model container.
-- `"Tags"`: A list of key-value pairs associated with the optimization job. For more
-  information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  in the *Amazon Web Services General Reference Guide*.
-- `"VpcConfig"`: A VPC in Amazon VPC that your optimized model has access to.
-"""
-function create_optimization_job end
-
-function create_optimization_job(
-    DeploymentInstanceType,
-    ModelSource,
-    OptimizationConfigs,
-    OptimizationJobName,
-    OutputConfig,
-    RoleArn,
-    StoppingCondition;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateOptimizationJob",
-        Dict{String,Any}(
-            "DeploymentInstanceType" => DeploymentInstanceType,
-            "ModelSource" => ModelSource,
-            "OptimizationConfigs" => OptimizationConfigs,
-            "OptimizationJobName" => OptimizationJobName,
-            "OutputConfig" => OutputConfig,
-            "RoleArn" => RoleArn,
-            "StoppingCondition" => StoppingCondition,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_optimization_job(
-    DeploymentInstanceType,
-    ModelSource,
-    OptimizationConfigs,
-    OptimizationJobName,
-    OutputConfig,
-    RoleArn,
-    StoppingCondition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreateOptimizationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DeploymentInstanceType" => DeploymentInstanceType,
-                    "ModelSource" => ModelSource,
-                    "OptimizationConfigs" => OptimizationConfigs,
-                    "OptimizationJobName" => OptimizationJobName,
-                    "OutputConfig" => OutputConfig,
-                    "RoleArn" => RoleArn,
-                    "StoppingCondition" => StoppingCondition,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     create_pipeline(client_request_token, pipeline_name, role_arn)
     create_pipeline(client_request_token, pipeline_name, role_arn, params::Dict{String,<:Any})
 
@@ -4547,56 +4249,6 @@ function create_presigned_domain_url(
                     "DomainId" => DomainId, "UserProfileName" => UserProfileName
                 ),
                 params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_presigned_mlflow_tracking_server_url(tracking_server_name)
-    create_presigned_mlflow_tracking_server_url(tracking_server_name, params::Dict{String,<:Any})
-
-Returns a presigned URL that you can use to connect to the MLflow UI attached to your
-tracking server. For more information, see [Launch the MLflow UI using a presigned URL](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html).
-
-# Arguments
-
-- `tracking_server_name`: The name of the tracking server to connect to your MLflow UI.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"ExpiresInSeconds"`: The duration in seconds that your presigned URL is valid. The
-  presigned URL can be used only once.
-- `"SessionExpirationDurationInSeconds"`: The duration in seconds that your MLflow UI
-  session is valid.
-"""
-function create_presigned_mlflow_tracking_server_url end
-
-function create_presigned_mlflow_tracking_server_url(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "CreatePresignedMlflowTrackingServerUrl",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function create_presigned_mlflow_tracking_server_url(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "CreatePresignedMlflowTrackingServerUrl",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
         aws_config,
@@ -5226,8 +4878,8 @@ For more information about how batch transformation works, see [Batch Transform]
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BatchStrategy"`: Specifies the number of records to include in a mini-batch for an HTTP
-  inference request. A *record* <i/> is a single unit of input data that inference can be
-  made on. For example, a single line in a CSV file is a record.
+  inference request. A *record* ** is a single unit of input data that inference can be made
+  on. For example, a single line in a CSV file is a record.
 
   To enable the batch strategy, you must set the `SplitType` property to `Line`, `RecordIO`,
   or `TFRecord`.
@@ -5247,9 +4899,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to include input data relevant to interpreting the predictions in the output from the job.
   For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
 
-- `"Environment"`: The environment variables to set in the Docker container. Don't include
-  any sensitive data in your environment variables. We support up to 16 key and values
-  entries in the map.
+- `"Environment"`: The environment variables to set in the Docker container. We support up
+  to 16 key and values entries in the map.
 
 - `"ExperimentConfig"`:
 
@@ -6578,6 +6229,9 @@ end
 
 Delete a hub.
 
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
+
 # Arguments
 
 - `hub_name`: The name of the hub to delete.
@@ -6611,6 +6265,9 @@ end
     delete_hub_content(hub_content_name, hub_content_type, hub_content_version, hub_name, params::Dict{String,<:Any})
 
 Delete the contents of a hub.
+
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -6658,64 +6315,6 @@ function delete_hub_content(
                     "HubContentName" => HubContentName,
                     "HubContentType" => HubContentType,
                     "HubContentVersion" => HubContentVersion,
-                    "HubName" => HubName,
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_hub_content_reference(hub_content_name, hub_content_type, hub_name)
-    delete_hub_content_reference(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
-
-Delete a hub content reference in order to remove a model from a private hub.
-
-# Arguments
-
-- `hub_content_name`: The name of the hub content to delete.
-- `hub_content_type`: The type of hub content reference to delete. The only supported type
-  of hub content reference to delete is `ModelReference`.
-- `hub_name`: The name of the hub to delete the hub content reference from.
-"""
-function delete_hub_content_reference end
-
-function delete_hub_content_reference(
-    HubContentName,
-    HubContentType,
-    HubName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DeleteHubContentReference",
-        Dict{String,Any}(
-            "HubContentName" => HubContentName,
-            "HubContentType" => HubContentType,
-            "HubName" => HubName,
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_hub_content_reference(
-    HubContentName,
-    HubContentType,
-    HubName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DeleteHubContentReference",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "HubContentName" => HubContentName,
-                    "HubContentType" => HubContentType,
                     "HubName" => HubName,
                 ),
                 params,
@@ -6975,46 +6574,6 @@ function delete_inference_experiment(
     return sagemaker(
         "DeleteInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_mlflow_tracking_server(tracking_server_name)
-    delete_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
-
-Deletes an MLflow Tracking Server. For more information, see [Clean up MLflow resources](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-cleanup.html.html).
-
-# Arguments
-
-- `tracking_server_name`: The name of the the tracking server to delete.
-"""
-function delete_mlflow_tracking_server end
-
-function delete_mlflow_tracking_server(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "DeleteMlflowTrackingServer",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_mlflow_tracking_server(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DeleteMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
-            ),
-        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -7488,48 +7047,6 @@ function delete_notebook_instance_lifecycle_config(
 end
 
 """
-    delete_optimization_job(optimization_job_name)
-    delete_optimization_job(optimization_job_name, params::Dict{String,<:Any})
-
-Deletes an optimization job.
-
-# Arguments
-
-- `optimization_job_name`: The name that you assigned to the optimization job.
-"""
-function delete_optimization_job end
-
-function delete_optimization_job(
-    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "DeleteOptimizationJob",
-        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function delete_optimization_job(
-    OptimizationJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DeleteOptimizationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     delete_pipeline(client_request_token, pipeline_name)
     delete_pipeline(client_request_token, pipeline_name, params::Dict{String,<:Any})
 
@@ -7905,7 +7422,7 @@ to create a new workforce.
 !!! important
     If a private workforce contains one or more work teams, you must use the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html)
     operation to delete all work teams before you delete the workforce. If you try to delete
-    a workforce that contains one or more work teams, you will receive a `ResourceInUse`
+    a workforce that contains one or more work teams, you will recieve a `ResourceInUse`
     error.
 
 # Arguments
@@ -9032,7 +8549,10 @@ end
     describe_hub(hub_name)
     describe_hub(hub_name, params::Dict{String,<:Any})
 
-Describes a hub.
+Describe a hub.
+
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -9067,6 +8587,9 @@ end
     describe_hub_content(hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
 Describe the content of a hub.
+
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -9481,46 +9004,6 @@ function describe_lineage_group(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("LineageGroupName" => LineageGroupName), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_mlflow_tracking_server(tracking_server_name)
-    describe_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
-
-Returns information about an MLflow Tracking Server.
-
-# Arguments
-
-- `tracking_server_name`: The name of the MLflow Tracking Server to describe.
-"""
-function describe_mlflow_tracking_server end
-
-function describe_mlflow_tracking_server(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "DescribeMlflowTrackingServer",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_mlflow_tracking_server(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DescribeMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
             ),
         );
         aws_config,
@@ -9997,48 +9480,6 @@ function describe_notebook_instance_lifecycle_config(
                     "NotebookInstanceLifecycleConfigName" =>
                         NotebookInstanceLifecycleConfigName,
                 ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    describe_optimization_job(optimization_job_name)
-    describe_optimization_job(optimization_job_name, params::Dict{String,<:Any})
-
-Provides the properties of the specified optimization job.
-
-# Arguments
-
-- `optimization_job_name`: The name that you assigned to the optimization job.
-"""
-function describe_optimization_job end
-
-function describe_optimization_job(
-    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "DescribeOptimizationJob",
-        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function describe_optimization_job(
-    OptimizationJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "DescribeOptimizationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
@@ -10626,7 +10067,7 @@ end
     describe_workteam(workteam_name)
     describe_workteam(workteam_name, params::Dict{String,<:Any})
 
-Gets information about a specific work team. You can see information such as the creation
+Gets information about a specific work team. You can see information such as the create
 date, the last updated date, membership information, and the work team's Amazon Resource
 Name (ARN).
 
@@ -11051,6 +10492,9 @@ end
     import_hub_content(document_schema_version, hub_content_document, hub_content_name, hub_content_type, hub_name, params::Dict{String,<:Any})
 
 Import hub content.
+
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
 
 # Arguments
 
@@ -11764,7 +11208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string.
 - `"NextToken"`: If the result of the previous `ListDataQualityJobDefinitions` request was
   truncated, the response includes a `NextToken`. To retrieve the next set of transform
-  jobs, use the token in the next request.&gt;
+  jobs, use the token in the next request.>
 - `"SortBy"`: The field to sort results by. The default is `CreationTime`.
 - `"SortOrder"`: Whether to sort the results in `Ascending` or `Descending` order. The
   default is `Descending`.
@@ -12152,6 +11596,9 @@ end
 
 List hub content versions.
 
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
+
 # Arguments
 
 - `hub_content_name`: The name of the hub content.
@@ -12226,6 +11673,9 @@ end
 
 List the contents of a hub.
 
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
+
 # Arguments
 
 - `hub_content_type`: The type of hub content to list.
@@ -12284,6 +11734,9 @@ end
     list_hubs(params::Dict{String,<:Any})
 
 List all existing hubs.
+
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
 
 # Optional Parameters
 
@@ -12831,51 +12284,6 @@ function list_lineage_groups(
 )
     return sagemaker(
         "ListLineageGroups", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
-    list_mlflow_tracking_servers()
-    list_mlflow_tracking_servers(params::Dict{String,<:Any})
-
-Lists all MLflow Tracking Servers.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"CreatedAfter"`: Use the `CreatedAfter` filter to only list tracking servers created
-  after a specific date and time. Listed tracking servers are shown with a date and time
-  such as `"2024-03-16T01:46:56+00:00"`. The `CreatedAfter` parameter takes in a Unix
-  timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
-- `"CreatedBefore"`: Use the `CreatedBefore` filter to only list tracking servers created
-  before a specific date and time. Listed tracking servers are shown with a date and time
-  such as `"2024-03-16T01:46:56+00:00"`. The `CreatedBefore` parameter takes in a Unix
-  timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
-- `"MaxResults"`: The maximum number of tracking servers to list.
-- `"MlflowVersion"`: Filter for tracking servers using the specified MLflow version.
-- `"NextToken"`: If the previous response was truncated, you will receive this token. Use it
-  in your next request to receive the next set of results.
-- `"SortBy"`: Filter for trackings servers sorting by name, creation time, or creation
-  status.
-- `"SortOrder"`: Change the order of the listed tracking servers. By default, tracking
-  servers are listed in `Descending` order by creation time. To change the list order, you
-  can specify `SortOrder` to be `Ascending`.
-- `"TrackingServerStatus"`: Filter for tracking servers with a specified creation status.
-"""
-function list_mlflow_tracking_servers end
-
-function list_mlflow_tracking_servers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker(
-        "ListMlflowTrackingServers"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-function list_mlflow_tracking_servers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "ListMlflowTrackingServers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -13637,54 +13045,6 @@ function list_notebook_instances(
 )
     return sagemaker(
         "ListNotebookInstances", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
-    list_optimization_jobs()
-    list_optimization_jobs(params::Dict{String,<:Any})
-
-Lists the optimization jobs in your account and their properties.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"CreationTimeAfter"`: Filters the results to only those optimization jobs that were
-  created after the specified time.
-- `"CreationTimeBefore"`: Filters the results to only those optimization jobs that were
-  created before the specified time.
-- `"LastModifiedTimeAfter"`: Filters the results to only those optimization jobs that were
-  updated after the specified time.
-- `"LastModifiedTimeBefore"`: Filters the results to only those optimization jobs that were
-  updated before the specified time.
-- `"MaxResults"`: The maximum number of optimization jobs to return in the response. The
-  default is 50.
-- `"NameContains"`: Filters the results to only those optimization jobs with a name that
-  contains the specified string.
-- `"NextToken"`: A token that you use to get the next set of results following a truncated
-  response. If the response to the previous request was truncated, that response provides
-  the value for this token.
-- `"OptimizationContains"`: Filters the results to only those optimization jobs that apply
-  the specified optimization techniques. You can specify either `Quantization` or
-  `Compilation`.
-- `"SortBy"`: The field by which to sort the optimization jobs in the response. The default
-  is `CreationTime`
-- `"SortOrder"`: The sort order for results. The default is `Ascending`
-- `"StatusEquals"`: Filters the results to only those optimization jobs with the specified
-  status.
-"""
-function list_optimization_jobs end
-
-function list_optimization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return sagemaker("ListOptimizationJobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function list_optimization_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "ListOptimizationJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -15108,46 +14468,6 @@ function start_inference_experiment(
 end
 
 """
-    start_mlflow_tracking_server(tracking_server_name)
-    start_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
-
-Programmatically start an MLflow Tracking Server.
-
-# Arguments
-
-- `tracking_server_name`: The name of the tracking server to start.
-"""
-function start_mlflow_tracking_server end
-
-function start_mlflow_tracking_server(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "StartMlflowTrackingServer",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function start_mlflow_tracking_server(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "StartMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     start_monitoring_schedule(monitoring_schedule_name)
     start_monitoring_schedule(monitoring_schedule_name, params::Dict{String,<:Any})
 
@@ -15671,46 +14991,6 @@ function stop_labeling_job(
 end
 
 """
-    stop_mlflow_tracking_server(tracking_server_name)
-    stop_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
-
-Programmatically stop an MLflow Tracking Server.
-
-# Arguments
-
-- `tracking_server_name`: The name of the tracking server to stop.
-"""
-function stop_mlflow_tracking_server end
-
-function stop_mlflow_tracking_server(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "StopMlflowTrackingServer",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function stop_mlflow_tracking_server(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "StopMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
     stop_monitoring_schedule(monitoring_schedule_name)
     stop_monitoring_schedule(monitoring_schedule_name, params::Dict{String,<:Any})
 
@@ -15793,48 +15073,6 @@ function stop_notebook_instance(
             mergewith(
                 _merge,
                 Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    stop_optimization_job(optimization_job_name)
-    stop_optimization_job(optimization_job_name, params::Dict{String,<:Any})
-
-Ends a running inference optimization job.
-
-# Arguments
-
-- `optimization_job_name`: The name that you assigned to the optimization job.
-"""
-function stop_optimization_job end
-
-function stop_optimization_job(
-    OptimizationJobName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "StopOptimizationJob",
-        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function stop_optimization_job(
-    OptimizationJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "StopOptimizationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
@@ -16870,6 +16108,9 @@ end
 
 Update a hub.
 
+!!! note
+    Hub APIs are only callable through SageMaker Studio.
+
 # Arguments
 
 - `hub_name`: The name of the hub to update.
@@ -17189,61 +16430,6 @@ function update_inference_experiment(
     return sagemaker(
         "UpdateInferenceExperiment",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_mlflow_tracking_server(tracking_server_name)
-    update_mlflow_tracking_server(tracking_server_name, params::Dict{String,<:Any})
-
-Updates properties of an existing MLflow Tracking Server.
-
-# Arguments
-
-- `tracking_server_name`: The name of the MLflow Tracking Server to update.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"ArtifactStoreUri"`: The new S3 URI for the general purpose bucket to use as the artifact
-  store for the MLflow Tracking Server.
-- `"AutomaticModelRegistration"`: Whether to enable or disable automatic registration of new
-  MLflow models to the SageMaker Model Registry. To enable automatic model registration, set
-  this value to `True`. To disable automatic model registration, set this value to `False`.
-  If not specified, `AutomaticModelRegistration` defaults to `False`
-- `"TrackingServerSize"`: The new size for the MLflow Tracking Server.
-- `"WeeklyMaintenanceWindowStart"`: The new weekly maintenance window start day and time to
-  update. The maintenance window day and time should be in Coordinated Universal Time (UTC)
-  24-hour standard time. For example: TUE:03:30.
-"""
-function update_mlflow_tracking_server end
-
-function update_mlflow_tracking_server(
-    TrackingServerName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sagemaker(
-        "UpdateMlflowTrackingServer",
-        Dict{String,Any}("TrackingServerName" => TrackingServerName);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function update_mlflow_tracking_server(
-    TrackingServerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sagemaker(
-        "UpdateMlflowTrackingServer",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("TrackingServerName" => TrackingServerName), params
-            ),
-        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -867,12 +867,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the custom authorizer.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 
 - `"tokenKeyName"`: The name of the token key used to extract the token from the HTTP
   headers.
@@ -1003,12 +1002,12 @@ to speed up the certificate creation process:
 On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory
 is:
 
-`&gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/\$_}`
+`> ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/\$_}`
 
 On a Windows command prompt, the command to create certificates for all CSRs in my-csr-
 directory is:
 
-`&gt; forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"`
+`> forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"`
 
 # Arguments
 
@@ -1330,12 +1329,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the domain configuration.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 
@@ -2048,12 +2046,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the policy.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 """
 function create_policy end
 
@@ -2217,12 +2214,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the provisioning template.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 
 - `"type"`: The type you define in a provisioning template. You can create a template with
   only one type. You can't change the template type after its creation. The default value is
@@ -2354,12 +2350,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the role alias.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 """
 function create_role_alias end
 
@@ -2763,11 +2758,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-tagging"`: Metadata which can be used to manage the topic rule.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: --tags "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: --tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 """
 function create_topic_rule end
 
@@ -3029,8 +3024,8 @@ function delete_billing_group(
 end
 
 """
-    delete_cacertificate(ca_certificate_id)
-    delete_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
+    delete_cacertificate(certificate_id)
+    delete_cacertificate(certificate_id, params::Dict{String,<:Any})
 
 Deletes a registered CA certificate.
 
@@ -3039,30 +3034,30 @@ action.
 
 # Arguments
 
-- `ca_certificate_id`: The ID of the certificate to delete. (The last part of the
-  certificate ARN contains the certificate ID.)
+- `certificate_id`: The ID of the certificate to delete. (The last part of the certificate
+  ARN contains the certificate ID.)
 """
 function delete_cacertificate end
 
 function delete_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
+    certificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot(
         "DELETE",
-        "/cacertificate/$(caCertificateId)";
+        "/cacertificate/$(certificateId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_cacertificate(
-    caCertificateId,
+    certificateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot(
         "DELETE",
-        "/cacertificate/$(caCertificateId)",
+        "/cacertificate/$(certificateId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4642,8 +4637,8 @@ function describe_billing_group(
 end
 
 """
-    describe_cacertificate(ca_certificate_id)
-    describe_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
+    describe_cacertificate(certificate_id)
+    describe_cacertificate(certificate_id, params::Dict{String,<:Any})
 
 Describes a registered CA certificate.
 
@@ -4652,29 +4647,29 @@ action.
 
 # Arguments
 
-- `ca_certificate_id`: The CA certificate identifier.
+- `certificate_id`: The CA certificate identifier.
 """
 function describe_cacertificate end
 
 function describe_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
+    certificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot(
         "GET",
-        "/cacertificate/$(caCertificateId)";
+        "/cacertificate/$(certificateId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_cacertificate(
-    caCertificateId,
+    certificateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot(
         "GET",
-        "/cacertificate/$(caCertificateId)",
+        "/cacertificate/$(certificateId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6985,13 +6980,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_authorizers end
 
 function list_authorizers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iot("GET", "/authorizers/"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iot("GET", "/authorizers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_authorizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return iot("GET", "/authorizers/", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return iot("GET", "/authorizers", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7083,20 +7078,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_certificate_providers end
 
 function list_certificate_providers(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iot(
-        "GET", "/certificate-providers/"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+    return iot("GET", "/certificate-providers"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_certificate_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot(
-        "GET",
-        "/certificate-providers/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/certificate-providers", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -9285,12 +9274,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the CA certificate.
 
   !!! note
-      For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+      For URI Request parameters use format: ...key1=value1&key2=value2...
 
-      For the CLI command-line parameter use format: &amp;&amp;tags
-      "key1=value1&amp;key2=value2..."
+      For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..."
 
-      For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
+      For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
 
 - `"verificationCertificate"`: The private key verification certificate. If
   `certificateMode` is `SNI_ONLY`, the `verificationCertificate` field must be empty. If
@@ -10749,8 +10737,8 @@ function update_billing_group(
 end
 
 """
-    update_cacertificate(ca_certificate_id)
-    update_cacertificate(ca_certificate_id, params::Dict{String,<:Any})
+    update_cacertificate(certificate_id)
+    update_cacertificate(certificate_id, params::Dict{String,<:Any})
 
 Updates a registered CA certificate.
 
@@ -10759,7 +10747,7 @@ action.
 
 # Arguments
 
-- `ca_certificate_id`: The CA certificate identifier.
+- `certificate_id`: The CA certificate identifier.
 
 # Optional Parameters
 
@@ -10779,24 +10767,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_cacertificate end
 
 function update_cacertificate(
-    caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
+    certificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot(
         "PUT",
-        "/cacertificate/$(caCertificateId)";
+        "/cacertificate/$(certificateId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_cacertificate(
-    caCertificateId,
+    certificateId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot(
         "PUT",
-        "/cacertificate/$(caCertificateId)",
+        "/cacertificate/$(certificateId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -1,10 +1,8 @@
 """
 Generate the low-level `src/AWSServices.jl` file with all definitions.
 """
-function _generate_low_level_wrappers(
-    service_files::AbstractArray{ServiceFile}, auth::GitHub.Authorization
-)
-    service_definitions = sort!(_generate_low_level_definitions(service_files, auth))
+function _generate_low_level_wrappers(service_files)
+    service_definitions = sort!(_generate_low_level_definitions(service_files))
 
     template = """
     # $AUTO_GENERATED_SIGNATURE
@@ -29,17 +27,13 @@ end
 """
 Get the low-level definitions for all AWS Services.
 """
-function _generate_low_level_definitions(
-    service_files::AbstractArray{ServiceFile}, auth::GitHub.Authorization
-)
+function _generate_low_level_definitions(service_files::AbstractArray{ServiceFile})
     low_level_defs = Vector{String}(undef, length(service_files))
 
-    Threads.@threads for i in eachindex(service_files)
-        service_file = service_files[i]
-        service_name = service_file.name
-        @info "Generating low-level wrapper for $service_name"
+    Threads.@threads for (i, service_file) in collect(enumerate(service_files))
+        @info "Generating low-level wrapper for $(service_file.file_name)"
 
-        service = service_definition(service_file; auth=auth)
+        service = _parse_smithy_model(service_file.content)
         service_metadata = service["metadata"]
 
         low_level_defs[i] = _generate_low_level_definition(service_metadata)

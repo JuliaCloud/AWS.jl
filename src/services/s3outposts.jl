@@ -13,7 +13,7 @@ Creates an endpoint and associates it with the specified Outpost.
 !!! note
     It can take up to 5 minutes for this action to finish.
 
- Related actions include:
+Related actions include:
 
 - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
 - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
@@ -93,7 +93,7 @@ Deletes an endpoint.
 !!! note
     It can take up to 5 minutes for this action to finish.
 
- Related actions include:
+Related actions include:
 
 - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
 - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)

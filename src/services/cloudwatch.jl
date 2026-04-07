@@ -1241,25 +1241,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content-type set to `text/xml`. The image data is in a `MetricWidgetImage` field. For
   example:
 
-  `&lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;`
+  `<GetMetricWidgetImageResponse xmlns=<URLstring>>`
 
-  `&lt;GetMetricWidgetImageResult&gt;`
+  `<GetMetricWidgetImageResult>`
 
-  `&lt;MetricWidgetImage&gt;`
+  `<MetricWidgetImage>`
 
   `iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...`
 
-  `&lt;/MetricWidgetImage&gt;`
+  `</MetricWidgetImage>`
 
-  `&lt;/GetMetricWidgetImageResult&gt;`
+  `</GetMetricWidgetImageResult>`
 
-  `&lt;ResponseMetadata&gt;`
+  `<ResponseMetadata>`
 
-  `&lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;`
+  `<RequestId>6f0d4192-4d42-11e8-82c1-f539a07e0e3b</RequestId>`
 
-  `&lt;/ResponseMetadata&gt;`
+  `</ResponseMetadata>`
 
-  `&lt;/GetMetricWidgetImageResponse&gt;`
+  `</GetMetricWidgetImageResponse>`
 
   The `image/png` setting is intended only for custom HTTP requests. For most use cases, and
   all actions using an Amazon Web Services SDK, you should use `png`. If you specify

@@ -11,7 +11,7 @@ using AWS.UUIDs: uuid4
 This operation allows you to perform batch reads or writes on data stored in DynamoDB, using
 PartiQL. Each read statement in a `BatchExecuteStatement` must specify an equality condition
 on all key attributes. This enforces that each `SELECT` statement in a batch returns at most
-a single item. For more information, see [Running batch operations with PartiQL for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html).
+a single item.
 
 !!! note
     The entire batch must consist of either read statements or write statements, you cannot
@@ -226,11 +226,9 @@ can investigate and optionally resend the requests. Typically, you would call
 new `BatchWriteItem` request with those unprocessed items until all items have been
 processed.
 
-For tables and indexes with provisioned capacity, if none of the items can be processed due
-to insufficient provisioned throughput on all of the tables in the request, then
-`BatchWriteItem` returns a `ProvisionedThroughputExceededException`. For all tables and
-indexes, if none of the items can be processed due to other throttling scenarios (such as
-exceeding partition level limits), then `BatchWriteItem` returns a `ThrottlingException`.
+If *none* of the items can be processed due to insufficient provisioned throughput on all of
+the tables in the request, then `BatchWriteItem` returns a
+`ProvisionedThroughputExceededException`.
 
 !!! important
     If DynamoDB returns any unprocessed items, you should retry the batch operation on those
@@ -415,14 +413,12 @@ relationship between two or more DynamoDB tables with the same table name in the
 Regions.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 If you want to add a new replica table to a global table, each of the following conditions
 must be true:
@@ -790,7 +786,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size`
 
   These function names are case-sensitive.
-  - Comparison operators: `= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN`
+  - Comparison operators: `= | <> | < | > | <= | >= | BETWEEN | IN`
   - Logical operators: `AND | OR | NOT`
 
   For more information about condition expressions, see [Condition Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)
@@ -998,8 +994,7 @@ is already in the `DELETING` state, no error is returned.
 
 !!! note
     DynamoDB might continue to accept data read and write operations, such as `GetItem` and
-    `PutItem`, on a table in the `DELETING` state until the table deletion is complete. For
-    the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus).
+    `PutItem`, on a table in the `DELETING` state until the table deletion is complete.
 
 When you delete a table, any indexes on that table are also deleted.
 
@@ -1238,14 +1233,12 @@ end
 Returns information about the specified global table.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -1288,14 +1281,12 @@ end
 Describes Region-specific settings for a global table.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -2329,14 +2320,12 @@ end
 Lists all global tables that have a replica in the specified Region.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Optional Parameters
 
@@ -2542,7 +2531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size`
 
   These function names are case-sensitive.
-  - Comparison operators: `= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN`
+  - Comparison operators: `= | <> | < | > | <= | >= | BETWEEN | IN`
   - Logical operators: `AND | OR | NOT`
 
   For more information on condition expressions, see [Condition Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)
@@ -2715,9 +2704,6 @@ resource using the same policy document will return the same revision ID. If you
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConfirmRemoveSelfResourceAccess"`: Set this parameter to `true` to confirm that you want
-  to remove your permissions to change the policy of this resource in the future.
-
 - `"ExpectedRevisionId"`: A string value that you can use to conditionally update your
   policy. You can provide the revision ID of your existing policy to make mutating requests
   against that policy.
@@ -2729,6 +2715,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To conditionally attach a policy when no policy exists for the resource, specify
   `NO_POLICY` for the revision ID.
+
+- `"x-amz-confirm-remove-self-resource-access"`: Set this parameter to `true` to confirm
+  that you want to remove your permissions to change the policy of this resource in the
+  future.
 """
 function put_resource_policy end
 
@@ -2940,14 +2930,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid comparisons for the sort key condition are as follows:
 
   - `sortKeyName` `=` `:sortkeyval` - true if the sort key value is equal to `:sortkeyval`.
-  - `sortKeyName` `&lt;` `:sortkeyval` - true if the sort key value is less than
+  - `sortKeyName` `<` `:sortkeyval` - true if the sort key value is less than `:sortkeyval`.
+  - `sortKeyName` `<=` `:sortkeyval` - true if the sort key value is less than or equal to
     `:sortkeyval`.
-  - `sortKeyName` `&lt;=` `:sortkeyval` - true if the sort key value is less than or equal
+  - `sortKeyName` `>` `:sortkeyval` - true if the sort key value is greater than
+    `:sortkeyval`.
+  - `sortKeyName` `>=` `:sortkeyval` - true if the sort key value is greater than or equal
     to `:sortkeyval`.
-  - `sortKeyName` `&gt;` `:sortkeyval` - true if the sort key value is greater than
-    `:sortkeyval`.
-  - `sortKeyName` `&gt;=` `:sortkeyval` - true if the sort key value is greater than or
-    equal to `:sortkeyval`.
   - `sortKeyName` `BETWEEN` `:sortkeyval1` `AND` `:sortkeyval2` - true if the sort key value
     is greater than or equal to `:sortkeyval1`, and less than or equal to `:sortkeyval2`.
   - `begins_with (` `sortKeyName`, `:sortkeyval` `)` - true if the sort key value begins
@@ -3935,14 +3924,12 @@ as the global table, have the same key schema, have DynamoDB Streams enabled, an
 same provisioned and maximum write capacity units.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 !!! note
     For global tables, this operation only applies to global tables using Version 2019.11.21
@@ -4011,14 +3998,12 @@ end
 Updates settings for a global table.
 
 !!! important
-    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
-    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    when possible, because it provides greater flexibility, higher efficiency, and consumes
-    less write capacity than 2017.11.29 (Legacy).
-
-    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    For global tables, this operation only applies to global tables using Version 2019.11.21
+    (Current version), as it provides greater flexibility, higher efficiency and consumes
+    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
+    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -4120,7 +4105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size`
 
   These function names are case-sensitive.
-  - Comparison operators: `= | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN`
+  - Comparison operators: `= | <> | < | > | <= | >= | BETWEEN | IN`
   - Logical operators: `AND | OR | NOT`
 
   For more information about condition expressions, see [Specifying Conditions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)

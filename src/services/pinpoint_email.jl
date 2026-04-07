@@ -643,18 +643,18 @@ address.
 """
 function get_dedicated_ip end
 
-function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config())
+function get_dedicated_ip(Ip; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
-        "GET", "/v1/email/dedicated-ips/$(IP)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/email/dedicated-ips/$(Ip)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_dedicated_ip(
-    IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Ip, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
         "GET",
-        "/v1/email/dedicated-ips/$(IP)",
+        "/v1/email/dedicated-ips/$(Ip)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1471,11 +1471,11 @@ Move a dedicated IP address to an existing dedicated IP pool.
 function put_dedicated_ip_in_pool end
 
 function put_dedicated_ip_in_pool(
-    DestinationPoolName, IP; aws_config::AbstractAWSConfig=current_aws_config()
+    DestinationPoolName, Ip; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
         "PUT",
-        "/v1/email/dedicated-ips/$(IP)/pool",
+        "/v1/email/dedicated-ips/$(Ip)/pool",
         Dict{String,Any}("DestinationPoolName" => DestinationPoolName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1484,13 +1484,13 @@ end
 
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
-    IP,
+    Ip,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint_email(
         "PUT",
-        "/v1/email/dedicated-ips/$(IP)/pool",
+        "/v1/email/dedicated-ips/$(Ip)/pool",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1517,11 +1517,11 @@ end
 function put_dedicated_ip_warmup_attributes end
 
 function put_dedicated_ip_warmup_attributes(
-    IP, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
+    Ip, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint_email(
         "PUT",
-        "/v1/email/dedicated-ips/$(IP)/warmup",
+        "/v1/email/dedicated-ips/$(Ip)/warmup",
         Dict{String,Any}("WarmupPercentage" => WarmupPercentage);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1529,14 +1529,14 @@ function put_dedicated_ip_warmup_attributes(
 end
 
 function put_dedicated_ip_warmup_attributes(
-    IP,
+    Ip,
     WarmupPercentage,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint_email(
         "PUT",
-        "/v1/email/dedicated-ips/$(IP)/warmup",
+        "/v1/email/dedicated-ips/$(Ip)/warmup",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("WarmupPercentage" => WarmupPercentage), params
@@ -1918,7 +1918,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
   To remove more than one tag from the resource, append the `TagKeys` parameter and argument
   for each additional tag to remove, separated by an ampersand. For example:
-  `/v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2`
+  `/v1/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2`
 """
 function untag_resource end
 

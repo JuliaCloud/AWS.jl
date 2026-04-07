@@ -86,16 +86,16 @@ in the *AppConfig User Guide*.
 
   - For the AppConfig hosted configuration store and for feature flags, specify `hosted`.
   - For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the
-    parameter name in the format `ssm-parameter://&lt;parameter name&gt;` or the ARN.
+    parameter name in the format `ssm-parameter://<parameter name>` or the ARN.
   - For an Amazon Web Services CodePipeline pipeline, specify the URI in the following
-    format: `codepipeline`://&lt;pipeline name&gt;.
+    format: `codepipeline`://<pipeline name>.
   - For an Secrets Manager secret, specify the URI in the following format:
-    `secretsmanager`://&lt;secret name&gt;.
+    `secretsmanager`://<secret name>.
   - For an Amazon S3 object, specify the URI in the following format:
-    `s3://&lt;bucket&gt;/&lt;objectKey&gt;`. Here is an example:
+    `s3://<bucket>/<objectKey>`. Here is an example:
     `s3://my-bucket/my-app/us-east-1/my-config.json`
   - For an SSM document, specify either the document name in the format
-    `ssm-document://&lt;document name&gt;` or the Amazon Resource Name (ARN).
+    `ssm-document://<document name>` or the Amazon Resource Name (ARN).
 
 - `name`: A name for the configuration profile.
 
@@ -493,23 +493,13 @@ end
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type)
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type, params::Dict{String,<:Any})
 
-Creates a new configuration in the AppConfig hosted configuration store. If you're creating
-a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag
-data. For more information, see [Type reference for AWS.AppConfig.FeatureFlags](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags)
-in the *AppConfig User Guide*.
+Creates a new configuration in the AppConfig hosted configuration store.
 
 # Arguments
 
 - `application_id`: The application ID.
-
 - `configuration_profile_id`: The configuration profile ID.
-
-- `content`: The configuration data, as bytes.
-
-  !!! note
-      AppConfig accepts any type of data, including text formats like JSON or TOML, or
-      binary formats like protocol buffers or compressed data.
-
+- `content`: The content of the configuration or the configuration data.
 - `content-_type`: A standard MIME type describing the format of the configuration content.
   For more information, see [Content-Type](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
 
@@ -577,7 +567,7 @@ end
     delete_application(application_id)
     delete_application(application_id, params::Dict{String,<:Any})
 
-Deletes an application.
+Deletes an application. Deleting an application does not delete a configuration from a host.
 
 # Arguments
 
@@ -614,35 +604,14 @@ end
     delete_configuration_profile(application_id, configuration_profile_id)
     delete_configuration_profile(application_id, configuration_profile_id, params::Dict{String,<:Any})
 
-Deletes a configuration profile.
-
-To prevent users from unintentionally deleting actively-used configuration profiles, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
+Deletes a configuration profile. Deleting a configuration profile does not delete a
+configuration from a host.
 
 # Arguments
 
 - `application_id`: The application ID that includes the configuration profile you want to
   delete.
 - `configuration_profile_id`: The ID of the configuration profile you want to delete.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"x-amzn-deletion-protection-check"`: A parameter to configure deletion protection. If
-  enabled, deletion protection prevents a user from deleting a configuration profile if your
-  application has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
-  or for the configuration profile during the specified interval.
-
-  This parameter supports the following values:
-
-  - `BYPASS`: Instructs AppConfig to bypass the deletion protection check and delete a
-    configuration profile even if deletion protection would have otherwise prevented it.
-  - `APPLY`: Instructs the deletion protection check to run, even if deletion protection is
-    disabled at the account level. `APPLY` also forces the deletion protection check to run
-    against resources created in the past hour, which are normally excluded from deletion
-    protection checks.
-  - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
-    deletion protection value specified in the `UpdateAccountSettings` API.
 """
 function delete_configuration_profile end
 
@@ -678,7 +647,8 @@ end
     delete_deployment_strategy(deployment_strategy_id)
     delete_deployment_strategy(deployment_strategy_id, params::Dict{String,<:Any})
 
-Deletes a deployment strategy.
+Deletes a deployment strategy. Deleting a deployment strategy does not delete a
+configuration from a host.
 
 # Arguments
 
@@ -715,35 +685,13 @@ end
     delete_environment(application_id, environment_id)
     delete_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Deletes an environment.
-
-To prevent users from unintentionally deleting actively-used environments, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
+Deletes an environment. Deleting an environment does not delete a configuration from a host.
 
 # Arguments
 
 - `application_id`: The application ID that includes the environment that you want to
   delete.
 - `environment_id`: The ID of the environment that you want to delete.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"x-amzn-deletion-protection-check"`: A parameter to configure deletion protection. If
-  enabled, deletion protection prevents a user from deleting an environment if your
-  application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
-  or in the environment during the specified interval.
-
-  This parameter supports the following values:
-
-  - `BYPASS`: Instructs AppConfig to bypass the deletion protection check and delete a
-    configuration profile even if deletion protection would have otherwise prevented it.
-  - `APPLY`: Instructs the deletion protection check to run, even if deletion protection is
-    disabled at the account level. `APPLY` also forces the deletion protection check to run
-    against resources created in the past hour, which are normally excluded from deletion
-    protection checks.
-  - `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig to implement the
-    deletion protection value specified in the `UpdateAccountSettings` API.
 """
 function delete_environment end
 
@@ -902,26 +850,6 @@ function delete_hosted_configuration_version(
 end
 
 """
-    get_account_settings()
-    get_account_settings(params::Dict{String,<:Any})
-
-Returns information about the status of the `DeletionProtection` parameter.
-"""
-function get_account_settings end
-
-function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return appconfig("GET", "/settings"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function get_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return appconfig(
-        "GET", "/settings", params; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-
-"""
     get_application(application_id)
     get_application(application_id, params::Dict{String,<:Any})
 
@@ -965,7 +893,7 @@ end
     - This API action is deprecated. Calls to receive configuration data should use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html)
       and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
       APIs instead.
-    - [`get_configuration`](@ref) is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
+    - `GetConfiguration` is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
 
 # Arguments
 
@@ -1897,37 +1825,6 @@ function untag_resource(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_account_settings()
-    update_account_settings(params::Dict{String,<:Any})
-
-Updates the value of the `DeletionProtection` parameter.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"DeletionProtection"`: A parameter to configure deletion protection. If enabled, deletion
-  protection prevents a user from deleting a configuration profile or an environment if
-  AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html)
-  or for the configuration profile or from the environment during the specified interval.
-  Deletion protection is disabled by default. The default interval for
-  `ProtectionPeriodInMinutes` is 60.
-"""
-function update_account_settings end
-
-function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return appconfig("PATCH", "/settings"; aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-
-function update_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return appconfig(
-        "PATCH", "/settings", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

@@ -729,38 +729,38 @@ function get_changeset(
 end
 
 """
-    get_data_view(dataset_id, dataview_id)
-    get_data_view(dataset_id, dataview_id, params::Dict{String,<:Any})
+    get_data_view(data_view_id, dataset_id)
+    get_data_view(data_view_id, dataset_id, params::Dict{String,<:Any})
 
 Gets information about a Dataview.
 
 # Arguments
 
+- `data_view_id`: The unique identifier for the Dataview.
 - `dataset_id`: The unique identifier for the Dataset used in the Dataview.
-- `dataview_id`: The unique identifier for the Dataview.
 """
 function get_data_view end
 
 function get_data_view(
-    datasetId, dataviewId; aws_config::AbstractAWSConfig=current_aws_config()
+    dataViewId, datasetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "GET",
-        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)";
+        "/datasets/$(datasetId)/dataviewsv2/$(dataViewId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_data_view(
+    dataViewId,
     datasetId,
-    dataviewId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "GET",
-        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)",
+        "/datasets/$(datasetId)/dataviewsv2/$(dataViewId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -800,8 +800,8 @@ function get_dataset(
 end
 
 """
-    get_external_data_view_access_details(dataset_id, dataview_id)
-    get_external_data_view_access_details(dataset_id, dataview_id, params::Dict{String,<:Any})
+    get_external_data_view_access_details(data_view_id, dataset_id)
+    get_external_data_view_access_details(data_view_id, dataset_id, params::Dict{String,<:Any})
 
 Returns the credentials to access the external Dataview from an S3 location. To call this
 API:
@@ -812,31 +812,31 @@ API:
 
 # Arguments
 
+- `data_view_id`: The unique identifier for the Dataview that you want to access.
 - `dataset_id`: The unique identifier for the Dataset.
-- `dataview_id`: The unique identifier for the Dataview that you want to access.
 """
 function get_external_data_view_access_details end
 
 function get_external_data_view_access_details(
-    datasetId, dataviewId; aws_config::AbstractAWSConfig=current_aws_config()
+    dataViewId, datasetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return finspace_data(
         "POST",
-        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)/external-access-details";
+        "/datasets/$(datasetId)/dataviewsv2/$(dataViewId)/external-access-details";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_external_data_view_access_details(
+    dataViewId,
     datasetId,
-    dataviewId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return finspace_data(
         "POST",
-        "/datasets/$(datasetId)/dataviewsv2/$(dataviewId)/external-access-details",
+        "/datasets/$(datasetId)/dataviewsv2/$(dataViewId)/external-access-details",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

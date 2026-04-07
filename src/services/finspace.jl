@@ -398,7 +398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"readWrite"`: The option to specify whether you want to make the dataview writable to
   perform database maintenance. The following are some considerations related to writable
-  dataviews.&#x2028;&#x2028;
+  dataviews.
 
   - You cannot create partial writable dataviews. When you create writeable dataviews you
     must provide the entire database path.
@@ -545,9 +545,6 @@ Creates a new scaling group.
 
   You can add one of the following values:
 
-  - `kx.sg.large` – The host type with a configuration of 16 GiB memory and 2 vCPUs.
-  - `kx.sg.xlarge` – The host type with a configuration of 32 GiB memory and 4 vCPUs.
-  - `kx.sg.2xlarge` – The host type with a configuration of 64 GiB memory and 8 vCPUs.
   - `kx.sg.4xlarge` – The host type with a configuration of 108 GiB memory and 16 vCPUs.
   - `kx.sg.8xlarge` – The host type with a configuration of 216 GiB memory and 32 vCPUs.
   - `kx.sg.16xlarge` – The host type with a configuration of 432 GiB memory and 64 vCPUs.

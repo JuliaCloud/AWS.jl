@@ -272,9 +272,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `CHEF_AUTOMATE_ADMIN_PASSWORD`: The password for the administrative user in the Chef
     Automate web-based dashboard. The password length is a minimum of eight characters, and
     a maximum of 32. The password can contain letters, numbers, and special characters
-    (!/@#\$%^&amp;+=_). The password must contain at least one lower case letter, one upper
-    case letter, one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD
-    is set, one is generated and returned in the response.
+    (!/@#\$%^&+=_). The password must contain at least one lower case letter, one upper case
+    letter, one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD is
+    set, one is generated and returned in the response.
 
   ## Attributes accepted in a Puppet createServer request:
 

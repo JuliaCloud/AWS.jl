@@ -162,7 +162,7 @@ Creates a `DataSource` object from an [Amazon Relational Database Service](http:
 `CreateDataSourceFromRDS`, Amazon Machine Learning (Amazon ML) immediately returns and sets
 the `DataSource` status to `PENDING`. After the `DataSource` is created and ready for use,
 Amazon ML sets the `Status` parameter to `COMPLETED`. `DataSource` in the `COMPLETED` or
-`PENDING` state can be used only to perform `&gt;CreateMLModel`&gt;, `CreateEvaluation`, or [`create_batch_prediction`](@ref)
+`PENDING` state can be used only to perform `>CreateMLModel`>, `CreateEvaluation`, or [`create_batch_prediction`](@ref)
 operations.
 
 If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and
@@ -211,7 +211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ComputeStatistics"`: The compute statistics for a `DataSource`. The statistics are
   generated from the observation data referenced by a `DataSource`. Amazon ML uses the
   statistics internally during `MLModel` training. This parameter must be set to `true` if
-  the <code/>DataSource<code/> needs to be used for `MLModel` training.
+  the ``DataSource`` needs to be used for `MLModel` training.
 - `"DataSourceName"`: A user-supplied name or description of the `DataSource`.
 """
 function create_data_source_from_rds end
@@ -426,7 +426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ComputeStatistics"`: The compute statistics for a `DataSource`. The statistics are
   generated from the observation data referenced by a `DataSource`. Amazon ML uses the
   statistics internally during `MLModel` training. This parameter must be set to `true` if
-  the <code/>DataSource<code/> needs to be used for `MLModel` training.
+  the ``DataSource`` needs to be used for `MLModel` training.
 - `"DataSourceName"`: A user-supplied name or description of the `DataSource`.
 """
 function create_data_source_from_s3 end

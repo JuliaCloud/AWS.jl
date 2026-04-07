@@ -143,21 +143,21 @@ For more information about deleting a policy, see [Delete lifecycle policies](ht
 function delete_lifecycle_policy end
 
 function delete_lifecycle_policy(
-    policyId; aws_config::AbstractAWSConfig=current_aws_config()
+    PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dlm(
-        "DELETE", "/policies/$(policyId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/policies/$(PolicyId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_lifecycle_policy(
-    policyId,
+    PolicyId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
         "DELETE",
-        "/policies/$(policyId)",
+        "/policies/$(PolicyId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -223,17 +223,17 @@ Gets detailed information about the specified lifecycle policy.
 """
 function get_lifecycle_policy end
 
-function get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aws_config())
-    return dlm("GET", "/policies/$(policyId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_lifecycle_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
+    return dlm("GET", "/policies/$(PolicyId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_lifecycle_policy(
-    policyId,
+    PolicyId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
-        "GET", "/policies/$(policyId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/policies/$(PolicyId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -250,38 +250,38 @@ Lists the tags for the specified resource.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return dlm("GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return dlm("GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
-        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds the specified tags to the specified resource.
 
 # Arguments
 
-- `tags`: One or more tags.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tags`: One or more tags.
 """
 function tag_resource end
 
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return dlm(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -289,14 +289,14 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
 end
 
 function tag_resource(
+    ResourceArn,
     Tags,
-    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -317,11 +317,11 @@ Removes the specified tags from the specified resource.
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dlm(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -329,14 +329,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -400,21 +400,21 @@ By default (**ExtendDeletion=false**):
 function update_lifecycle_policy end
 
 function update_lifecycle_policy(
-    policyId; aws_config::AbstractAWSConfig=current_aws_config()
+    PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return dlm(
-        "PATCH", "/policies/$(policyId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/policies/$(PolicyId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_lifecycle_policy(
-    policyId,
+    PolicyId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return dlm(
         "PATCH",
-        "/policies/$(policyId)",
+        "/policies/$(PolicyId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

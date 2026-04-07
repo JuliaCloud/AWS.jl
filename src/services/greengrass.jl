@@ -3093,32 +3093,32 @@ function list_subscription_definitions(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Retrieves a list of resource tags for a resource arn.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
-        "GET", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
-        "GET", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3274,8 +3274,8 @@ function stop_bulk_deployment(
 end
 
 """
-    tag_resource(resource-arn)
-    tag_resource(resource-arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn)
+    tag_resource(resource_arn, params::Dict{String,<:Any})
 
 Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition',
 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition',
@@ -3283,7 +3283,7 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
 
@@ -3293,41 +3293,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function tag_resource end
 
-function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
-        "POST", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function tag_resource(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
-        "POST", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Remove resource tags from a Greengrass Resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: An array of tag keys to delete
 """
 function untag_resource end
 
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return greengrass(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3335,14 +3335,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return greengrass(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

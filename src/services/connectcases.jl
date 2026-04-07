@@ -94,7 +94,14 @@ end
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
     permission on the User ARN resource that you provide
 
- <pre>`&lt;p&gt;Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
+Creates a case in the specified Cases domain. Case system and custom fields are taken as an
+array id/value pairs with a declared data types.
+
+The following fields are required when creating a case:
+
+- `customer_id` - You must provide the full customer profile ARN in this format:
+  `arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID`
+- `title`
 
 # Arguments
 
@@ -160,11 +167,12 @@ end
 
 Creates a domain, which is a container for all case data, such as cases, fields, templates
 and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
-<important>This will not associate your connect instance to Cases domain. Instead, use the
-Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html)
-API. You need specific IAM permissions to successfully associate the Cases domain. For more
-information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
-<pre>`&lt;/important&gt;`</pre>
+
+!!! important
+    This will not associate your connect instance to Cases domain. Instead, use the Amazon
+    Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html)
+    API. You need specific IAM permissions to successfully associate the Cases domain. For
+    more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
 
 # Arguments
 
@@ -304,16 +312,15 @@ end
     create_related_item(case_id, content, domain_id, type)
     create_related_item(case_id, content, domain_id, type, params::Dict{String,<:Any})
 
-Creates a related item (comments, tasks, and contacts) and associates it with a case. <note>
+Creates a related item (comments, tasks, and contacts) and associates it with a case.
 
-- A Related Item is a resource that is associated with a case. It may or may not have an
-  external identifier linking it to an external resource (for example, a `contactArn`). All
-  Related Items have their own internal identifier, the `relatedItemArn`. Examples of
-  related items include `comments` and `contacts`.
-- If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
-  permission on the ARN of the user that you provide.
-
-<pre>`&lt;/note&gt;`</pre>
+!!! note
+    - A Related Item is a resource that is associated with a case. It may or may not have an
+      external identifier linking it to an external resource (for example, a `contactArn`).
+      All Related Items have their own internal identifier, the `relatedItemArn`. Examples
+      of related items include `comments` and `contacts`.
+    - If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+      permission on the ARN of the user that you provide.
 
 # Arguments
 
@@ -421,7 +428,11 @@ end
     delete_domain(domain_id, params::Dict{String,<:Any})
 
 Deletes a Cases domain.
-<pre>`&lt;note&gt; &lt;p&gt;After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See &lt;a href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/note&gt;`</pre>
+
+!!! note
+    After deleting your domain you must disassociate the deleted domain from your Amazon
+    Connect instance with another API call before being able to use Cases again with this
+    Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
 
 # Arguments
 
@@ -512,7 +523,13 @@ end
     delete_layout(domain_id, layout_id, params::Dict{String,<:Any})
 
 Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
-<pre>`&lt;p&gt;After a layout is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the layout by calling &lt;code&gt;GetLayout&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update a deleted layout by calling &lt;code&gt;UpdateLayout&lt;/code&gt;; it throws a &lt;code&gt;ValidationException&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted layouts are not included in the &lt;code&gt;ListLayouts&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
+
+After a layout is deleted:
+
+- You can still retrieve the layout by calling `GetLayout`.
+- You cannot update a deleted layout by calling `UpdateLayout`; it throws a
+  `ValidationException`.
+- Deleted layouts are not included in the `ListLayouts` response.
 
 # Arguments
 
@@ -552,7 +569,13 @@ end
     delete_template(domain_id, template_id, params::Dict{String,<:Any})
 
 Deletes a cases template. You can delete up to 100 templates per domain.
-<pre>`&lt;p&gt;After a cases template is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update the template. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot create a case by using the deleted template.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted templates are not included in the &lt;code&gt;ListTemplates&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
+
+After a cases template is deleted:
+
+- You can still retrieve the template by calling `GetTemplate`.
+- You cannot update the template.
+- You cannot create a case by using the deleted template.
+- Deleted templates are not included in the `ListTemplates` response.
 
 # Arguments
 
@@ -1345,7 +1368,11 @@ end
     If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
     permission on the User ARN resource that you provide
 
- <pre>`&lt;p&gt;Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;`</pre>
+Updates the values of fields on a case. Fields to be updated are received as an array of
+id/value pairs identical to the `CreateCase` input .
+
+If the action is successful, the service sends back an HTTP 200 response with an empty HTTP
+body.
 
 # Arguments
 

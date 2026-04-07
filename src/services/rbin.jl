@@ -95,20 +95,20 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 """
 function delete_rule end
 
-function delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_rule(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "DELETE", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/rules/$(Identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_rule(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
         "DELETE",
-        "/rules/$(identifier)",
+        "/rules/$(Identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -127,17 +127,17 @@ Gets information about a Recycle Bin retention rule.
 """
 function get_rule end
 
-function get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
-    return rbin("GET", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_rule(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin("GET", "/rules/$(Identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function get_rule(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "GET", "/rules/$(identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/rules/$(Identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -207,40 +207,40 @@ Lists the tags assigned to a retention rule.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
-    return rbin("GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return rbin("GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    lock_rule(lock_configuration, identifier)
-    lock_rule(lock_configuration, identifier, params::Dict{String,<:Any})
+    lock_rule(identifier, lock_configuration)
+    lock_rule(identifier, lock_configuration, params::Dict{String,<:Any})
 
 Locks a retention rule. A locked retention rule can't be modified or deleted.
 
 # Arguments
 
-- `lock_configuration`: Information about the retention rule lock configuration.
 - `identifier`: The unique ID of the retention rule.
+- `lock_configuration`: Information about the retention rule lock configuration.
 """
 function lock_rule end
 
 function lock_rule(
-    LockConfiguration, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+    Identifier, LockConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rbin(
         "PATCH",
-        "/rules/$(identifier)/lock",
+        "/rules/$(Identifier)/lock",
         Dict{String,Any}("LockConfiguration" => LockConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -248,14 +248,14 @@ function lock_rule(
 end
 
 function lock_rule(
+    Identifier,
     LockConfiguration,
-    identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
         "PATCH",
-        "/rules/$(identifier)/lock",
+        "/rules/$(Identifier)/lock",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("LockConfiguration" => LockConfiguration), params
@@ -267,22 +267,22 @@ function lock_rule(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns tags to the specified retention rule.
 
 # Arguments
 
-- `tags`: Information about the tags to assign to the retention rule.
 - `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
+- `tags`: Information about the tags to assign to the retention rule.
 """
 function tag_resource end
 
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -290,14 +290,14 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
 end
 
 function tag_resource(
+    ResourceArn,
     Tags,
-    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
         "POST",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -317,20 +317,20 @@ only after the unlock delay period expires.
 """
 function unlock_rule end
 
-function unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+function unlock_rule(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "PATCH", "/rules/$(identifier)/unlock"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/rules/$(Identifier)/unlock"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function unlock_rule(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
         "PATCH",
-        "/rules/$(identifier)/unlock",
+        "/rules/$(Identifier)/unlock",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -352,11 +352,11 @@ Unassigns a tag from a retention rule.
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rbin(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -364,14 +364,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
         "DELETE",
-        "/tags/$(resourceArn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -420,18 +420,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function update_rule end
 
-function update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+function update_rule(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
-        "PATCH", "/rules/$(identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/rules/$(Identifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_rule(
-    identifier,
+    Identifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rbin(
-        "PATCH", "/rules/$(identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PATCH", "/rules/$(Identifier)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

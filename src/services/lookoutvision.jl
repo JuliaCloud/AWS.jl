@@ -56,11 +56,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_dataset end
 
 function create_dataset(
-    DatasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    DatasetType, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/datasets",
+        "/2020-11-20/projects/$(ProjectName)/datasets",
         Dict{String,Any}(
             "DatasetType" => DatasetType, "X-Amzn-Client-Token" => string(uuid4())
         );
@@ -71,13 +71,13 @@ end
 
 function create_dataset(
     DatasetType,
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/datasets",
+        "/2020-11-20/projects/$(ProjectName)/datasets",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -147,11 +147,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_model end
 
 function create_model(
-    OutputConfig, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    OutputConfig, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models",
+        "/2020-11-20/projects/$(ProjectName)/models",
         Dict{String,Any}(
             "OutputConfig" => OutputConfig, "X-Amzn-Client-Token" => string(uuid4())
         );
@@ -162,13 +162,13 @@ end
 
 function create_model(
     OutputConfig,
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models",
+        "/2020-11-20/projects/$(ProjectName)/models",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -295,11 +295,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_dataset end
 
 function delete_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    DatasetType, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -307,14 +307,14 @@ function delete_dataset(
 end
 
 function delete_dataset(
-    datasetType,
-    projectName,
+    DatasetType,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4())), params
@@ -334,8 +334,9 @@ running model, use the [`stop_model`](@ref) operation.
 
 It might take a few seconds to delete a model. To determine if a model has been deleted,
 call [`list_models`](@ref) and check if the version of the model (`ModelVersion`) is in the
-`Models` array. This operation requires permissions to perform the
-`lookoutvision:DeleteModel` operation.
+`Models` array.
+
+This operation requires permissions to perform the `lookoutvision:DeleteModel` operation.
 
 # Arguments
 
@@ -362,11 +363,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_model end
 
 function delete_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    ModelVersion, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -374,14 +375,14 @@ function delete_model(
 end
 
 function delete_model(
-    modelVersion,
-    projectName,
+    ModelVersion,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4())), params
@@ -429,10 +430,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function delete_project end
 
-function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)",
+        "/2020-11-20/projects/$(ProjectName)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -440,13 +441,13 @@ function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
 end
 
 function delete_project(
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/projects/$(projectName)",
+        "/2020-11-20/projects/$(ProjectName)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4())), params
@@ -477,25 +478,25 @@ operation.
 function describe_dataset end
 
 function describe_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    DatasetType, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)";
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_dataset(
-    datasetType,
-    projectName,
+    DatasetType,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -519,25 +520,25 @@ This operation requires permissions to perform the `lookoutvision:DescribeModel`
 function describe_model end
 
 function describe_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    ModelVersion, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)";
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_model(
-    modelVersion,
-    projectName,
+    ModelVersion,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -565,25 +566,25 @@ the Amazon Lookout for Vision Developer Guide.
 function describe_model_packaging_job end
 
 function describe_model_packaging_job(
-    jobName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    JobName, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)";
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs/$(JobName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_model_packaging_job(
-    jobName,
-    projectName,
+    JobName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)",
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs/$(JobName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -605,23 +606,23 @@ operation.
 """
 function describe_project end
 
-function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)";
+        "/2020-11-20/projects/$(ProjectName)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_project(
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)",
+        "/2020-11-20/projects/$(ProjectName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -665,13 +666,13 @@ function detect_anomalies end
 function detect_anomalies(
     Body,
     Content_Type,
-    modelVersion,
-    projectName;
+    ModelVersion,
+    ProjectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/detect",
         Dict{String,Any}(
             "Body" => Body, "headers" => Dict{String,Any}("Content-Type" => Content_Type)
         );
@@ -683,14 +684,14 @@ end
 function detect_anomalies(
     Body,
     Content_Type,
-    modelVersion,
-    projectName,
+    ModelVersion,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/detect",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -749,25 +750,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_dataset_entries end
 
 function list_dataset_entries(
-    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    DatasetType, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries";
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)/entries";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_dataset_entries(
-    datasetType,
-    projectName,
+    DatasetType,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)/entries",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -805,24 +806,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_model_packaging_jobs end
 
 function list_model_packaging_jobs(
-    projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs";
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_model_packaging_jobs(
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -858,23 +859,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_models end
 
-function list_models(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+function list_models(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/models";
+        "/2020-11-20/projects/$(ProjectName)/models";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_models(
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/projects/$(projectName)/models",
+        "/2020-11-20/projects/$(ProjectName)/models",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -938,24 +939,24 @@ operation.
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/tags/$(resourceArn)";
+        "/2020-11-20/tags/$(ResourceArn)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_tags_for_resource(
-    resourceArn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
-        "/2020-11-20/tags/$(resourceArn)",
+        "/2020-11-20/tags/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1012,13 +1013,13 @@ function start_model end
 
 function start_model(
     MinInferenceUnits,
-    modelVersion,
-    projectName;
+    ModelVersion,
+    ProjectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/start",
         Dict{String,Any}(
             "MinInferenceUnits" => MinInferenceUnits,
             "X-Amzn-Client-Token" => string(uuid4()),
@@ -1030,14 +1031,14 @@ end
 
 function start_model(
     MinInferenceUnits,
-    modelVersion,
-    projectName,
+    ModelVersion,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/start",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1116,12 +1117,12 @@ function start_model_packaging_job end
 function start_model_packaging_job(
     Configuration,
     ModelVersion,
-    projectName;
+    ProjectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs",
         Dict{String,Any}(
             "Configuration" => Configuration,
             "ModelVersion" => ModelVersion,
@@ -1135,13 +1136,13 @@ end
 function start_model_packaging_job(
     Configuration,
     ModelVersion,
-    projectName,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+        "/2020-11-20/projects/$(ProjectName)/modelpackagingjobs",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1194,11 +1195,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function stop_model end
 
 function stop_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    ModelVersion, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/stop",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1206,14 +1207,14 @@ function stop_model(
 end
 
 function stop_model(
-    modelVersion,
-    projectName,
+    ModelVersion,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop",
+        "/2020-11-20/projects/$(ProjectName)/models/$(ModelVersion)/stop",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4())), params
@@ -1225,8 +1226,8 @@ function stop_model(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more key-value tags to an Amazon Lookout for Vision model. For more information,
 see *Tagging a model* in the *Amazon Lookout for Vision Developer Guide*.
@@ -1235,15 +1236,15 @@ This operation requires permissions to perform the `lookoutvision:TagResource` o
 
 # Arguments
 
-- `tags`: The key-value tags to assign to the model.
 - `resource_arn`: The Amazon Resource Name (ARN) of the model to assign the tags.
+- `tags`: The key-value tags to assign to the model.
 """
 function tag_resource end
 
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "POST",
-        "/2020-11-20/tags/$(resourceArn)",
+        "/2020-11-20/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1251,14 +1252,14 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
 end
 
 function tag_resource(
+    ResourceArn,
     Tags,
-    resourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
-        "/2020-11-20/tags/$(resourceArn)",
+        "/2020-11-20/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1283,11 +1284,11 @@ This operation requires permissions to perform the `lookoutvision:UntagResource`
 function untag_resource end
 
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/tags/$(resourceArn)",
+        "/2020-11-20/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1295,14 +1296,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resourceArn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
-        "/2020-11-20/tags/$(resourceArn)",
+        "/2020-11-20/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1362,11 +1363,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_dataset_entries end
 
 function update_dataset_entries(
-    Changes, datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+    Changes, DatasetType, ProjectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "PATCH",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)/entries",
         Dict{String,Any}("Changes" => Changes, "X-Amzn-Client-Token" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1375,14 +1376,14 @@ end
 
 function update_dataset_entries(
     Changes,
-    datasetType,
-    projectName,
+    DatasetType,
+    ProjectName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "PATCH",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
+        "/2020-11-20/projects/$(ProjectName)/datasets/$(DatasetType)/entries",
         Dict{String,Any}(
             mergewith(
                 _merge,

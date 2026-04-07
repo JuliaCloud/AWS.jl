@@ -1429,6 +1429,9 @@ To get detailed information about a specific custom language model, use the oper
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"         StatusEquals"`: Returns only custom language models with the specified status.
+  Language models are ordered by creation date, with the newest model first. If you do not
+  include `StatusEquals`, all custom language models are returned.
 - `"MaxResults"`: The maximum number of custom language models to return in each page of
   results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
@@ -1438,9 +1441,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   displayed, `NextToken` is displayed in the response with an associated string. To get the
   next page of results, copy this string and repeat your request, including `NextToken` with
   the value of the copied string. Repeat as needed to view all your results.
-- `"StatusEquals"`: Returns only custom language models with the specified status. Language
-  models are ordered by creation date, with the newest model first. If you do not include
-  `StatusEquals`, all custom language models are returned.
 """
 function list_language_models end
 
@@ -2427,10 +2427,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   language dialect, your custom vocabulary *is* applied to your transcription.
 
   If you want to include a custom language model with your request but **do not** want to
-  use automatic language identification, use instead the <code/> parameter with the
+  use automatic language identification, use instead the `` parameter with the
   `LanguageModelName` sub-parameter. If you want to include a custom vocabulary or a custom
   vocabulary filter (or both) with your request but **do not** want to use automatic
-  language identification, use instead the <code/> parameter with the `VocabularyName` or
+  language identification, use instead the `` parameter with the `VocabularyName` or
   `VocabularyFilterName` (or both) sub-parameter.
 
 - `"LanguageOptions"`: You can specify two or more language codes that represent the
@@ -2544,8 +2544,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you're using automatic language identification with your request and want to include a
   custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the
-  <code/> parameter with the `LanguageModelName`, `VocabularyName` or `VocabularyFilterName`
-  sub-parameters.
+  `` parameter with the `LanguageModelName`, `VocabularyName` or `VocabularyFilterName` sub-
+  parameters.
 
 - `"Subtitles"`: Produces subtitle files for your input media. You can specify WebVTT
   (*.vtt) and SubRip (*.srt) formats.

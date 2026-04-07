@@ -420,3 +420,98 @@ function recognize_utterance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
+"""
+    start_conversation(bot_alias_id, bot_id, locale_id, request_event_stream, session_id)
+    start_conversation(bot_alias_id, bot_id, locale_id, request_event_stream, session_id, params::Dict{String,<:Any})
+
+Starts an HTTP/2 bidirectional event stream that enables you to send audio, text, or DTMF
+input in real time. After your application starts a conversation, users send input to Amazon
+Lex V2 as a stream of events. Amazon Lex V2 processes the incoming events and responds with
+streaming text or audio events.
+
+Audio input must be in the following format:
+`audio/lpcm sample-rate=8000 sample-size-bits=16 channel-count=1; is-big-endian=false`.
+
+If the optional post-fulfillment response is specified, the messages are returned as
+follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
+
+- **Success message** - Returned if the Lambda function completes successfully and the
+  intent state is fulfilled or ready fulfillment if the message is present.
+- **Failed message** - The failed message is returned if the Lambda function throws an
+  exception or if the Lambda function returns a failed intent state without a message.
+- **Timeout message** - If you don't configure a timeout message and a timeout, and the
+  Lambda function doesn't return within 30 seconds, the timeout message is returned. If you
+  configure a timeout, the timeout message is returned when the period times out.
+
+For more information, see [Completion message](https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete.html).
+
+If the optional update message is configured, it is played at the specified frequency while
+the Lambda function is running and the update message state is active. If the fulfillment
+update message is not active, the Lambda function runs with a 30 second timeout.
+
+For more information, see [Update message](https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-update.html)
+
+The [`start_conversation`](@ref) operation is supported only in the following SDKs:
+
+- [AWS SDK for C++](https://docs.aws.amazon.com/goto/SdkForCpp/runtime.lex.v2-2020-08-07/StartConversation)
+- [AWS SDK for Java V2](https://docs.aws.amazon.com/goto/SdkForJavaV2/runtime.lex.v2-2020-08-07/StartConversation)
+- [AWS SDK for Ruby V3](https://docs.aws.amazon.com/goto/SdkForRubyV3/runtime.lex.v2-2020-08-07/StartConversation)
+
+# Arguments
+
+- `bot_alias_id`: The alias identifier in use for the bot that processes the request.
+- `bot_id`: The identifier of the bot to process the request.
+- `locale_id`: The locale where the session is in use.
+- `request_event_stream`: Represents the stream of events to Amazon Lex V2 from your
+  application. The events are encoded as HTTP/2 data frames.
+- `session_id`: The identifier of the user session that is having the conversation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"x-amz-lex-conversation-mode"`: The conversation type that you are using the Amazon Lex
+  V2. If the conversation mode is `AUDIO` you can send both audio and DTMF information. If
+  the mode is `TEXT` you can only send text.
+"""
+function start_conversation end
+
+function start_conversation(
+    botAliasId,
+    botId,
+    localeId,
+    requestEventStream,
+    sessionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_runtime_v2(
+        "POST",
+        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/conversation",
+        Dict{String,Any}("requestEventStream" => requestEventStream);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_conversation(
+    botAliasId,
+    botId,
+    localeId,
+    requestEventStream,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_runtime_v2(
+        "POST",
+        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/conversation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("requestEventStream" => requestEventStream), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end

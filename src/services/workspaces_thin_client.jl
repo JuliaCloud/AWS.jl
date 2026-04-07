@@ -35,9 +35,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"desktopEndpoint"`: The URL for the identity provider login (only for environments that
   use AppStream 2.0).
 
-- `"deviceCreationTags"`: A map of the key-value pairs of the tag or tags to assign to the
-  newly created devices for this environment.
-
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Key Management Service key to use to
   encrypt the environment.
 
@@ -597,8 +594,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces, WorkSpaces Web, or AppStream 2.0.
 - `"desktopEndpoint"`: The URL for the identity provider login (only for environments that
   use AppStream 2.0).
-- `"deviceCreationTags"`: A map of the key-value pairs of the tag or tags to assign to the
-  newly created devices for this environment.
 - `"maintenanceWindow"`: A specification for a time window to apply software updates.
 - `"name"`: The name of the environment to update.
 - `"softwareSetUpdateMode"`: An option to define which software updates to apply.

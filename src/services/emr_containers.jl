@@ -5,40 +5,40 @@ using AWS.AWSServices: emr_containers
 using AWS.UUIDs: uuid4
 
 """
-    cancel_job_run(job_run_id, virtual_cluster_id)
-    cancel_job_run(job_run_id, virtual_cluster_id, params::Dict{String,<:Any})
+    cancel_job_run(id, virtual_cluster_id)
+    cancel_job_run(id, virtual_cluster_id, params::Dict{String,<:Any})
 
 Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
 SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
 
-- `job_run_id`: The ID of the job run to cancel.
+- `id`: The ID of the job run to cancel.
 - `virtual_cluster_id`: The ID of the virtual cluster for which the job run will be
   canceled.
 """
 function cancel_job_run end
 
 function cancel_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+    id, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)";
+        "/virtualclusters/$(virtualClusterId)/jobruns/$(id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function cancel_job_run(
-    jobRunId,
+    id,
     virtualClusterId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
+        "/virtualclusters/$(virtualClusterId)/jobruns/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -332,8 +332,8 @@ function create_virtual_cluster(
 end
 
 """
-    delete_job_template(template_id)
-    delete_job_template(template_id, params::Dict{String,<:Any})
+    delete_job_template(id)
+    delete_job_template(id, params::Dict{String,<:Any})
 
 Deletes a job template. Job template stores values of StartJobRun API request in a template
 and can be used to start a job run. Job template allows two use cases: avoid repeating
@@ -342,64 +342,58 @@ request.
 
 # Arguments
 
-- `template_id`: The ID of the job template that will be deleted.
+- `id`: The ID of the job template that will be deleted.
 """
 function delete_job_template end
 
-function delete_job_template(templateId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_job_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
-        "DELETE", "/jobtemplates/$(templateId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/jobtemplates/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_job_template(
-    templateId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
-        "DELETE",
-        "/jobtemplates/$(templateId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/jobtemplates/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    delete_managed_endpoint(endpoint_id, virtual_cluster_id)
-    delete_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
+    delete_managed_endpoint(id, virtual_cluster_id)
+    delete_managed_endpoint(id, virtual_cluster_id, params::Dict{String,<:Any})
 
 Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio
 to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
 
 # Arguments
 
-- `endpoint_id`: The ID of the managed endpoint.
+- `id`: The ID of the managed endpoint.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
 """
 function delete_managed_endpoint end
 
 function delete_managed_endpoint(
-    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+    id, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)";
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_managed_endpoint(
-    endpointId,
+    id,
     virtualClusterId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "DELETE",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -407,8 +401,8 @@ function delete_managed_endpoint(
 end
 
 """
-    delete_virtual_cluster(virtual_cluster_id)
-    delete_virtual_cluster(virtual_cluster_id, params::Dict{String,<:Any})
+    delete_virtual_cluster(id)
+    delete_virtual_cluster(id, params::Dict{String,<:Any})
 
 Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can
 create, describe, list and delete virtual clusters. They do not consume any additional
@@ -418,29 +412,22 @@ namespaces to meet your requirements.
 
 # Arguments
 
-- `virtual_cluster_id`: The ID of the virtual cluster that will be deleted.
+- `id`: The ID of the virtual cluster that will be deleted.
 """
 function delete_virtual_cluster end
 
-function delete_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function delete_virtual_cluster(id; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
-        "DELETE",
-        "/virtualclusters/$(virtualClusterId)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DELETE", "/virtualclusters/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_virtual_cluster(
-    virtualClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "DELETE",
-        "/virtualclusters/$(virtualClusterId)",
+        "/virtualclusters/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -448,39 +435,39 @@ function delete_virtual_cluster(
 end
 
 """
-    describe_job_run(job_run_id, virtual_cluster_id)
-    describe_job_run(job_run_id, virtual_cluster_id, params::Dict{String,<:Any})
+    describe_job_run(id, virtual_cluster_id)
+    describe_job_run(id, virtual_cluster_id, params::Dict{String,<:Any})
 
 Displays detailed information about a job run. A job run is a unit of work, such as a Spark
 jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Arguments
 
-- `job_run_id`: The ID of the job run request.
+- `id`: The ID of the job run request.
 - `virtual_cluster_id`: The ID of the virtual cluster for which the job run is submitted.
 """
 function describe_job_run end
 
 function describe_job_run(
-    jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+    id, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)";
+        "/virtualclusters/$(virtualClusterId)/jobruns/$(id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_job_run(
-    jobRunId,
+    id,
     virtualClusterId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
-        "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)",
+        "/virtualclusters/$(virtualClusterId)/jobruns/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -488,8 +475,8 @@ function describe_job_run(
 end
 
 """
-    describe_job_template(template_id)
-    describe_job_template(template_id, params::Dict{String,<:Any})
+    describe_job_template(id)
+    describe_job_template(id, params::Dict{String,<:Any})
 
 Displays detailed information about a specified job template. Job template stores values of
 StartJobRun API request in a template and can be used to start a job run. Job template
@@ -498,35 +485,27 @@ certain values in StartJobRun API request.
 
 # Arguments
 
-- `template_id`: The ID of the job template that will be described.
+- `id`: The ID of the job template that will be described.
 """
 function describe_job_template end
 
-function describe_job_template(
-    templateId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function describe_job_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
-        "GET", "/jobtemplates/$(templateId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/jobtemplates/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_job_template(
-    templateId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
-        "GET",
-        "/jobtemplates/$(templateId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/jobtemplates/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_managed_endpoint(endpoint_id, virtual_cluster_id)
-    describe_managed_endpoint(endpoint_id, virtual_cluster_id, params::Dict{String,<:Any})
+    describe_managed_endpoint(id, virtual_cluster_id)
+    describe_managed_endpoint(id, virtual_cluster_id, params::Dict{String,<:Any})
 
 Displays detailed information about a managed endpoint. A managed endpoint is a gateway that
 connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate
@@ -534,31 +513,31 @@ with your virtual cluster.
 
 # Arguments
 
-- `endpoint_id`: This output displays ID of the managed endpoint.
+- `id`: This output displays ID of the managed endpoint.
 - `virtual_cluster_id`: The ID of the endpoint's virtual cluster.
 """
 function describe_managed_endpoint end
 
 function describe_managed_endpoint(
-    endpointId, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
+    id, virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)";
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(id)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_managed_endpoint(
-    endpointId,
+    id,
     virtualClusterId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "GET",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)",
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -566,8 +545,8 @@ function describe_managed_endpoint(
 end
 
 """
-    describe_security_configuration(security_configuration_id)
-    describe_security_configuration(security_configuration_id, params::Dict{String,<:Any})
+    describe_security_configuration(id)
+    describe_security_configuration(id, params::Dict{String,<:Any})
 
 Displays detailed information about a specified security configuration. Security
 configurations in Amazon EMR on EKS are templates for different security setups. You can use
@@ -577,29 +556,24 @@ cluster.
 
 # Arguments
 
-- `security_configuration_id`: The ID of the security configuration.
+- `id`: The ID of the security configuration.
 """
 function describe_security_configuration end
 
 function describe_security_configuration(
-    securityConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
+    id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
-        "GET",
-        "/securityconfigurations/$(securityConfigurationId)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/securityconfigurations/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_security_configuration(
-    securityConfigurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
         "GET",
-        "/securityconfigurations/$(securityConfigurationId)",
+        "/securityconfigurations/$(id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -607,8 +581,8 @@ function describe_security_configuration(
 end
 
 """
-    describe_virtual_cluster(virtual_cluster_id)
-    describe_virtual_cluster(virtual_cluster_id, params::Dict{String,<:Any})
+    describe_virtual_cluster(id)
+    describe_virtual_cluster(id, params::Dict{String,<:Any})
 
 Displays detailed information about a specified virtual cluster. Virtual cluster is a
 managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
@@ -618,38 +592,27 @@ virtual clusters the same way you model Kubernetes namespaces to meet your requi
 
 # Arguments
 
-- `virtual_cluster_id`: The ID of the virtual cluster that will be described.
+- `id`: The ID of the virtual cluster that will be described.
 """
 function describe_virtual_cluster end
 
-function describe_virtual_cluster(
-    virtualClusterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function describe_virtual_cluster(id; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)";
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/virtualclusters/$(id)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_virtual_cluster(
-    virtualClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return emr_containers(
-        "GET",
-        "/virtualclusters/$(virtualClusterId)",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/virtualclusters/$(id)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_managed_endpoint_session_credentials(credential_type, endpoint_id, execution_role_arn, virtual_cluster_id)
-    get_managed_endpoint_session_credentials(credential_type, endpoint_id, execution_role_arn, virtual_cluster_id, params::Dict{String,<:Any})
+    get_managed_endpoint_session_credentials(credential_type, endpoint_identifier, execution_role_arn, virtual_cluster_identifier)
+    get_managed_endpoint_session_credentials(credential_type, endpoint_identifier, execution_role_arn, virtual_cluster_identifier, params::Dict{String,<:Any})
 
 Generate a session token to connect to a managed endpoint.
 
@@ -657,10 +620,10 @@ Generate a session token to connect to a managed endpoint.
 
 - `credential_type`: Type of the token requested. Currently supported and default value of
   this field is “TOKEN.”
-- `endpoint_id`: The ARN of the managed endpoint for which the request is submitted.
+- `endpoint_identifier`: The ARN of the managed endpoint for which the request is submitted.
 - `execution_role_arn`: The IAM Execution Role ARN that will be used by the job run.
-- `virtual_cluster_id`: The ARN of the Virtual Cluster which the Managed Endpoint belongs
-  to.
+- `virtual_cluster_identifier`: The ARN of the Virtual Cluster which the Managed Endpoint
+  belongs to.
 
 # Optional Parameters
 
@@ -676,14 +639,14 @@ function get_managed_endpoint_session_credentials end
 
 function get_managed_endpoint_session_credentials(
     credentialType,
-    endpointId,
+    endpointIdentifier,
     executionRoleArn,
-    virtualClusterId;
+    virtualClusterIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)/credentials",
+        "/virtualclusters/$(virtualClusterIdentifier)/endpoints/$(endpointIdentifier)/credentials",
         Dict{String,Any}(
             "credentialType" => credentialType,
             "executionRoleArn" => executionRoleArn,
@@ -696,15 +659,15 @@ end
 
 function get_managed_endpoint_session_credentials(
     credentialType,
-    endpointId,
+    endpointIdentifier,
     executionRoleArn,
-    virtualClusterId,
+    virtualClusterIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return emr_containers(
         "POST",
-        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)/credentials",
+        "/virtualclusters/$(virtualClusterIdentifier)/endpoints/$(endpointIdentifier)/credentials",
         Dict{String,Any}(
             mergewith(
                 _merge,

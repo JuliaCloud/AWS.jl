@@ -508,7 +508,7 @@ tool must first register the migration task with Migration Hub.
 
 - `migration_task_name`: Unique identifier that references the migration task. *Do not store
   personal data in this field.*
-- `progress_update_stream`: The name of the ProgressUpdateStream. &gt;
+- `progress_update_stream`: The name of the ProgressUpdateStream. >
 
 # Optional Parameters
 

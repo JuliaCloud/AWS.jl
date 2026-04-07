@@ -5,8 +5,8 @@ using AWS.AWSServices: mq
 using AWS.UUIDs: uuid4
 
 """
-    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible, users)
-    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible, users, params::Dict{String,<:Any})
+    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users)
+    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users, params::Dict{String,<:Any})
 
 Creates a broker. Note: This API is asynchronous.
 
@@ -37,6 +37,11 @@ in the *Amazon MQ Developer Guide*.
 
 # Arguments
 
+- `auto_minor_version_upgrade`: Enables automatic upgrades to new minor versions for
+  brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur
+  during the scheduled maintenance window of the broker or after a manual broker reboot. Set
+  to true by default, if no value is specified.
+
 - `broker_name`: Required. The broker's name. This value must be unique in your Amazon Web
   Services account, 1-50 characters long, must contain only letters, numbers, dashes, and
   underscores, and must not contain white spaces, brackets, wildcard characters, or special
@@ -53,6 +58,9 @@ in the *Amazon MQ Developer Guide*.
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
   and RABBITMQ.
 
+- `engine_version`: Required. The broker engine's version. For a list of supported engine
+  versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+
 - `host_instance_type`: Required. The broker's instance type.
 
 - `publicly_accessible`: Enables connections from applications outside of the VPC that hosts
@@ -67,53 +75,39 @@ in the *Amazon MQ Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
+- `"AuthenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
 
-- `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
-  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
-  the scheduled maintenance window or after a manual broker reboot. Set to true by default,
-  if no value is specified.
+- `"Configuration"`: A list of information about the configuration.
 
-  !!! note
-      Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
-      brokers version 3.13 and above.
-
-- `"configuration"`: A list of information about the configuration.
-
-- `"creatorRequestId"`: The unique ID that the requester receives for the created broker.
+- `"CreatorRequestId"`: The unique ID that the requester receives for the created broker.
   Amazon MQ passes your ID with the API action.
 
   !!! note
       We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId.
       You may omit the creatorRequestId if your application doesn't require idempotency.
 
-- `"dataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
+- `"DataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
 
-- `"dataReplicationPrimaryBrokerArn"`: The Amazon Resource Name (ARN) of the primary broker
+- `"DataReplicationPrimaryBrokerArn"`: The Amazon Resource Name (ARN) of the primary broker
   that is used to replicate data from in a data replication pair, and is applied to the
   replica broker. Must be set when dataReplicationMode is set to CRDR.
 
-- `"encryptionOptions"`: Encryption options for the broker.
+- `"EncryptionOptions"`: Encryption options for the broker.
 
-- `"engineVersion"`: The broker engine version. Defaults to the latest available version for
-  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
-  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
-  sections in the Amazon MQ Developer Guide.
-
-- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
+- `"LdapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
   authorize connections to the broker. Does not apply to RabbitMQ brokers.
 
-- `"logs"`: Enables Amazon CloudWatch logging for brokers.
+- `"Logs"`: Enables Amazon CloudWatch logging for brokers.
 
-- `"maintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
+- `"MaintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
 
-- `"securityGroups"`: The list of rules (1 minimum, 125 maximum) that authorize connections
+- `"SecurityGroups"`: The list of rules (1 minimum, 125 maximum) that authorize connections
   to brokers.
 
-- `"storageType"`: The broker's storage type.
+- `"StorageType"`: The broker's storage type.
 
-- `"subnetIds"`: The list of groups that define which subnets and IP ranges the broker can
+- `"SubnetIds"`: The list of groups that define which subnets and IP ranges the broker can
   use from different Availability Zones. If you specify more than one subnet, the subnets
   must be in different Availability Zones. Amazon MQ will not be able to create VPC
   endpoints for your broker with multiple subnets in the same Availability Zone. A
@@ -129,30 +123,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC
       endpoints in VPCs that are not owned by your Amazon Web Services account.
 
-- `"tags"`: Create tags when creating the broker.
+- `"Tags"`: Create tags when creating the broker.
 """
 function create_broker end
 
 function create_broker(
-    brokerName,
-    deploymentMode,
-    engineType,
-    hostInstanceType,
-    publiclyAccessible,
-    users;
+    AutoMinorVersionUpgrade,
+    BrokerName,
+    DeploymentMode,
+    EngineType,
+    EngineVersion,
+    HostInstanceType,
+    PubliclyAccessible,
+    Users;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
         "/v1/brokers",
         Dict{String,Any}(
-            "brokerName" => brokerName,
-            "deploymentMode" => deploymentMode,
-            "engineType" => engineType,
-            "hostInstanceType" => hostInstanceType,
-            "publiclyAccessible" => publiclyAccessible,
-            "users" => users,
-            "creatorRequestId" => string(uuid4()),
+            "AutoMinorVersionUpgrade" => AutoMinorVersionUpgrade,
+            "BrokerName" => BrokerName,
+            "DeploymentMode" => DeploymentMode,
+            "EngineType" => EngineType,
+            "EngineVersion" => EngineVersion,
+            "HostInstanceType" => HostInstanceType,
+            "PubliclyAccessible" => PubliclyAccessible,
+            "Users" => Users,
+            "CreatorRequestId" => string(uuid4()),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -160,12 +158,14 @@ function create_broker(
 end
 
 function create_broker(
-    brokerName,
-    deploymentMode,
-    engineType,
-    hostInstanceType,
-    publiclyAccessible,
-    users,
+    AutoMinorVersionUpgrade,
+    BrokerName,
+    DeploymentMode,
+    EngineType,
+    EngineVersion,
+    HostInstanceType,
+    PubliclyAccessible,
+    Users,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -176,13 +176,15 @@ function create_broker(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "brokerName" => brokerName,
-                    "deploymentMode" => deploymentMode,
-                    "engineType" => engineType,
-                    "hostInstanceType" => hostInstanceType,
-                    "publiclyAccessible" => publiclyAccessible,
-                    "users" => users,
-                    "creatorRequestId" => string(uuid4()),
+                    "AutoMinorVersionUpgrade" => AutoMinorVersionUpgrade,
+                    "BrokerName" => BrokerName,
+                    "DeploymentMode" => DeploymentMode,
+                    "EngineType" => EngineType,
+                    "EngineVersion" => EngineVersion,
+                    "HostInstanceType" => HostInstanceType,
+                    "PubliclyAccessible" => PubliclyAccessible,
+                    "Users" => Users,
+                    "CreatorRequestId" => string(uuid4()),
                 ),
                 params,
             ),
@@ -193,8 +195,8 @@ function create_broker(
 end
 
 """
-    create_configuration(engine_type, name)
-    create_configuration(engine_type, name, params::Dict{String,<:Any})
+    create_configuration(engine_type, engine_version, name)
+    create_configuration(engine_type, engine_version, name, params::Dict{String,<:Any})
 
 Creates a new configuration for the specified configuration name. Amazon MQ uses the default
 configuration (the engine type and version).
@@ -203,6 +205,8 @@ configuration (the engine type and version).
 
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
   and RABBITMQ.
+- `engine_version`: Required. The broker engine's version. For a list of supported engine
+  versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
   characters long.
@@ -211,31 +215,30 @@ configuration (the engine type and version).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authenticationStrategy"`: Optional. The authentication strategy associated with the
+- `"AuthenticationStrategy"`: Optional. The authentication strategy associated with the
   configuration. The default is SIMPLE.
-- `"engineVersion"`: The broker engine version. Defaults to the latest available version for
-  the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
-  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
-  sections in the Amazon MQ Developer Guide.
-- `"tags"`: Create tags when creating the configuration.
+- `"Tags"`: Create tags when creating the configuration.
 """
 function create_configuration end
 
 function create_configuration(
-    engineType, name; aws_config::AbstractAWSConfig=current_aws_config()
+    EngineType, EngineVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "POST",
         "/v1/configurations",
-        Dict{String,Any}("engineType" => engineType, "name" => name);
+        Dict{String,Any}(
+            "EngineType" => EngineType, "EngineVersion" => EngineVersion, "Name" => Name
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_configuration(
-    engineType,
-    name,
+    EngineType,
+    EngineVersion,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -244,7 +247,13 @@ function create_configuration(
         "/v1/configurations",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("engineType" => engineType, "name" => name), params
+                _merge,
+                Dict{String,Any}(
+                    "EngineType" => EngineType,
+                    "EngineVersion" => EngineVersion,
+                    "Name" => Name,
+                ),
+                params,
             ),
         );
         aws_config,
@@ -253,37 +262,37 @@ function create_configuration(
 end
 
 """
-    create_tags(resource-arn)
-    create_tags(resource-arn, params::Dict{String,<:Any})
+    create_tags(resource_arn)
+    create_tags(resource_arn, params::Dict{String,<:Any})
 
 Add a tag to a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource tag.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: The key-value pair for the resource tag.
+- `"Tags"`: The key-value pair for the resource tag.
 """
 function create_tags end
 
-function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
+function create_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "POST", "/v1/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/v1/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function create_tags(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
-        "/v1/tags/$(resource-arn)",
+        "/v1/tags/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -291,8 +300,8 @@ function create_tags(
 end
 
 """
-    create_user(broker-id, password, username)
-    create_user(broker-id, password, username, params::Dict{String,<:Any})
+    create_user(broker_id, password, username)
+    create_user(broker_id, password, username, params::Dict{String,<:Any})
 
 Creates an ActiveMQ user.
 
@@ -304,7 +313,7 @@ Creates an ActiveMQ user.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 - `password`: Required. The password of the user. This value must be at least 12 characters
   long, must contain at least 4 unique characters, and must not contain commas, colons, or
   equal signs (,:=).
@@ -316,38 +325,38 @@ Creates an ActiveMQ user.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"consoleAccess"`: Enables access to the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+- `"ConsoleAccess"`: Enables access to the ActiveMQ Web Console for the ActiveMQ user.
+- `"Groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
   can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   ~). This value must be 2-100 characters long.
-- `"replicationUser"`: Defines if this user is intended for CRDR replication purposes.
+- `"ReplicationUser"`: Defines if this user is intended for CRDR replication purposes.
 """
 function create_user end
 
 function create_user(
-    broker_id, password, username; aws_config::AbstractAWSConfig=current_aws_config()
+    BrokerId, Password, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/users/$(username)",
-        Dict{String,Any}("password" => password);
+        "/v1/brokers/$(BrokerId)/users/$(Username)",
+        Dict{String,Any}("Password" => Password);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_user(
-    broker_id,
-    password,
-    username,
+    BrokerId,
+    Password,
+    Username,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/users/$(username)",
+        "/v1/brokers/$(BrokerId)/users/$(Username)",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("password" => password), params)
+            mergewith(_merge, Dict{String,Any}("Password" => Password), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -355,31 +364,31 @@ function create_user(
 end
 
 """
-    delete_broker(broker-id)
-    delete_broker(broker-id, params::Dict{String,<:Any})
+    delete_broker(broker_id)
+    delete_broker(broker_id, params::Dict{String,<:Any})
 
 Deletes a broker. Note: This API is asynchronous.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 """
 function delete_broker end
 
-function delete_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_broker(BrokerId; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "DELETE", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/v1/brokers/$(BrokerId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_broker(
-    broker_id,
+    BrokerId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
-        "/v1/brokers/$(broker-id)",
+        "/v1/brokers/$(BrokerId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -387,24 +396,24 @@ function delete_broker(
 end
 
 """
-    delete_tags(resource-arn, tag_keys)
-    delete_tags(resource-arn, tag_keys, params::Dict{String,<:Any})
+    delete_tags(resource_arn, tag_keys)
+    delete_tags(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource tag.
 - `tag_keys`: An array of tag keys to delete
 """
 function delete_tags end
 
 function delete_tags(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "DELETE",
-        "/v1/tags/$(resource-arn)",
+        "/v1/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -412,14 +421,14 @@ function delete_tags(
 end
 
 function delete_tags(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
-        "/v1/tags/$(resource-arn)",
+        "/v1/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -427,40 +436,38 @@ function delete_tags(
 end
 
 """
-    delete_user(broker-id, username)
-    delete_user(broker-id, username, params::Dict{String,<:Any})
+    delete_user(broker_id, username)
+    delete_user(broker_id, username, params::Dict{String,<:Any})
 
 Deletes an ActiveMQ user.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
   characters long.
 """
 function delete_user end
 
-function delete_user(
-    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function delete_user(BrokerId, Username; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "DELETE",
-        "/v1/brokers/$(broker-id)/users/$(username)";
+        "/v1/brokers/$(BrokerId)/users/$(Username)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_user(
-    broker_id,
-    username,
+    BrokerId,
+    Username,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "DELETE",
-        "/v1/brokers/$(broker-id)/users/$(username)",
+        "/v1/brokers/$(BrokerId)/users/$(Username)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -468,31 +475,29 @@ function delete_user(
 end
 
 """
-    describe_broker(broker-id)
-    describe_broker(broker-id, params::Dict{String,<:Any})
+    describe_broker(broker_id)
+    describe_broker(broker_id, params::Dict{String,<:Any})
 
 Returns information about the specified broker.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 """
 function describe_broker end
 
-function describe_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq(
-        "GET", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+function describe_broker(BrokerId; aws_config::AbstractAWSConfig=current_aws_config())
+    return mq("GET", "/v1/brokers/$(BrokerId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function describe_broker(
-    broker_id,
+    BrokerId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/brokers/$(broker-id)",
+        "/v1/brokers/$(BrokerId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -574,36 +579,36 @@ function describe_broker_instance_options(
 end
 
 """
-    describe_configuration(configuration-id)
-    describe_configuration(configuration-id, params::Dict{String,<:Any})
+    describe_configuration(configuration_id)
+    describe_configuration(configuration_id, params::Dict{String,<:Any})
 
 Returns information about the specified configuration.
 
 # Arguments
 
-- `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
+- `configuration_id`: The unique ID that Amazon MQ generates for the configuration.
 """
 function describe_configuration end
 
 function describe_configuration(
-    configuration_id; aws_config::AbstractAWSConfig=current_aws_config()
+    ConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)";
+        "/v1/configurations/$(ConfigurationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_configuration(
-    configuration_id,
+    ConfigurationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)",
+        "/v1/configurations/$(ConfigurationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -611,40 +616,40 @@ function describe_configuration(
 end
 
 """
-    describe_configuration_revision(configuration-id, configuration-revision)
-    describe_configuration_revision(configuration-id, configuration-revision, params::Dict{String,<:Any})
+    describe_configuration_revision(configuration_id, configuration_revision)
+    describe_configuration_revision(configuration_id, configuration_revision, params::Dict{String,<:Any})
 
 Returns the specified configuration revision for the specified configuration.
 
 # Arguments
 
-- `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
-- `configuration-revision`: The revision of the configuration.
+- `configuration_id`: The unique ID that Amazon MQ generates for the configuration.
+- `configuration_revision`: The revision of the configuration.
 """
 function describe_configuration_revision end
 
 function describe_configuration_revision(
-    configuration_id,
-    configuration_revision;
+    ConfigurationId,
+    ConfigurationRevision;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)";
+        "/v1/configurations/$(ConfigurationId)/revisions/$(ConfigurationRevision)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_configuration_revision(
-    configuration_id,
-    configuration_revision,
+    ConfigurationId,
+    ConfigurationRevision,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)",
+        "/v1/configurations/$(ConfigurationId)/revisions/$(ConfigurationRevision)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -652,14 +657,14 @@ function describe_configuration_revision(
 end
 
 """
-    describe_user(broker-id, username)
-    describe_user(broker-id, username, params::Dict{String,<:Any})
+    describe_user(broker_id, username)
+    describe_user(broker_id, username, params::Dict{String,<:Any})
 
 Returns information about an ActiveMQ user.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
   characters long.
@@ -667,25 +672,25 @@ Returns information about an ActiveMQ user.
 function describe_user end
 
 function describe_user(
-    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
+    BrokerId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
-        "/v1/brokers/$(broker-id)/users/$(username)";
+        "/v1/brokers/$(BrokerId)/users/$(Username)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_user(
-    broker_id,
-    username,
+    BrokerId,
+    Username,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/brokers/$(broker-id)/users/$(username)",
+        "/v1/brokers/$(BrokerId)/users/$(Username)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -720,14 +725,14 @@ function list_brokers(
 end
 
 """
-    list_configuration_revisions(configuration-id)
-    list_configuration_revisions(configuration-id, params::Dict{String,<:Any})
+    list_configuration_revisions(configuration_id)
+    list_configuration_revisions(configuration_id, params::Dict{String,<:Any})
 
 Returns a list of all revisions for the specified configuration.
 
 # Arguments
 
-- `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
+- `configuration_id`: The unique ID that Amazon MQ generates for the configuration.
 
 # Optional Parameters
 
@@ -741,24 +746,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_configuration_revisions end
 
 function list_configuration_revisions(
-    configuration_id; aws_config::AbstractAWSConfig=current_aws_config()
+    ConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)/revisions";
+        "/v1/configurations/$(ConfigurationId)/revisions";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_configuration_revisions(
-    configuration_id,
+    ConfigurationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/configurations/$(configuration-id)/revisions",
+        "/v1/configurations/$(ConfigurationId)/revisions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -795,31 +800,29 @@ function list_configurations(
 end
 
 """
-    list_tags(resource-arn)
-    list_tags(resource-arn, params::Dict{String,<:Any})
+    list_tags(resource_arn)
+    list_tags(resource_arn, params::Dict{String,<:Any})
 
 Lists tags for a resource.
 
 # Arguments
 
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource tag.
 """
 function list_tags end
 
-function list_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq(
-        "GET", "/v1/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return mq("GET", "/v1/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_tags(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/tags/$(resource-arn)",
+        "/v1/tags/$(ResourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -827,14 +830,14 @@ function list_tags(
 end
 
 """
-    list_users(broker-id)
-    list_users(broker-id, params::Dict{String,<:Any})
+    list_users(broker_id)
+    list_users(broker_id, params::Dict{String,<:Any})
 
 Returns a list of all ActiveMQ users.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 
 # Optional Parameters
 
@@ -847,20 +850,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_users end
 
-function list_users(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
+function list_users(BrokerId; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
-        "GET", "/v1/brokers/$(broker-id)/users"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/v1/brokers/$(BrokerId)/users"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_users(
-    broker_id,
+    BrokerId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "GET",
-        "/v1/brokers/$(broker-id)/users",
+        "/v1/brokers/$(BrokerId)/users",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -868,73 +871,73 @@ function list_users(
 end
 
 """
-    promote(broker-id, mode)
-    promote(broker-id, mode, params::Dict{String,<:Any})
+    promote(broker_id, mode)
+    promote(broker_id, mode, params::Dict{String,<:Any})
 
 Promotes a data replication replica broker to the primary broker role.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 - `mode`: The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER,
   FAILOVER.
 """
 function promote end
 
-function promote(broker_id, mode; aws_config::AbstractAWSConfig=current_aws_config())
+function promote(BrokerId, Mode; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/promote",
-        Dict{String,Any}("mode" => mode);
+        "/v1/brokers/$(BrokerId)/promote",
+        Dict{String,Any}("Mode" => Mode);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function promote(
-    broker_id,
-    mode,
+    BrokerId,
+    Mode,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/promote",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("mode" => mode), params));
+        "/v1/brokers/$(BrokerId)/promote",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Mode" => Mode), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    reboot_broker(broker-id)
-    reboot_broker(broker-id, params::Dict{String,<:Any})
+    reboot_broker(broker_id)
+    reboot_broker(broker_id, params::Dict{String,<:Any})
 
 Reboots a broker. Note: This API is asynchronous.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 """
 function reboot_broker end
 
-function reboot_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
+function reboot_broker(BrokerId; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/reboot";
+        "/v1/brokers/$(BrokerId)/reboot";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function reboot_broker(
-    broker_id,
+    BrokerId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "POST",
-        "/v1/brokers/$(broker-id)/reboot",
+        "/v1/brokers/$(BrokerId)/reboot",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -942,71 +945,50 @@ function reboot_broker(
 end
 
 """
-    update_broker(broker-id)
-    update_broker(broker-id, params::Dict{String,<:Any})
+    update_broker(broker_id)
+    update_broker(broker_id, params::Dict{String,<:Any})
 
 Adds a pending configuration change to a broker.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
+- `"AuthenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
-
-- `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
+- `"AutoMinorVersionUpgrade"`: Enables automatic upgrades to new minor versions for brokers,
   as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
-  the scheduled maintenance window or after a manual broker reboot.
-
-  !!! note
-      Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ
-      brokers version 3.13 and above.
-
-- `"configuration"`: A list of information about the configuration.
-
-- `"dataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
-
-- `"engineVersion"`: The broker engine version. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
-  and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
-  sections in the Amazon MQ Developer Guide.
-
-  !!! note
-      When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and above,
-      you must have autoMinorVersionUpgrade set to true for the broker.
-
-- `"hostInstanceType"`: The broker's host instance type to upgrade to. For a list of
+  the scheduled maintenance window of the broker or after a manual broker reboot.
+- `"Configuration"`: A list of information about the configuration.
+- `"DataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
+- `"EngineVersion"`: The broker engine version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+- `"HostInstanceType"`: The broker's host instance type to upgrade to. For a list of
   supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
-
-- `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
+- `"LdapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate and
   authorize connections to the broker. Does not apply to RabbitMQ brokers.
-
-- `"logs"`: Enables Amazon CloudWatch logging for brokers.
-
-- `"maintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
-
-- `"securityGroups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
+- `"Logs"`: Enables Amazon CloudWatch logging for brokers.
+- `"MaintenanceWindowStartTime"`: The parameters that determine the WeeklyStartTime.
+- `"SecurityGroups"`: The list of security groups (1 minimum, 5 maximum) that authorizes
   connections to brokers.
 """
 function update_broker end
 
-function update_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return mq(
-        "PUT", "/v1/brokers/$(broker-id)"; aws_config, feature_set=SERVICE_FEATURE_SET
-    )
+function update_broker(BrokerId; aws_config::AbstractAWSConfig=current_aws_config())
+    return mq("PUT", "/v1/brokers/$(BrokerId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function update_broker(
-    broker_id,
+    BrokerId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",
-        "/v1/brokers/$(broker-id)",
+        "/v1/brokers/$(BrokerId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1014,14 +996,14 @@ function update_broker(
 end
 
 """
-    update_configuration(configuration-id, data)
-    update_configuration(configuration-id, data, params::Dict{String,<:Any})
+    update_configuration(configuration_id, data)
+    update_configuration(configuration_id, data, params::Dict{String,<:Any})
 
 Updates the specified configuration.
 
 # Arguments
 
-- `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
+- `configuration_id`: The unique ID that Amazon MQ generates for the configuration.
 - `data`: Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon MQ for
   RabbitMQ: the base64-encoded Cuttlefish configuration.
 
@@ -1029,46 +1011,46 @@ Updates the specified configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: The description of the configuration.
+- `"Description"`: The description of the configuration.
 """
 function update_configuration end
 
 function update_configuration(
-    configuration_id, data; aws_config::AbstractAWSConfig=current_aws_config()
+    ConfigurationId, Data; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mq(
         "PUT",
-        "/v1/configurations/$(configuration-id)",
-        Dict{String,Any}("data" => data);
+        "/v1/configurations/$(ConfigurationId)",
+        Dict{String,Any}("Data" => Data);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_configuration(
-    configuration_id,
-    data,
+    ConfigurationId,
+    Data,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",
-        "/v1/configurations/$(configuration-id)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("data" => data), params));
+        "/v1/configurations/$(ConfigurationId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Data" => Data), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    update_user(broker-id, username)
-    update_user(broker-id, username, params::Dict{String,<:Any})
+    update_user(broker_id, username)
+    update_user(broker_id, username, params::Dict{String,<:Any})
 
 Updates the information for an ActiveMQ user.
 
 # Arguments
 
-- `broker-id`: The unique ID that Amazon MQ generates for the broker.
+- `broker_id`: The unique ID that Amazon MQ generates for the broker.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
   characters long.
@@ -1077,37 +1059,35 @@ Updates the information for an ActiveMQ user.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"consoleAccess"`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-- `"groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+- `"ConsoleAccess"`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+- `"Groups"`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
   can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   ~). This value must be 2-100 characters long.
-- `"password"`: The password of the user. This value must be at least 12 characters long,
+- `"Password"`: The password of the user. This value must be at least 12 characters long,
   must contain at least 4 unique characters, and must not contain commas, colons, or equal
   signs (,:=).
-- `"replicationUser"`: Defines whether the user is intended for data replication.
+- `"ReplicationUser"`: Defines whether the user is intended for data replication.
 """
 function update_user end
 
-function update_user(
-    broker_id, username; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function update_user(BrokerId, Username; aws_config::AbstractAWSConfig=current_aws_config())
     return mq(
         "PUT",
-        "/v1/brokers/$(broker-id)/users/$(username)";
+        "/v1/brokers/$(BrokerId)/users/$(Username)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_user(
-    broker_id,
-    username,
+    BrokerId,
+    Username,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mq(
         "PUT",
-        "/v1/brokers/$(broker-id)/users/$(username)",
+        "/v1/brokers/$(BrokerId)/users/$(Username)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

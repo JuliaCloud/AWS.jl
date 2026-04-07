@@ -321,8 +321,6 @@ Creates an Amazon OpenSearch Service domain. For more information, see [Creating
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
-
 - `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
   access policies for the new domain.
 
@@ -607,38 +605,38 @@ function create_vpc_endpoint(
 end
 
 """
-    delete_data_source(data_source_name, domain_name)
-    delete_data_source(data_source_name, domain_name, params::Dict{String,<:Any})
+    delete_data_source(domain_name, name)
+    delete_data_source(domain_name, name, params::Dict{String,<:Any})
 
 Deletes a direct-query data source. For more information, see [Deleting an Amazon OpenSearch Service data source with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html).
 
 # Arguments
 
-- `data_source_name`: The name of the data source to delete.
 - `domain_name`: The name of the domain.
+- `name`: The name of the data source to delete.
 """
 function delete_data_source end
 
 function delete_data_source(
-    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+    DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "DELETE",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_data_source(
-    DataSourceName,
     DomainName,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "DELETE",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1534,38 +1532,38 @@ function get_compatible_versions(
 end
 
 """
-    get_data_source(data_source_name, domain_name)
-    get_data_source(data_source_name, domain_name, params::Dict{String,<:Any})
+    get_data_source(domain_name, name)
+    get_data_source(domain_name, name, params::Dict{String,<:Any})
 
 Retrieves information about a direct query data source.
 
 # Arguments
 
-- `data_source_name`: The name of the data source to get information about.
 - `domain_name`: The name of the domain.
+- `name`: The name of the data source to get information about.
 """
 function get_data_source end
 
 function get_data_source(
-    DataSourceName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+    DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "GET",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_data_source(
-    DataSourceName,
     DomainName,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "GET",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2072,7 +2070,7 @@ function list_tags end
 function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearch(
         "GET",
-        "/2021-01-01/tags/",
+        "/2021-01-01/tags",
         Dict{String,Any}("arn" => arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2084,7 +2082,7 @@ function list_tags(
 )
     return opensearch(
         "GET",
-        "/2021-01-01/tags/",
+        "/2021-01-01/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2552,35 +2550,32 @@ function start_service_software_update(
 end
 
 """
-    update_data_source(data_source_name, data_source_type, domain_name)
-    update_data_source(data_source_name, data_source_type, domain_name, params::Dict{String,<:Any})
+    update_data_source(data_source_type, domain_name, name)
+    update_data_source(data_source_type, domain_name, name, params::Dict{String,<:Any})
 
 Updates a direct-query data source. For more information, see [Working with Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
 
 # Arguments
 
-- `data_source_name`: The name of the data source to modify.
 - `data_source_type`: The type of data source.
 - `domain_name`: The name of the domain.
+- `name`: The name of the data source to modify.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A new description of the data source.
-- `"Status"`: The status of the data source update.
+- `"Status"`: The status of the data source update request.
 """
 function update_data_source end
 
 function update_data_source(
-    DataSourceName,
-    DataSourceType,
-    DomainName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "PUT",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)",
         Dict{String,Any}("DataSourceType" => DataSourceType);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2588,15 +2583,15 @@ function update_data_source(
 end
 
 function update_data_source(
-    DataSourceName,
     DataSourceType,
     DomainName,
+    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return opensearch(
         "PUT",
-        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DataSourceType" => DataSourceType), params)
         );
@@ -2618,8 +2613,6 @@ Modifies the cluster configuration of the specified Amazon OpenSearch Service do
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
 
 - `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a JSON-formatted
   string.

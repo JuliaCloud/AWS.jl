@@ -293,9 +293,10 @@ in the *Organizations User Guide*.
 !!! important
     - When you create an account in an organization using the Organizations console, API, or
       CLI commands, the information required for the account to operate as a standalone
-      account, such as a payment method is *not* automatically collected. If you must remove
-      an account from your organization later, you can do so only after you provide the
-      missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html)
+      account, such as a payment method and signing the end user license agreement (EULA) is
+      *not* automatically collected. If you must remove an account from your organization
+      later, you can do so only after you provide the missing information. For more
+      information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html)
       in the *Organizations User Guide*.
     - If you get an exception that indicates that you exceeded your account limits for the
       organization, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -332,7 +333,7 @@ in the *Organizations User Guide*.
     name.
   - The local name can't contain any of the following characters:
 
-  whitespace, " ' ( ) &lt; &gt; [ ] : ; , \\ | % &amp;
+  whitespace, " ' ( ) < > [ ] : ; , \\ | % &
 - The local name can't begin with a dot (.)
   - The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.)
 - The domain name can't begin or end with a hyphen (-
@@ -534,7 +535,7 @@ in the *Organizations User Guide*.
     name.
   - The local name can't contain any of the following characters:
 
-  whitespace, " ' ( ) &lt; &gt; [ ] : ; , \\ | % &amp;
+  whitespace, " ' ( ) < > [ ] : ; , \\ | % &
 - The local name can't begin with a dot (.)
   - The domain name can consist of only the characters [a-z],[A-Z],[0-9], hyphen (-), or dot (.)
 - The domain name can't begin or end with a hyphen (-
@@ -1905,7 +1906,7 @@ This operation can be called only from the organization's management account.
 - `target`: The identifier (ID) of the Amazon Web Services account that you want to invite
   to join your organization. This is a JSON object that contains the following elements:
 
-  `{ "Type": "ACCOUNT", "Id": "&lt;***account id number***&gt;" }`
+  `{ "Type": "ACCOUNT", "Id": "<***account id number***>" }`
 
   If you use the CLI, you can submit this as a single string, similar to the following
   example:

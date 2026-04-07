@@ -27,7 +27,7 @@ CA.
     see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies).
 
 Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with
-encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption).
+encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption).
 
 # Arguments
 
@@ -841,9 +841,9 @@ and removed with [DeletePolicy](https://docs.aws.amazon.com/privateca/latest/API
 
 # Arguments
 
-- `resource_arn`: <p>The Amazon Resource Number (ARN) of the private CA that will have its
+- `resource_arn`: The Amazon Resource Number (ARN) of the private CA that will have its
   policy retrieved. You can find the CA's ARN by calling the ListCertificateAuthorities
-  action. <pre>`&lt;/p&gt;`</pre>
+  action.
 """
 function get_policy end
 

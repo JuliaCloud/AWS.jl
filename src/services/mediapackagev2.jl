@@ -30,17 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Enter any descriptive text that helps you to identify the channel.
 
-- `"InputType"`: The input type will be an immutable field which will be used to define
-  whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default
-  to HLS to preserve current behavior.
-
-  The allowed values are:
-
-  - `HLS` - The HLS streaming specification (which defines M3U8 manifests and TS segments).
-  - `CMAF` - The DASH-IF CMAF Ingest specification (which defines CMAF segments with
-    optional DASH manifests).
-
-- `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
+- `"Tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
   `"Key1": "Value1",`
 
@@ -111,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Enter any descriptive text that helps you to identify the channel group.
 
-- `"tags"`: A comma-separated list of tag key:value pairs that you define. For example:
+- `"Tags"`: A comma-separated list of tag key:value pairs that you define. For example:
 
   `"Key1": "Value1",`
 
@@ -192,8 +182,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: Enter any descriptive text that helps you to identify the origin
   endpoint.
-
-- `"ForceEndpointErrorConfiguration"`: The failover settings for the endpoint.
 
 - `"HlsManifests"`: An HTTP live streaming (HLS) manifest configuration.
 
@@ -987,11 +975,11 @@ the resource, the new tag value that you specify replaces the previous value for
 """
 function tag_resource end
 
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackagev2(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}("tags" => tags);
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -999,14 +987,14 @@ end
 
 function tag_resource(
     ResourceArn,
-    tags,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediapackagev2(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1189,7 +1177,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DashManifests"`: A DASH manifest configuration.
 - `"Description"`: Any descriptive information that you want to add to the origin endpoint
   for future identification purposes.
-- `"ForceEndpointErrorConfiguration"`: The failover settings for the endpoint.
 - `"HlsManifests"`: An HTTP live streaming (HLS) manifest configuration.
 - `"LowLatencyHlsManifests"`: A low-latency HLS manifest configuration.
 - `"Segment"`: The segment configuration, including the segment name, duration, and other

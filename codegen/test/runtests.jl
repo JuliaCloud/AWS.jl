@@ -2,16 +2,18 @@ using Codegen:
     InvalidFileName,
     ProtocolNotDefined,
     ServiceFile,
-    _filter_latest_service_version,
     _format_name,
     _generate_low_level_definition,
     _generate_high_level_definition,
     _generate_high_level_definitions,
     get_markdown_indent,
-    _get_service_files,
-    _get_service_and_version,
+    _get_service_model_trees,
     _get_function_parameters,
     _html_to_markdown,
+    _parse_smithy_model,
+    _preferred_protocol,
+    _shape_name,
+    _smithy_to_legacy_shape,
     _replace,
     _splitline,
     _wraplines,
@@ -29,18 +31,23 @@ using HTTP: HTTP
 using Mocking: @patch
 
 _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
-    if tree_obj == "master"
-        tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
-        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
-    else
+    return if tree_obj == "main"
+        tree = [Dict("path" => "codegen", "sha" => "codegen-sha", "type" => "tree")]
+        GitHub.Tree("main-sha", HTTP.URI(), tree, false)
+    elseif tree_obj == "codegen-sha"
+        tree = [Dict("path" => "sdk-codegen", "sha" => "sdk-codegen-sha", "type" => "tree")]
+        GitHub.Tree("codegen-sha", HTTP.URI(), tree, false)
+    elseif tree_obj == "sdk-codegen-sha"
+        tree = [Dict("path" => "aws-models", "sha" => "aws-models-sha", "type" => "tree")]
+        GitHub.Tree("sdk-codegen-sha", HTTP.URI(), tree, false)
+    elseif tree_obj == "aws-models-sha"
+        url = "https://api.github.com/repos/aws/aws-sdk-js-v3/git/blobs/0"
         tree = [
-            Dict(
-                "path" => "test-2020-01-01.normal.json",
-                "sha" => "test-sha",
-                "type" => "blob",
-            ),
+            Dict("path" => "test.json", "sha" => "test-sha", "type" => "blob", "url" => url)
         ]
-        return GitHub.Tree("test-sha", HTTP.URI(), tree, false)
+        GitHub.Tree("aws-models-sha", HTTP.URI(), tree, false)
+    else
+        error("Unhandled tree object: \"$tree_obj\"")
     end
 end
 

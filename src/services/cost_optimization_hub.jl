@@ -126,9 +126,7 @@ savings across different types of recommendations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filter"`:
-- `"maxResults"`: The maximum number of recommendations to be returned for the request.
-- `"metrics"`: Additional metrics to be returned for the request. The only valid value is
-  `savingsPercentage`.
+- `"maxResults"`: The maximum number of recommendations that are returned for the request.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_recommendation_summaries end
@@ -197,8 +195,8 @@ end
 Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization
 Hub service.
 
-If the account is a management account or delegated administrator of an organization, this
-action can also be used to enroll member accounts of the organization.
+If the account is a management account of an organization, this action can also be used to
+enroll member accounts of the organization.
 
 You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its
 recommendations. When you opt in, Cost Optimization Hub automatically creates a service-
@@ -213,7 +211,7 @@ linked role in your account to access its data.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the organization
-  if the account is the management account or delegated administrator.
+  if the account is the management account.
 """
 function update_enrollment_status end
 

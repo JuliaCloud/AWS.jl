@@ -5,37 +5,38 @@ using AWS.AWSServices: elasticsearch_service
 using AWS.UUIDs: uuid4
 
 """
-    accept_inbound_cross_cluster_search_connection(connection_id)
-    accept_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    accept_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id)
+    accept_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id, params::Dict{String,<:Any})
 
 Allows the destination domain owner to accept an inbound cross-cluster search connection
 request.
 
 # Arguments
 
-- `connection_id`: The id of the inbound connection that you want to accept.
+- `cross_cluster_search_connection_id`: The id of the inbound connection that you want to
+  accept.
 """
 function accept_inbound_cross_cluster_search_connection end
 
 function accept_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossClusterSearchConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
         "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept";
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)/accept";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function accept_inbound_cross_cluster_search_connection(
-    ConnectionId,
+    CrossClusterSearchConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elasticsearch_service(
         "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept",
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)/accept",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -600,37 +601,38 @@ function delete_elasticsearch_service_role(
 end
 
 """
-    delete_inbound_cross_cluster_search_connection(connection_id)
-    delete_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    delete_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id)
+    delete_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id, params::Dict{String,<:Any})
 
 Allows the destination domain owner to delete an existing inbound cross-cluster search
 connection.
 
 # Arguments
 
-- `connection_id`: The id of the inbound connection that you want to permanently delete.
+- `cross_cluster_search_connection_id`: The id of the inbound connection that you want to
+  permanently delete.
 """
 function delete_inbound_cross_cluster_search_connection end
 
 function delete_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossClusterSearchConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
         "DELETE",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)";
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_inbound_cross_cluster_search_connection(
-    ConnectionId,
+    CrossClusterSearchConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elasticsearch_service(
         "DELETE",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)",
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -638,37 +640,38 @@ function delete_inbound_cross_cluster_search_connection(
 end
 
 """
-    delete_outbound_cross_cluster_search_connection(connection_id)
-    delete_outbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    delete_outbound_cross_cluster_search_connection(cross_cluster_search_connection_id)
+    delete_outbound_cross_cluster_search_connection(cross_cluster_search_connection_id, params::Dict{String,<:Any})
 
 Allows the source domain owner to delete an existing outbound cross-cluster search
 connection.
 
 # Arguments
 
-- `connection_id`: The id of the outbound connection that you want to permanently delete.
+- `cross_cluster_search_connection_id`: The id of the outbound connection that you want to
+  permanently delete.
 """
 function delete_outbound_cross_cluster_search_connection end
 
 function delete_outbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossClusterSearchConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
         "DELETE",
-        "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)";
+        "/2015-01-01/es/ccs/outboundConnection/$(CrossClusterSearchConnectionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_outbound_cross_cluster_search_connection(
-    ConnectionId,
+    CrossClusterSearchConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elasticsearch_service(
         "DELETE",
-        "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)",
+        "/2015-01-01/es/ccs/outboundConnection/$(CrossClusterSearchConnectionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1690,7 +1693,7 @@ function list_tags end
 function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return elasticsearch_service(
         "GET",
-        "/2015-01-01/tags/",
+        "/2015-01-01/tags",
         Dict{String,Any}("arn" => arn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1702,7 +1705,7 @@ function list_tags(
 )
     return elasticsearch_service(
         "GET",
-        "/2015-01-01/tags/",
+        "/2015-01-01/tags",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1895,37 +1898,38 @@ function purchase_reserved_elasticsearch_instance_offering(
 end
 
 """
-    reject_inbound_cross_cluster_search_connection(connection_id)
-    reject_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    reject_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id)
+    reject_inbound_cross_cluster_search_connection(cross_cluster_search_connection_id, params::Dict{String,<:Any})
 
 Allows the destination domain owner to reject an inbound cross-cluster search connection
 request.
 
 # Arguments
 
-- `connection_id`: The id of the inbound connection that you want to reject.
+- `cross_cluster_search_connection_id`: The id of the inbound connection that you want to
+  reject.
 """
 function reject_inbound_cross_cluster_search_connection end
 
 function reject_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
+    CrossClusterSearchConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return elasticsearch_service(
         "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject";
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)/reject";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function reject_inbound_cross_cluster_search_connection(
-    ConnectionId,
+    CrossClusterSearchConnectionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return elasticsearch_service(
         "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject",
+        "/2015-01-01/es/ccs/inboundConnection/$(CrossClusterSearchConnectionId)/reject",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

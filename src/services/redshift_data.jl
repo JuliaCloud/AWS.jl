@@ -5,8 +5,8 @@ using AWS.AWSServices: redshift_data
 using AWS.UUIDs: uuid4
 
 """
-    batch_execute_statement(sqls)
-    batch_execute_statement(sqls, params::Dict{String,<:Any})
+    batch_execute_statement(database, sqls)
+    batch_execute_statement(database, sqls, params::Dict{String,<:Any})
 
 Runs one or more SQL statements, which can be data manipulation language (DML) or data
 definition language (DDL). Depending on the authorization method, use one of the following
@@ -37,8 +37,12 @@ in the *Amazon Redshift Management Guide*.
 
 # Arguments
 
-- `sqls`: <p>One or more SQL statements to run.
-  <pre>`The SQL statements are run as a single transaction. They run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. If any SQL statement fails, then because they are run as one transaction, all work is rolled back.&lt;/p&gt;`</pre>
+- `database`: The name of the database. This parameter is required when authenticating using
+  either Secrets Manager or temporary credentials.
+- `sqls`: One or more SQL statements to run. The SQL statements are run as a single
+  transaction. They run serially in the order of the array. Subsequent SQL statements don't
+  start until the previous statement in the array completes. If any SQL statement fails,
+  then because they are run as one transaction, all work is rolled back.
 
 # Optional Parameters
 
@@ -48,16 +52,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
-- `"Database"`: The name of the database. This parameter is required when authenticating
-  using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
-- `"SessionId"`: The session identifier of the query.
-- `"SessionKeepAliveSeconds"`: The number of seconds to keep the session alive after the
-  query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the
-  session is forced closed and the query is terminated.
 - `"StatementName"`: The name of the SQL statements. You can name the SQL statements when
   you create them to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
@@ -68,24 +66,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function batch_execute_statement end
 
-function batch_execute_statement(Sqls; aws_config::AbstractAWSConfig=current_aws_config())
+function batch_execute_statement(
+    Database, Sqls; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_data(
         "BatchExecuteStatement",
-        Dict{String,Any}("Sqls" => Sqls, "ClientToken" => string(uuid4()));
+        Dict{String,Any}(
+            "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function batch_execute_statement(
-    Sqls, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Database,
+    Sqls,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "BatchExecuteStatement",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Sqls" => Sqls, "ClientToken" => string(uuid4())),
+                Dict{String,Any}(
+                    "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
+                ),
                 params,
             ),
         );
@@ -273,8 +280,8 @@ function describe_table(
 end
 
 """
-    execute_statement(sql)
-    execute_statement(sql, params::Dict{String,<:Any})
+    execute_statement(database, sql)
+    execute_statement(database, sql, params::Dict{String,<:Any})
 
 Runs an SQL statement, which can be data manipulation language (DML) or data definition
 language (DDL). This statement must be a single SQL statement. Depending on the
@@ -305,6 +312,8 @@ in the *Amazon Redshift Management Guide*.
 
 # Arguments
 
+- `database`: The name of the database. This parameter is required when authenticating using
+  either Secrets Manager or temporary credentials.
 - `sql`: The SQL statement text to run.
 
 # Optional Parameters
@@ -315,17 +324,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
-- `"Database"`: The name of the database. This parameter is required when authenticating
-  using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"Parameters"`: The parameters for the SQL statement.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
-- `"SessionId"`: The session identifier of the query.
-- `"SessionKeepAliveSeconds"`: The number of seconds to keep the session alive after the
-  query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the
-  session is forced closed and the query is terminated.
 - `"StatementName"`: The name of the SQL statement. You can name the SQL statement when you
   create it to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
@@ -336,24 +339,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function execute_statement end
 
-function execute_statement(Sql; aws_config::AbstractAWSConfig=current_aws_config())
+function execute_statement(
+    Database, Sql; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return redshift_data(
         "ExecuteStatement",
-        Dict{String,Any}("Sql" => Sql, "ClientToken" => string(uuid4()));
+        Dict{String,Any}(
+            "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function execute_statement(
-    Sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    Database,
+    Sql,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return redshift_data(
         "ExecuteStatement",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Sql" => Sql, "ClientToken" => string(uuid4())),
+                Dict{String,Any}(
+                    "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
+                ),
                 params,
             ),
         );

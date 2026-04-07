@@ -26,11 +26,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_phone_numbers_with_voice_connector end
 
 function associate_phone_numbers_with_voice_connector(
-    E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    E164PhoneNumbers, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -39,13 +39,13 @@ end
 
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=associate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -79,12 +79,12 @@ function associate_phone_numbers_with_voice_connector_group end
 
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=associate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -93,13 +93,13 @@ end
 
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=associate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -292,12 +292,12 @@ function create_proxy_session end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         Dict{String,Any}(
             "Capabilities" => Capabilities,
             "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
@@ -310,13 +310,13 @@ end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -392,8 +392,8 @@ function create_sip_media_application(
 end
 
 """
-    create_sip_media_application_call(from_phone_number, to_phone_number, sip_media_application_id)
-    create_sip_media_application_call(from_phone_number, to_phone_number, sip_media_application_id, params::Dict{String,<:Any})
+    create_sip_media_application_call(from_phone_number, sip_media_application_id, to_phone_number)
+    create_sip_media_application_call(from_phone_number, sip_media_application_id, to_phone_number, params::Dict{String,<:Any})
 
 Creates an outbound call to a phone number from the phone number specified in the request,
 and it invokes the endpoint of the specified `sipMediaApplicationId`.
@@ -402,8 +402,8 @@ and it invokes the endpoint of the specified `sipMediaApplicationId`.
 
 - `from_phone_number`: The phone number that a user calls from. This is a phone number in
   your Amazon Chime SDK phone number inventory.
-- `to_phone_number`: The phone number that the service should call.
 - `sip_media_application_id`: The ID of the SIP media application.
+- `to_phone_number`: The phone number that the service should call.
 
 # Optional Parameters
 
@@ -417,13 +417,13 @@ function create_sip_media_application_call end
 
 function create_sip_media_application_call(
     FromPhoneNumber,
-    ToPhoneNumber,
-    sipMediaApplicationId;
+    SipMediaApplicationId,
+    ToPhoneNumber;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls",
         Dict{String,Any}(
             "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
         );
@@ -434,14 +434,14 @@ end
 
 function create_sip_media_application_call(
     FromPhoneNumber,
+    SipMediaApplicationId,
     ToPhoneNumber,
-    sipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -777,24 +777,24 @@ deleted permanently.
 function delete_phone_number end
 
 function delete_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -815,25 +815,25 @@ Deletes the specified proxy session from the specified Amazon Chime SDK Voice Co
 function delete_proxy_session end
 
 function delete_proxy_session(
-    proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    ProxySessionId, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_proxy_session(
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -853,24 +853,24 @@ Deletes a SIP media application.
 function delete_sip_media_application end
 
 function delete_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -889,20 +889,20 @@ Deletes a SIP rule.
 """
 function delete_sip_rule end
 
-function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_sip_rule(SipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
-        "DELETE", "/sip-rules/$(sipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/sip-rules/$(SipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function delete_sip_rule(
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -923,24 +923,24 @@ Chime SDK Voice Connector must be disassociated from it before it can be deleted
 function delete_voice_connector end
 
 function delete_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)";
+        "/voice-connectors/$(VoiceConnectorId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -960,24 +960,24 @@ Deletes the emergency calling details from the specified Amazon Chime SDK Voice 
 function delete_voice_connector_emergency_calling_configuration end
 
 function delete_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_emergency_calling_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -998,24 +998,24 @@ numbers associated with the group must be removed before it can be deleted.
 function delete_voice_connector_group end
 
 function delete_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
+        "/voice-connector-groups/$(VoiceConnectorGroupId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_group(
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1039,24 +1039,24 @@ Deletes the origination settings for the specified Amazon Chime SDK Voice Connec
 function delete_voice_connector_origination end
 
 function delete_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination";
+        "/voice-connectors/$(VoiceConnectorId)/origination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_origination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1076,24 +1076,24 @@ Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connec
 function delete_voice_connector_proxy end
 
 function delete_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_proxy(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1113,24 +1113,24 @@ Deletes a Voice Connector's streaming configuration.
 function delete_voice_connector_streaming_configuration end
 
 function delete_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_streaming_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1154,24 +1154,24 @@ Deletes the termination settings for the specified Amazon Chime SDK Voice Connec
 function delete_voice_connector_termination end
 
 function delete_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination";
+        "/voice-connectors/$(VoiceConnectorId)/termination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_voice_connector_termination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1194,11 +1194,11 @@ termination.
 function delete_voice_connector_termination_credentials end
 
 function delete_voice_connector_termination_credentials(
-    Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Usernames, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=delete",
         Dict{String,Any}("Usernames" => Usernames);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1207,13 +1207,13 @@ end
 
 function delete_voice_connector_termination_credentials(
     Usernames,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=delete",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Usernames" => Usernames), params)
         );
@@ -1312,11 +1312,11 @@ Connector.
 function disassociate_phone_numbers_from_voice_connector end
 
 function disassociate_phone_numbers_from_voice_connector(
-    E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    E164PhoneNumbers, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1325,13 +1325,13 @@ end
 
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
+        "/voice-connectors/$(VoiceConnectorId)?operation=disassociate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -1358,12 +1358,12 @@ function disassociate_phone_numbers_from_voice_connector_group end
 
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=disassociate-phone-numbers",
         Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1372,13 +1372,13 @@ end
 
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)?operation=disassociate-phone-numbers",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers), params
@@ -1422,23 +1422,23 @@ product type.
 """
 function get_phone_number end
 
-function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_phone_number(PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
         "GET",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1459,24 +1459,24 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 function get_phone_number_order end
 
 function get_phone_number_order(
-    phoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)";
+        "/phone-number-orders/$(PhoneNumberOrderId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_phone_number_order(
-    phoneNumberOrderId,
+    PhoneNumberOrderId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)",
+        "/phone-number-orders/$(PhoneNumberOrderId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1521,25 +1521,25 @@ Connector.
 function get_proxy_session end
 
 function get_proxy_session(
-    proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    ProxySessionId, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_proxy_session(
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1560,24 +1560,24 @@ endpoints.
 function get_sip_media_application end
 
 function get_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1602,24 +1602,24 @@ Gets the Alexa Skill configuration for the SIP media application.
 function get_sip_media_application_alexa_skill_configuration end
 
 function get_sip_media_application_alexa_skill_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/alexa-skill-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_sip_media_application_alexa_skill_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/alexa-skill-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1639,24 +1639,24 @@ Retrieves the logging configuration for the specified SIP media application.
 function get_sip_media_application_logging_configuration end
 
 function get_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_sip_media_application_logging_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1676,20 +1676,20 @@ endpoints.
 """
 function get_sip_rule end
 
-function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_sip_rule(SipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_voice(
-        "GET", "/sip-rules/$(sipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/sip-rules/$(SipRuleId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_sip_rule(
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1751,24 +1751,24 @@ timestamps,name, outbound host, and encryption requirements.
 function get_voice_connector end
 
 function get_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)";
+        "/voice-connectors/$(VoiceConnectorId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1788,24 +1788,24 @@ Retrieves the emergency calling configuration details for the specified Voice Co
 function get_voice_connector_emergency_calling_configuration end
 
 function get_voice_connector_emergency_calling_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_emergency_calling_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1826,24 +1826,24 @@ timestamps,name, and associated `VoiceConnectorItems`.
 function get_voice_connector_group end
 
 function get_voice_connector_group(
-    voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
+        "/voice-connector-groups/$(VoiceConnectorGroupId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_group(
-    voiceConnectorGroupId,
+    VoiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1864,24 +1864,24 @@ whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
 function get_voice_connector_logging_configuration end
 
 function get_voice_connector_logging_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_logging_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1901,24 +1901,24 @@ Retrieves the origination settings for the specified Voice Connector.
 function get_voice_connector_origination end
 
 function get_voice_connector_origination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination";
+        "/voice-connectors/$(VoiceConnectorId)/origination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_origination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1939,24 +1939,24 @@ Connector.
 function get_voice_connector_proxy end
 
 function get_voice_connector_proxy(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_proxy(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1978,24 +1978,24 @@ shows the retention period, in hours, for the Amazon Kinesis data.
 function get_voice_connector_streaming_configuration end
 
 function get_voice_connector_streaming_configuration(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_streaming_configuration(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2015,24 +2015,24 @@ Retrieves the termination setting details for the specified Voice Connector.
 function get_voice_connector_termination end
 
 function get_voice_connector_termination(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination";
+        "/voice-connectors/$(VoiceConnectorId)/termination";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_termination(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2053,24 +2053,24 @@ infrastructure for the specified Amazon Chime SDK Voice Connector.
 function get_voice_connector_termination_health end
 
 function get_voice_connector_termination_health(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health";
+        "/voice-connectors/$(VoiceConnectorId)/termination/health";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_voice_connector_termination_health(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health",
+        "/voice-connectors/$(VoiceConnectorId)/termination/health",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2311,24 +2311,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_proxy_sessions end
 
 function list_proxy_sessions(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions";
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_proxy_sessions(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2518,24 +2518,24 @@ Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
 function list_voice_connector_termination_credentials end
 
 function list_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials";
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_voice_connector_termination_credentials(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2675,24 +2675,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_sip_media_application_alexa_skill_configuration end
 
 function put_sip_media_application_alexa_skill_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/alexa-skill-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_sip_media_application_alexa_skill_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/alexa-skill-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/alexa-skill-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2719,24 +2719,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_sip_media_application_logging_configuration end
 
 function put_sip_media_application_logging_configuration(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_sip_media_application_logging_configuration(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration",
+        "/sip-media-applications/$(SipMediaApplicationId)/logging-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2758,12 +2758,12 @@ function put_voice_connector_emergency_calling_configuration end
 
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         Dict{String,Any}("EmergencyCallingConfiguration" => EmergencyCallingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2772,13 +2772,13 @@ end
 
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2808,12 +2808,12 @@ function put_voice_connector_logging_configuration end
 
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2822,13 +2822,13 @@ end
 
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/logging-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2855,11 +2855,11 @@ Updates a Voice Connector's origination settings.
 function put_voice_connector_origination end
 
 function put_voice_connector_origination(
-    Origination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Origination, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         Dict{String,Any}("Origination" => Origination);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2868,13 +2868,13 @@ end
 
 function put_voice_connector_origination(
     Origination,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
+        "/voice-connectors/$(VoiceConnectorId)/origination",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Origination" => Origination), params)
         );
@@ -2908,12 +2908,12 @@ function put_voice_connector_proxy end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         Dict{String,Any}(
             "DefaultSessionExpiryMinutes" => DefaultSessionExpiryMinutes,
             "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
@@ -2926,13 +2926,13 @@ end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+        "/voice-connectors/$(VoiceConnectorId)/programmable-numbers/proxy",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2963,12 +2963,12 @@ function put_voice_connector_streaming_configuration end
 
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2977,13 +2977,13 @@ end
 
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+        "/voice-connectors/$(VoiceConnectorId)/streaming-configuration",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3010,11 +3010,11 @@ Updates a Voice Connector's termination settings.
 function put_voice_connector_termination end
 
 function put_voice_connector_termination(
-    Termination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    Termination, VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         Dict{String,Any}("Termination" => Termination);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3023,13 +3023,13 @@ end
 
 function put_voice_connector_termination(
     Termination,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
+        "/voice-connectors/$(VoiceConnectorId)/termination",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Termination" => Termination), params)
         );
@@ -3057,24 +3057,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function put_voice_connector_termination_credentials end
 
 function put_voice_connector_termination_credentials(
-    voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put";
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=put";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_voice_connector_termination_credentials(
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put",
+        "/voice-connectors/$(VoiceConnectorId)/termination/credentials?operation=put",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3094,24 +3094,24 @@ Restores a deleted phone number.
 function restore_phone_number end
 
 function restore_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/phone-numbers/$(phoneNumberId)?operation=restore";
+        "/phone-numbers/$(PhoneNumberId)?operation=restore";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function restore_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/phone-numbers/$(phoneNumberId)?operation=restore",
+        "/phone-numbers/$(PhoneNumberId)?operation=restore",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3530,24 +3530,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_phone_number end
 
 function update_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "POST",
-        "/phone-numbers/$(phoneNumberId)";
+        "/phone-numbers/$(PhoneNumberId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_phone_number(
-    phoneNumberId,
+    PhoneNumberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/phone-numbers/$(phoneNumberId)",
+        "/phone-numbers/$(PhoneNumberId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3618,13 +3618,13 @@ function update_proxy_session end
 
 function update_proxy_session(
     Capabilities,
-    proxySessionId,
-    voiceConnectorId;
+    ProxySessionId,
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         Dict{String,Any}("Capabilities" => Capabilities);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3633,14 +3633,14 @@ end
 
 function update_proxy_session(
     Capabilities,
-    proxySessionId,
-    voiceConnectorId,
+    ProxySessionId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+        "/voice-connectors/$(VoiceConnectorId)/proxy-sessions/$(ProxySessionId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Capabilities" => Capabilities), params)
         );
@@ -3669,24 +3669,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_sip_media_application end
 
 function update_sip_media_application(
-    sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+    SipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)";
+        "/sip-media-applications/$(SipMediaApplicationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_sip_media_application(
-    sipMediaApplicationId,
+    SipMediaApplicationId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)",
+        "/sip-media-applications/$(SipMediaApplicationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3711,13 +3711,13 @@ function update_sip_media_application_call end
 
 function update_sip_media_application_call(
     Arguments,
-    sipMediaApplicationId,
-    transactionId;
+    SipMediaApplicationId,
+    TransactionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls/$(TransactionId)",
         Dict{String,Any}("Arguments" => Arguments);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3726,14 +3726,14 @@ end
 
 function update_sip_media_application_call(
     Arguments,
-    sipMediaApplicationId,
-    transactionId,
+    SipMediaApplicationId,
+    TransactionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
+        "/sip-media-applications/$(SipMediaApplicationId)/calls/$(TransactionId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Arguments" => Arguments), params)
         );
@@ -3763,11 +3763,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_sip_rule end
 
 function update_sip_rule(
-    Name, sipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+    Name, SipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         Dict{String,Any}("Name" => Name);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3776,13 +3776,13 @@ end
 
 function update_sip_rule(
     Name,
-    sipRuleId,
+    SipRuleId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/sip-rules/$(sipRuleId)",
+        "/sip-rules/$(SipRuleId)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3806,12 +3806,12 @@ function update_voice_connector end
 function update_voice_connector(
     Name,
     RequireEncryption,
-    voiceConnectorId;
+    VoiceConnectorId;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3821,13 +3821,13 @@ end
 function update_voice_connector(
     Name,
     RequireEncryption,
-    voiceConnectorId,
+    VoiceConnectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
+        "/voice-connectors/$(VoiceConnectorId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3841,29 +3841,29 @@ function update_voice_connector(
 end
 
 """
-    update_voice_connector_group(name, voice_connector_items, voice_connector_group_id)
-    update_voice_connector_group(name, voice_connector_items, voice_connector_group_id, params::Dict{String,<:Any})
+    update_voice_connector_group(name, voice_connector_group_id, voice_connector_items)
+    update_voice_connector_group(name, voice_connector_group_id, voice_connector_items, params::Dict{String,<:Any})
 
 Updates the settings for the specified Amazon Chime SDK Voice Connector group.
 
 # Arguments
 
 - `name`: The name of the Voice Connector group.
+- `voice_connector_group_id`: The Voice Connector ID.
 - `voice_connector_items`: The `VoiceConnectorItems` to associate with the Voice Connector
   group.
-- `voice_connector_group_id`: The Voice Connector ID.
 """
 function update_voice_connector_group end
 
 function update_voice_connector_group(
     Name,
-    VoiceConnectorItems,
-    voiceConnectorGroupId;
+    VoiceConnectorGroupId,
+    VoiceConnectorItems;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         Dict{String,Any}("Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3872,14 +3872,14 @@ end
 
 function update_voice_connector_group(
     Name,
+    VoiceConnectorGroupId,
     VoiceConnectorItems,
-    voiceConnectorGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_voice(
         "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
+        "/voice-connector-groups/$(VoiceConnectorGroupId)",
         Dict{String,Any}(
             mergewith(
                 _merge,

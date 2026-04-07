@@ -1157,7 +1157,7 @@ in the *Cloud Map Developer Guide*.
 
   - If the service that's specified by `ServiceId` includes settings for an `SRV` record,
     the value of `InstanceId` is automatically included as part of the value for the `SRV`
-    record. For more information, see [DnsRecord &gt; Type](https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type).
+    record. For more information, see [DnsRecord > Type](https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type).
   - You can use this value to update an existing instance.
   - To register a new instance, you must specify a value that's unique among instances that
     you register by using the same service.

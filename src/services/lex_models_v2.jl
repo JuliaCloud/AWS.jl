@@ -200,7 +200,7 @@ function build_bot_locale(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -215,7 +215,7 @@ function build_bot_locale(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -274,7 +274,7 @@ function create_bot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/",
+        "/bots",
         Dict{String,Any}(
             "botName" => botName,
             "dataPrivacy" => dataPrivacy,
@@ -296,7 +296,7 @@ function create_bot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/",
+        "/bots",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -356,7 +356,7 @@ function create_bot_alias(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botaliases/",
+        "/bots/$(botId)/botaliases",
         Dict{String,Any}("botAliasName" => botAliasName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -371,7 +371,7 @@ function create_bot_alias(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botaliases/",
+        "/bots/$(botId)/botaliases",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("botAliasName" => botAliasName), params)
         );
@@ -435,7 +435,7 @@ function create_bot_locale(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales",
         Dict{String,Any}(
             "localeId" => localeId,
             "nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold,
@@ -455,7 +455,7 @@ function create_bot_locale(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -491,7 +491,7 @@ function create_bot_replica(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/replicas/",
+        "/bots/$(botId)/replicas",
         Dict{String,Any}("replicaRegion" => replicaRegion);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -506,7 +506,7 @@ function create_bot_replica(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/replicas/",
+        "/bots/$(botId)/replicas",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("replicaRegion" => replicaRegion), params)
         );
@@ -547,7 +547,7 @@ function create_bot_version(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/",
+        "/bots/$(botId)/botversions",
         Dict{String,Any}("botVersionLocaleSpecification" => botVersionLocaleSpecification);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -562,7 +562,7 @@ function create_bot_version(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/",
+        "/bots/$(botId)/botversions",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -611,7 +611,7 @@ function create_export(
 )
     return lex_models_v2(
         "PUT",
-        "/exports/",
+        "/exports",
         Dict{String,Any}(
             "fileFormat" => fileFormat, "resourceSpecification" => resourceSpecification
         );
@@ -628,7 +628,7 @@ function create_export(
 )
     return lex_models_v2(
         "PUT",
-        "/exports/",
+        "/exports",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -771,7 +771,7 @@ function create_intent(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents",
         Dict{String,Any}("intentName" => intentName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -788,7 +788,7 @@ function create_intent(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("intentName" => intentName), params)
         );
@@ -821,7 +821,7 @@ function create_resource_policy(
 )
     return lex_models_v2(
         "POST",
-        "/policy/$(resourceArn)/",
+        "/policy/$(resourceArn)",
         Dict{String,Any}("policy" => policy);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -836,7 +836,7 @@ function create_resource_policy(
 )
     return lex_models_v2(
         "POST",
-        "/policy/$(resourceArn)/",
+        "/policy/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -852,9 +852,6 @@ statement is added to the current resource policy. If a policy doesn't exist, a 
 is created.
 
 You can't create a resource policy statement that allows cross-account access.
-
-You need to add the `CreateResourcePolicy` or `UpdateResourcePolicy` action to the bot role
-in order to call the API.
 
 # Arguments
 
@@ -896,7 +893,7 @@ function create_resource_policy_statement(
 )
     return lex_models_v2(
         "POST",
-        "/policy/$(resourceArn)/statements/",
+        "/policy/$(resourceArn)/statements",
         Dict{String,Any}(
             "action" => action,
             "effect" => effect,
@@ -919,7 +916,7 @@ function create_resource_policy_statement(
 )
     return lex_models_v2(
         "POST",
-        "/policy/$(resourceArn)/statements/",
+        "/policy/$(resourceArn)/statements",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -997,7 +994,7 @@ function create_slot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots",
         Dict{String,Any}(
             "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
         );
@@ -1018,7 +1015,7 @@ function create_slot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1097,7 +1094,7 @@ function create_slot_type(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes",
         Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1114,7 +1111,7 @@ function create_slot_type(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
@@ -1174,7 +1171,7 @@ function create_upload_url end
 
 function create_upload_url(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "POST", "/createuploadurl/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/createuploadurl"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1182,7 +1179,7 @@ function create_upload_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "POST", "/createuploadurl/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/createuploadurl", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1218,7 +1215,7 @@ function delete_bot end
 
 function delete_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/bots/$(botId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1226,7 +1223,7 @@ function delete_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/bots/$(botId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1258,7 +1255,7 @@ function delete_bot_alias(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botaliases/$(botAliasId)/";
+        "/bots/$(botId)/botaliases/$(botAliasId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1272,7 +1269,7 @@ function delete_bot_alias(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        "/bots/$(botId)/botaliases/$(botAliasId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1302,7 +1299,7 @@ function delete_bot_locale(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1317,7 +1314,7 @@ function delete_bot_locale(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1342,7 +1339,7 @@ function delete_bot_replica(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/replicas/$(replicaRegion)/";
+        "/bots/$(botId)/replicas/$(replicaRegion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1356,7 +1353,7 @@ function delete_bot_replica(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/replicas/$(replicaRegion)/",
+        "/bots/$(botId)/replicas/$(replicaRegion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1392,7 +1389,7 @@ function delete_bot_version(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/";
+        "/bots/$(botId)/botversions/$(botVersion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1406,7 +1403,7 @@ function delete_bot_version(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/",
+        "/bots/$(botId)/botversions/$(botVersion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1469,7 +1466,7 @@ function delete_export end
 
 function delete_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "DELETE", "/exports/$(exportId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/exports/$(exportId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1480,7 +1477,7 @@ function delete_export(
 )
     return lex_models_v2(
         "DELETE",
-        "/exports/$(exportId)/",
+        "/exports/$(exportId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1501,7 +1498,7 @@ function delete_import end
 
 function delete_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "DELETE", "/imports/$(importId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/imports/$(importId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1512,7 +1509,7 @@ function delete_import(
 )
     return lex_models_v2(
         "DELETE",
-        "/imports/$(importId)/",
+        "/imports/$(importId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1546,7 +1543,7 @@ function delete_intent(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1562,7 +1559,7 @@ function delete_intent(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1596,7 +1593,7 @@ function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "DELETE", "/policy/$(resourceArn)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/policy/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1607,7 +1604,7 @@ function delete_resource_policy(
 )
     return lex_models_v2(
         "DELETE",
-        "/policy/$(resourceArn)/",
+        "/policy/$(resourceArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1622,9 +1619,6 @@ Deletes a policy statement from a resource policy. If you delete the last statem
 policy, the policy is deleted. If you specify a statement ID that doesn't exist in the
 policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an
 exception.
-
-You need to add the `DeleteResourcePolicy` or `UpdateResourcePolicy` action to the bot role
-in order to call the API.
 
 # Arguments
 
@@ -1649,7 +1643,7 @@ function delete_resource_policy_statement(
 )
     return lex_models_v2(
         "DELETE",
-        "/policy/$(resourceArn)/statements/$(statementId)/";
+        "/policy/$(resourceArn)/statements/$(statementId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1663,7 +1657,7 @@ function delete_resource_policy_statement(
 )
     return lex_models_v2(
         "DELETE",
-        "/policy/$(resourceArn)/statements/$(statementId)/",
+        "/policy/$(resourceArn)/statements/$(statementId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1697,7 +1691,7 @@ function delete_slot(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1714,7 +1708,7 @@ function delete_slot(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1758,7 +1752,7 @@ function delete_slot_type(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1774,7 +1768,7 @@ function delete_slot_type(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1849,7 +1843,7 @@ function delete_utterances end
 
 function delete_utterances(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "DELETE", "/bots/$(botId)/utterances/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "DELETE", "/bots/$(botId)/utterances"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1858,7 +1852,7 @@ function delete_utterances(
 )
     return lex_models_v2(
         "DELETE",
-        "/bots/$(botId)/utterances/",
+        "/bots/$(botId)/utterances",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1879,7 +1873,7 @@ function describe_bot end
 
 function describe_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "GET", "/bots/$(botId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/$(botId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1887,7 +1881,7 @@ function describe_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "GET", "/bots/$(botId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/$(botId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1909,7 +1903,7 @@ function describe_bot_alias(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botaliases/$(botAliasId)/";
+        "/bots/$(botId)/botaliases/$(botAliasId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1923,7 +1917,7 @@ function describe_bot_alias(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        "/bots/$(botId)/botaliases/$(botAliasId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1950,7 +1944,7 @@ function describe_bot_locale(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1965,7 +1959,7 @@ function describe_bot_locale(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2000,7 +1994,7 @@ function describe_bot_recommendation(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2016,7 +2010,7 @@ function describe_bot_recommendation(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2041,7 +2035,7 @@ function describe_bot_replica(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/replicas/$(replicaRegion)/";
+        "/bots/$(botId)/replicas/$(replicaRegion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2055,7 +2049,7 @@ function describe_bot_replica(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/replicas/$(replicaRegion)/",
+        "/bots/$(botId)/replicas/$(replicaRegion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2131,7 +2125,7 @@ function describe_bot_version(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/";
+        "/bots/$(botId)/botversions/$(botVersion)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2145,7 +2139,7 @@ function describe_bot_version(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/",
+        "/bots/$(botId)/botversions/$(botVersion)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2208,7 +2202,7 @@ function describe_export end
 
 function describe_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "GET", "/exports/$(exportId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/exports/$(exportId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2218,7 +2212,7 @@ function describe_export(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
-        "GET", "/exports/$(exportId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/exports/$(exportId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2236,7 +2230,7 @@ function describe_import end
 
 function describe_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "GET", "/imports/$(importId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/imports/$(importId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2246,7 +2240,7 @@ function describe_import(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
-        "GET", "/imports/$(importId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/imports/$(importId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2275,7 +2269,7 @@ function describe_intent(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2291,7 +2285,7 @@ function describe_intent(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2315,7 +2309,7 @@ function describe_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "GET", "/policy/$(resourceArn)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/policy/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2325,11 +2319,7 @@ function describe_resource_policy(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
-        "GET",
-        "/policy/$(resourceArn)/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/policy/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2360,7 +2350,7 @@ function describe_slot(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2377,7 +2367,7 @@ function describe_slot(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2409,7 +2399,7 @@ function describe_slot_type(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2425,7 +2415,7 @@ function describe_slot_type(
 )
     return lex_models_v2(
         "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2717,7 +2707,7 @@ function list_aggregated_utterances(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/aggregatedutterances/",
+        "/bots/$(botId)/aggregatedutterances",
         Dict{String,Any}(
             "aggregationDuration" => aggregationDuration, "localeId" => localeId
         );
@@ -2735,7 +2725,7 @@ function list_aggregated_utterances(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/aggregatedutterances/",
+        "/bots/$(botId)/aggregatedutterances",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2779,7 +2769,7 @@ function list_bot_alias_replicas(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/replicas/$(replicaRegion)/botaliases/";
+        "/bots/$(botId)/replicas/$(replicaRegion)/botaliases";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2793,7 +2783,7 @@ function list_bot_alias_replicas(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/replicas/$(replicaRegion)/botaliases/",
+        "/bots/$(botId)/replicas/$(replicaRegion)/botaliases",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2824,7 +2814,7 @@ function list_bot_aliases end
 
 function list_bot_aliases(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "POST", "/bots/$(botId)/botaliases/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/bots/$(botId)/botaliases"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2833,7 +2823,7 @@ function list_bot_aliases(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botaliases/",
+        "/bots/$(botId)/botaliases",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2873,7 +2863,7 @@ function list_bot_locales(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2887,7 +2877,7 @@ function list_bot_locales(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2924,7 +2914,7 @@ function list_bot_recommendations(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2939,7 +2929,7 @@ function list_bot_recommendations(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2960,7 +2950,7 @@ function list_bot_replicas end
 
 function list_bot_replicas(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "POST", "/bots/$(botId)/replicas/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/bots/$(botId)/replicas"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2969,7 +2959,7 @@ function list_bot_replicas(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/replicas/",
+        "/bots/$(botId)/replicas",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3055,7 +3045,7 @@ function list_bot_version_replicas(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/replicas/$(replicaRegion)/botversions/";
+        "/bots/$(botId)/replicas/$(replicaRegion)/botversions";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3069,7 +3059,7 @@ function list_bot_version_replicas(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/replicas/$(replicaRegion)/botversions/",
+        "/bots/$(botId)/replicas/$(replicaRegion)/botversions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3109,7 +3099,7 @@ function list_bot_versions end
 
 function list_bot_versions(botId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "POST", "/bots/$(botId)/botversions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/bots/$(botId)/botversions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3118,7 +3108,7 @@ function list_bot_versions(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/",
+        "/bots/$(botId)/botversions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3155,14 +3145,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_bots end
 
 function list_bots(; aws_config::AbstractAWSConfig=current_aws_config())
-    return lex_models_v2("POST", "/bots/"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return lex_models_v2("POST", "/bots"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "POST", "/bots/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/bots", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3200,7 +3190,7 @@ function list_built_in_intents end
 function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
         "POST",
-        "/builtins/locales/$(localeId)/intents/";
+        "/builtins/locales/$(localeId)/intents";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3213,7 +3203,7 @@ function list_built_in_intents(
 )
     return lex_models_v2(
         "POST",
-        "/builtins/locales/$(localeId)/intents/",
+        "/builtins/locales/$(localeId)/intents",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3252,7 +3242,7 @@ function list_built_in_slot_types(
 )
     return lex_models_v2(
         "POST",
-        "/builtins/locales/$(localeId)/slottypes/";
+        "/builtins/locales/$(localeId)/slottypes";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3265,7 +3255,7 @@ function list_built_in_slot_types(
 )
     return lex_models_v2(
         "POST",
-        "/builtins/locales/$(localeId)/slottypes/",
+        "/builtins/locales/$(localeId)/slottypes",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3361,14 +3351,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_exports end
 
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return lex_models_v2("POST", "/exports/"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return lex_models_v2("POST", "/exports"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "POST", "/exports/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/exports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3411,14 +3401,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_imports end
 
 function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return lex_models_v2("POST", "/imports/"; aws_config, feature_set=SERVICE_FEATURE_SET)
+    return lex_models_v2("POST", "/imports"; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_models_v2(
-        "POST", "/imports/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/imports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3782,7 +3772,7 @@ function list_intents(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3797,7 +3787,7 @@ function list_intents(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4099,7 +4089,7 @@ function list_slot_types(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4114,7 +4104,7 @@ function list_slot_types(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4162,7 +4152,7 @@ function list_slots(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/";
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4178,7 +4168,7 @@ function list_slots(
 )
     return lex_models_v2(
         "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4696,7 +4686,7 @@ function start_bot_recommendation(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations",
         Dict{String,Any}("transcriptSourceSetting" => transcriptSourceSetting);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4713,7 +4703,7 @@ function start_bot_recommendation(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -4822,7 +4812,7 @@ function start_import(
 )
     return lex_models_v2(
         "PUT",
-        "/imports/",
+        "/imports",
         Dict{String,Any}(
             "importId" => importId,
             "mergeStrategy" => mergeStrategy,
@@ -4842,7 +4832,7 @@ function start_import(
 )
     return lex_models_v2(
         "PUT",
-        "/imports/",
+        "/imports",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -5167,7 +5157,7 @@ function update_bot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/",
+        "/bots/$(botId)",
         Dict{String,Any}(
             "botName" => botName,
             "dataPrivacy" => dataPrivacy,
@@ -5190,7 +5180,7 @@ function update_bot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/",
+        "/bots/$(botId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -5239,7 +5229,7 @@ function update_bot_alias(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        "/bots/$(botId)/botaliases/$(botAliasId)",
         Dict{String,Any}("botAliasName" => botAliasName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5255,7 +5245,7 @@ function update_bot_alias(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        "/bots/$(botId)/botaliases/$(botAliasId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("botAliasName" => botAliasName), params)
         );
@@ -5303,7 +5293,7 @@ function update_bot_locale(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)",
         Dict{String,Any}("nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5320,7 +5310,7 @@ function update_bot_locale(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -5365,7 +5355,7 @@ function update_bot_recommendation(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)",
         Dict{String,Any}("encryptionSetting" => encryptionSetting);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5383,7 +5373,7 @@ function update_bot_recommendation(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("encryptionSetting" => encryptionSetting), params
@@ -5419,7 +5409,7 @@ function update_export end
 
 function update_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_models_v2(
-        "PUT", "/exports/$(exportId)/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/exports/$(exportId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5429,7 +5419,7 @@ function update_export(
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_models_v2(
-        "PUT", "/exports/$(exportId)/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/exports/$(exportId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -5491,7 +5481,7 @@ function update_intent(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)",
         Dict{String,Any}("intentName" => intentName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5509,7 +5499,7 @@ function update_intent(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("intentName" => intentName), params)
         );
@@ -5553,7 +5543,7 @@ function update_resource_policy(
 )
     return lex_models_v2(
         "PUT",
-        "/policy/$(resourceArn)/",
+        "/policy/$(resourceArn)",
         Dict{String,Any}("policy" => policy);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5568,7 +5558,7 @@ function update_resource_policy(
 )
     return lex_models_v2(
         "PUT",
-        "/policy/$(resourceArn)/",
+        "/policy/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5627,7 +5617,7 @@ function update_slot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)",
         Dict{String,Any}(
             "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
         );
@@ -5649,7 +5639,7 @@ function update_slot(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -5706,7 +5696,7 @@ function update_slot_type(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)",
         Dict{String,Any}("slotTypeName" => slotTypeName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5724,7 +5714,7 @@ function update_slot_type(
 )
     return lex_models_v2(
         "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );

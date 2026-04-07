@@ -34,20 +34,18 @@ for use in a state machine and when polling from the activity.
   A name must *not* contain:
 
   - white space
-  - brackets `&lt; &gt; { } [ ]`
+  - brackets `< > { } [ ]`
   - wildcard characters `? *`
-  - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-- control characters (`U+0000-
-    001F`, `U+007F-
-009F`)
+  - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
+- control characters (`U+0000-001F`,
+    `U+007F-009F`)
 
-To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
+  _.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"tags"`: The list of tags to add to a resource.
 
@@ -92,11 +90,6 @@ in the Step Functions User Guide.
 If you set the `publish` parameter of this API action to `true`, it publishes version `1` as
 the first revision of the state machine.
 
-For additional control over security, you can encrypt your data using a **customer-managed
-key** for Step Functions state machines. You can configure a symmetric KMS key and data key
-reuse period when creating or updating a **State Machine**. The execution history and state
-machine definition will be encrypted with the key applied to the State Machine.
-
 !!! note
     This operation is eventually consistent. The results are best effort and may not reflect
     very recent updates and changes.
@@ -104,12 +97,12 @@ machine definition will be encrypted with the key applied to the State Machine.
 !!! note
     `CreateStateMachine` is an idempotent API. Subsequent requests won’t create a duplicate
     resource if it was already created. `CreateStateMachine`'s idempotency check is based on
-    the state machine `name`, `definition`, `type`, `LoggingConfiguration`,
-    `TracingConfiguration`, and `EncryptionConfiguration` The check is also based on the
-    `publish` and `versionDescription` parameters. If a following request has a different
-    `roleArn` or `tags`, Step Functions will ignore these differences and treat it as an
-    idempotent request of the previous. In this case, `roleArn` and `tags` will not be
-    updated, even if they are different.
+    the state machine `name`, `definition`, `type`, `LoggingConfiguration`, and
+    `TracingConfiguration`. The check is also based on the `publish` and
+    `versionDescription` parameters. If a following request has a different `roleArn` or
+    `tags`, Step Functions will ignore these differences and treat it as an idempotent
+    request of the previous. In this case, `roleArn` and `tags` will not be updated, even if
+    they are different.
 
 # Arguments
 
@@ -120,22 +113,20 @@ machine definition will be encrypted with the key applied to the State Machine.
   A name must *not* contain:
 
   - white space
-  - brackets `&lt; &gt; { } [ ]`
+  - brackets `< > { } [ ]`
   - wildcard characters `? *`
-  - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-- control characters (`U+0000-
-    001F`, `U+007F-
-009F`)
+  - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
+- control characters (`U+0000-001F`,
+    `U+007F-009F`)
 
-To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
+  _.
 
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"loggingConfiguration"`: Defines what execution history events are logged and where they
   are logged.
@@ -569,15 +560,6 @@ Map Run dispatched them.
 # Arguments
 
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
-  DescribeStateMachine API with `includedData = METADATA_ONLY` to get a successful response
-  without the encrypted definition.
 """
 function describe_execution end
 
@@ -669,7 +651,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 
 - The following qualified state machine ARN refers to an alias named `PROD`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`
 
 !!! note
     If you provide a qualified state machine ARN that refers to a version ARN or an alias
@@ -678,7 +660,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 - The following unqualified state machine ARN refers to a state machine named
   `myStateMachine`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`
 
 This API action returns the details for a state machine version if the `stateMachineArn` you
 specify is a state machine version ARN.
@@ -695,21 +677,6 @@ specify is a state machine version ARN.
   If you specify a state machine version ARN, this API returns details about that version.
   The version ARN is a combination of state machine ARN and the version number separated by
   a colon (:). For example, `stateMachineARN:1`.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
-  the API with `includedData = METADATA_ONLY` to get a successful response without the
-  encrypted definition.
-
-  !!! note
-      When calling a labelled ARN for an encrypted state machine, the
-      `includedData = METADATA_ONLY` parameter will not apply because Step Functions needs
-      to decrypt the entire state machine definition to get the Distributed Map state’s
-      definition. In this case, the API caller needs to have `kms:Decrypt` permission.
 """
 function describe_state_machine end
 
@@ -809,15 +776,6 @@ This API action is not supported by `EXPRESS` state machines.
 
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution you want state machine
   information for.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
-  the API with `includedData = METADATA_ONLY` to get a successful response without the
-  encrypted definition.
 """
 function describe_state_machine_for_execution end
 
@@ -1576,13 +1534,6 @@ Used by activity workers, Task states using the [callback](https://docs.aws.amaz
 pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync)
 pattern to report that the task identified by the `taskToken` failed.
 
-For an execution with encryption enabled, Step Functions will encrypt the error and cause
-fields using the KMS key for the execution role.
-
-A caller can mark a task as fail without using any KMS permissions in the execution role if
-the caller provides a null value for both `error` and `cause` fields because no data needs
-to be encrypted.
-
 # Arguments
 
 - `task_token`: The token that represents this task. Task tokens are generated by Step
@@ -1746,7 +1697,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 
 - The following qualified state machine ARN refers to an alias named `PROD`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`
 
 !!! note
     If you provide a qualified state machine ARN that refers to a version ARN or an alias
@@ -1755,7 +1706,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 - The following unqualified state machine ARN refers to a state machine named
   `myStateMachine`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`
 
 If you start an execution with an unqualified state machine ARN, Step Functions uses the
 latest revision of the state machine for the execution.
@@ -1783,7 +1734,7 @@ that points to the version.
     qualified with a version or alias ARN. The following is an example of an unqualified
     state machine ARN.
 
-  `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
+  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`
 
   Step Functions doesn't associate state machine executions that you start with an
   unqualified ARN with a version. This is true even if that version uses the same revision
@@ -1792,7 +1743,7 @@ that points to the version.
     state machine ARN and the version number separated by a colon (:). The following is an
     example of the ARN for version 10.
 
-  `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;:10`
+  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>:10`
 
   Step Functions doesn't associate executions that you start with a version ARN with any
   aliases that point to that version.
@@ -1800,7 +1751,7 @@ that points to the version.
     machine ARN and the alias name separated by a colon (:). The following is an example of
     the ARN for an alias named `PROD`.
 
-  `arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;`
+  `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`
 
   Step Functions associates executions that you start with an alias ARN with that alias and
   the state machine version used for that execution.
@@ -1830,14 +1781,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A name must *not* contain:
 
   - white space
-  - brackets `&lt; &gt; { } [ ]`
+  - brackets `< > { } [ ]`
   - wildcard characters `? *`
-  - special characters `" # % \\ ^ | ~ ` \$ &amp; , ; : /`
-- control characters (`U+0000-
-    001F`, `U+007F-
-009F`)
+  - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
+- control characters (`U+0000-001F`,
+    `U+007F-009F`)
 
-To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+  To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
+  _.
 
 - `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in the
   request payload.
@@ -1896,11 +1847,6 @@ for `STANDARD` workflows.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
-  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
-  the API with `includedData = METADATA_ONLY` to get a successful response without the
-  encrypted definition.
-
 - `"input"`: The string that contains the JSON input data for the execution, for example:
 
   `"input": "{\\"first_name\\" : \\"test\\"}"`
@@ -1954,13 +1900,6 @@ end
 Stops an execution.
 
 This API action is not supported by `EXPRESS` state machines.
-
-For an execution with encryption enabled, Step Functions will encrypt the error and cause
-fields using the KMS key for the execution role.
-
-A caller can stop an execution without using any KMS permissions in the execution role if
-the caller provides a null value for both `error` and `cause` fields because no data needs
-to be encrypted.
 
 # Arguments
 
@@ -2255,10 +2194,10 @@ end
     update_state_machine(state_machine_arn)
     update_state_machine(state_machine_arn, params::Dict{String,<:Any})
 
-Updates an existing state machine by modifying its `definition`, `roleArn`,
-`loggingConfiguration`, or `EncryptionConfiguration`. Running executions will continue to
-use the previous `definition` and `roleArn`. You must include at least one of `definition`
-or `roleArn` or you will receive a `MissingRequiredParameter` error.
+Updates an existing state machine by modifying its `definition`, `roleArn`, or
+`loggingConfiguration`. Running executions will continue to use the previous `definition`
+and `roleArn`. You must include at least one of `definition` or `roleArn` or you will
+receive a `MissingRequiredParameter` error.
 
 A qualified state machine ARN refers to a *Distributed Map state* defined within a state
 machine. For example, the qualified state machine ARN
@@ -2282,7 +2221,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 
 - The following qualified state machine ARN refers to an alias named `PROD`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`
 
 !!! note
     If you provide a qualified state machine ARN that refers to a version ARN or an alias
@@ -2291,7 +2230,7 @@ The following are some examples of qualified and unqualified state machine ARNs:
 - The following unqualified state machine ARN refers to a state machine named
   `myStateMachine`.
 
-`arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;`
+`arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`
 
 After you update your state machine, you can set the `publish` parameter to `true` in the
 same action to publish a new [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html).
@@ -2315,8 +2254,6 @@ This way, you can opt-in to strict versioning of your state machine.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"definition"`: The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
-
-- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"loggingConfiguration"`: Use the `LoggingConfiguration` data type to set CloudWatch Logs
   options.
@@ -2468,16 +2405,6 @@ Suggested uses for `ValidateStateMachineDefinition`:
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"maxResults"`: The maximum number of diagnostics that are returned per call. The default
-  and maximum value is 100. Setting the value to 0 will also use the default of 100.
-
-  If the number of diagnostics returned in the response exceeds `maxResults`, the value of
-  the `truncated` field in the response will be set to `true`.
-
-- `"severity"`: Minimum level of diagnostics to return. `ERROR` returns only `ERROR`
-  diagnostics, whereas `WARNING` returns both `WARNING` and `ERROR` diagnostics. The default
-  is `ERROR`.
 
 - `"type"`: The target type of state machine for this definition. The default is `STANDARD`.
 """

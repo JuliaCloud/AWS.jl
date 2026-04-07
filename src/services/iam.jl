@@ -759,11 +759,12 @@ You get all of this information from the OIDC IdP you want to use to access Amaz
 Services.
 
 !!! note
-    Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
-    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
-    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
-    signed by one of these trusted CAs, only then we secure communication using the
-    thumbprints set in the IdP's configuration.
+    Amazon Web Services secures communication with some OIDC identity providers (IdPs)
+    through our library of trusted root certificate authorities (CAs) instead of using a
+    certificate thumbprint to verify your IdP server certificate. In these cases, your
+    legacy thumbprint remains in your configuration, but is no longer used for validation.
+    These OIDC IdPs include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
+    bucket to host a JSON Web Key Set (JWKS) endpoint.
 
 !!! note
     The trust for the OIDC provider is derived from the IAM provider that this operation
@@ -4598,7 +4599,7 @@ the service.
 
 - `deletion_task_id`: The deletion task identifier. This identifier is returned by the
   `DeleteServiceLinkedRole` operation in the format
-  `task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;`.
+  `task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid>`.
 """
 function get_service_linked_role_deletion_status end
 
@@ -4860,8 +4861,8 @@ end
     list_account_aliases(params::Dict{String,<:Any})
 
 Lists the account alias associated with the Amazon Web Services account (Note: you can have
-only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias)
-in the *IAM User Guide*.
+only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html)
+in the *Amazon Web Services Sign-In User Guide*.
 
 # Optional Parameters
 
@@ -9416,7 +9417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequireSymbols"`: Specifies whether IAM user passwords must contain at least one of the
   following non-alphanumeric characters:
 
-  ! @ # \$ % ^ &amp; * ( ) _ + - = [ ] { } | '
+  ! @ # \$ % ^ & * ( ) _ + - = [ ] { } | '
 
 If you do not specify a value for this parameter, then the operation uses the default value of `false`. The result is that passwords do not require at least one symbol character.
 
@@ -9666,11 +9667,12 @@ attempt to assume an IAM role that specifies the OIDC provider as a principal fa
 the certificate thumbprint is updated.
 
 !!! note
-    Amazon Web Services secures communication with OIDC identity providers (IdPs) using our
-    library of trusted root certificate authorities (CAs) to verify the JSON Web Key Set
-    (JWKS) endpoint's TLS certificate. If your OIDC IdP relies on a certificate that is not
-    signed by one of these trusted CAs, only then we secure communication using the
-    thumbprints set in the IdP's configuration.
+    Amazon Web Services secures communication with some OIDC identity providers (IdPs)
+    through our library of trusted root certificate authorities (CAs) instead of using a
+    certificate thumbprint to verify your IdP server certificate. In these cases, your
+    legacy thumbprint remains in your configuration, but is no longer used for validation.
+    These OIDC IdPs include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
+    bucket to host a JSON Web Key Set (JWKS) endpoint.
 
 !!! note
     Trust for the OIDC provider is derived from the provider certificate and is validated by

@@ -18,20 +18,20 @@ a claim code with the device(s).
 function claim_devices_by_claim_code end
 
 function claim_devices_by_claim_code(
-    claimCode; aws_config::AbstractAWSConfig=current_aws_config()
+    ClaimCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_1click_devices_service(
-        "PUT", "/claims/$(claimCode)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/claims/$(ClaimCode)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function claim_devices_by_claim_code(
-    claimCode,
+    ClaimCode,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
-        "PUT", "/claims/$(claimCode)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/claims/$(ClaimCode)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -48,19 +48,19 @@ device.
 """
 function describe_device end
 
-function describe_device(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
-        "GET", "/devices/$(deviceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices/$(DeviceId)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function describe_device(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
-        "GET", "/devices/$(deviceId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices/$(DeviceId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -83,28 +83,28 @@ Given a device ID, finalizes the claim request for the associated device.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: A collection of key/value pairs defining the resource tags. For example, {
+- `"Tags"`: A collection of key/value pairs defining the resource tags. For example, {
   "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
 function finalize_device_claim end
 
-function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function finalize_device_claim(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/finalize-claim";
+        "/devices/$(DeviceId)/finalize-claim";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function finalize_device_claim(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/finalize-claim",
+        "/devices/$(DeviceId)/finalize-claim",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -123,20 +123,20 @@ Given a device ID, returns the invokable methods associated with the device.
 """
 function get_device_methods end
 
-function get_device_methods(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function get_device_methods(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
-        "GET", "/devices/$(deviceId)/methods"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/devices/$(DeviceId)/methods"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function get_device_methods(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "GET",
-        "/devices/$(deviceId)/methods",
+        "/devices/$(DeviceId)/methods",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -160,23 +160,23 @@ Given a device ID, initiates a claim request for the associated device.
 """
 function initiate_device_claim end
 
-function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function initiate_device_claim(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/initiate-claim";
+        "/devices/$(DeviceId)/initiate-claim";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function initiate_device_claim(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/initiate-claim",
+        "/devices/$(DeviceId)/initiate-claim",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -198,26 +198,26 @@ parameters). See the "Example POST" code snippet below.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deviceMethod"`: The device method to invoke.
-- `"deviceMethodParameters"`: A JSON encoded string containing the device method request
+- `"DeviceMethod"`: The device method to invoke.
+- `"DeviceMethodParameters"`: A JSON encoded string containing the device method request
   parameters.
 """
 function invoke_device_method end
 
-function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function invoke_device_method(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
-        "POST", "/devices/$(deviceId)/methods"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST", "/devices/$(DeviceId)/methods"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function invoke_device_method(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "POST",
-        "/devices/$(deviceId)/methods",
+        "/devices/$(DeviceId)/methods",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -250,11 +250,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_device_events end
 
 function list_device_events(
-    deviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=current_aws_config()
+    DeviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_1click_devices_service(
         "GET",
-        "/devices/$(deviceId)/events",
+        "/devices/$(DeviceId)/events",
         Dict{String,Any}("fromTimeStamp" => fromTimeStamp, "toTimeStamp" => toTimeStamp);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -262,7 +262,7 @@ function list_device_events(
 end
 
 function list_device_events(
-    deviceId,
+    DeviceId,
     fromTimeStamp,
     toTimeStamp,
     params::AbstractDict{String};
@@ -270,7 +270,7 @@ function list_device_events(
 )
     return iot_1click_devices_service(
         "GET",
-        "/devices/$(deviceId)/events",
+        "/devices/$(DeviceId)/events",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -317,72 +317,70 @@ function list_devices(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags associated with the specified resource ARN.
 
 # Arguments
 
-- `resource-arn`: The ARN of the resource.
+- `resource_arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_1click_devices_service(
-        "GET", "/tags/$(resource-arn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_tags_for_resource(
-    resource_arn,
+    ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
-        "GET", "/tags/$(resource-arn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits)
 for the maximum number of tags allowed per resource.
 
 # Arguments
 
-- `resource-arn`: The ARN of the resource.
+- `resource_arn`: The ARN of the resource.
 - `tags`: A collection of key/value pairs defining the resource tags. For example, { "tags":
   {"key1": "value1", "key2": "value2"} }. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
 function tag_resource end
 
-function tag_resource(
-    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function tag_resource(
-    resource_arn,
-    tags,
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -400,20 +398,20 @@ Disassociates a device from your AWS account using its device ID.
 """
 function unclaim_device end
 
-function unclaim_device(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function unclaim_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
-        "PUT", "/devices/$(deviceId)/unclaim"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/devices/$(DeviceId)/unclaim"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function unclaim_device(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/unclaim",
+        "/devices/$(DeviceId)/unclaim",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -421,25 +419,25 @@ function unclaim_device(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Using tag keys, deletes the tags (key/value pairs) associated with the specified resource
 ARN.
 
 # Arguments
 
-- `resource-arn`: The ARN of the resource.
+- `resource_arn`: The ARN of the resource.
 - `tag_keys`: A collections of tag keys. For example, {"key1","key2"}
 """
 function untag_resource end
 
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_1click_devices_service(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -447,14 +445,14 @@ function untag_resource(
 end
 
 function untag_resource(
-    resource_arn,
+    ResourceArn,
     tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "DELETE",
-        "/tags/$(resource-arn)",
+        "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -476,24 +474,24 @@ device ID.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"enabled"`: If true, the device is enabled. If false, the device is disabled.
+- `"Enabled"`: If true, the device is enabled. If false, the device is disabled.
 """
 function update_device_state end
 
-function update_device_state(deviceId; aws_config::AbstractAWSConfig=current_aws_config())
+function update_device_state(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_devices_service(
-        "PUT", "/devices/$(deviceId)/state"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "PUT", "/devices/$(DeviceId)/state"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function update_device_state(
-    deviceId,
+    DeviceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_1click_devices_service(
         "PUT",
-        "/devices/$(deviceId)/state",
+        "/devices/$(DeviceId)/state",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

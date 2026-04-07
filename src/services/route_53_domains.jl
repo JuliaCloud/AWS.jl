@@ -1029,9 +1029,9 @@ When you register a domain, Amazon Route 53 does the following:
   notify you in advance of the renewal date so you can choose whether to renew the
   registration.
 - Optionally enables privacy protection, so WHOIS queries return contact for the registrar
-  or the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." If you
-  don't enable privacy protection, WHOIS queries return the information that you entered for
-  the administrative, registrant, and technical contacts.
+  or the phrase "REDACTED FOR PRIVACY", or "On behalf of <domain name> owner." If you don't
+  enable privacy protection, WHOIS queries return the information that you entered for the
+  administrative, registrant, and technical contacts.
 
   !!! note
       While some domains may allow different privacy settings per contact, we recommend
@@ -1496,8 +1496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify `true`, WHOIS ("who is") queries return contact information for
-  the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt;
-  owner.".
+  the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of <domain name> owner.".
 
   !!! note
       While some domains may allow different privacy settings per contact, we recommend
@@ -1717,8 +1716,7 @@ end
 
 This operation updates the specified domain contact's privacy setting. When privacy
 protection is enabled, your contact information is replaced with contact information for the
-registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt;
-owner."
+registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of <domain name> owner."
 
 !!! note
     While some domains may allow different privacy settings per contact, we recommend

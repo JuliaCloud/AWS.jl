@@ -1342,8 +1342,8 @@ the last recording event for the recorder. If a configuration recorder is not sp
 this action returns the status of all configuration recorders associated with the account.
 
 !!! note
-    &gt;You can specify only one configuration recorder for each Amazon Web Services Region
-    for each account. For a detailed status of recording events over time, add your Config
+    >You can specify only one configuration recorder for each Amazon Web Services Region for
+    each account. For a detailed status of recording events over time, add your Config
     events to Amazon CloudWatch metrics and use CloudWatch metrics.
 
 # Optional Parameters

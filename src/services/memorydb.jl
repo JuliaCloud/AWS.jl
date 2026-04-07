@@ -183,7 +183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: An optional description of the cluster.
 
-- `"EngineVersion"`: The version number of the Redis OSS engine to be used for the cluster.
+- `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
 
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 
@@ -395,8 +395,8 @@ function create_snapshot(
 end
 
 """
-    create_subnet_group(subnet_group_name, subnet_ids)
-    create_subnet_group(subnet_group_name, subnet_ids, params::Dict{String,<:Any})
+    create_subnet_group(subnet_group_name, subnet_identifier)
+    create_subnet_group(subnet_group_name, subnet_identifier, params::Dict{String,<:Any})
 
 Creates a subnet group. A subnet group is a collection of subnets (typically private) that
 you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC)
@@ -407,24 +407,27 @@ associate with your nodes. For more information, see [Subnets and subnet groups]
 # Arguments
 
 - `subnet_group_name`: The name of the subnet group.
-- `subnet_ids`: A list of VPC subnet IDs for the subnet group.
+- `subnet_identifier`: A list of VPC subnet IDs for the subnet group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the subnet group.
+- `"SubnetIds"`: A list of VPC subnet IDs for the subnet group.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function create_subnet_group end
 
 function create_subnet_group(
-    SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
+    SubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return memorydb(
         "CreateSubnetGroup",
-        Dict{String,Any}("SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds);
+        Dict{String,Any}(
+            "SubnetGroupName" => SubnetGroupName, "SubnetIdentifier" => SubnetIdentifier
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -432,7 +435,7 @@ end
 
 function create_subnet_group(
     SubnetGroupName,
-    SubnetIds,
+    SubnetIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -442,7 +445,8 @@ function create_subnet_group(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds
+                    "SubnetGroupName" => SubnetGroupName,
+                    "SubnetIdentifier" => SubnetIdentifier,
                 ),
                 params,
             ),
@@ -558,10 +562,6 @@ end
     delete_cluster(cluster_name, params::Dict{String,<:Any})
 
 Deletes a cluster. It also deletes all associated nodes and node endpoints
-
-!!! note
-    `CreateSnapshot` permission is required to create a final snapshot. Without this
-    permission, the API call will fail with an `Access Denied` exception.
 
 # Arguments
 
@@ -828,7 +828,7 @@ end
     describe_engine_versions()
     describe_engine_versions(params::Dict{String,<:Any})
 
-Returns a list of the available Redis OSS engine versions.
+Returns a list of the available Redis engine versions.
 
 # Optional Parameters
 
@@ -836,7 +836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
-- `"EngineVersion"`: The Redis OSS engine version
+- `"EngineVersion"`: The Redis engine version
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.
@@ -1456,8 +1456,8 @@ function reset_parameter_group(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tag)
+    tag_resource(resource_arn, tag, params::Dict{String,<:Any})
 
 A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
 categorize and track all your MemoryDB resources. When you add or remove tags on clusters,
@@ -1473,15 +1473,22 @@ more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/M
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tags are to be
   added
-- `tags`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
+- `tag`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
   must be accompanied by a tag value, although null is accepted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 function tag_resource end
 
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tag; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tag" => Tag);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1489,7 +1496,7 @@ end
 
 function tag_resource(
     ResourceArn,
-    Tags,
+    Tag,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1497,9 +1504,7 @@ function tag_resource(
         "TagResource",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
+                _merge, Dict{String,Any}("ResourceArn" => ResourceArn, "Tag" => Tag), params
             ),
         );
         aws_config,
@@ -1682,8 +1687,8 @@ function update_cluster(
 end
 
 """
-    update_parameter_group(parameter_group_name, parameter_name_values)
-    update_parameter_group(parameter_group_name, parameter_name_values, params::Dict{String,<:Any})
+    update_parameter_group(parameter_group_name, parameter_name_value)
+    update_parameter_group(parameter_group_name, parameter_name_value, params::Dict{String,<:Any})
 
 Updates the parameters of a parameter group. You can modify up to 20 parameters in a single
 request by submitting a list parameter name and value pairs.
@@ -1691,7 +1696,15 @@ request by submitting a list parameter name and value pairs.
 # Arguments
 
 - `parameter_group_name`: The name of the parameter group to update.
-- `parameter_name_values`: An array of parameter names and values for the parameter update.
+- `parameter_name_value`: An array of parameter names and values for the parameter update.
+  You must supply at least one parameter name and value; subsequent arguments are optional.
+  A maximum of 20 parameters may be updated per request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ParameterNameValues"`: An array of parameter names and values for the parameter update.
   You must supply at least one parameter name and value; subsequent arguments are optional.
   A maximum of 20 parameters may be updated per request.
 """
@@ -1699,14 +1712,14 @@ function update_parameter_group end
 
 function update_parameter_group(
     ParameterGroupName,
-    ParameterNameValues;
+    ParameterNameValue;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return memorydb(
         "UpdateParameterGroup",
         Dict{String,Any}(
             "ParameterGroupName" => ParameterGroupName,
-            "ParameterNameValues" => ParameterNameValues,
+            "ParameterNameValue" => ParameterNameValue,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1715,7 +1728,7 @@ end
 
 function update_parameter_group(
     ParameterGroupName,
-    ParameterNameValues,
+    ParameterNameValue,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1726,7 +1739,7 @@ function update_parameter_group(
                 _merge,
                 Dict{String,Any}(
                     "ParameterGroupName" => ParameterGroupName,
-                    "ParameterNameValues" => ParameterNameValues,
+                    "ParameterNameValue" => ParameterNameValue,
                 ),
                 params,
             ),

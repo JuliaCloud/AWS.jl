@@ -718,11 +718,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
 
 - `"QueryPricingModel"`: The pricing model for queries in an account.
-
-  !!! note
-      The `QueryPricingModel` parameter is used by several Timestream operations; however,
-      the `UpdateAccountSettings` API operation doesn't recognize any values other than
-      `COMPUTE_UNITS`.
 """
 function update_account_settings end
 

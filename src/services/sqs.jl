@@ -187,7 +187,7 @@ maximum of approximately 120,000 in flight messages (received from a queue by a 
 but not yet deleted from the queue). If you reach this limit, Amazon SQS returns the
 `OverLimit` error message. To avoid reaching the limit, you should delete messages from the
 queue after they're processed. You can also increase the number of queues you use to process
-your messages. To request a limit increase, [file a support request](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sqs).
+your messages. To request a limit increase, [file a support request](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sqs).
 
 For FIFO queues, there can be a maximum of 20,000 in flight messages (received from a queue
 by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS
@@ -1359,7 +1359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The maximum length of `ReceiveRequestAttemptId` is 128 characters.
   `ReceiveRequestAttemptId` can contain alphanumeric characters (`a-z`, `A-Z`, `0-9`) and
-  punctuation (`!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~`).
+  punctuation (`!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~`).
 
 For best practices of using
   `ReceiveRequestAttemptId`, see [Using the ReceiveRequestAttemptId Request Parameter](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html)
@@ -1556,7 +1556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The maximum length of `MessageDeduplicationId` is 128 characters. `MessageDeduplicationId`
   can contain alphanumeric characters (`a-z`, `A-Z`, `0-9`) and punctuation
-  (`!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~`).
+  (`!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~`).
 
 For best practices of using
   `MessageDeduplicationId`, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html)
@@ -1579,7 +1579,7 @@ For best practices of using
 
   The maximum length of `MessageGroupId` is 128 characters. Valid values: alphanumeric
   characters and punctuation
-  `(!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~)`.
+  `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
 
 For best practices of using
   `MessageGroupId`, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html)

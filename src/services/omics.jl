@@ -470,8 +470,7 @@ end
     create_run_group(request_id)
     create_run_group(request_id, params::Dict{String,<:Any})
 
-You can optionally create a run group to limit the compute resources for the runs that you
-add to the group.
+Creates a run group.
 
 # Arguments
 
@@ -482,13 +481,10 @@ add to the group.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxCpus"`: The maximum number of CPUs that can run concurrently across all active runs
-  in the run group.
-- `"maxDuration"`: The maximum time for each run (in minutes). If a run exceeds the maximum
-  run time, the run fails automatically.
-- `"maxGpus"`: The maximum number of GPUs that can run concurrently across all active runs
-  in the run group.
-- `"maxRuns"`: The maximum number of runs that can be running at the same time.
+- `"maxCpus"`: The maximum number of CPUs to use in the group.
+- `"maxDuration"`: A maximum run time for the group in minutes.
+- `"maxGpus"`: The maximum GPUs that can be used by a run group.
+- `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
 """
@@ -577,8 +573,8 @@ resource owner).
 
 The following resources support cross-account sharing:
 
-- HealthOmics variant stores
-- HealthOmics annotation stores
+- Healthomics variant stores
+- Healthomics annotation stores
 - Private workflows
 
 # Arguments
@@ -703,7 +699,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: The default storage capacity for the workflow runs, in gibibytes.
+- `"storageCapacity"`: The storage capacity for the workflow in gibibytes.
 - `"tags"`: Tags for the workflow.
 """
 function create_workflow end

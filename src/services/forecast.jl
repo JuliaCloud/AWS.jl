@@ -936,10 +936,9 @@ Exports a forecast created by the [`create_forecast`](@ref) operation to your Am
 Storage Service (Amazon S3) bucket. The forecast file name will match the following
 conventions:
 
-&lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;
+<ForecastExportJobName>_<ExportTimestamp>_<PartNumber>
 
-where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-
-ssZ).
+where the <ExportTimestamp> component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ).
 
 You must specify a `DataDestination` object that includes an Identity and Access Management
 (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more
@@ -1333,9 +1332,9 @@ exported to your specified S3 bucket.
 
 The export file names will match the following conventions:
 
-`&lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv`
+`<ExportJobName>_<ExportTimestamp>_<PartNumber>.csv`
 
-The &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ).
+The <ExportTimestamp> component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ).
 
 You must specify a `DataDestination` object that includes an Amazon S3 bucket and an
 Identity and Access Management (IAM) role that Amazon Forecast can assume to access the
@@ -1599,9 +1598,9 @@ Exports a forecast created by the [`create_what_if_forecast`](@ref) operation to
 Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following
 conventions:
 
-`≈&lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;`
+`≈<ForecastExportJobName>_<ExportTimestamp>_<PartNumber>`
 
-The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ).
+The <ExportTimestamp> component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ).
 
 You must specify a `DataDestination` object that includes an Identity and Access Management
 (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more
@@ -3273,7 +3272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to list all jobs that export a forecast named *electricityforecast*, specify
   the following filter:
 
-  `"Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ]`
+  `"Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityforecast" } ]`
 
 - `"MaxResults"`: The number of items to return in the response.
 
@@ -3635,7 +3634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to list all jobs that export a forecast named *electricityWhatIf*, specify
   the following filter:
 
-  `"Filters": [ { "Condition": "IS", "Key": "WhatIfAnalysisArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWhatIf" } ]`
+  `"Filters": [ { "Condition": "IS", "Key": "WhatIfAnalysisArn", "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIf" } ]`
 
 - `"MaxResults"`: The number of items to return in the response.
 
@@ -3688,13 +3687,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to list all jobs that export a forecast named *electricityWIFExport*, specify
   the following filter:
 
-  `"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastExportArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWIFExport" } ]`
+  `"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastExportArn", "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWIFExport" } ]`
 
 - `"MaxResults"`: The number of items to return in the response.
 
 - `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a `NextToken`. To retrieve the next set of results, use the token in the next&#x2028;
-  request. Tokens expire after 24 hours.
+  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+  Tokens expire after 24 hours.
 """
 function list_what_if_forecast_exports end
 
@@ -3742,13 +3741,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, to list all jobs that export a forecast named *electricityWhatIfForecast*,
   specify the following filter:
 
-  `"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityWhatIfForecast" } ]`
+  `"Filters": [ { "Condition": "IS", "Key": "WhatIfForecastArn", "Value": "arn:aws:forecast:us-west-2:<acct-id>:forecast/electricityWhatIfForecast" } ]`
 
 - `"MaxResults"`: The number of items to return in the response.
 
 - `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a `NextToken`. To retrieve the next set of results, use the token in the next&#x2028;
-  request. Tokens expire after 24 hours.
+  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+  Tokens expire after 24 hours.
 """
 function list_what_if_forecasts end
 

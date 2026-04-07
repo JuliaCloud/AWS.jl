@@ -44,8 +44,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RootDirectory"`: Specifies the directory on the EFS file system that the access point
   exposes as the root directory of your file system to NFS clients using the access point.
   The clients using the access point can only access the root directory and below. If the
-  `RootDirectory` &gt; `Path` specified does not exist, Amazon EFS creates it and applies
-  the `CreationInfo` settings when a client connects to an access point. When specifying a
+  `RootDirectory` > `Path` specified does not exist, Amazon EFS creates it and applies the
+  `CreationInfo` settings when a client connects to an access point. When specifying a
   `RootDirectory`, you must provide the `Path`, and the `CreationInfo`.
 
   Amazon EFS creates a root directory only if you have provided the CreationInfo: OwnUid,
@@ -1303,7 +1303,7 @@ function describe_tags end
 function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config())
     return efs(
         "GET",
-        "/2015-02-01/tags/$(FileSystemId)/";
+        "/2015-02-01/tags/$(FileSystemId)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1316,7 +1316,7 @@ function describe_tags(
 )
     return efs(
         "GET",
-        "/2015-02-01/tags/$(FileSystemId)/",
+        "/2015-02-01/tags/$(FileSystemId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

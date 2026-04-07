@@ -11,7 +11,7 @@ using AWS.UUIDs: uuid4
 The [`accept_qualification_request`](@ref) operation approves a Worker's request for a
 Qualification.
 
-Only the owner of the Qualification type can grant a Qualification request for that type.
+Only the owner of the Qualification type can grant a Qualification request for that	type.
 
 A successful request for the [`accept_qualification_request`](@ref) operation returns with
 no errors and an empty body.

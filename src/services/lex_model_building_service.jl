@@ -246,8 +246,8 @@ function delete_bot_alias(
 end
 
 """
-    delete_bot_channel_association(alias_name, bot_name, name)
-    delete_bot_channel_association(alias_name, bot_name, name, params::Dict{String,<:Any})
+    delete_bot_channel_association(bot_alias, bot_name, name)
+    delete_bot_channel_association(bot_alias, bot_name, name, params::Dict{String,<:Any})
 
 Deletes the association between an Amazon Lex bot and a messaging platform.
 
@@ -255,7 +255,7 @@ This operation requires permission for the `lex:DeleteBotChannelAssociation` act
 
 # Arguments
 
-- `alias_name`: An alias that points to the specific version of the Amazon Lex bot to which
+- `bot_alias`: An alias that points to the specific version of the Amazon Lex bot to which
   this association is being made.
 - `bot_name`: The name of the Amazon Lex bot.
 - `name`: The name of the association. The name is case sensitive.
@@ -263,18 +263,18 @@ This operation requires permission for the `lex:DeleteBotChannelAssociation` act
 function delete_bot_channel_association end
 
 function delete_bot_channel_association(
-    aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
+    botAlias, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
         "DELETE",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+        "/bots/$(botName)/aliases/$(botAlias)/channels/$(name)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_bot_channel_association(
-    aliasName,
+    botAlias,
     botName,
     name,
     params::AbstractDict{String};
@@ -282,7 +282,7 @@ function delete_bot_channel_association(
 )
     return lex_model_building_service(
         "DELETE",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        "/bots/$(botName)/aliases/$(botAlias)/channels/$(name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -552,8 +552,8 @@ function delete_utterances(
 end
 
 """
-    get_bot(name, versionoralias)
-    get_bot(name, versionoralias, params::Dict{String,<:Any})
+    get_bot(name, version_or_alias)
+    get_bot(name, version_or_alias, params::Dict{String,<:Any})
 
 Returns metadata information for a specific bot. You must provide the bot name and the bot
 version or alias.
@@ -563,14 +563,14 @@ This operation requires permissions for the `lex:GetBot` action.
 # Arguments
 
 - `name`: The name of the bot. The name is case sensitive.
-- `versionoralias`: The version or alias of the bot.
+- `version_or_alias`: The version or alias of the bot.
 """
 function get_bot end
 
-function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=current_aws_config())
+function get_bot(name, versionOrAlias; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
-        "/bots/$(name)/versions/$(versionoralias)";
+        "/bots/$(name)/versions/$(versionOrAlias)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -578,13 +578,13 @@ end
 
 function get_bot(
     name,
-    versionoralias,
+    versionOrAlias,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(name)/versions/$(versionoralias)",
+        "/bots/$(name)/versions/$(versionOrAlias)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -660,7 +660,7 @@ function get_bot_aliases end
 
 function get_bot_aliases(botName; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/bots/$(botName)/aliases/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/$(botName)/aliases"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -671,7 +671,7 @@ function get_bot_aliases(
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botName)/aliases/",
+        "/bots/$(botName)/aliases",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -679,8 +679,8 @@ function get_bot_aliases(
 end
 
 """
-    get_bot_channel_association(alias_name, bot_name, name)
-    get_bot_channel_association(alias_name, bot_name, name, params::Dict{String,<:Any})
+    get_bot_channel_association(bot_alias, bot_name, name)
+    get_bot_channel_association(bot_alias, bot_name, name, params::Dict{String,<:Any})
 
 Returns information about the association between an Amazon Lex bot and a messaging
 platform.
@@ -689,8 +689,8 @@ This operation requires permissions for the `lex:GetBotChannelAssociation` actio
 
 # Arguments
 
-- `alias_name`: An alias pointing to the specific version of the Amazon Lex bot to which
-  this association is being made.
+- `bot_alias`: An alias pointing to the specific version of the Amazon Lex bot to which this
+  association is being made.
 - `bot_name`: The name of the Amazon Lex bot.
 - `name`: The name of the association between the bot and the channel. The name is case
   sensitive.
@@ -698,18 +698,18 @@ This operation requires permissions for the `lex:GetBotChannelAssociation` actio
 function get_bot_channel_association end
 
 function get_bot_channel_association(
-    aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
+    botAlias, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)";
+        "/bots/$(botName)/aliases/$(botAlias)/channels/$(name)";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_bot_channel_association(
-    aliasName,
+    botAlias,
     botName,
     name,
     params::AbstractDict{String};
@@ -717,7 +717,7 @@ function get_bot_channel_association(
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)",
+        "/bots/$(botName)/aliases/$(botAlias)/channels/$(name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -725,8 +725,8 @@ function get_bot_channel_association(
 end
 
 """
-    get_bot_channel_associations(alias_name, bot_name)
-    get_bot_channel_associations(alias_name, bot_name, params::Dict{String,<:Any})
+    get_bot_channel_associations(bot_alias, bot_name)
+    get_bot_channel_associations(bot_alias, bot_name, params::Dict{String,<:Any})
 
 Returns a list of all of the channels associated with the specified bot.
 
@@ -735,8 +735,8 @@ The [`get_bot_channel_associations`](@ref) operation requires permissions for th
 
 # Arguments
 
-- `alias_name`: An alias pointing to the specific version of the Amazon Lex bot to which
-  this association is being made.
+- `bot_alias`: An alias pointing to the specific version of the Amazon Lex bot to which this
+  association is being made.
 - `bot_name`: The name of the Amazon Lex bot in the association.
 
 # Optional Parameters
@@ -756,25 +756,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_bot_channel_associations end
 
 function get_bot_channel_associations(
-    aliasName, botName; aws_config::AbstractAWSConfig=current_aws_config()
+    botAlias, botName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/";
+        "/bots/$(botName)/aliases/$(botAlias)/channels";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_bot_channel_associations(
-    aliasName,
+    botAlias,
     botName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botName)/aliases/$(aliasName)/channels/",
+        "/bots/$(botName)/aliases/$(botAlias)/channels",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -815,7 +815,7 @@ function get_bot_versions end
 
 function get_bot_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/bots/$(name)/versions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots/$(name)/versions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -823,11 +823,7 @@ function get_bot_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET",
-        "/bots/$(name)/versions/",
-        params;
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GET", "/bots/$(name)/versions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -860,7 +856,7 @@ function get_bots end
 
 function get_bots(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/bots/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -868,7 +864,7 @@ function get_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/bots/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/bots", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -935,7 +931,7 @@ function get_builtin_intents end
 
 function get_builtin_intents(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/builtins/intents/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/builtins/intents"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -943,7 +939,7 @@ function get_builtin_intents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/builtins/intents/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/builtins/intents", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -977,7 +973,7 @@ function get_builtin_slot_types end
 
 function get_builtin_slot_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/builtins/slottypes/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/builtins/slottypes"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -985,7 +981,7 @@ function get_builtin_slot_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/builtins/slottypes/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/builtins/slottypes", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1013,7 +1009,7 @@ function get_export(
 )
     return lex_model_building_service(
         "GET",
-        "/exports/",
+        "/exports",
         Dict{String,Any}(
             "exportType" => exportType,
             "name" => name,
@@ -1035,7 +1031,7 @@ function get_export(
 )
     return lex_model_building_service(
         "GET",
-        "/exports/",
+        "/exports",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1155,7 +1151,7 @@ function get_intent_versions end
 
 function get_intent_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/intents/$(name)/versions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/intents/$(name)/versions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1164,7 +1160,7 @@ function get_intent_versions(
 )
     return lex_model_building_service(
         "GET",
-        "/intents/$(name)/versions/",
+        "/intents/$(name)/versions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1201,7 +1197,7 @@ function get_intents end
 
 function get_intents(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/intents/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/intents"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1209,7 +1205,7 @@ function get_intents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/intents/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/intents", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1362,7 +1358,7 @@ function get_slot_type_versions end
 
 function get_slot_type_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/slottypes/$(name)/versions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/slottypes/$(name)/versions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1371,7 +1367,7 @@ function get_slot_type_versions(
 )
     return lex_model_building_service(
         "GET",
-        "/slottypes/$(name)/versions/",
+        "/slottypes/$(name)/versions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1409,7 +1405,7 @@ function get_slot_types end
 
 function get_slot_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
-        "GET", "/slottypes/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/slottypes"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1417,13 +1413,13 @@ function get_slot_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
-        "GET", "/slottypes/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/slottypes", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_utterances_view(bot_versions, botname, status_type)
-    get_utterances_view(bot_versions, botname, status_type, params::Dict{String,<:Any})
+    get_utterances_view(bot_name, bot_versions, status_type)
+    get_utterances_view(bot_name, bot_versions, status_type, params::Dict{String,<:Any})
 
 Use the [`get_utterances_view`](@ref) operation to get information about the utterances that
 your users have made to your bot. You can use this list to tune the utterances that your bot
@@ -1451,20 +1447,20 @@ This operation requires permissions for the `lex:GetUtterancesView` action.
 
 # Arguments
 
+- `bot_name`: The name of the bot for which utterance information should be returned.
 - `bot_versions`: An array of bot versions for which utterance information should be
   returned. The limit is 5 versions per request.
-- `botname`: The name of the bot for which utterance information should be returned.
 - `status_type`: To return utterances that were recognized and handled, use `Detected`. To
   return utterances that were not recognized, use `Missed`.
 """
 function get_utterances_view end
 
 function get_utterances_view(
-    bot_versions, botname, status_type; aws_config::AbstractAWSConfig=current_aws_config()
+    botName, bot_versions, status_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botname)/utterances?view=aggregation",
+        "/bots/$(botName)/utterances?view=aggregation",
         Dict{String,Any}("bot_versions" => bot_versions, "status_type" => status_type);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1472,15 +1468,15 @@ function get_utterances_view(
 end
 
 function get_utterances_view(
+    botName,
     bot_versions,
-    botname,
     status_type,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lex_model_building_service(
         "GET",
-        "/bots/$(botname)/utterances?view=aggregation",
+        "/bots/$(botName)/utterances?view=aggregation",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1534,8 +1530,8 @@ Creates an Amazon Lex conversational bot or replaces an existing bot. When you c
 update a bot you are only required to specify a name, a locale, and whether the bot is
 directed toward children under age 13. You can use this to add intents later, or to remove
 intents from an existing bot. When you create a bot with the minimum information, the bot is
-created or updated but Amazon Lex returns the <code/> response `FAILED`. You can build the
-bot after you add one or more intents. For more information about Amazon Lex bots, see
+created or updated but Amazon Lex returns the `` response `FAILED`. You can build the bot
+after you add one or more intents. For more information about Amazon Lex bots, see
 `how-it-works`.
 
 If you specify the name of an existing bot, the fields in the request replace the existing
@@ -2172,7 +2168,7 @@ function start_import(
 )
     return lex_model_building_service(
         "POST",
-        "/imports/",
+        "/imports",
         Dict{String,Any}(
             "mergeStrategy" => mergeStrategy,
             "payload" => payload,
@@ -2192,7 +2188,7 @@ function start_import(
 )
     return lex_model_building_service(
         "POST",
-        "/imports/",
+        "/imports",
         Dict{String,Any}(
             mergewith(
                 _merge,

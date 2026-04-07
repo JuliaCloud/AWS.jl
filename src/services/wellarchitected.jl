@@ -2398,7 +2398,7 @@ function list_profile_notifications end
 
 function list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
-        "GET", "/profileNotifications/"; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profileNotifications"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2406,7 +2406,7 @@ function list_profile_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wellarchitected(
-        "GET", "/profileNotifications/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+        "GET", "/profileNotifications", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2812,7 +2812,7 @@ Deletes specified tags from a resource.
 
 To specify multiple tags, use separate **tagKeys** parameters, for example:
 
-`DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
+`DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
 
 # Arguments
 

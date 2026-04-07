@@ -1307,7 +1307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartitionPredicate"`: A predicate to filter the objects returned based on the partition
   keys defined in the governed table.
 
-  - The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;=
+  - The comparison operators supported are: =, >, <, >=, <=
   - The logical operators supported are: AND
   - The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd
     HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.

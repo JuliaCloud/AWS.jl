@@ -141,12 +141,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
   configure filler slate if your channel uses the `LINEAR` `PlaybackMode`. MediaTailor
   doesn't support filler slate for channels using the `LOOP` `PlaybackMode`.
+- `"Tags"`: The tags to assign to the channel. Tags are key-value pairs that you can
+  associate with Amazon resources to help with organization, access control, and cost
+  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 - `"Tier"`: The tier of the channel.
 - `"TimeShiftConfiguration"`: The time-shifted viewing configuration you want to associate
   to the channel.
-- `"tags"`: The tags to assign to the channel. Tags are key-value pairs that you can
-  associate with Amazon resources to help with organization, access control, and cost
-  tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function create_channel end
 
@@ -201,7 +201,7 @@ The live source configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: The tags to assign to the live source. Tags are key-value pairs that you can
+- `"Tags"`: The tags to assign to the live source. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
@@ -409,7 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   serves segments.
 - `"SegmentDeliveryConfigurations"`: A list of the segment delivery configurations
   associated with this resource.
-- `"tags"`: The tags to assign to the source location. Tags are key-value pairs that you can
+- `"Tags"`: The tags to assign to the source location. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
@@ -465,7 +465,7 @@ The VOD source configuration parameters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`: The tags to assign to the VOD source. Tags are key-value pairs that you can
+- `"Tags"`: The tags to assign to the VOD source. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
@@ -1614,6 +1614,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dynamic ad content. The slate must be a high-quality asset that contains both audio and
   video.
 
+- `"Tags"`: The tags to assign to the playback configuration. Tags are key-value pairs that
+  you can associate with Amazon resources to help with organization, access control, and
+  cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+
 - `"TranscodeProfileName"`: The name that is used to associate this playback configuration
   with a custom transcode profile. This overrides the dynamic transcoding defaults of
   MediaTailor. Use this only if you have already set up custom profiles with the help of AWS
@@ -1621,10 +1625,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"VideoContentSourceUrl"`: The URL prefix for the parent manifest for the stream, minus
   the asset ID. The maximum length is 512 characters.
-
-- `"tags"`: The tags to assign to the playback configuration. Tags are key-value pairs that
-  you can associate with Amazon resources to help with organization, access control, and
-  cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 """
 function put_playback_configuration end
 
@@ -1734,11 +1734,11 @@ to help with organization, access control, and cost tracking. For more informati
 """
 function tag_resource end
 
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediatailor(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}("tags" => tags);
+        Dict{String,Any}("Tags" => Tags);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1746,14 +1746,14 @@ end
 
 function tag_resource(
     ResourceArn,
-    tags,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mediatailor(
         "POST",
         "/tags/$(ResourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

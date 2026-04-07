@@ -4547,7 +4547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterIdentifier"`: The identifier of the cluster to evaluate for possible node
   configurations.
 
-- `"Filter"`: A set of name, operator, and value items to filter the results.
+- `"Filters"`: A set of name, operator, and value items to filter the results.
 
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a `DescribeNodeConfigurationOptions` request exceed

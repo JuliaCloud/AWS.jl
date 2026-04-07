@@ -370,8 +370,8 @@ Returns information about a specified Route 53 Profile resource association.
 
 # Arguments
 
-- `profile_resource_association_id`: <p>The ID of the profile resource association that you
-  want to get information about. </p>
+- `profile_resource_association_id`: The ID of the profile resource association that you
+  want to get information about.
 """
 function get_profile_resource_association end
 

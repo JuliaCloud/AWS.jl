@@ -199,7 +199,7 @@ using the `CreatePlatformApplication` action.
   `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted private key file. When
   using the Amazon Web Services CLI, the file must be in string format and special
   characters must be ignored. To format the file correctly, Amazon SNS recommends using the
-  following command: `SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json``.
+  following command: `SERVICE_JSON=`jq @json <<< cat service.json``.
 - For MPNS, `PlatformPrincipal` is `TLS certificate` and `PlatformCredential` is
   `private key`.
 - For WNS, `PlatformPrincipal` is `Package Security Identifier` and `PlatformCredential` is
@@ -1328,7 +1328,9 @@ For more information about formatting messages, see [Send Custom Platform-Specif
   If you are publishing to a topic and you want to send the same message to all transport
   protocols, include the text of the message as a String value. If you want to send
   different messages for each transport protocol, set the value of the `MessageStructure`
-  parameter to `json` and use a JSON object for the `Message` parameter. Constraints:
+  parameter to `json` and use a JSON object for the `Message` parameter.
+
+  Constraints:
 
   - With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB in
     size (262,144 bytes, not 262,144 characters).
@@ -1367,7 +1369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MessageDeduplicationId"`: This parameter applies only to FIFO (first-in-first-out)
   topics. The `MessageDeduplicationId` can contain up to 128 alphanumeric characters
   `(a-z, A-Z, 0-9)` and punctuation
-  `(!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~)`.
+  `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
 
 Every message must have a unique
   `MessageDeduplicationId`, which is a token used for deduplication of sent messages. If a
@@ -1381,7 +1383,7 @@ Every message must have a unique
 
 - `"MessageGroupId"`: This parameter applies only to FIFO (first-in-first-out) topics. The
   `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z, A-Z, 0-9)` and
-  punctuation `(!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~)`.
+  punctuation `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
 
 The
   `MessageGroupId` is a tag that specifies that a message belongs to a specific message
@@ -1466,9 +1468,9 @@ Some actions take lists of parameters. These lists are specified using the `para
 notation. Values of `n` are integers starting from 1. For example, a parameter list with two
 elements looks like this:
 
-&amp;AttributeName.1=first
+&AttributeName.1=first
 
-&amp;AttributeName.2=second
+&AttributeName.2=second
 
 If you send a batch message to a topic, Amazon SNS publishes the batch message to each
 endpoint that is subscribed to the topic. The format of the batch message depends on the
@@ -1706,7 +1708,7 @@ For information on configuring attributes for message delivery status, see [Usin
       `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted private key file.
       When using the Amazon Web Services CLI, the file must be in string format and special
       characters must be ignored. To format the file correctly, Amazon SNS recommends using
-      the following command: `SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json``.
+      the following command: `SERVICE_JSON=`jq @json <<< cat service.json``.
 
   - `PlatformPrincipal` – The principal received from the notification service.
     - For ADM, `PlatformPrincipal`is client id.
@@ -1808,7 +1810,7 @@ in the *Amazon SNS Developer Guide*.
       exceed your limit.
 
   By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to
-  raise the limit, submit an [SNS Limit Increase case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sns).
+  raise the limit, submit an [SNS Limit Increase case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sns).
   For **New limit value**, enter your desired monthly spend limit. In the **Use Case
   Description** field, explain that you are requesting an SMS monthly spend limit increase.
 
@@ -2045,12 +2047,12 @@ Allows a topic owner to set an attribute of the topic to a new value.
       SNS topic that is subscribed to an Amazon SQS endpoint.
 
   !!! note
-      The &lt;ENDPOINT&gt;SuccessFeedbackRoleArn and &lt;ENDPOINT&gt;FailureFeedbackRoleArn
-      attributes are used to give Amazon SNS write access to use CloudWatch Logs on your
-      behalf. The &lt;ENDPOINT&gt;SuccessFeedbackSampleRate attribute is for specifying the
-      sample rate percentage (0-100) of successfully delivered messages. After you configure
-      the &lt;ENDPOINT&gt;FailureFeedbackRoleArn attribute, then all failed message
-      deliveries generate CloudWatch Logs.
+      The <ENDPOINT>SuccessFeedbackRoleArn and <ENDPOINT>FailureFeedbackRoleArn attributes
+      are used to give Amazon SNS write access to use CloudWatch Logs on your behalf. The
+      <ENDPOINT>SuccessFeedbackSampleRate attribute is for specifying the sample rate
+      percentage (0-100) of successfully delivered messages. After you configure the
+      <ENDPOINT>FailureFeedbackRoleArn attribute, then all failed message deliveries
+      generate CloudWatch Logs.
 
   The following attribute applies only to [server-side-encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
 
@@ -2220,7 +2222,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the subscription is not yet confirmed. In addition to the ARN for confirmed subscriptions,
   the response also includes the `pending subscription` ARN value for subscriptions that
   aren't yet confirmed. A subscription becomes confirmed when the subscriber calls the
-  `ConfirmSubscription` action with a confirmation token. The default value is `false`.
+  `ConfirmSubscription` action with a confirmation token.
+
+  The default value is `false`.
 """
 function subscribe end
 

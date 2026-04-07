@@ -121,6 +121,9 @@ const cloudcontrol = AWS.JSONService(
 const clouddirectory = AWS.RestJSONService("clouddirectory", "clouddirectory", "2017-01-11")
 const cloudformation = AWS.QueryService("cloudformation", "cloudformation", "2010-05-15")
 const cloudfront = AWS.RestXMLService("cloudfront", "cloudfront", "2020-05-31")
+const cloudfront_keyvaluestore = AWS.RestJSONService(
+    "cloudfront-keyvaluestore", "cloudfront-keyvaluestore", "2022-07-26"
+)
 const cloudhsm = AWS.JSONService(
     "cloudhsm", "cloudhsm", "2014-05-30", "1.1", "CloudHsmFrontendService"
 )
@@ -132,11 +135,7 @@ const cloudsearch_domain = AWS.RestJSONService(
     "cloudsearch", "cloudsearchdomain", "2013-01-01"
 )
 const cloudtrail = AWS.JSONService(
-    "cloudtrail",
-    "cloudtrail",
-    "2013-11-01",
-    "1.1",
-    "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
+    "cloudtrail", "cloudtrail", "2013-11-01", "1.1", "CloudTrail_20131101"
 )
 const cloudtrail_data = AWS.RestJSONService(
     "cloudtrail-data", "cloudtrail-data", "2021-08-11"
@@ -157,11 +156,7 @@ const codecommit = AWS.JSONService(
     "codecommit", "codecommit", "2015-04-13", "1.1", "CodeCommit_20150413"
 )
 const codeconnections = AWS.JSONService(
-    "codeconnections",
-    "codeconnections",
-    "2023-12-01",
-    "1.0",
-    "com.amazonaws.codeconnections.CodeConnections_20231201",
+    "codeconnections", "codeconnections", "2023-12-01", "1.0", "CodeConnections_20231201"
 )
 const codedeploy = AWS.JSONService(
     "codedeploy", "codedeploy", "2014-10-06", "1.1", "CodeDeploy_20141006"
@@ -178,12 +173,15 @@ const codeguruprofiler = AWS.RestJSONService(
 const codepipeline = AWS.JSONService(
     "codepipeline", "codepipeline", "2015-07-09", "1.1", "CodePipeline_20150709"
 )
+const codestar = AWS.JSONService(
+    "codestar", "codestar", "2017-04-19", "1.1", "CodeStar_20170419"
+)
 const codestar_connections = AWS.JSONService(
     "codestar-connections",
     "codestar-connections",
     "2019-12-01",
     "1.0",
-    "com.amazonaws.codestar.connections.CodeStar_connections_20191201",
+    "CodeStar_connections_20191201",
 )
 const codestar_notifications = AWS.RestJSONService(
     "codestar-notifications", "codestar-notifications", "2019-10-15"
@@ -367,7 +365,6 @@ const identitystore = AWS.JSONService(
     "identitystore", "identitystore", "2020-06-15", "1.1", "AWSIdentityStore"
 )
 const imagebuilder = AWS.RestJSONService("imagebuilder", "imagebuilder", "2019-12-02")
-const importexport = AWS.QueryService("importexport", "importexport", "2010-06-01")
 const inspector = AWS.JSONService(
     "inspector", "inspector", "2016-02-16", "1.1", "InspectorService"
 )
@@ -555,9 +552,7 @@ const migrationhuborchestrator = AWS.RestJSONService(
 const migrationhubstrategy = AWS.RestJSONService(
     "migrationhub-strategy", "migrationhub-strategy", "2020-02-19"
 )
-const mobile_analytics = AWS.RestJSONService(
-    "mobileanalytics", "mobileanalytics", "2014-06-05"
-)
+const mobile = AWS.RestJSONService("AWSMobileHubService", "mobile", "2017-07-01")
 const mq = AWS.RestJSONService("mq", "mq", "2017-11-27")
 const mturk = AWS.JSONService(
     "mturk-requester",
@@ -568,6 +563,7 @@ const mturk = AWS.JSONService(
 )
 const mwaa = AWS.RestJSONService("airflow", "airflow", "2020-07-01")
 const neptune = AWS.QueryService("rds", "rds", "2014-10-31")
+const neptune_graph = AWS.RestJSONService("neptune-graph", "neptune-graph", "2023-11-29")
 const neptunedata = AWS.RestJSONService("neptune-db", "neptune-db", "2023-08-01")
 const network_firewall = AWS.JSONService(
     "network-firewall", "network-firewall", "2020-11-12", "1.0", "NetworkFirewall_20201112"
@@ -609,9 +605,6 @@ const pca_connector_ad = AWS.RestJSONService(
 const pca_connector_scep = AWS.RestJSONService(
     "pca-connector-scep", "pca-connector-scep", "2018-05-10"
 )
-const pcs = AWS.JSONService(
-    "pcs", "pcs", "2023-02-10", "1.0", "AWSParallelComputingService"
-)
 const personalize = AWS.JSONService(
     "personalize", "personalize", "2018-05-22", "1.1", "AmazonPersonalize"
 )
@@ -639,7 +632,6 @@ const privatenetworks = AWS.RestJSONService(
     "private-networks", "private-networks", "2021-12-03"
 )
 const proton = AWS.JSONService("proton", "proton", "2020-07-20", "1.0", "AwsProton20200720")
-const qapps = AWS.RestJSONService("qapps", "data.qapps", "2023-11-27")
 const qbusiness = AWS.RestJSONService("qbusiness", "qbusiness", "2023-11-27")
 const qconnect = AWS.RestJSONService("wisdom", "wisdom", "2020-10-19")
 const qldb = AWS.RestJSONService("qldb", "qldb", "2019-01-02")
@@ -660,6 +652,9 @@ const redshift_serverless = AWS.JSONService(
 )
 const rekognition = AWS.JSONService(
     "rekognition", "rekognition", "2016-06-27", "1.1", "RekognitionService"
+)
+const rekognitionstreaming = AWS.RestJSONService(
+    "rekognition", "streaming-rekognition", "2022-05-30"
 )
 const repostspace = AWS.RestJSONService("repostspace", "repostspace", "2022-05-13")
 const resiliencehub = AWS.RestJSONService("resiliencehub", "resiliencehub", "2020-04-30")
@@ -754,7 +749,6 @@ const shield = AWS.JSONService(
     "shield", "shield", "2016-06-02", "1.1", "AWSShield_20160616"
 )
 const signer = AWS.RestJSONService("signer", "signer", "2017-08-25")
-const simpledb = AWS.QueryService("sdb", "sdb", "2009-04-15")
 const simspaceweaver = AWS.RestJSONService("simspaceweaver", "simspaceweaver", "2022-10-28")
 const sms = AWS.JSONService(
     "sms", "sms", "2016-10-24", "1.1", "AWSServerMigrationService_V2016_10_24"
@@ -772,7 +766,6 @@ const ssm_contacts = AWS.JSONService(
     "ssm-contacts", "ssm-contacts", "2021-05-03", "1.1", "SSMContacts"
 )
 const ssm_incidents = AWS.RestJSONService("ssm-incidents", "ssm-incidents", "2018-05-10")
-const ssm_quicksetup = AWS.RestJSONService("ssm-quicksetup", "ssm-quicksetup", "2018-05-10")
 const ssm_sap = AWS.RestJSONService("ssm-sap", "ssm-sap", "2018-05-10")
 const sso = AWS.RestJSONService("awsssoportal", "portal.sso", "2019-06-10")
 const sso_admin = AWS.JSONService("sso", "sso", "2020-07-20", "1.1", "SWBExternalService")
@@ -806,6 +799,9 @@ const timestream_write = AWS.JSONService(
 const tnb = AWS.RestJSONService("tnb", "tnb", "2008-10-21")
 const transcribe = AWS.JSONService(
     "transcribe", "transcribe", "2017-10-26", "1.1", "Transcribe"
+)
+const transcribe_streaming = AWS.RestJSONService(
+    "transcribe", "transcribestreaming", "2017-10-26"
 )
 const transfer = AWS.JSONService(
     "transfer", "transfer", "2018-11-05", "1.1", "TransferService"

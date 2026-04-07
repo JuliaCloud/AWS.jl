@@ -1707,21 +1707,21 @@ You cannot delete a TagOption if it is associated with a product or portfolio.
 """
 function delete_tag_option end
 
-function delete_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function delete_tag_option(id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DeleteTagOption",
-        Dict{String,Any}("Id" => Id);
+        Dict{String,Any}("id" => id);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_tag_option(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DeleteTagOption",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2465,21 +2465,21 @@ Gets information about the specified TagOption.
 """
 function describe_tag_option end
 
-function describe_tag_option(Id; aws_config::AbstractAWSConfig=current_aws_config())
+function describe_tag_option(id; aws_config::AbstractAWSConfig=current_aws_config())
     return service_catalog(
         "DescribeTagOption",
-        Dict{String,Any}("Id" => Id);
+        Dict{String,Any}("id" => id);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function describe_tag_option(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DescribeTagOption",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2793,19 +2793,19 @@ Disassociates the specified TagOption from the specified resource.
 function disassociate_tag_option_from_resource end
 
 function disassociate_tag_option_from_resource(
-    ResourceId, TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
+    resourceId, tagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "DisassociateTagOptionFromResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId);
+        Dict{String,Any}("resourceId" => resourceId, "tagOptionId" => tagOptionId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function disassociate_tag_option_from_resource(
-    ResourceId,
-    TagOptionId,
+    resourceId,
+    tagOptionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -2814,7 +2814,7 @@ function disassociate_tag_option_from_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagOptionId" => TagOptionId),
+                Dict{String,Any}("resourceId" => resourceId, "tagOptionId" => tagOptionId),
                 params,
             ),
         );
@@ -3854,12 +3854,12 @@ Lists the resources associated with the specified TagOption.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"PageSize"`: The maximum number of items to return with this call.
+- `"pageSize"`: The maximum number of items to return with this call.
 
-- `"PageToken"`: The page token for the next set of results. To retrieve the first set of
+- `"pageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
 
-- `"ResourceType"`: The resource type.
+- `"resourceType"`: The resource type.
 
   - `Portfolio`
   - `Product`
@@ -3867,25 +3867,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resources_for_tag_option end
 
 function list_resources_for_tag_option(
-    TagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
+    tagOptionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return service_catalog(
         "ListResourcesForTagOption",
-        Dict{String,Any}("TagOptionId" => TagOptionId);
+        Dict{String,Any}("tagOptionId" => tagOptionId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function list_resources_for_tag_option(
-    TagOptionId,
+    tagOptionId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return service_catalog(
         "ListResourcesForTagOption",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TagOptionId" => TagOptionId), params)
+            mergewith(_merge, Dict{String,Any}("tagOptionId" => tagOptionId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

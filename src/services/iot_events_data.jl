@@ -381,7 +381,7 @@ function describe_alarm end
 function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
         "GET",
-        "/alarms/$(alarmModelName)/keyValues/";
+        "/alarms/$(alarmModelName)/keyValues";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -394,7 +394,7 @@ function describe_alarm(
 )
     return iot_events_data(
         "GET",
-        "/alarms/$(alarmModelName)/keyValues/",
+        "/alarms/$(alarmModelName)/keyValues",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -426,7 +426,7 @@ function describe_detector(
 )
     return iot_events_data(
         "GET",
-        "/detectors/$(detectorModelName)/keyValues/";
+        "/detectors/$(detectorModelName)/keyValues";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -439,7 +439,7 @@ function describe_detector(
 )
     return iot_events_data(
         "GET",
-        "/detectors/$(detectorModelName)/keyValues/",
+        "/detectors/$(detectorModelName)/keyValues",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
