@@ -2,7 +2,13 @@ using AWS
 using Dates
 using Test
 
-using AWS: AWSCredentials, AWSServices, assume_role_creds
+using AWS:
+    AWSCredentials,
+    AWSServices,
+    _is_expired,
+    _is_recently_renewed,
+    assume_role_creds,
+    refresh!
 using AWS.AWSExceptions: AWSException, IMDSUnavailable, NoCredentials
 using Base64: base64encode
 using HTTP: HTTP
