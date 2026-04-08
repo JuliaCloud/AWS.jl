@@ -87,7 +87,7 @@ function _throttling_patch(retries::Ref{Int})
     return p
 end
 
-function _time_too_skewed_patch(retries::Threads.Atomic{Int})
+function _time_too_skewed_patch(retries)
     status = 403
     body = """
         <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n
