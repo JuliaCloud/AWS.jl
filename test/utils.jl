@@ -77,7 +77,7 @@ end
 
 AWS.region(c::MinioConfig) = c.region
 AWS.credentials(c::MinioConfig) = c.creds
-AWS.check_credentials(c::SimpleCredentials) = c
+AWS.refresh!(c::SimpleCredentials) = c
 
 function AWS.generate_service_url(aws::MinioConfig, service::String, resource::String)
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))

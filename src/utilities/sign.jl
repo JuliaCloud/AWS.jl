@@ -18,7 +18,7 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
-    creds = check_credentials(credentials(aws))
+    creds = refresh!(credentials(aws))
     signing_key = Vector{UInt8}(creds.secret_key)
 
     query["AWSAccessKeyId"] = creds.access_key_id
@@ -53,7 +53,7 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Authentication scope...
     authentication_scope = [date, region(aws), request.service, "aws4_request"]
 
-    creds = check_credentials(credentials(aws))
+    creds = refresh!(credentials(aws))
     signing_key = Vector{UInt8}("AWS4$(creds.secret_key)")
 
     for scope in authentication_scope

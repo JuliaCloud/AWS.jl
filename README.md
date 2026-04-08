@@ -138,7 +138,7 @@ struct NoCredentials end
 
 AWS.region(aws::AnonymousGCS) = "" # No region
 AWS.credentials(aws::AnonymousGCS) = NoCredentials() # No credentials
-AWS.check_credentials(c::NoCredentials) = c # Skip credentials check
+AWS.refresh!(c::NoCredentials) = c # Skip credential refreshing
 AWS.sign!(aws::AnonymousGCS, ::AWS.Request) = nothing # Don't sign request
 function AWS.generate_service_url(aws::AnonymousGCS, service::String, resource::String)
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to GCS"))
@@ -171,7 +171,7 @@ struct SimpleCredentials
     secret_key::String
     token::String
 end
-AWS.check_credentials(c::SimpleCredentials) = c
+AWS.refresh!(c::SimpleCredentials) = c
 ````
 
 as well as a custom url generator:
