@@ -548,6 +548,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AwsRegion"`: The AWS Region in which the Amazon Chime SDK Voice Connector is created.
   Default value: `us-east-1` .
+
+- `"IntegrationType"`: The connectors for use with Amazon Connect.
+
+  The following options are available:
+
+  - `CONNECT_CALL_TRANSFER_CONNECTOR` - Enables enterprises to integrate Amazon Connect with
+    other voice systems to directly transfer voice calls and metadata without using the
+    public telephone network. They can use Amazon Connect telephony and Interactive Voice
+    Response (IVR) with their existing voice systems to modernize the IVR experience of
+    their existing contact center and their enterprise and branch voice systems.
+    Additionally, enterprises migrating their contact center to Amazon Connect can start
+    with Connect telephony and IVR for immediate modernization ahead of agent migration.
+  - `CONNECT_ANALYTICS_CONNECTOR` - Enables enterprises to integrate Amazon Connect with
+    other voice systems for real-time and post-call analytics. They can use Amazon Connect
+    Contact Lens with their existing voice systems to provides call recordings,
+    conversational analytics (including contact transcript, sensitive data redaction,
+    content categorization, theme detection, sentiment analysis, real-time alerts, and post-
+    contact summary), and agent performance evaluations (including evaluation forms,
+    automated evaluation, supervisor review) with a rich user experience to display, search
+    and filter customer interactions, and programmatic access to data streams and the data
+    lake. Additionally, enterprises migrating their contact center to Amazon Connect can
+    start with Contact Lens analytics and performance insights ahead of agent migration.
+
+- `"NetworkType"`: The type of network for the Voice Connector. Either IPv4 only or dual-
+  stack (IPv4 and IPv6).
+
 - `"Tags"`: The tags assigned to the Voice Connector.
 """
 function create_voice_connector end
@@ -978,6 +1004,44 @@ function delete_voice_connector_emergency_calling_configuration(
     return chime_sdk_voice(
         "DELETE",
         "/voice-connectors/$(VoiceConnectorId)/emergency-calling-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_voice_connector_external_systems_configuration(voice_connector_id)
+    delete_voice_connector_external_systems_configuration(voice_connector_id, params::Dict{String,<:Any})
+
+Deletes the external systems configuration for a Voice Connector.
+
+# Arguments
+
+- `voice_connector_id`: The ID of the Voice Connector for which to delete the external
+  system configuration.
+"""
+function delete_voice_connector_external_systems_configuration end
+
+function delete_voice_connector_external_systems_configuration(
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_voice(
+        "DELETE",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_voice_connector_external_systems_configuration(
+    VoiceConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_voice(
+        "DELETE",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1813,6 +1877,44 @@ function get_voice_connector_emergency_calling_configuration(
 end
 
 """
+    get_voice_connector_external_systems_configuration(voice_connector_id)
+    get_voice_connector_external_systems_configuration(voice_connector_id, params::Dict{String,<:Any})
+
+Gets information about an external systems configuration for a Voice Connector.
+
+# Arguments
+
+- `voice_connector_id`: The ID of the Voice Connector for which to return information about
+  the external system configuration.
+"""
+function get_voice_connector_external_systems_configuration end
+
+function get_voice_connector_external_systems_configuration(
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_voice(
+        "GET",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_voice_connector_external_systems_configuration(
+    VoiceConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_voice(
+        "GET",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_voice_connector_group(voice_connector_group_id)
     get_voice_connector_group(voice_connector_group_id, params::Dict{String,<:Any})
 
@@ -2160,7 +2262,7 @@ Retrieves the details of a voice tone analysis task.
 # Arguments
 
 - `voice_connector_id`: The Voice Connector ID.
-- `voice_tone_analysis_task_id`: The ID of the voice tone anlysis task.
+- `voice_tone_analysis_task_id`: The ID of the voice tone analysis task.
 - `is_caller`: Specifies whether the voice being analyzed is the caller (originator) or the
   callee (responder).
 """
@@ -2788,6 +2890,51 @@ function put_voice_connector_emergency_calling_configuration(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_voice_connector_external_systems_configuration(voice_connector_id)
+    put_voice_connector_external_systems_configuration(voice_connector_id, params::Dict{String,<:Any})
+
+Adds an external systems configuration to a Voice Connector.
+
+# Arguments
+
+- `voice_connector_id`: The ID of the Voice Connector for which to add the external system
+  configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ContactCenterSystemTypes"`: The contact center system to use.
+- `"SessionBorderControllerTypes"`: The session border controllers to use.
+"""
+function put_voice_connector_external_systems_configuration end
+
+function put_voice_connector_external_systems_configuration(
+    VoiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return chime_sdk_voice(
+        "PUT",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_voice_connector_external_systems_configuration(
+    VoiceConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return chime_sdk_voice(
+        "PUT",
+        "/voice-connectors/$(VoiceConnectorId)/external-systems-configuration",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4009,7 +4156,9 @@ appropriate Public Safety Answering Point.
 
 - `aws_account_id`: The AWS account ID.
 - `city`: The address city, such as `Portland`.
-- `country`: The country in the address being validated.
+- `country`: The country in the address being validated as two-letter country code in ISO
+  3166-1 alpha-2 format, such as `US`. For more information, see [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+in Wikipedia.
 - `postal_code`: The dress postal code, such `04352`.
 - `state`: The address state, such as `ME`.
 - `street_info`: The address street information, such as `8th Avenue`.

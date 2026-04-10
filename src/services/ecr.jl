@@ -325,17 +325,22 @@ in the *Amazon Elastic Container Registry User Guide*.
 - `ecr_repository_prefix`: The repository name prefix to use when caching images from the
   source registry.
 
+  !!! important
+      There is always an assumed `/` applied to the end of the prefix. If you specify
+      `ecr-public` as the prefix, Amazon ECR treats that as `ecr-public/`.
+
 - `upstream_registry_url`: The registry URL of the upstream public registry to use as the
   source for the pull through cache rule. The following is the syntax to use for each
   supported upstream registry.
 
-  - Amazon ECR Public (`ecr-public`) - `public.ecr.aws`
-  - Docker Hub (`docker-hub`) - `registry-1.docker.io`
-  - Quay (`quay`) - `quay.io`
-  - Kubernetes (`k8s`) - `registry.k8s.io`
-  - GitHub Container Registry (`github-container-registry`) - `ghcr.io`
-  - Microsoft Azure Container Registry (`azure-container-registry`) - `<custom>.azurecr.io`
-  - GitLab Container Registry (`gitlab-container-registry`) - `registry.gitlab.com`
+  - Amazon ECR (`ecr`) – `<accountId>.dkr.ecr.<region>.amazonaws.com`
+  - Amazon ECR Public (`ecr-public`) – `public.ecr.aws`
+  - Docker Hub (`docker-hub`) – `registry-1.docker.io`
+  - GitHub Container Registry (`github-container-registry`) – `ghcr.io`
+  - GitLab Container Registry (`gitlab-container-registry`) – `registry.gitlab.com`
+  - Kubernetes (`k8s`) – `registry.k8s.io`
+  - Microsoft Azure Container Registry (`azure-container-registry`) – `<custom>.azurecr.io`
+  - Quay (`quay`) – `quay.io`
 
 # Optional Parameters
 
@@ -343,10 +348,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"credentialArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
   Manager secret that identifies the credentials to authenticate to the upstream registry.
+- `"customRoleArn"`: Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR
+  to authenticate to the ECR upstream registry. This role must be in the same account as the
+  registry that you are configuring.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to create
   the pull through cache rule for. If you do not specify a registry, the default registry is
   assumed.
 - `"upstreamRegistry"`: The name of the upstream registry.
+- `"upstreamRepositoryPrefix"`: The repository name prefix of the upstream registry to match
+  with the upstream repository name. When this field isn't specified, Amazon ECR will use
+  the `ROOT`.
 """
 function create_pull_through_cache_rule end
 
@@ -411,15 +422,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"encryptionConfiguration"`: The encryption configuration for the repository. This
   determines how the contents of your repository are encrypted at rest.
-- `"imageScanningConfiguration"`: The image scanning configuration for the repository. This
-  determines whether images are scanned for known vulnerabilities after being pushed to the
-  repository.
+
+- `"imageScanningConfiguration"`: !!! important
+      The `imageScanningConfiguration` parameter is being deprecated, in favor of specifying
+      the image scanning configuration at the registry level. For more information, see
+      `PutRegistryScanningConfiguration`.
+
+  The image scanning configuration for the repository. This determines whether images are
+  scanned for known vulnerabilities after being pushed to the repository.
+
 - `"imageTagMutability"`: The tag mutability setting for the repository. If this parameter
   is omitted, the default setting of `MUTABLE` will be used which will allow image tags to
   be overwritten. If `IMMUTABLE` is specified, all image tags within the repository will be
   immutable which will prevent them from being overwritten.
+
+- `"imageTagMutabilityExclusionFilters"`: A list of filters that specify which image tags
+  should be excluded from the repository's image tag mutability setting.
+
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to create
   the repository. If you do not specify a registry, the default registry is assumed.
+
 - `"tags"`: The metadata that you apply to the repository to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   Tag keys can have a maximum character length of 128 characters, and tag values can have a
@@ -447,6 +469,96 @@ function create_repository(
         "CreateRepository",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_repository_creation_template(applied_for, prefix)
+    create_repository_creation_template(applied_for, prefix, params::Dict{String,<:Any})
+
+Creates a repository creation template. This template is used to define the settings for
+repositories created by Amazon ECR on your behalf. For example, repositories created through
+pull through cache actions. For more information, see [Private repository creation templates](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-creation-templates.html)
+in the *Amazon Elastic Container Registry User Guide*.
+
+# Arguments
+
+- `applied_for`: A list of enumerable strings representing the Amazon ECR repository
+  creation scenarios that this template will apply towards. The supported scenarios are
+  `PULL_THROUGH_CACHE`, `REPLICATION`, and `CREATE_ON_PUSH`
+
+- `prefix`: The repository namespace prefix to associate with the template. All repositories
+  created using this namespace prefix will have the settings defined in this template
+  applied. For example, a prefix of `prod` would apply to all repositories beginning with
+  `prod/`. Similarly, a prefix of `prod/team` would apply to all repositories beginning with
+  `prod/team/`.
+
+  To apply a template to all repositories in your registry that don't have an associated
+  creation template, you can use `ROOT` as the prefix.
+
+  !!! important
+      There is always an assumed `/` applied to the end of the prefix. If you specify
+      `ecr-public` as the prefix, Amazon ECR treats that as `ecr-public/`. When using a pull
+      through cache rule, the repository prefix you specify during rule creation is what you
+      should specify as your repository creation template prefix as well.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"customRoleArn"`: The ARN of the role to be assumed by Amazon ECR. This role must be in
+  the same account as the registry that you are configuring. Amazon ECR will assume your
+  supplied role when the customRoleArn is specified. When this field isn't specified, Amazon
+  ECR will use the service-linked role for the repository creation template.
+- `"description"`: A description for the repository creation template.
+- `"encryptionConfiguration"`: The encryption configuration to use for repositories created
+  using the template.
+- `"imageTagMutability"`: The tag mutability setting for the repository. If this parameter
+  is omitted, the default setting of `MUTABLE` will be used which will allow image tags to
+  be overwritten. If `IMMUTABLE` is specified, all image tags within the repository will be
+  immutable which will prevent them from being overwritten.
+- `"imageTagMutabilityExclusionFilters"`: A list of filters that specify which image tags
+  should be excluded from the repository creation template's image tag mutability setting.
+- `"lifecyclePolicy"`: The lifecycle policy to use for repositories created using the
+  template.
+- `"repositoryPolicy"`: The repository policy to apply to repositories created using the
+  template. A repository policy is a permissions policy associated with a repository to
+  control access permissions.
+- `"resourceTags"`: The metadata to apply to the repository to help you categorize and
+  organize. Each tag consists of a key and an optional value, both of which you define. Tag
+  keys can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
+"""
+function create_repository_creation_template end
+
+function create_repository_creation_template(
+    appliedFor, prefix; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "CreateRepositoryCreationTemplate",
+        Dict{String,Any}("appliedFor" => appliedFor, "prefix" => prefix);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_repository_creation_template(
+    appliedFor,
+    prefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "CreateRepositoryCreationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appliedFor" => appliedFor, "prefix" => prefix),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -619,6 +731,41 @@ function delete_repository(
 end
 
 """
+    delete_repository_creation_template(prefix)
+    delete_repository_creation_template(prefix, params::Dict{String,<:Any})
+
+Deletes a repository creation template.
+
+# Arguments
+
+- `prefix`: The repository namespace prefix associated with the repository creation
+  template.
+"""
+function delete_repository_creation_template end
+
+function delete_repository_creation_template(
+    prefix; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DeleteRepositoryCreationTemplate",
+        Dict{String,Any}("prefix" => prefix);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_repository_creation_template(
+    prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DeleteRepositoryCreationTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("prefix" => prefix), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_repository_policy(repository_name)
     delete_repository_policy(repository_name, params::Dict{String,<:Any})
 
@@ -659,6 +806,73 @@ function delete_repository_policy(
         "DeleteRepositoryPolicy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_signing_configuration()
+    delete_signing_configuration(params::Dict{String,<:Any})
+
+Deletes the registry's signing configuration. Images pushed after deletion of the signing
+configuration will no longer be automatically signed.
+
+For more information, see [Managed signing](https://docs.aws.amazon.com/AmazonECR/latest/userguide/managed-signing.html)
+in the *Amazon Elastic Container Registry User Guide*.
+
+!!! note
+    Deleting the signing configuration does not affect existing image signatures.
+"""
+function delete_signing_configuration end
+
+function delete_signing_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ecr("DeleteSigningConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function delete_signing_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DeleteSigningConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    deregister_pull_time_update_exclusion(principal_arn)
+    deregister_pull_time_update_exclusion(principal_arn, params::Dict{String,<:Any})
+
+Removes a principal from the pull time update exclusion list for a registry. Once removed,
+Amazon ECR will resume updating the pull time if the specified principal pulls an image.
+
+# Arguments
+
+- `principal_arn`: The ARN of the IAM principal to remove from the pull time update
+  exclusion list.
+"""
+function deregister_pull_time_update_exclusion end
+
+function deregister_pull_time_update_exclusion(
+    principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DeregisterPullTimeUpdateExclusion",
+        Dict{String,Any}("principalArn" => principalArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_pull_time_update_exclusion(
+    principalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "DeregisterPullTimeUpdateExclusion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("principalArn" => principalArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -784,16 +998,78 @@ function describe_image_scan_findings(
 end
 
 """
+    describe_image_signing_status(image_id, repository_name)
+    describe_image_signing_status(image_id, repository_name, params::Dict{String,<:Any})
+
+Returns the signing status for a specified image. If the image matched signing rules that
+reference different signing profiles, a status is returned for each profile.
+
+For more information, see [Managed signing](https://docs.aws.amazon.com/AmazonECR/latest/userguide/managed-signing.html)
+in the *Amazon Elastic Container Registry User Guide*.
+
+# Arguments
+
+- `image_id`: An object containing identifying information for an image.
+- `repository_name`: The name of the repository that contains the image.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository. If you do not specify a registry, the default registry is
+  assumed.
+"""
+function describe_image_signing_status end
+
+function describe_image_signing_status(
+    imageId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DescribeImageSigningStatus",
+        Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_image_signing_status(
+    imageId,
+    repositoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "DescribeImageSigningStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageId" => imageId, "repositoryName" => repositoryName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_images(repository_name)
     describe_images(repository_name, params::Dict{String,<:Any})
 
 Returns metadata about the images in a repository.
 
 !!! note
-    Beginning with Docker version 1.9, the Docker client compresses image layers before
+    Starting with Docker version 1.9, the Docker client compresses image layers before
     pushing them to a V2 Docker registry. The output of the `docker images` command shows
-    the uncompressed image size, so it may return a larger image size than the image sizes
-    returned by [`describe_images`](@ref).
+    the uncompressed image size. Therefore, Docker might return a larger image than the
+    image shown in the Amazon Web Services Management Console.
+
+!!! important
+    The new version of Amazon ECR *Basic Scanning* doesn't use the
+    `ImageDetail\$imageScanFindingsSummary` and `ImageDetail\$imageScanStatus` attributes
+    from the API response to return scan results. Use the [`describe_image_scan_findings`](@ref)
+    API instead. For more information about Amazon Web Services native basic scanning, see [Scan images for software vulnerabilities in Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html).
 
 # Arguments
 
@@ -968,6 +1244,96 @@ function describe_repositories(
 end
 
 """
+    describe_repository_creation_templates()
+    describe_repository_creation_templates(params::Dict{String,<:Any})
+
+Returns details about the repository creation templates in a registry. The `prefixes`
+request parameter can be used to return the details for a specific repository creation
+template.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of repository results returned by
+  `DescribeRepositoryCreationTemplatesRequest` in paginated output. When this parameter is
+  used, `DescribeRepositoryCreationTemplatesRequest` only returns `maxResults` results in a
+  single page along with a `nextToken` response element. The remaining results of the
+  initial request can be seen by sending another
+  `DescribeRepositoryCreationTemplatesRequest` request with the returned `nextToken` value.
+  This value can be between 1 and 1000. If this parameter is not used, then
+  `DescribeRepositoryCreationTemplatesRequest` returns up to 100 results and a `nextToken`
+  value, if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `DescribeRepositoryCreationTemplates` request where `maxResults` was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the `nextToken` value. This value is `null` when there are no more
+  results to return.
+
+  !!! note
+      This token should be treated as an opaque identifier that is only used to retrieve the
+      next items in a list and not for other programmatic purposes.
+
+- `"prefixes"`: The repository namespace prefixes associated with the repository creation
+  templates to describe. If this value is not specified, all repository creation templates
+  are returned.
+"""
+function describe_repository_creation_templates end
+
+function describe_repository_creation_templates(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DescribeRepositoryCreationTemplates"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_repository_creation_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "DescribeRepositoryCreationTemplates",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_setting(name)
+    get_account_setting(name, params::Dict{String,<:Any})
+
+Retrieves the account setting value for the specified setting name.
+
+# Arguments
+
+- `name`: The name of the account setting, such as `BASIC_SCAN_TYPE_VERSION`,
+  `REGISTRY_POLICY_SCOPE`, or `BLOB_MOUNTING`.
+"""
+function get_account_setting end
+
+function get_account_setting(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return ecr(
+        "GetAccountSetting",
+        Dict{String,Any}("name" => name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_account_setting(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "GetAccountSetting",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_authorization_token()
     get_authorization_token(params::Dict{String,<:Any})
 
@@ -1134,8 +1500,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `GetLifecyclePolicyPreviewRequest` only returns `maxResults` results in a single page
   along with a `nextToken` response element. The remaining results of the initial request
   can be seen by sending another `GetLifecyclePolicyPreviewRequest` request with the
-  returned `nextToken` value. This value can be between 1 and 1000. If this parameter is not
-  used, then `GetLifecyclePolicyPreviewRequest` returns up to 100 results and a `nextToken`
+  returned `nextToken` value. This value can be between 1 and 100. If this parameter is not
+  used, then `GetLifecyclePolicyPreviewRequest` returns up to 100 results and a `nextToken`
   value, if applicable. This option cannot be used when you specify images with `imageIds`.
 
 - `"nextToken"`: The `nextToken` value returned from a previous paginated
@@ -1268,6 +1634,30 @@ function get_repository_policy(
 end
 
 """
+    get_signing_configuration()
+    get_signing_configuration(params::Dict{String,<:Any})
+
+Retrieves the registry's signing configuration, which defines rules for automatically
+signing images using Amazon Web Services Signer.
+
+For more information, see [Managed signing](https://docs.aws.amazon.com/AmazonECR/latest/userguide/managed-signing.html)
+in the *Amazon Elastic Container Registry User Guide*.
+"""
+function get_signing_configuration end
+
+function get_signing_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ecr("GetSigningConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_signing_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "GetSigningConfiguration", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     initiate_layer_upload(repository_name)
     initiate_layer_upload(repository_name, params::Dict{String,<:Any})
 
@@ -1316,6 +1706,85 @@ function initiate_layer_upload(
         "InitiateLayerUpload",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_image_referrers(repository_name, subject_id)
+    list_image_referrers(repository_name, subject_id, params::Dict{String,<:Any})
+
+Lists the artifacts associated with a specified subject image.
+
+!!! note
+    The IAM principal invoking this operation must have the `ecr:BatchGetImage` permission.
+
+# Arguments
+
+- `repository_name`: The name of the repository that contains the subject image.
+- `subject_id`: An object containing the image digest of the subject image for which to
+  retrieve associated artifacts.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filter"`: The filter key and value with which to filter your `ListImageReferrers`
+  results. If no filter is specified, only artifacts with `ACTIVE` status are returned.
+
+- `"maxResults"`: The maximum number of image referrer results returned by
+  `ListImageReferrers` in paginated output. When this parameter is used,
+  `ListImageReferrers` only returns `maxResults` results in a single page along with a
+  `nextToken` response element. The remaining results of the initial request can be seen by
+  sending another `ListImageReferrers` request with the returned `nextToken` value. This
+  value can be between 1 and 50. If this parameter is not used, then `ListImageReferrers`
+  returns up to 50 results and a `nextToken` value, if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `ListImageReferrers` request where `maxResults` was used and the results exceeded the
+  value of that parameter. Pagination continues from the end of the previous results that
+  returned the `nextToken` value. This value is `null` when there are no more results to
+  return.
+
+  !!! note
+      This token should be treated as an opaque identifier that is only used to retrieve the
+      next items in a list and not for other programmatic purposes.
+
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the repository in which to list image referrers. If you do not specify a
+  registry, the default registry is assumed.
+"""
+function list_image_referrers end
+
+function list_image_referrers(
+    repositoryName, subjectId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "ListImageReferrers",
+        Dict{String,Any}("repositoryName" => repositoryName, "subjectId" => subjectId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_image_referrers(
+    repositoryName,
+    subjectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "ListImageReferrers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "repositoryName" => repositoryName, "subjectId" => subjectId
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1391,6 +1860,51 @@ function list_images(
 end
 
 """
+    list_pull_time_update_exclusions()
+    list_pull_time_update_exclusions(params::Dict{String,<:Any})
+
+Lists the IAM principals that are excluded from having their image pull times recorded.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of pull time update exclusion results returned by
+  `ListPullTimeUpdateExclusions` in paginated output. When this parameter is used,
+  `ListPullTimeUpdateExclusions` only returns `maxResults` results in a single page along
+  with a `nextToken` response element. The remaining results of the initial request can be
+  seen by sending another `ListPullTimeUpdateExclusions` request with the returned
+  `nextToken` value. This value can be between 1 and 1000. If this parameter is not used,
+  then `ListPullTimeUpdateExclusions` returns up to 100 results and a `nextToken` value, if
+  applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `ListPullTimeUpdateExclusions` request where `maxResults` was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the `nextToken` value. This value is `null` when there are no more
+  results to return.
+
+  !!! note
+      This token should be treated as an opaque identifier that is only used to retrieve the
+      next items in a list and not for other programmatic purposes.
+"""
+function list_pull_time_update_exclusions end
+
+function list_pull_time_update_exclusions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr("ListPullTimeUpdateExclusions"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_pull_time_update_exclusions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "ListPullTimeUpdateExclusions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1430,6 +1944,49 @@ function list_tags_for_resource(
 end
 
 """
+    put_account_setting(name, value)
+    put_account_setting(name, value, params::Dict{String,<:Any})
+
+Allows you to change the basic scan type version or registry policy scope.
+
+# Arguments
+
+- `name`: The name of the account setting, such as `BASIC_SCAN_TYPE_VERSION`,
+  `REGISTRY_POLICY_SCOPE`, or `BLOB_MOUNTING`.
+- `value`: Setting value that is specified. Valid value for basic scan type: `AWS_NATIVE`.
+  Valid values for registry policy scope: `V1` or `V2`. Valid values for blob mounting:
+  `ENABLED` or `DISABLED`.
+"""
+function put_account_setting end
+
+function put_account_setting(
+    name, value; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "PutAccountSetting",
+        Dict{String,Any}("name" => name, "value" => value);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_account_setting(
+    name,
+    value,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "PutAccountSetting",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_image(image_manifest, repository_name)
     put_image(image_manifest, repository_name, params::Dict{String,<:Any})
 
@@ -1456,8 +2013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"imageManifestMediaType"`: The media type of the image manifest. If you push an image
   manifest that does not contain the `mediaType` field, you must specify the
   `imageManifestMediaType` in the request.
-- `"imageTag"`: The tag to associate with the image. This parameter is required for images
-  that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+- `"imageTag"`: The tag to associate with the image. This parameter is optional.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository in which to put the image. If you do not specify a registry, the
   default registry is assumed.
@@ -1586,6 +2142,8 @@ in the *Amazon Elastic Container Registry User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"imageTagMutabilityExclusionFilters"`: A list of filters that specify which image tags
+  should be excluded from the image tag mutability setting being applied.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository in which to update the image tag mutability settings. If you do
   not specify a registry, the default registry is assumed.
@@ -1781,7 +2339,8 @@ Creates or updates the replication configuration for a registry. The existing re
 configuration for a repository can be retrieved with the [`describe_registry`](@ref) API
 action. The first time the PutReplicationConfiguration API is called, a service-linked IAM
 role is created in your account for the replication process. For more information, see [Using service-linked roles for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html)
-in the *Amazon Elastic Container Registry User Guide*.
+in the *Amazon Elastic Container Registry User Guide*. For more information on the custom
+role for replication, see [Creating an IAM role for replication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/replication-creation-templates.html#roles-creatingrole-user-console).
 
 !!! note
     When configuring cross-account replication, the destination account must grant the
@@ -1819,6 +2378,97 @@ function put_replication_configuration(
                 Dict{String,Any}("replicationConfiguration" => replicationConfiguration),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_signing_configuration(signing_configuration)
+    put_signing_configuration(signing_configuration, params::Dict{String,<:Any})
+
+Creates or updates the registry's signing configuration, which defines rules for
+automatically signing images with Amazon Web Services Signer.
+
+For more information, see [Managed signing](https://docs.aws.amazon.com/AmazonECR/latest/userguide/managed-signing.html)
+in the *Amazon Elastic Container Registry User Guide*.
+
+!!! note
+    To successfully generate a signature, the IAM principal pushing images must have
+    permission to sign payloads with the Amazon Web Services Signer signing profile
+    referenced in the signing configuration.
+
+# Arguments
+
+- `signing_configuration`: The signing configuration to assign to the registry.
+"""
+function put_signing_configuration end
+
+function put_signing_configuration(
+    signingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "PutSigningConfiguration",
+        Dict{String,Any}("signingConfiguration" => signingConfiguration);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_signing_configuration(
+    signingConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "PutSigningConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("signingConfiguration" => signingConfiguration),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_pull_time_update_exclusion(principal_arn)
+    register_pull_time_update_exclusion(principal_arn, params::Dict{String,<:Any})
+
+Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will
+not record the pull time if an excluded principal pulls an image.
+
+# Arguments
+
+- `principal_arn`: The ARN of the IAM principal to exclude from having image pull times
+  recorded.
+"""
+function register_pull_time_update_exclusion end
+
+function register_pull_time_update_exclusion(
+    principalArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "RegisterPullTimeUpdateExclusion",
+        Dict{String,Any}("principalArn" => principalArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_pull_time_update_exclusion(
+    principalArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "RegisterPullTimeUpdateExclusion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("principalArn" => principalArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1890,9 +2540,12 @@ end
     start_image_scan(image_id, repository_name)
     start_image_scan(image_id, repository_name, params::Dict{String,<:Any})
 
-Starts an image vulnerability scan. An image scan can only be started once per 24 hours on
-an individual image. This limit includes if an image was scanned on initial push. For more
-information, see [Image scanning](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html)
+Starts a basic image vulnerability scan.
+
+A basic image scan can only be started once per 24 hours on an individual image. This limit
+includes if an image was scanned on initial push. You can start up to 100,000 basic scans
+per 24 hours. This limit includes both scans on initial push and scans initiated by the
+StartImageScan API. For more information, see [Basic scanning](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning-basic.html)
 in the *Amazon Elastic Container Registry User Guide*.
 
 # Arguments
@@ -2082,15 +2735,80 @@ function untag_resource(
 end
 
 """
-    update_pull_through_cache_rule(credential_arn, ecr_repository_prefix)
-    update_pull_through_cache_rule(credential_arn, ecr_repository_prefix, params::Dict{String,<:Any})
+    update_image_storage_class(image_id, repository_name, target_storage_class)
+    update_image_storage_class(image_id, repository_name, target_storage_class, params::Dict{String,<:Any})
+
+Transitions an image between storage classes. You can transition images from Amazon ECR
+standard storage class to Amazon ECR archival storage class for long-term storage, or
+restore archived images back to Amazon ECR standard.
+
+# Arguments
+
+- `image_id`:
+- `repository_name`: The name of the repository that contains the image to transition.
+- `target_storage_class`: The target storage class for the image.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"registryId"`: The Amazon Web Services account ID associated with the registry that
+  contains the image to transition. If you do not specify a registry, the default registry
+  is assumed.
+"""
+function update_image_storage_class end
+
+function update_image_storage_class(
+    imageId,
+    repositoryName,
+    targetStorageClass;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "UpdateImageStorageClass",
+        Dict{String,Any}(
+            "imageId" => imageId,
+            "repositoryName" => repositoryName,
+            "targetStorageClass" => targetStorageClass,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_image_storage_class(
+    imageId,
+    repositoryName,
+    targetStorageClass,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ecr(
+        "UpdateImageStorageClass",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "imageId" => imageId,
+                    "repositoryName" => repositoryName,
+                    "targetStorageClass" => targetStorageClass,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_pull_through_cache_rule(ecr_repository_prefix)
+    update_pull_through_cache_rule(ecr_repository_prefix, params::Dict{String,<:Any})
 
 Updates an existing pull through cache rule.
 
 # Arguments
 
-- `credential_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
-  Manager secret that identifies the credentials to authenticate to the upstream registry.
 - `ecr_repository_prefix`: The repository name prefix to use when caching images from the
   source registry.
 
@@ -2098,6 +2816,11 @@ Updates an existing pull through cache rule.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"credentialArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
+  Manager secret that identifies the credentials to authenticate to the upstream registry.
+- `"customRoleArn"`: Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR
+  to authenticate to the ECR upstream registry. This role must be in the same account as the
+  registry that you are configuring.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry associated
   with the pull through cache rule. If you do not specify a registry, the default registry
   is assumed.
@@ -2105,20 +2828,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_pull_through_cache_rule end
 
 function update_pull_through_cache_rule(
-    credentialArn, ecrRepositoryPrefix; aws_config::AbstractAWSConfig=current_aws_config()
+    ecrRepositoryPrefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ecr(
         "UpdatePullThroughCacheRule",
-        Dict{String,Any}(
-            "credentialArn" => credentialArn, "ecrRepositoryPrefix" => ecrRepositoryPrefix
-        );
+        Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_pull_through_cache_rule(
-    credentialArn,
     ecrRepositoryPrefix,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2128,13 +2848,80 @@ function update_pull_through_cache_rule(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "credentialArn" => credentialArn,
-                    "ecrRepositoryPrefix" => ecrRepositoryPrefix,
-                ),
+                Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix),
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_repository_creation_template(prefix)
+    update_repository_creation_template(prefix, params::Dict{String,<:Any})
+
+Updates an existing repository creation template.
+
+# Arguments
+
+- `prefix`: The repository namespace prefix that matches an existing repository creation
+  template in the registry. All repositories created using this namespace prefix will have
+  the settings defined in this template applied. For example, a prefix of `prod` would apply
+  to all repositories beginning with `prod/`. This includes a repository named `prod/team1`
+  as well as a repository named `prod/repository1`.
+
+  To apply a template to all repositories in your registry that don't have an associated
+  creation template, you can use `ROOT` as the prefix.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"appliedFor"`: Updates the list of enumerable strings representing the Amazon ECR
+  repository creation scenarios that this template will apply towards. The supported
+  scenarios are `PULL_THROUGH_CACHE`, `REPLICATION`, and `CREATE_ON_PUSH`
+- `"customRoleArn"`: The ARN of the role to be assumed by Amazon ECR. This role must be in
+  the same account as the registry that you are configuring. Amazon ECR will assume your
+  supplied role when the customRoleArn is specified. When this field isn't specified, Amazon
+  ECR will use the service-linked role for the repository creation template.
+- `"description"`: A description for the repository creation template.
+- `"encryptionConfiguration"`:
+- `"imageTagMutability"`: Updates the tag mutability setting for the repository. If this
+  parameter is omitted, the default setting of `MUTABLE` will be used which will allow image
+  tags to be overwritten. If `IMMUTABLE` is specified, all image tags within the repository
+  will be immutable which will prevent them from being overwritten.
+- `"imageTagMutabilityExclusionFilters"`: A list of filters that specify which image tags
+  should be excluded from the repository creation template's image tag mutability setting.
+- `"lifecyclePolicy"`: Updates the lifecycle policy associated with the specified repository
+  creation template.
+- `"repositoryPolicy"`: Updates the repository policy created using the template. A
+  repository policy is a permissions policy associated with a repository to control access
+  permissions.
+- `"resourceTags"`: The metadata to apply to the repository to help you categorize and
+  organize. Each tag consists of a key and an optional value, both of which you define. Tag
+  keys can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
+"""
+function update_repository_creation_template end
+
+function update_repository_creation_template(
+    prefix; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "UpdateRepositoryCreationTemplate",
+        Dict{String,Any}("prefix" => prefix);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_repository_creation_template(
+    prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ecr(
+        "UpdateRepositoryCreationTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("prefix" => prefix), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -5,6 +5,49 @@ using AWS.AWSServices: resource_groups
 using AWS.UUIDs: uuid4
 
 """
+    cancel_tag_sync_task(task_arn)
+    cancel_tag_sync_task(task_arn, params::Dict{String,<:Any})
+
+Cancels the specified tag-sync task.
+
+**Minimum permissions**
+
+To run this command, you must have the following permissions:
+
+- `resource-groups:CancelTagSyncTask` on the application group
+- `resource-groups:DeleteGroup`
+
+# Arguments
+
+- `task_arn`: The Amazon resource name (ARN) of the tag-sync task.
+"""
+function cancel_tag_sync_task end
+
+function cancel_tag_sync_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST",
+        "/cancel-tag-sync-task",
+        Dict{String,Any}("TaskArn" => TaskArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_tag_sync_task(
+    TaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_groups(
+        "POST",
+        "/cancel-tag-sync-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_group(name)
     create_group(name, params::Dict{String,<:Any})
 
@@ -42,8 +85,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
       both.
 
+- `"Criticality"`: The critical rank of the application group on a scale of 1 to 10, with a
+  rank of 1 being the most critical, and a rank of 10 being least critical.
+
 - `"Description"`: The description of the resource group. Descriptions can consist of
   letters, numbers, hyphens, underscores, periods, and spaces.
+
+- `"DisplayName"`: The name of the application group, which you can change at any time.
+
+- `"Owner"`: A name, email address or other identifier for the person or group who is
+  considered as the owner of this application group within your organization.
 
 - `"ResourceQuery"`: The resource query that determines which Amazon Web Services resources
   are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
@@ -95,7 +146,7 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Group"`: The name or the ARN of the resource group to delete.
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group to delete.
 - `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
 function delete_group end
@@ -152,7 +203,7 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Group"`: The name or the ARN of the resource group to retrieve.
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group to retrieve.
 - `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
 function get_group end
@@ -188,8 +239,8 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Group"`: The name or the ARN of the resource group for which you want to retrive the
-  service configuration.
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group for which you
+  want to retrive the service configuration.
 """
 function get_group_configuration end
 
@@ -228,7 +279,7 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Group"`: The name or the ARN of the resource group to query.
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group to query.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
 function get_group_query end
@@ -248,10 +299,53 @@ function get_group_query(
 end
 
 """
+    get_tag_sync_task(task_arn)
+    get_tag_sync_task(task_arn, params::Dict{String,<:Any})
+
+Returns information about a specified tag-sync task.
+
+**Minimum permissions**
+
+To run this command, you must have the following permissions:
+
+- `resource-groups:GetTagSyncTask` on the application group
+
+# Arguments
+
+- `task_arn`: The Amazon resource name (ARN) of the tag-sync task.
+"""
+function get_tag_sync_task end
+
+function get_tag_sync_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST",
+        "/get-tag-sync-task",
+        Dict{String,Any}("TaskArn" => TaskArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_tag_sync_task(
+    TaskArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_groups(
+        "POST",
+        "/get-tag-sync-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_tags(arn)
     get_tags(arn, params::Dict{String,<:Any})
 
-Returns a list of tags that are associated with a resource group, specified by an ARN.
+Returns a list of tags that are associated with a resource group, specified by an Amazon
+resource name (ARN).
 
 **Minimum permissions**
 
@@ -261,7 +355,8 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `arn`: The ARN of the resource group whose tags you want to retrieve.
+- `arn`: The Amazon resource name (ARN) of the resource group whose tags you want to
+  retrieve.
 """
 function get_tags end
 
@@ -286,13 +381,13 @@ end
 Adds the specified resources to the specified group.
 
 !!! important
-    You can use this operation with only resource groups that are configured with the
-    following types:
+    You can only use this operation with the following groups:
 
     - `AWS::EC2::HostManagement`
     - `AWS::EC2::CapacityReservationPool`
+    - `AWS::ResourceGroups::ApplicationGroup`
 
-    Other resource group type and resource types aren't currently supported by this
+    Other resource group types and resource types are not currently supported by this
     operation.
 
 **Minimum permissions**
@@ -303,8 +398,10 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `group`: The name or the ARN of the resource group to add resources to.
-- `resource_arns`: The list of ARNs of the resources to be added to the group.
+- `group`: The name or the Amazon resource name (ARN) of the resource group to add resources
+  to.
+- `resource_arns`: The list of Amazon resource names (ARNs) of the resources to be added to
+  the group.
 """
 function group_resources end
 
@@ -345,7 +442,8 @@ end
     list_group_resources()
     list_group_resources(params::Dict{String,<:Any})
 
-Returns a list of ARNs of the resources that are members of a specified resource group.
+Returns a list of Amazon resource names (ARNs) of the resources that are members of a
+specified resource group.
 
 **Minimum permissions**
 
@@ -384,7 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain any of the allowed resource types for the query type (tag-based or Amazon
   CloudFront stack-based queries).
 
-- `"Group"`: The name or the ARN of the resource group
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group.
 
 - `"GroupName"`: !!! important
       ***Deprecated - don't use this parameter. Use the `Group` request field instead.***
@@ -420,6 +518,55 @@ function list_group_resources(
 end
 
 """
+    list_grouping_statuses(group)
+    list_grouping_statuses(group, params::Dict{String,<:Any})
+
+Returns the status of the last grouping or ungrouping action for each resource in the
+specified application group.
+
+# Arguments
+
+- `group`: The application group identifier, expressed as an Amazon resource name (ARN) or
+  the application group name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filter name and value pair that is used to return more specific results
+  from a list of resources.
+- `"MaxResults"`: The maximum number of resources and their statuses returned in the
+  response.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value provided by a previous call's `NextToken`
+  response to indicate where the output should continue from.
+"""
+function list_grouping_statuses end
+
+function list_grouping_statuses(Group; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST",
+        "/list-grouping-statuses",
+        Dict{String,Any}("Group" => Group);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_grouping_statuses(
+    Group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
+        "POST",
+        "/list-grouping-statuses",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Group" => Group), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_groups()
     list_groups(params::Dict{String,<:Any})
 
@@ -444,8 +591,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     `AWS::EC2::Instance`.
   - `configuration-type` - Filter the results to include only those groups that have the
     specified configuration types attached. The current supported values are:
+    - `AWS::ResourceGroups::ApplicationGroup`
     - `AWS::AppRegistry::Application`
-    - `AWS::AppRegistry::ApplicationResourceGroups`
+    - `AWS::AppRegistry::ApplicationResourceGroup`
     - `AWS::CloudFormation::Stack`
     - `AWS::EC2::CapacityReservationPool`
     - `AWS::EC2::HostManagement`
@@ -482,6 +630,47 @@ function list_groups(
 end
 
 """
+    list_tag_sync_tasks()
+    list_tag_sync_tasks(params::Dict{String,<:Any})
+
+Returns a list of tag-sync tasks.
+
+**Minimum permissions**
+
+To run this command, you must have the following permissions:
+
+- `resource-groups:ListTagSyncTasks` with the group passed in the filters as the resource or
+  * if using no filters
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The Amazon resource name (ARN) or name of the application group for which you
+  want to return a list of tag-sync tasks.
+- `"MaxResults"`: The maximum number of results to be included in the response.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value provided by a previous call's `NextToken`
+  response to indicate where the output should continue from.
+"""
+function list_tag_sync_tasks end
+
+function list_tag_sync_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/list-tag-sync-tasks"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tag_sync_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
+        "POST", "/list-tag-sync-tasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     put_group_configuration()
     put_group_configuration(params::Dict{String,<:Any})
 
@@ -510,8 +699,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
       both.
 
-- `"Group"`: The name or ARN of the resource group with the configuration that you want to
-  update.
+- `"Group"`: The name or Amazon resource name (ARN) of the resource group with the
+  configuration that you want to update.
 """
 function put_group_configuration end
 
@@ -602,11 +791,118 @@ function search_resources(
 end
 
 """
+    start_tag_sync_task(group, role_arn)
+    start_tag_sync_task(group, role_arn, params::Dict{String,<:Any})
+
+Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-
+value pair to an application. To start a tag-sync task, you need a [resource tagging role](https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#tag-sync-role).
+The resource tagging role grants permissions to tag and untag applications resources and
+must include a trust policy that allows Resource Groups to assume the role and perform
+resource tagging tasks on your behalf.
+
+For instructions on creating a tag-sync task, see [Create a tag-sync using the Resource Groups API](https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#create-tag-sync)
+in the *Amazon Web Services Service Catalog AppRegistry Administrator Guide*.
+
+**Minimum permissions**
+
+To run this command, you must have the following permissions:
+
+- `resource-groups:StartTagSyncTask` on the application group
+- `resource-groups:CreateGroup`
+- `iam:PassRole` on the role provided in the request
+
+# Arguments
+
+- `group`: The Amazon resource name (ARN) or name of the application group for which you
+  want to create a tag-sync task.
+- `role_arn`: The Amazon resource name (ARN) of the role assumed by the service to tag and
+  untag resources on your behalf.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ResourceQuery"`: The query you can use to create the tag-sync task. With this method,
+  all resources matching the query are added to the specified application group. A
+  `ResourceQuery` specifies both a query `Type` and a `Query` string as JSON string objects.
+  For more information on defining a resource query for a tag-sync task, see the tag-based
+  query type in [Types of resource group queries](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#getting_started-query_types)
+  in *Resource Groups User Guide*.
+
+  When using the `ResourceQuery` parameter, you cannot use the `TagKey` and `TagValue`
+  parameters.
+
+  When you combine all of the elements together into a single string, any double quotes that
+  are embedded inside another double quote pair must be escaped by preceding the embedded
+  double quote with a backslash character (\\). For example, a complete `ResourceQuery`
+  parameter must be formatted like the following CLI parameter example:
+
+  `--resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\\"ResourceTypeFilters\\":[\\"AWS::AllSupported\\"],\\"TagFilters\\":[{\\"Key\\":\\"Stage\\",\\"Values\\":[\\"Test\\"]}]}"}'`
+
+  In the preceding example, all of the double quote characters in the value part of the
+  `Query` element must be escaped because the value itself is surrounded by double quotes.
+  For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html)
+  in the *Command Line Interface User Guide*.
+
+  For the complete list of resource types that you can use in the array value for
+  `ResourceTypeFilters`, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html)
+  in the *Resource Groups User Guide*. For example:
+
+  `"ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]`
+
+- `"TagKey"`: The tag key. Resources tagged with this tag key-value pair will be added to
+  the application. If a resource with this tag is later untagged, the tag-sync task removes
+  the resource from the application.
+
+  When using the `TagKey` parameter, you must also specify the `TagValue` parameter. If you
+  specify a tag key-value pair, you can't use the `ResourceQuery` parameter.
+
+- `"TagValue"`: The tag value. Resources tagged with this tag key-value pair will be added
+  to the application. If a resource with this tag is later untagged, the tag-sync task
+  removes the resource from the application.
+
+  When using the `TagValue` parameter, you must also specify the `TagKey` parameter. If you
+  specify a tag key-value pair, you can't use the `ResourceQuery` parameter.
+"""
+function start_tag_sync_task end
+
+function start_tag_sync_task(
+    Group, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
+        "POST",
+        "/start-tag-sync-task",
+        Dict{String,Any}("Group" => Group, "RoleArn" => RoleArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_tag_sync_task(
+    Group,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resource_groups(
+        "POST",
+        "/start-tag-sync-task",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Group" => Group, "RoleArn" => RoleArn), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag(arn, tags)
     tag(arn, tags, params::Dict{String,<:Any})
 
-Adds tags to a resource group with the specified ARN. Existing tags on a resource group are
-not changed if they are not specified in the request parameters.
+Adds tags to a resource group with the specified Amazon resource name (ARN). Existing tags
+on a resource group are not changed if they are not specified in the request parameters.
 
 !!! important
     Do not store personally identifiable information (PII) or other confidential or
@@ -621,7 +917,7 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `arn`: The ARN of the resource group to which to add tags.
+- `arn`: The Amazon resource name (ARN) of the resource group to which to add tags.
 - `tags`: The tags to add to the specified resource group. A tag is a string-to-string map
   of key-value pairs.
 """
@@ -669,8 +965,10 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `group`: The name or the ARN of the resource group from which to remove the resources.
-- `resource_arns`: The ARNs of the resources to be removed from the group.
+- `group`: The name or the Amazon resource name (ARN) of the resource group from which to
+  remove the resources.
+- `resource_arns`: The Amazon resource names (ARNs) of the resources to be removed from the
+  group.
 """
 function ungroup_resources end
 
@@ -721,8 +1019,8 @@ To run this command, you must have the following permissions:
 
 # Arguments
 
-- `arn`: The ARN of the resource group from which to remove tags. The command removed both
-  the specified keys and any values associated with those keys.
+- `arn`: The Amazon resource name (ARN) of the resource group from which to remove tags. The
+  command removed both the specified keys and any values associated with those keys.
 - `keys`: The keys of the tags to be removed.
 """
 function untag end
@@ -768,6 +1066,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"GroupLifecycleEventsDesiredStatus"`: Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html)
   on or off.
+
+  You can't turn on group lifecycle events if your resource groups quota is greater than
+  2,000.
 """
 function update_account_settings end
 
@@ -806,10 +1107,15 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"Criticality"`: The critical rank of the application group on a scale of 1 to 10, with a
+  rank of 1 being the most critical, and a rank of 10 being least critical.
 - `"Description"`: The new description that you want to update the resource group with.
   Descriptions can contain letters, numbers, hyphens, underscores, periods, and spaces.
-- `"Group"`: The name or the ARN of the resource group to modify.
+- `"DisplayName"`: The name of the application group, which you can change at any time.
+- `"Group"`: The name or the ARN of the resource group to update.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
+- `"Owner"`: A name, email address or other identifier for the person or group who is
+  considered as the owner of this application group within your organization.
 """
 function update_group end
 
@@ -852,7 +1158,7 @@ To run this command, you must have the following permissions:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Group"`: The name or the ARN of the resource group to query.
+- `"Group"`: The name or the Amazon resource name (ARN) of the resource group to query.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
 function update_group_query end

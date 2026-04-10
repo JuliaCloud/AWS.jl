@@ -89,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpsItemSNSTopicArn"`: The SNS topic provided to Application Insights that is associated
   to the created opsItem. Allows you to receive notifications for updates to the opsItem.
 - `"ResourceGroupName"`: The name of the resource group.
+- `"SNSNotificationArn"`: The SNS notification topic ARN.
 - `"Tags"`: List of tags to add to the application. tag key (`Key`) and an associated tag
   value (`Value`). The maximum length of a tag key is 128 characters. The maximum length of
   a tag value is 256 characters.
@@ -188,7 +189,7 @@ Adds an log pattern to a `LogPatternSet`.
   patterns from the console, a `Low` severity pattern translates to a `750,000` rank. A
   `Medium` severity pattern translates to a `500,000` rank. And a `High` severity pattern
   translates to a `250,000` rank. Rank values less than `1` or greater than `1,000,000` are
-  reserved for AWS-provided patterns.
+  reserved for Amazon Web Services provided patterns.
 
 - `resource_group_name`: The name of the resource group.
 """
@@ -407,7 +408,7 @@ Describes the application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_application end
 
@@ -454,7 +455,7 @@ Describes a component and lists the resources that are grouped together in a com
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_component end
 
@@ -509,7 +510,7 @@ Describes the monitoring configuration of the component.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_component_configuration end
 
@@ -566,7 +567,8 @@ Describes the recommended monitoring configuration of the component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RecommendationType"`: The recommended configuration type.
-- `"WorkloadName"`: The name of the workload.
+- `"WorkloadName"`: The name of the workload. The name of the workload is required when the
+  tier of the application component is `SAP_ASE_SINGLE_NODE` or `SAP_ASE_HIGH_AVAILABILITY`.
 """
 function describe_component_configuration_recommendation end
 
@@ -629,7 +631,7 @@ Describe a specific log pattern from a `LogPatternSet`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_log_pattern end
 
@@ -690,7 +692,7 @@ Describes an anomaly or error with the application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_observation end
 
@@ -734,8 +736,8 @@ Describes an application problem.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the owner of the resource group affected by the
-  problem.
+- `"AccountId"`: The Amazon Web Services account ID for the owner of the resource group
+  affected by the problem.
 """
 function describe_problem end
 
@@ -777,7 +779,7 @@ Describes the anomalies or errors associated with the problem.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 """
 function describe_problem_observations end
 
@@ -823,7 +825,7 @@ Describes a workload and its configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the workload owner.
+- `"AccountId"`: The Amazon Web Services account ID for the workload owner.
 """
 function describe_workload end
 
@@ -880,7 +882,7 @@ Lists the IDs of the applications that you are monitoring.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -915,7 +917,7 @@ Lists the auto-grouped, standalone, and custom components of the application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -965,7 +967,7 @@ Application Insights. Examples of events represented are:
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 
 - `"EndTime"`: The end time of the event.
 
@@ -1019,7 +1021,7 @@ Lists the log pattern sets in the specific application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -1068,7 +1070,7 @@ Lists the log patterns in the specific log `LogPatternSet`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -1114,7 +1116,7 @@ Lists the problems with your application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID for the resource group owner.
+- `"AccountId"`: The Amazon Web Services account ID for the resource group owner.
 - `"ComponentName"`: The name of the component.
 - `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified, problems
   within the past seven days are returned.
@@ -1199,7 +1201,7 @@ Lists the workloads that are configured on a given component.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: The AWS account ID of the owner of the workload.
+- `"AccountId"`: The Amazon Web Services account ID of the owner of the workload.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
@@ -1427,6 +1429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the created opsItem. Allows you to receive notifications for updates to the opsItem.
 - `"RemoveSNSTopic"`: Disassociates the SNS topic from the opsItem created for detected
   problems.
+- `"SNSNotificationArn"`: The SNS topic ARN. Allows you to receive SNS notifications for
+  updates and issues with an application.
 """
 function update_application end
 
@@ -1608,7 +1612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   log patterns from the console, a `Low` severity pattern translates to a `750,000` rank. A
   `Medium` severity pattern translates to a `500,000` rank. And a `High` severity pattern
   translates to a `250,000` rank. Rank values less than `1` or greater than `1,000,000` are
-  reserved for AWS-provided patterns.
+  reserved for Amazon Web Services provided patterns.
 """
 function update_log_pattern end
 

@@ -12,7 +12,7 @@ For general-purpose connectors. Creates a *challenge password* for the specified
 The SCEP protocol uses a challenge password to authenticate a request before issuing a
 certificate from a certificate authority (CA). Your SCEP clients include the challenge
 password as part of their certificate request to Connector for SCEP. To retrieve the
-connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_ListConnectors.html).
+connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_ListConnectors.html).
 
 To create additional challenge passwords for the connector, call `CreateChallenge` again. We
 recommend frequently rotating your challenge passwords.
@@ -26,7 +26,7 @@ recommend frequently rotating your challenge passwords.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
+- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if you
   call `CreateChallenge` multiple times with the same client token within five minutes,
   Connector for SCEP recognizes that you are requesting only one challenge and will only
@@ -92,7 +92,7 @@ private certificate authority (CA) to use with this connector. For more informat
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
+- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if you
   call `CreateChallenge` multiple times with the same client token within five minutes,
   Connector for SCEP recognizes that you are requesting only one challenge and will only
@@ -111,6 +111,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
 
 - `"Tags"`: The key-value pairs to associate with the resource.
+
+- `"VpcEndpointId"`: If you don't supply a value, by default Connector for SCEP creates a
+  connector accessible over the public internet. If you provide a VPC endpoint ID, creates a
+  connector accessible only through that specific VPC endpoint.
 """
 function create_connector end
 
@@ -156,7 +160,7 @@ end
     delete_challenge(challenge_arn)
     delete_challenge(challenge_arn, params::Dict{String,<:Any})
 
-Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+Deletes the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
 
@@ -188,7 +192,7 @@ end
     delete_connector(connector_arn)
     delete_connector(connector_arn, params::Dict{String,<:Any})
 
-Deletes the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html).
+Deletes the specified [Connector](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Connector.html).
 This operation also deletes any challenges associated with the connector.
 
 # Arguments
@@ -221,7 +225,7 @@ end
     get_challenge_metadata(challenge_arn)
     get_challenge_metadata(challenge_arn, params::Dict{String,<:Any})
 
-Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
 
@@ -258,7 +262,7 @@ end
     get_challenge_password(challenge_arn)
     get_challenge_password(challenge_arn, params::Dict{String,<:Any})
 
-Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
 
@@ -295,7 +299,7 @@ end
     get_connector(connector_arn)
     get_connector(connector_arn, params::Dict{String,<:Any})
 
-Retrieves details about the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html).
+Retrieves details about the specified [Connector](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Connector.html).
 Calling this action returns important details about the connector, such as the public SCEP
 URL where your clients can request certificates.
 

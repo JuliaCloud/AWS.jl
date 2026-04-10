@@ -292,6 +292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-
   auth.html" target="_blank">Amazon Cognito Authentication for Kibana</a>.
 
+- `"DeploymentStrategyOptions"`: Specifies the deployment strategy options.
+
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.
 
@@ -766,9 +768,9 @@ action type, description, severity, and scheduled date.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
+- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
   defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
+- `"nextToken"`: NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
 function describe_domain_auto_tunes end
@@ -2091,6 +2093,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication. For more information, see <a
   href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-
   auth.html" target="_blank">Amazon Cognito Authentication for Kibana</a>.
+
+- `"DeploymentStrategyOptions"`: Specifies the deployment strategy options.
 
 - `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
   domain endpoint.

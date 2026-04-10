@@ -43,6 +43,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisableSchemaValidation"`: Avoid validating models when creating a deployment. Supported
   only for WebSocket APIs.
 
+- `"IpAddressType"`: The IP address types that can invoke the API.
+
 - `"RouteKey"`: This property is part of quick create. If you don't specify a routeKey, a
   default route of \$default is created. The \$default route acts as a catch-all for any
   request made to your API, for a particular stage. The \$default route key can't be
@@ -321,6 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainNameConfigurations"`: The domain name configurations.
 - `"MutualTlsAuthentication"`: The mutual TLS authentication configuration for a custom
   domain name.
+- `"RoutingMode"`: The routing mode.
 - `"Tags"`: The collection of tags associated with a domain name.
 """
 function create_domain_name end
@@ -444,7 +447,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be rejected with the same HTTP 415 Unsupported Media Type response.
 
 - `"PayloadFormatVersion"`: Specifies the format of the payload sent to an integration.
-  Required for HTTP APIs.
+  Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0.
+  For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
 
 - `"RequestParameters"`: For WebSocket APIs, a key-value map specifying request parameters
   that are passed from the method request to the backend. The key is an integration request
@@ -662,6 +666,219 @@ function create_model(
 end
 
 """
+    create_portal(authorization, endpoint_configuration, portal_content)
+    create_portal(authorization, endpoint_configuration, portal_content, params::Dict{String,<:Any})
+
+Creates a portal.
+
+# Arguments
+
+- `authorization`: The authentication configuration for the portal.
+- `endpoint_configuration`: The domain configuration for the portal. Use a default domain
+  provided by API Gateway or provide a fully-qualified domain name that you own.
+- `portal_content`: The content of the portal.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludedPortalProductArns"`: The ARNs of the portal products included in the portal.
+- `"LogoUri"`: The URI for the portal logo image that is displayed in the portal header.
+- `"RumAppMonitorName"`: The name of the Amazon CloudWatch RUM app monitor for the portal.
+- `"Tags"`: The collection of tags. Each tag element is associated with a given resource.
+"""
+function create_portal end
+
+function create_portal(
+    Authorization,
+    EndpointConfiguration,
+    PortalContent;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portals",
+        Dict{String,Any}(
+            "Authorization" => Authorization,
+            "EndpointConfiguration" => EndpointConfiguration,
+            "PortalContent" => PortalContent,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_portal(
+    Authorization,
+    EndpointConfiguration,
+    PortalContent,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portals",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Authorization" => Authorization,
+                    "EndpointConfiguration" => EndpointConfiguration,
+                    "PortalContent" => PortalContent,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_portal_product(display_name)
+    create_portal_product(display_name, params::Dict{String,<:Any})
+
+Creates a new portal product.
+
+# Arguments
+
+- `display_name`: The name of the portal product as it appears in a published portal.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the portal product.
+- `"Tags"`: The collection of tags. Each tag element is associated with a given resource.
+"""
+function create_portal_product end
+
+function create_portal_product(
+    DisplayName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts",
+        Dict{String,Any}("DisplayName" => DisplayName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_portal_product(
+    DisplayName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DisplayName" => DisplayName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_product_page(display_content, portal_product_id)
+    create_product_page(display_content, portal_product_id, params::Dict{String,<:Any})
+
+Creates a new product page for a portal product.
+
+# Arguments
+
+- `display_content`: The content of the product page.
+- `portal_product_id`: The portal product identifier.
+"""
+function create_product_page end
+
+function create_product_page(
+    DisplayContent, PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts/$(PortalProductId)/productpages",
+        Dict{String,Any}("DisplayContent" => DisplayContent);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_product_page(
+    DisplayContent,
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts/$(PortalProductId)/productpages",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DisplayContent" => DisplayContent), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_product_rest_endpoint_page(portal_product_id, rest_endpoint_identifier)
+    create_product_rest_endpoint_page(portal_product_id, rest_endpoint_identifier, params::Dict{String,<:Any})
+
+Creates a product REST endpoint page for a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `rest_endpoint_identifier`: The REST endpoint identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DisplayContent"`: The content of the product REST endpoint page.
+- `"TryItState"`: The try it state of the product REST endpoint page.
+"""
+function create_product_rest_endpoint_page end
+
+function create_product_rest_endpoint_page(
+    PortalProductId,
+    RestEndpointIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages",
+        Dict{String,Any}("RestEndpointIdentifier" => RestEndpointIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_product_rest_endpoint_page(
+    PortalProductId,
+    RestEndpointIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RestEndpointIdentifier" => RestEndpointIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_route(api_id, route_key)
     create_route(api_id, route_key, params::Dict{String,<:Any})
 
@@ -783,6 +1000,73 @@ function create_route_response(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("RouteResponseKey" => RouteResponseKey), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_routing_rule(actions, conditions, domain_name, priority)
+    create_routing_rule(actions, conditions, domain_name, priority, params::Dict{String,<:Any})
+
+Creates a RoutingRule.
+
+# Arguments
+
+- `actions`: Represents a routing rule action. The only supported action is invokeApi.
+- `conditions`: Represents a condition. Conditions can contain up to two matchHeaders
+  conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and
+  base path conditions together. You can only use AND between header and base path
+  conditions.
+- `domain_name`: The domain name.
+- `priority`: Represents the priority of the routing rule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The domain name ID.
+"""
+function create_routing_rule end
+
+function create_routing_rule(
+    Actions,
+    Conditions,
+    DomainName,
+    Priority;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/domainnames/$(DomainName)/routingrules",
+        Dict{String,Any}(
+            "Actions" => Actions, "Conditions" => Conditions, "Priority" => Priority
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_routing_rule(
+    Actions,
+    Conditions,
+    DomainName,
+    Priority,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/domainnames/$(DomainName)/routingrules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions, "Conditions" => Conditions, "Priority" => Priority
+                ),
+                params,
             ),
         );
         aws_config,
@@ -1270,6 +1554,192 @@ function delete_model(
 end
 
 """
+    delete_portal(portal_id)
+    delete_portal(portal_id, params::Dict{String,<:Any})
+
+Deletes a portal.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+"""
+function delete_portal end
+
+function delete_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "DELETE", "/v2/portals/$(PortalId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portals/$(PortalId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_portal_product(portal_product_id)
+    delete_portal_product(portal_product_id, params::Dict{String,<:Any})
+
+Deletes a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+"""
+function delete_portal_product end
+
+function delete_portal_product(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_portal_product(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_portal_product_sharing_policy(portal_product_id)
+    delete_portal_product_sharing_policy(portal_product_id, params::Dict{String,<:Any})
+
+Deletes the sharing policy for a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+"""
+function delete_portal_product_sharing_policy end
+
+function delete_portal_product_sharing_policy(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_portal_product_sharing_policy(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_product_page(portal_product_id, product_page_id)
+    delete_product_page(portal_product_id, product_page_id, params::Dict{String,<:Any})
+
+Deletes a product page of a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_page_id`: The portal product identifier.
+"""
+function delete_product_page end
+
+function delete_product_page(
+    PortalProductId, ProductPageId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_product_page(
+    PortalProductId,
+    ProductPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id)
+    delete_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id, params::Dict{String,<:Any})
+
+Deletes a product REST endpoint page.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_rest_endpoint_page_id`: The product REST endpoint identifier.
+"""
+function delete_product_rest_endpoint_page end
+
+function delete_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_route(api_id, route_id)
     delete_route(api_id, route_id, params::Dict{String,<:Any})
 
@@ -1431,6 +1901,51 @@ function delete_route_settings(
 end
 
 """
+    delete_routing_rule(domain_name, routing_rule_id)
+    delete_routing_rule(domain_name, routing_rule_id, params::Dict{String,<:Any})
+
+Deletes a routing rule.
+
+# Arguments
+
+- `domain_name`: The domain name.
+- `routing_rule_id`: The routing rule ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The domain name ID.
+"""
+function delete_routing_rule end
+
+function delete_routing_rule(
+    DomainName, RoutingRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_routing_rule(
+    DomainName,
+    RoutingRuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_stage(api_id, stage_name)
     delete_stage(api_id, stage_name, params::Dict{String,<:Any})
 
@@ -1494,6 +2009,41 @@ function delete_vpc_link(
     return apigatewayv2(
         "DELETE",
         "/v2/vpclinks/$(VpcLinkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disable_portal(portal_id)
+    disable_portal(portal_id, params::Dict{String,<:Any})
+
+Deletes the publication of a portal portal.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+"""
+function disable_portal end
+
+function disable_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portals/$(PortalId)/publish";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disable_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "DELETE",
+        "/v2/portals/$(PortalId)/publish",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2191,6 +2741,211 @@ function get_models(
 end
 
 """
+    get_portal(portal_id)
+    get_portal(portal_id, params::Dict{String,<:Any})
+
+Gets a portal.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+"""
+function get_portal end
+
+function get_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/portals/$(PortalId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portals/$(PortalId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_portal_product(portal_product_id)
+    get_portal_product(portal_product_id, params::Dict{String,<:Any})
+
+Gets a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"resourceOwnerAccountId"`: The account ID of the resource owner of the portal product.
+"""
+function get_portal_product end
+
+function get_portal_product(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_portal_product(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_portal_product_sharing_policy(portal_product_id)
+    get_portal_product_sharing_policy(portal_product_id, params::Dict{String,<:Any})
+
+Gets the sharing policy for a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+"""
+function get_portal_product_sharing_policy end
+
+function get_portal_product_sharing_policy(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_portal_product_sharing_policy(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_product_page(portal_product_id, product_page_id)
+    get_product_page(portal_product_id, product_page_id, params::Dict{String,<:Any})
+
+Gets a product page of a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_page_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"resourceOwnerAccountId"`: The account ID of the resource owner of the portal product.
+"""
+function get_product_page end
+
+function get_product_page(
+    PortalProductId, ProductPageId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_product_page(
+    PortalProductId,
+    ProductPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id)
+    get_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id, params::Dict{String,<:Any})
+
+Gets a product REST endpoint page.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_rest_endpoint_page_id`: The product REST endpoint identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includeRawDisplayContent"`: The query parameter to include raw display content.
+- `"resourceOwnerAccountId"`: The account ID of the resource owner of the portal product.
+"""
+function get_product_rest_endpoint_page end
+
+function get_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_route(api_id, route_id)
     get_route(api_id, route_id, params::Dict{String,<:Any})
 
@@ -2347,6 +3102,51 @@ function get_routes(
     return apigatewayv2(
         "GET",
         "/v2/apis/$(ApiId)/routes",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_routing_rule(domain_name, routing_rule_id)
+    get_routing_rule(domain_name, routing_rule_id, params::Dict{String,<:Any})
+
+Gets a routing rule.
+
+# Arguments
+
+- `domain_name`: The domain name.
+- `routing_rule_id`: The routing rule ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The domain name ID.
+"""
+function get_routing_rule end
+
+function get_routing_rule(
+    DomainName, RoutingRuleId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_routing_rule(
+    DomainName,
+    RoutingRuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2566,6 +3366,387 @@ function import_api(
 end
 
 """
+    list_portal_products()
+    list_portal_products(params::Dict{String,<:Any})
+
+Lists portal products.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of elements to be returned for this resource.
+- `"nextToken"`: The next page of elements from this collection. Not valid for the last
+  element of the collection.
+- `"resourceOwner"`: The resource owner of the portal product.
+"""
+function list_portal_products end
+
+function list_portal_products(; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/portalproducts"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_portal_products(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET", "/v2/portalproducts", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_portals()
+    list_portals(params::Dict{String,<:Any})
+
+Lists portals.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of elements to be returned for this resource.
+- `"nextToken"`: The next page of elements from this collection. Not valid for the last
+  element of the collection.
+"""
+function list_portals end
+
+function list_portals(; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2("GET", "/v2/portals"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_portals(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET", "/v2/portals", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_product_pages(portal_product_id)
+    list_product_pages(portal_product_id, params::Dict{String,<:Any})
+
+Lists the product pages for a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of elements to be returned for this resource.
+- `"nextToken"`: The next page of elements from this collection. Not valid for the last
+  element of the collection.
+- `"resourceOwnerAccountId"`: The account ID of the resource owner of the portal product.
+"""
+function list_product_pages end
+
+function list_product_pages(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productpages";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_product_pages(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productpages",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_product_rest_endpoint_pages(portal_product_id)
+    list_product_rest_endpoint_pages(portal_product_id, params::Dict{String,<:Any})
+
+Lists the product REST endpoint pages of a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of elements to be returned for this resource.
+- `"nextToken"`: The next page of elements from this collection. Not valid for the last
+  element of the collection.
+- `"resourceOwnerAccountId"`: The account ID of the resource owner of the portal product.
+"""
+function list_product_rest_endpoint_pages end
+
+function list_product_rest_endpoint_pages(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_product_rest_endpoint_pages(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_routing_rules(domain_name)
+    list_routing_rules(domain_name, params::Dict{String,<:Any})
+
+Lists routing rules.
+
+# Arguments
+
+- `domain_name`: The domain name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The domain name ID.
+- `"maxResults"`: The maximum number of elements to be returned for this resource.
+- `"nextToken"`: The next page of elements from this collection. Not valid for the last
+  element of the collection.
+"""
+function list_routing_rules end
+
+function list_routing_rules(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/domainnames/$(DomainName)/routingrules";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_routing_rules(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "GET",
+        "/v2/domainnames/$(DomainName)/routingrules",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    preview_portal(portal_id)
+    preview_portal(portal_id, params::Dict{String,<:Any})
+
+Creates a portal preview.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+"""
+function preview_portal end
+
+function preview_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "POST",
+        "/v2/portals/$(PortalId)/preview";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function preview_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portals/$(PortalId)/preview",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    publish_portal(portal_id)
+    publish_portal(portal_id, params::Dict{String,<:Any})
+
+Publishes a portal.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the portal. When the portal is published, this
+  description becomes the last published description.
+"""
+function publish_portal end
+
+function publish_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "POST",
+        "/v2/portals/$(PortalId)/publish";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function publish_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "POST",
+        "/v2/portals/$(PortalId)/publish",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_portal_product_sharing_policy(policy_document, portal_product_id)
+    put_portal_product_sharing_policy(policy_document, portal_product_id, params::Dict{String,<:Any})
+
+Updates the sharing policy for a portal product.
+
+# Arguments
+
+- `policy_document`: The product sharing policy.
+- `portal_product_id`: The portal product identifier.
+"""
+function put_portal_product_sharing_policy end
+
+function put_portal_product_sharing_policy(
+    PolicyDocument, PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "PUT",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_portal_product_sharing_policy(
+    PolicyDocument,
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PUT",
+        "/v2/portalproducts/$(PortalProductId)/sharingpolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyDocument" => PolicyDocument), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_routing_rule(actions, conditions, domain_name, priority, routing_rule_id)
+    put_routing_rule(actions, conditions, domain_name, priority, routing_rule_id, params::Dict{String,<:Any})
+
+Updates a routing rule.
+
+# Arguments
+
+- `actions`: The routing rule action.
+- `conditions`: The routing rule condition.
+- `domain_name`: The domain name.
+- `priority`: The routing rule priority.
+- `routing_rule_id`: The routing rule ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The domain name ID.
+"""
+function put_routing_rule end
+
+function put_routing_rule(
+    Actions,
+    Conditions,
+    DomainName,
+    Priority,
+    RoutingRuleId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PUT",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)",
+        Dict{String,Any}(
+            "Actions" => Actions, "Conditions" => Conditions, "Priority" => Priority
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_routing_rule(
+    Actions,
+    Conditions,
+    DomainName,
+    Priority,
+    RoutingRuleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PUT",
+        "/v2/domainnames/$(DomainName)/routingrules/$(RoutingRuleId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions, "Conditions" => Conditions, "Priority" => Priority
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reimport_api(api_id, body)
     reimport_api(api_id, body, params::Dict{String,<:Any})
 
@@ -2768,6 +3949,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DisableSchemaValidation"`: Avoid validating models when creating a deployment. Supported
   only for WebSocket APIs.
+
+- `"IpAddressType"`: The IP address types that can invoke your API or domain name.
 
 - `"Name"`: The name of the API.
 
@@ -3016,6 +4199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainNameConfigurations"`: The domain name configurations.
 - `"MutualTlsAuthentication"`: The mutual TLS authentication configuration for a custom
   domain name.
+- `"RoutingMode"`: The routing mode.
 """
 function update_domain_name end
 
@@ -3136,7 +4320,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be rejected with the same HTTP 415 Unsupported Media Type response.
 
 - `"PayloadFormatVersion"`: Specifies the format of the payload sent to an integration.
-  Required for HTTP APIs.
+  Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0.
+  For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
 
 - `"RequestParameters"`: For WebSocket APIs, a key-value map specifying request parameters
   that are passed from the method request to the backend. The key is an integration request
@@ -3332,6 +4517,188 @@ function update_model(
     return apigatewayv2(
         "PATCH",
         "/v2/apis/$(ApiId)/models/$(ModelId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_portal(portal_id)
+    update_portal(portal_id, params::Dict{String,<:Any})
+
+Updates a portal.
+
+# Arguments
+
+- `portal_id`: The portal identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Authorization"`: The authorization of the portal.
+- `"EndpointConfiguration"`: Represents an endpoint configuration.
+- `"IncludedPortalProductArns"`: The ARNs of the portal products included in the portal.
+- `"LogoUri"`: The logo URI.
+- `"PortalContent"`: Contains the content that is visible to portal consumers including the
+  themes, display names, and description.
+- `"RumAppMonitorName"`: The CloudWatch RUM app monitor name.
+"""
+function update_portal end
+
+function update_portal(PortalId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "PATCH", "/v2/portals/$(PortalId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_portal(
+    PortalId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portals/$(PortalId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_portal_product(portal_product_id)
+    update_portal_product(portal_product_id, params::Dict{String,<:Any})
+
+Updates the portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description.
+- `"DisplayName"`: The displayName.
+- `"DisplayOrder"`: The display order.
+"""
+function update_portal_product end
+
+function update_portal_product(
+    PortalProductId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_portal_product(
+    PortalProductId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_product_page(portal_product_id, product_page_id)
+    update_product_page(portal_product_id, product_page_id, params::Dict{String,<:Any})
+
+Updates a product page of a portal product.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_page_id`: The portal product identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DisplayContent"`: The content of the product page.
+"""
+function update_product_page end
+
+function update_product_page(
+    PortalProductId, ProductPageId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_product_page(
+    PortalProductId,
+    ProductPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)/productpages/$(ProductPageId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id)
+    update_product_rest_endpoint_page(portal_product_id, product_rest_endpoint_page_id, params::Dict{String,<:Any})
+
+Updates a product REST endpoint page.
+
+# Arguments
+
+- `portal_product_id`: The portal product identifier.
+- `product_rest_endpoint_page_id`: The product REST endpoint identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DisplayContent"`: The display content.
+- `"TryItState"`: The try it state of a product REST endpoint page.
+"""
+function update_product_rest_endpoint_page end
+
+function update_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_product_rest_endpoint_page(
+    PortalProductId,
+    ProductRestEndpointPageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return apigatewayv2(
+        "PATCH",
+        "/v2/portalproducts/$(PortalProductId)/productrestendpointpages/$(ProductRestEndpointPageId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -163,6 +163,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after the domain name. This value must be unique for all of the mappings across a single
   API. Specify '(none)' if you do not want callers to specify a base path name after the
   domain name.
+- `"domainNameId"`: The identifier for the domain name resource. Required for private custom
+  domain names.
 - `"stage"`: The name of the API's stage that you want to use for this mapping. Specify
   '(none)' if you want callers to explicitly specify the stage name after any base path
   name.
@@ -371,26 +373,33 @@ Creates a new domain name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"certificateArn"`: The reference to an Amazon Web Services-managed certificate that will
-  be used by edge-optimized endpoint for this domain name. Certificate Manager is the only
-  supported source.
-- `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+  be used by edge-optimized endpoint or private endpoint for this domain name. Certificate
+  Manager is the only supported source.
+- `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint or private endpoint for this domain name provided by your certificate authority.
 - `"certificateChain"`: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
 - `"certificateName"`: The user-friendly name of the certificate that will be used by edge-
-  optimized endpoint for this domain name.
+  optimized endpoint or private endpoint for this domain name.
 - `"certificatePrivateKey"`: [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
+- `"endpointAccessMode"`: The endpoint access mode of the DomainName. Only available for
+  DomainNames that use security policies that start with `SecurityPolicy_`.
 - `"endpointConfiguration"`: The endpoint configuration of this DomainName showing the
-  endpoint types of the domain name.
+  endpoint types and IP address types of the domain name.
 - `"mutualTlsAuthentication"`:
 - `"ownershipVerificationCertificateArn"`: The ARN of the public certificate issued by ACM
   to validate ownership of your custom domain. Only required when configuring mutual TLS and
   using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
+- `"policy"`: A stringified JSON policy document that applies to the `execute-api` service
+  for this DomainName regardless of the caller and Method configuration. Supported only for
+  private custom domain names.
 - `"regionalCertificateArn"`: The reference to an Amazon Web Services-managed certificate
   that will be used by regional endpoint for this domain name. Certificate Manager is the
   only supported source.
 - `"regionalCertificateName"`: The user-friendly name of the certificate that will be used
   by regional endpoint for this domain name.
+- `"routingMode"`: The routing mode for this domain name. The routing mode determines how
+  API Gateway sends traffic from your custom domain name to your private APIs.
 - `"securityPolicy"`: The Transport Layer Security (TLS) version + cipher suite for this
-  DomainName. The valid values are `TLS_1_0` and `TLS_1_2`.
+  DomainName.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
 function create_domain_name end
@@ -415,6 +424,73 @@ function create_domain_name(
         "/domainnames",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("domainName" => domainName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_domain_name_access_association(access_association_source, access_association_source_type, domain_name_arn)
+    create_domain_name_access_association(access_association_source, access_association_source_type, domain_name_arn, params::Dict{String,<:Any})
+
+Creates a domain name access association resource between an access association source and a
+private custom domain name.
+
+# Arguments
+
+- `access_association_source`: The identifier of the domain name access association source.
+  For a VPCE, the value is the VPC endpoint ID.
+- `access_association_source_type`: The type of the domain name access association source.
+- `domain_name_arn`: The ARN of the domain name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
+"""
+function create_domain_name_access_association end
+
+function create_domain_name_access_association(
+    accessAssociationSource,
+    accessAssociationSourceType,
+    domainNameArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return api_gateway(
+        "POST",
+        "/domainnameaccessassociations",
+        Dict{String,Any}(
+            "accessAssociationSource" => accessAssociationSource,
+            "accessAssociationSourceType" => accessAssociationSourceType,
+            "domainNameArn" => domainNameArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_domain_name_access_association(
+    accessAssociationSource,
+    accessAssociationSourceType,
+    domainNameArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return api_gateway(
+        "POST",
+        "/domainnameaccessassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accessAssociationSource" => accessAssociationSource,
+                    "accessAssociationSourceType" => accessAssociationSourceType,
+                    "domainNameArn" => domainNameArn,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -599,8 +675,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint. To require that clients
   use a custom domain name to invoke your API, disable the default endpoint
 
+- `"endpointAccessMode"`: The endpoint access mode of the RestApi. Only available for
+  RestApis that use security policies that start with `SecurityPolicy_`.
+
 - `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the endpoint
-  types of the API.
+  types and IP address types of the API.
 
 - `"minimumCompressionSize"`: A nullable integer that is used to enable compression (with
   non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a
@@ -610,6 +689,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"policy"`: A stringified JSON policy document that applies to this RestApi regardless of
   the caller and Method configuration.
+
+- `"securityPolicy"`: The Transport Layer Security (TLS) version + cipher suite for this
+  RestApi.
 
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 
@@ -929,6 +1011,13 @@ Deletes the BasePathMapping resource.
   To specify an empty base path, set this parameter to `'(none)'`.
 
 - `domain_name`: The domain name of the BasePathMapping resource to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 """
 function delete_base_path_mapping end
 
@@ -1122,6 +1211,13 @@ Deletes the DomainName resource.
 # Arguments
 
 - `domain_name`: The name of the DomainName resource to be deleted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 """
 function delete_domain_name end
 
@@ -1139,6 +1235,48 @@ function delete_domain_name(
     return api_gateway(
         "DELETE",
         "/domainnames/$(domainName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_domain_name_access_association(domain_name_access_association_arn)
+    delete_domain_name_access_association(domain_name_access_association_arn, params::Dict{String,<:Any})
+
+Deletes the DomainNameAccessAssociation resource.
+
+Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To
+stop an access association source in another AWS account from accessing your private custom
+domain name, use the RejectDomainNameAccessAssociation operation.
+
+# Arguments
+
+- `domain_name_access_association_arn`: The ARN of the domain name access association
+  resource.
+"""
+function delete_domain_name_access_association end
+
+function delete_domain_name_access_association(
+    domainNameAccessAssociationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
+        "DELETE",
+        "/domainnameaccessassociations/$(domainNameAccessAssociationArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_domain_name_access_association(
+    domainNameAccessAssociationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return api_gateway(
+        "DELETE",
+        "/domainnameaccessassociations/$(domainNameAccessAssociationArn)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1942,6 +2080,13 @@ Describe a BasePathMapping resource.
   API. Specify '(none)' if you do not want callers to specify any base path name after the
   domain name.
 - `domain_name`: The domain name of the BasePathMapping resource to be described.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 """
 function get_base_path_mapping end
 
@@ -1985,6 +2130,8 @@ Represents a collection of BasePathMapping resources.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
@@ -2363,6 +2510,13 @@ called.
 # Arguments
 
 - `domain_name`: The name of the DomainName resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"domainNameId"`: The identifier for the domain name resource. Required for private custom
+  domain names.
 """
 function get_domain_name end
 
@@ -2387,6 +2541,46 @@ function get_domain_name(
 end
 
 """
+    get_domain_name_access_associations()
+    get_domain_name_access_associations(params::Dict{String,<:Any})
+
+Represents a collection on DomainNameAccessAssociations resources.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
+- `"resourceOwner"`: The owner of the domain name access association. Use `SELF` to only
+  list the domain name access associations owned by your own account. Use `OTHER_ACCOUNTS`
+  to list the domain name access associations with your private custom domain names that are
+  owned by other AWS accounts.
+"""
+function get_domain_name_access_associations end
+
+function get_domain_name_access_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
+        "GET", "/domainnameaccessassociations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_domain_name_access_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
+        "GET",
+        "/domainnameaccessassociations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_domain_names()
     get_domain_names(params::Dict{String,<:Any})
 
@@ -2399,6 +2593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
+- `"resourceOwner"`: The owner of the domain name access association.
 """
 function get_domain_names end
 
@@ -3836,6 +4031,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"integrationHttpMethod"`: The HTTP method for the integration.
 
+- `"integrationTarget"`: The ALB or NLB listener to send the request to.
+
 - `"passthroughBehavior"`: Specifies the pass-through behavior for incoming requests based
   on the Content-Type header in the request, and the available mapping templates specified
   as the `requestTemplates` property on the Integration resource. There are three valid
@@ -3853,8 +4050,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request payload based on the value of the Content-Type header sent by the client. The
   content type value is the key in this map, and the template (as a String) is the value.
 
+- `"responseTransferMode"`: The response transfer mode of the integration.
+
 - `"timeoutInMillis"`: Custom timeout between 50 and 29,000 milliseconds. The default value
-  is 29,000 milliseconds or 29 seconds.
+  is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29
+  seconds for Regional or private APIs only.
 
 - `"tlsConfig"`:
 
@@ -4201,6 +4401,65 @@ function put_rest_api(
 end
 
 """
+    reject_domain_name_access_association(domain_name_access_association_arn, domain_name_arn)
+    reject_domain_name_access_association(domain_name_access_association_arn, domain_name_arn, params::Dict{String,<:Any})
+
+Rejects a domain name access association with a private custom domain name.
+
+To reject a domain name access association with an access association source in another AWS
+account, use this operation. To remove a domain name access association with an access
+association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+
+# Arguments
+
+- `domain_name_access_association_arn`: The ARN of the domain name access association
+  resource.
+- `domain_name_arn`: The ARN of the domain name.
+"""
+function reject_domain_name_access_association end
+
+function reject_domain_name_access_association(
+    domainNameAccessAssociationArn,
+    domainNameArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return api_gateway(
+        "POST",
+        "/rejectdomainnameaccessassociations",
+        Dict{String,Any}(
+            "domainNameAccessAssociationArn" => domainNameAccessAssociationArn,
+            "domainNameArn" => domainNameArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reject_domain_name_access_association(
+    domainNameAccessAssociationArn,
+    domainNameArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return api_gateway(
+        "POST",
+        "/rejectdomainnameaccessassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domainNameAccessAssociationArn" => domainNameAccessAssociationArn,
+                    "domainNameArn" => domainNameArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -4513,6 +4772,8 @@ Changes information about the BasePathMapping resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
 function update_base_path_mapping end
@@ -4737,6 +4998,8 @@ Changes information about the DomainName resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"domainNameId"`: The identifier for the domain name resource. Supported only for private
+  custom domain names.
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
 function update_domain_name end

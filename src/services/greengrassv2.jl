@@ -955,7 +955,11 @@ Retrieves a paginated list of Greengrass core devices.
 
     - When the IoT Greengrass Core software starts
     - When the core device receives a deployment from the Amazon Web Services Cloud
-    - When the status of any component on the core device becomes `BROKEN`
+    - For Greengrass nucleus 2.12.2 and earlier, the core device sends status updates when
+      the status of any component on the core device becomes `ERRORED` or `BROKEN`.
+    - For Greengrass nucleus 2.12.3 and later, the core device sends status updates when the
+      status of any component on the core device becomes `ERRORED`, `BROKEN`, `RUNNING`, or
+      `FINISHED`.
     - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
       which defaults to 24 hours
     - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
@@ -968,6 +972,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 
 - `"nextToken"`: The token to be used for the next set of paginated results.
+
+- `"runtime"`: The runtime to be used by the core device. The runtime can be:
+
+  - `aws_nucleus_classic`
+  - `aws_nucleus_lite`
 
 - `"status"`: The core device status by which to filter. If you specify this parameter, the
   list includes only core devices that have this status. Choose one of the following

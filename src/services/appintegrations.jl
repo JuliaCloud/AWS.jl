@@ -8,8 +8,6 @@ using AWS.UUIDs: uuid4
     create_application(application_source_config, name, namespace)
     create_application(application_source_config, name, namespace, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change.
-
 Creates and persists an Application resource.
 
 # Arguments
@@ -23,10 +21,16 @@ Creates and persists an Application resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ApplicationConfig"`: The configuration settings for the application.
+- `"ApplicationType"`: The type of application.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: The description of the application.
+- `"IframeConfig"`: The iframe configuration for the application.
+- `"InitializationTimeout"`: The maximum time in milliseconds allowed to establish a
+  connection with the workspace.
+- `"IsService"`: Indicates whether the application is a service.
 - `"Permissions"`: The configuration of events or requests that the application has access
   to.
 - `"Publications"`: The events that the application publishes.
@@ -84,8 +88,8 @@ function create_application(
 end
 
 """
-    create_data_integration(kms_key, name, source_uri)
-    create_data_integration(kms_key, name, source_uri, params::Dict{String,<:Any})
+    create_data_integration(kms_key, name)
+    create_data_integration(kms_key, name, params::Dict{String,<:Any})
 
 Creates and persists a DataIntegration resource.
 
@@ -96,9 +100,8 @@ Creates and persists a DataIntegration resource.
 
 # Arguments
 
-- `kms_key`: The KMS key for the DataIntegration.
+- `kms_key`: The KMS key ARN for the DataIntegration.
 - `name`: The name of the DataIntegration.
-- `source_uri`: The URI of the data source.
 
 # Optional Parameters
 
@@ -112,22 +115,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ObjectConfiguration"`: The configuration for what data should be pulled from the source.
 - `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
   source.
+- `"SourceURI"`: The URI of the data source.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_data_integration end
 
 function create_data_integration(
-    KmsKey, Name, SourceURI; aws_config::AbstractAWSConfig=current_aws_config()
+    KmsKey, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appintegrations(
         "POST",
         "/dataIntegrations",
         Dict{String,Any}(
-            "KmsKey" => KmsKey,
-            "Name" => Name,
-            "SourceURI" => SourceURI,
-            "ClientToken" => string(uuid4()),
+            "KmsKey" => KmsKey, "Name" => Name, "ClientToken" => string(uuid4())
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -137,7 +138,6 @@ end
 function create_data_integration(
     KmsKey,
     Name,
-    SourceURI,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -148,13 +148,65 @@ function create_data_integration(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "KmsKey" => KmsKey,
-                    "Name" => Name,
-                    "SourceURI" => SourceURI,
-                    "ClientToken" => string(uuid4()),
+                    "KmsKey" => KmsKey, "Name" => Name, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_integration_association(data_integration_identifier)
+    create_data_integration_association(data_integration_identifier, params::Dict{String,<:Any})
+
+Creates and persists a DataIntegrationAssociation resource.
+
+# Arguments
+
+- `data_integration_identifier`: A unique identifier for the DataIntegration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientAssociationMetadata"`: The mapping of metadata to be extracted from the data.
+- `"ClientId"`: The identifier for the client that is associated with the DataIntegration
+  association.
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"DestinationURI"`: The URI of the data destination.
+- `"ExecutionConfiguration"`: The configuration for how the files should be pulled from the
+  source.
+- `"ObjectConfiguration"`:
+"""
+function create_data_integration_association end
+
+function create_data_integration_association(
+    DataIntegrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appintegrations(
+        "POST",
+        "/dataIntegrations/$(DataIntegrationIdentifier)/associations",
+        Dict{String,Any}("ClientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_integration_association(
+    DataIntegrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "POST",
+        "/dataIntegrations/$(DataIntegrationIdentifier)/associations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -344,8 +396,6 @@ end
     get_application(arn)
     get_application(arn, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change.
-
 Get an Application resource.
 
 # Arguments
@@ -490,14 +540,13 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-This API is in preview release and subject to change.
-
 Lists applications in the account.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"applicationType"`: The type of application.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -793,8 +842,6 @@ end
     update_application(arn)
     update_application(arn, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change.
-
 Updates and persists an Application resource.
 
 # Arguments
@@ -805,9 +852,15 @@ Updates and persists an Application resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ApplicationConfig"`: The configuration settings for the application.
 - `"ApplicationSourceConfig"`: The configuration for where the application should be loaded
   from.
+- `"ApplicationType"`: The type of application.
 - `"Description"`: The description of the application.
+- `"IframeConfig"`: The iframe configuration for the application.
+- `"InitializationTimeout"`: The maximum time in milliseconds allowed to establish a
+  connection with the workspace.
+- `"IsService"`: Indicates whether the application is a service.
 - `"Name"`: The name of the application.
 - `"Permissions"`: The configuration of events or requests that the application has access
   to.
@@ -875,6 +928,63 @@ function update_data_integration(
         "PATCH",
         "/dataIntegrations/$(Identifier)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_integration_association(data_integration_association_identifier, data_integration_identifier, execution_configuration)
+    update_data_integration_association(data_integration_association_identifier, data_integration_identifier, execution_configuration, params::Dict{String,<:Any})
+
+Updates and persists a DataIntegrationAssociation resource.
+
+!!! note
+    Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-
+    demand job.
+
+# Arguments
+
+- `data_integration_association_identifier`: A unique identifier. of the
+  DataIntegrationAssociation resource
+- `data_integration_identifier`: A unique identifier for the DataIntegration.
+- `execution_configuration`: The configuration for how the files should be pulled from the
+  source.
+"""
+function update_data_integration_association end
+
+function update_data_integration_association(
+    DataIntegrationAssociationIdentifier,
+    DataIntegrationIdentifier,
+    ExecutionConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(DataIntegrationIdentifier)/associations/$(DataIntegrationAssociationIdentifier)",
+        Dict{String,Any}("ExecutionConfiguration" => ExecutionConfiguration);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_integration_association(
+    DataIntegrationAssociationIdentifier,
+    DataIntegrationIdentifier,
+    ExecutionConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(DataIntegrationIdentifier)/associations/$(DataIntegrationAssociationIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExecutionConfiguration" => ExecutionConfiguration),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

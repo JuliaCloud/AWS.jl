@@ -148,6 +148,66 @@ function add_thing_to_thing_group(
 end
 
 """
+    associate_sbom_with_package_version(package_name, sbom, version_name)
+    associate_sbom_with_package_version(package_name, sbom, version_name, params::Dict{String,<:Any})
+
+Associates the selected software bill of materials (SBOM) with a specific software package
+version.
+
+Requires permission to access the [AssociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+# Arguments
+
+- `package_name`: The name of the new software package.
+- `sbom`:
+- `version_name`: The name of the new package version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function associate_sbom_with_package_version end
+
+function associate_sbom_with_package_version(
+    packageName, sbom, versionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "PUT",
+        "/packages/$(packageName)/versions/$(versionName)/sbom",
+        Dict{String,Any}("sbom" => sbom, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_sbom_with_package_version(
+    packageName,
+    sbom,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/packages/$(packageName)/versions/$(versionName)/sbom",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("sbom" => sbom, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_targets_with_job(job_id, targets)
     associate_targets_with_job(job_id, targets, params::Dict{String,<:Any})
 
@@ -382,6 +442,19 @@ action.
 - `thing_name`: The name of the thing.
 - `x-amzn-principal`: The principal, which can be a certificate ARN (as returned from the
   CreateCertificate operation) or an Amazon Cognito ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"thingPrincipalType"`: The type of the relation you want to specify when you attach a
+  principal to a thing.
+
+  - `EXCLUSIVE_THING` - Attaches the specified principal to the specified thing,
+    exclusively. The thing will be the only thing that’s attached to the principal.
+
+  - `NON_EXCLUSIVE_THING` - Attaches the specified principal to the specified thing.
+    Multiple things can be attached to the principal.
 """
 function attach_thing_principal end
 
@@ -920,7 +993,9 @@ end
     create_billing_group(billing_group_name)
     create_billing_group(billing_group_name, params::Dict{String,<:Any})
 
-Creates a billing group.
+Creates a billing group. If this call is made multiple times using the same billing group
+name and configuration, the call will succeed. If this call is made with the same billing
+group name but different configuration a `ResourceAlreadyExistsException` is thrown.
 
 Requires permission to access the [CreateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -1135,6 +1210,77 @@ function create_certificate_provider(
 end
 
 """
+    create_command(command_id)
+    create_command(command_id, params::Dict{String,<:Any})
+
+Creates a command. A command contains reusable configurations that can be applied before
+they are sent to the devices.
+
+# Arguments
+
+- `command_id`: A unique identifier for the command. We recommend using UUID. Alpha-numeric
+  characters, hyphens, and underscores are valid for use here.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A short text decription of the command.
+
+- `"displayName"`: The user-friendly name in the console for the command. This name doesn't
+  have to be unique. You can update the user-friendly name after you define it.
+
+- `"mandatoryParameters"`: A list of parameters that are used by `StartCommandExecution` API
+  for execution payload generation.
+
+- `"namespace"`: The namespace of the command. The MQTT reserved topics and validations will
+  be used for command executions according to the namespace setting.
+
+- `"payload"`: The payload object for the static command.
+
+  You can upload a static payload file from your local storage that contains the
+  instructions for the device to process. The payload file can use any format. To make sure
+  that the device correctly interprets the payload, we recommend you to specify the payload
+  content type.
+
+- `"payloadTemplate"`: The payload template for the dynamic command.
+
+  !!! note
+      This parameter is required for dynamic commands where the command execution
+      placeholders are supplied either from `mandatoryParameters` or when
+      `StartCommandExecution` is invoked.
+
+- `"preprocessor"`: Configuration that determines how `payloadTemplate` is processed to
+  generate command execution payload.
+
+  !!! note
+      This parameter is required for dynamic commands, along with `payloadTemplate`, and
+      `mandatoryParameters`.
+
+- `"roleArn"`: The IAM role that you must provide when using the `AWS-IoT-FleetWise`
+  namespace. The role grants IoT Device Management the permission to access IoT FleetWise
+  resources for generating the payload for the command. This field is not supported when you
+  use the `AWS-IoT` namespace.
+
+- `"tags"`: Name-value pairs that are used as metadata to manage a command.
+"""
+function create_command end
+
+function create_command(commandId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("PUT", "/commands/$(commandId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function create_command(
+    commandId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "PUT", "/commands/$(commandId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     create_custom_metric(client_request_token, metric_name, metric_type)
     create_custom_metric(client_request_token, metric_name, metric_type, params::Dict{String,<:Any})
 
@@ -1311,7 +1457,37 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"applicationProtocol"`: An enumerated string that speciﬁes the application-layer
+  protocol.
+
+  - `SECURE_MQTT` - MQTT over TLS.
+
+  - `MQTT_WSS` - MQTT over WebSocket.
+
+  - `HTTPS` - HTTP over TLS.
+
+  - `DEFAULT` - Use a combination of port and Application Layer Protocol Negotiation (ALPN)
+    to specify application_layer protocol. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
+- `"authenticationType"`: An enumerated string that speciﬁes the authentication type.
+
+  - `CUSTOM_AUTH_X509` - Use custom authentication and authorization with additional details
+    from the X.509 client certificate.
+
+  - `CUSTOM_AUTH` - Use custom authentication and authorization. For more information, see [Custom authentication and authorization](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+  - `AWS_X509` - Use X.509 client certificates without custom authentication and
+    authorization. For more information, see [X.509 client certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+
+  - `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For more information, see [IAM users, groups, and roles](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+  - `DEFAULT` - Use a combination of port and Application Layer Protocol Negotiation (ALPN)
+    to specify authentication type. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
 - `"authorizerConfig"`: An object that specifies the authorization service for a domain.
+
+- `"clientCertificateConfig"`: An object that speciﬁes the client certificate conﬁguration
+  for a domain.
 
 - `"domainName"`: The name of the domain.
 
@@ -1529,8 +1705,8 @@ action.
 
 # Arguments
 
-- `job_id`: A job identifier which must be unique for your Amazon Web Services account. We
-  recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+- `job_id`: A job identifier which must be unique for your account. We recommend using a
+  UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
 - `targets`: A list of things and thing groups to which the job should be sent.
 
 # Optional Parameters
@@ -1975,6 +2151,9 @@ actions.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"artifact"`: The various build components created during the build process such as
+  libraries and configuration files that make up a software package version.
+
 - `"attributes"`: Metadata that can be used to define a package version’s configuration. For
   example, the S3 file location, configuration options that are being sent to the device or
   fleet.
@@ -1987,6 +2166,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A summary of the package version being created. This can be used to
   outline the package's contents or purpose.
+
+- `"recipe"`: The inline job document associated with a software package version used for a
+  quick job deployment.
 
 - `"tags"`: Metadata that can be used to manage the package version.
 """
@@ -2330,6 +2512,12 @@ Creates a role alias.
 
 Requires permission to access the [CreateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
+
+!!! important
+    The value of [`credentialDurationSeconds`](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds)
+    must be less than or equal to the maximum session duration of the IAM role that the role
+    alias references. For more information, see [Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api)
+    from the Amazon Web Services Identity and Access Management User Guide.
 
 # Arguments
 
@@ -2694,7 +2882,9 @@ end
     create_thing_type(thing_type_name)
     create_thing_type(thing_type_name, params::Dict{String,<:Any})
 
-Creates a new thing type.
+Creates a new thing type. If this call is made multiple times using the same thing type name
+and configuration, the call will succeed. If this call is made with the same thing type name
+but different configuration a `ResourceAlreadyExistsException` is thrown.
 
 Requires permission to access the [CreateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
@@ -3156,6 +3346,85 @@ function delete_certificate_provider(
         "DELETE",
         "/certificate-providers/$(certificateProviderName)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_command(command_id)
+    delete_command(command_id, params::Dict{String,<:Any})
+
+Delete a command resource.
+
+# Arguments
+
+- `command_id`: The unique identifier of the command to be deleted.
+"""
+function delete_command end
+
+function delete_command(commandId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE", "/commands/$(commandId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_command(
+    commandId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/commands/$(commandId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_command_execution(execution_id, target_arn)
+    delete_command_execution(execution_id, target_arn, params::Dict{String,<:Any})
+
+Delete a command execution.
+
+!!! note
+    Only command executions that enter a terminal state can be deleted from your account.
+
+# Arguments
+
+- `execution_id`: The unique identifier of the command execution that you want to delete
+  from your account.
+- `target_arn`: The Amazon Resource Number (ARN) of the target device for which you want to
+  delete command executions.
+"""
+function delete_command_execution end
+
+function delete_command_execution(
+    executionId, targetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "DELETE",
+        "/command-executions/$(executionId)",
+        Dict{String,Any}("targetArn" => targetArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_command_execution(
+    executionId,
+    targetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/command-executions/$(executionId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("targetArn" => targetArn), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4920,6 +5189,36 @@ function describe_domain_configuration(
 end
 
 """
+    describe_encryption_configuration()
+    describe_encryption_configuration(params::Dict{String,<:Any})
+
+Retrieves the encryption configuration for resources and data of your Amazon Web Services
+account in Amazon Web Services IoT Core. For more information, see [Data encryption at rest](https://docs.aws.amazon.com/iot/latest/developerguide/encryption-at-rest.html)
+in the *Amazon Web Services IoT Core Developer Guide*.
+"""
+function describe_encryption_configuration end
+
+function describe_encryption_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET", "/encryption-configuration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function describe_encryption_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET",
+        "/encryption-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_endpoint()
     describe_endpoint(params::Dict{String,<:Any})
 
@@ -5064,6 +5363,13 @@ action.
 # Arguments
 
 - `job_id`: The unique identifier you assigned to this job when it was created.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"beforeSubstitution"`: Provides a view of the job document before and after the
+  substitution parameters have been resolved with their exact values.
 """
 function describe_job end
 
@@ -5876,6 +6182,60 @@ function disable_topic_rule(
 end
 
 """
+    disassociate_sbom_from_package_version(package_name, version_name)
+    disassociate_sbom_from_package_version(package_name, version_name, params::Dict{String,<:Any})
+
+Disassociates the selected software bill of materials (SBOM) from a specific software
+package version.
+
+Requires permission to access the [DisassociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+# Arguments
+
+- `package_name`: The name of the new software package.
+- `version_name`: The name of the new package version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function disassociate_sbom_from_package_version end
+
+function disassociate_sbom_from_package_version(
+    packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)/versions/$(versionName)/sbom",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_sbom_from_package_version(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)/versions/$(versionName)/sbom",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     enable_topic_rule(rule_name)
     enable_topic_rule(rule_name, params::Dict{String,<:Any})
 
@@ -6072,6 +6432,86 @@ function get_cardinality(
 end
 
 """
+    get_command(command_id)
+    get_command(command_id, params::Dict{String,<:Any})
+
+Gets information about the specified command.
+
+# Arguments
+
+- `command_id`: The unique identifier of the command for which you want to retrieve
+  information.
+"""
+function get_command end
+
+function get_command(commandId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/commands/$(commandId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_command(
+    commandId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "GET", "/commands/$(commandId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_command_execution(execution_id, target_arn)
+    get_command_execution(execution_id, target_arn, params::Dict{String,<:Any})
+
+Gets information about the specific command execution on a single device.
+
+# Arguments
+
+- `execution_id`: The unique identifier for the command execution. This information is
+  returned as a response of the `StartCommandExecution` API request.
+- `target_arn`: The Amazon Resource Number (ARN) of the device on which the command
+  execution is being performed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includeResult"`: Can be used to specify whether to include the result of the command
+  execution in the `GetCommandExecution` API response. Your device can use this field to
+  provide additional information about the command execution. You only need to specify this
+  field when using the `AWS-IoT` namespace.
+"""
+function get_command_execution end
+
+function get_command_execution(
+    executionId, targetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET",
+        "/command-executions/$(executionId)",
+        Dict{String,Any}("targetArn" => targetArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_command_execution(
+    executionId,
+    targetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "GET",
+        "/command-executions/$(executionId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("targetArn" => targetArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_effective_policies()
     get_effective_policies(params::Dict{String,<:Any})
 
@@ -6140,6 +6580,13 @@ action.
 # Arguments
 
 - `job_id`: The unique identifier you assigned to this job when it was created.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"beforeSubstitution"`: Provides a view of the job document before and after the
+  substitution parameters have been resolved with their exact values.
 """
 function get_job_document end
 
@@ -6535,6 +6982,43 @@ function get_statistics(
 end
 
 """
+    get_thing_connectivity_data(thing_name)
+    get_thing_connectivity_data(thing_name, params::Dict{String,<:Any})
+
+Retrieves the live connectivity status per device.
+
+# Arguments
+
+- `thing_name`: The name of your IoT thing.
+"""
+function get_thing_connectivity_data end
+
+function get_thing_connectivity_data(
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "POST",
+        "/things/$(thingName)/connectivity-data";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_thing_connectivity_data(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "POST",
+        "/things/$(thingName)/connectivity-data",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_topic_rule(rule_name)
     get_topic_rule(rule_name, params::Dict{String,<:Any})
 
@@ -6598,6 +7082,13 @@ Gets the fine grained logging options.
 
 Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"verbose"`: The flag is used to get all the event types and their respective
+  configuration that event-based logging supports.
 """
 function get_v2_logging_options end
 
@@ -7170,6 +7661,100 @@ function list_certificates_by_ca(
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
+
+"""
+    list_command_executions()
+    list_command_executions(params::Dict{String,<:Any})
+
+List all command executions.
+
+!!! important
+    - You must provide only the `startedTimeFilter` or the `completedTimeFilter`
+      information. If you provide both time filters, the API will generate an error. You can
+      use this information to retrieve a list of command executions within a specific
+      timeframe.
+    - You must provide only the `commandArn` or the `thingArn` information depending on
+      whether you want to list executions for a specific command or an IoT thing. If you
+      provide both fields, the API will generate an error.
+
+    For more information about considerations for using this API, see [List command executions in your account (CLI)](https://docs.aws.amazon.com/iot/latest/developerguide/iot-remote-command-execution-start-monitor.html#iot-remote-command-execution-list-cli).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"commandArn"`: The Amazon Resource Number (ARN) of the command. You can use this
+  information to list all command executions for a particular command.
+- `"completedTimeFilter"`: List all command executions that completed any time before or
+  after the date and time that you specify. The date and time uses the format
+  `yyyy-MM-dd'T'HH:mm`.
+- `"maxResults"`: The maximum number of results to return in this operation.
+- `"namespace"`: The namespace of the command.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise `null` to receive the first set of results.
+- `"sortOrder"`: Specify whether to list the command executions that were created in the
+  ascending or descending order. By default, the API returns all commands in the descending
+  order based on the start time or completion time of the executions, that are determined by
+  the `startTimeFilter` and `completeTimeFilter` parameters.
+- `"startedTimeFilter"`: List all command executions that started any time before or after
+  the date and time that you specify. The date and time uses the format
+  `yyyy-MM-dd'T'HH:mm`.
+- `"status"`: List all command executions for the device that have a particular status. For
+  example, you can filter the list to display only command executions that have failed or
+  timed out.
+- `"targetArn"`: The Amazon Resource Number (ARN) of the target device. You can use this
+  information to list all command executions for a particular device.
+"""
+function list_command_executions end
+
+function list_command_executions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("POST", "/command-executions"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_command_executions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "POST", "/command-executions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_commands()
+    list_commands(params::Dict{String,<:Any})
+
+List all commands in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"commandParameterName"`: A filter that can be used to display the list of commands that
+  have a specific command parameter name.
+- `"maxResults"`: The maximum number of results to return in this operation. By default, the
+  API returns up to a maximum of 25 results. You can override this default value to return
+  up to a maximum of 100 results for this operation.
+- `"namespace"`: The namespace of the command. By default, the API returns all commands that
+  have been created for both `AWS-IoT` and `AWS-IoT-FleetWise` namespaces. You can override
+  this default value if you want to return all commands that have been created only for a
+  specific namespace.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise `null` to receive the first set of results.
+- `"sortOrder"`: Specify whether to list the commands that you have created in the ascending
+  or descending order. By default, the API returns all commands in the descending order
+  based on the time that they were created.
+"""
+function list_commands end
+
+function list_commands(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/commands"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_commands(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot("GET", "/commands", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -8157,6 +8742,78 @@ function list_principal_things(
 end
 
 """
+    list_principal_things_v2(x-amzn-principal)
+    list_principal_things_v2(x-amzn-principal, params::Dict{String,<:Any})
+
+Lists the things associated with the specified principal. A principal can be an X.509
+certificate or an Amazon Cognito ID.
+
+Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+# Arguments
+
+- `x-amzn-principal`: The principal. A principal can be an X.509 certificate or an Amazon
+  Cognito ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in this operation.
+
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
+
+- `"thingPrincipalType"`: The type of the relation you want to filter in the response. If no
+  value is provided in this field, the response will list all things, including both the
+  `EXCLUSIVE_THING` and `NON_EXCLUSIVE_THING` attachment types.
+
+  - `EXCLUSIVE_THING` - Attaches the specified principal to the specified thing,
+    exclusively. The thing will be the only thing that’s attached to the principal.
+
+  - `NON_EXCLUSIVE_THING` - Attaches the specified principal to the specified thing.
+    Multiple things can be attached to the principal.
+"""
+function list_principal_things_v2 end
+
+function list_principal_things_v2(
+    x_amzn_principal; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET",
+        "/principals/things-v2",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_principal_things_v2(
+    x_amzn_principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "GET",
+        "/principals/things-v2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_provisioning_template_versions(template_name)
     list_provisioning_template_versions(template_name, params::Dict{String,<:Any})
 
@@ -8332,6 +8989,58 @@ function list_role_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot("GET", "/role-aliases", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_sbom_validation_results(package_name, version_name)
+    list_sbom_validation_results(package_name, version_name, params::Dict{String,<:Any})
+
+The validation results for all software bill of materials (SBOM) attached to a specific
+software package version.
+
+Requires permission to access the [ListSbomValidationResults](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+# Arguments
+
+- `package_name`: The name of the new software package.
+- `version_name`: The name of the new package version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return at one time.
+- `"nextToken"`: A token that can be used to retrieve the next set of results, or null if
+  there are no additional results.
+- `"validationResult"`: The end result of the
+"""
+function list_sbom_validation_results end
+
+function list_sbom_validation_results(
+    packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions/$(versionName)/sbom-validation-results";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_sbom_validation_results(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions/$(versionName)/sbom-validation-results",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -8753,6 +9462,66 @@ function list_thing_principals(
     return iot(
         "GET",
         "/things/$(thingName)/principals",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_thing_principals_v2(thing_name)
+    list_thing_principals_v2(thing_name, params::Dict{String,<:Any})
+
+Lists the principals associated with the specified thing. A principal can be an X.509
+certificate or an Amazon Cognito ID.
+
+Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+# Arguments
+
+- `thing_name`: The name of the thing.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in this operation.
+
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
+
+- `"thingPrincipalType"`: The type of the relation you want to filter in the response. If no
+  value is provided in this field, the response will list all principals, including both the
+  `EXCLUSIVE_THING` and `NON_EXCLUSIVE_THING` attachment types.
+
+  - `EXCLUSIVE_THING` - Attaches the specified principal to the specified thing,
+    exclusively. The thing will be the only thing that’s attached to the principal.
+
+  - `NON_EXCLUSIVE_THING` - Attaches the specified principal to the specified thing.
+    Multiple things can be attached to the principal.
+"""
+function list_thing_principals_v2 end
+
+function list_thing_principals_v2(
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "GET",
+        "/things/$(thingName)/principals-v2";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_thing_principals_v2(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "GET",
+        "/things/$(thingName)/principals-v2",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9925,6 +10694,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultLogLevel"`: The default logging level.
 - `"disableAllLogs"`: If true all logs are disabled. The default is false.
+- `"eventConfigurations"`: The list of event configurations that override account-level
+  logging.
 - `"roleArn"`: The ARN of the role that allows IoT to write to Cloudwatch logs.
 """
 function set_v2_logging_options end
@@ -10320,8 +11091,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policyNamesToSkip"`: When testing custom authorization, the policies specified here are
   treated as if they are not attached to the principal being authorized.
 - `"principal"`: The principal. Valid principals are CertificateArn
-  (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
-  (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
+  (arn:aws:iot:*region*:*accountId*:cert/*certificateId*) and CognitoId (*region*:*id*).
 """
 function test_authorization end
 
@@ -10413,16 +11183,36 @@ Transfers the specified certificate to the specified Amazon Web Services account
 Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
-You can cancel the transfer until it is acknowledged by the recipient.
+You can cancel the transfer until it is accepted by the recipient.
 
-No notification is sent to the transfer destination's account. It is up to the caller to
-notify the transfer target.
+No notification is sent to the transfer destination's account. The caller is responsible for
+notifying the transfer target.
 
-The certificate being transferred must not be in the ACTIVE state. You can use the [`update_certificate`](@ref)
+The certificate being transferred must not be in the `ACTIVE` state. You can use the [`update_certificate`](@ref)
 action to deactivate it.
 
 The certificate must not have any policies attached to it. You can use the [`detach_policy`](@ref)
 action to detach them.
+
+**Customer managed key behavior:** When you use a customer managed key to encrypt your data
+and then transfer the certificate to a customer in a different account using the [`transfer_certificate`](@ref)
+operation, the certificates will no longer be encrypted by their customer managed key
+configuration. During the transfer process, certificates are encrypted using Amazon Web
+Services IoT Core owned keys.
+
+While a certificate is in the **PENDING_TRANSFER** state, it's always protected by Amazon
+Web Services IoT Core owned keys, regardless of the customer managed key configuration of
+either the source or destination account.
+
+Once the transfer is completed through [`accept_certificate_transfer`](@ref), [`reject_certificate_transfer`](@ref),
+or [`cancel_certificate_transfer`](@ref), the certificate will be protected by the customer
+managed key configuration of the account that owns the certificate after the transfer
+operation:
+
+- If the transfer is accepted: The certificate is encrypted by the target account's customer
+  managed key configuration.
+- If the transfer is rejected or cancelled: The certificate is protected by the source
+  account's customer managed key configuration.
 
 # Arguments
 
@@ -10901,6 +11691,46 @@ function update_certificate_provider(
 end
 
 """
+    update_command(command_id)
+    update_command(command_id, params::Dict{String,<:Any})
+
+Update information about a command or mark a command for deprecation.
+
+# Arguments
+
+- `command_id`: The unique identifier of the command to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"deprecated"`: A boolean that you can use to specify whether to deprecate a command.
+- `"description"`: A short text description of the command.
+- `"displayName"`: The new user-friendly name to use in the console for the command.
+"""
+function update_command end
+
+function update_command(commandId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH", "/commands/$(commandId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_command(
+    commandId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/commands/$(commandId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_custom_metric(display_name, metric_name)
     update_custom_metric(display_name, metric_name, params::Dict{String,<:Any})
 
@@ -11014,11 +11844,45 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"applicationProtocol"`: An enumerated string that speciﬁes the application-layer
+  protocol.
+
+  - `SECURE_MQTT` - MQTT over TLS.
+
+  - `MQTT_WSS` - MQTT over WebSocket.
+
+  - `HTTPS` - HTTP over TLS.
+
+  - `DEFAULT` - Use a combination of port and Application Layer Protocol Negotiation (ALPN)
+    to specify application_layer protocol. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
+- `"authenticationType"`: An enumerated string that speciﬁes the authentication type.
+
+  - `CUSTOM_AUTH_X509` - Use custom authentication and authorization with additional details
+    from the X.509 client certificate.
+
+  - `CUSTOM_AUTH` - Use custom authentication and authorization. For more information, see [Custom authentication and authorization](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+  - `AWS_X509` - Use X.509 client certificates without custom authentication and
+    authorization. For more information, see [X.509 client certificates](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html).
+
+  - `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For more information, see [IAM users, groups, and roles](https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html).
+
+  - `DEFAULT` - Use a combination of port and Application Layer Protocol Negotiation (ALPN)
+    to specify authentication type. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html).
+
 - `"authorizerConfig"`: An object that specifies the authorization service for a domain.
+
+- `"clientCertificateConfig"`: An object that speciﬁes the client certificate conﬁguration
+  for a domain.
+
 - `"domainConfigurationStatus"`: The status to which the domain configuration should be
   updated.
+
 - `"removeAuthorizerConfig"`: Removes the authorization configuration from a domain.
+
 - `"serverCertificateConfig"`: The server certificate configuration.
+
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 """
 function update_domain_configuration end
@@ -11110,6 +11974,61 @@ function update_dynamic_thing_group(
                 Dict{String,Any}("thingGroupProperties" => thingGroupProperties),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_encryption_configuration(encryption_type)
+    update_encryption_configuration(encryption_type, params::Dict{String,<:Any})
+
+Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your
+data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also
+supports symmetric customer managed keys from Key Management Service (KMS). With customer
+managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account.
+
+Before using this API, you must set up permissions for Amazon Web Services IoT Core to
+access KMS. For more information, see [Data encryption at rest](https://docs.aws.amazon.com/iot/latest/developerguide/encryption-at-rest.html)
+in the *Amazon Web Services IoT Core Developer Guide*.
+
+# Arguments
+
+- `encryption_type`: The type of the KMS key.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"kmsAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web
+  Services IoT Core to call KMS on behalf of the customer.
+- `"kmsKeyArn"`: The ARN of the customer managedKMS key.
+"""
+function update_encryption_configuration end
+
+function update_encryption_configuration(
+    encryptionType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "PATCH",
+        "/encryption-configuration",
+        Dict{String,Any}("encryptionType" => encryptionType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_encryption_configuration(
+    encryptionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/encryption-configuration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("encryptionType" => encryptionType), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -11477,6 +12396,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The status that the package version should be assigned. For more information,
   see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 
+- `"artifact"`: The various components that make up a software package version.
+
 - `"attributes"`: Metadata that can be used to define a package version’s configuration. For
   example, the Amazon S3 file location, configuration options that are being sent to the
   device or fleet.
@@ -11490,6 +12411,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 
 - `"description"`: The package version description.
+
+- `"recipe"`: The inline job document associated with a software package version used for a
+  quick job deployment.
 """
 function update_package_version end
 
@@ -11584,6 +12508,12 @@ Updates a role alias.
 
 Requires permission to access the [UpdateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
+
+!!! important
+    The value of [`credentialDurationSeconds`](https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds)
+    must be less than or equal to the maximum session duration of the IAM role that the role
+    alias references. For more information, see [Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api)
+    from the Amazon Web Services Identity and Access Management User Guide.
 
 # Arguments
 
@@ -11947,6 +12877,49 @@ function update_thing_groups_for_thing(
     return iot(
         "PUT",
         "/thing-groups/updateThingGroupsForThing",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_thing_type(thing_type_name)
+    update_thing_type(thing_type_name, params::Dict{String,<:Any})
+
+Updates a thing type.
+
+# Arguments
+
+- `thing_type_name`: The name of a thing type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"thingTypeProperties"`:
+"""
+function update_thing_type end
+
+function update_thing_type(
+    thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
+        "PATCH",
+        "/thing-types/$(thingTypeName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_thing_type(
+    thingTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/thing-types/$(thingTypeName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

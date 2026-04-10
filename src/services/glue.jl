@@ -567,8 +567,10 @@ Retrieves partitions in a batch request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AuditContext"`:
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If none
   is supplied, the Amazon Web Services account ID is used by default.
+- `"QuerySessionContext"`:
 """
 function batch_get_partition end
 
@@ -732,6 +734,59 @@ function batch_get_workflows(
     return glue(
         "BatchGetWorkflows",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_put_data_quality_statistic_annotation(inclusion_annotations)
+    batch_put_data_quality_statistic_annotation(inclusion_annotations, params::Dict{String,<:Any})
+
+Annotate datapoints over time for a specific data quality statistic. The API requires both
+profileID and statisticID as part of the InclusionAnnotation input. The API only works for a
+single statisticId across multiple profiles.
+
+# Arguments
+
+- `inclusion_annotations`: A list of `DatapointInclusionAnnotation`'s. The
+  InclusionAnnotations must contain a profileId and statisticId. If there are multiple
+  InclusionAnnotations, the list must refer to a single statisticId across multiple
+  profileIds.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: Client Token.
+"""
+function batch_put_data_quality_statistic_annotation end
+
+function batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "BatchPutDataQualityStatisticAnnotation",
+        Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "BatchPutDataQualityStatisticAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1105,6 +1160,58 @@ function create_blueprint(
 end
 
 """
+    create_catalog(catalog_input, name)
+    create_catalog(catalog_input, name, params::Dict{String,<:Any})
+
+Creates a new catalog in the Glue Data Catalog.
+
+# Arguments
+
+- `catalog_input`: A `CatalogInput` object that defines the metadata for the catalog.
+- `name`: The name of the catalog to create.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: A map array of key-value pairs, not more than 50 pairs. Each key is a UTF-8
+  string, not less than 1 or more than 128 bytes long. Each value is a UTF-8 string, not
+  more than 256 bytes long. The tags you assign to the catalog.
+"""
+function create_catalog end
+
+function create_catalog(
+    CatalogInput, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateCatalog",
+        Dict{String,Any}("CatalogInput" => CatalogInput, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_catalog(
+    CatalogInput,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateCatalog",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CatalogInput" => CatalogInput, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_classifier()
     create_classifier(params::Dict{String,<:Any})
 
@@ -1131,6 +1238,68 @@ function create_classifier(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glue("CreateClassifier", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    create_column_statistics_task_settings(database_name, role, table_name)
+    create_column_statistics_task_settings(database_name, role, table_name, params::Dict{String,<:Any})
+
+Creates settings for a column statistics task.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `role`: The role used for running the column statistics.
+- `table_name`: The name of the table for which to generate column statistics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogID"`: The ID of the Data Catalog in which the database resides.
+- `"ColumnNameList"`: A list of column names for which to run statistics.
+- `"SampleSize"`: The percentage of data to sample.
+- `"Schedule"`: A schedule for running the column statistics, specified in CRON syntax.
+- `"SecurityConfiguration"`: Name of the security configuration that is used to encrypt
+  CloudWatch logs.
+- `"Tags"`: A map of tags.
+"""
+function create_column_statistics_task_settings end
+
+function create_column_statistics_task_settings(
+    DatabaseName, Role, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateColumnStatisticsTaskSettings",
+        Dict{String,Any}(
+            "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_column_statistics_task_settings(
+    DatabaseName,
+    Role,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateColumnStatisticsTaskSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1343,6 +1512,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such as
   a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"Description"`: A description of the data quality ruleset.
 - `"Tags"`: A list of tags applied to the data quality ruleset.
 - `"TargetTable"`: A target table associated with the data quality ruleset.
@@ -1550,6 +1721,241 @@ function create_dev_endpoint(
 end
 
 """
+    create_glue_identity_center_configuration(instance_arn)
+    create_glue_identity_center_configuration(instance_arn, params::Dict{String,<:Any})
+
+Creates a new Glue Identity Center configuration to enable integration between Glue and
+Amazon Web Services IAM Identity Center for authentication and authorization.
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the Identity Center instance to be
+  associated with the Glue configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Scopes"`: A list of Identity Center scopes that define the permissions and access levels
+  for the Glue configuration.
+- `"UserBackgroundSessionsEnabled"`: Specifies whether users can run background sessions
+  when using Identity Center authentication with Glue services.
+"""
+function create_glue_identity_center_configuration end
+
+function create_glue_identity_center_configuration(
+    InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateGlueIdentityCenterConfiguration",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_glue_identity_center_configuration(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateGlueIdentityCenterConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_integration(integration_name, source_arn, target_arn)
+    create_integration(integration_name, source_arn, target_arn, params::Dict{String,<:Any})
+
+Creates a Zero-ETL integration in the caller's account between two resources with Amazon
+Resource Names (ARNs): the `SourceArn` and `TargetArn`.
+
+# Arguments
+
+- `integration_name`: A unique name for an integration in Glue.
+- `source_arn`: The ARN of the source resource for the integration.
+- `target_arn`: The ARN of the target resource for the integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AdditionalEncryptionContext"`: An optional set of non-secret key–value pairs that
+  contains additional contextual information for encryption. This can only be provided if
+  `KMSKeyId` is provided.
+- `"DataFilter"`: Selects source tables for the integration using Maxwell filter syntax.
+- `"Description"`: A description of the integration.
+- `"IntegrationConfig"`: The configuration settings.
+- `"KmsKeyId"`: The ARN of a KMS key used for encrypting the channel.
+- `"Tags"`: Metadata assigned to the resource consisting of a list of key-value pairs.
+"""
+function create_integration end
+
+function create_integration(
+    IntegrationName,
+    SourceArn,
+    TargetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateIntegration",
+        Dict{String,Any}(
+            "IntegrationName" => IntegrationName,
+            "SourceArn" => SourceArn,
+            "TargetArn" => TargetArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_integration(
+    IntegrationName,
+    SourceArn,
+    TargetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateIntegration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IntegrationName" => IntegrationName,
+                    "SourceArn" => SourceArn,
+                    "TargetArn" => TargetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_integration_resource_property(resource_arn)
+    create_integration_resource_property(resource_arn, params::Dict{String,<:Any})
+
+This API can be used for setting up the `ResourceProperty` of the Glue connection (for the
+source) or Glue database ARN (for the target). These properties can include the role to
+access the connection or database. To set both source and target properties the same API
+needs to be invoked with the Glue connection ARN as `ResourceArn` with
+`SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with
+`TargetProcessingProperties` respectively.
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SourceProcessingProperties"`: The resource properties associated with the integration
+  source.
+- `"Tags"`: Metadata assigned to the resource consisting of a list of key-value pairs.
+- `"TargetProcessingProperties"`: The resource properties associated with the integration
+  target.
+"""
+function create_integration_resource_property end
+
+function create_integration_resource_property(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateIntegrationResourceProperty",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_integration_resource_property(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateIntegrationResourceProperty",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_integration_table_properties(resource_arn, table_name)
+    create_integration_table_properties(resource_arn, table_name, params::Dict{String,<:Any})
+
+This API is used to provide optional override properties for the the tables that need to be
+replicated. These properties can include properties for filtering and partitioning for the
+source and target tables. To set both source and target properties the same API need to be
+invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue
+database ARN as `ResourceArn` with `TargetTableConfig` respectively.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the target table for which to create
+  integration table properties. Currently, this API only supports creating integration table
+  properties for target tables, and the provided ARN should be the ARN of the target table
+  in the Glue Data Catalog. Support for creating integration table properties for source
+  connections (using the connection ARN) is not yet implemented and will be added in a
+  future release.
+
+- `table_name`: The name of the table to be replicated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SourceTableConfig"`: A structure for the source table configuration. See the
+  `SourceTableConfig` structure to see list of supported source properties.
+- `"TargetTableConfig"`: A structure for the target table configuration.
+"""
+function create_integration_table_properties end
+
+function create_integration_table_properties(
+    ResourceArn, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateIntegrationTableProperties",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_integration_table_properties(
+    ResourceArn,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateIntegrationTableProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_job(command, name, role)
     create_job(command, name, role, params::Dict{String,<:Any})
 
@@ -1635,6 +2041,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   When the `JobMode` field is missing or null, `SCRIPT` is assigned as the default value.
 
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job runs
+  for this job.
+
+  A value of true means job run queuing is enabled for the job runs. If false or not
+  populated, the job runs will not be considered for queueing.
+
+  If this field does not match the value set in the job run, then the value from the job run
+  field will be used.
+
 - `"LogUri"`: This field is reserved for future use.
 
 - `"MaintenanceWindow"`: This field specifies a day of the week and hour for a maintenance
@@ -1685,47 +2100,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the developer guide.
 
 - `"Timeout"`: The job timeout in minutes. This is the maximum time that a job run can
-  consume resources before it is terminated and enters `TIMEOUT` status. The default is
-  2,880 minutes (48 hours) for batch jobs.
+  consume resources before it is terminated and enters `TIMEOUT` status.
 
-  Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value
-  is left blank, the job will be restarted after 7 days based if you have not setup a
-  maintenance window. If you have setup maintenance window, it will be restarted during the
-  maintenance window after 7 days.
+  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will
+  throw an exception.
+
+  When the value is left blank, the timeout is defaulted to 2880 minutes.
+
+  Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7
+  days. For instance if you have specified a timeout of 20 days for a batch job, it will be
+  stopped on the 7th day.
+
+  For streaming jobs, if you have set up a maintenance window, it will be restarted during
+  the maintenance window after 7 days.
 
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts a
   value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray
   jobs.
 
   - For the `G.1X` worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with
-    84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    94GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.2X` worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with
-    128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    138GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.4X` worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with
-    256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East
-(N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia
-Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe
-(Stockholm).
+    256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the
+following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N.
+California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific
+(Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe
+(Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and
+South America (São Paulo).
   - For the `G.8X` worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with
-    512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the `G.4X`
-worker type.
+    512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same
+Amazon Web Services Regions as supported for the `G.4X` worker type.
   - For the `G.025X` worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory)
-    with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We
-    recommend this worker type for low volume streaming jobs. This worker type is only
-    available for Glue version 3.0 streaming jobs.
+    with 84GB disk, and provides 1 executor per worker. We recommend this worker type for
+    low volume streaming jobs. This worker type is only available for Glue version 3.0 or
+    later streaming jobs.
   - For the `Z.2X` worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with
-    128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the
-autoscaler.
+    128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
 """
 function create_job end
 
@@ -2310,38 +2730,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The map of key value pairs (tags) belonging to the session.
 
 - `"Timeout"`: The number of minutes before session times out. Default for Spark ETL jobs is
-  48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the
-documentation for other job types.
+  48 hours (2880 minutes). Consult the documentation for other job types.
 
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts a
   value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray
   notebooks.
 
   - For the `G.1X` worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with
-    84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    94GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.2X` worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with
-    128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    138GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.4X` worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with
-    256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East
-(N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia
-Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe
-(Stockholm).
+    256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the
+following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West
+(Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada
+(Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
   - For the `G.8X` worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with
-    512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the `G.4X`
-worker type.
+    512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same
+Amazon Web Services Regions as supported for the `G.4X` worker type.
   - For the `Z.2X` worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with
-    128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the
-autoscaler.
+    128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
 """
 function create_session end
 
@@ -2378,8 +2794,8 @@ function create_session(
 end
 
 """
-    create_table(database_name, table_input)
-    create_table(database_name, table_input, params::Dict{String,<:Any})
+    create_table(database_name)
+    create_table(database_name, params::Dict{String,<:Any})
 
 Creates a new table definition in the Data Catalog.
 
@@ -2387,8 +2803,6 @@ Creates a new table definition in the Data Catalog.
 
 - `database_name`: The catalog database in which to create the new table. For Hive
   compatibility, this name is entirely lowercase.
-- `table_input`: The `TableInput` object that defines the metadata table to create in the
-  catalog.
 
 # Optional Parameters
 
@@ -2396,20 +2810,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The ID of the Data Catalog in which to create the `Table`. If none is
   supplied, the Amazon Web Services account ID is used by default.
+- `"Name"`: The unique identifier for the table within the specified database that will be
+  created in the Glue Data Catalog.
 - `"OpenTableFormatInput"`: Specifies an `OpenTableFormatInput` structure when creating an
   open format table.
 - `"PartitionIndexes"`: A list of partition indexes, `PartitionIndex` structures, to create
   in the table.
+- `"TableInput"`: The `TableInput` object that defines the metadata table to create in the
+  catalog.
 - `"TransactionId"`: The ID of the transaction.
 """
 function create_table end
 
-function create_table(
-    DatabaseName, TableInput; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function create_table(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CreateTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableInput" => TableInput);
+        Dict{String,Any}("DatabaseName" => DatabaseName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2417,20 +2833,13 @@ end
 
 function create_table(
     DatabaseName,
-    TableInput,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glue(
         "CreateTable",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatabaseName" => DatabaseName, "TableInput" => TableInput
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2441,8 +2850,7 @@ end
     create_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type)
     create_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type, params::Dict{String,<:Any})
 
-Creates a new table optimizer for a specific function. `compaction` is the only currently
-supported optimizer type.
+Creates a new table optimizer for a specific function.
 
 # Arguments
 
@@ -2451,7 +2859,7 @@ supported optimizer type.
 - `table_name`: The name of the table.
 - `table_optimizer_configuration`: A `TableOptimizerConfiguration` object representing the
   configuration of a table optimizer.
-- `type`: The type of table optimizer. Currently, the only valid value is `compaction`.
+- `type`: The type of table optimizer.
 """
 function create_table_optimizer end
 
@@ -2511,6 +2919,10 @@ end
     create_trigger(actions, name, type, params::Dict{String,<:Any})
 
 Creates a new trigger.
+
+Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets
+from a Glue Connection, Amazon Web Services Secrets Manager or other secret management
+mechanism if you intend to keep them within the Job.
 
 # Arguments
 
@@ -2572,6 +2984,58 @@ function create_trigger(
             mergewith(
                 _merge,
                 Dict{String,Any}("Actions" => Actions, "Name" => Name, "Type" => Type),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_usage_profile(configuration, name)
+    create_usage_profile(configuration, name, params::Dict{String,<:Any})
+
+Creates an Glue usage profile.
+
+# Arguments
+
+- `configuration`: A `ProfileConfiguration` object specifying the job and session values for
+  the profile.
+- `name`: The name of the usage profile.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the usage profile.
+- `"Tags"`: A list of tags applied to the usage profile.
+"""
+function create_usage_profile end
+
+function create_usage_profile(
+    Configuration, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "CreateUsageProfile",
+        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_usage_profile(
+    Configuration,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "CreateUsageProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Configuration" => Configuration, "Name" => Name),
                 params,
             ),
         );
@@ -2650,11 +3114,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultRunProperties"`: A collection of properties to be used as part of each execution
   of the workflow.
+
+  Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve
+  secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret
+  management mechanism if you intend to use them within the workflow run.
+
 - `"Description"`: A description of the workflow.
+
 - `"MaxConcurrentRuns"`: You can use this parameter to prevent unwanted multiple updates to
   data, to control costs, or in some cases, to prevent exceeding the maximum number of
   concurrent runs of any of the component jobs. If you leave this parameter blank, there is
   no limit to the number of concurrent workflow runs.
+
 - `"Tags"`: The tags to be used with this workflow.
 """
 function create_workflow end
@@ -2706,6 +3177,52 @@ function delete_blueprint(
     return glue(
         "DeleteBlueprint",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_catalog(catalog_id)
+    delete_catalog(catalog_id, params::Dict{String,<:Any})
+
+Removes the specified catalog from the Glue Data Catalog.
+
+After completing this operation, you no longer have access to the databases, tables (and all
+table versions and partitions that might belong to the tables) and the user-defined
+functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in
+a timely manner, at the discretion of the service.
+
+To ensure the immediate deletion of all related resources before calling the [`delete_catalog`](@ref)
+operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or
+`BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction`
+and `DeleteDatabase` to delete any resources that belong to the catalog.
+
+# Arguments
+
+- `catalog_id`: The ID of the catalog.
+"""
+function delete_catalog end
+
+function delete_catalog(CatalogId; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue(
+        "DeleteCatalog",
+        Dict{String,Any}("CatalogId" => CatalogId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_catalog(
+    CatalogId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CatalogId" => CatalogId), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2880,6 +3397,50 @@ function delete_column_statistics_for_table(
 end
 
 """
+    delete_column_statistics_task_settings(database_name, table_name)
+    delete_column_statistics_task_settings(database_name, table_name, params::Dict{String,<:Any})
+
+Deletes settings for a column statistics task.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table for which to delete column statistics.
+"""
+function delete_column_statistics_task_settings end
+
+function delete_column_statistics_task_settings(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteColumnStatisticsTaskSettings",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_column_statistics_task_settings(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteColumnStatisticsTaskSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_connection(connection_name)
     delete_connection(connection_name, params::Dict{String,<:Any})
 
@@ -2918,6 +3479,49 @@ function delete_connection(
         "DeleteConnection",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ConnectionName" => ConnectionName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_connection_type(connection_type)
+    delete_connection_type(connection_type, params::Dict{String,<:Any})
+
+Deletes a custom connection type in Glue.
+
+The connection type must exist and be registered before it can be deleted. This operation
+supports cleanup of connection type resources and helps maintain proper lifecycle management
+of custom connection types.
+
+# Arguments
+
+- `connection_type`: The name of the connection type to delete. Must reference an existing
+  registered connection type.
+"""
+function delete_connection_type end
+
+function delete_connection_type(
+    ConnectionType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteConnectionType",
+        Dict{String,Any}("ConnectionType" => ConnectionType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_connection_type(
+    ConnectionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteConnectionType",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectionType" => ConnectionType), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3107,6 +3711,160 @@ function delete_dev_endpoint(
         "DeleteDevEndpoint",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_glue_identity_center_configuration()
+    delete_glue_identity_center_configuration(params::Dict{String,<:Any})
+
+Deletes the existing Glue Identity Center configuration, removing the integration between
+Glue and Amazon Web Services IAM Identity Center.
+"""
+function delete_glue_identity_center_configuration end
+
+function delete_glue_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteGlueIdentityCenterConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_glue_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteGlueIdentityCenterConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_integration(integration_identifier)
+    delete_integration(integration_identifier, params::Dict{String,<:Any})
+
+Deletes the specified Zero-ETL integration.
+
+# Arguments
+
+- `integration_identifier`: The Amazon Resource Name (ARN) for the integration.
+"""
+function delete_integration end
+
+function delete_integration(
+    IntegrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteIntegration",
+        Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_integration(
+    IntegrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteIntegration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_integration_resource_property(resource_arn)
+    delete_integration_resource_property(resource_arn, params::Dict{String,<:Any})
+
+This API is used for deleting the `ResourceProperty` of the Glue connection (for the source)
+or Glue database ARN (for the target).
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+"""
+function delete_integration_resource_property end
+
+function delete_integration_resource_property(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteIntegrationResourceProperty",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_integration_resource_property(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteIntegrationResourceProperty",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_integration_table_properties(resource_arn, table_name)
+    delete_integration_table_properties(resource_arn, table_name, params::Dict{String,<:Any})
+
+Deletes the table properties that have been created for the tables that need to be
+replicated.
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+- `table_name`: The name of the table to be replicated.
+"""
+function delete_integration_table_properties end
+
+function delete_integration_table_properties(
+    ResourceArn, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteIntegrationTableProperties",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_integration_table_properties(
+    ResourceArn,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DeleteIntegrationTableProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3779,6 +4537,38 @@ function delete_trigger(
 end
 
 """
+    delete_usage_profile(name)
+    delete_usage_profile(name, params::Dict{String,<:Any})
+
+Deletes the Glue specified usage profile.
+
+# Arguments
+
+- `name`: The name of the usage profile to delete.
+"""
+function delete_usage_profile end
+
+function delete_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue(
+        "DeleteUsageProfile",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_usage_profile(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DeleteUsageProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_user_defined_function(database_name, function_name)
     delete_user_defined_function(database_name, function_name, params::Dict{String,<:Any})
 
@@ -3861,6 +4651,168 @@ function delete_workflow(
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
+
+"""
+    describe_connection_type(connection_type)
+    describe_connection_type(connection_type, params::Dict{String,<:Any})
+
+The `DescribeConnectionType` API provides full details of the supported options for a given
+connection type in Glue. The response includes authentication configuration details that
+show supported authentication types and properties, and RestConfiguration for custom REST-
+based connection types registered via `RegisterConnectionType`.
+
+See also: `ListConnectionTypes`, `RegisterConnectionType`, `DeleteConnectionType`
+
+# Arguments
+
+- `connection_type`: The name of the connection type to be described.
+"""
+function describe_connection_type end
+
+function describe_connection_type(
+    ConnectionType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DescribeConnectionType",
+        Dict{String,Any}("ConnectionType" => ConnectionType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_connection_type(
+    ConnectionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DescribeConnectionType",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectionType" => ConnectionType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_entity(connection_name, entity_name)
+    describe_entity(connection_name, entity_name, params::Dict{String,<:Any})
+
+Provides details regarding the entity used with the connection type, with a description of
+the data model for each field in the selected entity.
+
+The response includes all the fields which make up the entity.
+
+# Arguments
+
+- `connection_name`: The name of the connection that contains the connection type
+  credentials.
+- `entity_name`: The name of the entity that you want to describe from the connection type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The catalog ID of the catalog that contains the connection. This can be
+  null, By default, the Amazon Web Services Account ID is the catalog ID.
+- `"DataStoreApiVersion"`: The version of the API used for the data store.
+- `"NextToken"`: A continuation token, included if this is a continuation call.
+"""
+function describe_entity end
+
+function describe_entity(
+    ConnectionName, EntityName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DescribeEntity",
+        Dict{String,Any}("ConnectionName" => ConnectionName, "EntityName" => EntityName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_entity(
+    ConnectionName,
+    EntityName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "DescribeEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionName" => ConnectionName, "EntityName" => EntityName
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_inbound_integrations()
+    describe_inbound_integrations(params::Dict{String,<:Any})
+
+Returns a list of inbound integrations for the specified integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IntegrationArn"`: The Amazon Resource Name (ARN) of the integration.
+- `"Marker"`: A token to specify where to start paginating. This is the marker from a
+  previously truncated response.
+- `"MaxRecords"`: The total number of items to return in the output.
+- `"TargetArn"`: The Amazon Resource Name (ARN) of the target resource in the integration.
+"""
+function describe_inbound_integrations end
+
+function describe_inbound_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("DescribeInboundIntegrations"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_inbound_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "DescribeInboundIntegrations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_integrations()
+    describe_integrations(params::Dict{String,<:Any})
+
+The API is used to retrieve a list of integrations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: A list of key and values, to filter down the results. Supported keys are
+  "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one
+  value.
+- `"IntegrationIdentifier"`: The Amazon Resource Name (ARN) for the integration.
+- `"Marker"`: A value that indicates the starting point for the next set of response records
+  in a subsequent request.
+- `"MaxRecords"`: The total number of items to return in the output.
+"""
+function describe_integrations end
+
+function describe_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("DescribeIntegrations"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("DescribeIntegrations", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -3992,6 +4944,43 @@ function get_blueprint_runs(
 end
 
 """
+    get_catalog(catalog_id)
+    get_catalog(catalog_id, params::Dict{String,<:Any})
+
+The name of the Catalog to retrieve. This should be all lowercase.
+
+# Arguments
+
+- `catalog_id`: The ID of the parent catalog in which the catalog resides. If none is
+  provided, the Amazon Web Services Account Number is used by default.
+"""
+function get_catalog end
+
+function get_catalog(CatalogId; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue(
+        "GetCatalog",
+        Dict{String,Any}("CatalogId" => CatalogId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_catalog(
+    CatalogId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CatalogId" => CatalogId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_catalog_import_status()
     get_catalog_import_status(params::Dict{String,<:Any})
 
@@ -4016,6 +5005,49 @@ function get_catalog_import_status(
     return glue(
         "GetCatalogImportStatus", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
+
+"""
+    get_catalogs()
+    get_catalogs(params::Dict{String,<:Any})
+
+Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-
+federated catalog use case, this operation returns the list of catalogs mapped to Redshift
+databases in the Redshift namespace catalog.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeRoot"`: Whether to list the default catalog in the account and region in the
+  response. Defaults to `false`. When `true` and
+  `ParentCatalogId = NULL | Amazon Web Services Account ID`, all catalogs and the default
+  catalog are enumerated in the response.
+
+  When the `ParentCatalogId` is not equal to null, and this attribute is passed as `false`
+  or `true`, an `InvalidInputException` is thrown.
+
+- `"MaxResults"`: The maximum number of catalogs to return in one response.
+
+- `"NextToken"`: A continuation token, if this is a continuation call.
+
+- `"ParentCatalogId"`: The ID of the parent catalog in which the catalog resides. If none is
+  provided, the Amazon Web Services Account Number is used by default.
+
+- `"Recursive"`: Whether to list all catalogs across the catalog hierarchy, starting from
+  the `ParentCatalogId`. Defaults to `false` . When `true`, all catalog objects in the
+  `ParentCatalogID` hierarchy are enumerated in the response.
+"""
+function get_catalogs end
+
+function get_catalogs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("GetCatalogs"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_catalogs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("GetCatalogs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -4306,6 +5338,50 @@ function get_column_statistics_task_runs(
 end
 
 """
+    get_column_statistics_task_settings(database_name, table_name)
+    get_column_statistics_task_settings(database_name, table_name, params::Dict{String,<:Any})
+
+Gets settings for a column statistics task.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table for which to retrieve column statistics.
+"""
+function get_column_statistics_task_settings end
+
+function get_column_statistics_task_settings(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetColumnStatisticsTaskSettings",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_column_statistics_task_settings(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetColumnStatisticsTaskSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_connection(name)
     get_connection(name, params::Dict{String,<:Any})
 
@@ -4318,6 +5394,9 @@ Retrieves a connection definition from the Data Catalog.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ApplyOverrideForComputeEnvironment"`: For connections that may be used in multiple
+  services, specifies returning properties for the specified compute environment.
 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
@@ -4537,6 +5616,95 @@ function get_data_catalog_encryption_settings(
 end
 
 """
+    get_data_quality_model(profile_id)
+    get_data_quality_model(profile_id, params::Dict{String,<:Any})
+
+Retrieve the training status of the model along with more information (CompletedOn,
+StartedOn, FailureReason).
+
+# Arguments
+
+- `profile_id`: The Profile ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StatisticId"`: The Statistic ID.
+"""
+function get_data_quality_model end
+
+function get_data_quality_model(
+    ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetDataQualityModel",
+        Dict{String,Any}("ProfileId" => ProfileId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_quality_model(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetDataQualityModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_model_result(profile_id, statistic_id)
+    get_data_quality_model_result(profile_id, statistic_id, params::Dict{String,<:Any})
+
+Retrieve a statistic's predictions for a given Profile ID.
+
+# Arguments
+
+- `profile_id`: The Profile ID.
+- `statistic_id`: The Statistic ID.
+"""
+function get_data_quality_model_result end
+
+function get_data_quality_model_result(
+    ProfileId, StatisticId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetDataQualityModelResult",
+        Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_quality_model_result(
+    ProfileId,
+    StatisticId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetDataQualityModelResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_quality_result(result_id)
     get_data_quality_result(result_id, params::Dict{String,<:Any})
 
@@ -4724,6 +5892,9 @@ Retrieves all databases defined in a given Data Catalog.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AttributesToGet"`: Specifies the database fields returned by the `GetDatabases` call.
+  This parameter doesn’t accept an empty list. The request must include the `NAME`.
+
 - `"CatalogId"`: The ID of the Data Catalog from which to retrieve `Databases`. If none is
   provided, the Amazon Web Services account ID is used by default.
 
@@ -4848,6 +6019,192 @@ function get_dev_endpoints(
 end
 
 """
+    get_entity_records(entity_name, limit)
+    get_entity_records(entity_name, limit, params::Dict{String,<:Any})
+
+This API is used to query preview data from a given connection type or from a native Amazon
+S3 based Glue Data Catalog.
+
+Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode
+based on the field type defined by the `DescribeEntity` API.
+
+Spark connectors generate schemas according to the same data type mapping as in the
+`DescribeEntity` API. Spark connectors convert data to the appropriate data types matching
+the schema when returning rows.
+
+# Arguments
+
+- `entity_name`: Name of the entity that we want to query the preview data from the given
+  connection type.
+- `limit`: Limits the number of records fetched with the request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The catalog ID of the catalog that contains the connection. This can be
+  null, By default, the Amazon Web Services Account ID is the catalog ID.
+- `"ConnectionName"`: The name of the connection that contains the connection type
+  credentials.
+- `"ConnectionOptions"`: Connector options that are required to query the data.
+- `"DataStoreApiVersion"`: The API version of the SaaS connector.
+- `"FilterPredicate"`: A filter predicate that you can apply in the query request.
+- `"NextToken"`: A continuation token, included if this is a continuation call.
+- `"OrderBy"`: A parameter that orders the response preview data.
+- `"SelectedFields"`: List of fields that we want to fetch as part of preview data.
+"""
+function get_entity_records end
+
+function get_entity_records(
+    EntityName, Limit; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetEntityRecords",
+        Dict{String,Any}("EntityName" => EntityName, "Limit" => Limit);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_entity_records(
+    EntityName,
+    Limit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetEntityRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EntityName" => EntityName, "Limit" => Limit),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_glue_identity_center_configuration()
+    get_glue_identity_center_configuration(params::Dict{String,<:Any})
+
+Retrieves the current Glue Identity Center configuration details, including the associated
+Identity Center instance and application information.
+"""
+function get_glue_identity_center_configuration end
+
+function get_glue_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetGlueIdentityCenterConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_glue_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetGlueIdentityCenterConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_integration_resource_property(resource_arn)
+    get_integration_resource_property(resource_arn, params::Dict{String,<:Any})
+
+This API is used for fetching the `ResourceProperty` of the Glue connection (for the source)
+or Glue database ARN (for the target)
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+"""
+function get_integration_resource_property end
+
+function get_integration_resource_property(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetIntegrationResourceProperty",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_integration_resource_property(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetIntegrationResourceProperty",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_integration_table_properties(resource_arn, table_name)
+    get_integration_table_properties(resource_arn, table_name, params::Dict{String,<:Any})
+
+This API is used to retrieve optional override properties for the tables that need to be
+replicated. These properties can include properties for filtering and partition for source
+and target tables.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the target table for which to retrieve
+  integration table properties. Currently, this API only supports retrieving properties for
+  target tables, and the provided ARN should be the ARN of the target table in the Glue Data
+  Catalog. Support for retrieving integration table properties for source connections (using
+  the connection ARN) is not yet implemented and will be added in a future release.
+
+- `table_name`: The name of the table to be replicated.
+"""
+function get_integration_table_properties end
+
+function get_integration_table_properties(
+    ResourceArn, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetIntegrationTableProperties",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_integration_table_properties(
+    ResourceArn,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetIntegrationTableProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_job(job_name)
     get_job(job_name, params::Dict{String,<:Any})
 
@@ -4931,7 +6288,8 @@ end
     get_job_run(job_name, run_id)
     get_job_run(job_name, run_id, params::Dict{String,<:Any})
 
-Retrieves the metadata for a given job run.
+Retrieves the metadata for a given job run. Job run history is accessible for 365 days for
+your workflow and job run.
 
 # Arguments
 
@@ -4978,6 +6336,9 @@ end
     get_job_runs(job_name, params::Dict{String,<:Any})
 
 Retrieves metadata for all runs of a given job definition.
+
+`GetJobRuns` returns the job runs in chronological order, with the newest jobs returned
+first.
 
 # Arguments
 
@@ -5073,6 +6434,60 @@ function get_mapping(
     return glue(
         "GetMapping",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Source" => Source), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_materialized_view_refresh_task_run(catalog_id, materialized_view_refresh_task_run_id)
+    get_materialized_view_refresh_task_run(catalog_id, materialized_view_refresh_task_run_id, params::Dict{String,<:Any})
+
+Get the associated metadata/information for a task run, given a task run ID.
+
+# Arguments
+
+- `catalog_id`: The ID of the Data Catalog where the table resides. If none is supplied, the
+  account ID is used by default.
+- `materialized_view_refresh_task_run_id`: The identifier for the particular materialized
+  view refresh task run.
+"""
+function get_materialized_view_refresh_task_run end
+
+function get_materialized_view_refresh_task_run(
+    CatalogId,
+    MaterializedViewRefreshTaskRunId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "MaterializedViewRefreshTaskRunId" => MaterializedViewRefreshTaskRunId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_materialized_view_refresh_task_run(
+    CatalogId,
+    MaterializedViewRefreshTaskRunId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "GetMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "MaterializedViewRefreshTaskRunId" => MaterializedViewRefreshTaskRunId,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6034,8 +7449,11 @@ Retrieves the `Table` definition in a Data Catalog for a specified table.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AuditContext"`: A structure containing the Lake Formation [audit context](https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html).
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a request
+  to create or update an Glue Data Catalog view.
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
   recent transaction commit time will be used. Cannot be specified along with
   `TransactionId`.
@@ -6259,15 +7677,33 @@ Retrieves the definitions of some or all of the tables in a given `Database`.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AttributesToGet"`: Specifies the table fields returned by the `GetTables` call. This
+  parameter doesn’t accept an empty list. The request must include `NAME`.
+
+  The following are the valid combinations of values:
+
+  - `NAME` - Names of all tables in the database.
+  - `NAME`, `TABLE_TYPE` - Names of all tables and the table types.
+
+- `"AuditContext"`: A structure containing the Lake Formation [audit context](https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html).
+
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
+
 - `"Expression"`: A regular expression pattern. If present, only those tables whose names
   match the pattern are returned.
+
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a request
+  to create or update an Glue Data Catalog view.
+
 - `"MaxResults"`: The maximum number of tables to return in a single response.
+
 - `"NextToken"`: A continuation token, included if this is a continuation call.
+
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
   recent transaction commit time will be used. Cannot be specified along with
   `TransactionId`.
+
 - `"TransactionId"`: The transaction ID at which to read the table contents.
 """
 function get_tables end
@@ -6738,6 +8174,38 @@ function get_unfiltered_table_metadata(
 end
 
 """
+    get_usage_profile(name)
+    get_usage_profile(name, params::Dict{String,<:Any})
+
+Retrieves information about the specified Glue usage profile.
+
+# Arguments
+
+- `name`: The name of the usage profile to retrieve.
+"""
+function get_usage_profile end
+
+function get_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue(
+        "GetUsageProfile",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_usage_profile(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "GetUsageProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_user_defined_function(database_name, function_name)
     get_user_defined_function(database_name, function_name, params::Dict{String,<:Any})
 
@@ -6807,9 +8275,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The ID of the Data Catalog where the functions to be retrieved are located.
   If none is provided, the Amazon Web Services account ID is used by default.
+
 - `"DatabaseName"`: The name of the catalog database where the functions are located. If
   none is provided, functions from all the databases across the catalog will be returned.
+
+- `"FunctionType"`: An optional function-type pattern string that filters the function
+  definitions returned from Amazon Redshift Federated Permissions Catalog.
+
+  Specify a value of `REGULAR_FUNCTION` or `STORED_PROCEDURE`. The `STORED_PROCEDURE`
+  function type is only compatible with Amazon Redshift Federated Permissions Catalog.
+
 - `"MaxResults"`: The maximum number of functions to return in one response.
+
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 function get_user_defined_functions end
@@ -6881,7 +8358,8 @@ end
     get_workflow_run(name, run_id)
     get_workflow_run(name, run_id, params::Dict{String,<:Any})
 
-Retrieves the metadata for a given workflow run.
+Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days
+for your workflow and job run.
 
 # Arguments
 
@@ -7079,6 +8557,38 @@ function list_column_statistics_task_runs(
     return glue(
         "ListColumnStatisticsTaskRuns", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
+
+"""
+    list_connection_types()
+    list_connection_types(params::Dict{String,<:Any})
+
+The `ListConnectionTypes` API provides a discovery mechanism to learn available connection
+types in Glue. The response contains a list of connection types with high-level details of
+what is supported for each connection type, including both built-in connection types and
+custom connection types registered via `RegisterConnectionType`. The connection types listed
+are the set of supported options for the `ConnectionType` value in the `CreateConnection`
+API.
+
+See also: `DescribeConnectionType`, `RegisterConnectionType`, `DeleteConnectionType`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+"""
+function list_connection_types end
+
+function list_connection_types(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("ListConnectionTypes"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_connection_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("ListConnectionTypes", params; aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 
 """
@@ -7326,6 +8836,73 @@ function list_data_quality_rulesets(
 end
 
 """
+    list_data_quality_statistic_annotations()
+    list_data_quality_statistic_annotations(params::Dict{String,<:Any})
+
+Retrieve annotations for a data quality statistic.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to retrieve the next set of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+function list_data_quality_statistic_annotations end
+
+function list_data_quality_statistic_annotations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListDataQualityStatisticAnnotations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_data_quality_statistic_annotations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListDataQualityStatisticAnnotations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_statistics()
+    list_data_quality_statistics(params::Dict{String,<:Any})
+
+Retrieves a list of data quality statistics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to request the next page of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+function list_data_quality_statistics end
+
+function list_data_quality_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("ListDataQualityStatistics"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_data_quality_statistics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListDataQualityStatistics", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_dev_endpoints()
     list_dev_endpoints(params::Dict{String,<:Any})
 
@@ -7358,6 +8935,74 @@ function list_dev_endpoints(
 end
 
 """
+    list_entities()
+    list_entities(params::Dict{String,<:Any})
+
+Returns the available entities supported by the connection type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The catalog ID of the catalog that contains the connection. This can be
+  null, By default, the Amazon Web Services Account ID is the catalog ID.
+- `"ConnectionName"`: A name for the connection that has required credentials to query any
+  connection type.
+- `"DataStoreApiVersion"`: The API version of the SaaS connector.
+- `"NextToken"`: A continuation token, included if this is a continuation call.
+- `"ParentEntityName"`: Name of the parent entity for which you want to list the children.
+  This parameter takes a fully-qualified path of the entity in order to list the child
+  entities.
+"""
+function list_entities end
+
+function list_entities(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("ListEntities"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_entities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("ListEntities", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_integration_resource_properties()
+    list_integration_resource_properties(params::Dict{String,<:Any})
+
+List integration resource properties for a single customer. It supports the filters,
+maxRecords and markers.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: A list of filters, supported filter Key is `SourceArn` and `TargetArn`.
+- `"Marker"`: This is the pagination token for next page, initial value is `null`.
+- `"MaxRecords"`: This is total number of items to be evaluated.
+"""
+function list_integration_resource_properties end
+
+function list_integration_resource_properties(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListIntegrationResourceProperties"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_integration_resource_properties(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListIntegrationResourceProperties",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_jobs()
     list_jobs(params::Dict{String,<:Any})
 
@@ -7387,6 +9032,54 @@ function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glue("ListJobs", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_materialized_view_refresh_task_runs(catalog_id)
+    list_materialized_view_refresh_task_runs(catalog_id, params::Dict{String,<:Any})
+
+List all task runs for a particular account.
+
+# Arguments
+
+- `catalog_id`: The ID of the Data Catalog where the table resides. If none is supplied, the
+  account ID is used by default.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DatabaseName"`: The database where the table resides.
+- `"MaxResults"`: The maximum size of the response.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+- `"TableName"`: The name of the table for which statistics is generated.
+"""
+function list_materialized_view_refresh_task_runs end
+
+function list_materialized_view_refresh_task_runs(
+    CatalogId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ListMaterializedViewRefreshTaskRuns",
+        Dict{String,Any}("CatalogId" => CatalogId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_materialized_view_refresh_task_runs(
+    CatalogId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "ListMaterializedViewRefreshTaskRuns",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CatalogId" => CatalogId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -7614,7 +9307,7 @@ Lists the history of previous optimizer runs for a specific table.
 - `catalog_id`: The Catalog ID of the table.
 - `database_name`: The name of the database in the catalog in which the table resides.
 - `table_name`: The name of the table.
-- `type`: The type of table optimizer. Currently, the only valid value is `compaction`.
+- `type`: The type of table optimizer.
 
 # Optional Parameters
 
@@ -7707,6 +9400,31 @@ function list_triggers(
 end
 
 """
+    list_usage_profiles()
+    list_usage_profiles(params::Dict{String,<:Any})
+
+List all the Glue usage profiles.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of usage profiles to return in a single response.
+- `"NextToken"`: A continuation token, included if this is a continuation call.
+"""
+function list_usage_profiles end
+
+function list_usage_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("ListUsageProfiles"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_usage_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("ListUsageProfiles", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     list_workflows()
     list_workflows(params::Dict{String,<:Any})
 
@@ -7729,6 +9447,58 @@ function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return glue("ListWorkflows", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    modify_integration(integration_identifier)
+    modify_integration(integration_identifier, params::Dict{String,<:Any})
+
+Modifies a Zero-ETL integration in the caller's account.
+
+# Arguments
+
+- `integration_identifier`: The Amazon Resource Name (ARN) for the integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataFilter"`: Selects source tables for the integration using Maxwell filter syntax.
+- `"Description"`: A description of the integration.
+- `"IntegrationConfig"`: The configuration settings for the integration. Currently, only the
+  RefreshInterval can be modified.
+- `"IntegrationName"`: A unique name for an integration in Glue.
+"""
+function modify_integration end
+
+function modify_integration(
+    IntegrationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "ModifyIntegration",
+        Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function modify_integration(
+    IntegrationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "ModifyIntegration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IntegrationIdentifier" => IntegrationIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -7774,6 +9544,54 @@ function put_data_catalog_encryption_settings(
                 _merge,
                 Dict{String,Any}(
                     "DataCatalogEncryptionSettings" => DataCatalogEncryptionSettings
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id)
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id, params::Dict{String,<:Any})
+
+Annotate all datapoints for a Profile.
+
+# Arguments
+
+- `inclusion_annotation`: The inclusion annotation value to apply to the profile.
+- `profile_id`: The ID of the data quality monitoring profile to annotate.
+"""
+function put_data_quality_profile_annotation end
+
+function put_data_quality_profile_annotation(
+    InclusionAnnotation, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "PutDataQualityProfileAnnotation",
+        Dict{String,Any}(
+            "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_data_quality_profile_annotation(
+    InclusionAnnotation,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "PutDataQualityProfileAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
                 ),
                 params,
             ),
@@ -7905,8 +9723,14 @@ existing properties.
 # Arguments
 
 - `name`: Name of the workflow which was run.
+
 - `run_id`: The ID of the workflow run for which the run properties should be updated.
+
 - `run_properties`: The properties to put for the specified run.
+
+  Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve
+  secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret
+  management mechanism if you intend to use them within the workflow run.
 """
 function put_workflow_run_properties end
 
@@ -7977,6 +9801,99 @@ function query_schema_version_metadata(
 )
     return glue(
         "QuerySchemaVersionMetadata", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    register_connection_type(connection_properties, connection_type, connector_authentication_configuration, integration_type, rest_configuration)
+    register_connection_type(connection_properties, connection_type, connector_authentication_configuration, integration_type, rest_configuration, params::Dict{String,<:Any})
+
+Registers a custom connection type in Glue based on the configuration provided. This
+operation enables customers to configure custom connectors for any data source with REST-
+based APIs, eliminating the need for building custom Lambda connectors.
+
+The registered connection type stores details about how requests and responses are
+interpreted by REST sources, including connection properties, authentication configuration,
+and REST configuration with entity definitions. Once registered, customers can create
+connections using this connection type and work with them the same way as natively supported
+Glue connectors.
+
+Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT
+Bearer, Authorization Code), and Custom Auth configurations.
+
+# Arguments
+
+- `connection_properties`: Defines the base URL and additional request parameters needed
+  during connection creation for this connection type.
+- `connection_type`: The name of the connection type. Must be between 1 and 255 characters
+  and must be prefixed with "REST-" to indicate it is a REST-based connector.
+- `connector_authentication_configuration`: Defines the supported authentication types and
+  required properties for this connection type, including Basic, OAuth2, and Custom
+  authentication methods.
+- `integration_type`: The integration type for the connection. Currently only "REST"
+  protocol is supported.
+- `rest_configuration`: Defines the HTTP request and response configuration, validation
+  endpoint, and entity configurations for REST API interactions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the connection type. Can be up to 2048 characters and
+  provides details about the purpose and functionality of the connection type.
+- `"Tags"`: The tags you assign to the connection type.
+"""
+function register_connection_type end
+
+function register_connection_type(
+    ConnectionProperties,
+    ConnectionType,
+    ConnectorAuthenticationConfiguration,
+    IntegrationType,
+    RestConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "RegisterConnectionType",
+        Dict{String,Any}(
+            "ConnectionProperties" => ConnectionProperties,
+            "ConnectionType" => ConnectionType,
+            "ConnectorAuthenticationConfiguration" => ConnectorAuthenticationConfiguration,
+            "IntegrationType" => IntegrationType,
+            "RestConfiguration" => RestConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_connection_type(
+    ConnectionProperties,
+    ConnectionType,
+    ConnectorAuthenticationConfiguration,
+    IntegrationType,
+    RestConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "RegisterConnectionType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectionProperties" => ConnectionProperties,
+                    "ConnectionType" => ConnectionType,
+                    "ConnectorAuthenticationConfiguration" =>
+                        ConnectorAuthenticationConfiguration,
+                    "IntegrationType" => IntegrationType,
+                    "RestConfiguration" => RestConfiguration,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -8267,6 +10184,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `PropertyPredicate`. For example, if `Key=Name` and `Value=link`, tables named
   `customer-link` and `xx-link-yy` are returned, but `xxlinkyy` is not returned.
 
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a request
+  to create or update an Glue Data Catalog view.
+
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 
 - `"NextToken"`: A continuation token, included if this is a continuation call.
@@ -8411,6 +10331,51 @@ function start_column_statistics_task_run(
 end
 
 """
+    start_column_statistics_task_run_schedule(database_name, table_name)
+    start_column_statistics_task_run_schedule(database_name, table_name, params::Dict{String,<:Any})
+
+Starts a column statistics task run schedule.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table for which to start a column statistic task run
+  schedule.
+"""
+function start_column_statistics_task_run_schedule end
+
+function start_column_statistics_task_run_schedule(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "StartColumnStatisticsTaskRunSchedule",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_column_statistics_task_run_schedule(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "StartColumnStatisticsTaskRunSchedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_crawler(name)
     start_crawler(name, params::Dict{String,<:Any})
 
@@ -8504,6 +10469,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such as
   a UUID) to avoid creating or starting multiple instances of the same resource.
 - `"CreatedRulesetName"`: A name for the ruleset.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"NumberOfWorkers"`: The number of `G.1X` workers to be used in the run. The default is 5.
 - `"Timeout"`: The timeout for a run in minutes. This is the maximum time that a run can
   consume resources before it is terminated and enters `TIMEOUT` status. The default is
@@ -8788,7 +10755,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Only jobs with Glue version 3.0 and above and command type `glueetl` will be allowed to
   set `ExecutionClass` to `FLEX`. The flexible execution class is available for Spark jobs.
 
+- `"ExecutionRoleSessionPolicy"`: This inline session policy to the StartJobRun API allows
+  you to dynamically restrict the permissions of the specified execution role for the scope
+  of the job, without requiring the creation of additional IAM roles.
+
 - `"JobRunId"`: The ID of a previous `JobRun` to retry.
+
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job run.
+
+  A value of true means job run queuing is enabled for the job run. If false or not
+  populated, the job run will not be considered for queueing.
 
 - `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type, the
   number of Glue data processing units (DPUs) that can be allocated when this job runs. A
@@ -8821,44 +10797,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters `TIMEOUT` status. This value
   overrides the timeout value set in the parent job.
 
-  Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value
-  is left blank, the job will be restarted after 7 days based if you have not setup a
-  maintenance window. If you have setup maintenance window, it will be restarted during the
-  maintenance window after 7 days.
+  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will
+  throw an exception.
+
+  When the value is left blank, the timeout is defaulted to 2880 minutes.
+
+  Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7
+  days. For instance if you have specified a timeout of 20 days for a batch job, it will be
+  stopped on the 7th day.
+
+  For streaming jobs, if you have set up a maintenance window, it will be restarted during
+  the maintenance window after 7 days.
 
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts a
   value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray
   jobs.
 
   - For the `G.1X` worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with
-    84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    94GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.2X` worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with
-    128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend
-this worker type for workloads such as data transforms, joins, and queries, to offers a
-scalable and cost effective way to run most jobs.
+    138GB disk, and provides 1 executor per worker. We recommend this worker type for
+workloads such as data transforms, joins, and queries, to offers a scalable and cost
+effective way to run most jobs.
   - For the `G.4X` worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with
-    256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East
-(N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia
-Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe
-(Stockholm).
+    256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the
+following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West
+(Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada
+(Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
   - For the `G.8X` worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with
-    512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend
-this worker type for jobs whose workloads contain your most demanding transforms,
-aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or
-later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the `G.4X`
-worker type.
+    512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs
+whose workloads contain your most demanding transforms, aggregations, joins, and queries.
+This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same
+Amazon Web Services Regions as supported for the `G.4X` worker type.
   - For the `G.025X` worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory)
-    with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We
-    recommend this worker type for low volume streaming jobs. This worker type is only
-    available for Glue version 3.0 streaming jobs.
+    with 84GB disk, and provides 1 executor per worker. We recommend this worker type for
+    low volume streaming jobs. This worker type is only available for Glue version 3.0 or
+    later streaming jobs.
   - For the `Z.2X` worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with
-    128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the
-autoscaler.
+    128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
 """
 function start_job_run end
 
@@ -8879,6 +10859,67 @@ function start_job_run(
     return glue(
         "StartJobRun",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobName" => JobName), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_materialized_view_refresh_task_run(catalog_id, database_name, table_name)
+    start_materialized_view_refresh_task_run(catalog_id, database_name, table_name, params::Dict{String,<:Any})
+
+Starts a materialized view refresh task run, for a specified table and columns.
+
+# Arguments
+
+- `catalog_id`: The ID of the Data Catalog where the table reside. If none is supplied, the
+  account ID is used by default.
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table to generate run the materialized view refresh task.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FullRefresh"`: Specifies whether this is a full refresh of the task run.
+"""
+function start_materialized_view_refresh_task_run end
+
+function start_materialized_view_refresh_task_run(
+    CatalogId, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "StartMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_materialized_view_refresh_task_run(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "StartMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -8945,6 +10986,9 @@ After the labeling process is finished, you can upload your labels with a call t
 `StartImportLabelsTaskRun`. After `StartImportLabelsTaskRun` finishes, all future runs of
 the machine learning transform will use the new and improved labels and perform a higher-
 quality transformation.
+
+Note: The role used to write the generated labeling set to the `OutputS3Path` is the role
+associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
 
 # Arguments
 
@@ -9035,6 +11079,10 @@ Starts a new run of the specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RunProperties"`: The workflow run properties for the new workflow run.
+
+  Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve
+  secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret
+  management mechanism if you intend to use them within the workflow run.
 """
 function start_workflow_run end
 
@@ -9090,6 +11138,51 @@ function stop_column_statistics_task_run(
 )
     return glue(
         "StopColumnStatisticsTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_column_statistics_task_run_schedule(database_name, table_name)
+    stop_column_statistics_task_run_schedule(database_name, table_name, params::Dict{String,<:Any})
+
+Stops a column statistics task run schedule.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table for which to stop a column statistic task run
+  schedule.
+"""
+function stop_column_statistics_task_run_schedule end
+
+function stop_column_statistics_task_run_schedule(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "StopColumnStatisticsTaskRunSchedule",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_column_statistics_task_run_schedule(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "StopColumnStatisticsTaskRunSchedule",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -9167,6 +11260,61 @@ function stop_crawler_schedule(
         "StopCrawlerSchedule",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CrawlerName" => CrawlerName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_materialized_view_refresh_task_run(catalog_id, database_name, table_name)
+    stop_materialized_view_refresh_task_run(catalog_id, database_name, table_name, params::Dict{String,<:Any})
+
+Stops a materialized view refresh task run, for a specified table and columns.
+
+# Arguments
+
+- `catalog_id`: The ID of the Data Catalog where the table reside. If none is supplied, the
+  account ID is used by default.
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table to generate statistics.
+"""
+function stop_materialized_view_refresh_task_run end
+
+function stop_materialized_view_refresh_task_run(
+    CatalogId, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "StopMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_materialized_view_refresh_task_run(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "StopMaterializedViewRefreshTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -9329,6 +11477,39 @@ function tag_resource(
 end
 
 """
+    test_connection()
+    test_connection(params::Dict{String,<:Any})
+
+Tests a connection to a service to validate the service credentials that you provide.
+
+You can either provide an existing connection name or a `TestConnectionInput` for testing a
+non-existing connection input. Providing both at the same time will cause an error.
+
+If the action is successful, the service sends back an HTTP 200 response.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The catalog ID where the connection resides.
+- `"ConnectionName"`: Optional. The name of the connection to test. If only name is
+  provided, the operation will get the connection and use that for testing.
+- `"TestConnectionInput"`: A structure that is used to specify testing a connection to a
+  service.
+"""
+function test_connection end
+
+function test_connection(; aws_config::AbstractAWSConfig=current_aws_config())
+    return glue("TestConnection"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function test_connection(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue("TestConnection", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     untag_resource(resource_arn, tags_to_remove)
     untag_resource(resource_arn, tags_to_remove, params::Dict{String,<:Any})
 
@@ -9417,6 +11598,51 @@ function update_blueprint(
             mergewith(
                 _merge,
                 Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_catalog(catalog_id, catalog_input)
+    update_catalog(catalog_id, catalog_input, params::Dict{String,<:Any})
+
+Updates an existing catalog's properties in the Glue Data Catalog.
+
+# Arguments
+
+- `catalog_id`: The ID of the catalog.
+- `catalog_input`: A `CatalogInput` object specifying the new properties of an existing
+  catalog.
+"""
+function update_catalog end
+
+function update_catalog(
+    CatalogId, CatalogInput; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateCatalog",
+        Dict{String,Any}("CatalogId" => CatalogId, "CatalogInput" => CatalogInput);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_catalog(
+    CatalogId,
+    CatalogInput,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "UpdateCatalog",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CatalogId" => CatalogId, "CatalogInput" => CatalogInput),
                 params,
             ),
         );
@@ -9584,6 +11810,62 @@ function update_column_statistics_for_table(
                     "DatabaseName" => DatabaseName,
                     "TableName" => TableName,
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_column_statistics_task_settings(database_name, table_name)
+    update_column_statistics_task_settings(database_name, table_name, params::Dict{String,<:Any})
+
+Updates settings for a column statistics task.
+
+# Arguments
+
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table for which to generate column statistics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogID"`: The ID of the Data Catalog in which the database resides.
+- `"ColumnNameList"`: A list of column names for which to run statistics.
+- `"Role"`: The role used for running the column statistics.
+- `"SampleSize"`: The percentage of data to sample.
+- `"Schedule"`: A schedule for running the column statistics, specified in CRON syntax.
+- `"SecurityConfiguration"`: Name of the security configuration that is used to encrypt
+  CloudWatch logs.
+"""
+function update_column_statistics_task_settings end
+
+function update_column_statistics_task_settings(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateColumnStatisticsTaskSettings",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_column_statistics_task_settings(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "UpdateColumnStatisticsTaskSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
                 params,
             ),
         );
@@ -9906,6 +12188,151 @@ function update_dev_endpoint(
         "UpdateDevEndpoint",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("EndpointName" => EndpointName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_glue_identity_center_configuration()
+    update_glue_identity_center_configuration(params::Dict{String,<:Any})
+
+Updates the existing Glue Identity Center configuration, allowing modification of scopes and
+permissions for the integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Scopes"`: A list of Identity Center scopes that define the updated permissions and
+  access levels for the Glue configuration.
+- `"UserBackgroundSessionsEnabled"`: Specifies whether users can run background sessions
+  when using Identity Center authentication with Glue services.
+"""
+function update_glue_identity_center_configuration end
+
+function update_glue_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateGlueIdentityCenterConfiguration"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_glue_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateGlueIdentityCenterConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_integration_resource_property(resource_arn)
+    update_integration_resource_property(resource_arn, params::Dict{String,<:Any})
+
+This API can be used for updating the `ResourceProperty` of the Glue connection (for the
+source) or Glue database ARN (for the target). These properties can include the role to
+access the connection or database. Since the same resource can be used across multiple
+integrations, updating resource properties will impact all the integrations using it.
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SourceProcessingProperties"`: The resource properties associated with the integration
+  source.
+- `"TargetProcessingProperties"`: The resource properties associated with the integration
+  target.
+"""
+function update_integration_resource_property end
+
+function update_integration_resource_property(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateIntegrationResourceProperty",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_integration_resource_property(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "UpdateIntegrationResourceProperty",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_integration_table_properties(resource_arn, table_name)
+    update_integration_table_properties(resource_arn, table_name, params::Dict{String,<:Any})
+
+This API is used to provide optional override properties for the tables that need to be
+replicated. These properties can include properties for filtering and partitioning for the
+source and target tables. To set both source and target properties the same API need to be
+invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue
+database ARN as `ResourceArn` with `TargetTableConfig` respectively.
+
+The override will be reflected across all the integrations using same `ResourceArn` and
+source table.
+
+# Arguments
+
+- `resource_arn`: The connection ARN of the source, or the database ARN of the target.
+- `table_name`: The name of the table to be replicated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SourceTableConfig"`: A structure for the source table configuration.
+- `"TargetTableConfig"`: A structure for the target table configuration.
+"""
+function update_integration_table_properties end
+
+function update_integration_table_properties(
+    ResourceArn, TableName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateIntegrationTableProperties",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_integration_table_properties(
+    ResourceArn,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "UpdateIntegrationTableProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TableName" => TableName),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -10316,8 +12743,8 @@ function update_source_control_from_job(
 end
 
 """
-    update_table(database_name, table_input)
-    update_table(database_name, table_input, params::Dict{String,<:Any})
+    update_table(database_name)
+    update_table(database_name, params::Dict{String,<:Any})
 
 Updates a metadata table in the Data Catalog.
 
@@ -10325,7 +12752,6 @@ Updates a metadata table in the Data Catalog.
 
 - `database_name`: The name of the catalog database in which the table resides. For Hive
   compatibility, this name is entirely lowercase.
-- `table_input`: An updated `TableInput` object to define the metadata table in the catalog.
 
 # Optional Parameters
 
@@ -10335,21 +12761,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services account ID is used by default.
 - `"Force"`: A flag that can be set to true to ignore matching storage descriptor and
   subobject matching requirements.
+- `"Name"`: The unique identifier for the table within the specified database that will be
+  created in the Glue Data Catalog.
 - `"SkipArchive"`: By default, `UpdateTable` always creates an archived version of the table
   before updating it. However, if `skipArchive` is set to true, `UpdateTable` does not
   create the archived version.
+- `"TableInput"`: An updated `TableInput` object to define the metadata table in the
+  catalog.
 - `"TransactionId"`: The transaction ID at which to update the table contents.
+- `"UpdateOpenTableFormatInput"`: Input parameters for updating open table format tables in
+  GlueData Catalog, serving as a wrapper for format-specific update operations such as
+  Apache Iceberg.
 - `"VersionId"`: The version ID at which to update the table contents.
 - `"ViewUpdateAction"`: The operation to be performed when updating the view.
 """
 function update_table end
 
-function update_table(
-    DatabaseName, TableInput; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function update_table(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableInput" => TableInput);
+        Dict{String,Any}("DatabaseName" => DatabaseName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -10357,20 +12788,13 @@ end
 
 function update_table(
     DatabaseName,
-    TableInput,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return glue(
         "UpdateTable",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DatabaseName" => DatabaseName, "TableInput" => TableInput
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -10390,7 +12814,7 @@ Updates the configuration for an existing table optimizer.
 - `table_name`: The name of the table.
 - `table_optimizer_configuration`: A `TableOptimizerConfiguration` object representing the
   configuration of a table optimizer.
-- `type`: The type of table optimizer. Currently, the only valid value is `compaction`.
+- `type`: The type of table optimizer.
 """
 function update_table_optimizer end
 
@@ -10451,6 +12875,10 @@ end
 
 Updates a trigger definition.
 
+Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets
+from a Glue Connection, Amazon Web Services Secrets Manager or other secret management
+mechanism if you intend to keep them within the Job.
+
 # Arguments
 
 - `name`: The name of the trigger to update.
@@ -10481,6 +12909,57 @@ function update_trigger(
             mergewith(
                 _merge,
                 Dict{String,Any}("Name" => Name, "TriggerUpdate" => TriggerUpdate),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_usage_profile(configuration, name)
+    update_usage_profile(configuration, name, params::Dict{String,<:Any})
+
+Update an Glue usage profile.
+
+# Arguments
+
+- `configuration`: A `ProfileConfiguration` object specifying the job and session values for
+  the profile.
+- `name`: The name of the usage profile.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the usage profile.
+"""
+function update_usage_profile end
+
+function update_usage_profile(
+    Configuration, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return glue(
+        "UpdateUsageProfile",
+        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_usage_profile(
+    Configuration,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return glue(
+        "UpdateUsageProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Configuration" => Configuration, "Name" => Name),
                 params,
             ),
         );
@@ -10571,7 +13050,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultRunProperties"`: A collection of properties to be used as part of each execution
   of the workflow.
+
+  Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve
+  secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret
+  management mechanism if you intend to use them within the workflow run.
+
 - `"Description"`: The description of the workflow.
+
 - `"MaxConcurrentRuns"`: You can use this parameter to prevent unwanted multiple updates to
   data, to control costs, or in some cases, to prevent exceeding the maximum number of
   concurrent runs of any of the component jobs. If you leave this parameter blank, there is

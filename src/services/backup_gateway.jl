@@ -348,8 +348,8 @@ end
     get_hypervisor_property_mappings(hypervisor_arn, params::Dict{String,<:Any})
 
 This action retrieves the property mappings for the specified hypervisor. A hypervisor
-property mapping displays the relationship of entity properties available from the on-
-premises hypervisor to the properties available in Amazon Web Services.
+property mapping displays the relationship of entity properties available from the
+hypervisor to the properties available in Amazon Web Services.
 
 # Arguments
 
@@ -663,15 +663,15 @@ end
     put_hypervisor_property_mappings(hypervisor_arn, iam_role_arn, vmware_to_aws_tag_mappings, params::Dict{String,<:Any})
 
 This action sets the property mappings for the specified hypervisor. A hypervisor property
-mapping displays the relationship of entity properties available from the on-premises
-hypervisor to the properties available in Amazon Web Services.
+mapping displays the relationship of entity properties available from the hypervisor to the
+properties available in Amazon Web Services.
 
 # Arguments
 
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 - `iam_role_arn`: The Amazon Resource Name (ARN) of the IAM role.
-- `vmware_to_aws_tag_mappings`: This action requests the mappings of on-premises VMware tags
-  to the Amazon Web Services tags.
+- `vmware_to_aws_tag_mappings`: This action requests the mappings of VMware tags to the
+  Amazon Web Services tags.
 """
 function put_hypervisor_property_mappings end
 

@@ -169,6 +169,60 @@ function associate_source_graphql_api(
 end
 
 """
+    create_api(event_config, name)
+    create_api(event_config, name, params::Dict{String,<:Any})
+
+Creates an `Api` object. Use this operation to create an AppSync API with your preferred
+configuration, such as an Event API that provides real-time message publishing and message
+subscriptions over WebSockets.
+
+# Arguments
+
+- `event_config`: The Event API configuration. This includes the default authorization
+  configuration for connecting, publishing, and subscribing to an Event API.
+- `name`: The name for the `Api`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ownerContact"`: The owner contact information for the `Api`.
+- `"tags"`:
+"""
+function create_api end
+
+function create_api(eventConfig, name; aws_config::AbstractAWSConfig=current_aws_config())
+    return appsync(
+        "POST",
+        "/v2/apis",
+        Dict{String,Any}("eventConfig" => eventConfig, "name" => name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_api(
+    eventConfig,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v2/apis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("eventConfig" => eventConfig, "name" => name),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_api_cache(api_caching_behavior, api_id, ttl, type)
     create_api_cache(api_caching_behavior, api_id, ttl, type, params::Dict{String,<:Any})
 
@@ -178,8 +232,12 @@ Creates a cache for the GraphQL API.
 
 - `api_caching_behavior`: Caching behavior.
 
-  - **FULL_REQUEST_CACHING**: All requests are fully cached.
+  - **FULL_REQUEST_CACHING**: All requests from the same user are cached. Individual
+    resolvers are automatically cached. All API calls will try to return responses from the
+    cache.
   - **PER_RESOLVER_CACHING**: Individual resolvers that you specify are cached.
+  - **OPERATION_LEVEL_CACHING**: Full requests are cached together and returned without
+    executing resolvers.
 
 - `api_id`: The GraphQL API ID.
 
@@ -313,6 +371,60 @@ function create_api_key(
 end
 
 """
+    create_channel_namespace(api_id, name)
+    create_channel_namespace(api_id, name, params::Dict{String,<:Any})
+
+Creates a `ChannelNamespace` for an `Api`.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+- `name`: The name of the `ChannelNamespace`. This name must be unique within the `Api`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"codeHandlers"`: The event handler functions that run custom business logic to process
+  published events and subscribe requests.
+- `"handlerConfigs"`: The configuration for the `OnPublish` and `OnSubscribe` handlers.
+- `"publishAuthModes"`: The authorization mode to use for publishing messages on the channel
+  namespace. This configuration overrides the default `Api` authorization configuration.
+- `"subscribeAuthModes"`: The authorization mode to use for subscribing to messages on the
+  channel namespace. This configuration overrides the default `Api` authorization
+  configuration.
+- `"tags"`:
+"""
+function create_channel_namespace end
+
+function create_channel_namespace(
+    apiId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)/channelNamespaces",
+        Dict{String,Any}("name" => name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_channel_namespace(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)/channelNamespaces",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_data_source(api_id, name, type)
     create_data_source(api_id, name, type, params::Dict{String,<:Any})
 
@@ -410,6 +522,7 @@ Creates a custom `DomainName` object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the `DomainName`.
+- `"tags"`:
 """
 function create_domain_name end
 
@@ -770,6 +883,32 @@ function create_type(
 end
 
 """
+    delete_api(api_id)
+    delete_api(api_id, params::Dict{String,<:Any})
+
+Deletes an `Api` object
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+"""
+function delete_api end
+
+function delete_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return appsync(
+        "DELETE", "/v2/apis/$(apiId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function delete_api(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "DELETE", "/v2/apis/$(apiId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     delete_api_cache(api_id)
     delete_api_cache(api_id, params::Dict{String,<:Any})
 
@@ -830,6 +969,45 @@ function delete_api_key(
     return appsync(
         "DELETE",
         "/v1/apis/$(apiId)/apikeys/$(id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_channel_namespace(api_id, name)
+    delete_channel_namespace(api_id, name, params::Dict{String,<:Any})
+
+Deletes a `ChannelNamespace`.
+
+# Arguments
+
+- `api_id`: The ID of the `Api` associated with the `ChannelNamespace`.
+- `name`: The name of the `ChannelNamespace`.
+"""
+function delete_channel_namespace end
+
+function delete_channel_namespace(
+    apiId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "DELETE",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_channel_namespace(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "DELETE",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1327,6 +1505,30 @@ function flush_api_cache(
 end
 
 """
+    get_api(api_id)
+    get_api(api_id, params::Dict{String,<:Any})
+
+Retrieves an `Api` object.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+"""
+function get_api end
+
+function get_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return appsync("GET", "/v2/apis/$(apiId)"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_api(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "GET", "/v2/apis/$(apiId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_api_association(domain_name)
     get_api_association(domain_name, params::Dict{String,<:Any})
 
@@ -1392,6 +1594,45 @@ function get_api_cache(
 end
 
 """
+    get_channel_namespace(api_id, name)
+    get_channel_namespace(api_id, name, params::Dict{String,<:Any})
+
+Retrieves the channel namespace for a specified `Api`.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+- `name`: The name of the `ChannelNamespace`.
+"""
+function get_channel_namespace end
+
+function get_channel_namespace(
+    apiId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_channel_namespace(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "GET",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_source(api_id, name)
     get_data_source(api_id, name, params::Dict{String,<:Any})
 
@@ -1446,8 +1687,8 @@ error message will be returned instead.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includeModelsSDL"`: A boolean flag that determines whether SDL should be generated for
-  introspected types or not. If set to `true`, each model will contain an `sdl` property
-  that contains the SDL for that type. The SDL only contains the type data and no additional
+  introspected types. If set to `true`, each model will contain an `sdl` property that
+  contains the SDL for that type. The SDL only contains the type data and no additional
   metadata or directives.
 - `"maxResults"`: The maximum number of introspected types that will be returned in a single
   response.
@@ -1855,6 +2096,79 @@ function list_api_keys(
     return appsync(
         "GET",
         "/v1/apis/$(apiId)/apikeys",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_apis()
+    list_apis(params::Dict{String,<:Any})
+
+Lists the APIs in your AppSync account.
+
+`ListApis` returns only the high level API details. For more detailed information about an
+API, use `GetApi`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results that you want the request to return.
+- `"nextToken"`: An identifier that was returned from the previous call to this operation,
+  which you can use to return the next set of items in the list.
+"""
+function list_apis end
+
+function list_apis(; aws_config::AbstractAWSConfig=current_aws_config())
+    return appsync("GET", "/v2/apis"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_apis(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync("GET", "/v2/apis", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_channel_namespaces(api_id)
+    list_channel_namespaces(api_id, params::Dict{String,<:Any})
+
+Lists the channel namespaces for a specified `Api`.
+
+`ListChannelNamespaces` returns only high level details for the channel namespace. To
+retrieve code handlers, use `GetChannelNamespace`.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results that you want the request to return.
+- `"nextToken"`: An identifier that was returned from the previous call to this operation,
+  which you can use to return the next set of items in the list.
+"""
+function list_channel_namespaces end
+
+function list_channel_namespaces(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return appsync(
+        "GET",
+        "/v2/apis/$(apiId)/channelNamespaces";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_channel_namespaces(
+    apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "GET",
+        "/v2/apis/$(apiId)/channelNamespaces",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2557,6 +2871,61 @@ function untag_resource(
 end
 
 """
+    update_api(api_id, event_config, name)
+    update_api(api_id, event_config, name, params::Dict{String,<:Any})
+
+Updates an `Api`.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+- `event_config`: The new event configuration. This includes the default authorization
+  configuration for connecting, publishing, and subscribing to an Event API.
+- `name`: The name of the Api.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ownerContact"`: The owner contact information for the `Api`.
+"""
+function update_api end
+
+function update_api(
+    apiId, eventConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)",
+        Dict{String,Any}("eventConfig" => eventConfig, "name" => name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_api(
+    apiId,
+    eventConfig,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("eventConfig" => eventConfig, "name" => name),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_api_cache(api_caching_behavior, api_id, ttl, type)
     update_api_cache(api_caching_behavior, api_id, ttl, type, params::Dict{String,<:Any})
 
@@ -2566,8 +2935,12 @@ Updates the cache for the GraphQL API.
 
 - `api_caching_behavior`: Caching behavior.
 
-  - **FULL_REQUEST_CACHING**: All requests are fully cached.
+  - **FULL_REQUEST_CACHING**: All requests from the same user are cached. Individual
+    resolvers are automatically cached. All API calls will try to return responses from the
+    cache.
   - **PER_RESOLVER_CACHING**: Individual resolvers that you specify are cached.
+  - **OPERATION_LEVEL_CACHING**: Full requests are cached together and returned without
+    executing resolvers.
 
 - `api_id`: The GraphQL API ID.
 
@@ -2694,6 +3067,58 @@ function update_api_key(
     return appsync(
         "POST",
         "/v1/apis/$(apiId)/apikeys/$(id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_channel_namespace(api_id, name)
+    update_channel_namespace(api_id, name, params::Dict{String,<:Any})
+
+Updates a `ChannelNamespace` associated with an `Api`.
+
+# Arguments
+
+- `api_id`: The `Api` ID.
+- `name`: The name of the `ChannelNamespace`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"codeHandlers"`: The event handler functions that run custom business logic to process
+  published events and subscribe requests.
+- `"handlerConfigs"`: The configuration for the `OnPublish` and `OnSubscribe` handlers.
+- `"publishAuthModes"`: The authorization mode to use for publishing messages on the channel
+  namespace. This configuration overrides the default `Api` authorization configuration.
+- `"subscribeAuthModes"`: The authorization mode to use for subscribing to messages on the
+  channel namespace. This configuration overrides the default `Api` authorization
+  configuration.
+"""
+function update_channel_namespace end
+
+function update_channel_namespace(
+    apiId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_channel_namespace(
+    apiId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appsync(
+        "POST",
+        "/v2/apis/$(apiId)/channelNamespaces/$(name)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

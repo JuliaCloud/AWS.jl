@@ -15,6 +15,17 @@ Copy an image set.
 - `copy_image_set_information`: Copy image set information.
 - `datastore_id`: The data store identifier.
 - `source_image_set_id`: The source image set identifier.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"force"`: Providing this parameter will force completion of the `CopyImageSet` operation,
+  even if there are inconsistent Patient, Study, and/or Series level metadata elements
+  between the `sourceImageSet` and `destinationImageSet`.
+- `"promoteToPrimary"`: Providing this parameter will configure the `CopyImageSet` operation
+  to promote the given image set to the primary DICOM hierarchy. If successful, a new
+  primary image set ID will be returned as the destination image set.
 """
 function copy_image_set end
 
@@ -72,6 +83,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"datastoreName"`: The data store name.
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS)
   key for accessing encrypted data.
+- `"lambdaAuthorizerArn"`: The ARN of the authorizer's Lambda function.
+- `"losslessStorageFormat"`: The lossless storage format for the datastore.
 - `"tags"`: The tags provided when creating a data store.
 """
 function create_datastore end
@@ -773,6 +786,19 @@ Update image set metadata attributes.
 - `image_set_id`: The image set identifier.
 - `latest_version`: The latest image set version identifier.
 - `update_image_set_metadata_updates`: Update image set metadata updates.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
+  following attributes:
+
+  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and `Tag.StudyID`
+  - Adding, removing, or updating private tags for an individual SOP Instance
+
+- `"includeStudyImageSets"`: Flag to apply the metadata updates to all image sets in the
+  same Study as the requested image set ID.
 """
 function update_image_set_metadata end
 

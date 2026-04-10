@@ -11,7 +11,7 @@ using AWS.UUIDs: uuid4
 A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
 categorize and track all your ElastiCache resources, with the exception of global
 replication group. When you add or remove tags on replication groups, those actions will be
-replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
+replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
 
 For example, you can use cost-allocation tags to your ElastiCache resources, Amazon
 generates a cost allocation report as a comma-separated value (CSV) file with your usage and
@@ -19,7 +19,7 @@ costs aggregated by your tags. You can apply tags that represent business catego
 as cost centers, application names, or owners) to organize your costs across multiple
 services.
 
-For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html)
+For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html)
 in the *ElastiCache User Guide*.
 
 # Arguments
@@ -144,7 +144,7 @@ end
     batch_apply_update_action(service_update_name)
     batch_apply_update_action(service_update_name, params::Dict{String,<:Any})
 
-Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html).
+Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/applying-updates.html).
 
 # Arguments
 
@@ -191,7 +191,7 @@ end
     batch_stop_update_action(service_update_name)
     batch_stop_update_action(service_update_name, params::Dict{String,<:Any})
 
-Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html).
+Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/stopping-self-service-updates.html).
 
 # Arguments
 
@@ -286,23 +286,25 @@ end
     copy_serverless_cache_snapshot(source_serverless_cache_snapshot_name, target_serverless_cache_snapshot_name)
     copy_serverless_cache_snapshot(source_serverless_cache_snapshot_name, target_serverless_cache_snapshot_name, params::Dict{String,<:Any})
 
-Creates a copy of an existing serverless cache’s snapshot. Available for Redis only.
+Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS
+and Serverless Memcached only.
 
 # Arguments
 
 - `source_serverless_cache_snapshot_name`: The identifier of the existing serverless cache’s
-  snapshot to be copied. Available for Redis only.
+  snapshot to be copied. Available for Valkey, Redis OSS and Serverless Memcached only.
 - `target_serverless_cache_snapshot_name`: The identifier for the snapshot to be created.
-  Available for Redis only.
+  Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a
+  lowercase string.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"KmsKeyId"`: The identifier of the KMS key used to encrypt the target snapshot. Available
-  for Redis only.
+  for Valkey, Redis OSS and Serverless Memcached only.
 - `"Tags"`: A list of tags to be added to the target snapshot resource. A tag is a key-value
-  pair. Available for Redis only. Default: NULL
+  pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
 """
 function copy_serverless_cache_snapshot end
 
@@ -354,15 +356,15 @@ end
 Makes a copy of an existing snapshot.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 !!! important
     Users or groups that have permissions to use the [`copy_snapshot`](@ref) operation can
     create their own Amazon S3 buckets and copy snapshots to it. To control access to your
     snapshots, use an IAM policy to control who has the ability to use the [`copy_snapshot`](@ref)
     operation. For more information about using IAM to control the use of ElastiCache
-    operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html)
-    and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.html).
+    operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html)
+    and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.html).
 
 You could receive the following error messages.
 
@@ -371,17 +373,17 @@ You could receive the following error messages.
 - **Error Message:** The S3 bucket %s is outside of the region.
 
 **Solution:** Create an Amazon S3 bucket in the same region as your snapshot. For more
-information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket)
+information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket)
 in the ElastiCache User Guide.
 - **Error Message:** The S3 bucket %s does not exist.
 
 **Solution:** Create an Amazon S3 bucket in the same region as your snapshot. For more
-information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket)
+information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket)
 in the ElastiCache User Guide.
 - **Error Message:** The S3 bucket %s is not owned by the authenticated user.
 
 **Solution:** Create an Amazon S3 bucket in the same region as your snapshot. For more
-information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket)
+information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket)
 in the ElastiCache User Guide.
 - **Error Message:** The authenticated user does not have sufficient permissions to perform
   the desired activity.
@@ -394,16 +396,16 @@ you could alternatively create a new Amazon S3 bucket and use this same value fo
 `TargetSnapshotName`.
 - **Error Message:** ElastiCache has not been granted READ permissions %s on the S3 Bucket.
 
-**Solution:** Add List and Read permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access)
+**Solution:** Add List and Read permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access)
 in the ElastiCache User Guide.
 - **Error Message:** ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.
 
-**Solution:** Add Upload/Delete permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access)
+**Solution:** Add Upload/Delete permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access)
 in the ElastiCache User Guide.
 - **Error Message:** ElastiCache has not been granted READ_ACP permissions %s on the S3
   Bucket.
 
-**Solution:** Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access)
+**Solution:** Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access)
 in the ElastiCache User Guide.
 
 # Arguments
@@ -411,7 +413,8 @@ in the ElastiCache User Guide.
 - `source_snapshot_name`: The name of an existing snapshot from which to make a copy.
 - `target_snapshot_name`: A name for the snapshot copy. ElastiCache does not permit
   overwriting a snapshot, therefore this name must be unique within its context -
-  ElastiCache or an Amazon S3 bucket if exporting.
+  ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase
+  string.
 
 # Optional Parameters
 
@@ -426,10 +429,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used only when exporting a snapshot for external access.
 
   When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed
-  permissions to this S3 bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access)
+  permissions to this S3 bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access)
   in the *Amazon ElastiCache User Guide*.
 
-  For more information, see [Exporting a Snapshot](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html)
+  For more information, see [Exporting a Snapshot](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html)
   in the *Amazon ElastiCache User Guide*.
 """
 function copy_snapshot end
@@ -478,9 +481,9 @@ end
     create_cache_cluster(cache_cluster_id, params::Dict{String,<:Any})
 
 Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine
-software, either Memcached or Redis.
+software, either Memcached, Valkey or Redis OSS.
 
-This operation is not supported for Redis (cluster mode enabled) clusters.
+This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
 
 # Arguments
 
@@ -518,9 +521,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [AUTH password](http://redis.io/commands/AUTH) at
   http://redis.io/commands/AUTH.
 
-- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
-  this parameter to yes if you want to opt-in to the next auto minor version upgrade
-  campaign. This parameter is disabled for previous versions.
+- `"AutoMinorVersionUpgrade"`:  If you are running Valkey 7.2 and above or Redis OSS engine
+  version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version
+  upgrade campaign. This parameter is disabled for previous versions.
 
 - `"CacheNodeType"`: The compute and memory capacity of the nodes in the node group (shard).
 
@@ -535,11 +538,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.m7g.4xlarge`, `cache.m7g.8xlarge`, `cache.m7g.12xlarge`, `cache.m7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **M6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`, `cache.m6g.2xlarge`,
-  `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`, `cache.m6g.16xlarge`
+  **M6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`,
+  `cache.m6g.2xlarge`, `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`,
+  `cache.m6g.16xlarge`
 
   **M5 node types:** `cache.m5.large`, `cache.m5.xlarge`, `cache.m5.2xlarge`,
   `cache.m5.4xlarge`, `cache.m5.12xlarge`, `cache.m5.24xlarge`
@@ -547,7 +551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **M4 node types:** `cache.m4.large`, `cache.m4.xlarge`, `cache.m4.2xlarge`,
   `cache.m4.4xlarge`, `cache.m4.10xlarge`
 
-  **T4g node types** (available only for Redis engine version 5.0.6 onward and Memcached
+  **T4g node types** (available only for Redis OSS engine version 5.0.6 onward and Memcached
   engine version 1.5.16 onward): `cache.t4g.micro`, `cache.t4g.small`, `cache.t4g.medium`
 
   **T3 node types:** `cache.t3.micro`, `cache.t3.small`, `cache.t3.medium`
@@ -575,11 +579,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.r7g.4xlarge`, `cache.r7g.8xlarge`, `cache.r7g.12xlarge`, `cache.r7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **R6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`, `cache.r6g.2xlarge`,
-  `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`, `cache.r6g.16xlarge`
+  **R6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`,
+  `cache.r6g.2xlarge`, `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`,
+  `cache.r6g.16xlarge`
 
   **R5 node types:** `cache.r5.large`, `cache.r5.xlarge`, `cache.r5.2xlarge`,
   `cache.r5.4xlarge`, `cache.r5.12xlarge`, `cache.r5.24xlarge`
@@ -597,10 +602,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **Additional node type info**
 
   - All current generation instance types are created in Amazon VPC by default.
-  - Redis append-only files (AOF) are not supported for T1 or T2 instances.
-  - Redis Multi-AZ with automatic failover is not supported on T1 instances.
-  - Redis configuration variables `appendonly` and `appendfsync` are not supported on Redis
-    version 2.8.22 and later.
+  - Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  - Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  - The configuration variables `appendonly` and `appendfsync` are not supported on Valkey,
+    or on Redis OSS version 2.8.22 and later.
 
 - `"CacheParameterGroupName"`: The name of the parameter group to associate with this
   cluster. If this argument is omitted, the default parameter group for the specified engine
@@ -620,7 +625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       If you're going to launch your cluster in an Amazon VPC, you need to create a subnet
-      group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html).
+      group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.html).
 
 - `"Engine"`: The name of the cache engine to be used for this cluster.
 
@@ -629,20 +634,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineVersion"`: The version number of the cache engine to be used for this cluster. To
   view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
 
-  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)),
+  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)),
   but you cannot downgrade to an earlier engine version. If you want to use an earlier
   engine version, you must delete the existing cluster or replication group and create it
   anew with the earlier engine version.
 
 - `"IpDiscovery"`: The network type you choose when modifying a cluster, either `ipv4` |
-  `ipv6`. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
-  engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  `ipv6`. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine
+  version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on
+  the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 
 - `"NetworkType"`: Must be either `ipv4` | `ipv6` | `dual_stack`. IPv6 is supported for
-  workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all
-  instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached
+  engine version 1.6.6 and above on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple Notification
   Service (SNS) topic to which notifications are sent.
@@ -652,8 +658,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NumCacheNodes"`: The initial number of cache nodes that the cluster has.
 
-  For clusters running Redis, this value must be 1. For clusters running Memcached, this
-  value must be between 1 and 40.
+  For clusters running Valkey or Redis OSS, this value must be 1. For clusters running
+  Memcached, this value must be between 1 and 40.
 
   If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache
   Limit Increase Request form at [http://aws.amazon.com/contact-us/elasticache-node-limit-request/](http://aws.amazon.com/contact-us/elasticache-node-limit-request/).
@@ -714,18 +720,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (Amazon VPC).
 
 - `"SnapshotArns"`: A single-element string list containing an Amazon Resource Name (ARN)
-  that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file
-  is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot
-  contain any commas.
+  that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in Amazon S3. The
+  snapshot file is used to populate the node group (shard). The Amazon S3 object name in the
+  ARN cannot contain any commas.
 
   !!! note
       This parameter is only valid if the `Engine` parameter is `redis`.
 
   Example of an Amazon S3 ARN: `arn:aws:s3:::my_bucket/snapshot1.rdb`
 
-- `"SnapshotName"`: The name of a Redis snapshot from which to restore data into the new
-  node group (shard). The snapshot status changes to `restoring` while the new node group
-  (shard) is being created.
+- `"SnapshotName"`: The name of a Valkey or Redis OSS snapshot from which to restore data
+  into the new node group (shard). The snapshot status changes to `restoring` while the new
+  node group (shard) is being created.
 
   !!! note
       This parameter is only valid if the `Engine` parameter is `redis`.
@@ -796,7 +802,7 @@ change the values of specific parameters. For more information, see:
 
 - [ModifyCacheParameterGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyCacheParameterGroup.html)
   in the ElastiCache API Reference.
-- [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.html)
+- [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ParameterGroups.html)
   in the ElastiCache User Guide.
 
 # Arguments
@@ -804,10 +810,11 @@ change the values of specific parameters. For more information, see:
 - `cache_parameter_group_family`: The name of the cache parameter group family that the
   cache parameter group can be used with.
 
-  Valid values are: `memcached1.4` | `memcached1.5` | `memcached1.6` | `redis2.6` |
-  `redis2.8` | `redis3.2` | `redis4.0` | `redis5.0` | `redis6.x` | `redis7`
+  Valid values are: `valkey8` | `valkey7` | `memcached1.4` | `memcached1.5` | `memcached1.6`
+  | `redis2.6` | `redis2.8` | `redis3.2` | `redis4.0` | `redis5.0` | `redis6.x` | `redis7`
 
-- `cache_parameter_group_name`: A user-specified name for the cache parameter group.
+- `cache_parameter_group_name`: A user-specified name for the cache parameter group. This
+  value is stored as a lowercase string.
 
 - `description`: A user-specified description for the cache parameter group.
 
@@ -1010,10 +1017,10 @@ end
     create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id)
     create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id, params::Dict{String,<:Any})
 
-Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region
-replication. Using Global Datastore for Redis, you can create cross-region read replica
-clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across
-regions. For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastore.html).
+Global Datastore offers fully managed, fast, reliable and secure cross-region replication.
+Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica
+clusters for ElastiCache to enable low-latency reads and disaster recovery across regions.
+For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastore.html).
 
 - The **GlobalReplicationGroupIdSuffix** is the name of the Global datastore.
 - The **PrimaryReplicationGroupId** represents the name of the primary cluster that accepts
@@ -1028,10 +1035,11 @@ regions. For more information, see [Replication Across Regions Using Global Data
   suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global
   datastore name across multiple regions.
 
-  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see [Using the Amazon CLI with Global datastores](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html).
+  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see [Using the Amazon CLI with Global datastores](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastores-CLI.html).
 
 - `primary_replication_group_id`: The name of the primary cluster that accepts writes and
-  will replicate updates to the secondary cluster.
+  will replicate updates to the secondary cluster. This value is stored as a lowercase
+  string.
 
 # Optional Parameters
 
@@ -1084,40 +1092,41 @@ end
     create_replication_group(replication_group_description, replication_group_id)
     create_replication_group(replication_group_description, replication_group_id, params::Dict{String,<:Any})
 
-Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group.
+Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode
+enabled) replication group.
 
 This API can be used to create a standalone regional replication group or a secondary
 replication group associated with a Global datastore.
 
-A Redis (cluster mode disabled) replication group is a collection of nodes, where one of the
-nodes is a read/write primary and the others are read-only replicas. Writes to the primary
-are asynchronously propagated to the replicas.
+A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes,
+where one of the nodes is a read/write primary and the others are read-only replicas. Writes
+to the primary are asynchronously propagated to the replicas.
 
-A Redis cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node
-groups). Each shard has a primary node and up to 5 read-only replica nodes. The
-configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is
-the maximum number or replicas allowed.
+A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards
+(API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes.
+The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which
+is the maximum number or replicas allowed.
 
-The node or shard limit can be increased to a maximum of 500 per cluster if the Redis engine
-version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that
-ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single
-primary and no replicas). Make sure there are enough available IP addresses to accommodate
-the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR
-range or the subnets are shared and heavily used by other clusters. For more information,
-see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.Creating.html).
+The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or
+Redis OSS engine version is 5.0.6 or higher. For example, you can choose to configure a 500
+node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500
+shards (single primary and no replicas). Make sure there are enough available IP addresses
+to accommodate the increase. Common pitfalls include the subnets in the subnet group have
+too small a CIDR range or the subnets are shared and heavily used by other clusters. For
+more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.Creating.html).
 For versions below 5.0.6, the limit is 250 per cluster.
 
 To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)
 and choose the limit type **Nodes per cluster per instance type**.
 
-When a Redis (cluster mode disabled) replication group has been successfully created, you
-can add one or more read replicas to it, up to a total of 5 read replicas. If you need to
-increase or decrease the number of node groups (console: shards), you can avail yourself of
-ElastiCache for Redis' scaling. For more information, see [Scaling ElastiCache for Redis Clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html)
+When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully
+created, you can add one or more read replicas to it, up to a total of 5 read replicas. If
+you need to increase or decrease the number of node groups (console: shards), you can use
+scaling. For more information, see [Scaling self-designed clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html)
 in the *ElastiCache User Guide*.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey and Redis OSS only.
 
 # Arguments
 
@@ -1143,9 +1152,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `AtRestEncryptionEnabled` to `true` when you create the replication group.
 
   **Required:** Only available when creating a replication group in an Amazon VPC using
-  redis version `3.2.6`, `4.x` or later.
+  Valkey `7.2` and later, Redis OSS version `3.2.6`, or Redis OSS `4.x` and later.
 
-  Default: `false`
+  Default: `true` when using Valkey, `false` when using Redis OSS
 
 - `"AuthToken"`: **Reserved parameter.** The password used to access a password protected
   server.
@@ -1167,15 +1176,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [AUTH password](http://redis.io/commands/AUTH) at
   http://redis.io/commands/AUTH.
 
-- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
-  this parameter to yes if you want to opt-in to the next auto minor version upgrade
-  campaign. This parameter is disabled for previous versions.
+- `"AutoMinorVersionUpgrade"`:  If you are running Valkey 7.2 and above or Redis OSS engine
+  version 6.0 and above, set this parameter to yes to opt-in to the next auto minor version
+  upgrade campaign. This parameter is disabled for previous versions.
 
 - `"AutomaticFailoverEnabled"`: Specifies whether a read-only replica is automatically
   promoted to read/write primary if the existing primary fails.
 
-  `AutomaticFailoverEnabled` must be enabled for Redis (cluster mode enabled) replication
-  groups.
+  `AutomaticFailoverEnabled` must be enabled for Valkey or Redis OSS (cluster mode enabled)
+  replication groups.
 
   Default: false
 
@@ -1192,11 +1201,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.m7g.4xlarge`, `cache.m7g.8xlarge`, `cache.m7g.12xlarge`, `cache.m7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **M6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`, `cache.m6g.2xlarge`,
-  `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`, `cache.m6g.16xlarge`
+  **M6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`,
+  `cache.m6g.2xlarge`, `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`,
+  `cache.m6g.16xlarge`
 
   **M5 node types:** `cache.m5.large`, `cache.m5.xlarge`, `cache.m5.2xlarge`,
   `cache.m5.4xlarge`, `cache.m5.12xlarge`, `cache.m5.24xlarge`
@@ -1204,7 +1214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **M4 node types:** `cache.m4.large`, `cache.m4.xlarge`, `cache.m4.2xlarge`,
   `cache.m4.4xlarge`, `cache.m4.10xlarge`
 
-  **T4g node types** (available only for Redis engine version 5.0.6 onward and Memcached
+  **T4g node types** (available only for Redis OSS engine version 5.0.6 onward and Memcached
   engine version 1.5.16 onward): `cache.t4g.micro`, `cache.t4g.small`, `cache.t4g.medium`
 
   **T3 node types:** `cache.t3.micro`, `cache.t3.small`, `cache.t3.medium`
@@ -1232,11 +1242,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.r7g.4xlarge`, `cache.r7g.8xlarge`, `cache.r7g.12xlarge`, `cache.r7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **R6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`, `cache.r6g.2xlarge`,
-  `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`, `cache.r6g.16xlarge`
+  **R6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`,
+  `cache.r6g.2xlarge`, `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`,
+  `cache.r6g.16xlarge`
 
   **R5 node types:** `cache.r5.large`, `cache.r5.xlarge`, `cache.r5.2xlarge`,
   `cache.r5.4xlarge`, `cache.r5.12xlarge`, `cache.r5.24xlarge`
@@ -1254,21 +1265,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **Additional node type info**
 
   - All current generation instance types are created in Amazon VPC by default.
-  - Redis append-only files (AOF) are not supported for T1 or T2 instances.
-  - Redis Multi-AZ with automatic failover is not supported on T1 instances.
-  - Redis configuration variables `appendonly` and `appendfsync` are not supported on Redis
-    version 2.8.22 and later.
+  - Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  - Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  - The configuration variables `appendonly` and `appendfsync` are not supported on Valkey,
+    or on Redis OSS version 2.8.22 and later.
 
 - `"CacheParameterGroupName"`: The name of the parameter group to associate with this
   replication group. If this argument is omitted, the default cache parameter group for the
   specified engine is used.
 
-  If you are running Redis version 3.2.4 or later, only one node group (shard), and want to
-  use a default parameter group, we recommend that you specify the parameter group by name.
+  If you are running Valkey or Redis OSS version 3.2.4 or later, only one node group
+  (shard), and want to use a default parameter group, we recommend that you specify the
+  parameter group by name.
 
-  - To create a Redis (cluster mode disabled) replication group, use
+  - To create a Valkey or Redis OSS (cluster mode disabled) replication group, use
     `CacheParameterGroupName=default.redis3.2`.
-  - To create a Redis (cluster mode enabled) replication group, use
+  - To create a Valkey or Redis OSS (cluster mode enabled) replication group, use
     `CacheParameterGroupName=default.redis3.2.cluster.on`.
 
 - `"CacheSecurityGroupNames"`: A list of cache security group names to associate with this
@@ -1279,26 +1291,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       If you're going to launch your cluster in an Amazon VPC, you need to create a subnet
-      group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.html).
+      group before you start creating a cluster. For more information, see [Subnets and Subnet Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.html).
 
 - `"ClusterMode"`: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
-  must first set the cluster mode to Compatible. Compatible mode allows your Redis clients
-  to connect using both cluster mode enabled and cluster mode disabled. After you migrate
-  all Redis clients to use cluster mode enabled, you can then complete cluster mode
-  configuration and set the cluster mode to Enabled.
+  must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis
+  OSS clients to connect using both cluster mode enabled and cluster mode disabled. After
+  you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then
+  complete cluster mode configuration and set the cluster mode to Enabled.
 
 - `"DataTieringEnabled"`: Enables data tiering. Data tiering is only supported for
   replication groups using the r6gd node type. This parameter must be set to true when using
-  r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
+  r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
 
 - `"Engine"`: The name of the cache engine to be used for the clusters in this replication
-  group. The value must be set to `Redis`.
+  group. The value must be set to `valkey` or `redis`.
 
 - `"EngineVersion"`: The version number of the cache engine to be used for the clusters in
   this replication group. To view the supported cache engine versions, use the
   `DescribeCacheEngineVersions` operation.
 
-  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement))
+  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement))
   in the *ElastiCache User Guide*, but you cannot downgrade to an earlier engine version. If
   you want to use an earlier engine version, you must delete the existing cluster or
   replication group and create it anew with the earlier engine version.
@@ -1306,29 +1318,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalReplicationGroupId"`: The name of the Global datastore
 
 - `"IpDiscovery"`: The network type you choose when creating a replication group, either
-  `ipv4` | `ipv6`. IPv6 is supported for workloads using Redis engine version 6.2 onward or
-  Memcached engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  `ipv4` | `ipv6`. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS
+  engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances
+  built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the disk in the cluster.
 
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 
 - `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
-  tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html).
+  tolerance. For more information, see [Minimizing Downtime: Multi-AZ](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html).
 
 - `"NetworkType"`: Must be either `ipv4` | `ipv6` | `dual_stack`. IPv6 is supported for
-  workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all
-  instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached
+  engine version 1.6.6 and above on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"NodeGroupConfiguration"`: A list of node group (shard) configuration options. Each node
   group (shard) configuration has the following members: `PrimaryAvailabilityZone`,
   `ReplicaAvailabilityZones`, `ReplicaCount`, and `Slots`.
 
-  If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled)
-  replication group, you can use this parameter to individually configure each node group
-  (shard), or you can omit this parameter. However, it is required when seeding a Redis
-  (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group
-  (shard) using this parameter because you must specify the slots for each node group.
+  If you're creating a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS
+  (cluster mode enabled) replication group, you can use this parameter to individually
+  configure each node group (shard), or you can omit this parameter. However, it is required
+  when seeding a Valkey or Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You
+  must configure each node group (shard) using this parameter because you must specify the
+  slots for each node group.
 
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple Notification
   Service (SNS) topic to which notifications are sent.
@@ -1348,8 +1362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The maximum permitted value for `NumCacheClusters` is 6 (1 primary plus 5 replicas).
 
 - `"NumNodeGroups"`: An optional parameter that specifies the number of node groups (shards)
-  for this Redis (cluster mode enabled) replication group. For Redis (cluster mode disabled)
-  either omit this parameter or set it to 1.
+  for this Valkey or Redis OSS (cluster mode enabled) replication group. For Valkey or Redis
+  OSS (cluster mode disabled) either omit this parameter or set it to 1.
 
   Default: 1
 
@@ -1405,14 +1419,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Private Cloud (Amazon VPC).
 
 - `"ServerlessCacheSnapshotName"`: The name of the snapshot used to create a replication
-  group. Available for Redis only.
+  group. Available for Valkey, Redis OSS only.
 
-- `"SnapshotArns"`: A list of Amazon Resource Names (ARN) that uniquely identify the Redis
-  RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new
-  replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new
-  replication group will have the number of node groups (console: shards) specified by the
-  parameter *NumNodeGroups* or the number of node groups configured by
-  *NodeGroupConfiguration* regardless of the number of ARNs specified here.
+- `"SnapshotArns"`: A list of Amazon Resource Names (ARN) that uniquely identify the Valkey
+  or Redis OSS RDB snapshot files stored in Amazon S3. The snapshot files are used to
+  populate the new replication group. The Amazon S3 object name in the ARN cannot contain
+  any commas. The new replication group will have the number of node groups (console:
+  shards) specified by the parameter *NumNodeGroups* or the number of node groups configured
+  by *NodeGroupConfiguration* regardless of the number of ARNs specified here.
 
   Example of an Amazon S3 ARN: `arn:aws:s3:::my_bucket/snapshot1.rdb`
 
@@ -1448,7 +1462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you enable in-transit encryption, you must also specify a value for `CacheSubnetGroup`.
 
   **Required:** Only available when creating a replication group in an Amazon VPC using
-  redis version `3.2.6`, `4.x` or later.
+  Redis OSS version `3.2.6`, `4.x` or later.
 
   Default: `false`
 
@@ -1461,9 +1475,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   When setting `TransitEncryptionEnabled` to `true`, you can set your
   `TransitEncryptionMode` to `preferred` in the same request, to allow both encrypted and
-  unencrypted connections at the same time. Once you migrate all your Redis clients to use
-  encrypted connections you can modify the value to `required` to allow encrypted
-  connections only.
+  unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS
+  clients to use encrypted connections you can modify the value to `required` to allow
+  encrypted connections only.
 
   Setting `TransitEncryptionMode` to `required` is a two-step process that requires you to
   first set the `TransitEncryptionMode` to `preferred`, after that you can set
@@ -1534,7 +1548,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Units for the cache.
 - `"DailySnapshotTime"`: The daily time that snapshots will be created from the new
   serverless cache. By default this number is populated with 0, i.e. no snapshots will be
-  created on an automatic daily basis. Available for Redis only.
+  created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless
+  Memcached only.
 - `"Description"`: User-provided description for the serverless cache. The default is NULL,
   i.e. if no description is provided then an empty string will be returned. The maximum
   length is 255 characters.
@@ -1542,21 +1557,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key is provided, a default service key is used.
 - `"MajorEngineVersion"`: The version of the cache engine that will be used to create the
   serverless cache.
+- `"NetworkType"`: The IP protocol version used by the serverless cache. Must be either
+  `ipv4` | `ipv6` | `dual_stack`. `ipv6` is only supported with ipv6-only subnets. If not
+  specified, defaults to `ipv4`, unless all provided subnets are IPv6-only, in which case it
+  defaults to `ipv6`.
 - `"SecurityGroupIds"`: A list of the one or more VPC security groups to be associated with
   the serverless cache. The security group will authorize traffic access for the VPC end-
   point (private-link). If no other information is given this will be the VPC’s Default
   Security Group that is associated with the cluster VPC end-point.
 - `"SnapshotArnsToRestore"`: The ARN(s) of the snapshot that the new serverless cache will
-  be created from. Available for Redis only.
-- `"SnapshotRetentionLimit"`: The number of snapshots that will be retained for the
-  serverless cache that is being created. As new snapshots beyond this limit are added, the
-  oldest snapshots will be deleted on a rolling basis. Available for Redis only.
+  be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
+- `"SnapshotRetentionLimit"`: The number of days for which ElastiCache retains automatic
+  snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached
+  only. The maximum value allowed is 35 days.
 - `"SubnetIds"`: A list of the identifiers of the subnets where the VPC endpoint for the
   serverless cache will be deployed. All the subnetIds must belong to the same VPC.
 - `"Tags"`: The list of tags (key, value) pairs to be added to the serverless cache
   resource. Default is NULL.
 - `"UserGroupId"`: The identifier of the UserGroup to be associated with the serverless
-  cache. Available for Redis only. Default is NULL.
+  cache. Available for Valkey and Redis OSS only. Default is NULL.
 """
 function create_serverless_cache end
 
@@ -1598,23 +1617,24 @@ end
     create_serverless_cache_snapshot(serverless_cache_name, serverless_cache_snapshot_name, params::Dict{String,<:Any})
 
 This API creates a copy of an entire ServerlessCache at a specific moment in time. Available
-for Redis only.
+for Valkey, Redis OSS and Serverless Memcached only.
 
 # Arguments
 
 - `serverless_cache_name`: The name of an existing serverless cache. The snapshot is created
-  from this cache. Available for Redis only.
+  from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
 - `serverless_cache_snapshot_name`: The name for the snapshot being created. Must be unique
-  for the customer account. Available for Redis only. Must be between 1 and 255 characters.
+  for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only.
+  Must be between 1 and 255 characters. This value is stored as a lowercase string.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"KmsKeyId"`: The ID of the KMS key used to encrypt the snapshot. Available for Redis
-  only. Default: NULL
+- `"KmsKeyId"`: The ID of the KMS key used to encrypt the snapshot. Available for Valkey,
+  Redis OSS and Serverless Memcached only. Default: NULL
 - `"Tags"`: A list of tags to be added to the snapshot resource. A tag is a key-value pair.
-  Available for Redis only.
+  Available for Valkey, Redis OSS and Serverless Memcached only.
 """
 function create_serverless_cache_snapshot end
 
@@ -1664,11 +1684,12 @@ end
 Creates a copy of an entire cluster or replication group at a specific moment in time.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 # Arguments
 
-- `snapshot_name`: A name for the snapshot being created.
+- `snapshot_name`: A name for the snapshot being created. This value is stored as a
+  lowercase string.
 
 # Optional Parameters
 
@@ -1712,13 +1733,14 @@ end
     create_user(access_string, engine, user_id, user_name)
     create_user(access_string, engine, user_id, user_name, params::Dict{String,<:Any})
 
-For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more
+information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
 
 # Arguments
 
 - `access_string`: Access permissions string used for this user.
-- `engine`: The current supported value is Redis.
-- `user_id`: The ID of the user.
+- `engine`: The options are valkey or redis.
+- `user_id`: The ID of the user. This value is stored as a lowercase string.
 - `user_name`: The username of the user.
 
 # Optional Parameters
@@ -1785,20 +1807,21 @@ end
     create_user_group(engine, user_group_id)
     create_user_group(engine, user_group_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html)
+For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For
+more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html)
 
 # Arguments
 
-- `engine`: The current supported value is Redis.
-- `user_group_id`: The ID of the user group.
+- `engine`: Sets the engine listed in a user group. The options are valkey or redis.
+- `user_group_id`: The ID of the user group. This value is stored as a lowercase string.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
-  key must be accompanied by a tag value, although null is accepted. Available for Redis
-  only.
+  key must be accompanied by a tag value, although null is accepted. Available for Valkey
+  and Redis OSS only.
 - `"UserIds"`: The list of user IDs that belong to the user group.
 """
 function create_user_group end
@@ -1855,14 +1878,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalNodeGroupsToRemove"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.
-  ElastiCache for Redis will attempt to remove all node groups listed by
-  GlobalNodeGroupsToRemove from the cluster.
+  ElastiCache will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from
+  the cluster.
 
 - `"GlobalNodeGroupsToRetain"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster.
-  ElastiCache for Redis will attempt to retain all node groups listed by
-  GlobalNodeGroupsToRetain from the cluster.
+  ElastiCache will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from
+  the cluster.
 """
 function decrease_node_groups_in_global_replication_group end
 
@@ -1913,9 +1936,10 @@ end
     decrease_replica_count(apply_immediately, replication_group_id)
     decrease_replica_count(apply_immediately, replication_group_id, params::Dict{String,<:Any})
 
-Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication
-group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster
-mode enabled) replication group. This operation is performed with no cluster down time.
+Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode
+disabled) replication group or the number of replica nodes in one or more node groups
+(shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation
+is performed with no cluster down time.
 
 # Arguments
 
@@ -1929,22 +1953,22 @@ mode enabled) replication group. This operation is performed with no cluster dow
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NewReplicaCount"`: The number of read replica nodes you want at the completion of this
-  operation. For Redis (cluster mode disabled) replication groups, this is the number of
-  replica nodes in the replication group. For Redis (cluster mode enabled) replication
-  groups, this is the number of replica nodes in each of the replication group's node
-  groups.
+  operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the
+  number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode
+  enabled) replication groups, this is the number of replica nodes in each of the
+  replication group's node groups.
 
   The minimum number of replicas in a shard or replication group is:
 
-  - Redis (cluster mode disabled)
+  - Valkey or Redis OSS (cluster mode disabled)
     - If Multi-AZ is enabled: 1
     - If Multi-AZ is not enabled: 0
-  - Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if
-    your primary node fails)
+  - Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover
+    to a replica if your primary node fails)
 
 - `"ReplicaConfiguration"`: A list of `ConfigureShard` objects that can be used to configure
-  each shard in a Redis (cluster mode enabled) replication group. The `ConfigureShard` has
-  three members: `NewReplicaCount`, `NodeGroupId`, and `PreferredAvailabilityZones`.
+  each shard in a Valkey or Redis OSS replication group. The `ConfigureShard` has three
+  members: `NewReplicaCount`, `NodeGroupId`, and `PreferredAvailabilityZones`.
 
 - `"ReplicasToRemove"`: A list of the node ids to remove from the replication group or node
   group (shard).
@@ -1999,12 +2023,12 @@ cancel or revert this operation.
 
 This operation is not valid for:
 
-- Redis (cluster mode enabled) clusters
-- Redis (cluster mode disabled) clusters
+- Valkey or Redis OSS (cluster mode enabled) clusters
+- Valkey or Redis OSS (cluster mode disabled) clusters
 - A cluster that is the last read replica of a replication group
 - A cluster that is the primary node of a replication group
 - A node group (shard) that has Multi-AZ mode enabled
-- A cluster from a Redis (cluster mode enabled) replication group
+- A cluster from a Valkey or Redis OSS (cluster mode enabled) replication group
 - A cluster that is not in the `available` state
 
 # Arguments
@@ -2271,7 +2295,9 @@ When you receive a successful response from this operation, Amazon ElastiCache i
 begins deleting the selected resources; you cannot cancel or revert this operation.
 
 !!! note
-    This operation is valid for Redis only.
+    - `CreateSnapshot` permission is required to create a final snapshot. Without this
+      permission, the API call will fail with an `Access Denied` exception.
+    - This operation is valid for Redis OSS only.
 
 # Arguments
 
@@ -2325,6 +2351,10 @@ end
 
 Deletes a specified existing serverless cache.
 
+!!! note
+    `CreateServerlessCacheSnapshot` permission is required to create a final snapshot.
+    Without this permission, the API call will fail with an `Access Denied` exception.
+
 # Arguments
 
 - `serverless_cache_name`: The identifier of the serverless cache to be deleted.
@@ -2334,7 +2364,8 @@ Deletes a specified existing serverless cache.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FinalSnapshotName"`: Name of the final snapshot to be taken before the serverless cache
-  is deleted. Available for Redis only. Default: NULL, i.e. a final snapshot is not taken.
+  is deleted. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL,
+  i.e. a final snapshot is not taken.
 """
 function delete_serverless_cache end
 
@@ -2372,12 +2403,13 @@ end
     delete_serverless_cache_snapshot(serverless_cache_snapshot_name)
     delete_serverless_cache_snapshot(serverless_cache_snapshot_name, params::Dict{String,<:Any})
 
-Deletes an existing serverless cache snapshot. Available for Redis only.
+Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and
+Serverless Memcached only.
 
 # Arguments
 
 - `serverless_cache_snapshot_name`: Idenfitier of the snapshot to be deleted. Available for
-  Redis only.
+  Valkey, Redis OSS and Serverless Memcached only.
 """
 function delete_serverless_cache_snapshot end
 
@@ -2422,7 +2454,7 @@ ElastiCache immediately begins deleting the snapshot; you cannot cancel or rever
 operation.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 # Arguments
 
@@ -2458,8 +2490,9 @@ end
     delete_user(user_id)
     delete_user(user_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all user
-groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user
+will be removed from all user groups and in turn removed from all replication groups. For
+more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
 
 # Arguments
 
@@ -2491,8 +2524,9 @@ end
     delete_user_group(user_group_id)
     delete_user_group(user_group_id, params::Dict{String,<:Any})
 
-For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be
-disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The
+user group must first be disassociated from the replication group before it can be deleted.
+For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
 
 # Arguments
 
@@ -2570,7 +2604,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ShowCacheClustersNotInReplicationGroups"`: An optional flag that can be included in the
   `DescribeCacheCluster` request to show only nodes (API/CLI: clusters) that are not members
-  of a replication group. In practice, this mean Memcached and single node Redis clusters.
+  of a replication group. In practice, this means Memcached and single node Valkey or Redis
+  OSS clusters.
 
 - `"ShowCacheNodeInfo"`: An optional flag that can be included in the `DescribeCacheCluster`
   request to retrieve information about the individual cache nodes.
@@ -2603,7 +2638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return details for.
 
   Valid values are: `memcached1.4` | `memcached1.5` | `memcached1.6` | `redis2.6` |
-  `redis2.8` | `redis3.2` | `redis4.0` | `redis5.0` | `redis6.x` | `redis6.2` | `redis7`
+  `redis2.8` | `redis3.2` | `redis4.0` | `redis5.0` | `redis6.x` | `redis6.2` | `redis7` |
+  `valkey7`
 
   Constraints:
 
@@ -3012,7 +3048,7 @@ Returns information about a particular replication group. If no identifier is sp
 `DescribeReplicationGroups` returns information about all replication groups.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 # Optional Parameters
 
@@ -3077,11 +3113,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.m7g.4xlarge`, `cache.m7g.8xlarge`, `cache.m7g.12xlarge`, `cache.m7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **M6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`, `cache.m6g.2xlarge`,
-  `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`, `cache.m6g.16xlarge`
+  **M6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`,
+  `cache.m6g.2xlarge`, `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`,
+  `cache.m6g.16xlarge`
 
   **M5 node types:** `cache.m5.large`, `cache.m5.xlarge`, `cache.m5.2xlarge`,
   `cache.m5.4xlarge`, `cache.m5.12xlarge`, `cache.m5.24xlarge`
@@ -3089,7 +3126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **M4 node types:** `cache.m4.large`, `cache.m4.xlarge`, `cache.m4.2xlarge`,
   `cache.m4.4xlarge`, `cache.m4.10xlarge`
 
-  **T4g node types** (available only for Redis engine version 5.0.6 onward and Memcached
+  **T4g node types** (available only for Redis OSS engine version 5.0.6 onward and Memcached
   engine version 1.5.16 onward): `cache.t4g.micro`, `cache.t4g.small`, `cache.t4g.medium`
 
   **T3 node types:** `cache.t3.micro`, `cache.t3.small`, `cache.t3.medium`
@@ -3117,11 +3154,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.r7g.4xlarge`, `cache.r7g.8xlarge`, `cache.r7g.12xlarge`, `cache.r7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **R6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`, `cache.r6g.2xlarge`,
-  `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`, `cache.r6g.16xlarge`
+  **R6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`,
+  `cache.r6g.2xlarge`, `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`,
+  `cache.r6g.16xlarge`
 
   **R5 node types:** `cache.r5.large`, `cache.r5.xlarge`, `cache.r5.2xlarge`,
   `cache.r5.4xlarge`, `cache.r5.12xlarge`, `cache.r5.24xlarge`
@@ -3139,10 +3177,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **Additional node type info**
 
   - All current generation instance types are created in Amazon VPC by default.
-  - Redis append-only files (AOF) are not supported for T1 or T2 instances.
-  - Redis Multi-AZ with automatic failover is not supported on T1 instances.
-  - Redis configuration variables `appendonly` and `appendfsync` are not supported on Redis
-    version 2.8.22 and later.
+  - Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  - Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  - The configuration variables `appendonly` and `appendfsync` are not supported on Valkey,
+    or on Redis OSS version 2.8.22 and later.
 
 - `"Duration"`: The duration filter value, specified in years or seconds. Use this parameter
   to show only reservations for this duration.
@@ -3216,11 +3254,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.m7g.4xlarge`, `cache.m7g.8xlarge`, `cache.m7g.12xlarge`, `cache.m7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **M6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`, `cache.m6g.2xlarge`,
-  `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`, `cache.m6g.16xlarge`
+  **M6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.m6g.large`, `cache.m6g.xlarge`,
+  `cache.m6g.2xlarge`, `cache.m6g.4xlarge`, `cache.m6g.8xlarge`, `cache.m6g.12xlarge`,
+  `cache.m6g.16xlarge`
 
   **M5 node types:** `cache.m5.large`, `cache.m5.xlarge`, `cache.m5.2xlarge`,
   `cache.m5.4xlarge`, `cache.m5.12xlarge`, `cache.m5.24xlarge`
@@ -3228,7 +3267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **M4 node types:** `cache.m4.large`, `cache.m4.xlarge`, `cache.m4.2xlarge`,
   `cache.m4.4xlarge`, `cache.m4.10xlarge`
 
-  **T4g node types** (available only for Redis engine version 5.0.6 onward and Memcached
+  **T4g node types** (available only for Redis OSS engine version 5.0.6 onward and Memcached
   engine version 1.5.16 onward): `cache.t4g.micro`, `cache.t4g.small`, `cache.t4g.medium`
 
   **T3 node types:** `cache.t3.micro`, `cache.t3.small`, `cache.t3.medium`
@@ -3256,11 +3295,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `cache.r7g.4xlarge`, `cache.r7g.8xlarge`, `cache.r7g.12xlarge`, `cache.r7g.16xlarge`
 
   !!! note
-      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+      For region availability, see [Supported Node Types](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
-  **R6g node types** (available only for Redis engine version 5.0.6 onward and for Memcached
-  engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`, `cache.r6g.2xlarge`,
-  `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`, `cache.r6g.16xlarge`
+  **R6g node types** (available only for Redis OSS engine version 5.0.6 onward and for
+  Memcached engine version 1.5.16 onward): `cache.r6g.large`, `cache.r6g.xlarge`,
+  `cache.r6g.2xlarge`, `cache.r6g.4xlarge`, `cache.r6g.8xlarge`, `cache.r6g.12xlarge`,
+  `cache.r6g.16xlarge`
 
   **R5 node types:** `cache.r5.large`, `cache.r5.xlarge`, `cache.r5.2xlarge`,
   `cache.r5.4xlarge`, `cache.r5.12xlarge`, `cache.r5.24xlarge`
@@ -3278,10 +3318,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   **Additional node type info**
 
   - All current generation instance types are created in Amazon VPC by default.
-  - Redis append-only files (AOF) are not supported for T1 or T2 instances.
-  - Redis Multi-AZ with automatic failover is not supported on T1 instances.
-  - Redis configuration variables `appendonly` and `appendfsync` are not supported on Redis
-    version 2.8.22 and later.
+  - Valkey or Redis OSS append-only files (AOF) are not supported for T1 or T2 instances.
+  - Valkey or Redis OSS Multi-AZ with automatic failover is not supported on T1 instances.
+  - The configuration variables `appendonly` and `appendfsync` are not supported on Valkey,
+    or on Redis OSS version 2.8.22 and later.
 
 - `"Duration"`: Duration filter value, specified in years or seconds. Use this parameter to
   show only reservations for a given duration.
@@ -3342,7 +3382,7 @@ end
 Returns information about serverless cache snapshots. By default, this API lists all of the
 customer’s serverless cache snapshots. It can also describe a single serverless cache
 snapshot, or the snapshots associated with a particular serverless cache. Available for
-Redis only.
+Valkey, Redis OSS and Serverless Memcached only.
 
 # Optional Parameters
 
@@ -3350,18 +3390,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified max-results value, a market is included in the response so that
-  remaining results can be retrieved. Available for Redis only.The default is 50. The
-  Validation Constraints are a maximum of 50.
+  remaining results can be retrieved. Available for Valkey, Redis OSS and Serverless
+  Memcached only.The default is 50. The Validation Constraints are a maximum of 50.
 - `"NextToken"`: An optional marker returned from a prior request to support pagination of
   results from this operation. If this parameter is specified, the response includes only
-  records beyond the marker, up to the value specified by max-results. Available for Redis
-  only.
+  records beyond the marker, up to the value specified by max-results. Available for Valkey,
+  Redis OSS and Serverless Memcached only.
 - `"ServerlessCacheName"`: The identifier of serverless cache. If this parameter is
   specified, only snapshots associated with that specific serverless cache are described.
-  Available for Redis only.
+  Available for Valkey, Redis OSS and Serverless Memcached only.
 - `"ServerlessCacheSnapshotName"`: The identifier of the serverless cache’s snapshot. If
-  this parameter is specified, only this snapshot is described. Available for Redis only.
-- `"SnapshotType"`: The type of snapshot that is being described. Available for Redis only.
+  this parameter is specified, only this snapshot is described. Available for Valkey, Redis
+  OSS and Serverless Memcached only.
+- `"SnapshotType"`: The type of snapshot that is being described. Available for Valkey,
+  Redis OSS and Serverless Memcached only.
 """
 function describe_serverless_cache_snapshots end
 
@@ -3464,7 +3506,7 @@ Returns information about cluster or replication group snapshots. By default,
 snapshot, or just the snapshots associated with a particular cache cluster.
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 # Optional Parameters
 
@@ -3523,7 +3565,8 @@ Returns details of the update actions
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CacheClusterIds"`: The cache cluster IDs
-- `"Engine"`: The Elasticache engine to which the update applies. Either Redis or Memcached
+- `"Engine"`: The Elasticache engine to which the update applies. Either Valkey, Redis OSS
+  or Memcached.
 - `"Marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by `MaxRecords`.
@@ -3593,7 +3636,7 @@ Returns a list of users.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Engine"`: The Redis engine.
+- `"Engine"`: The engine.
 - `"Filters"`: Filter to determine the list of User IDs to return.
 - `"Marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
@@ -3681,14 +3724,15 @@ end
     export_serverless_cache_snapshot(s3_bucket_name, serverless_cache_snapshot_name, params::Dict{String,<:Any})
 
 Provides the functionality to export the serverless cache snapshot data to Amazon S3.
-Available for Redis only.
+Available for Valkey and Redis OSS only.
 
 # Arguments
 
 - `s3_bucket_name`: Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3
-  bucket must also be in same region as the snapshot. Available for Redis only.
+  bucket must also be in same region as the snapshot. Available for Valkey and Redis OSS
+  only.
 - `serverless_cache_snapshot_name`: The identifier of the serverless cache snapshot to be
-  exported to S3. Available for Redis only.
+  exported to S3. Available for Valkey and Redis OSS only.
 """
 function export_serverless_cache_snapshot end
 
@@ -3858,9 +3902,10 @@ end
     increase_replica_count(apply_immediately, replication_group_id)
     increase_replica_count(apply_immediately, replication_group_id, params::Dict{String,<:Any})
 
-Dynamically increases the number of replicas in a Redis (cluster mode disabled) replication
-group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster
-mode enabled) replication group. This operation is performed with no cluster down time.
+Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode
+disabled) replication group or the number of replica nodes in one or more node groups
+(shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation
+is performed with no cluster down time.
 
 # Arguments
 
@@ -3874,14 +3919,15 @@ mode enabled) replication group. This operation is performed with no cluster dow
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"NewReplicaCount"`: The number of read replica nodes you want at the completion of this
-  operation. For Redis (cluster mode disabled) replication groups, this is the number of
-  replica nodes in the replication group. For Redis (cluster mode enabled) replication
-  groups, this is the number of replica nodes in each of the replication group's node
-  groups.
+  operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the
+  number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode
+  enabled) replication groups, this is the number of replica nodes in each of the
+  replication group's node groups.
 
 - `"ReplicaConfiguration"`: A list of `ConfigureShard` objects that can be used to configure
-  each shard in a Redis (cluster mode enabled) replication group. The `ConfigureShard` has
-  three members: `NewReplicaCount`, `NodeGroupId`, and `PreferredAvailabilityZones`.
+  each shard in a Valkey or Redis OSS (cluster mode enabled) replication group. The
+  `ConfigureShard` has three members: `NewReplicaCount`, `NodeGroupId`, and
+  `PreferredAvailabilityZones`.
 """
 function increase_replica_count end
 
@@ -3926,8 +3972,8 @@ end
     list_allowed_node_type_modifications()
     list_allowed_node_type_modifications(params::Dict{String,<:Any})
 
-Lists all available node types that you can scale your Redis cluster's or replication
-group's current node type.
+Lists all available node types that you can scale with your cluster's replication group's
+current node type.
 
 When you use the `ModifyCacheCluster` or [`modify_replication_group`](@ref) operations to
 scale your cluster or replication group, the value of the `CacheNodeType` parameter must be
@@ -3982,7 +4028,7 @@ Lists all tags currently on a named resource.
 A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
 categorize and track all your ElastiCache resources, with the exception of global
 replication group. When you add or remove tags on replication groups, those actions will be
-replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
+replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
 
 If the cluster is not in the *available* state, `ListTagsForResource` returns an error.
 
@@ -4083,11 +4129,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - SET - allowed only after ROTATE
   - DELETE - allowed only when transitioning to RBAC
 
-  For more information, see [Authenticating Users with Redis AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html)
+  For more information, see [Authenticating Users with AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html)
 
-- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
-  this parameter to yes if you want to opt-in to the next auto minor version upgrade
-  campaign. This parameter is disabled for previous versions.
+- `"AutoMinorVersionUpgrade"`:  If you are running Valkey 7.2 or Redis OSS engine version
+  6.0 or later, set this parameter to yes to opt-in to the next auto minor version upgrade
+    campaign. This parameter is disabled for previous versions.
 
 - `"CacheNodeIdsToRemove"`: A list of cache node IDs to be removed. A node ID is a numeric
   identifier (0001, 0002, etc.). This parameter is only valid when `NumCacheNodes` is less
@@ -4114,16 +4160,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
 
+- `"Engine"`: The engine type used by the cache cluster. The options are valkey, memcached
+  or redis.
+
 - `"EngineVersion"`: The upgraded version of the cache engine to be run on the cache nodes.
 
-  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)),
+  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)),
   but you cannot downgrade to an earlier engine version. If you want to use an earlier
   engine version, you must delete the existing cluster and create it anew with the earlier
   engine version.
 
 - `"IpDiscovery"`: The network type you choose when modifying a cluster, either `ipv4` |
-  `ipv6`. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
-  engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  `ipv6`. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine
+  version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on
+  the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 
@@ -4155,7 +4205,7 @@ optionally specify an Availability Zone for the new node.
   If `cross-az` is specified, existing Memcached nodes remain in their current Availability
   Zone. Only newly created nodes can be located in different Availability Zones. For
   guidance on how to move existing Memcached nodes to different Availability Zones, see the
-  **Availability Zone Considerations** section of [Cache Node Considerations for Memcached](https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/CacheNodes.SupportedTypes.html).
+  **Availability Zone Considerations** section of [Cache Node Considerations for Memcached](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html).
 
   **Impact of new add/remove requests upon pending requests**
 
@@ -4202,8 +4252,8 @@ optionally specify an Availability Zone for the new node.
   If you are removing cache nodes, you must use the `CacheNodeIdsToRemove` parameter to
   provide the IDs of the specific cache nodes to remove.
 
-  For clusters running Redis, this value must be 1. For clusters running Memcached, this
-  value must be between 1 and 40.
+  For clusters running Valkey or Redis OSS, this value must be 1. For clusters running
+  Memcached, this value must be between 1 and 40.
 
   !!! note
       Adding or removing Memcached cache nodes can be applied immediately or as a pending
@@ -4239,6 +4289,9 @@ optionally specify an Availability Zone for the new node.
   - `sat`
 
   Example: `sun:23:00-mon:01:30`
+
+- `"ScaleConfig"`: Configures horizontal or vertical scaling for Memcached clusters,
+  specifying the scaling percentage and interval.
 
 - `"SecurityGroupIds"`: Specifies the VPC Security Groups associated with the cluster.
 
@@ -4425,6 +4478,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheParameterGroupName"`: The name of the cache parameter group to use with the Global
   datastore. It must be compatible with the major engine version used by the Global
   datastore.
+- `"Engine"`: Modifies the engine listed in a global replication group message. The options
+  are valkey, memcached or redis.
 - `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
   the Global datastore.
 - `"GlobalReplicationGroupDescription"`: A description of the Global datastore
@@ -4474,15 +4529,16 @@ end
     modify_replication_group(replication_group_id)
     modify_replication_group(replication_group_id, params::Dict{String,<:Any})
 
-Modifies the settings for a replication group. This is limited to Redis 7 and newer.
+Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and
+above.
 
-- [Scaling for Amazon ElastiCache for Redis (cluster mode enabled)](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/scaling-redis-cluster-mode-enabled.html)
+- [Scaling for Valkey or Redis OSS (cluster mode enabled)](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/scaling-redis-cluster-mode-enabled.html)
   in the ElastiCache User Guide
 - [ModifyReplicationGroupShardConfiguration](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyReplicationGroupShardConfiguration.html)
   in the ElastiCache API Reference
 
 !!! note
-    This operation is valid for Redis only.
+    This operation is valid for Valkey or Redis OSS only.
 
 # Arguments
 
@@ -4520,11 +4576,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - SET - allowed only after ROTATE
   - DELETE - allowed only when transitioning to RBAC
 
-  For more information, see [Authenticating Users with Redis AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html)
+  For more information, see [Authenticating Users with AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html)
 
-- `"AutoMinorVersionUpgrade"`:  If you are running Redis engine version 6.0 or later, set
-  this parameter to yes if you want to opt-in to the next auto minor version upgrade
-  campaign. This parameter is disabled for previous versions.
+- `"AutoMinorVersionUpgrade"`:  If you are running Valkey or Redis OSS engine version 6.0 or
+  later, set this parameter to yes if you want to opt-in to the next auto minor version
+  upgrade campaign. This parameter is disabled for previous versions.
 
 - `"AutomaticFailoverEnabled"`: Determines whether a read replica is automatically promoted
   to read/write primary if the existing primary encounters a failure.
@@ -4549,22 +4605,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Must contain no more than 255 alphanumeric characters. Must not be `Default`.
 
 - `"ClusterMode"`: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you
-  must first set the cluster mode to Compatible. Compatible mode allows your Redis clients
-  to connect using both cluster mode enabled and cluster mode disabled. After you migrate
-  all Redis clients to use cluster mode enabled, you can then complete cluster mode
-  configuration and set the cluster mode to Enabled.
+  must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis
+  OSS clients to connect using both cluster mode enabled and cluster mode disabled. After
+  you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then
+  complete cluster mode configuration and set the cluster mode to Enabled.
+
+- `"Engine"`: Modifies the engine listed in a replication group message. The options are
+  valkey, memcached or redis.
 
 - `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
   the replication group.
 
-  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)),
+  **Important:** You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)),
   but you cannot downgrade to an earlier engine version. If you want to use an earlier
   engine version, you must delete the existing replication group and create it anew with the
   earlier engine version.
 
 - `"IpDiscovery"`: The network type you choose when modifying a cluster, either `ipv4` |
-  `ipv6`. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached
-  engine version 1.6.6 on all instances built on the [Nitro system](http://aws.amazon.com/ec2/nitro/).
+  `ipv6`. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine
+  version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on
+  the [Nitro system](http://aws.amazon.com/ec2/nitro/).
 
 - `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 
@@ -4632,8 +4692,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time range.
 
 - `"SnapshottingClusterId"`: The cluster ID that is used as the daily snapshot source for
-  the replication group. This parameter cannot be set for Redis (cluster mode enabled)
-  replication groups.
+  the replication group. This parameter cannot be set for Valkey or Redis OSS (cluster mode
+  enabled) replication groups.
 
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
   If you are enabling in-transit encryption for an existing cluster, you must also set
@@ -4644,9 +4704,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must set `TransitEncryptionEnabled` to `true`, for your existing cluster, and set
   `TransitEncryptionMode` to `preferred` in the same request to allow both encrypted and
-  unencrypted connections at the same time. Once you migrate all your Redis clients to use
-  encrypted connections you can set the value to `required` to allow encrypted connections
-  only.
+  unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS
+  clients to use encrypted connections you can set the value to `required` to allow
+  encrypted connections only.
 
   Setting `TransitEncryptionMode` to `required` is a two-step process that requires you to
   first set the `TransitEncryptionMode` to `preferred`, after that you can set
@@ -4705,8 +4765,8 @@ shards, or rebalance the keyspaces among existing shards.
 - `node_group_count`: The number of node groups (shards) that results from the modification
   of the shard configuration.
 
-- `replication_group_id`: The name of the Redis (cluster mode enabled) cluster (replication
-  group) on which the shards are to be configured.
+- `replication_group_id`: The name of the Valkey or Redis OSS (cluster mode enabled) cluster
+  (replication group) on which the shards are to be configured.
 
 # Optional Parameters
 
@@ -4716,14 +4776,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is
   required. `NodeGroupsToRemove` is a list of `NodeGroupId`s to remove from the cluster.
 
-  ElastiCache for Redis will attempt to remove all node groups listed by
-  `NodeGroupsToRemove` from the cluster.
+  ElastiCache will attempt to remove all node groups listed by `NodeGroupsToRemove` from the
+  cluster.
 
 - `"NodeGroupsToRetain"`: If the value of `NodeGroupCount` is less than the current number
   of node groups (shards), then either `NodeGroupsToRemove` or `NodeGroupsToRetain` is
   required. `NodeGroupsToRetain` is a list of `NodeGroupId`s to retain in the cluster.
 
-  ElastiCache for Redis will attempt to remove all node groups except those listed by
+  ElastiCache will attempt to remove all node groups except those listed by
   `NodeGroupsToRetain` from the cluster.
 
 - `"ReshardingConfiguration"`: Specifies the preferred availability zones for each node
@@ -4796,23 +4856,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CacheUsageLimits"`: Modify the cache usage limit for the serverless cache.
 - `"DailySnapshotTime"`: The daily time during which Elasticache begins taking a daily
-  snapshot of the serverless cache. Available for Redis only. The default is NULL, i.e. the
-  existing snapshot time configured for the cluster is not removed.
+  snapshot of the serverless cache. Available for Valkey, Redis OSS and Serverless Memcached
+  only. The default is NULL, i.e. the existing snapshot time configured for the cluster is
+  not removed.
 - `"Description"`: User provided description for the serverless cache. Default = NULL, i.e.
   the existing description is not removed/modified. The description has a maximum length of
   255 characters.
+- `"Engine"`: Modifies the engine listed in a serverless cache request. The options are
+  valkey, memcached or redis.
+- `"MajorEngineVersion"`: Modifies the engine vesion listed in a serverless cache request.
 - `"RemoveUserGroup"`: The identifier of the UserGroup to be removed from association with
-  the Redis serverless cache. Available for Redis only. Default is NULL.
+  the Valkey and Redis OSS serverless cache. Available for Valkey and Redis OSS only.
+  Default is NULL.
 - `"SecurityGroupIds"`: The new list of VPC security groups to be associated with the
   serverless cache. Populating this list means the current VPC security groups will be
   removed. This security group is used to authorize traffic access for the VPC end-point
   (private-link). Default = NULL - the existing list of VPC security groups is not removed.
 - `"SnapshotRetentionLimit"`: The number of days for which Elasticache retains automatic
-  snapshots before deleting them. Available for Redis only. Default = NULL, i.e. the
-  existing snapshot-retention-limit will not be removed or modified. The maximum value
-  allowed is 35 days.
+  snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached
+  only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or
+  modified. The maximum value allowed is 35 days.
 - `"UserGroupId"`: The identifier of the UserGroup to be associated with the serverless
-  cache. Available for Redis only. Default is NULL - the existing UserGroup is not removed.
+  cache. Available for Valkey and Redis OSS only. Default is NULL - the existing UserGroup
+  is not removed.
 """
 function modify_serverless_cache end
 
@@ -4863,6 +4929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessString"`: Access permissions string used for this user.
 - `"AppendAccessString"`: Adds additional user permissions to the access string.
 - `"AuthenticationMode"`: Specifies how to authenticate the user.
+- `"Engine"`: Modifies the engine listed for a user. The options are valkey or redis.
 - `"NoPasswordRequired"`: Indicates no password is required for the user.
 - `"Passwords"`: The passwords belonging to the user. You are allowed up to two.
 """
@@ -4902,6 +4969,7 @@ Changes the list of users that belong to the user group.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"Engine"`: Modifies the engine listed in a user group. The options are valkey or redis.
 - `"UserIdsToAdd"`: The list of user IDs to add to the user group.
 - `"UserIdsToRemove"`: The list of user IDs to remove from the user group.
 """
@@ -4936,9 +5004,7 @@ end
     purchase_reserved_cache_nodes_offering(reserved_cache_nodes_offering_id, params::Dict{String,<:Any})
 
 Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for
-cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/reserved-nodes.html)
-for Redis or [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/reserved-nodes.html)
-for Memcached.
+cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html).
 
 # Arguments
 
@@ -5066,11 +5132,12 @@ The reboot causes the contents of the cache (for each cache node being rebooted)
 
 When the reboot is complete, a cluster event is created.
 
-Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled)
-clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters.
+Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode
+disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled)
+clusters.
 
-If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot
-for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html)
+If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled)
+cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/nodes.rebooting.html)
 for an alternate process.
 
 # Arguments
@@ -5131,7 +5198,7 @@ Removes the tags identified by the `TagKeys` list from the named resource. A tag
 value pair where the key and value are case-sensitive. You can use tags to categorize and
 track all your ElastiCache resources, with the exception of global replication group. When
 you add or remove tags on replication groups, those actions will be replicated to all nodes
-in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
+in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
 
 # Arguments
 
@@ -5306,7 +5373,7 @@ Start the migration of data.
 # Arguments
 
 - `customer_node_endpoint_list`: List of endpoints from which data should be migrated. For
-  Redis (cluster mode disabled), list should have only one element.
+  Valkey or Redis OSS (cluster mode disabled), the list should have only one element.
 - `replication_group_id`: The ID of the replication group to which data should be migrated.
 """
 function start_migration end
@@ -5369,9 +5436,9 @@ operational events, Amazon may block this API.
   node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.
 - If calling this operation on shards in different clusters (called replication groups in
   the API and CLI), the calls can be made concurrently.
-- If calling this operation multiple times on different shards in the same Redis (cluster
-  mode enabled) replication group, the first node replacement must complete before a
-  subsequent call can be made.
+- If calling this operation multiple times on different shards in the same Valkey or Redis
+  OSS (cluster mode enabled) replication group, the first node replacement must complete
+  before a subsequent call can be made.
 - To determine whether the node replacement is complete you can check Events using the
   Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following
   automatic failover related events, listed here in order of occurrance:
@@ -5385,12 +5452,12 @@ operational events, Amazon may block this API.
 - Cache cluster message: `Finished recovery for cache nodes <node-id>`
 
 For more information see:
-  - [Viewing ElastiCache Events](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ECEvents.Viewing.html)
+  - [Viewing ElastiCache Events](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ECEvents.Viewing.html)
     in the *ElastiCache User Guide*
   - [DescribeEvents](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_DescribeEvents.html)
     in the ElastiCache API Reference
 </li>
-Also see, [Testing Multi-AZ](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test)
+Also see, [Testing Multi-AZ](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html#auto-failover-test)
 in the *ElastiCache User Guide*.
 
 # Arguments

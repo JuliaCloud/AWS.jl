@@ -8,14 +8,14 @@ using AWS.UUIDs: uuid4
     create_aws_log_source(sources)
     create_aws_log_source(sources, params::Dict{String,<:Any})
 
-Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables
-source types for member accounts in required Amazon Web Services Regions, based on the
-parameters you specify. You can choose any source type in any Region for either accounts
+Adds a natively supported Amazon Web Services service as an Amazon Security Lake source.
+Enables source types for member accounts in required Amazon Web Services Regions, based on
+the parameters you specify. You can choose any source type in any Region for either accounts
 that are part of a trusted organization or standalone accounts. Once you add an Amazon Web
-Service as a source, Security Lake starts collecting logs and events from it.
+Services service as a source, Security Lake starts collecting logs and events from it.
 
-You can use this API only to enable natively supported Amazon Web Services as a source. Use
-`CreateCustomLogSource` to enable data collection from a custom source.
+You can use this API only to enable natively supported Amazon Web Services services as a
+source. Use `CreateCustomLogSource` to enable data collection from a custom source.
 
 # Arguments
 
@@ -62,48 +62,21 @@ and an Glue crawler.
 
 # Arguments
 
-- `configuration`: The configuration for the third-party custom source.
+- `configuration`: The configuration used for the third-party custom source.
+
 - `source_name`: Specify the name for a third-party custom source. This must be a Regionally
-  unique value.
+  unique value. The `sourceName` you enter here, is used in the `LogProviderRole` name which
+  follows the convention `AmazonSecurityLake-Provider-{name of the custom source}-{region}`.
+  You must use a `CustomLogSource` name that is shorter than or equal to 20 characters. This
+  ensures that the `LogProviderRole` name is below the 64 character limit.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"eventClasses"`: The Open Cybersecurity Schema Framework (OCSF) event classes which
-  describes the type of data that the custom source will send to Security Lake. The
-  supported event classes are:
-
-  - `ACCESS_ACTIVITY`
-  - `FILE_ACTIVITY`
-  - `KERNEL_ACTIVITY`
-  - `KERNEL_EXTENSION`
-  - `MEMORY_ACTIVITY`
-  - `MODULE_ACTIVITY`
-  - `PROCESS_ACTIVITY`
-  - `REGISTRY_KEY_ACTIVITY`
-  - `REGISTRY_VALUE_ACTIVITY`
-  - `RESOURCE_ACTIVITY`
-  - `SCHEDULED_JOB_ACTIVITY`
-  - `SECURITY_FINDING`
-  - `ACCOUNT_CHANGE`
-  - `AUTHENTICATION`
-  - `AUTHORIZATION`
-  - `ENTITY_MANAGEMENT_AUDIT`
-  - `DHCP_ACTIVITY`
-  - `NETWORK_ACTIVITY`
-  - `DNS_ACTIVITY`
-  - `FTP_ACTIVITY`
-  - `HTTP_ACTIVITY`
-  - `RDP_ACTIVITY`
-  - `SMB_ACTIVITY`
-  - `SSH_ACTIVITY`
-  - `CONFIG_STATE`
-  - `INVENTORY_INFO`
-  - `EMAIL_ACTIVITY`
-  - `API_ACTIVITY`
-  - `CLOUD_API`
-
+  describes the type of data that the custom source will send to Security Lake. For the list
+  of supported event classes, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/adding-custom-sources.html#ocsf-eventclass).
 - `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
   log collection to a specific version of custom data source.
 """
@@ -158,10 +131,11 @@ you call this API, it will set up the data lake in the Region with the specified
 configurations.
 
 When you enable Security Lake, it starts ingesting security data after the
-`CreateAwsLogSource` call. This includes ingesting security data from sources, storing data,
-and making data accessible to subscribers. Security Lake also enables all the existing
-settings and resources that it stores or maintains for your Amazon Web Services account in
-the current Region, including security log and event data. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
+`CreateAwsLogSource` call and after you create subscribers using the `CreateSubscriber` API.
+This includes ingesting security data from sources, storing data, and making data accessible
+to subscribers. Security Lake also enables all the existing settings and resources that it
+stores or maintains for your Amazon Web Services account in the current Region, including
+security log and event data. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
 
 # Arguments
 
@@ -227,7 +201,8 @@ end
     create_data_lake_exception_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
 
 Creates the specified notification subscription in Amazon Security Lake for the organization
-you specify.
+you specify. The notification subscription is created for exceptions that cannot be resolved
+by Security Lake automatically.
 
 # Arguments
 
@@ -240,7 +215,8 @@ you specify.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"exceptionTimeToLive"`: The expiration period and time-to-live (TTL).
+- `"exceptionTimeToLive"`: The expiration period and time-to-live (TTL). It is the duration
+  of time until which the exception message remains.
 """
 function create_data_lake_exception_subscription end
 
@@ -293,6 +269,10 @@ Automatically enables Amazon Security Lake for new member accounts in your organ
 Security Lake is not automatically enabled for any existing member accounts in your
 organization.
 
+This operation merges the new data lake organization configuration with the existing
+configuration for Security Lake in your organization. If you want to create a new data lake
+organization configuration, you must delete the existing one using [DeleteDataLakeOrganizationConfiguration](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_DeleteDataLakeOrganizationConfiguration.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -329,15 +309,14 @@ end
     create_subscriber(sources, subscriber_identity, subscriber_name)
     create_subscriber(sources, subscriber_identity, subscriber_name, params::Dict{String,<:Any})
 
-Creates a subscription permission for accounts that are already enabled in Amazon Security
-Lake. You can create a subscriber with access to data in the current Amazon Web Services
-Region.
+Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can
+create a subscriber with access to data in the current Amazon Web Services Region.
 
 # Arguments
 
-- `sources`: The supported Amazon Web Services from which logs and events are collected.
-  Security Lake supports log and event collection for natively supported Amazon Web
-  Services.
+- `sources`: The supported Amazon Web Services services from which logs and events are
+  collected. Security Lake supports log and event collection for natively supported Amazon
+  Web Services services.
 - `subscriber_identity`: The Amazon Web Services identity used to access your data.
 - `subscriber_name`: The name of your Security Lake subscriber account.
 
@@ -447,11 +426,11 @@ end
     delete_aws_log_source(sources)
     delete_aws_log_source(sources, params::Dict{String,<:Any})
 
-Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can
-remove a source for one or more Regions. When you remove the source, Security Lake stops
-collecting data from that source in the specified Regions and accounts, and subscribers can
-no longer consume new data from the source. However, subscribers can still consume data that
-Security Lake collected from the source before removal.
+Removes a natively supported Amazon Web Services service as an Amazon Security Lake source.
+You can remove a source for one or more Regions. When you remove the source, Security Lake
+stops collecting data from that source in the specified Regions and accounts, and
+subscribers can no longer consume new data from the source. However, subscribers can still
+consume data that Security Lake collected from the source before removal.
 
 You can choose any source type in any Amazon Web Services Region for either accounts that
 are part of a trusted organization or standalone accounts.
@@ -693,7 +672,7 @@ end
     delete_subscriber_notification(subscriber_id)
     delete_subscriber_notification(subscriber_id, params::Dict{String,<:Any})
 
-Deletes the specified notification subscription in Amazon Security Lake for the organization
+Deletes the specified subscription notification in Amazon Security Lake for the organization
 you specify.
 
 # Arguments
@@ -761,7 +740,8 @@ end
     get_data_lake_exception_subscription()
     get_data_lake_exception_subscription(params::Dict{String,<:Any})
 
-Retrieves the details of exception notifications for the account in Amazon Security Lake.
+Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics
+for exception notifications.
 """
 function get_data_lake_exception_subscription end
 
@@ -910,9 +890,9 @@ and fix them.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: List the maximum number of failures in Security Lake.
+- `"maxResults"`: Lists the maximum number of failures in Security Lake.
 
-- `"nextToken"`: List if there are more results available. The value of nextToken is a
+- `"nextToken"`: Lists if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to
   retrieve the next page. Keep all other arguments unchanged.
 
@@ -973,7 +953,7 @@ end
     list_log_sources()
     list_log_sources(params::Dict{String,<:Any})
 
-Retrieves the log sources in the current Amazon Web Services Region.
+Retrieves the log sources.
 
 # Optional Parameters
 
@@ -1011,7 +991,7 @@ end
     list_subscribers()
     list_subscribers(params::Dict{String,<:Any})
 
-List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a
+Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a
 list of subscriptions associated with a specific organization or Amazon Web Services
 account.
 
@@ -1216,12 +1196,27 @@ end
     update_data_lake(configurations)
     update_data_lake(configurations, params::Dict{String,<:Any})
 
-Specifies where to store your security data and for how long. You can add a rollup Region to
-consolidate data from multiple Amazon Web Services Regions.
+You can use `UpdateDataLake` to specify where to store your security data, how it should be
+encrypted at rest and for how long. You can add a [Rollup Region](https://docs.aws.amazon.com/security-lake/latest/userguide/manage-regions.html#add-rollup-region)
+to consolidate data from multiple Amazon Web Services Regions, replace default encryption
+(SSE-S3) with [Customer Manged Key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk),
+or specify transition and expiration actions through storage [Lifecycle management](https://docs.aws.amazon.com/security-lake/latest/userguide/lifecycle-management.html).
+The `UpdateDataLake` API works as an "upsert" operation that performs an insert if the
+specified item or record does not exist, or an update if it already exists. Security Lake
+securely stores your data at rest using Amazon Web Services encryption solutions. For more
+details, see [Data protection in Amazon Security Lake](https://docs.aws.amazon.com/security-lake/latest/userguide/data-protection.html).
+
+For example, omitting the key `encryptionConfiguration` from a Region that is included in an
+update call that currently uses KMS will leave that Region's KMS key in place, but
+specifying `encryptionConfiguration: {kmsKeyId: 'S3_MANAGED_KEY'}` for that same Region will
+reset the key to `S3-managed`.
+
+For more details about lifecycle management and how to update retention settings for one or
+more Regions after enabling Security Lake, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/lifecycle-management.html).
 
 # Arguments
 
-- `configurations`: Specify the Region or Regions that will contribute data to the rollup
+- `configurations`: Specifies the Region or Regions that will contribute data to the rollup
   region.
 
 # Optional Parameters
@@ -1279,7 +1274,8 @@ you specify.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"exceptionTimeToLive"`: The time-to-live (TTL) for the exception message to remain.
+- `"exceptionTimeToLive"`: The time-to-live (TTL) for the exception message to remain. It is
+  the duration of time until which the exception message remains.
 """
 function update_data_lake_exception_subscription end
 
@@ -1340,10 +1336,10 @@ update a subscriber by changing the sources that the subscriber consumes data fr
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"sources"`: The supported Amazon Web Services from which logs and events are collected.
-  For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+- `"sources"`: The supported Amazon Web Services services from which logs and events are
+  collected. For the list of supported Amazon Web Services services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
 - `"subscriberDescription"`: The description of the Security Lake account subscriber.
-- `"subscriberIdentity"`: The AWS identity used to access your data.
+- `"subscriberIdentity"`: The Amazon Web Services identity used to access your data.
 - `"subscriberName"`: The name of the Security Lake account subscriber.
 """
 function update_subscriber end

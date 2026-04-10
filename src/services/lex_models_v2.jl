@@ -259,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"botType"`: The type of a bot to create.
 - `"description"`: A description of the bot. It appears in lists to help you identify a
   particular bot.
+- `"errorLogSettings"`: Specifies the configuration for error logging during bot creation.
 - `"testBotAliasTags"`: A list of tags to add to the test alias for a bot. You can only add
   tags when you create a bot. You can't use the `UpdateAlias` operation to update tags. To
   update tags on the test alias, use the `TagResource` operation.
@@ -421,6 +422,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the bot locale. Use this to help identify the bot locale
   in lists.
 - `"generativeAISettings"`:
+- `"speechDetectionSensitivity"`: The sensitivity level for voice activity detection (VAD)
+  in the bot locale. This setting helps optimize speech recognition accuracy by adjusting
+  how the system responds to background noise during voice interactions.
+- `"speechRecognitionSettings"`: Speech-to-text settings to configure for the new bot
+  locale.
+- `"unifiedSpeechSettings"`: Unified speech settings to configure for the new bot locale.
 - `"voiceSettings"`: The Amazon Polly voice ID that Amazon Lex uses for voice interaction
   with the user.
 """
@@ -731,6 +738,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   confirm the completion of an intent. If the user answers "no," the settings contain a
   statement that is sent to the user to end the intent.
 
+- `"intentDisplayName"`: A display name for the intent. If configured, This name will be
+  shown to users during Intent Disambiguation instead of the intent name. Display names
+  should be user-friendly, descriptive and match the intent's purpose to improve user
+  experience during disambiguation.
+
 - `"kendraConfiguration"`: Configuration information required to use the
   `AMAZON.KendraSearchIntent` intent to connect to an Amazon Kendra index. The
   `AMAZON.KendraSearchIntent` intent is called when Amazon Lex can't determine another
@@ -748,6 +760,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"parentIntentSignature"`: A unique identifier for the built-in intent to base this intent
   on.
+
+- `"qInConnectIntentConfiguration"`: Qinconnect intent configuration details for the create
+  intent request.
 
 - `"qnAIntentConfiguration"`: Specifies the configuration of the built-in
   `Amazon.QnAIntent`. The `AMAZON.QnAIntent` intent is called when Amazon Lex can't
@@ -852,6 +867,9 @@ statement is added to the current resource policy. If a policy doesn't exist, a 
 is created.
 
 You can't create a resource policy statement that allows cross-account access.
+
+You need to add the `CreateResourcePolicy` or `UpdateResourcePolicy` action to the bot role
+in order to call the API.
 
 # Arguments
 
@@ -1277,6 +1295,51 @@ function delete_bot_alias(
 end
 
 """
+    delete_bot_analyzer_recommendation(bot_analyzer_request_id, bot_id)
+    delete_bot_analyzer_recommendation(bot_analyzer_request_id, bot_id, params::Dict{String,<:Any})
+
+Permanently deletes the recommendations and analysis results for a specific bot analysis
+request. This operation is provided for GDPR compliance and cannot be undone.
+
+After deletion, the analysis results cannot be retrieved. The analysis request ID will still
+appear in the history list, but attempting to describe the recommendations will return a
+`ResourceNotFoundException`.
+
+# Arguments
+
+- `bot_analyzer_request_id`: The unique identifier of the analysis request whose
+  recommendations should be deleted.
+- `bot_id`: The unique identifier of the bot.
+"""
+function delete_bot_analyzer_recommendation end
+
+function delete_bot_analyzer_recommendation(
+    botAnalyzerRequestId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botanalyzer/$(botAnalyzerRequestId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_bot_analyzer_recommendation(
+    botAnalyzerRequestId,
+    botId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botanalyzer/$(botAnalyzerRequestId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_bot_locale(bot_id, bot_version, locale_id)
     delete_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -1620,6 +1683,9 @@ policy, the policy is deleted. If you specify a statement ID that doesn't exist 
 policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an
 exception.
 
+You need to add the `DeleteResourcePolicy` or `UpdateResourcePolicy` action to the bot role
+in order to call the API.
+
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
@@ -1918,6 +1984,58 @@ function describe_bot_alias(
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botaliases/$(botAliasId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_bot_analyzer_recommendation(bot_analyzer_request_id, bot_id)
+    describe_bot_analyzer_recommendation(bot_analyzer_request_id, bot_id, params::Dict{String,<:Any})
+
+Retrieves the analysis results and recommendations for bot optimization. The analysis must
+be in `Available` status before recommendations can be retrieved.
+
+Recommendations are returned with pagination support. Each recommendation includes the issue
+location, priority level, detailed description, and proposed fix.
+
+# Arguments
+
+- `bot_analyzer_request_id`: The unique identifier of the analysis request.
+- `bot_id`: The unique identifier of the bot.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of recommendations to return in the response. The
+  default is 5.
+- `"nextToken"`: If the response from a previous request was truncated, the `nextToken`
+  value is used to retrieve the next page of recommendations.
+"""
+function describe_bot_analyzer_recommendation end
+
+function describe_bot_analyzer_recommendation(
+    botAnalyzerRequestId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer/describe/$(botAnalyzerRequestId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_bot_analyzer_recommendation(
+    botAnalyzerRequestId,
+    botId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer/describe/$(botAnalyzerRequestId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2824,6 +2942,58 @@ function list_bot_aliases(
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botaliases",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_bot_analyzer_history(bot_id)
+    list_bot_analyzer_history(bot_id, params::Dict{String,<:Any})
+
+Retrieves a list of historical bot analysis executions for a specific bot. You can filter
+the results by locale and bot version.
+
+The history includes all analysis executions regardless of their status, allowing you to
+track past analyses and their outcomes.
+
+# Arguments
+
+- `bot_id`: The unique identifier of the bot.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"botVersion"`: The bot version to filter the history. If not specified, defaults to
+  `DRAFT`.
+- `"localeId"`: The locale identifier to filter the history. If not specified, returns
+  history for all locales.
+- `"maxResults"`: The maximum number of history entries to return in the response. The
+  default is 10.
+- `"nextToken"`: If the response from a previous request was truncated, the `nextToken`
+  value is used to retrieve the next page of history entries.
+"""
+function list_bot_analyzer_history end
+
+function list_bot_analyzer_history(
+    botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer/history";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_bot_analyzer_history(
+    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer/history",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4653,6 +4823,64 @@ function search_associated_transcripts(
 end
 
 """
+    start_bot_analyzer(analysis_scope, bot_id)
+    start_bot_analyzer(analysis_scope, bot_id, params::Dict{String,<:Any})
+
+Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to
+identify potential issues and recommend improvements based on AWS best practices.
+
+The analysis examines your bot's configuration, including intents, utterances, slots, and
+conversation flows, to provide actionable recommendations for optimization.
+
+# Arguments
+
+- `analysis_scope`: The scope of analysis to perform. Currently only `BotLocale` scope is
+  supported.
+
+  Valid Values: `BotLocale`
+
+- `bot_id`: The unique identifier of the bot to analyze.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"botVersion"`: The version of the bot to analyze. Defaults to `DRAFT` if not specified.
+- `"localeId"`: The locale identifier for the bot locale to analyze. Required when
+  `analysisScope` is `BotLocale`.
+"""
+function start_bot_analyzer end
+
+function start_bot_analyzer(
+    analysisScope, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer",
+        Dict{String,Any}("analysisScope" => analysisScope);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_bot_analyzer(
+    analysisScope,
+    botId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botanalyzer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analysisScope" => analysisScope), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_bot_recommendation(bot_id, bot_version, locale_id, transcript_source_setting)
     start_bot_recommendation(bot_id, bot_version, locale_id, transcript_source_setting, params::Dict{String,<:Any})
 
@@ -4978,6 +5206,46 @@ function start_test_set_generation(
 end
 
 """
+    stop_bot_analyzer(bot_analyzer_request_id, bot_id)
+    stop_bot_analyzer(bot_analyzer_request_id, bot_id, params::Dict{String,<:Any})
+
+Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and
+no recommendations will be generated.
+
+# Arguments
+
+- `bot_analyzer_request_id`: The unique identifier of the analysis request to stop.
+- `bot_id`: The unique identifier of the bot.
+"""
+function stop_bot_analyzer end
+
+function stop_bot_analyzer(
+    botAnalyzerRequestId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botanalyzer/$(botAnalyzerRequestId)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_bot_analyzer(
+    botAnalyzerRequestId,
+    botId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botanalyzer/$(botAnalyzerRequestId)/stop",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id)
     stop_bot_recommendation(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -5144,6 +5412,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"botMembers"`: The list of bot members in the network associated with the update action.
 - `"botType"`: The type of the bot to be updated.
 - `"description"`: A description of the bot.
+- `"errorLogSettings"`: Allows you to modify how Amazon Lex logs errors during bot
+  interactions, including destinations for error logs and the types of errors to be
+  captured.
 """
 function update_bot end
 
@@ -5279,6 +5550,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"generativeAISettings"`: Contains settings for generative AI features powered by Amazon
   Bedrock for your bot locale. Use this object to turn generative AI features on and off.
   Pricing may differ if you turn a feature on. For more information, see LINK.
+- `"speechDetectionSensitivity"`: The new sensitivity level for voice activity detection
+  (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by
+  adjusting how the system responds to background noise during voice interactions.
+- `"speechRecognitionSettings"`: Updated speech-to-text settings to apply to the bot locale.
+- `"unifiedSpeechSettings"`: Updated unified speech settings to apply to the bot locale.
 - `"voiceSettings"`: The new Amazon Polly voice Amazon Lex should use for voice interaction
   with the user.
 """
@@ -5455,12 +5731,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is closed.
 - `"intentConfirmationSetting"`: New prompts that Amazon Lex sends to the user to confirm
   the completion of an intent.
+- `"intentDisplayName"`: The new display name for the intent.
 - `"kendraConfiguration"`: New configuration settings for connecting to an Amazon Kendra
   index.
 - `"outputContexts"`: A new list of contexts that Amazon Lex activates when the intent is
   fulfilled.
 - `"parentIntentSignature"`: The signature of the new built-in intent to use as the parent
   of this intent.
+- `"qInConnectIntentConfiguration"`: Qinconnect intent configuration details for the update
+  intent request.
 - `"qnAIntentConfiguration"`: Specifies the configuration of the built-in
   `Amazon.QnAIntent`. The `AMAZON.QnAIntent` intent is called when Amazon Lex can't
   determine another intent to invoke. If you specify this field, you can't specify the

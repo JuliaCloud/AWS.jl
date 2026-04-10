@@ -8,9 +8,8 @@ using AWS.UUIDs: uuid4
     cancel_job(job_id, reason)
     cancel_job(job_id, reason, params::Dict{String,<:Any})
 
-Cancels a job in an Batch job queue. Jobs that are in the `SUBMITTED` or `PENDING` are
-canceled. A job in`RUNNABLE` remains in `RUNNABLE` until it reaches the head of the job
-queue. Then the job status is updated to `FAILED`.
+Cancels a job in an Batch job queue. Jobs that are in a `SUBMITTED`, `PENDING`, or
+`RUNNABLE` state are cancelled and the job status is updated to `FAILED`.
 
 !!! note
     A `PENDING` job is canceled after all dependency jobs are completed. Therefore, it may
@@ -26,9 +25,12 @@ operation.
 # Arguments
 
 - `job_id`: The Batch job ID of the job to cancel.
+
 - `reason`: A message to attach to the job that explains the reason for canceling it. This
-  message is returned by future `DescribeJobs` operations on the job. This message is also
-  recorded in the Batch activity logs.
+  message is returned by future `DescribeJobs` operations on the job. It is also recorded in
+  the Batch activity logs.
+
+  This parameter has as limit of 1024 characters.
 """
 function cancel_job end
 
@@ -78,9 +80,6 @@ capacity in your managed compute environment. You can optionally set a maximum p
 Spot Instances only launch when the Spot Instance price is less than a specified percentage
 of the On-Demand price.
 
-!!! note
-    Multi-node parallel jobs aren't supported on Spot Instances.
-
 In an unmanaged compute environment, you can manage your own EC2 compute resources and have
 flexibility with how you configure your compute resources. For example, you can use custom
 AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance
@@ -92,52 +91,9 @@ into that Amazon ECS cluster. For more information, see [Launching an Amazon ECS
 in the *Amazon Elastic Container Service Developer Guide*.
 
 !!! note
-    To create a compute environment that uses EKS resources, the caller must have
-    permissions to call `eks:DescribeCluster`.
-
-!!! note
     Batch doesn't automatically upgrade the AMIs in a compute environment after it's
-    created. For example, it also doesn't update the AMIs in your compute environment when a
-    newer version of the Amazon ECS optimized AMI is available. You're responsible for the
-    management of the guest operating system. This includes any updates and security
-    patches. You're also responsible for any additional application software or utilities
-    that you install on the compute resources. There are two ways to use a new AMI for your
-    Batch jobs. The original method is to complete these steps:
-
-    1. Create a new compute environment with the new AMI.
-    2. Add the compute environment to an existing job queue.
-    3. Remove the earlier compute environment from your job queue.
-    4. Delete the earlier compute environment.
-
-    In April 2022, Batch added enhanced support for updating compute environments. For more
-    information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html).
-    To use the enhanced updating of compute environments to update AMIs, follow these rules:
-
-    - Either don't set the service role (`serviceRole`) parameter or set it to the
-      **AWSBatchServiceRole** service-linked role.
-    - Set the allocation strategy (`allocationStrategy`) parameter to
-      `BEST_FIT_PROGRESSIVE`, `SPOT_CAPACITY_OPTIMIZED`, or `SPOT_PRICE_CAPACITY_OPTIMIZED`.
-    - Set the update to latest image version (`updateToLatestImageVersion`) parameter to
-      `true`. The `updateToLatestImageVersion` parameter is used when you update a compute
-      environment. This parameter is ignored when you create a compute environment.
-    - Don't specify an AMI ID in `imageId`, `imageIdOverride` (in [`ec2Configuration`](https://docs.aws.amazon.com/batch/latest/APIReference/API_Ec2Configuration.html)),
-      or in the launch template (`launchTemplate`). In that case, Batch selects the latest
-      Amazon ECS optimized AMI that's supported by Batch at the time the infrastructure
-      update is initiated. Alternatively, you can specify the AMI ID in the `imageId` or
-      `imageIdOverride` parameters, or the launch template identified by the
-      `LaunchTemplate` properties. Changing any of these properties starts an infrastructure
-      update. If the AMI ID is specified in the launch template, it can't be replaced by
-      specifying an AMI ID in either the `imageId` or `imageIdOverride` parameters. It can
-      only be replaced by specifying a different launch template, or if the launch template
-      version is set to `\$Default` or `\$Latest`, by setting either a new default version
-      for the launch template (if `\$Default`) or by adding a new version to the launch
-      template (if `\$Latest`).
-
-    If these rules are followed, any update that starts an infrastructure update causes the
-    AMI ID to be re-selected. If the `version` setting in the launch template
-    (`launchTemplate`) is set to `\$Latest` or `\$Default`, the latest or default version of
-    the launch template is evaluated up at the time of the infrastructure update, even if
-    the `launchTemplate` wasn't updated.
+    created. For more information on how to update a compute environment's AMI, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html)
+    in the *Batch User Guide*.
 
 # Arguments
 
@@ -157,8 +113,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
   in the *Batch User Guide*.
 
+- `"context"`: Reserved.
+
 - `"eksConfiguration"`: The details for the Amazon EKS cluster that supports the compute
   environment.
+
+  !!! note
+      To create a compute environment that uses EKS resources, the caller must have
+      permissions to call `eks:DescribeCluster`.
 
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html)
@@ -217,8 +179,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API operations. These tags don't propagate to the underlying compute resources.
 
 - `"unmanagedvCpus"`: The maximum number of vCPUs for an unmanaged compute environment. This
-  parameter is only used for fair share scheduling to reserve vCPU capacity for new share
-  identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity
+  parameter is only used for fair-share scheduling to reserve vCPU capacity for new share
+  identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity
   is reserved.
 
   !!! note
@@ -264,8 +226,69 @@ function create_compute_environment(
 end
 
 """
-    create_job_queue(compute_environment_order, job_queue_name, priority)
-    create_job_queue(compute_environment_order, job_queue_name, priority, params::Dict{String,<:Any})
+    create_consumable_resource(consumable_resource_name)
+    create_consumable_resource(consumable_resource_name, params::Dict{String,<:Any})
+
+Creates an Batch consumable resource.
+
+# Arguments
+
+- `consumable_resource_name`: The name of the consumable resource. Must be unique.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"resourceType"`: Indicates whether the resource is available to be re-used after a job
+  completes. Can be one of:
+
+  - `REPLENISHABLE` (default)
+  - `NON_REPLENISHABLE`
+
+- `"tags"`: The tags that you apply to the consumable resource to help you categorize and
+  organize your resources. Each tag consists of a key and an optional value. For more
+  information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+
+- `"totalQuantity"`: The total amount of the consumable resource that is available. Must be
+  non-negative.
+"""
+function create_consumable_resource end
+
+function create_consumable_resource(
+    consumableResourceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/createconsumableresource",
+        Dict{String,Any}("consumableResourceName" => consumableResourceName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_consumable_resource(
+    consumableResourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createconsumableresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("consumableResourceName" => consumableResourceName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_job_queue(job_queue_name, priority)
+    create_job_queue(job_queue_name, priority, params::Dict{String,<:Any})
 
 Creates an Batch job queue. When you create a job queue, you associate one or more compute
 environments to the queue and assign an order of preference for the compute environments.
@@ -276,19 +299,6 @@ is associated with more than one job queue, the job queue with a higher priority
 preference for scheduling jobs to that compute environment.
 
 # Arguments
-
-- `compute_environment_order`: The set of compute environments mapped to a job queue and
-  their order relative to each other. The job scheduler uses this parameter to determine
-  which compute environment runs a specific job. Compute environments must be in the `VALID`
-  state before you can associate them with a job queue. You can associate up to three
-  compute environments with a job queue. All of the compute environments must be either EC2
-  (`EC2` or `SPOT`) or Fargate (`FARGATE` or `FARGATE_SPOT`); EC2 and Fargate compute
-  environments can't be mixed.
-
-  !!! note
-      All compute environments that are associated with a job queue must share the same
-      architecture. Batch doesn't support mixing compute environment architecture types in a
-      single job queue.
 
 - `job_queue_name`: The name of the job queue. It can be up to 128 letters long. It can
   contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
@@ -305,17 +315,45 @@ preference for scheduling jobs to that compute environment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"computeEnvironmentOrder"`: The set of compute environments mapped to a job queue and
+  their order relative to each other. The job scheduler uses this parameter to determine
+  which compute environment runs a specific job. Compute environments must be in the `VALID`
+  state before you can associate them with a job queue. You can associate up to three
+  compute environments with a job queue. All of the compute environments must be either EC2
+  (`EC2` or `SPOT`) or Fargate (`FARGATE` or `FARGATE_SPOT`); EC2 and Fargate compute
+  environments can't be mixed.
+
+  !!! note
+      All compute environments that are associated with a job queue must share the same
+      architecture. Batch doesn't support mixing compute environment architecture types in a
+      single job queue.
+
+- `"jobQueueType"`: The type of job queue. For service jobs that run on SageMaker Training,
+  this value is `SAGEMAKER_TRAINING`. For regular container jobs, this value is `EKS`,
+  `ECS`, or `ECS_FARGATE` depending on the compute environment.
+
 - `"jobStateTimeLimitActions"`: The set of actions that Batch performs on jobs that remain
   at the head of the job queue in the specified state longer than specified times. Batch
-  will perform each action after `maxTimeSeconds` has passed.
+  will perform each action after `maxTimeSeconds` has passed. (**Note**: The minimum value
+  for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
 
-- `"schedulingPolicyArn"`: The Amazon Resource Name (ARN) of the fair share scheduling
-  policy. If this parameter is specified, the job queue uses a fair share scheduling policy.
-  If this parameter isn't specified, the job queue uses a first in, first out (FIFO)
-  scheduling policy. After a job queue is created, you can replace but can't remove the fair
-  share scheduling policy. The format is
-  `aws:*Partition*:batch:*Region*:*Account*:scheduling-policy/*Name*`. An example is
-  `aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy`.
+- `"schedulingPolicyArn"`: The Amazon Resource Name (ARN) of the fair-share scheduling
+  policy. Job queues that don't have a fair-share scheduling policy are scheduled in a
+  first-in, first-out (FIFO) model. After a job queue has a fair-share scheduling policy, it
+  can be replaced but can't be removed.
+
+  The format is `aws:*Partition*:batch:*Region*:*Account*:scheduling-policy/*Name*`.
+
+  An example is `aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy`.
+
+  A job queue without a fair-share scheduling policy is scheduled as a FIFO job queue and
+  can't have a fair-share scheduling policy added. Jobs queues with a fair-share scheduling
+  policy can have a maximum of 500 active share identifiers. When the limit has been
+  reached, submissions of any jobs that add a new share identifier fail.
+
+- `"serviceEnvironmentOrder"`: A list of service environments that this job queue can use to
+  allocate jobs. All serviceEnvironments must have the same type. A job queue can't have
+  both a serviceEnvironmentOrder and a computeEnvironmentOrder field.
 
 - `"state"`: The state of the job queue. If the job queue state is `ENABLED`, it is able to
   accept jobs. If the job queue state is `DISABLED`, new jobs can't be added to the queue,
@@ -329,26 +367,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_job_queue end
 
 function create_job_queue(
-    computeEnvironmentOrder,
-    jobQueueName,
-    priority;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    jobQueueName, priority; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return batch(
         "POST",
         "/v1/createjobqueue",
-        Dict{String,Any}(
-            "computeEnvironmentOrder" => computeEnvironmentOrder,
-            "jobQueueName" => jobQueueName,
-            "priority" => priority,
-        );
+        Dict{String,Any}("jobQueueName" => jobQueueName, "priority" => priority);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_job_queue(
-    computeEnvironmentOrder,
     jobQueueName,
     priority,
     params::AbstractDict{String};
@@ -360,10 +390,93 @@ function create_job_queue(
         Dict{String,Any}(
             mergewith(
                 _merge,
+                Dict{String,Any}("jobQueueName" => jobQueueName, "priority" => priority),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_quota_share(capacity_limits, job_queue, preemption_configuration, quota_share_name, resource_sharing_configuration)
+    create_quota_share(capacity_limits, job_queue, preemption_configuration, quota_share_name, resource_sharing_configuration, params::Dict{String,<:Any})
+
+Creates an Batch quota share. Each quota share operates as a virtual queue with a configured
+compute capacity, resource sharing strategy, and borrow limits.
+
+# Arguments
+
+- `capacity_limits`: A list that specifies the quantity and type of compute capacity
+  allocated to the quota share.
+- `job_queue`: The Batch job queue associated with the quota share. This can be the job
+  queue name or ARN. A job queue must be in the `VALID` state before you can associate it
+  with a quota share.
+- `preemption_configuration`: Specifies the preemption behavior for jobs in a quota share.
+- `quota_share_name`: The name of the quota share. It can be up to 128 characters long. It
+  can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+- `resource_sharing_configuration`: Specifies whether a quota share reserves, lends, or both
+  lends and borrows idle compute capacity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"state"`: The state of the quota share. If the quota share is `ENABLED`, it is able to
+  accept jobs. If the quota share is `DISABLED`, new jobs won't be accepted but jobs already
+  submitted can finish. The default state is `ENABLED`.
+- `"tags"`: The tags that you apply to the quota share to help you categorize and organize
+  your resources. Each tag consists of a key and an optional value. For more information,
+  see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html)
+  in *Batch User Guide*.
+"""
+function create_quota_share end
+
+function create_quota_share(
+    capacityLimits,
+    jobQueue,
+    preemptionConfiguration,
+    quotaShareName,
+    resourceSharingConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createquotashare",
+        Dict{String,Any}(
+            "capacityLimits" => capacityLimits,
+            "jobQueue" => jobQueue,
+            "preemptionConfiguration" => preemptionConfiguration,
+            "quotaShareName" => quotaShareName,
+            "resourceSharingConfiguration" => resourceSharingConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_quota_share(
+    capacityLimits,
+    jobQueue,
+    preemptionConfiguration,
+    quotaShareName,
+    resourceSharingConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createquotashare",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
                 Dict{String,Any}(
-                    "computeEnvironmentOrder" => computeEnvironmentOrder,
-                    "jobQueueName" => jobQueueName,
-                    "priority" => priority,
+                    "capacityLimits" => capacityLimits,
+                    "jobQueue" => jobQueue,
+                    "preemptionConfiguration" => preemptionConfiguration,
+                    "quotaShareName" => quotaShareName,
+                    "resourceSharingConfiguration" => resourceSharingConfiguration,
                 ),
                 params,
             ),
@@ -381,14 +494,20 @@ Creates an Batch scheduling policy.
 
 # Arguments
 
-- `name`: The name of the scheduling policy. It can be up to 128 letters long. It can
-  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+- `name`: The name of the fair-share scheduling policy. It can be up to 128 letters long. It
+  can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"fairsharePolicy"`: The fair share policy of the scheduling policy.
+- `"fairsharePolicy"`: The fair-share scheduling policy details. Only one of fairsharePolicy
+  or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to
+  a quotaSharePolicy.
+
+- `"quotaSharePolicy"`: The quota share scheduling policy details. Only one of
+  fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be
+  removed or changed to a fairSharePolicy.
 
 - `"tags"`: The tags that you apply to the scheduling policy to help you categorize and
   organize your resources. Each tag consists of a key and an optional value. For more
@@ -418,6 +537,80 @@ function create_scheduling_policy(
         "POST",
         "/v1/createschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_service_environment(capacity_limits, service_environment_name, service_environment_type)
+    create_service_environment(capacity_limits, service_environment_name, service_environment_type, params::Dict{String,<:Any})
+
+Creates a service environment for running service jobs. Service environments define capacity
+limits for specific service types such as SageMaker Training jobs.
+
+# Arguments
+
+- `capacity_limits`: The capacity limits for the service environment. The number of
+  instances a job consumes is the total number of instances requested in the submit training
+  job request resource configuration.
+- `service_environment_name`: The name for the service environment. It can be up to 128
+  characters long and can contain letters, numbers, hyphens (-), and underscores (_).
+- `service_environment_type`: The type of service environment. For SageMaker Training jobs,
+  specify `SAGEMAKER_TRAINING`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"state"`: The state of the service environment. Valid values are `ENABLED` and
+  `DISABLED`. The default value is `ENABLED`.
+- `"tags"`: The tags that you apply to the service environment to help you categorize and
+  organize your resources. Each tag consists of a key and an optional value. For more
+  information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+"""
+function create_service_environment end
+
+function create_service_environment(
+    capacityLimits,
+    serviceEnvironmentName,
+    serviceEnvironmentType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createserviceenvironment",
+        Dict{String,Any}(
+            "capacityLimits" => capacityLimits,
+            "serviceEnvironmentName" => serviceEnvironmentName,
+            "serviceEnvironmentType" => serviceEnvironmentType,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_service_environment(
+    capacityLimits,
+    serviceEnvironmentName,
+    serviceEnvironmentType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createserviceenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "capacityLimits" => capacityLimits,
+                    "serviceEnvironmentName" => serviceEnvironmentName,
+                    "serviceEnvironmentType" => serviceEnvironmentType,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -473,12 +666,53 @@ function delete_compute_environment(
 end
 
 """
+    delete_consumable_resource(consumable_resource)
+    delete_consumable_resource(consumable_resource, params::Dict{String,<:Any})
+
+Deletes the specified consumable resource.
+
+# Arguments
+
+- `consumable_resource`: The name or ARN of the consumable resource that will be deleted.
+"""
+function delete_consumable_resource end
+
+function delete_consumable_resource(
+    consumableResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deleteconsumableresource",
+        Dict{String,Any}("consumableResource" => consumableResource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_consumable_resource(
+    consumableResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deleteconsumableresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("consumableResource" => consumableResource), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_job_queue(job_queue)
     delete_job_queue(job_queue, params::Dict{String,<:Any})
 
 Deletes the specified job queue. You must first disable submissions for a queue with the [`update_job_queue`](@ref)
-operation. All jobs in the queue are eventually terminated when you delete a job queue. The
-jobs are terminated at a rate of about 16 jobs each second.
+operation. All jobs in the queue are eventually terminated when you delete a job queue.
 
 It's not necessary to disassociate compute environments from a queue before submitting a
 `DeleteJobQueue` request.
@@ -516,6 +750,48 @@ function delete_job_queue(
 end
 
 """
+    delete_quota_share(quota_share_arn)
+    delete_quota_share(quota_share_arn, params::Dict{String,<:Any})
+
+Deletes the specified quota share. You must first disable submissions for the share by
+updating the state to `DISABLED` using the [`update_quota_share`](@ref) operation. All jobs
+in the share are eventually terminated when you delete a quota share.
+
+# Arguments
+
+- `quota_share_arn`: The Amazon Resource Name (ARN) of the quota share.
+"""
+function delete_quota_share end
+
+function delete_quota_share(
+    quotaShareArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deletequotashare",
+        Dict{String,Any}("quotaShareArn" => quotaShareArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_quota_share(
+    quotaShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deletequotashare",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("quotaShareArn" => quotaShareArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_scheduling_policy(arn)
     delete_scheduling_policy(arn, params::Dict{String,<:Any})
 
@@ -546,6 +822,50 @@ function delete_scheduling_policy(
         "POST",
         "/v1/deleteschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_service_environment(service_environment)
+    delete_service_environment(service_environment, params::Dict{String,<:Any})
+
+Deletes a Service environment. Before you can delete a service environment, you must first
+set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and
+disassociate it from any job queues with the `UpdateJobQueue` API operation.
+
+# Arguments
+
+- `service_environment`: The name or ARN of the service environment to delete.
+"""
+function delete_service_environment end
+
+function delete_service_environment(
+    serviceEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deleteserviceenvironment",
+        Dict{String,Any}("serviceEnvironment" => serviceEnvironment);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_service_environment(
+    serviceEnvironment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deleteserviceenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("serviceEnvironment" => serviceEnvironment), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -646,6 +966,49 @@ function describe_compute_environments(
         "POST",
         "/v1/describecomputeenvironments",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_consumable_resource(consumable_resource)
+    describe_consumable_resource(consumable_resource, params::Dict{String,<:Any})
+
+Returns a description of the specified consumable resource.
+
+# Arguments
+
+- `consumable_resource`: The name or ARN of the consumable resource whose description will
+  be returned.
+"""
+function describe_consumable_resource end
+
+function describe_consumable_resource(
+    consumableResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describeconsumableresource",
+        Dict{String,Any}("consumableResource" => consumableResource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_consumable_resource(
+    consumableResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/describeconsumableresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("consumableResource" => consumableResource), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -790,6 +1153,46 @@ function describe_jobs(
 end
 
 """
+    describe_quota_share(quota_share_arn)
+    describe_quota_share(quota_share_arn, params::Dict{String,<:Any})
+
+Returns a description of the specified quota share.
+
+# Arguments
+
+- `quota_share_arn`: The Amazon Resource Name (ARN) of the quota share.
+"""
+function describe_quota_share end
+
+function describe_quota_share(
+    quotaShareArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describequotashare",
+        Dict{String,Any}("quotaShareArn" => quotaShareArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_quota_share(
+    quotaShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/describequotashare",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("quotaShareArn" => quotaShareArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_scheduling_policies(arns)
     describe_scheduling_policies(arns, params::Dict{String,<:Any})
 
@@ -826,10 +1229,102 @@ function describe_scheduling_policies(
 end
 
 """
+    describe_service_environments()
+    describe_service_environments(params::Dict{String,<:Any})
+
+Describes one or more of your service environments.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results returned by `DescribeServiceEnvironments` in
+  paginated output. When this parameter is used, `DescribeServiceEnvironments` only returns
+  `maxResults` results in a single page and a `nextToken` response element. The remaining
+  results of the initial request can be seen by sending another
+  `DescribeServiceEnvironments` request with the returned `nextToken` value. This value can
+  be between 1 and 100. If this parameter isn't used, then `DescribeServiceEnvironments`
+  returns up to 100 results and a `nextToken` value if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `DescribeServiceEnvironments` request where `maxResults` was used and the results exceeded
+  the value of that parameter. Pagination continues from the end of the previous results
+  that returned the `nextToken` value. This value is `null` when there are no more results
+  to return.
+
+  !!! note
+      Treat this token as an opaque identifier that's only used to retrieve the next items
+      in a list and not for other programmatic purposes.
+
+- `"serviceEnvironments"`: An array of service environment names or ARN entries.
+"""
+function describe_service_environments end
+
+function describe_service_environments(; aws_config::AbstractAWSConfig=current_aws_config())
+    return batch(
+        "POST",
+        "/v1/describeserviceenvironments";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_service_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describeserviceenvironments",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_service_job(job_id)
+    describe_service_job(job_id, params::Dict{String,<:Any})
+
+The details of a service job.
+
+# Arguments
+
+- `job_id`: The job ID for the service job to describe.
+"""
+function describe_service_job end
+
+function describe_service_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return batch(
+        "POST",
+        "/v1/describeservicejob",
+        Dict{String,Any}("jobId" => jobId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_service_job(
+    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describeservicejob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_job_queue_snapshot(job_queue)
     get_job_queue_snapshot(job_queue, params::Dict{String,<:Any})
 
-Provides a list of the first 100 `RUNNABLE` jobs associated to a single job queue.
+Provides a snapshot of job queue state, including ordering of `RUNNABLE` jobs, as well as
+capacity utilization for already dispatched jobs. The first 100 `RUNNABLE` jobs in the job
+queue are listed in order of dispatch. For job queues with an attached quota-share policy,
+the first `RUNNABLE` job in each quota share is also listed. Capacity utilization for the
+job queue is provided, as well as break downs by share for job queues with attached fair-
+share or quota-share scheduling policies.
 
 # Arguments
 
@@ -866,6 +1361,64 @@ function get_job_queue_snapshot(
 end
 
 """
+    list_consumable_resources()
+    list_consumable_resources(params::Dict{String,<:Any})
+
+Returns a list of Batch consumable resources.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: The filters to apply to the consumable resource list query. If used, only
+  those consumable resources that match the filter are listed. Filter names and values can
+  be:
+
+  - name: `CONSUMABLE_RESOURCE_NAME`
+
+  values: case-insensitive matches for the consumable resource name. If a filter value ends
+  with an asterisk (*), it matches any consumable resource name that begins with the string
+  before the '*'.
+
+- `"maxResults"`: The maximum number of results returned by `ListConsumableResources` in
+  paginated output. When this parameter is used, `ListConsumableResources` only returns
+  `maxResults` results in a single page and a `nextToken` response element. The remaining
+  results of the initial request can be seen by sending another `ListConsumableResources`
+  request with the returned `nextToken` value. This value can be between 1 and 100. If this
+  parameter isn't used, then `ListConsumableResources` returns up to 100 results and a
+  `nextToken` value if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `ListConsumableResources` request where `maxResults` was used and the results exceeded the
+  value of that parameter. Pagination continues from the end of the previous results that
+  returned the `nextToken` value. This value is `null` when there are no more results to
+  return.
+
+  !!! note
+      Treat this token as an opaque identifier that's only used to retrieve the next items
+      in a list and not for other programmatic purposes.
+"""
+function list_consumable_resources end
+
+function list_consumable_resources(; aws_config::AbstractAWSConfig=current_aws_config())
+    return batch(
+        "POST", "/v1/listconsumableresources"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_consumable_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/listconsumableresources",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_jobs()
     list_jobs(params::Dict{String,<:Any})
 
@@ -877,9 +1430,6 @@ You must specify only one of the following items:
 - A multi-node parallel job ID to return a list of nodes for that job
 - An array job ID to return a list of the children for that job
 
-You can filter the results by job status with the `jobStatus` parameter. If you don't
-specify a status, only `RUNNING` jobs are returned.
-
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -888,9 +1438,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter lists all child jobs from within the specified array.
 
 - `"filters"`: The filter to apply to the query. Only one filter can be used at a time. When
-  the filter is used, `jobStatus` is ignored. The filter doesn't apply to child jobs in an
-  array or multi-node parallel (MNP) jobs. The results are sorted by the `createdAt` field,
-  with the most recent jobs being first.
+  the filter is used, `jobStatus` is ignored with the exception that `SHARE_IDENTIFIER` and
+  `jobStatus` can be used together. The filter doesn't apply to child jobs in an array or
+  multi-node parallel (MNP) jobs. The results are sorted by the `createdAt` field, with the
+  most recent jobs being first.
+
+  !!! note
+      The `SHARE_IDENTIFIER` filter and the `jobStatus` field can be used together to filter
+      results.
 
   ### JOB_NAME
 
@@ -926,12 +1481,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `createdAt` value. The value is a string representation of the number of milliseconds
   since 00:00:00 UTC (midnight) on January 1, 1970.
 
+  ### SHARE_IDENTIFIER
+
+  The value for the filter is the fairshare scheduling share identifier.
+
 - `"jobQueue"`: The name or full Amazon Resource Name (ARN) of the job queue used to list
   jobs.
 
 - `"jobStatus"`: The job status used to filter jobs in the specified queue. If the `filters`
   parameter is specified, the `jobStatus` parameter is ignored and jobs with any status are
-  returned. If you don't specify a status, only `RUNNING` jobs are returned.
+  returned. The exception is the `SHARE_IDENTIFIER` filter and `jobStatus` can be used
+  together. If you don't specify a status, only `RUNNING` jobs are returned.
+
+  !!! note
+      Array job parents are updated to `PENDING` when any child job is updated to `RUNNABLE`
+      and remain in `PENDING` status while child jobs are running. To view these jobs,
+      filter by `PENDING` status until all child jobs reach a terminal state.
 
 - `"maxResults"`: The maximum number of results returned by `ListJobs` in a paginated
   output. When this parameter is used, `ListJobs` returns up to `maxResults` results in a
@@ -971,6 +1536,141 @@ function list_jobs(
 )
     return batch(
         "POST", "/v1/listjobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_jobs_by_consumable_resource(consumable_resource)
+    list_jobs_by_consumable_resource(consumable_resource, params::Dict{String,<:Any})
+
+Returns a list of Batch jobs that require a specific consumable resource.
+
+# Arguments
+
+- `consumable_resource`: The name or ARN of the consumable resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: The filters to apply to the job list query. If used, only those jobs
+  requiring the specified consumable resource (`consumableResource`) and that match the
+  value of the filters are listed. The filter names and values can be:
+
+  - name: `JOB_STATUS`
+
+  values: `SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED`
+  - name: `JOB_NAME`
+
+  The values are case-insensitive matches for the job name. If a filter value ends with an
+  asterisk (*), it matches any job name that begins with the string before the '*'.
+
+- `"maxResults"`: The maximum number of results returned by `ListJobsByConsumableResource`
+  in paginated output. When this parameter is used, `ListJobsByConsumableResource` only
+  returns `maxResults` results in a single page and a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListJobsByConsumableResource` request with the returned `nextToken` value. This value can
+  be between 1 and 100. If this parameter isn't used, then `ListJobsByConsumableResource`
+  returns up to 100 results and a `nextToken` value if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated
+  `ListJobsByConsumableResource` request where `maxResults` was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the `nextToken` value. This value is `null` when there are no more
+  results to return.
+
+  !!! note
+      Treat this token as an opaque identifier that's only used to retrieve the next items
+      in a list and not for other programmatic purposes.
+"""
+function list_jobs_by_consumable_resource end
+
+function list_jobs_by_consumable_resource(
+    consumableResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/listjobsbyconsumableresource",
+        Dict{String,Any}("consumableResource" => consumableResource);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_jobs_by_consumable_resource(
+    consumableResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/listjobsbyconsumableresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("consumableResource" => consumableResource), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_quota_shares(job_queue)
+    list_quota_shares(job_queue, params::Dict{String,<:Any})
+
+Returns a list of Batch quota shares associated with a job queue.
+
+# Arguments
+
+- `job_queue`: The name or full Amazon Resource Name (ARN) of the job queue used to list
+  quota shares.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results returned by `ListQuotaShares` in paginated
+  output. When this parameter is used, `ListQuotaShares` only returns `maxResults` results
+  in a single page and a `nextToken` response element. You can see the remaining results of
+  the initial request by sending another `ListQuotaShares` request with the returned
+  `nextToken` value. This value can be between 1 and 100. If this parameter isn't used,
+  `ListQuotaShares` returns up to 100 results and a `nextToken` value if applicable.
+
+- `"nextToken"`: The `nextToken` value that's returned from a previous paginated
+  `ListQuotaShares` request where `maxResults` was used and the results exceeded the value
+  of that parameter. Pagination continues from the end of the previous results that returned
+  the `nextToken` value. This value is `null` when there are no more results to return.
+
+  !!! note
+      Treat this token as an opaque identifier that's only used to retrieve the next items
+      in a list and not for other programmatic purposes.
+"""
+function list_quota_shares end
+
+function list_quota_shares(jobQueue; aws_config::AbstractAWSConfig=current_aws_config())
+    return batch(
+        "POST",
+        "/v1/listquotashares",
+        Dict{String,Any}("jobQueue" => jobQueue);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_quota_shares(
+    jobQueue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/listquotashares",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1019,6 +1719,95 @@ function list_scheduling_policies(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_service_jobs()
+    list_service_jobs(params::Dict{String,<:Any})
+
+Returns a list of service jobs for a specified job queue.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: The filter to apply to the query. Only one filter can be used at a time. When
+  the filter is used, `jobStatus` is ignored with the exception that `SHARE_IDENTIFIER` or
+  `QUOTA_SHARE_NAME` and `jobStatus` can be used together. The results are sorted by the
+  `createdAt` field, with the most recent jobs being first.
+
+  !!! note
+      The `SHARE_IDENTIFIER` or `QUOTA_SHARE_NAME` filter and the `jobStatus` field can be
+      used together to filter results.
+
+  ### JOB_NAME
+
+  The value of the filter is a case-insensitive match for the job name. If the value ends
+  with an asterisk (*), the filter matches any job name that begins with the string before
+  the '*'. This corresponds to the `jobName` value. For example, `test1` matches both
+  `Test1` and `test1`, and `test1*` matches both `test1` and `Test10`. When the `JOB_NAME`
+  filter is used, the results are grouped by the job name and version.
+
+  ### BEFORE_CREATED_AT
+
+  The value for the filter is the time that's before the job was created. This corresponds
+  to the `createdAt` value. The value is a string representation of the number of
+  milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+
+  ### AFTER_CREATED_AT
+
+  The value for the filter is the time that's after the job was created. This corresponds to
+  the `createdAt` value. The value is a string representation of the number of milliseconds
+  since 00:00:00 UTC (midnight) on January 1, 1970.
+
+  ### SHARE_IDENTIFIER
+
+  The value for the filter is the fairshare scheduling share identifier.
+
+  ### QUOTA_SHARE_NAME
+
+  The value for the filter is the quota management share name.
+
+- `"jobQueue"`: The name or ARN of the job queue with which to list service jobs.
+
+- `"jobStatus"`: The job status used to filter service jobs in the specified queue. If the
+  `filters` parameter is specified, the `jobStatus` parameter is ignored and jobs with any
+  status are returned. The exceptions are the `SHARE_IDENTIFIER` filter and
+  `QUOTA_SHARE_NAME` filter, which can be used with `jobStatus`. If you don't specify a
+  status, only `RUNNING` jobs are returned.
+
+  !!! note
+      The `SHARE_IDENTIFIER` filter or `QUOTA_SHARE_NAME` filter can be used with the
+      `jobStatus` field to filter results.
+
+- `"maxResults"`: The maximum number of results returned by `ListServiceJobs` in paginated
+  output. When this parameter is used, `ListServiceJobs` only returns `maxResults` results
+  in a single page and a `nextToken` response element. The remaining results of the initial
+  request can be seen by sending another `ListServiceJobs` request with the returned
+  `nextToken` value. This value can be between 1 and 100. If this parameter isn't used, then
+  `ListServiceJobs` returns up to 100 results and a `nextToken` value if applicable.
+
+- `"nextToken"`: The `nextToken` value returned from a previous paginated `ListServiceJobs`
+  request where `maxResults` was used and the results exceeded the value of that parameter.
+  Pagination continues from the end of the previous results that returned the `nextToken`
+  value. This value is `null` when there are no more results to return.
+
+  !!! note
+      Treat this token as an opaque identifier that's only used to retrieve the next items
+      in a list and not for other programmatic purposes.
+"""
+function list_service_jobs end
+
+function list_service_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return batch("POST", "/v1/listservicejobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_service_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST", "/v1/listservicejobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1088,6 +1877,9 @@ Registers an Batch job definition.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"consumableResourceProperties"`: Contains a list of consumable resources required by the
+  job.
+
 - `"containerProperties"`: An object with properties specific to Amazon ECS-based single-
   node container-based jobs. If the job definition's `type` parameter is `container`, then
   you must specify either `containerProperties` or `nodeProperties`. This must not be
@@ -1143,7 +1935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   isn't retried.
 
 - `"schedulingPriority"`: The scheduling priority for jobs that are submitted with this job
-  definition. This only affects jobs in job queues with a fair share policy. Jobs with a
+  definition. This only affects jobs in job queues with a fair-share policy. Jobs with a
   higher scheduling priority are scheduled before jobs with a lower scheduling priority.
 
   The minimum supported value is 0 and the maximum supported value is 9999.
@@ -1207,8 +1999,8 @@ must specify updates to job definition parameters in a `resourceRequirements` ob
 included in the `containerOverrides` parameter.
 
 !!! note
-    Job queues with a scheduling policy are limited to 500 active fair share identifiers at
-    a time.
+    Job queues with a scheduling policy are limited to 500 active share identifiers at a
+    time.
 
 !!! important
     Jobs that run on Fargate resources can't be guaranteed to run for more than 14 days.
@@ -1240,6 +2032,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array. The array size can be between 2 and 10,000. If you specify array properties for a
   job, it becomes an array job. For more information, see [Array Jobs](https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html)
   in the *Batch User Guide*.
+
+- `"consumableResourcePropertiesOverride"`: An object that contains overrides for the
+  consumable resources of a job.
 
 - `"containerOverrides"`: An object with properties that override the defaults for the job
   definition that specify the name of a container in the specified job definition and the
@@ -1286,15 +2081,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   defined in the job definition.
 
 - `"schedulingPriorityOverride"`: The scheduling priority for the job. This only affects
-  jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are
+  jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are
   scheduled before jobs with a lower scheduling priority. This overrides any scheduling
   priority in the job definition and works only within a single share identifier.
 
   The minimum supported value is 0 and the maximum supported value is 9999.
 
 - `"shareIdentifier"`: The share identifier for the job. Don't specify this parameter if the
-  job queue doesn't have a scheduling policy. If the job queue has a scheduling policy, then
-  this parameter must be specified.
+  job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share
+  scheduling policy, then this parameter must be specified.
 
   This string is limited to 255 alphanumeric characters, and can be followed by an asterisk
   (*).
@@ -1345,6 +2140,101 @@ function submit_job(
                     "jobDefinition" => jobDefinition,
                     "jobName" => jobName,
                     "jobQueue" => jobQueue,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    submit_service_job(job_name, job_queue, service_job_type, service_request_payload)
+    submit_service_job(job_name, job_queue, service_job_type, service_request_payload, params::Dict{String,<:Any})
+
+Submits a service job to a specified job queue to run on SageMaker AI. A service job is a
+unit of work that you submit to Batch for execution on SageMaker AI.
+
+# Arguments
+
+- `job_name`: The name of the service job. It can be up to 128 characters long. It can
+  contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+- `job_queue`: The job queue into which the service job is submitted. You can specify either
+  the name or the ARN of the queue. The job queue must have the type `SAGEMAKER_TRAINING`.
+- `service_job_type`: The type of service job. For SageMaker Training jobs, specify
+  `SAGEMAKER_TRAINING`.
+- `service_request_payload`: The request, in JSON, for the service that the SubmitServiceJob
+  operation is queueing.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique identifier for the request. This token is used to ensure
+  idempotency of requests. If this parameter is specified and two submit requests with
+  identical payloads and `clientToken`s are received, these requests are considered the same
+  request and the second request is rejected.
+- `"preemptionConfiguration"`: Specifies the service job behavior when preempted.
+- `"quotaShareName"`: The quota share for the service job. Don't specify this parameter if
+  the job queue doesn't have a quota share scheduling policy. If the job queue has a quota
+  share scheduling policy, then this parameter must be specified.
+- `"retryStrategy"`: The retry strategy to use for failed service jobs that are submitted
+  with this service job request.
+- `"schedulingPriority"`: The scheduling priority of the service job. Valid values are
+  integers between 0 and 9999.
+- `"shareIdentifier"`: The share identifier for the service job. Don't specify this
+  parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue
+  has a fair-share scheduling policy, then this parameter must be specified.
+- `"tags"`: The tags that you apply to the service job request. Each tag consists of a key
+  and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+- `"timeoutConfig"`: The timeout configuration for the service job. If none is specified,
+  Batch defers to the default timeout of the underlying service handling the job.
+"""
+function submit_service_job end
+
+function submit_service_job(
+    jobName,
+    jobQueue,
+    serviceJobType,
+    serviceRequestPayload;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/submitservicejob",
+        Dict{String,Any}(
+            "jobName" => jobName,
+            "jobQueue" => jobQueue,
+            "serviceJobType" => serviceJobType,
+            "serviceRequestPayload" => serviceRequestPayload,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function submit_service_job(
+    jobName,
+    jobQueue,
+    serviceJobType,
+    serviceRequestPayload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/submitservicejob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "jobName" => jobName,
+                    "jobQueue" => jobQueue,
+                    "serviceJobType" => serviceJobType,
+                    "serviceRequestPayload" => serviceRequestPayload,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1413,9 +2303,12 @@ the `STARTING` state are cancelled.
 # Arguments
 
 - `job_id`: The Batch job ID of the job to terminate.
+
 - `reason`: A message to attach to the job that explains the reason for canceling it. This
-  message is returned by future `DescribeJobs` operations on the job. This message is also
-  recorded in the Batch activity logs.
+  message is returned by future `DescribeJobs` operations on the job. It is also recorded in
+  the Batch activity logs.
+
+  This parameter has as limit of 1024 characters.
 """
 function terminate_job end
 
@@ -1438,6 +2331,51 @@ function terminate_job(
     return batch(
         "POST",
         "/v1/terminatejob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    terminate_service_job(job_id, reason)
+    terminate_service_job(job_id, reason, params::Dict{String,<:Any})
+
+Terminates a service job in a job queue.
+
+# Arguments
+
+- `job_id`: The service job ID of the service job to terminate.
+- `reason`: A message to attach to the service job that explains the reason for canceling
+  it. This message is returned by `DescribeServiceJob` operations on the service job.
+"""
+function terminate_service_job end
+
+function terminate_service_job(
+    jobId, reason; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/terminateservicejob",
+        Dict{String,Any}("jobId" => jobId, "reason" => reason);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function terminate_service_job(
+    jobId,
+    reason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/terminateservicejob",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
@@ -1510,6 +2448,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Required for a managed compute environment. For more information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
   in the *Batch User Guide*.
 
+- `"context"`: Reserved.
+
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html)
   in the *Batch User Guide*.
@@ -1558,8 +2498,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"unmanagedvCpus"`: The maximum number of vCPUs expected to be used for an unmanaged
   compute environment. Don't specify this parameter for a managed compute environment. This
-  parameter is only used for fair share scheduling to reserve vCPU capacity for new share
-  identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity
+  parameter is only used for fair-share scheduling to reserve vCPU capacity for new share
+  identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity
   is reserved.
 
 - `"updatePolicy"`: Specifies the updated infrastructure update policy for the compute
@@ -1599,6 +2539,82 @@ function update_compute_environment(
 end
 
 """
+    update_consumable_resource(consumable_resource)
+    update_consumable_resource(consumable_resource, params::Dict{String,<:Any})
+
+Updates a consumable resource.
+
+# Arguments
+
+- `consumable_resource`: The name or ARN of the consumable resource to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: If this parameter is specified and two update requests with identical
+  payloads and `clientToken`s are received, these requests are considered the same request.
+  Both requests will succeed, but the update will only happen once. A `clientToken` is valid
+  for 8 hours.
+
+- `"operation"`: Indicates how the quantity of the consumable resource will be updated. Must
+  be one of:
+
+  - `SET`
+
+  Sets the quantity of the resource to the value specified by the `quantity` parameter.
+  - `ADD`
+
+  Increases the quantity of the resource by the value specified by the `quantity` parameter.
+  - `REMOVE`
+
+  Reduces the quantity of the resource by the value specified by the `quantity` parameter.
+
+- `"quantity"`: The change in the total quantity of the consumable resource. The `operation`
+  parameter determines whether the value specified here will be the new total quantity, or
+  the amount by which the total quantity will be increased or reduced. Must be a non-
+  negative value.
+"""
+function update_consumable_resource end
+
+function update_consumable_resource(
+    consumableResource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updateconsumableresource",
+        Dict{String,Any}(
+            "consumableResource" => consumableResource, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_consumable_resource(
+    consumableResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updateconsumableresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "consumableResource" => consumableResource,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_job_queue(job_queue)
     update_job_queue(job_queue, params::Dict{String,<:Any})
 
@@ -1626,7 +2642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"jobStateTimeLimitActions"`: The set of actions that Batch perform on jobs that remain at
   the head of the job queue in the specified state longer than specified times. Batch will
-  perform each action after `maxTimeSeconds` has passed.
+  perform each action after `maxTimeSeconds` has passed. (**Note**: The minimum value for
+  maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
 
 - `"priority"`: The priority of the job queue. Job queues with a higher priority (or a
   higher integer value for the `priority` parameter) are evaluated first when associated
@@ -1636,11 +2653,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`EC2` or `SPOT`) or Fargate (`FARGATE` or `FARGATE_SPOT`). EC2 and Fargate compute
   environments can't be mixed.
 
-- `"schedulingPolicyArn"`: Amazon Resource Name (ARN) of the fair share scheduling policy.
-  Once a job queue is created, the fair share scheduling policy can be replaced but not
+- `"schedulingPolicyArn"`: Amazon Resource Name (ARN) of the fair-share scheduling policy.
+  Once a job queue is created, the fair-share scheduling policy can be replaced but not
   removed. The format is
   `aws:*Partition*:batch:*Region*:*Account*:scheduling-policy/*Name*`. For example,
   `aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy`.
+
+- `"serviceEnvironmentOrder"`: The order of the service environment associated with the job
+  queue. Job queues with a higher priority are evaluated first when associated with the same
+  service environment.
 
 - `"state"`: Describes the queue's ability to accept new jobs. If the job queue state is
   `ENABLED`, it can accept jobs. If the job queue state is `DISABLED`, new jobs can't be
@@ -1675,6 +2696,59 @@ function update_job_queue(
 end
 
 """
+    update_quota_share(quota_share_arn)
+    update_quota_share(quota_share_arn, params::Dict{String,<:Any})
+
+Updates a quota share.
+
+# Arguments
+
+- `quota_share_arn`: The Amazon Resource Name (ARN) of the quota share to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"capacityLimits"`: A list that specifies the quantity and type of compute capacity
+  allocated to the quota share.
+- `"preemptionConfiguration"`: Specifies the preemption behavior for jobs in a quota share.
+- `"resourceSharingConfiguration"`: Specifies whether a quota share reserves, lends, or both
+  lends and borrows idle compute capacity.
+- `"state"`: The state of the quota share. If the quota share is `ENABLED`, it is able to
+  accept jobs. If the quota share is `DISABLED`, new jobs won't be accepted but jobs already
+  submitted can finish.
+"""
+function update_quota_share end
+
+function update_quota_share(
+    quotaShareArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updatequotashare",
+        Dict{String,Any}("quotaShareArn" => quotaShareArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_quota_share(
+    quotaShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updatequotashare",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("quotaShareArn" => quotaShareArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_scheduling_policy(arn)
     update_scheduling_policy(arn, params::Dict{String,<:Any})
 
@@ -1688,7 +2762,10 @@ Updates a scheduling policy.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"fairsharePolicy"`: The fair share policy.
+- `"fairsharePolicy"`: The fair-share policy scheduling details. Once set during creation, a
+  fairsharePolicy cannot be removed or changed to a quotaSharePolicy.
+- `"quotaSharePolicy"`: The quota share scheduling policy details. Once set during creation,
+  a quotaSharePolicy cannot be removed or changed to a fairsharePolicy.
 """
 function update_scheduling_policy end
 
@@ -1709,6 +2786,111 @@ function update_scheduling_policy(
         "POST",
         "/v1/updateschedulingpolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_service_environment(service_environment)
+    update_service_environment(service_environment, params::Dict{String,<:Any})
+
+Updates a service environment. You can update the state of a service environment from
+`ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service
+environment.
+
+# Arguments
+
+- `service_environment`: The name or ARN of the service environment to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"capacityLimits"`: The capacity limits for the service environment. This defines the
+  maximum resources that can be used by service jobs in this environment.
+- `"state"`: The state of the service environment.
+"""
+function update_service_environment end
+
+function update_service_environment(
+    serviceEnvironment; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updateserviceenvironment",
+        Dict{String,Any}("serviceEnvironment" => serviceEnvironment);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_service_environment(
+    serviceEnvironment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updateserviceenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("serviceEnvironment" => serviceEnvironment), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_service_job(job_id, scheduling_priority)
+    update_service_job(job_id, scheduling_priority, params::Dict{String,<:Any})
+
+Updates the priority of a specified service job in an Batch job queue.
+
+# Arguments
+
+- `job_id`: The Batch job ID of the job to update.
+
+- `scheduling_priority`: The scheduling priority for the job. This only affects jobs in job
+  queues with a quota-share or fair-share scheduling policy. Jobs with a higher scheduling
+  priority are scheduled before jobs with a lower scheduling priority within a share.
+
+  The minimum supported value is 0 and the maximum supported value is 9999.
+"""
+function update_service_job end
+
+function update_service_job(
+    jobId, schedulingPriority; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updateservicejob",
+        Dict{String,Any}("jobId" => jobId, "schedulingPriority" => schedulingPriority);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_service_job(
+    jobId,
+    schedulingPriority,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updateservicejob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "jobId" => jobId, "schedulingPriority" => schedulingPriority
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -8,11 +8,11 @@ using AWS.UUIDs: uuid4
     cancel_job(job_arn)
     cancel_job(job_arn, params::Dict{String,<:Any})
 
-Cancels an Amazon Braket job.
+Cancels an Amazon Braket hybrid job.
 
 # Arguments
 
-- `job_arn`: The ARN of the Amazon Braket job to cancel.
+- `job_arn`: The ARN of the Amazon Braket hybrid job to cancel.
 """
 function cancel_job end
 
@@ -38,8 +38,8 @@ Cancels the specified task.
 
 # Arguments
 
-- `client_token`: The client token associated with the request.
-- `quantum_task_arn`: The ARN of the task to cancel.
+- `client_token`: The client token associated with the cancellation request.
+- `quantum_task_arn`: The ARN of the quantum task to cancel.
 """
 function cancel_quantum_task end
 
@@ -76,40 +76,55 @@ end
     create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn)
     create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn, params::Dict{String,<:Any})
 
-Creates an Amazon Braket job.
+Creates an Amazon Braket hybrid job.
 
 # Arguments
 
 - `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
   the container image the job uses and information about the Python scripts used for entry
   and training.
-- `client_token`: A unique token that guarantees that the call to this API is idempotent.
+- `client_token`: The client token associated with this request that guarantees that the
+  request is idempotent.
 - `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
-  Braket job.
+  Braket hybrid job.
 - `instance_config`: Configuration of the resource instances to use while running the hybrid
   job on Amazon Braket.
-- `job_name`: The name of the Amazon Braket job.
-- `output_data_config`: The path to the S3 location where you want to store job artifacts
-  and the encryption key used to store them.
+- `job_name`: The name of the Amazon Braket hybrid job.
+- `output_data_config`: The path to the S3 location where you want to store hybrid job
+  artifacts and the encryption key used to store them.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to
   perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job
-  container on behalf of user, and output resources to the users' s3 buckets.
+  container on behalf of user, and output results and hybrid job details to the users' s3
+  buckets.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associations"`: The list of Amazon Braket resources associated with the hybrid job.
-- `"checkpointConfig"`: Information about the output locations for job checkpoint data.
-- `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket job that
-  influence the quality of the training job. The values are set with a string of JSON
+
+- `"checkpointConfig"`: Information about the output locations for hybrid job checkpoint
+  data.
+
+- `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket hybrid job
+  that influence the quality of the training job. The values are set with a map of JSON
   key:value pairs, where the key is the name of the hyperparameter and the value is the
-  value of th hyperparameter.
+  value of the hyperparameter.
+
+  !!! important
+      Do not include any security-sensitive information including account access IDs,
+      secrets, or tokens in any hyperparameter fields. As part of the shared responsibility
+      model, you are responsible for any potential exposure, unauthorized access, or
+      compromise of your sensitive data if caused by security-sensitive information included
+      in the request hyperparameter variable or plain text fields.
+
 - `"inputDataConfig"`: A list of parameters that specify the name and type of input data and
   where it is located.
-- `"stoppingCondition"`: The user-defined criteria that specifies when a job stops running.
-- `"tags"`: A tag object that consists of a key and an optional value, used to manage
-  metadata for Amazon Braket resources.
+
+- `"stoppingCondition"`: The user-defined criteria that specifies when a hybrid job stops
+  running.
+
+- `"tags"`: Tags to be added to the hybrid job you're creating.
 """
 function create_job end
 
@@ -182,21 +197,23 @@ Creates a quantum task.
 
 # Arguments
 
-- `action`: The action associated with the task.
+- `action`: The action associated with the quantum task.
 - `client_token`: The client token associated with the request.
-- `device_arn`: The ARN of the device to run the task on.
-- `output_s3_bucket`: The S3 bucket to store task result files in.
-- `output_s3_key_prefix`: The key prefix for the location in the S3 bucket to store task
-  results in.
-- `shots`: The number of shots to use for the task.
+- `device_arn`: The ARN of the device to run the quantum task on.
+- `output_s3_bucket`: The S3 bucket to store quantum task result files in.
+- `output_s3_key_prefix`: The key prefix for the location in the S3 bucket to store quantum
+  task results in.
+- `shots`: The number of shots to use for the quantum task.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"associations"`: The list of Amazon Braket resources associated with the quantum task.
-- `"deviceParameters"`: The parameters for the device to run the task on.
-- `"jobToken"`: The token for an Amazon Braket job that associates it with the quantum task.
+- `"deviceParameters"`: The parameters for the device to run the quantum task on.
+- `"experimentalCapabilities"`: Enable experimental capabilities for the quantum task.
+- `"jobToken"`: The token for an Amazon Braket hybrid job that associates it with the
+  quantum task.
 - `"tags"`: Tags to be added to the quantum task you're creating.
 """
 function create_quantum_task end
@@ -259,6 +276,118 @@ function create_quantum_task(
 end
 
 """
+    create_spending_limit(client_token, device_arn, spending_limit)
+    create_spending_limit(client_token, device_arn, spending_limit, params::Dict{String,<:Any})
+
+Creates a spending limit for a specified quantum device. Spending limits help you control
+costs by setting maximum amounts that can be spent on quantum computing tasks within a
+specified time period. Simulators do not support spending limits.
+
+# Arguments
+
+- `client_token`: A unique, case-sensitive identifier to ensure that the operation completes
+  no more than one time. If this token matches a previous request, Amazon Braket ignores the
+  request, but does not return an error.
+- `device_arn`: The Amazon Resource Name (ARN) of the quantum device to apply the spending
+  limit to.
+- `spending_limit`: The maximum amount that can be spent on the specified device, in USD.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: The tags to apply to the spending limit. Each tag consists of a key and an
+  optional value.
+- `"timePeriod"`: The time period during which the spending limit is active, including start
+  and end dates.
+"""
+function create_spending_limit end
+
+function create_spending_limit(
+    clientToken,
+    deviceArn,
+    spendingLimit;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return braket(
+        "POST",
+        "/spending-limit",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "deviceArn" => deviceArn,
+            "spendingLimit" => spendingLimit,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_spending_limit(
+    clientToken,
+    deviceArn,
+    spendingLimit,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return braket(
+        "POST",
+        "/spending-limit",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "deviceArn" => deviceArn,
+                    "spendingLimit" => spendingLimit,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_spending_limit(spending_limit_arn)
+    delete_spending_limit(spending_limit_arn, params::Dict{String,<:Any})
+
+Deletes an existing spending limit. This operation permanently removes the spending limit
+and cannot be undone. After deletion, the associated device becomes unrestricted for
+spending.
+
+# Arguments
+
+- `spending_limit_arn`: The Amazon Resource Name (ARN) of the spending limit to delete.
+"""
+function delete_spending_limit end
+
+function delete_spending_limit(
+    spendingLimitArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return braket(
+        "DELETE",
+        "/spending-limit/$(spendingLimitArn)/delete";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_spending_limit(
+    spendingLimitArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return braket(
+        "DELETE",
+        "/spending-limit/$(spendingLimitArn)/delete",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_device(device_arn)
     get_device(device_arn, params::Dict{String,<:Any})
 
@@ -299,17 +428,18 @@ end
     get_job(job_arn)
     get_job(job_arn, params::Dict{String,<:Any})
 
-Retrieves the specified Amazon Braket job.
+Retrieves the specified Amazon Braket hybrid job.
 
 # Arguments
 
-- `job_arn`: The ARN of the job to retrieve.
+- `job_arn`: The ARN of the hybrid job to retrieve.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalAttributeNames"`: A list of attributes to return information for.
+- `"additionalAttributeNames"`: A list of attributes to return additional information for.
+  Only the QueueInfo additional attribute name is currently supported.
 """
 function get_job end
 
@@ -333,13 +463,14 @@ Retrieves the specified quantum task.
 
 # Arguments
 
-- `quantum_task_arn`: The ARN of the task to retrieve.
+- `quantum_task_arn`: The ARN of the quantum task to retrieve.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"additionalAttributeNames"`: A list of attributes to return information for.
+- `"additionalAttributeNames"`: A list of attributes to return additional information for.
+  Only the QueueInfo additional attribute name is currently supported.
 """
 function get_quantum_task end
 
@@ -406,7 +537,7 @@ Searches for devices using the specified filters.
 
 # Arguments
 
-- `filters`: The filter values to use to search for a device.
+- `filters`: Array of SearchDevicesFilter objects to use when searching for devices.
 
 # Optional Parameters
 
@@ -414,7 +545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request
+  token returned from the previous request to continue search where the previous request
   ended.
 """
 function search_devices end
@@ -447,11 +578,11 @@ end
     search_jobs(filters)
     search_jobs(filters, params::Dict{String,<:Any})
 
-Searches for Amazon Braket jobs that match the specified filter values.
+Searches for Amazon Braket hybrid jobs that match the specified filter values.
 
 # Arguments
 
-- `filters`: The filter values to use when searching for a job.
+- `filters`: Array of SearchJobsFilter objects to use when searching for hybrid jobs.
 
 # Optional Parameters
 
@@ -459,7 +590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request to continue results where the previous request
+  token returned from the previous request to continue search where the previous request
   ended.
 """
 function search_jobs end
@@ -496,7 +627,8 @@ Searches for tasks that match the specified filter values.
 
 # Arguments
 
-- `filters`: Array of `SearchQuantumTasksFilter` objects.
+- `filters`: Array of `SearchQuantumTasksFilter` objects to use when searching for quantum
+  tasks.
 
 # Optional Parameters
 
@@ -504,7 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request
+  token returned from the previous request to continue search where the previous request
   ended.
 """
 function search_quantum_tasks end
@@ -534,6 +666,39 @@ function search_quantum_tasks(
 end
 
 """
+    search_spending_limits()
+    search_spending_limits(params::Dict{String,<:Any})
+
+Searches and lists spending limits based on specified filters. This operation supports
+pagination and allows filtering by various criteria to find specific spending limits. We
+recommend using pagination to ensure that the operation returns quickly and successfully.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: The filters to apply when searching for spending limits. Use filters to
+  narrow down the results based on specific criteria.
+- `"maxResults"`: The maximum number of results to return in a single call. Minimum value of
+  1, maximum value of 100. Default is 20.
+- `"nextToken"`: The token to retrieve the next page of results. This value is returned from
+  a previous call to SearchSpendingLimits when there are more results available.
+"""
+function search_spending_limits end
+
+function search_spending_limits(; aws_config::AbstractAWSConfig=current_aws_config())
+    return braket("POST", "/spending-limits"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function search_spending_limits(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return braket(
+        "POST", "/spending-limits", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -542,7 +707,7 @@ Add a tag to the specified resource.
 # Arguments
 
 - `resource_arn`: Specify the `resourceArn` of the resource to which a tag will be added.
-- `tags`: Specify the tags to add to the resource.
+- `tags`: Specify the tags to add to the resource. Tags can be specified as a key-value map.
 """
 function tag_resource end
 
@@ -606,6 +771,60 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_spending_limit(client_token, spending_limit_arn)
+    update_spending_limit(client_token, spending_limit_arn, params::Dict{String,<:Any})
+
+Updates an existing spending limit. You can modify the spending amount or time period.
+Changes take effect immediately.
+
+# Arguments
+
+- `client_token`: A unique, case-sensitive identifier to ensure that the operation completes
+  no more than one time. If this token matches a previous request, Amazon Braket ignores the
+  request, but does not return an error.
+- `spending_limit_arn`: The Amazon Resource Name (ARN) of the spending limit to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"spendingLimit"`: The new maximum amount that can be spent on the specified device, in
+  USD.
+- `"timePeriod"`: The new time period during which the spending limit is active, including
+  start and end dates.
+"""
+function update_spending_limit end
+
+function update_spending_limit(
+    clientToken, spendingLimitArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return braket(
+        "PATCH",
+        "/spending-limit/$(spendingLimitArn)/update",
+        Dict{String,Any}("clientToken" => clientToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_spending_limit(
+    clientToken,
+    spendingLimitArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return braket(
+        "PATCH",
+        "/spending-limit/$(spendingLimitArn)/update",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

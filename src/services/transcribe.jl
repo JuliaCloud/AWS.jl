@@ -58,6 +58,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you do not include `InputType`, your category is created as a post-call category by
   default.
+
+- `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
+  call analytics category at the time you start this new job.
+
+  To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
 function create_call_analytics_category end
 
@@ -1773,7 +1778,9 @@ To make a `StartCallAnalyticsJob` request, you must first upload your media file
 Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the `Media`
 parameter.
 
-Note that job queuing is enabled by default for Call Analytics jobs.
+Job queuing is available for Call Analytics jobs. If you pass a `DataAccessRoleArn` in your
+request and you exceed your Concurrent Job Limit, your job will automatically be added to a
+queue to be processed once your concurrent job count is below the limit.
 
 You must include the following parameters in your `StartCallAnalyticsJob` request:
 
@@ -1781,8 +1788,6 @@ You must include the following parameters in your `StartCallAnalyticsJob` reques
   Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
 - `CallAnalyticsJobName`: A custom name that you create for your transcription job that's
   unique within your Amazon Web Services account.
-- `DataAccessRoleArn`: The Amazon Resource Name (ARN) of an IAM role that has permissions to
-  access the Amazon S3 bucket that contains your input files.
 - `Media` (`MediaFileUri` or `RedactedMediaFileUri`): The Amazon S3 location of your media
   file.
 
@@ -1822,34 +1827,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 
-- `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your Call Analytics
-  output.
+- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of a KMS key that you want to
+  use to encrypt your Call Analytics output.
 
-  If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:
-
-  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-  3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  4. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
-
-  If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways:
-
-  1. Use the ARN for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+  KMS key ARNs have the format `arn:partition:kms:region:account:key/key-id`. For example:
+  `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`. For more
+  information, see [KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN).
 
   If you do not specify an encryption key, your output is encrypted with the default Amazon
   S3 key (SSE-S3).
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
-
-  Note that the role making the request must have permission to use the specified KMS key.
+  Note that the role making the request and the role specified in the `data_access_role_arn`
+  request parameter (if present) must have permission to use the specified KMS key.
 
 - `"OutputLocation"`: The Amazon S3 location where you want your Call Analytics
   transcription output stored. You can use any of the following formats to specify the
@@ -1873,6 +1862,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Settings"`: Specify additional optional settings in your request, including content
   redaction; allows you to apply custom language models, vocabulary filters, and custom
   vocabularies to your Call Analytics job.
+
+- `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
+  call analytics job at the time you start this new job.
+
+  To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
 function start_call_analytics_job end
 
@@ -1934,7 +1928,7 @@ You must include the following parameters in your `StartMedicalTranscriptionJob`
 - `MedicalScribeJobName`: A custom name you create for your MedicalScribe job that is unique
   within your Amazon Web Services account.
 - `OutputBucketName`: The Amazon S3 bucket where you want your output files stored.
-- `Settings`: A `MedicalScribeSettings` obect that must set exactly one of
+- `Settings`: A `MedicalScribeSettings` object that must set exactly one of
   `ShowSpeakerLabels` or `ChannelIdentification` to true. If `ShowSpeakerLabels` is true,
   `MaxSpeakerLabels` must also be set.
 - `ChannelDefinitions`: A `MedicalScribeChannelDefinitions` array should be set if and only
@@ -1993,35 +1987,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
   and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
 
-- `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your Medical Scribe
-  output.
+- `"MedicalScribeContext"`: The `MedicalScribeContext` object that contains contextual
+  information which is used during clinical note generation to add relevant context to the
+  note.
 
-  If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:
+- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of a KMS key that you want to
+  use to encrypt your Medical Scribe output.
 
-  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-  3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  4. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
-
-  If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways:
-
-  1. Use the ARN for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+  KMS key ARNs have the format `arn:partition:kms:region:account:key/key-id`. For example:
+  `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`. For more
+  information, see [KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN).
 
   If you do not specify an encryption key, your output is encrypted with the default Amazon
   S3 key (SSE-S3).
 
-  Note that the role specified in the `data_access_role_arn` request parameter must have
-  permission to use the specified KMS key.
+  Note that the role making the request and the role specified in the `data_access_role_arn`
+  request parameter (if present) must have permission to use the specified KMS key.
 
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to the
-  Medica Scribe job.
+  Medical Scribe job.
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
@@ -2172,34 +2156,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your job fails. Therefore, in most cases, it's advised to omit `MediaSampleRateHertz` and
   let Amazon Transcribe Medical determine the sample rate.
 
-- `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your medical
-  transcription output.
+- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of a KMS key that you want to
+  use to encrypt your medical transcription output.
 
-  If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:
-
-  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-  3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  4. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
-
-  If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways:
-
-  1. Use the ARN for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+  KMS key ARNs have the format `arn:partition:kms:region:account:key/key-id`. For example:
+  `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`. For more
+  information, see [KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN).
 
   If you do not specify an encryption key, your output is encrypted with the default Amazon
   S3 key (SSE-S3).
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
-
-  Note that the role making the request must have permission to use the specified KMS key.
+  Note that the role making the request and the role specified in the `data_access_role_arn`
+  request parameter (if present) must have permission to use the specified KMS key.
 
 - `"OutputKey"`: Use in combination with `OutputBucketName` to specify the output location
   of your transcript and, optionally, a unique name for your output file. The default name
@@ -2405,8 +2373,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table.
 
   !!! note
-      To transcribe speech in Modern Standard Arabic (`ar-SA`), your media file must be
-      encoded at a sample rate of 16,000 Hz or higher.
+      To transcribe speech in Modern Standard Arabic (`ar-SA`) in Amazon Web Services
+      GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East,
+      us-gov-east-1), Canada (Calgary, ca-west-1) and Africa (Cape Town, af-south-1), your
+      media file must be encoded at a sample rate of 16,000 Hz or higher.
 
 - `"LanguageIdSettings"`: If using automatic language identification in your request and you
   want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter,
@@ -2442,8 +2412,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html).
 
-  To transcribe speech in Modern Standard Arabic (`ar-SA`), your media file must be encoded
-  at a sample rate of 16,000 Hz or higher.
+  To transcribe speech in Modern Standard Arabic (`ar-SA`)in Amazon Web Services GovCloud
+  (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1),
+  in Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be
+  encoded at a sample rate of 16,000 Hz or higher.
 
 - `"MediaFormat"`: Specify the format of your input media file.
 
@@ -2480,34 +2452,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify `OutputBucketName`, your transcript is placed in a service-managed
   Amazon S3 bucket and you are provided with a URI to access your transcript.
 
-- `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your transcription
-  output.
+- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of a KMS key that you want to
+  use to encrypt your transcription output.
 
-  If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:
-
-  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-  3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  4. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
-
-  If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways:
-
-  1. Use the ARN for the KMS key ID. For example,
-     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-  2. Use the ARN for the KMS key alias. For example,
-     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+  KMS key ARNs have the format `arn:partition:kms:region:account:key/key-id`. For example:
+  `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`. For more
+  information, see [KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN).
 
   If you do not specify an encryption key, your output is encrypted with the default Amazon
   S3 key (SSE-S3).
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
-
-  Note that the role making the request must have permission to use the specified KMS key.
+  Note that the role making the request and the role specified in the `data_access_role_arn`
+  request parameter (if present) must have permission to use the specified KMS key.
 
 - `"OutputKey"`: Use in combination with `OutputBucketName` to specify the output location
   of your transcript and, optionally, a unique name for your output file. The default name
@@ -2677,11 +2633,11 @@ If you include `UntagResource` in your request, you must also include `ResourceA
 function untag_resource end
 
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transcribe(
         "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        Dict{String,Any}("ResourceArn" => ResourceArn, "tagKeys" => tagKeys);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2689,7 +2645,7 @@ end
 
 function untag_resource(
     ResourceArn,
-    TagKeys,
+    tagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -2698,7 +2654,7 @@ function untag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                Dict{String,Any}("ResourceArn" => ResourceArn, "tagKeys" => tagKeys),
                 params,
             ),
         );

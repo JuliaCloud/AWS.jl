@@ -15,10 +15,13 @@ Creates an EncoderConfiguration object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Optional name to identify the resource.
+
 - `"tags"`: Tags attached to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
+
 - `"video"`: Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30
   fps.
 """
@@ -37,6 +40,75 @@ function create_encoder_configuration(
         "POST",
         "/CreateEncoderConfiguration",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ingest_configuration(ingest_protocol)
+    create_ingest_configuration(ingest_protocol, params::Dict{String,<:Any})
+
+Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
+
+# Arguments
+
+- `ingest_protocol`: Type of ingest protocol that the user employs to broadcast. If this is
+  set to `RTMP`, `insecureIngest` must be set to `true`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"attributes"`: Application-provided attributes to store in the IngestConfiguration and
+  attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length
+  of this field is 1 KB total. *This field is exposed to all stage participants and should
+  not be used for personally identifying, confidential, or sensitive information.*
+
+- `"insecureIngest"`: Whether the stage allows insecure RTMP ingest. This must be set to
+  `true`, if `ingestProtocol` is set to `RTMP`. Default: `false`.
+
+- `"name"`: Optional name that can be specified for the IngestConfiguration being created.
+
+- `"stageArn"`: ARN of the stage with which the IngestConfiguration is associated.
+
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
+
+- `"userId"`: Customer-assigned name to help identify the participant using the
+  IngestConfiguration; this can be used to link a participant to a user in the customer’s
+  own systems. This can be any UTF-8 encoded text. *This field is exposed to all stage
+  participants and should not be used for personally identifying, confidential, or sensitive
+  information.*
+"""
+function create_ingest_configuration end
+
+function create_ingest_configuration(
+    ingestProtocol; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/CreateIngestConfiguration",
+        Dict{String,Any}("ingestProtocol" => ingestProtocol);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_ingest_configuration(
+    ingestProtocol,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/CreateIngestConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ingestProtocol" => ingestProtocol), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -111,13 +183,19 @@ Creates a new stage (and optionally participant tokens).
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
+  recording, to attach to the new stage.
+
 - `"name"`: Optional name that can be specified for the stage being created.
+
 - `"participantTokenConfigurations"`: Array of participant token configuration objects to
   attach to the new stage.
+
 - `"tags"`: Tags attached to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
 """
 function create_stage end
 
@@ -152,10 +230,12 @@ bucket.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Storage configuration name. The value does not need to be unique.
+
 - `"tags"`: Tags attached to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
 """
 function create_storage_configuration end
 
@@ -221,10 +301,93 @@ function delete_encoder_configuration(
 end
 
 """
+    delete_ingest_configuration(arn)
+    delete_ingest_configuration(arn, params::Dict{String,<:Any})
+
+Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An
+IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage,
+unless `force` is set to `true`.
+
+# Arguments
+
+- `arn`: ARN of the IngestConfiguration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"force"`: Optional field to force deletion of the IngestConfiguration. If this is set to
+  `true` when a participant is actively publishing, the participant is disconnected from the
+  stage, followed by deletion of the IngestConfiguration. Default: `false`.
+"""
+function delete_ingest_configuration end
+
+function delete_ingest_configuration(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/DeleteIngestConfiguration",
+        Dict{String,Any}("arn" => arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_ingest_configuration(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/DeleteIngestConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_public_key(arn)
+    delete_public_key(arn, params::Dict{String,<:Any})
+
+Deletes the specified public key used to sign stage participant tokens. This invalidates
+future participant tokens generated using the key pair’s private key.
+
+# Arguments
+
+- `arn`: ARN of the public key to be deleted.
+"""
+function delete_public_key end
+
+function delete_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/DeletePublicKey",
+        Dict{String,Any}("arn" => arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_public_key(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/DeletePublicKey",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_stage(arn)
     delete_stage(arn, params::Dict{String,<:Any})
 
-Shuts down and deletes the specified stage (disconnecting all participants).
+Shuts down and deletes the specified stage (disconnecting all participants). This operation
+also removes the `stageArn` from the associated `IngestConfiguration`, if there are
+participants using the IngestConfiguration to publish to the stage.
 
 # Arguments
 
@@ -299,13 +462,15 @@ end
     disconnect_participant(participant_id, stage_arn)
     disconnect_participant(participant_id, stage_arn, params::Dict{String,<:Any})
 
-Disconnects a specified participant and revokes the participant permanently from a specified
-stage.
+Disconnects a specified participant from a specified stage. If the participant is publishing
+using an `IngestConfiguration`, DisconnectParticipant also updates the `stageArn` in the
+IngestConfiguration to be an empty string.
 
 # Arguments
 
-- `participant_id`: Identifier of the participant to be disconnected. This is assigned by
-  IVS and returned by `CreateParticipantToken`.
+- `participant_id`: Identifier of the participant to be disconnected. IVS assigns this; it
+  is returned by `CreateParticipantToken` (for streams using WebRTC ingest) or
+  `CreateIngestConfiguration` (for streams using RTMP ingest).
 - `stage_arn`: ARN of the stage to which the participant is attached.
 
 # Optional Parameters
@@ -418,6 +583,40 @@ function get_encoder_configuration(
 end
 
 """
+    get_ingest_configuration(arn)
+    get_ingest_configuration(arn, params::Dict{String,<:Any})
+
+Gets information about the specified IngestConfiguration.
+
+# Arguments
+
+- `arn`: ARN of the ingest for which the information is to be retrieved.
+"""
+function get_ingest_configuration end
+
+function get_ingest_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/GetIngestConfiguration",
+        Dict{String,Any}("arn" => arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_ingest_configuration(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/GetIngestConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_participant(participant_id, session_id, stage_arn)
     get_participant(participant_id, session_id, stage_arn, params::Dict{String,<:Any})
 
@@ -469,6 +668,40 @@ function get_participant(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_public_key(arn)
+    get_public_key(arn, params::Dict{String,<:Any})
+
+Gets information for the specified public key.
+
+# Arguments
+
+- `arn`: ARN of the public key for which the information is to be retrieved.
+"""
+function get_public_key end
+
+function get_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/GetPublicKey",
+        Dict{String,Any}("arn" => arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_public_key(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/GetPublicKey",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -589,6 +822,60 @@ function get_storage_configuration(
 end
 
 """
+    import_public_key(public_key_material)
+    import_public_key(public_key_material, params::Dict{String,<:Any})
+
+Import a public key to be used for signing stage participant tokens.
+
+# Arguments
+
+- `public_key_material`: The content of the public key to be imported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"name"`: Name of the public key to be imported.
+
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
+"""
+function import_public_key end
+
+function import_public_key(
+    publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/ImportPublicKey",
+        Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function import_public_key(
+    publicKeyMaterial,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/ImportPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_compositions()
     list_compositions(params::Dict{String,<:Any})
 
@@ -651,6 +938,45 @@ function list_encoder_configurations(
     return ivs_realtime(
         "POST",
         "/ListEncoderConfigurations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_ingest_configurations()
+    list_ingest_configurations(params::Dict{String,<:Any})
+
+Lists all IngestConfigurations in your account, in the AWS region where the API request is
+processed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filterByStageArn"`: Filters the response list to match the specified stage ARN. Only one
+  filter (by stage ARN or by state) can be used at a time.
+- `"filterByState"`: Filters the response list to match the specified state. Only one filter
+  (by stage ARN or by state) can be used at a time.
+- `"maxResults"`: Maximum number of results to return. Default: 50.
+- `"nextToken"`: The first IngestConfiguration to retrieve. This is used for pagination; see
+  the `nextToken` response field.
+"""
+function list_ingest_configurations end
+
+function list_ingest_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/ListIngestConfigurations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_ingest_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/ListIngestConfigurations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -723,6 +1049,65 @@ function list_participant_events(
 end
 
 """
+    list_participant_replicas(participant_id, source_stage_arn)
+    list_participant_replicas(participant_id, source_stage_arn, params::Dict{String,<:Any})
+
+Lists all the replicas for a participant from a source stage.
+
+# Arguments
+
+- `participant_id`: Participant ID of the publisher that has been replicated. This is
+  assigned by IVS and returned by `CreateParticipantToken` or the `jti` (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+- `source_stage_arn`: ARN of the stage where the participant is publishing.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of results to return. Default: 50.
+- `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
+  `nextToken` response field.
+"""
+function list_participant_replicas end
+
+function list_participant_replicas(
+    participantId, sourceStageArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/ListParticipantReplicas",
+        Dict{String,Any}(
+            "participantId" => participantId, "sourceStageArn" => sourceStageArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_participant_replicas(
+    participantId,
+    sourceStageArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/ListParticipantReplicas",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "participantId" => participantId, "sourceStageArn" => sourceStageArn
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_participants(session_id, stage_arn)
     list_participants(session_id, stage_arn, params::Dict{String,<:Any})
 
@@ -738,15 +1123,18 @@ Lists all participants in a specified stage session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filterByPublished"`: Filters the response list to only show participants who published
-  during the stage session. Only one of `filterByUserId`, `filterByPublished`, or
-  `filterByState` can be provided per request.
+  during the stage session. Only one of `filterByUserId`, `filterByPublished`,
+  `filterByState`, or `filterByRecordingState` can be provided per request.
+- `"filterByRecordingState"`: Filters the response list to only show participants with the
+  specified recording state. Only one of `filterByUserId`, `filterByPublished`,
+  `filterByState`, or `filterByRecordingState` can be provided per request.
 - `"filterByState"`: Filters the response list to only show participants in the specified
-  state. Only one of `filterByUserId`, `filterByPublished`, or `filterByState` can be
-  provided per request.
+  state. Only one of `filterByUserId`, `filterByPublished`, `filterByState`, or
+  `filterByRecordingState` can be provided per request.
 - `"filterByUserId"`: Filters the response list to match the specified user ID. Only one of
-  `filterByUserId`, `filterByPublished`, or `filterByState` can be provided per request. A
-  `userId` is a customer-assigned name to help identify the token; this can be used to link
-  a participant to a user in the customer’s own systems.
+  `filterByUserId`, `filterByPublished`, `filterByState`, or `filterByRecordingState` can be
+  provided per request. A `userId` is a customer-assigned name to help identify the token;
+  this can be used to link a participant to a user in the customer’s own systems.
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
   `nextToken` response field.
@@ -783,6 +1171,37 @@ function list_participants(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_public_keys()
+    list_public_keys(params::Dict{String,<:Any})
+
+Gets summary information about all public keys in your account, in the AWS region where the
+API request is processed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Maximum number of results to return. Default: 50.
+- `"nextToken"`: The first public key to retrieve. This is used for pagination; see the
+  `nextToken` response field.
+"""
+function list_public_keys end
+
+function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/ListPublicKeys"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_public_keys(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST", "/ListPublicKeys", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -933,8 +1352,8 @@ end
 
 Starts a Composition from a stage based on the configuration provided in the request.
 
-A Composition is an ephemeral resource that exists after this endpoint returns successfully.
-Composition stops and the resource is deleted:
+A Composition is an ephemeral resource that exists after this operation returns
+successfully. Composition stops and the resource is deleted:
 
 - When [`stop_composition`](@ref) is called.
 - After a 1-minute timeout, when all participants are disconnected from the stage.
@@ -953,11 +1372,14 @@ Composition stops and the resource is deleted:
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"idempotencyToken"`: Idempotency token.
+
 - `"layout"`: Layout object to configure composition parameters.
+
 - `"tags"`: Tags attached to the resource. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
 """
 function start_composition end
 
@@ -1003,6 +1425,81 @@ function start_composition(
 end
 
 """
+    start_participant_replication(destination_stage_arn, participant_id, source_stage_arn)
+    start_participant_replication(destination_stage_arn, participant_id, source_stage_arn, params::Dict{String,<:Any})
+
+Starts replicating a publishing participant from a source stage to a destination stage.
+
+# Arguments
+
+- `destination_stage_arn`: ARN of the stage to which the participant will be replicated.
+- `participant_id`: Participant ID of the publisher that will be replicated. This is
+  assigned by IVS and returned by `CreateParticipantToken` or the `jti` (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+- `source_stage_arn`: ARN of the stage where the participant is publishing.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"attributes"`: Application-provided attributes to set on the replicated participant in
+  the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum
+  length of this field is 1 KB total. *This field is exposed to all stage participants and
+  should not be used for personally identifying, confidential, or sensitive information.*
+
+  These attributes are merged with any attributes set for this participant when creating the
+  token. If there is overlap in keys, the values in these attributes are replaced.
+
+- `"reconnectWindowSeconds"`: If the participant disconnects and then reconnects within the
+  specified interval, replication will continue to be `ACTIVE`. Default: 0.
+"""
+function start_participant_replication end
+
+function start_participant_replication(
+    destinationStageArn,
+    participantId,
+    sourceStageArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/StartParticipantReplication",
+        Dict{String,Any}(
+            "destinationStageArn" => destinationStageArn,
+            "participantId" => participantId,
+            "sourceStageArn" => sourceStageArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_participant_replication(
+    destinationStageArn,
+    participantId,
+    sourceStageArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/StartParticipantReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationStageArn" => destinationStageArn,
+                    "participantId" => participantId,
+                    "sourceStageArn" => sourceStageArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_composition(arn)
     stop_composition(arn, params::Dict{String,<:Any})
 
@@ -1038,6 +1535,66 @@ function stop_composition(
 end
 
 """
+    stop_participant_replication(destination_stage_arn, participant_id, source_stage_arn)
+    stop_participant_replication(destination_stage_arn, participant_id, source_stage_arn, params::Dict{String,<:Any})
+
+Stops a replicated participant session.
+
+# Arguments
+
+- `destination_stage_arn`: ARN of the stage where the participant has been replicated.
+- `participant_id`: Participant ID of the publisher that has been replicated. This is
+  assigned by IVS and returned by `CreateParticipantToken` or the `jti` (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+- `source_stage_arn`: ARN of the stage where the participant is publishing.
+"""
+function stop_participant_replication end
+
+function stop_participant_replication(
+    destinationStageArn,
+    participantId,
+    sourceStageArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/StopParticipantReplication",
+        Dict{String,Any}(
+            "destinationStageArn" => destinationStageArn,
+            "participantId" => participantId,
+            "sourceStageArn" => sourceStageArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_participant_replication(
+    destinationStageArn,
+    participantId,
+    sourceStageArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ivs_realtime(
+        "POST",
+        "/StopParticipantReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationStageArn" => destinationStageArn,
+                    "participantId" => participantId,
+                    "sourceStageArn" => sourceStageArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -1046,10 +1603,12 @@ Adds or updates tags for the AWS resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be tagged. The ARN must be URL-encoded.
+
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints beyond what is documented there.
+  `string:string (key:value)`. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
 """
 function tag_resource end
 
@@ -1087,10 +1646,10 @@ Removes tags from the resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form
-  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
-  for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS has no constraints beyond what is documented there.
+- `tag_keys`: Array of tag keys (strings) for the tags to be removed. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+  in *Tagging AWS Resources and Tag Editor* for details, including restrictions that apply
+  to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  beyond what is documented there.
 """
 function untag_resource end
 
@@ -1122,6 +1681,50 @@ function untag_resource(
 end
 
 """
+    update_ingest_configuration(arn)
+    update_ingest_configuration(arn, params::Dict{String,<:Any})
+
+Updates a specified IngestConfiguration. Only the stage ARN attached to the
+IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
+
+# Arguments
+
+- `arn`: ARN of the IngestConfiguration, for which the related stage ARN needs to be
+  updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"stageArn"`: Stage ARN that needs to be updated.
+"""
+function update_ingest_configuration end
+
+function update_ingest_configuration(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/UpdateIngestConfiguration",
+        Dict{String,Any}("arn" => arn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_ingest_configuration(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
+        "POST",
+        "/UpdateIngestConfiguration",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_stage(arn)
     update_stage(arn, params::Dict{String,<:Any})
 
@@ -1135,6 +1738,9 @@ Updates a stage’s configuration.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"autoParticipantRecordingConfiguration"`: Configuration object for individual participant
+  recording, to attach to the stage. Note that this cannot be updated while recording is
+  active.
 - `"name"`: Name of the stage to be updated.
 """
 function update_stage end

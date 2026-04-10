@@ -120,7 +120,7 @@ end
 
 Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can
 associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and
-OpsCenter are capabilities of Amazon Web Services Systems Manager.
+OpsCenter are tools in Amazon Web Services Systems Manager.
 
 # Arguments
 
@@ -282,9 +282,9 @@ end
 Generates an activation code and activation ID you can use to register your on-premises
 servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager.
 Registering these machines with Systems Manager makes it possible to manage them using
-Systems Manager capabilities. You use the activation code and ID when installing SSM Agent
-on machines in your hybrid environment. For more information about requirements for managing
-on-premises machines using Systems Manager, see [Setting up Amazon Web Services Systems Manager for hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html)
+Systems Manager tools. You use the activation code and ID when installing SSM Agent on
+machines in your hybrid environment. For more information about requirements for managing
+on-premises machines using Systems Manager, see [Using Amazon Web Services Systems Manager in hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-hybrid-multicloud.html)
 in the *Amazon Web Services Systems Manager User Guide*.
 
 !!! note
@@ -296,7 +296,7 @@ in the *Amazon Web Services Systems Manager User Guide*.
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal `ssm.amazonaws.com`. For more
-  information, see [Create an IAM service role for a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html)
+  information, see [Create the IAM service role required for Systems Manager in a hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
@@ -321,7 +321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Don't enter personally identifiable information in this field.
 
 - `"ExpirationDate"`: The date by which this activation request should expire, in timestamp
-  format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If
+  format, such as "2024-07-07T00:00:00". You can specify a date up to 30 days in advance. If
   you don't provide an expiration date, the activation code expires in 24 hours.
 
 - `"RegistrationLimit"`: Specify the maximum number of managed nodes you want to register.
@@ -384,7 +384,7 @@ nodes. For example, an association can specify that anti-virus software must be 
 and running on your managed nodes, or that certain ports must be closed. For static targets,
 the association specifies a schedule for when the configuration is reapplied. For dynamic
 targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling
-group, State Manager, a capability of Amazon Web Services Systems Manager applies the
+group, State Manager, a tool in Amazon Web Services Systems Manager applies the
 configuration when new managed nodes are added to the group. The association also specifies
 actions to take when applying the configuration. For example, an association for anti-virus
 software might run once a day. If the software isn't installed, then State Manager installs
@@ -420,20 +420,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlarmConfiguration"`:
 
 - `"ApplyOnlyAtCronInterval"`: By default, when you create a new association, the system
-  runs it immediately after it is created and then according to the schedule you specified.
-  Specify this option if you don't want an association to run immediately after you create
-  it. This parameter isn't supported for rate expressions.
+  runs it immediately after it is created and then according to the schedule you specified
+  and when target changes are detected. Specify `true` for `ApplyOnlyAtCronInterval`if you
+  want the association to run only according to the schedule you specified.
+
+  For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling)
+  and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates)
+  in the *Amazon Web Services Systems Manager User Guide*.
+
+  This parameter isn't supported for rate expressions.
+
+- `"AssociationDispatchAssumeRole"`: A role used by association to take actions on your
+  behalf. State Manager will assume this role and call required APIs when dispatching
+  configurations to nodes. If not specified, [service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html)
+  will be used by default.
+
+  !!! note
+      It is recommended that you define a custom IAM role so that you have full control of
+      the permissions that State Manager has when taking actions on your behalf.
+
+      Service-linked role support in State Manager is being phased out. Associations relying
+      on service-linked role may require updates in the future to continue functioning
+      properly.
 
 - `"AssociationName"`: Specify a descriptive name for the association.
 
 - `"AutomationTargetParameterName"`: Choose the parameter that will define how your
   automation will branch out. This target is required for associations that use an
-  Automation runbook and target resources by using rate controls. Automation is a capability
-  of Amazon Web Services Systems Manager.
+  Automation runbook and target resources by using rate controls. Automation is a tool in
+  Amazon Web Services Systems Manager.
 
-- `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
+- `"CalendarNames"`: The names of Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
-  change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+  change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar)
+  in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 
@@ -536,6 +556,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services accounts where you want to run the association. Use this action to create an
   association in multiple Regions and multiple accounts.
 
+  !!! note
+      The `IncludeChildOrganizationUnits` parameter is not supported by State Manager.
+
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
 
@@ -543,7 +566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
   or individual managed node IDs. You can target all managed nodes in an Amazon Web Services
   account by specifying the `InstanceIds` key with a value of `*`. For more information
-  about choosing targets for an association, see [About targets and rate controls in State Manager associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html)
+  about choosing targets for an association, see [Understanding targets and rate controls in State Manager associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 """
 function create_association end
@@ -590,6 +613,19 @@ system returns the AssociationAlreadyExists exception.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AssociationDispatchAssumeRole"`: A role used by association to take actions on your
+  behalf. State Manager will assume this role and call required APIs when dispatching
+  configurations to nodes. If not specified, [service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html)
+  will be used by default.
+
+  !!! note
+      It is recommended that you define a custom IAM role so that you have full control of
+      the permissions that State Manager has when taking actions on your behalf.
+
+      Service-linked role support in State Manager is being phased out. Associations relying
+      on service-linked role may require updates in the future to continue functioning
+      properly.
+
 - `"Entries"`: One or more associations.
 """
 function create_association_batch end
@@ -624,7 +660,7 @@ end
 
 Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the
 actions that Systems Manager performs on your managed nodes. For more information about SSM
-documents, including information about supported schemas, features, and syntax, see [Amazon Web Services Systems Manager Documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html)
+documents, including information about supported schemas, features, and syntax, see [Amazon Web Services Systems Manager Documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents.html)
 in the *Amazon Web Services Systems Manager User Guide*.
 
 # Arguments
@@ -948,14 +984,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `/aws/issue`
 
   This type of OpsItem is used for default OpsItems created by OpsCenter.
-  - `/aws/changerequest`
-
-  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting
-  change requests.
   - `/aws/insight`
 
   This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate
   OpsItems.
+  - `/aws/changerequest`
+
+  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting
+  change requests.
+
+  !!! important
+      Amazon Web Services Systems Manager Change Manager is no longer open to new customers.
+      Existing customers can continue to use the service as normal. For more information,
+      see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
 
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type `/aws/changerequest`.
@@ -1096,7 +1137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApprovedPatches"`: A list of explicitly approved patches for the baseline.
 
   For information about accepted formats for lists of approved patches and rejected patches,
-  see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+  see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"ApprovedPatchesComplianceLevel"`: Defines the compliance level for approved patches.
@@ -1107,11 +1148,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes non-security updates that should be applied to the managed nodes. The default
   value is `false`. Applies to Linux managed nodes only.
 
+- `"AvailableSecurityUpdatesComplianceStatus"`: Indicates the status you want to assign to
+  security patches that are available but not approved because they don't meet the
+  installation criteria specified in the patch baseline.
+
+  Example scenario: Security patches that you might want installed can be skipped if you
+  have specified a long period to wait after a patch is released before installation. If an
+  update to the patch is released during your specified waiting period, the waiting period
+  for installing the patch starts over. If the waiting period is too long, multiple versions
+  of the patch could be released but never installed.
+
+  Supported for Windows Server managed nodes only.
+
 - `"ClientToken"`: User-provided idempotency token.
 
 - `"Description"`: A description of the patch baseline.
 
 - `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
+
+  !!! important
+      The `GlobalFilters` parameter can be configured only by using the CLI or an Amazon Web
+      Services SDK. It can't be configured from the Patch Manager console, and its value
+      isn't displayed in the console.
 
 - `"OperatingSystem"`: Defines the operating system the patch baseline applies to. The
   default value is `WINDOWS`.
@@ -1119,21 +1177,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RejectedPatches"`: A list of explicitly rejected patches for the baseline.
 
   For information about accepted formats for lists of approved patches and rejected patches,
-  see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+  see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in the
   `RejectedPackages` list.
 
-  - **`ALLOW_AS_DEPENDENCY`**: A package in the `Rejected` patches list is installed only if
-    it is a dependency of another package. It is considered compliant with the patch
-    baseline, and its status is reported as `InstalledOther`. This is the default action if
-    no option is specified.
-  - **BLOCK**: Packages in the **Rejected patches** list, and packages that include them as
-    dependencies, aren't installed by Patch Manager under any circumstances. If a package
-    was installed before it was added to the **Rejected patches** list, or is installed
-    outside of Patch Manager afterward, it's considered noncompliant with the patch baseline
-    and its status is reported as *InstalledRejected*.
+  ### ALLOW_AS_DEPENDENCY
+
+  **Linux and macOS**: A package in the rejected patches list is installed only if it is a
+  dependency of another package. It is considered compliant with the patch baseline, and its
+  status is reported as `INSTALLED_OTHER`. This is the default action if no option is
+  specified.
+
+  **Windows Server**: Windows Server doesn't support the concept of package dependencies. If
+  a package in the rejected patches list and already installed on the node, its status is
+  reported as `INSTALLED_OTHER`. Any package not already installed on the node is skipped.
+  This is the default action if no option is specified.
+
+  ### BLOCK
+
+  **All OSs**: Packages in the rejected patches list, and packages that include them as
+  dependencies, aren't installed by Patch Manager under any circumstances.
+
+  State value assignment for patch compliance:
+
+  - If a package was installed before it was added to the rejected patches list, or is
+    installed outside of Patch Manager afterward, it's considered noncompliant with the
+    patch baseline and its status is reported as `INSTALLED_REJECTED`.
+  - If an update attempts to install a dependency package that is now rejected by the
+    baseline, when previous versions of the package were not rejected, the package being
+    updated is reported as `MISSING` for `SCAN` operations and as `FAILED` for `INSTALL`
+    operations.
 
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
@@ -1188,7 +1263,7 @@ Web Services Systems Manager offers two types of resource data sync: `SyncToDest
 
 You can configure Systems Manager Inventory to use the `SyncToDestination` type to
 synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon
-Simple Storage Service (Amazon S3) bucket. For more information, see [Configuring resource data sync for Inventory](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html)
+Simple Storage Service (Amazon S3) bucket. For more information, see [Creating a resource data sync for Inventory](https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-create-resource-data-sync.html)
 in the *Amazon Web Services Systems Manager User Guide*.
 
 You can configure Systems Manager Explorer to use the `SyncFromSource` type to synchronize
@@ -1808,9 +1883,13 @@ end
     deregister_managed_instance(instance_id)
     deregister_managed_instance(instance_id, params::Dict{String,<:Any})
 
-Removes the server or virtual machine from the list of registered servers. You can
-reregister the node again at any time. If you don't plan to use Run Command on the server,
-we suggest uninstalling SSM Agent first.
+Removes the server or virtual machine from the list of registered servers.
+
+If you want to reregister an on-premises server, edge device, or VM, you must use a
+different Activation Code and Activation ID than used to register the machine previously.
+The Activation Code and Activation ID must not have already been used on the maximum number
+of activations specified when they were created. For more information, see [Deregistering managed nodes in a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/fleet-manager-deregister-hybrid-nodes.html)
+in the *Amazon Web Services Systems Manager User Guide*.
 
 # Arguments
 
@@ -2373,6 +2452,10 @@ Describes the specified Amazon Web Services Systems Manager document (SSM docume
 
 - `name`: The name of the SSM document.
 
+  !!! note
+      If you're calling a shared SSM document from a different Amazon Web Services account,
+      `Name` is the full Amazon Resource Name (ARN) of the document.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2616,9 +2699,9 @@ nodes. If you don't specify node IDs, it returns information for all your manage
 you specify a node ID that isn't valid or a node that you don't own, you receive an error.
 
 !!! note
-    The `IamRole` field returned for this API operation is the Identity and Access
-    Management (IAM) role assigned to on-premises managed nodes. This operation does not
-    return the IAM role for EC2 instances.
+    The `IamRole` field returned for this API operation is the role assigned to an Amazon
+    EC2 instance configured with a Systems Manager Quick Setup host management configuration
+    or the role assigned to an on-premises managed node.
 
 # Optional Parameters
 
@@ -2792,7 +2875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Sample values: `Installed` | `InstalledOther` | `InstalledPendingReboot`
 
-  For lists of all `State` values, see [Understanding patch compliance state values](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html)
+  For lists of all `State` values, see [Patch compliance state values](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"MaxResults"`: The maximum number of patches to return (per page).
@@ -3024,7 +3107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Key. A string between 1 and 128 characters. Supported keys include `ExecutedBefore` and
     `ExecutedAfter`.
   - Values. An array of strings, each between 1 and 256 characters. Supported values are
-    date/time strings in a valid ISO 8601 date/time format, such as `2021-11-04T05:00:00Z`.
+    date/time strings in a valid ISO 8601 date/time format, such as `2024-11-04T05:00:00Z`.
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also returns
   a token that you can specify in a subsequent call to get the next set of results.
@@ -3396,6 +3479,10 @@ an internal limit while processing the results, it stops the operation and retur
 matching values up to that point and a `NextToken`. You can specify the `NextToken` in a
 subsequent call to get the next set of results.
 
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
+
 !!! important
     If you change the KMS key alias for the KMS key used to encrypt a parameter, then you
     must also update the key alias the parameter uses to reference KMS. Otherwise,
@@ -3579,6 +3666,10 @@ Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
 
 Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
 
+### AMAZON_LINUX_2023
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
 ### CENTOS
 
 Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
@@ -3712,7 +3803,7 @@ end
 
 Deletes the association between an OpsItem and a related item. For example, this API
 operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a
-capability of Amazon Web Services Systems Manager.
+tool in Amazon Web Services Systems Manager.
 
 # Arguments
 
@@ -3749,6 +3840,46 @@ function disassociate_ops_item_related_item(
                     "AssociationId" => AssociationId, "OpsItemId" => OpsItemId
                 ),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_token(access_request_id)
+    get_access_token(access_request_id, params::Dict{String,<:Any})
+
+Returns a credentials set to be used with just-in-time node access.
+
+# Arguments
+
+- `access_request_id`: The ID of a just-in-time node access request.
+"""
+function get_access_token end
+
+function get_access_token(
+    AccessRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm(
+        "GetAccessToken",
+        Dict{String,Any}("AccessRequestId" => AccessRequestId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_access_token(
+    AccessRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm(
+        "GetAccessToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AccessRequestId" => AccessRequestId), params
             ),
         );
         aws_config,
@@ -3814,13 +3945,13 @@ If you specify more than one calendar in a request, the command returns the stat
 only if all calendars in the request are open. If one or more calendars in the request are
 closed, the status returned is `CLOSED`.
 
-For more information about Change Calendar, a capability of Amazon Web Services Systems
-Manager, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html)
+For more information about Change Calendar, a tool in Amazon Web Services Systems Manager,
+see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html)
 in the *Amazon Web Services Systems Manager User Guide*.
 
 # Arguments
 
-- `calendar_names`: The names or Amazon Resource Names (ARNs) of the Systems Manager
+- `calendar_names`: The names of Amazon Resource Names (ARNs) of the Systems Manager
   documents (SSM documents) that represent the calendar entries for which you want to get
   the state.
 
@@ -3864,7 +3995,12 @@ end
     get_command_invocation(command_id, instance_id)
     get_command_invocation(command_id, instance_id, params::Dict{String,<:Any})
 
-Returns detailed information about command execution for an invocation or plugin.
+Returns detailed information about command execution for an invocation or plugin. The Run
+Command API follows an eventual consistency model, due to the distributed nature of the
+system supporting the API. This means that the result of an API command you run that affects
+your resources might not be immediately visible to all subsequent commands you run. You
+should keep this in mind when you carry out an API command that immediately follows a
+previous API command.
 
 `GetCommandInvocation` only gives the execution status of a plugin in a document. To get the
 command execution status on a specific managed node, use [`list_command_invocations`](@ref).
@@ -4002,8 +4138,8 @@ primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM docum
     If you run the command locally, such as with the Command Line Interface (CLI), the
     system attempts to use your local Amazon Web Services credentials and the operation
     fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager
-    console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an
-    SSM document that enables you to target a managed node with a script or command. For
+    console. Use Run Command, a tool in Amazon Web Services Systems Manager, with an SSM
+    document that enables you to target a managed node with a script or command. For
     example, run the command using the `AWS-RunShellScript` document or the
     `AWS-RunPowerShellScript` document.
 
@@ -4018,6 +4154,10 @@ primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM docum
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BaselineOverride"`: Defines the basic information about a patch baseline override.
+- `"UseS3DualStackEndpoint"`: Specifies whether to use S3 dualstack endpoints for the patch
+  snapshot download URL. Set to `true` to receive a presigned URL that supports both IPv4
+  and IPv6 connectivity. Set to `false` to use standard IPv4-only endpoints. Default is
+  `false`. This parameter is required for managed nodes in IPv6-only environments.
 """
 function get_deployable_patch_snapshot_for_instance end
 
@@ -4091,6 +4231,47 @@ function get_document(
     return ssm(
         "GetDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_execution_preview(execution_preview_id)
+    get_execution_preview(execution_preview_id, params::Dict{String,<:Any})
+
+Initiates the process of retrieving an existing preview that shows the effects that running
+a specified Automation runbook would have on the targeted resources.
+
+# Arguments
+
+- `execution_preview_id`: The ID of the existing execution preview.
+"""
+function get_execution_preview end
+
+function get_execution_preview(
+    ExecutionPreviewId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm(
+        "GetExecutionPreview",
+        Dict{String,Any}("ExecutionPreviewId" => ExecutionPreviewId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_execution_preview(
+    ExecutionPreviewId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm(
+        "GetExecutionPreview",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ExecutionPreviewId" => ExecutionPreviewId), params
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4536,6 +4717,10 @@ end
 
 Get information about a single parameter by specifying the parameter name.
 
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
+
 !!! note
     To get information about more than one parameter at a time, use the [`get_parameters`](@ref)
     operation.
@@ -4548,7 +4733,7 @@ Get information about a single parameter by specifying the parameter name.
   To query by parameter label, use `"Name": "name:label"`. To query by parameter version,
   use `"Name": "name:version"`.
 
-  For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sharing.html)
+  For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 # Optional Parameters
@@ -4585,6 +4770,10 @@ end
     get_parameter_history(name, params::Dict{String,<:Any})
 
 Retrieves the history of all changes to a parameter.
+
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
 
 !!! important
     If you change the KMS key alias for the KMS key used to encrypt a parameter, then you
@@ -4640,6 +4829,10 @@ Get information about one or more parameters by specifying multiple parameter na
     To get information about a single parameter, you can use the [`get_parameter`](@ref)
     operation instead.
 
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
+
 # Arguments
 
 - `names`: The names or Amazon Resource Names (ARNs) of the parameters that you want to
@@ -4689,7 +4882,7 @@ end
     get_parameters_by_path(path)
     get_parameters_by_path(path, params::Dict{String,<:Any})
 
-Retrieve information about one or more parameters in a specific hierarchy.
+Retrieve information about one or more parameters under a specified level in a hierarchy.
 
 Request results are returned on a best-effort basis. If you specify `MaxResults` in the
 request, the response includes information up to the limit specified. The number of items
@@ -4697,6 +4890,10 @@ returned, however, can be between zero and the value of `MaxResults`. If the ser
 an internal limit while processing the results, it stops the operation and returns the
 matching values up to that point and a `NextToken`. You can specify the `NextToken` in a
 subsequent call to get the next set of results.
+
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
 
 # Arguments
 
@@ -4917,11 +5114,13 @@ Query the current service setting for the Amazon Web Services account.
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
   following.
 
-  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/appmanager/appmanager-enabled`
   - `/ssm/automation/customer-script-log-destination`
   - `/ssm/automation/customer-script-log-group-name`
+  - /ssm/automation/enable-adaptive-concurrency
   - `/ssm/documents/console/public-sharing-permission`
   - `/ssm/managed-instance/activation-tier`
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
   - `/ssm/opsinsights/opscenter`
   - `/ssm/parameter-store/default-parameter-tier`
   - `/ssm/parameter-store/high-throughput-enabled`
@@ -4977,6 +5176,9 @@ Parameter labels have the following requirements and restrictions.
 - Labels can't begin with a number, "`aws`" or "`ssm`" (not case sensitive). If a label
   fails to meet these requirements, then the label isn't associated with a parameter and the
   system displays it in the list of InvalidLabels.
+- Parameter names can't contain spaces. The service removes any spaces specified for the
+  beginning or end of a parameter name. If the specified name for a parameter contains
+  spaces between characters, the request fails with a `ValidationException` error.
 
 # Arguments
 
@@ -5077,7 +5279,7 @@ end
 
 Returns all State Manager associations in the current Amazon Web Services account and Amazon
 Web Services Region. You can limit the results to a specific State Manager association
-document or managed node by specifying a filter. State Manager is a capability of Amazon Web
+document or managed node by specifying a filter. State Manager is a tool in Amazon Web
 Services Systems Manager.
 
 # Optional Parameters
@@ -5261,6 +5463,10 @@ end
 """
     list_document_metadata_history(metadata, name)
     list_document_metadata_history(metadata, name, params::Dict{String,<:Any})
+
+!!! important
+    Amazon Web Services Systems Manager Change Manager is no longer open to new customers.
+    Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
 
 Information about approval reviews for a version of a change template in Change Manager.
 
@@ -5449,6 +5655,110 @@ function list_inventory_entries(
 end
 
 """
+    list_nodes()
+    list_nodes(params::Dict{String,<:Any})
+
+Takes in filters and returns a list of managed nodes matching the filter criteria.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: One or more filters. Use a filter to return a more specific list of managed
+  nodes.
+
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
+
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+
+- `"SyncName"`: The name of the Amazon Web Services managed resource data sync to retrieve
+  information about.
+
+  For cross-account/cross-Region configurations, this parameter is required, and the name of
+  the supported resource data sync is `AWS-QuickSetup-ManagedNode`.
+
+  For single account/single-Region configurations, the parameter is not required.
+"""
+function list_nodes end
+
+function list_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ssm("ListNodes"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm("ListNodes", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    list_nodes_summary(node_aggregator)
+    list_nodes_summary(node_aggregator, params::Dict{String,<:Any})
+
+Generates a summary of managed instance/node metadata based on the filters and aggregators
+you specify. Results are grouped by the input aggregator you specify.
+
+# Arguments
+
+- `node_aggregator`: Specify one or more aggregators to return a count of managed nodes that
+  match that expression. For example, a count of managed nodes by operating system.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Aggregators"`: Specify one or more aggregators to return a count of managed nodes that
+  match that expression. For example, a count of managed nodes by operating system.
+
+- `"Filters"`: One or more filters. Use a filter to generate a summary that matches your
+  specified filter criteria.
+
+- `"MaxResults"`: The maximum number of items to return for this call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
+
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.) The call also returns a token that you can specify in a subsequent
+  call to get the next set of results.
+
+- `"SyncName"`: The name of the Amazon Web Services managed resource data sync to retrieve
+  information about.
+
+  For cross-account/cross-Region configurations, this parameter is required, and the name of
+  the supported resource data sync is `AWS-QuickSetup-ManagedNode`.
+
+  For single account/single-Region configurations, the parameter is not required.
+"""
+function list_nodes_summary end
+
+function list_nodes_summary(
+    NodeAggregator; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm(
+        "ListNodesSummary",
+        Dict{String,Any}("NodeAggregator" => NodeAggregator);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_nodes_summary(
+    NodeAggregator,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm(
+        "ListNodesSummary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NodeAggregator" => NodeAggregator), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_ops_item_events()
     list_ops_item_events(params::Dict{String,<:Any})
 
@@ -5483,7 +5793,7 @@ end
     list_ops_item_related_items(params::Dict{String,<:Any})
 
 Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem.
-OpsCenter is a capability of Amazon Web Services Systems Manager.
+OpsCenter is a tool in Amazon Web Services Systems Manager.
 
 # Optional Parameters
 
@@ -5686,11 +5996,15 @@ those people who can use the document. If you share a document publicly, you mus
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountIdsToAdd"`: The Amazon Web Services users that should have access to the
-  document. The account IDs can either be a group of account IDs or *All*.
+  document. The account IDs can either be a group of account IDs or *All*. You must specify
+  a value for this parameter or the `AccountIdsToRemove` parameter.
+
 - `"AccountIdsToRemove"`: The Amazon Web Services users that should no longer have access to
   the document. The Amazon Web Services user can either be a group of account IDs or *All*.
   This action has a higher priority than `AccountIdsToAdd`. If you specify an ID to add and
-  the same ID to remove, the system removes access to the document.
+  the same ID to remove, the system removes access to the document. You must specify a value
+  for this parameter or the `AccountIdsToAdd` parameter.
+
 - `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the `Default` version to share.
 """
@@ -5743,6 +6057,15 @@ ComplianceType can be one of the following:
 - ExecutionType: Specify patch, association, or Custom:`string`.
 - ExecutionTime. The time the patch, association, or custom compliance item was applied to
   the managed node.
+
+  !!! important
+      For State Manager associations, this represents the time when compliance status was
+      captured by the Systems Manager service during its internal compliance aggregation
+      workflow, not necessarily when the association was executed on the managed node. State
+      Manager updates compliance information for all associations on an instance whenever
+      any association executes, which may result in multiple associations showing the same
+      execution time.
+
 - Id: The patch, association, or custom compliance ID.
 - Title: A title.
 - Status: The status of the compliance item. For example, `approved` for patches, or
@@ -5896,11 +6219,11 @@ end
     put_parameter(name, value)
     put_parameter(name, value, params::Dict{String,<:Any})
 
-Add a parameter to the system.
+Create or update a parameter in Parameter Store.
 
 # Arguments
 
-- `name`: The fully qualified name of the parameter that you want to add to the system.
+- `name`: The fully qualified name of the parameter that you want to create or update.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
@@ -5919,24 +6242,32 @@ Add a parameter to the system.
 
   In addition, the slash character ( / ) is used to delineate hierarchies in parameter
   names. For example: `/Dev/Production/East/Project-ABC/MyParameter`
-  - A parameter name can't include spaces.
+  - Parameter names can't contain spaces. The service removes any spaces specified for the
+    beginning or end of a parameter name. If the specified name for a parameter contains
+    spaces between characters, the request fails with a `ValidationException` error.
   - Parameter hierarchies are limited to a maximum depth of fifteen levels.
 
   For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
-      The maximum length constraint of 2048 characters listed below includes 1037 characters
-      reserved for internal use by Systems Manager. The maximum length for a parameter name
-      that you create is 1011 characters. This includes the characters in the ARN that
-      precede the name you specify, such as `arn:aws:ssm:us-east-2:111122223333:parameter/`.
+      The reported maximum length of 2048 characters for a parameter name includes 1037
+      characters that are reserved for internal use by Systems Manager. The maximum length
+      for a parameter name that you specify is 1011 characters.
+
+      This count of 1011 characters includes the characters in the ARN that precede the name
+      you specify. This ARN length will vary depending on your partition and Region. For
+      example, the following 45 characters count toward the 1011 character maximum for a
+      parameter created in the US East (Ohio) Region:
+      `arn:aws:ssm:us-east-2:111122223333:parameter/`.
 
 - `value`: The parameter value that you want to add to the system. Standard parameters have
   a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
 
   !!! note
       Parameters can't be referenced or nested in the values of other parameters. You can't
-      include `{{}}` or `{{ssm:*parameter-name*}}` in a parameter value.
+      include values wrapped in double brackets `{{}}` or `{{ssm:*parameter-name*}}` in a
+      parameter value.
 
 # Optional Parameters
 
@@ -5983,7 +6314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `SecureString` data type.
 
   If you don't specify a key ID, the system uses the default key associated with your Amazon
-  Web Services account which is not as secure as using a custom key.
+  Web Services account, which is not as secure as using a custom key.
 
   - To use a custom KMS key, choose the `SecureString` data type with the `Key ID`
     parameter.
@@ -5991,7 +6322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Overwrite"`: Overwrite an existing parameter. The default value is `false`.
 
 - `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
-  array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
+  array. Parameter Store, a tool in Amazon Web Services Systems Manager supports the
   following policy types:
 
   Expiration: This policy deletes the parameter after it expires. When you create the
@@ -6080,7 +6411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier)
   in the *Amazon Web Services Systems Manager User Guide*.
 
-- `"Type"`: The type of parameter that you want to add to the system.
+- `"Type"`: The type of parameter that you want to create.
 
   !!! note
       `SecureString` isn't currently supported for CloudFormation templates.
@@ -6485,7 +6816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   However, for an improved security posture, we strongly recommend creating a custom policy
   and custom service role for running your maintenance window tasks. The policy can be
   crafted to provide only the permissions needed for your particular maintenance window
-  tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+  tasks. For more information, see [Setting up Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
   in the in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Targets"`: The targets (either managed nodes or maintenance window targets).
@@ -6665,11 +6996,13 @@ Web Services service team.
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. The setting
   ID can be one of the following.
 
-  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/appmanager/appmanager-enabled`
   - `/ssm/automation/customer-script-log-destination`
   - `/ssm/automation/customer-script-log-group-name`
+  - /ssm/automation/enable-adaptive-concurrency
   - `/ssm/documents/console/public-sharing-permission`
   - `/ssm/managed-instance/activation-tier`
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
   - `/ssm/opsinsights/opscenter`
   - `/ssm/parameter-store/default-parameter-tier`
   - `/ssm/parameter-store/high-throughput-enabled`
@@ -6841,8 +7174,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your command.
 
 - `"CloudWatchOutputConfig"`: Enables Amazon Web Services Systems Manager to send Run
-  Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web
-  Services Systems Manager.
+  Command output to Amazon CloudWatch Logs. Run Command is a tool in Amazon Web Services
+  Systems Manager.
 
 - `"Comment"`: User-specified information about the command, such as a brief description of
   what the command should do.
@@ -6958,6 +7291,54 @@ function send_command(
 end
 
 """
+    start_access_request(reason, targets)
+    start_access_request(reason, targets, params::Dict{String,<:Any})
+
+Starts the workflow for just-in-time node access sessions.
+
+# Arguments
+
+- `reason`: A brief description explaining why you are requesting access to the node.
+- `targets`: The node you are requesting access to.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: Key-value pairs of metadata you want to assign to the access request.
+"""
+function start_access_request end
+
+function start_access_request(
+    Reason, Targets; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm(
+        "StartAccessRequest",
+        Dict{String,Any}("Reason" => Reason, "Targets" => Targets);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_access_request(
+    Reason,
+    Targets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm(
+        "StartAccessRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Reason" => Reason, "Targets" => Targets), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_associations_once(association_ids)
     start_associations_once(association_ids, params::Dict{String,<:Any})
 
@@ -7024,6 +7405,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify a number, such as 10, or a percentage, such as 10%. The default value is
   `10`.
 
+  If both this parameter and the `TargetLocation:TargetsMaxConcurrency` are supplied,
+  `TargetLocation:TargetsMaxConcurrency` takes precedence.
+
 - `"MaxErrors"`: The number of errors that are allowed before the system stops running the
   automation on additional targets. You can specify either an absolute number of errors, for
   example 10, or a percentage of the target set, for example 10%. If you specify 3, for
@@ -7037,6 +7421,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to complete, but some of these executions may fail as well. If you need to ensure that
   there won't be more than max-errors failed executions, set max-concurrency to 1 so the
   executions proceed one at a time.
+
+  If this parameter and the `TargetLocation:TargetsMaxErrors` parameter are both supplied,
+  `TargetLocation:TargetsMaxErrors` takes precedence.
 
 - `"Mode"`: The execution mode of the automation. Valid modes include the following: Auto
   and Interactive. The default mode is Auto.
@@ -7054,13 +7441,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `Key=OS,Value=Windows`
 
   !!! note
-      To add tags to an existing automation, use the `AddTagsToResource` operation.
+      The `Array Members` maximum value is reported as 1000. This number includes capacity
+      reserved for internal operations. When calling the `StartAutomationExecution` action,
+      you can specify a maximum of 5 tags. You can, however, use the `AddTagsToResource`
+      action to add up to a total of 50 tags to an existing automation configuration.
 
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
   Amazon Web Services accounts where you want to run the automation. Use this operation to
   start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
-  Services accounts. For more information, see [Running Automation workflows in multiple Amazon Web Services Regions and Amazon Web Services accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html)
+  Services accounts. For more information, see [Running automations in multiple Amazon Web Services Regions and accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html)
   in the *Amazon Web Services Systems Manager User Guide*.
+
+- `"TargetLocationsURL"`: Specify a publicly accessible URL for a file that contains the
+  `TargetLocations` body. Currently, only files in presigned Amazon S3 buckets are
+  supported.
 
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
@@ -7070,6 +7464,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Targets"`: A key-value mapping to target resources. Required if you specify
   TargetParameterName.
+
+  If both this parameter and the `TargetLocation:Targets` parameter are supplied,
+  `TargetLocation:Targets` takes precedence.
 """
 function start_automation_execution end
 
@@ -7102,6 +7499,10 @@ end
 """
     start_change_request_execution(document_name, runbooks)
     start_change_request_execution(document_name, runbooks, params::Dict{String,<:Any})
+
+!!! important
+    Amazon Web Services Systems Manager Change Manager is no longer open to new customers.
+    Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
 
 Creates a change request for Change Manager. The Automation runbooks specified in the change
 request run only after all required approvals for the change request have been received.
@@ -7169,6 +7570,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `Key=Environment,Value=Production`
   - `Key=Region,Value=us-east-2`
+
+  !!! note
+      The `Array Members` maximum value is reported as 1000. This number includes capacity
+      reserved for internal operations. When calling the `StartChangeRequestExecution`
+      action, you can specify a maximum of 5 tags. You can, however, use the
+      `AddTagsToResource` action to add up to a total of 50 tags to an existing change
+      request configuration.
 """
 function start_change_request_execution end
 
@@ -7197,6 +7605,55 @@ function start_change_request_execution(
                 Dict{String,Any}("DocumentName" => DocumentName, "Runbooks" => Runbooks),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_execution_preview(document_name)
+    start_execution_preview(document_name, params::Dict{String,<:Any})
+
+Initiates the process of creating a preview showing the effects that running a specified
+Automation runbook would have on the targeted resources.
+
+# Arguments
+
+- `document_name`: The name of the Automation runbook to run. The result of the execution
+  preview indicates what the impact would be of running this runbook.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DocumentVersion"`: The version of the Automation runbook to run. The default value is
+  `\$DEFAULT`.
+- `"ExecutionInputs"`: Information about the inputs that can be specified for the preview
+  operation.
+"""
+function start_execution_preview end
+
+function start_execution_preview(
+    DocumentName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm(
+        "StartExecutionPreview",
+        Dict{String,Any}("DocumentName" => DocumentName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_execution_preview(
+    DocumentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm(
+        "StartExecutionPreview",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DocumentName" => DocumentName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -7236,7 +7693,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Parameters"`: The values you want to specify for the parameters defined in the Session
-  document.
+  document. For more information about these parameters, see [Create a Session Manager preferences document](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-create-preferences-cli.html)
+  in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Reason"`: The reason for connecting to the instance. This value is included in the
   details for the Amazon CloudWatch Events event created when you start the session.
@@ -7355,6 +7813,10 @@ end
 
 Remove a label or labels from a parameter.
 
+Parameter names can't contain spaces. The service removes any spaces specified for the
+beginning or end of a parameter name. If the specified name for a parameter contains spaces
+between characters, the request fails with a `ValidationException` error.
+
 # Arguments
 
 - `labels`: One or more labels to delete from the specified parameter version.
@@ -7443,21 +7905,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ApplyOnlyAtCronInterval"`: By default, when you update an association, the system runs
   it immediately after it is updated and then according to the schedule you specified.
-  Specify this option if you don't want an association to run immediately after you update
-  it. This parameter isn't supported for rate expressions.
+  Specify `true` for `ApplyOnlyAtCronInterval` if you want the association to run only
+  according to the schedule you specified.
 
   If you chose this option when you created an association and later you edit that
-  association or you make changes to the SSM document on which that association is based (by
-  using the Documents page in the console), State Manager applies the association at the
-  next specified cron interval. For example, if you chose the `Latest` version of an SSM
-  document when you created an association and you edit the association by choosing a
-  different document version on the Documents page, State Manager applies the association at
-  the next specified cron interval if you previously selected this option. If this option
+  association or you make changes to the Automation runbook or SSM document on which that
+  association is based, State Manager applies the association at the next specified cron
+  interval. For example, if you chose the `Latest` version of an SSM document when you
+  created an association and you edit the association by choosing a different document
+  version on the Documents page, State Manager applies the association at the next specified
+  cron interval if you previously set `ApplyOnlyAtCronInterval` to `true`. If this option
   wasn't selected, State Manager immediately runs the association.
 
-  You can reset this option. To do so, specify the `no-apply-only-at-cron-interval`
+  For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling)
+  and [About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates)
+  in the *Amazon Web Services Systems Manager User Guide*.
+
+  This parameter isn't supported for rate expressions.
+
+  You can reset this parameter. To do so, specify the `no-apply-only-at-cron-interval`
   parameter when you update the association from the command line. This parameter forces the
   association to run immediately after updating it and according to the interval specified.
+
+- `"AssociationDispatchAssumeRole"`: A role used by association to take actions on your
+  behalf. State Manager will assume this role and call required APIs when dispatching
+  configurations to nodes. If not specified, [service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html)
+  will be used by default.
+
+  !!! note
+      It is recommended that you define a custom IAM role so that you have full control of
+      the permissions that State Manager has when taking actions on your behalf.
+
+      Service-linked role support in State Manager is being phased out. Associations relying
+      on service-linked role may require updates in the future to continue functioning
+      properly.
 
 - `"AssociationName"`: The name of the association that you want to update.
 
@@ -7467,12 +7948,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AutomationTargetParameterName"`: Choose the parameter that will define how your
   automation will branch out. This target is required for associations that use an
-  Automation runbook and target resources by using rate controls. Automation is a capability
-  of Amazon Web Services Systems Manager.
+  Automation runbook and target resources by using rate controls. Automation is a tool in
+  Amazon Web Services Systems Manager.
 
 - `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
-  change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+  change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar)
+  in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 
@@ -7547,8 +8029,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutputLocation"`: An S3 bucket where you want to store the results of this request.
 
 - `"Parameters"`: The parameters you want to update for the association. If you create a
-  parameter using Parameter Store, a capability of Amazon Web Services Systems Manager, you
-  can reference the parameter using `{{ssm:parameter-name}}`.
+  parameter using Parameter Store, a tool in Amazon Web Services Systems Manager, you can
+  reference the parameter using `{{ssm:parameter-name}}`.
 
 - `"ScheduleExpression"`: The cron expression used to schedule the association that you want
   to update.
@@ -7571,14 +8053,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the
   `PutComplianceItems` API operation. In this case, compliance data isn't managed by State
-  Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct
-  call to the `PutComplianceItems` API operation.
+  Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call
+  to the `PutComplianceItems` API operation.
 
   By default, all associations use `AUTO` mode.
 
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and Amazon
   Web Services accounts where you want to run the association. Use this action to update an
   association in multiple Regions and multiple accounts.
+
+  !!! note
+      The `IncludeChildOrganizationUnits` parameter is not supported by State Manager.
 
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
@@ -7794,6 +8279,10 @@ end
 """
     update_document_metadata(document_reviews, name)
     update_document_metadata(document_reviews, name, params::Dict{String,<:Any})
+
+!!! important
+    Amazon Web Services Systems Manager Change Manager is no longer open to new customers.
+    Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
 
 Updates information related to approval reviews for a specific version of a change template
 in Change Manager.
@@ -8129,7 +8618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   However, for an improved security posture, we strongly recommend creating a custom policy
   and custom service role for running your maintenance window tasks. The policy can be
   crafted to provide only the permissions needed for your particular maintenance window
-  tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+  tasks. For more information, see [Setting up Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
   in the in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Targets"`: The targets (either managed nodes or tags) to modify. Managed nodes are
@@ -8218,7 +8707,7 @@ nodes during the activation process. For more information, see [`create_activati
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal `ssm.amazonaws.com`. For more
-  information, see [Create an IAM service role for a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html)
+  information, see [Create the IAM service role required for Systems Manager in hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
@@ -8337,8 +8826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Severity"`: Specify a new severity for an OpsItem.
 
-- `"Status"`: The OpsItem status. Status can be `Open`, `In Progress`, or `Resolved`. For
-  more information, see [Editing OpsItem details](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html)
+- `"Status"`: The OpsItem status. For more information, see [Editing OpsItem details](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"Title"`: A short heading that describes the nature of the OpsItem and the impacted
@@ -8439,7 +8927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApprovedPatches"`: A list of explicitly approved patches for the baseline.
 
   For information about accepted formats for lists of approved patches and rejected patches,
-  see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+  see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"ApprovedPatchesComplianceLevel"`: Assigns a new compliance severity level to an existing
@@ -8449,30 +8937,64 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes non-security updates that should be applied to the managed nodes. The default
   value is `false`. Applies to Linux managed nodes only.
 
+- `"AvailableSecurityUpdatesComplianceStatus"`: Indicates the status to be assigned to
+  security patches that are available but not approved because they don't meet the
+  installation criteria specified in the patch baseline.
+
+  Example scenario: Security patches that you might want installed can be skipped if you
+  have specified a long period to wait after a patch is released before installation. If an
+  update to the patch is released during your specified waiting period, the waiting period
+  for installing the patch starts over. If the waiting period is too long, multiple versions
+  of the patch could be released but never installed.
+
+  Supported for Windows Server managed nodes only.
+
 - `"Description"`: A description of the patch baseline.
 
 - `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
+
+  !!! important
+      The `GlobalFilters` parameter can be configured only by using the CLI or an Amazon Web
+      Services SDK. It can't be configured from the Patch Manager console, and its value
+      isn't displayed in the console.
 
 - `"Name"`: The name of the patch baseline.
 
 - `"RejectedPatches"`: A list of explicitly rejected patches for the baseline.
 
   For information about accepted formats for lists of approved patches and rejected patches,
-  see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+  see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in the
   `RejectedPackages` list.
 
-  - **`ALLOW_AS_DEPENDENCY`**: A package in the `Rejected` patches list is installed only if
-    it is a dependency of another package. It is considered compliant with the patch
-    baseline, and its status is reported as `InstalledOther`. This is the default action if
-    no option is specified.
-  - **BLOCK**: Packages in the **Rejected patches** list, and packages that include them as
-    dependencies, aren't installed by Patch Manager under any circumstances. If a package
-    was installed before it was added to the **Rejected patches** list, or is installed
-    outside of Patch Manager afterward, it's considered noncompliant with the patch baseline
-    and its status is reported as *InstalledRejected*.
+  ### ALLOW_AS_DEPENDENCY
+
+  **Linux and macOS**: A package in the rejected patches list is installed only if it is a
+  dependency of another package. It is considered compliant with the patch baseline, and its
+  status is reported as `INSTALLED_OTHER`. This is the default action if no option is
+  specified.
+
+  **Windows Server**: Windows Server doesn't support the concept of package dependencies. If
+  a package in the rejected patches list and already installed on the node, its status is
+  reported as `INSTALLED_OTHER`. Any package not already installed on the node is skipped.
+  This is the default action if no option is specified.
+
+  ### BLOCK
+
+  **All OSs**: Packages in the rejected patches list, and packages that include them as
+  dependencies, aren't installed by Patch Manager under any circumstances.
+
+  State value assignment for patch compliance:
+
+  - If a package was installed before it was added to the rejected patches list, or is
+    installed outside of Patch Manager afterward, it's considered noncompliant with the
+    patch baseline and its status is reported as `INSTALLED_REJECTED`.
+  - If an update attempts to install a dependency package that is now rejected by the
+    baseline, when previous versions of the package were not rejected, the package being
+    updated is reported as `MISSING` for `SCAN` operations and as `FAILED` for `INSTALL`
+    operations.
 
 - `"Replace"`: If True, then all fields that are required by the `CreatePatchBaseline`
   operation are also required for this API request. Optional fields that aren't specified
@@ -8596,11 +9118,13 @@ Update the service setting for the account.
   `arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled`.
   The setting ID can be one of the following.
 
-  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/appmanager/appmanager-enabled`
   - `/ssm/automation/customer-script-log-destination`
   - `/ssm/automation/customer-script-log-group-name`
+  - /ssm/automation/enable-adaptive-concurrency
   - `/ssm/documents/console/public-sharing-permission`
   - `/ssm/managed-instance/activation-tier`
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
   - `/ssm/opsinsights/opscenter`
   - `/ssm/parameter-store/default-parameter-tier`
   - `/ssm/parameter-store/high-throughput-enabled`
@@ -8614,13 +9138,14 @@ Update the service setting for the account.
 - `setting_value`: The new value to specify for the service setting. The following list
   specifies the available values for each setting.
 
-  - For `/ssm/managed-instance/default-ec2-instance-management-role`, enter the name of an
-    IAM role.
+  - For `/ssm/appmanager/appmanager-enabled`, enter `True` or `False`.
   - For `/ssm/automation/customer-script-log-destination`, enter `CloudWatch`.
   - For `/ssm/automation/customer-script-log-group-name`, enter the name of an Amazon
     CloudWatch Logs log group.
   - For `/ssm/documents/console/public-sharing-permission`, enter `Enable` or `Disable`.
   - For `/ssm/managed-instance/activation-tier`, enter `standard` or `advanced`.
+  - For `/ssm/managed-instance/default-ec2-instance-management-role`, enter the name of an
+    IAM role.
   - For `/ssm/opsinsights/opscenter`, enter `Enabled` or `Disabled`.
   - For `/ssm/parameter-store/default-parameter-tier`, enter `Standard`, `Advanced`, or
     `Intelligent-Tiering`

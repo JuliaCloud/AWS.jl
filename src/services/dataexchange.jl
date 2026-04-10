@@ -5,6 +5,41 @@ using AWS.AWSServices: dataexchange
 using AWS.UUIDs: uuid4
 
 """
+    accept_data_grant(data_grant_arn)
+    accept_data_grant(data_grant_arn, params::Dict{String,<:Any})
+
+This operation accepts a data grant.
+
+# Arguments
+
+- `data_grant_arn`: The Amazon Resource Name (ARN) of the data grant to accept.
+"""
+function accept_data_grant end
+
+function accept_data_grant(DataGrantArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return dataexchange(
+        "POST",
+        "/v1/data-grants/$(DataGrantArn)/accept";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function accept_data_grant(
+    DataGrantArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-grants/$(DataGrantArn)/accept",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_job(job_id)
     cancel_job(job_id, params::Dict{String,<:Any})
 
@@ -27,6 +62,78 @@ function cancel_job(
 )
     return dataexchange(
         "DELETE", "/v1/jobs/$(JobId)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    create_data_grant(grant_distribution_scope, name, receiver_principal, source_data_set_id)
+    create_data_grant(grant_distribution_scope, name, receiver_principal, source_data_set_id, params::Dict{String,<:Any})
+
+This operation creates a data grant.
+
+# Arguments
+
+- `grant_distribution_scope`: The distribution scope of the data grant.
+- `name`: The name of the data grant.
+- `receiver_principal`: The Amazon Web Services account ID of the data grant receiver.
+- `source_data_set_id`: The ID of the data set used to create the data grant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the data grant.
+- `"EndsAt"`: The timestamp of when access to the associated data set ends.
+- `"Tags"`: The tags to add to the data grant. A tag is a key-value pair.
+"""
+function create_data_grant end
+
+function create_data_grant(
+    GrantDistributionScope,
+    Name,
+    ReceiverPrincipal,
+    SourceDataSetId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-grants",
+        Dict{String,Any}(
+            "GrantDistributionScope" => GrantDistributionScope,
+            "Name" => Name,
+            "ReceiverPrincipal" => ReceiverPrincipal,
+            "SourceDataSetId" => SourceDataSetId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_grant(
+    GrantDistributionScope,
+    Name,
+    ReceiverPrincipal,
+    SourceDataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-grants",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GrantDistributionScope" => GrantDistributionScope,
+                    "Name" => Name,
+                    "ReceiverPrincipal" => ReceiverPrincipal,
+                    "SourceDataSetId" => SourceDataSetId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -102,6 +209,12 @@ This operation creates an event action.
 
 - `action`: What occurs after a certain event.
 - `event`: What occurs to start an action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: Key-value pairs that you can associate with the event action.
 """
 function create_event_action end
 
@@ -146,6 +259,13 @@ This operation creates a job.
 
 - `details`: The details for the CreateJob request.
 - `type`: The type of job to be created.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AssetConfiguration"`: The configuration for the asset, including tags to be applied to
+  assets created by the job.
 """
 function create_job end
 
@@ -258,6 +378,41 @@ function delete_asset(
     return dataexchange(
         "DELETE",
         "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_grant(data_grant_id)
+    delete_data_grant(data_grant_id, params::Dict{String,<:Any})
+
+This operation deletes a data grant.
+
+# Arguments
+
+- `data_grant_id`: The ID of the data grant to delete.
+"""
+function delete_data_grant end
+
+function delete_data_grant(DataGrantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return dataexchange(
+        "DELETE",
+        "/v1/data-grants/$(DataGrantId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_grant(
+    DataGrantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "DELETE",
+        "/v1/data-grants/$(DataGrantId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -414,6 +569,38 @@ function get_asset(
 end
 
 """
+    get_data_grant(data_grant_id)
+    get_data_grant(data_grant_id, params::Dict{String,<:Any})
+
+This operation returns information about a data grant.
+
+# Arguments
+
+- `data_grant_id`: The ID of the data grant.
+"""
+function get_data_grant end
+
+function get_data_grant(DataGrantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return dataexchange(
+        "GET", "/v1/data-grants/$(DataGrantId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_data_grant(
+    DataGrantId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "GET",
+        "/v1/data-grants/$(DataGrantId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_set(data_set_id)
     get_data_set(data_set_id, params::Dict{String,<:Any})
 
@@ -507,6 +694,43 @@ function get_job(
 end
 
 """
+    get_received_data_grant(data_grant_arn)
+    get_received_data_grant(data_grant_arn, params::Dict{String,<:Any})
+
+This operation returns information about a received data grant.
+
+# Arguments
+
+- `data_grant_arn`: The Amazon Resource Name (ARN) of the data grant.
+"""
+function get_received_data_grant end
+
+function get_received_data_grant(
+    DataGrantArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return dataexchange(
+        "GET",
+        "/v1/received-data-grants/$(DataGrantArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_received_data_grant(
+    DataGrantArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return dataexchange(
+        "GET",
+        "/v1/received-data-grants/$(DataGrantArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_revision(data_set_id, revision_id)
     get_revision(data_set_id, revision_id, params::Dict{String,<:Any})
 
@@ -542,6 +766,36 @@ function get_revision(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_grants()
+    list_data_grants(params::Dict{String,<:Any})
+
+This operation returns information about all data grants.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to be included in the next page.
+- `"nextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_data_grants end
+
+function list_data_grants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return dataexchange(
+        "GET", "/v1/data-grants"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_data_grants(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return dataexchange(
+        "GET", "/v1/data-grants", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -595,8 +849,7 @@ end
     list_data_sets(params::Dict{String,<:Any})
 
 This operation lists your data sets. When listing by origin OWNED, results are sorted by
-CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the
-maxResults parameter is ignored.
+CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
 
 # Optional Parameters
 
@@ -680,6 +933,41 @@ function list_jobs(
 )
     return dataexchange(
         "GET", "/v1/jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_received_data_grants()
+    list_received_data_grants(params::Dict{String,<:Any})
+
+This operation returns information about all received data grants.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"acceptanceState"`: The acceptance state of the data grants to list.
+- `"maxResults"`: The maximum number of results to be included in the next page.
+- `"nextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function list_received_data_grants end
+
+function list_received_data_grants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return dataexchange(
+        "GET", "/v1/received-data-grants"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_received_data_grants(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return dataexchange(
+        "GET",
+        "/v1/received-data-grants",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

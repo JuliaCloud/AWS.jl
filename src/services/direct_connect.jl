@@ -77,7 +77,8 @@ end
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan)
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan, params::Dict{String,<:Any})
 
-Deprecated. Use [`allocate_hosted_connection`](@ref) instead.
+!!! note
+    Deprecated. Use [`allocate_hosted_connection`](@ref) instead.
 
 Creates a hosted connection on an interconnect.
 
@@ -170,9 +171,9 @@ also police the hosted connection for the specified capacity.
 # Arguments
 
 - `bandwidth`: The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
-  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those
-Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps,
-2Gbps, 5Gbps or 10Gbps hosted connection.
+  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that
+only those Direct Connect Partners who have met specific requirements are allowed to create
+a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
 - `connection_id`: The ID of the interconnect or LAG.
 - `connection_name`: The name of the hosted connection.
 - `owner_account`: The ID of the Amazon Web Services account ID of the customer for the
@@ -565,7 +566,7 @@ end
     associate_mac_sec_key(connection_id, params::Dict{String,<:Any})
 
 Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key
-(CAK) pair with an Direct Connect dedicated connection.
+(CAK) pair with a Direct Connect connection.
 
 You must supply either the `secretARN,` or the CKN/CAK (`ckn` and `cak`) pair in the
 request.
@@ -575,16 +576,17 @@ in the *Direct Connect User Guide*.
 
 # Arguments
 
-- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  (dxlag-xxxx).
+- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-
+  xxxx), or LAG (dxlag-xxxx).
 
-  You can use `DescribeConnections` or `DescribeLags` to retrieve connection ID.
+  You can use `DescribeConnections`, `DescribeInterconnects`, or `DescribeLags` to retrieve
+  connection ID.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"cak"`: The MAC Security (MACsec) CAK to associate with the dedicated connection.
+- `"cak"`: The MAC Security (MACsec) CAK to associate with the connection.
 
   You can create the CKN/CAK pair using an industry standard tool.
 
@@ -593,7 +595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you use this request parameter, you must use the `ckn` request parameter and not use
   the `secret_arn` request parameter.
 
-- `"ckn"`: The MAC Security (MACsec) CKN to associate with the dedicated connection.
+- `"ckn"`: The MAC Security (MACsec) CKN to associate with the connection.
 
   You can create the CKN/CAK pair using an industry standard tool.
 
@@ -603,7 +605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `secret_arn` request parameter.
 
 - `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
-  associate with the dedicated connection.
+  associate with the connection.
 
   You can use `DescribeConnections` or `DescribeLags` to retrieve the MAC Security (MACsec)
   secret key.
@@ -1001,8 +1003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"requestMACSec"`: Indicates whether you want the connection to support MAC Security
   (MACsec).
 
-  MAC Security (MACsec) is only available on dedicated connections. For information about
-  MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites)
+  MAC Security (MACsec) is unavailable on hosted connections. For information about MAC
+  Security (MACsec) prerequisites, see [MAC Security in Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/MACSec.html)
   in the *Direct Connect User Guide*.
 
 - `"tags"`: The tags to associate with the lag.
@@ -1072,6 +1074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"amazonSideAsn"`: The autonomous system number (ASN) for Border Gateway Protocol (BGP) to
   be configured on the Amazon side of the connection. The ASN must be in the private range
   of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
+- `"tags"`: The key-value pair tags associated with the request.
 """
 function create_direct_connect_gateway end
 
@@ -1265,7 +1268,7 @@ connection, using the VLAN assigned to them by the Direct Connect Partner.
 
 # Arguments
 
-- `bandwidth`: The port bandwidth, in Gbps. The possible values are 1 and 10.
+- `bandwidth`: The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
 - `interconnect_name`: The name of the interconnect.
 - `location`: The location of the interconnect.
 
@@ -1275,6 +1278,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"lagId"`: The ID of the LAG.
 - `"providerName"`: The name of the service provider associated with the interconnect.
+- `"requestMACSec"`: Indicates whether you want the interconnect to support MAC Security
+  (MACsec).
 - `"tags"`: The tags to associate with the interconnect.
 """
 function create_interconnect end
@@ -1331,12 +1336,12 @@ dedicated connections between the customer network and a specific Direct Connect
 LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to
 aggregate multiple interfaces, enabling you to treat them as a single interface.
 
-All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must
-terminate at the same Direct Connect endpoint.
+All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or
+400Gbps) and must terminate at the same Direct Connect endpoint.
 
-You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you
+You can have up to 10 dedicated connections per location. Regardless of this limit, if you
 request more connections for the LAG than Direct Connect can allocate on a single endpoint,
-no LAG is created.
+no LAG is created..
 
 You can specify an existing physical dedicated connection or interconnect to include in the
 LAG (which counts towards the total number of connections). Doing so interrupts the current
@@ -1352,12 +1357,12 @@ partner, any associated virtual interfaces cannot be directly configured.
 # Arguments
 
 - `connections_bandwidth`: The bandwidth of the individual physical dedicated connections
-  bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+  bundled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
 - `lag_name`: The name of the LAG.
 - `location`: The location for the LAG.
 - `number_of_connections`: The number of physical dedicated connections initially
   provisioned and bundled by the LAG. You can have a maximum of four connections when the
-  port speed is 1G or 10G, or two when the port speed is 100G.
+  port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.
 
 # Optional Parameters
 
@@ -1438,7 +1443,7 @@ Direct Connect gateway enables the possibility for connecting to multiple VPCs, 
 VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to a
 VGW only provides access to a single VPC within the same Region.
 
-Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the
+Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the
 underlying physical connection if it wasn't updated to support jumbo frames. Updating the
 connection disrupts network connectivity for all virtual interfaces associated with the
 connection for up to 30 seconds. To check whether your connection supports jumbo frames,
@@ -1630,10 +1635,33 @@ You cannot delete the last BGP peer from a virtual interface.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"asn"`: The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  configuration.
+- `"asn"`: The autonomous system number (ASN). The valid range is from 1 to 2147483646 for
+  Border Gateway Protocol (BGP) configuration. If you provide a number greater than the
+  maximum, an error is returned. Use `asnLong` instead.
+
+  !!! note
+      You can use `asnLong` or `asn`, but not both. We recommend using `asnLong` as it
+      supports a greater pool of numbers.
+
+      - The `asnLong` attribute accepts both ASN and long ASN ranges.
+      - If you provide a value in the same API call for both `asn` and `asnLong`, the API
+        will only accept the value for `asnLong`.
+
+- `"asnLong"`: The long ASN for the BGP peer to be deleted from a Direct Connect virtual
+  interface. The valid range is from 1 to 4294967294 for BGP configuration.
+
+  !!! note
+      You can use `asnLong` or `asn`, but not both. We recommend using `asnLong` as it
+      supports a greater pool of numbers.
+
+      - The `asnLong` attribute accepts both ASN and long ASN ranges.
+      - If you provide a value in the same API call for both `asn` and `asnLong`, the API
+        will only accept the value for `asnLong`.
+
 - `"bgpPeerId"`: The ID of the BGP peer.
+
 - `"customerAddress"`: The IP address assigned to the customer interface.
+
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function delete_bgppeer end
@@ -1931,7 +1959,8 @@ end
     describe_connection_loa(connection_id)
     describe_connection_loa(connection_id, params::Dict{String,<:Any})
 
-Deprecated. Use [`describe_loa`](@ref) instead.
+!!! note
+    Deprecated. Use [`describe_loa`](@ref) instead.
 
 Gets the LOA-CFA for a connection.
 
@@ -1993,6 +2022,13 @@ Displays the specified connection or all connections in this Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"connectionId"`: The ID of the connection.
+
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
+- `"nextToken"`: The token for the next page of results.
 """
 function describe_connections end
 
@@ -2014,7 +2050,8 @@ end
     describe_connections_on_interconnect(interconnect_id)
     describe_connections_on_interconnect(interconnect_id, params::Dict{String,<:Any})
 
-Deprecated. Use [`describe_hosted_connections`](@ref) instead.
+!!! note
+    Deprecated. Use [`describe_hosted_connections`](@ref) instead.
 
 Lists the connections that have been provisioned on the specified interconnect.
 
@@ -2148,6 +2185,14 @@ gateway.
 
 The response contains the association between the Direct Connect gateway and transit
 gateway.
+- A Direct Connect gateway and a virtual private gateway
+
+The response contains the association between the Direct Connect gateway and virtual private
+gateway.
+- A Direct Connect gateway association to a Cloud WAN core network
+
+The response contains the Cloud WAN core network ID that the Direct Connect gateway is
+associated to.
 
 # Optional Parameters
 
@@ -2291,6 +2336,17 @@ link aggregation group (LAG).
 # Arguments
 
 - `connection_id`: The ID of the interconnect or LAG.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
+- `"nextToken"`: The token for the next page of results.
 """
 function describe_hosted_connections end
 
@@ -2324,7 +2380,8 @@ end
     describe_interconnect_loa(interconnect_id)
     describe_interconnect_loa(interconnect_id, params::Dict{String,<:Any})
 
-Deprecated. Use [`describe_loa`](@ref) instead.
+!!! note
+    Deprecated. Use [`describe_loa`](@ref) instead.
 
 Gets the LOA-CFA for the specified interconnect.
 
@@ -2387,6 +2444,13 @@ interconnect.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"interconnectId"`: The ID of the interconnect.
+
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
+- `"nextToken"`: The token for the next page of results.
 """
 function describe_interconnects end
 
@@ -2415,6 +2479,13 @@ Describes all your link aggregation groups (LAG) or the specified LAG.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"lagId"`: The ID of the LAG.
+
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
+- `"nextToken"`: The token for the next page of results.
 """
 function describe_lags end
 
@@ -2589,6 +2660,10 @@ end
     describe_virtual_gateways()
     describe_virtual_gateways(params::Dict{String,<:Any})
 
+!!! note
+    Deprecated. Use `DescribeVpnGateways` instead. See [DescribeVPNGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html)
+    in the *Amazon Elastic Compute Cloud API Reference*.
+
 Lists the virtual private gateways owned by the Amazon Web Services account.
 
 You can create one or more Direct Connect private virtual interfaces linked to a virtual
@@ -2622,11 +2697,24 @@ you specify a virtual interface ID, then only a single virtual interface is retu
 A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the
 customer network.
 
+- If you're using an `asn`, the response includes ASN value in both the `asn` and `asnLong`
+  fields.
+- If you're using `asnLong`, the response returns a value of `0` (zero) for the `asn`
+  attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"connectionId"`: The ID of the connection.
+
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned `nextToken` value.
+
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
+
+- `"nextToken"`: The token for the next page of results.
+
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
 function describe_virtual_interfaces end
@@ -2703,15 +2791,16 @@ end
     disassociate_mac_sec_key(connection_id, secret_arn)
     disassociate_mac_sec_key(connection_id, secret_arn, params::Dict{String,<:Any})
 
-Removes the association between a MAC Security (MACsec) security key and an Direct Connect
-dedicated connection.
+Removes the association between a MAC Security (MACsec) security key and a Direct Connect
+connection.
 
 # Arguments
 
-- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  (dxlag-xxxx).
+- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-
+  xxxx), or LAG (dxlag-xxxx).
 
-  You can use `DescribeConnections` or `DescribeLags` to retrieve connection ID.
+  You can use `DescribeConnections`, `DescribeInterconnects`, or `DescribeLags` to retrieve
+  connection ID.
 
 - `secret_arn`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
 
@@ -2994,7 +3083,7 @@ end
     update_connection(connection_id)
     update_connection(connection_id, params::Dict{String,<:Any})
 
-Updates the Direct Connect dedicated connection configuration.
+Updates the Direct Connect connection configuration.
 
 You can update the following parameters for a connection:
 
@@ -3003,7 +3092,7 @@ You can update the following parameters for a connection:
 
 # Arguments
 
-- `connection_id`: The ID of the dedicated connection.
+- `connection_id`: The ID of the connection.
 
   You can use `DescribeConnections` to retrieve the connection ID.
 
@@ -3200,7 +3289,7 @@ end
 
 Updates the specified attributes of the specified virtual private interface.
 
-Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the
+Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the
 underlying physical connection if it wasn't updated to support jumbo frames. Updating the
 connection disrupts network connectivity for all virtual interfaces associated with the
 connection for up to 30 seconds. To check whether your connection supports jumbo frames,
@@ -3217,7 +3306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"enableSiteLink"`: Indicates whether to enable or disable SiteLink.
 - `"mtu"`: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and
-  9001. The default value is 1500.
+  8500. The default value is 1500.
 - `"virtualInterfaceName"`: The name of the virtual private interface.
 """
 function update_virtual_interface_attributes end

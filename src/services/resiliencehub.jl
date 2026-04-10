@@ -5,13 +5,62 @@ using AWS.AWSServices: resiliencehub
 using AWS.UUIDs: uuid4
 
 """
+    accept_resource_grouping_recommendations(app_arn, entries)
+    accept_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Accepts the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `entries`: List of resource grouping recommendations you want to include in your
+  application.
+"""
+function accept_resource_grouping_recommendations end
+
+function accept_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function accept_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     add_draft_app_version_resource_mappings(app_arn, resource_mappings)
     add_draft_app_version_resource_mappings(app_arn, resource_mappings, params::Dict{String,<:Any})
 
 Adds the source of resource-maps to the draft version of an application. During assessment,
 Resilience Hub will use these resource-maps to resolve the latest physical ID for each
 resource in the application template. For more information about different types of
-resources suported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html)
+resources supported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html)
 in the Resilience Hub User Guide.
 
 # Arguments
@@ -142,6 +191,9 @@ until you achieve your goals for recovery time objective (RTO) and recovery poin
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assessmentSchedule"`: Assessment execution schedule with 'Daily' or 'Disabled' values.
+- `"awsApplicationArn"`: Amazon Resource Name (ARN) of Resource Groups group that is
+  integrated with an AppRegistry application. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
   string of up to 64 ASCII characters. You should not reuse the same client token for other
   API requests.
@@ -480,7 +532,7 @@ Creates a resiliency policy for an application.
 
 - `policy`: The type of resiliency policy to be created, including the recovery time
   objective (RTO) and recovery point objective (RPO) in seconds.
-- `policy_name`: The name of the policy
+- `policy_name`: Name of the resiliency policy.
 - `tier`: The tier for this resiliency policy, ranging from the highest severity
   (`MissionCritical`) to lowest (`NonCritical`).
 
@@ -493,7 +545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API requests.
 - `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
-- `"policyDescription"`: The description for the policy.
+- `"policyDescription"`: Description of the resiliency policy.
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon Web
   Services resource. Each tag consists of a key/value pair.
 """
@@ -1151,7 +1203,7 @@ end
 Describes a resource of the Resilience Hub application.
 
 !!! note
-    This API accepts only one of the following parameters to descibe the resource:
+    This API accepts only one of the following parameters to describe the resource:
 
     - `resourceName`
     - `logicalResourceId`
@@ -1361,6 +1413,48 @@ function describe_draft_app_version_resources_import_status(
 end
 
 """
+    describe_metrics_export(metrics_export_id)
+    describe_metrics_export(metrics_export_id, params::Dict{String,<:Any})
+
+Describes the metrics of the application configuration being exported.
+
+# Arguments
+
+- `metrics_export_id`: Identifier of the metrics export task.
+"""
+function describe_metrics_export end
+
+function describe_metrics_export(
+    metricsExportId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-metrics-export",
+        Dict{String,Any}("metricsExportId" => metricsExportId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_metrics_export(
+    metricsExportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/describe-metrics-export",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("metricsExportId" => metricsExportId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_resiliency_policy(policy_arn)
     describe_resiliency_policy(policy_arn, params::Dict{String,<:Any})
 
@@ -1400,6 +1494,52 @@ function describe_resiliency_policy(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("policyArn" => policyArn), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_resource_grouping_recommendation_task(app_arn)
+    describe_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Describes the resource grouping recommendation tasks run by Resilience Hub for your
+application.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"groupingId"`: Identifier of the grouping recommendation task.
+"""
+function describe_resource_grouping_recommendation_task end
+
+function describe_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1525,9 +1665,8 @@ List of compliance drifts that were detected while running an assessment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: Indicates the maximum number of applications requested.
-- `"nextToken"`: Indicates the unique token number of the next application to be checked for
-  compliance and regulatory requirements from the list of applications.
+- `"maxResults"`: Maximum number of compliance drifts requested.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_compliance_drifts end
 
@@ -1563,7 +1702,7 @@ end
     list_app_assessment_resource_drifts(assessment_arn)
     list_app_assessment_resource_drifts(assessment_arn, params::Dict{String,<:Any})
 
-Indicates the list of resource drifts that were detected while running an assessment.
+List of resource drifts that were detected while running an assessment.
 
 # Arguments
 
@@ -1576,9 +1715,9 @@ Indicates the list of resource drifts that were detected while running an assess
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: Indicates the maximum number of drift results to include in the response.
-  If more results exist than the specified `MaxResults` value, a token is included in the
-  response so that the remaining results can be retrieved.
+- `"maxResults"`: Maximum number of drift results to include in the response. If more
+  results exist than the specified `MaxResults` value, a token is included in the response
+  so that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_resource_drifts end
@@ -2061,8 +2200,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
   information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference* guide.
-- `"fromLastAssessmentTime"`: Indicates the lower limit of the range that is used to filter
-  applications based on their last assessment times.
+- `"awsApplicationArn"`: Amazon Resource Name (ARN) of Resource Groups group that is
+  integrated with an AppRegistry application. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `"fromLastAssessmentTime"`: Lower limit of the range that is used to filter applications
+  based on their last assessment times.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
   exist than the specified `MaxResults` value, a token is included in the response so that
   the remaining results can be retrieved.
@@ -2070,10 +2212,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"reverseOrder"`: The application list is sorted based on the values of
   `lastAppComplianceEvaluationTime` field. By default, application list is sorted in
-  ascending order. To sort the appliation list in descending order, set this field to
+  ascending order. To sort the application list in descending order, set this field to
   `True`.
-- `"toLastAssessmentTime"`: Indicates the upper limit of the range that is used to filter
-  the applications based on their last assessment times.
+- `"toLastAssessmentTime"`: Upper limit of the range that is used to filter the applications
+  based on their last assessment times.
 """
 function list_apps end
 
@@ -2086,6 +2228,42 @@ function list_apps(
 )
     return resiliencehub(
         "GET", "/list-apps", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_metrics()
+    list_metrics(params::Dict{String,<:Any})
+
+Lists the metrics that can be exported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"conditions"`: Indicates the list of all the conditions that were applied on the metrics.
+- `"dataSource"`: Indicates the data source of the metrics.
+- `"fields"`: Indicates the list of fields in the data source.
+- `"maxResults"`: Maximum number of results to include in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  the remaining results can be retrieved.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+- `"sorts"`: (Optional) Indicates the order in which you want to sort the fields in the
+  metrics. By default, the fields are sorted in the ascending order.
+"""
+function list_metrics end
+
+function list_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resiliencehub(
+        "POST", "/list-metrics"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_metrics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST", "/list-metrics", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2148,7 +2326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxResults` value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"policyName"`: The name of the policy
+- `"policyName"`: Name of the resiliency policy.
 """
 function list_resiliency_policies end
 
@@ -2164,6 +2342,50 @@ function list_resiliency_policies(
     return resiliencehub(
         "GET",
         "/list-resiliency-policies",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_grouping_recommendations()
+    list_resource_grouping_recommendations(params::Dict{String,<:Any})
+
+Lists the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"appArn"`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `"maxResults"`: Maximum number of grouping recommendations to be displayed per Resilience
+  Hub application.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+"""
+function list_resource_grouping_recommendations end
+
+function list_resource_grouping_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_resource_grouping_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2683,6 +2905,54 @@ function put_draft_app_version_template(
 end
 
 """
+    reject_resource_grouping_recommendations(app_arn, entries)
+    reject_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Rejects resource grouping recommendations.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `entries`: List of resource grouping recommendations you have selected to exclude from
+  your application.
+"""
+function reject_resource_grouping_recommendations end
+
+function reject_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reject_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_draft_app_version_resource_mappings(app_arn)
     remove_draft_app_version_resource_mappings(app_arn, params::Dict{String,<:Any})
 
@@ -2861,6 +3131,87 @@ function start_app_assessment(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metrics_export()
+    start_metrics_export(params::Dict{String,<:Any})
+
+Initiates the export task of metrics.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"bucketName"`: (Optional) Specifies the name of the Amazon Simple Storage Service bucket
+  where the exported metrics will be stored.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-sensitive
+  string of up to 64 ASCII characters. You should not reuse the same client token for other
+  API requests.
+"""
+function start_metrics_export end
+
+function start_metrics_export(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resiliencehub(
+        "POST",
+        "/start-metrics-export",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_metrics_export(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-metrics-export",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_resource_grouping_recommendation_task(app_arn)
+    start_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Starts grouping recommendation task.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+"""
+function start_resource_grouping_recommendation_task end
+
+function start_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3216,10 +3567,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
-- `"policy"`: The type of resiliency policy to be created, including the recovery time
-  objective (RTO) and recovery point objective (RPO) in seconds.
-- `"policyDescription"`: The description for the policy.
-- `"policyName"`: The name of the policy
+- `"policy"`: Resiliency policy to be created, including the recovery time objective (RTO)
+  and recovery point objective (RPO) in seconds.
+- `"policyDescription"`: Description of the resiliency policy.
+- `"policyName"`: Name of the resiliency policy.
 - `"tier"`: The tier for this resiliency policy, ranging from the highest severity
   (`MissionCritical`) to lowest (`NonCritical`).
 """

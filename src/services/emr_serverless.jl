@@ -14,6 +14,13 @@ Cancels a job run.
 
 - `application_id`: The ID of the application on which the job run will be canceled.
 - `job_run_id`: The ID of the job run to cancel.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"shutdownGracePeriodInSeconds"`: The duration in seconds to wait before forcefully
+  terminating the job after cancellation is requested.
 """
 function cancel_job_run end
 
@@ -68,6 +75,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
 
+- `"diskEncryptionConfiguration"`: The configuration object that allows encrypting local
+  disks.
+
+- `"identityCenterConfiguration"`: The IAM Identity Center Configuration accepts the
+  Identity Center instance parameter required to enable trusted identity propagation. This
+  configuration allows identity propagation between integrated services and the Identity
+  Center instance.
+
 - `"imageConfiguration"`: The image configuration for all worker types. You can either set
   this parameter or `imageConfiguration` for each worker type in `workerTypeSpecifications`.
 
@@ -75,6 +90,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"interactiveConfiguration"`: The interactive configuration object that enables the
   interactive use cases to use when running an application.
+
+- `"jobLevelCostAllocationConfiguration"`: The configuration object that enables job level
+  cost allocation.
 
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is created.
   This is cumulative across all workers at any given point in time, not just when an
@@ -91,6 +109,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifications to use when creating an application. Each configuration consists of a
   classification and properties. This configuration is applied to all the job runs submitted
   under the application.
+
+- `"schedulerConfiguration"`: The scheduler configuration for batch and streaming jobs
+  running on this application. Supported with release labels emr-7.0.0 and above.
 
 - `"tags"`: The tags assigned to the application.
 
@@ -236,6 +257,8 @@ interface such as the Spark History Server or persistent Tez UI.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"accessSystemProfileLogs"`: Allows access to system profile logs for Lake Formation-
+  enabled jobs. Default is false.
 - `"attempt"`: An optimal parameter that indicates the amount of attempts for the job. If
   not specified, this value defaults to the attempt of the latest job.
 """
@@ -524,6 +547,9 @@ Starts a job run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"configurationOverrides"`: The configuration overrides for the job run.
+- `"executionIamPolicy"`: You can pass an optional IAM policy. The resulting job IAM role
+  permissions will be an intersection of this policy and the policy associated with your job
+  execution role.
 - `"executionTimeoutMinutes"`: The maximum duration for the job run to run. If the job run
   runs beyond this duration, it will be automatically cancelled.
 - `"jobDriver"`: The job driver for the job run.
@@ -722,6 +748,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
 
+- `"diskEncryptionConfiguration"`: The configuration object that allows encrypting local
+  disks.
+
+- `"identityCenterConfiguration"`: Specifies the IAM Identity Center configuration used to
+  enable or disable trusted identity propagation. When provided, this configuration
+  determines how the application interacts with IAM Identity Center for user authentication
+  and access control.
+
 - `"imageConfiguration"`: The image configuration to be used for all worker types. You can
   either set this parameter or `imageConfiguration` for each worker type in
   `WorkerTypeSpecificationInput`.
@@ -730,6 +764,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"interactiveConfiguration"`: The interactive configuration object that contains new
   interactive use cases when the application is updated.
+
+- `"jobLevelCostAllocationConfiguration"`: The configuration object that enables job level
+  cost allocation.
 
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is updated.
   This is cumulative across all workers at any given point in time during the lifespan of
@@ -747,6 +784,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifications to use when updating an application. Each configuration consists of a
   classification and properties. This configuration is applied across all the job runs
   submitted under the application.
+
+- `"schedulerConfiguration"`: The scheduler configuration for batch and streaming jobs
+  running on this application. Supported with release labels emr-7.0.0 and above.
 
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
   `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a

@@ -23,6 +23,11 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 - `effect`: Determines whether the permissions specified in the policy are to be allowed
   (`Allow`) or denied (`Deny`).
 
+  !!! important
+      If you set the value of the `effect` parameter to `Deny` for the `AddPolicyStatement`
+      operation, you must also set the value of the `effect` parameter in the `policy` to
+      `Deny` for the `PutPolicy` operation.
+
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
 
@@ -133,21 +138,22 @@ function batch_delete_unique_id(
 end
 
 """
-    create_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name)
-    create_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name, params::Dict{String,<:Any})
+    create_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name)
+    create_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name, params::Dict{String,<:Any})
 
 Creates an `IdMappingWorkflow` object which stores the configuration of the data processing
 job to be run. Each `IdMappingWorkflow` must have a unique workflow name. To modify an
-existing workflow, use the `UpdateIdMappingWorkflow` API.
+existing workflow, use the UpdateIdMappingWorkflow API.
+
+!!! important
+    Incremental processing is not supported for ID mapping workflows.
 
 # Arguments
 
-- `id_mapping_techniques`: An object which defines the `idMappingType` and the
-  `providerProperties`.
+- `id_mapping_techniques`: An object which defines the ID mapping technique and any
+  additional configurations.
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
-  role to create resources on your behalf as part of workflow execution.
 - `workflow_name`: The name of the workflow. There can't be multiple `IdMappingWorkflows`
   with the same name.
 
@@ -156,8 +162,11 @@ existing workflow, use the `UpdateIdMappingWorkflow` API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the workflow.
+- `"incrementalRunConfig"`: The incremental run configuration for the ID mapping workflow.
 - `"outputSourceConfig"`: A list of `IdMappingWorkflowOutputSource` objects, each of which
-  contains fields `OutputS3Path` and `Output`.
+  contains fields `outputS3Path` and `KMSArn`.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
+  this role to create resources on your behalf as part of workflow execution.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_mapping_workflow end
@@ -165,7 +174,6 @@ function create_id_mapping_workflow end
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
-    roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -175,7 +183,6 @@ function create_id_mapping_workflow(
         Dict{String,Any}(
             "idMappingTechniques" => idMappingTechniques,
             "inputSourceConfig" => inputSourceConfig,
-            "roleArn" => roleArn,
             "workflowName" => workflowName,
         );
         aws_config,
@@ -186,7 +193,6 @@ end
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
-    roleArn,
     workflowName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -200,7 +206,6 @@ function create_id_mapping_workflow(
                 Dict{String,Any}(
                     "idMappingTechniques" => idMappingTechniques,
                     "inputSourceConfig" => inputSourceConfig,
-                    "roleArn" => roleArn,
                     "workflowName" => workflowName,
                 ),
                 params,
@@ -217,7 +222,7 @@ end
 
 Creates an ID namespace object which will help customers provide metadata explaining their
 dataset and how to use it. Each ID namespace must have a unique name. To modify an existing
-ID namespace, use the `UpdateIdNamespace` API.
+ID namespace, use the UpdateIdNamespace API.
 
 # Arguments
 
@@ -284,17 +289,19 @@ end
     create_matching_workflow(input_source_config, output_source_config, resolution_techniques, role_arn, workflow_name)
     create_matching_workflow(input_source_config, output_source_config, resolution_techniques, role_arn, workflow_name, params::Dict{String,<:Any})
 
-Creates a `MatchingWorkflow` object which stores the configuration of the data processing
-job to be run. It is important to note that there should not be a pre-existing
-`MatchingWorkflow` with the same name. To modify an existing workflow, utilize the
-`UpdateMatchingWorkflow` API.
+Creates a matching workflow that defines the configuration for a data processing job. The
+workflow name must be unique. To modify an existing workflow, use `UpdateMatchingWorkflow`.
+
+!!! important
+    For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental
+    processing is not supported.
 
 # Arguments
 
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `output_source_config`: A list of `OutputSource` objects, each of which contains fields
-  `OutputS3Path`, `ApplyNormalization`, and `Output`.
+  `outputS3Path`, `applyNormalization`, `KMSArn`, and `output`.
 - `resolution_techniques`: An object which defines the `resolutionType` and the
   `ruleBasedProperties`.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
@@ -307,8 +314,15 @@ job to be run. It is important to note that there should not be a pre-existing
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the workflow.
-- `"incrementalRunConfig"`: An object which defines an incremental run type and has only
-  `incrementalRunType` as a field.
+
+- `"incrementalRunConfig"`: Optional. An object that defines the incremental run type. This
+  object contains only the `incrementalRunType` field, which appears as "Automatic" in the
+  console.
+
+  !!! important
+      For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental
+      processing is not supported.
+
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_matching_workflow end
@@ -619,10 +633,80 @@ function delete_schema_mapping(
 end
 
 """
+    generate_match_id(records, workflow_name)
+    generate_match_id(records, workflow_name, params::Dict{String,<:Any})
+
+Generates or retrieves Match IDs for records using a rule-based matching workflow. When you
+call this operation, it processes your records against the workflow's matching rules to
+identify potential matches. For existing records, it retrieves their Match IDs and
+associated rules. For records without matches, it generates new Match IDs. The operation
+saves results to Amazon S3.
+
+The processing type (`processingType`) you choose affects both the accuracy and response
+time of the operation. Additional charges apply for each API call, whether made through the
+Entity Resolution console or directly via the API. The rule-based matching workflow must
+exist and be active before calling this operation.
+
+# Arguments
+
+- `records`: The records to match.
+- `workflow_name`: The name of the rule-based matching workflow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"processingType"`: The processing mode that determines how Match IDs are generated and
+  results are saved. Each mode provides different levels of accuracy, response time, and
+  completeness of results.
+
+  If not specified, defaults to `CONSISTENT`.
+
+  `CONSISTENT`: Performs immediate lookup and matching against all existing records, with
+  results saved synchronously. Provides highest accuracy but slower response time.
+
+  `EVENTUAL` (shown as *Background* in the console): Performs initial match ID lookup or
+  generation immediately, with record updates processed asynchronously in the background.
+  Offers faster initial response time, with complete matching results available later in S3.
+
+  `EVENTUAL_NO_LOOKUP` (shown as *Quick ID generation* in the console): Generates new match
+  IDs without checking existing matches, with updates processed asynchronously. Provides
+  fastest response time but should only be used for records known to be unique.
+"""
+function generate_match_id end
+
+function generate_match_id(
+    records, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
+        "POST",
+        "/matchingworkflows/$(workflowName)/generateMatches",
+        Dict{String,Any}("records" => records);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function generate_match_id(
+    records,
+    workflowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return entityresolution(
+        "POST",
+        "/matchingworkflows/$(workflowName)/generateMatches",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("records" => records), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_id_mapping_job(job_id, workflow_name)
     get_id_mapping_job(job_id, workflow_name, params::Dict{String,<:Any})
 
-Gets the status, metrics, and errors (if there are any) that are associated with a job.
+Returns the status, metrics, and errors (if there are any) that are associated with a job.
 
 # Arguments
 
@@ -735,7 +819,11 @@ end
     get_match_id(record, workflow_name)
     get_match_id(record, workflow_name, params::Dict{String,<:Any})
 
-Returns the corresponding Match ID of a customer record if the record has been processed.
+Returns the corresponding Match ID of a customer record if the record has been processed in
+a rule-based matching workflow.
+
+You can call this API as a dry run of an incremental load on the rule-based matching
+workflow.
 
 # Arguments
 
@@ -784,7 +872,7 @@ end
     get_matching_job(job_id, workflow_name)
     get_matching_job(job_id, workflow_name, params::Dict{String,<:Any})
 
-Gets the status, metrics, and errors (if there are any) that are associated with a job.
+Returns the status, metrics, and errors (if there are any) that are associated with a job.
 
 # Arguments
 
@@ -1228,7 +1316,13 @@ Updates the resource-based policy.
 
 - `arn`: The Amazon Resource Name (ARN) of the resource for which the policy needs to be
   updated.
+
 - `policy`: The resource-based policy.
+
+  !!! important
+      If you set the value of the `effect` parameter in the `policy` to `Deny` for the
+      `PutPolicy` operation, you must also set the value of the `effect` parameter to `Deny`
+      for the `AddPolicyStatement` operation.
 
 # Optional Parameters
 
@@ -1277,6 +1371,19 @@ using the `CreateIdMappingWorkflow` endpoint.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"jobType"`: The job type for the ID mapping job.
+
+  If the `jobType` value is set to `INCREMENTAL`, only new or changed data is processed
+  since the last job run. This is the default value if the `CreateIdMappingWorkflow` API is
+  configured with an `incrementalRunConfig`.
+
+  If the `jobType` value is set to `BATCH`, all data is processed from the input source,
+  regardless of previous job runs. This is the default value if the
+  `CreateIdMappingWorkflow` API isn't configured with an `incrementalRunConfig`.
+
+  If the `jobType` value is set to `DELETE_ONLY`, only deletion requests from
+  `BatchDeleteUniqueIds` are processed.
 
 - `"outputSourceConfig"`: A list of `OutputSource` objects.
 """
@@ -1433,21 +1540,22 @@ function untag_resource(
 end
 
 """
-    update_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name)
-    update_id_mapping_workflow(id_mapping_techniques, input_source_config, role_arn, workflow_name, params::Dict{String,<:Any})
+    update_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name)
+    update_id_mapping_workflow(id_mapping_techniques, input_source_config, workflow_name, params::Dict{String,<:Any})
 
 Updates an existing `IdMappingWorkflow`. This method is identical to
-`CreateIdMappingWorkflow`, except it uses an HTTP `PUT` request instead of a `POST` request,
+CreateIdMappingWorkflow, except it uses an HTTP `PUT` request instead of a `POST` request,
 and the `IdMappingWorkflow` must already exist for the method to succeed.
+
+!!! important
+    Incremental processing is not supported for ID mapping workflows.
 
 # Arguments
 
-- `id_mapping_techniques`: An object which defines the `idMappingType` and the
-  `providerProperties`.
+- `id_mapping_techniques`: An object which defines the ID mapping technique and any
+  additional configurations.
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
-- `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
-  role to access Amazon Web Services resources on your behalf.
 - `workflow_name`: The name of the workflow.
 
 # Optional Parameters
@@ -1455,15 +1563,18 @@ and the `IdMappingWorkflow` must already exist for the method to succeed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the workflow.
+- `"incrementalRunConfig"`: The incremental run configuration for the update ID mapping
+  workflow.
 - `"outputSourceConfig"`: A list of `OutputSource` objects, each of which contains fields
-  `OutputS3Path` and `KMSArn`.
+  `outputS3Path` and `KMSArn`.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
+  this role to access Amazon Web Services resources on your behalf.
 """
 function update_id_mapping_workflow end
 
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
-    roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1473,7 +1584,6 @@ function update_id_mapping_workflow(
         Dict{String,Any}(
             "idMappingTechniques" => idMappingTechniques,
             "inputSourceConfig" => inputSourceConfig,
-            "roleArn" => roleArn,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1483,7 +1593,6 @@ end
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
-    roleArn,
     workflowName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1497,7 +1606,6 @@ function update_id_mapping_workflow(
                 Dict{String,Any}(
                     "idMappingTechniques" => idMappingTechniques,
                     "inputSourceConfig" => inputSourceConfig,
-                    "roleArn" => roleArn,
                 ),
                 params,
             ),
@@ -1561,16 +1669,19 @@ end
     update_matching_workflow(input_source_config, output_source_config, resolution_techniques, role_arn, workflow_name)
     update_matching_workflow(input_source_config, output_source_config, resolution_techniques, role_arn, workflow_name, params::Dict{String,<:Any})
 
-Updates an existing `MatchingWorkflow`. This method is identical to
-`CreateMatchingWorkflow`, except it uses an HTTP `PUT` request instead of a `POST` request,
-and the `MatchingWorkflow` must already exist for the method to succeed.
+Updates an existing matching workflow. The workflow must already exist for this operation to
+succeed.
+
+!!! important
+    For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental
+    processing is not supported.
 
 # Arguments
 
 - `input_source_config`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `output_source_config`: A list of `OutputSource` objects, each of which contains fields
-  `OutputS3Path`, `ApplyNormalization`, and `Output`.
+  `outputS3Path`, `applyNormalization`, `KMSArn`, and `output`.
 - `resolution_techniques`: An object which defines the `resolutionType` and the
   `ruleBasedProperties`.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this
@@ -1582,8 +1693,14 @@ and the `MatchingWorkflow` must already exist for the method to succeed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: A description of the workflow.
-- `"incrementalRunConfig"`: An object which defines an incremental run type and has only
-  `incrementalRunType` as a field.
+
+- `"incrementalRunConfig"`: Optional. An object that defines the incremental run type. This
+  object contains only the `incrementalRunType` field, which appears as "Automatic" in the
+  console.
+
+  !!! important
+      For workflows where `resolutionType` is `ML_MATCHING` or `PROVIDER`, incremental
+      processing is not supported.
 """
 function update_matching_workflow end
 

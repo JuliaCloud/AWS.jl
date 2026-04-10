@@ -93,6 +93,8 @@ ties together a profile and one or more trading capabilities.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"capabilityOptions"`: Specify the structure that contains the details for the associated
+  capabilities.
 - `"clientToken"`: Reserved for future use.
 - `"phone"`: Specifies the phone number associated with the partnership.
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
@@ -219,21 +221,101 @@ function create_profile(
 end
 
 """
-    create_transformer(edi_type, file_format, mapping_template, name)
-    create_transformer(edi_type, file_format, mapping_template, name, params::Dict{String,<:Any})
+    create_starter_mapping_template(mapping_type, template_details)
+    create_starter_mapping_template(mapping_type, template_details, params::Dict{String,<:Any})
 
-Creates a transformer. A transformer describes how to process the incoming EDI documents and
-extract the necessary information to the output file.
+Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format
+to transform a customer input file into a JSON or XML file that can be converted to EDI.
+
+If you provide a sample EDI file with the same structure as the EDI files that you wish to
+generate, then the service can generate a mapping template. The starter template contains
+placeholder values which you can replace with JSONata or XSLT expressions to take data from
+your input file and insert it into the JSON or XML file that is used to generate the EDI.
+
+If you do not provide a sample EDI file, then the service can generate a mapping template
+based on the EDI settings in the `templateDetails` parameter.
+
+Currently, we only support generating a template that can generate the input to produce an
+Outbound X12 EDI file.
 
 # Arguments
 
-- `edi_type`: Specifies the details for the EDI standard that is being used for the
-  transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
-  messages that define specific business documents.
-- `file_format`: Specifies that the currently supported file formats for EDI transformations
-  are `JSON` and `XML`.
-- `mapping_template`: Specifies the mapping template for the transformer. This template is
-  used to map the parsed EDI file using JSONata or XSLT.
+- `mapping_type`: Specify the format for the mapping template: either JSONATA or XSLT.
+- `template_details`: Describes the details needed for generating the template. Specify the
+  X12 transaction set and version for which the template is used: currently, we only support
+  X12.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"outputSampleLocation"`: Specify the location of the sample EDI file that is used to
+  generate the mapping template.
+"""
+function create_starter_mapping_template end
+
+function create_starter_mapping_template(
+    mappingType, templateDetails; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
+        "CreateStarterMappingTemplate",
+        Dict{String,Any}(
+            "mappingType" => mappingType, "templateDetails" => templateDetails
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_starter_mapping_template(
+    mappingType,
+    templateDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return b2bi(
+        "CreateStarterMappingTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "mappingType" => mappingType, "templateDetails" => templateDetails
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_transformer(name)
+    create_transformer(name, params::Dict{String,<:Any})
+
+Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two
+scenarios:
+
+- *Inbound EDI*: the Amazon Web Services customer receives an EDI file from their trading
+  partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or
+  XML file with a service-defined structure. A mapping template provided by the customer, in
+  JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file
+  with the structure the customer requires.
+- *Outbound EDI*: the Amazon Web Services customer has a JSON or XML file containing data
+  that they wish to use in an EDI file. A mapping template, provided by the customer (in
+  either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in
+  the service-defined structure. This file is then converted to an EDI file.
+
+!!! note
+    The following fields are provided for backwards compatibility only: `fileFormat`,
+    `mappingTemplate`, `ediType`, and `sampleDocument`.
+
+    - Use the `mapping` data type in place of `mappingTemplate` and `fileFormat`
+    - Use the `sampleDocuments` data type in place of `sampleDocument`
+    - Use either the `inputConversion` or `outputConversion` in place of `ediType`
+
+# Arguments
+
 - `name`: Specifies the name of the transformer, used to identify it.
 
 # Optional Parameters
@@ -241,55 +323,60 @@ extract the necessary information to the output file.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: Reserved for future use.
+
+- `"ediType"`: Specifies the details for the EDI standard that is being used for the
+  transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
+  messages that define specific business documents.
+
+- `"fileFormat"`: Specifies that the currently supported file formats for EDI
+  transformations are `JSON` and `XML`.
+
+- `"inputConversion"`: Specify the `InputConversion` object, which contains the format
+  options for the inbound transformation.
+
+- `"mapping"`: Specify the structure that contains the mapping template and its language
+  (either XSLT or JSONATA).
+
+- `"mappingTemplate"`: Specifies the mapping template for the transformer. This template is
+  used to map the parsed EDI file using JSONata or XSLT.
+
+  !!! note
+      This parameter is available for backwards compatibility. Use the [Mapping](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_Mapping.html)
+      data type instead.
+
+- `"outputConversion"`: A structure that contains the `OutputConversion` object, which
+  contains the format options for the outbound transformation.
+
 - `"sampleDocument"`: Specifies a sample EDI document that is used by a transformer as a
   guide for processing the EDI data.
+
+- `"sampleDocuments"`: Specify a structure that contains the Amazon S3 bucket and an array
+  of the corresponding keys used to identify the location for your sample documents.
+
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
 function create_transformer end
 
-function create_transformer(
-    ediType,
-    fileFormat,
-    mappingTemplate,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
+function create_transformer(name; aws_config::AbstractAWSConfig=current_aws_config())
     return b2bi(
         "CreateTransformer",
-        Dict{String,Any}(
-            "ediType" => ediType,
-            "fileFormat" => fileFormat,
-            "mappingTemplate" => mappingTemplate,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
+        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_transformer(
-    ediType,
-    fileFormat,
-    mappingTemplate,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return b2bi(
         "CreateTransformer",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "ediType" => ediType,
-                    "fileFormat" => fileFormat,
-                    "mappingTemplate" => mappingTemplate,
-                    "name" => name,
-                    "clientToken" => string(uuid4()),
-                ),
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
                 params,
             ),
         );
@@ -415,8 +502,9 @@ end
     delete_transformer(transformer_id)
     delete_transformer(transformer_id, params::Dict{String,<:Any})
 
-Deletes the specified transformer. A transformer describes how to process the incoming EDI
-documents and extract the necessary information to the output file.
+Deletes the specified transformer. A transformer can take an EDI file as input and transform
+it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or
+XML-formatted document as input and transform it into an EDI file.
 
 # Arguments
 
@@ -444,6 +532,79 @@ function delete_transformer(
         "DeleteTransformer",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("transformerId" => transformerId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    generate_mapping(input_file_content, mapping_type, output_file_content)
+    generate_mapping(input_file_content, mapping_type, output_file_content, params::Dict{String,<:Any})
+
+Takes sample input and output documents and uses Amazon Bedrock to generate a mapping
+automatically. Depending on the accuracy and other factors, you can then edit the mapping
+for your needs.
+
+!!! note
+    Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange
+    you must enable models in Amazon Bedrock. For details, see [AI-assisted template mapping prerequisites](https://docs.aws.amazon.com/b2bi/latest/userguide/ai-assisted-mapping.html#ai-assist-prereq)
+    in the *Amazon Web Services B2B Data Interchange User guide*.
+
+To generate a mapping, perform the following steps:
+
+1. Start with an X12 EDI document to use as the input.
+2. Call `TestMapping` using your EDI document.
+3. Use the output from the [`test_mapping`](@ref) operation as either input or output for
+   your GenerateMapping call, along with your sample file.
+
+# Arguments
+
+- `input_file_content`: Provide the contents of a sample X12 EDI file, either in JSON or XML
+  format, to use as a starting point for the mapping.
+- `mapping_type`: Specify the mapping type: either `JSONATA` or `XSLT.`
+- `output_file_content`: Provide the contents of a sample X12 EDI file, either in JSON or
+  XML format, to use as a target for the mapping.
+"""
+function generate_mapping end
+
+function generate_mapping(
+    inputFileContent,
+    mappingType,
+    outputFileContent;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return b2bi(
+        "GenerateMapping",
+        Dict{String,Any}(
+            "inputFileContent" => inputFileContent,
+            "mappingType" => mappingType,
+            "outputFileContent" => outputFileContent,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function generate_mapping(
+    inputFileContent,
+    mappingType,
+    outputFileContent,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return b2bi(
+        "GenerateMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputFileContent" => inputFileContent,
+                    "mappingType" => mappingType,
+                    "outputFileContent" => outputFileContent,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -566,9 +727,10 @@ end
     get_transformer(transformer_id)
     get_transformer(transformer_id, params::Dict{String,<:Any})
 
-Retrieves the details for the transformer specified by the transformer ID. A transformer
-describes how to process the incoming EDI documents and extract the necessary information to
-the output file.
+Retrieves the details for the transformer specified by the transformer ID. A transformer can
+take an EDI file as input and transform it into a JSON-or XML-formatted document.
+Alternatively, a transformer can take a JSON-or XML-formatted document as input and
+transform it into an EDI file.
 
 # Arguments
 
@@ -605,6 +767,11 @@ end
     get_transformer_job(transformer_id, transformer_job_id, params::Dict{String,<:Any})
 
 Returns the details of the transformer run, based on the Transformer job ID.
+
+!!! note
+    If 30 days have elapsed since your transformer job was started, the system deletes it.
+    So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId`
+    for a job that was started more than 30 days previously, you receive a 404 response.
 
 # Arguments
 
@@ -783,8 +950,9 @@ end
     list_transformers()
     list_transformers(params::Dict{String,<:Any})
 
-Lists the available transformers. A transformer describes how to process the incoming EDI
-documents and extract the necessary information to the output file.
+Lists the available transformers. A transformer can take an EDI file as input and transform
+it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or
+XML-formatted document as input and transform it into an EDI file.
 
 # Optional Parameters
 
@@ -812,11 +980,15 @@ end
     start_transformer_job(input_file, output_location, transformer_id, params::Dict{String,<:Any})
 
 Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into
-the output structures used by Amazon Web Services B2BI Data Interchange.
+the output structures used by Amazon Web Services B2B Data Interchange.
 
 If you only want to transform EDI (electronic data interchange) documents, you don't need to
 create profiles, partnerships or capabilities. Just create and configure a transformer, and
 then run the `StartTransformerJob` API to process your files.
+
+!!! note
+    The system stores transformer jobs for 30 days. During that period, you can run [GetTransformerJob](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_GetTransformerJob.html)
+    and supply its `transformerId` and `transformerJobId` to return details of the job.
 
 # Arguments
 
@@ -928,6 +1100,49 @@ function tag_resource(
 end
 
 """
+    test_conversion(source, target)
+    test_conversion(source, target, params::Dict{String,<:Any})
+
+This operation mimics the latter half of a typical Outbound EDI request. It takes an input
+JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that
+string.
+
+# Arguments
+
+- `source`: Specify the source file for an outbound EDI request.
+- `target`: Specify the format (X12 is the only currently supported format), and other
+  details for the conversion target.
+"""
+function test_conversion end
+
+function test_conversion(source, target; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "TestConversion",
+        Dict{String,Any}("source" => source, "target" => target);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function test_conversion(
+    source,
+    target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return b2bi(
+        "TestConversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("source" => source, "target" => target), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     test_mapping(file_format, input_file_content, mapping_template)
     test_mapping(file_format, input_file_content, mapping_template, params::Dict{String,<:Any})
 
@@ -939,10 +1154,16 @@ contents from the Amazon S3 location, and passes the contents in as a string, to
 
 - `file_format`: Specifies that the currently supported file formats for EDI transformations
   are `JSON` and `XML`.
+
 - `input_file_content`: Specify the contents of the EDI (electronic data interchange) XML or
   JSON file that is used as input for the transform.
+
 - `mapping_template`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
+
+  !!! note
+      This parameter is available for backwards compatibility. Use the [Mapping](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_Mapping.html)
+      data type instead.
 """
 function test_mapping end
 
@@ -1005,6 +1226,14 @@ limit of 250 KB.
   are `JSON` and `XML`.
 - `input_file`: Specifies an `S3Location` object, which contains the Amazon S3 bucket and
   prefix for the location of the input file.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"advancedOptions"`: Specifies advanced options for parsing the input EDI file. These
+  options allow for more granular control over the parsing process, including split options
+  for X12 files.
 """
 function test_parsing end
 
@@ -1159,6 +1388,8 @@ a profile and one or more trading capabilities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"capabilities"`: List of the capabilities associated with this partnership.
+- `"capabilityOptions"`: To update, specify the structure that contains the details for the
+  associated capabilities.
 - `"name"`: The name of the partnership, used to identify it.
 """
 function update_partnership end
@@ -1239,8 +1470,9 @@ end
     update_transformer(transformer_id)
     update_transformer(transformer_id, params::Dict{String,<:Any})
 
-Updates the specified parameters for a transformer. A transformer describes how to process
-the incoming EDI documents and extract the necessary information to the output file.
+Updates the specified parameters for a transformer. A transformer can take an EDI file as
+input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer
+can take a JSON-or XML-formatted document as input and transform it into an EDI file.
 
 # Arguments
 
@@ -1253,15 +1485,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ediType"`: Specifies the details for the EDI standard that is being used for the
   transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding
   messages that define specific business documents.
+
 - `"fileFormat"`: Specifies that the currently supported file formats for EDI
   transformations are `JSON` and `XML`.
+
+- `"inputConversion"`: To update, specify the `InputConversion` object, which contains the
+  format options for the inbound transformation.
+
+- `"mapping"`: Specify the structure that contains the mapping template and its language
+  (either XSLT or JSONATA).
+
 - `"mappingTemplate"`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
+
+  !!! note
+      This parameter is available for backwards compatibility. Use the [Mapping](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_Mapping.html)
+      data type instead.
+
 - `"name"`: Specify a new name for the transformer, if you want to update it.
+
+- `"outputConversion"`: To update, specify the `OutputConversion` object, which contains the
+  format options for the outbound transformation.
+
 - `"sampleDocument"`: Specifies a sample EDI document that is used by a transformer as a
   guide for processing the EDI data.
+
+- `"sampleDocuments"`: Specify a structure that contains the Amazon S3 bucket and an array
+  of the corresponding keys used to identify the location for your sample documents.
+
 - `"status"`: Specifies the transformer's status. You can update the state of the
-  transformer, from `active` to `inactive`, or `inactive` to `active`.
+  transformer from `inactive` to `active`.
 """
 function update_transformer end
 

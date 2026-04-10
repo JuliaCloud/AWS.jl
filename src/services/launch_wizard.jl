@@ -167,6 +167,67 @@ function get_deployment(
 end
 
 """
+    get_deployment_pattern_version(deployment_pattern_name, deployment_pattern_version_name, workload_name)
+    get_deployment_pattern_version(deployment_pattern_name, deployment_pattern_version_name, workload_name, params::Dict{String,<:Any})
+
+Returns information about a deployment pattern version.
+
+# Arguments
+
+- `deployment_pattern_name`: The name of the deployment pattern. You can use the [`ListWorkloadDeploymentPatterns`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
+  operation to discover supported values for this parameter.
+- `deployment_pattern_version_name`: The name of the deployment pattern version.
+- `workload_name`: The name of the workload. You can use the [`ListWorkloads`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+  operation to discover supported values for this parameter.
+"""
+function get_deployment_pattern_version end
+
+function get_deployment_pattern_version(
+    deploymentPatternName,
+    deploymentPatternVersionName,
+    workloadName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/getDeploymentPatternVersion",
+        Dict{String,Any}(
+            "deploymentPatternName" => deploymentPatternName,
+            "deploymentPatternVersionName" => deploymentPatternVersionName,
+            "workloadName" => workloadName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_deployment_pattern_version(
+    deploymentPatternName,
+    deploymentPatternVersionName,
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/getDeploymentPatternVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentPatternName" => deploymentPatternName,
+                    "deploymentPatternVersionName" => deploymentPatternVersionName,
+                    "workloadName" => workloadName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_workload(workload_name)
     get_workload(workload_name, params::Dict{String,<:Any})
 
@@ -301,6 +362,67 @@ function list_deployment_events(
         "/listDeploymentEvents",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_deployment_pattern_versions(deployment_pattern_name, workload_name)
+    list_deployment_pattern_versions(deployment_pattern_name, workload_name, params::Dict{String,<:Any})
+
+Lists the deployment pattern versions.
+
+# Arguments
+
+- `deployment_pattern_name`: The name of the deployment pattern. You can use the [`ListWorkloadDeploymentPatterns`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
+  operation to discover supported values for this parameter.
+- `workload_name`: The name of the workload. You can use the [`ListWorkloads`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+  operation to discover supported values for this parameter.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters to apply when listing deployment pattern versions.
+- `"maxResults"`: The maximum number of deployment pattern versions to list.
+- `"nextToken"`: The token for the next set of results.
+"""
+function list_deployment_pattern_versions end
+
+function list_deployment_pattern_versions(
+    deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return launch_wizard(
+        "POST",
+        "/listDeploymentPatternVersions",
+        Dict{String,Any}(
+            "deploymentPatternName" => deploymentPatternName, "workloadName" => workloadName
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_deployment_pattern_versions(
+    deploymentPatternName,
+    workloadName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/listDeploymentPatternVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentPatternName" => deploymentPatternName,
+                    "workloadName" => workloadName,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -531,6 +653,74 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_deployment(deployment_id, specifications)
+    update_deployment(deployment_id, specifications, params::Dict{String,<:Any})
+
+Updates a deployment.
+
+# Arguments
+
+- `deployment_id`: The ID of the deployment.
+
+- `specifications`: The settings specified for the deployment. These settings define how to
+  deploy and configure your resources created by the deployment. For more information about
+  the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html).
+  To retrieve the specifications required to create a deployment for other workloads, use
+  the [`GetWorkloadDeploymentPattern`](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html)
+  operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"deploymentPatternVersionName"`: The name of the deployment pattern version.
+- `"dryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is `DryRunOperation`. Otherwise, it is
+  `UnauthorizedOperation`.
+- `"force"`: Forces the update even if validation warnings are present.
+- `"workloadVersionName"`: The name of the workload version.
+"""
+function update_deployment end
+
+function update_deployment(
+    deploymentId, specifications; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return launch_wizard(
+        "POST",
+        "/updateDeployment",
+        Dict{String,Any}(
+            "deploymentId" => deploymentId, "specifications" => specifications
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_deployment(
+    deploymentId,
+    specifications,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return launch_wizard(
+        "POST",
+        "/updateDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentId" => deploymentId, "specifications" => specifications
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

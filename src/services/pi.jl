@@ -212,11 +212,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metrics to get the values for the top `N` SQL digests. The response syntax is as follows:
   `"AdditionalMetrics" : { "*string*" : "*string*" }`.
 
+  The only supported statistic function is `.avg`.
+
 - `"Filter"`: One or more filters to apply in the request. Restrictions:
 
   - Any number of filters by the same dimension, as specified in the `GroupBy` or
     `Partition` parameters.
   - A single filter for any other dimension in this dimension group.
+
+  !!! note
+      The `db.sql.db_id` filter isn't available for RDS for SQL Server DB instances.
 
 - `"MaxResults"`: The maximum number of items to return in the response. If more items exist
   than the specified `MaxRecords` value, a pagination token is included in the response so
@@ -307,13 +312,15 @@ Get the attributes of the specified dimension group for a DB instance or data so
 example, if you specify a SQL ID, `GetDimensionKeyDetails` retrieves the full text of the
 dimension `db.sql.statement` associated with this ID. This operation is useful because
 `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large SQL
-statement text.
+statement text, lock snapshots, and execution plans.
 
 # Arguments
 
 - `group`: The name of the dimension group. Performance Insights searches the specified
   group for the dimension group ID. The following group name values are valid:
 
+  - `db.execution_plan` (Amazon RDS and Aurora only)
+  - `db.lock_snapshot` (Aurora only)
   - `db.query` (Amazon DocumentDB only)
   - `db.sql` (Amazon RDS and Aurora only)
 
@@ -321,8 +328,12 @@ statement text.
   details. For dimension group `db.sql`, the group ID is `db.sql.id`. The following group ID
   values are valid:
 
+  - `db.execution_plan.id` for dimension group `db.execution_plan` (Aurora and RDS only)
   - `db.sql.id` for dimension group `db.sql` (Aurora and RDS only)
   - `db.query.id` for dimension group `db.query` (DocumentDB only)
+  - For the dimension group `db.lock_snapshot`, the `GroupIdentifier` is the epoch timestamp
+    when Performance Insights captured the snapshot, in seconds. You can retrieve this value
+    with the `GetResourceMetrics` operation for a 1 second period.
 
 - `identifier`: The ID for a data source from which to gather dimension data. This ID must
   be immutable and unique within an Amazon Web Services Region. When a DB instance is the
@@ -341,6 +352,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all dimension data within the specified dimension group. Specify dimension names for the
   following dimension groups:
 
+  - `db.execution_plan` - Specify the dimension name `db.execution_plan.raw_plan` or the
+    short dimension name `raw_plan` (Amazon RDS and Aurora only)
+  - `db.lock_snapshot` - Specify the dimension name `db.lock_snapshot.lock_trees` or the
+    short dimension name `lock_trees`. (Aurora only)
   - `db.sql` - Specify either the full dimension name `db.sql.statement` or the short
     dimension name `statement` (Aurora and RDS only).
   - `db.query` - Specify either the full dimension name `db.query.statement` or the short
@@ -574,9 +589,7 @@ group. You must specify an aggregate function for each metric.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The maximum number of items to return in the response. If more items exist
-  than the specified `MaxRecords` value, a pagination token is included in the response so
-  that the remaining results can be retrieved.
+- `"MaxResults"`: The maximum number of items to return in the response.
 
 - `"NextToken"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the token, up to the

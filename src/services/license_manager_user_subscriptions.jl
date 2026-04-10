@@ -18,15 +18,17 @@ Associates the user to an EC2 instance to utilize user-based subscriptions.
 
 # Arguments
 
-- `identity_provider`: The identity provider of the user.
-- `instance_id`: The ID of the EC2 instance, which provides user-based subscriptions.
-- `username`: The user name from the identity provider for the user.
+- `identity_provider`: The identity provider for the user.
+- `instance_id`: The ID of the EC2 instance that provides the user-based subscription.
+- `username`: The user name from the identity provider.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: The domain name of the user.
+- `"Domain"`: The domain name of the Active Directory that contains information for the user
+  to associate.
+- `"Tags"`: The tags that apply for the user association.
 """
 function associate_user end
 
@@ -76,113 +78,202 @@ function associate_user(
 end
 
 """
-    deregister_identity_provider(identity_provider, product)
-    deregister_identity_provider(identity_provider, product, params::Dict{String,<:Any})
+    create_license_server_endpoint(identity_provider_arn, license_server_settings)
+    create_license_server_endpoint(identity_provider_arn, license_server_settings, params::Dict{String,<:Any})
 
-Deregisters the identity provider from providing user-based subscriptions.
-
-# Arguments
-
-- `identity_provider`: An object that specifies details for the identity provider.
-- `product`: The name of the user-based subscription product.
-"""
-function deregister_identity_provider end
-
-function deregister_identity_provider(
-    IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return license_manager_user_subscriptions(
-        "POST",
-        "/identity-provider/DeregisterIdentityProvider",
-        Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-function deregister_identity_provider(
-    IdentityProvider,
-    Product,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return license_manager_user_subscriptions(
-        "POST",
-        "/identity-provider/DeregisterIdentityProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityProvider" => IdentityProvider, "Product" => Product
-                ),
-                params,
-            ),
-        );
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    disassociate_user(identity_provider, instance_id, username)
-    disassociate_user(identity_provider, instance_id, username, params::Dict{String,<:Any})
-
-Disassociates the user from an EC2 instance providing user-based subscriptions.
+Creates a network endpoint for the Remote Desktop Services (RDS) license server.
 
 # Arguments
 
-- `identity_provider`: An object that specifies details for the identity provider.
-- `instance_id`: The ID of the EC2 instance, which provides user-based subscriptions.
-- `username`: The user name from the identity provider for the user.
+- `identity_provider_arn`: The Amazon Resource Name (ARN) that identifies the
+  `IdentityProvider` resource that contains details about a registered identity provider. In
+  the case of Active Directory, that can be a self-managed Active Directory or an Amazon Web
+  Services Managed Active Directory that contains user identity details.
+- `license_server_settings`: The `LicenseServerSettings` resource to create for the
+  endpoint. The settings include the type of license server and the Secrets Manager secret
+  that enables administrators to add or remove users associated with the license server.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: The domain name of the user.
+- `"Tags"`: The tags that apply for the license server endpoint.
 """
-function disassociate_user end
+function create_license_server_endpoint end
 
-function disassociate_user(
-    IdentityProvider,
-    InstanceId,
-    Username;
+function create_license_server_endpoint(
+    IdentityProviderArn,
+    LicenseServerSettings;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
-        "/user/DisassociateUser",
+        "/license-server/CreateLicenseServerEndpoint",
         Dict{String,Any}(
-            "IdentityProvider" => IdentityProvider,
-            "InstanceId" => InstanceId,
-            "Username" => Username,
+            "IdentityProviderArn" => IdentityProviderArn,
+            "LicenseServerSettings" => LicenseServerSettings,
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
-function disassociate_user(
-    IdentityProvider,
-    InstanceId,
-    Username,
+function create_license_server_endpoint(
+    IdentityProviderArn,
+    LicenseServerSettings,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
         "POST",
-        "/user/DisassociateUser",
+        "/license-server/CreateLicenseServerEndpoint",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "IdentityProvider" => IdentityProvider,
-                    "InstanceId" => InstanceId,
-                    "Username" => Username,
+                    "IdentityProviderArn" => IdentityProviderArn,
+                    "LicenseServerSettings" => LicenseServerSettings,
                 ),
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_license_server_endpoint(license_server_endpoint_arn, server_type)
+    delete_license_server_endpoint(license_server_endpoint_arn, server_type, params::Dict{String,<:Any})
+
+Deletes a `LicenseServerEndpoint` resource.
+
+# Arguments
+
+- `license_server_endpoint_arn`: The Amazon Resource Name (ARN) that identifies the
+  `LicenseServerEndpoint` resource to delete.
+- `server_type`: The type of License Server that the delete request refers to.
+"""
+function delete_license_server_endpoint end
+
+function delete_license_server_endpoint(
+    LicenseServerEndpointArn, ServerType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/license-server/DeleteLicenseServerEndpoint",
+        Dict{String,Any}(
+            "LicenseServerEndpointArn" => LicenseServerEndpointArn,
+            "ServerType" => ServerType,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_license_server_endpoint(
+    LicenseServerEndpointArn,
+    ServerType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/license-server/DeleteLicenseServerEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LicenseServerEndpointArn" => LicenseServerEndpointArn,
+                    "ServerType" => ServerType,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_identity_provider()
+    deregister_identity_provider(params::Dict{String,<:Any})
+
+Deregisters the Active Directory identity provider from License Manager user-based
+subscriptions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IdentityProvider"`: An object that specifies details for the Active Directory identity
+  provider.
+
+- `"IdentityProviderArn"`: The Amazon Resource Name (ARN) that identifies the identity
+  provider to deregister.
+
+- `"Product"`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
+"""
+function deregister_identity_provider end
+
+function deregister_identity_provider(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/DeregisterIdentityProvider";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_identity_provider(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/DeregisterIdentityProvider",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_user()
+    disassociate_user(params::Dict{String,<:Any})
+
+Disassociates the user from an EC2 instance providing user-based subscriptions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Domain"`: The domain name of the Active Directory that contains information for the user
+  to disassociate.
+- `"IdentityProvider"`: An object that specifies details for the Active Directory identity
+  provider.
+- `"InstanceId"`: The ID of the EC2 instance which provides user-based subscriptions.
+- `"InstanceUserArn"`: The Amazon Resource Name (ARN) of the user to disassociate from the
+  EC2 instance.
+- `"Username"`: The user name from the Active Directory identity provider for the user.
+"""
+function disassociate_user end
+
+function disassociate_user(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
+        "POST", "/user/DisassociateUser"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function disassociate_user(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/DisassociateUser",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -192,14 +283,21 @@ end
     list_identity_providers()
     list_identity_providers(params::Dict{String,<:Any})
 
-Lists the identity providers for user-based subscriptions.
+Lists the Active Directory identity providers for user-based subscriptions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: Maximum number of results to return in a single call.
-- `"NextToken"`: Token for the next set of results.
+- `"Filters"`: You can use the following filters to streamline results:
+
+  - Product
+  - DirectoryId
+
+- `"MaxResults"`: The maximum number of results to return from a single request.
+
+- `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
 """
 function list_identity_providers end
 
@@ -234,10 +332,15 @@ Lists the EC2 instances providing user-based subscriptions.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: An array of structures that you can use to filter the results to those that
-  match one or more sets of key-value pairs that you specify.
-- `"MaxResults"`: Maximum number of results to return in a single call.
-- `"NextToken"`: Token for the next set of results.
+- `"Filters"`: You can use the following filters to streamline results:
+
+  - Status
+  - InstanceId
+
+- `"MaxResults"`: The maximum number of results to return from a single request.
+
+- `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
 """
 function list_instances end
 
@@ -260,34 +363,86 @@ function list_instances(
 end
 
 """
-    list_product_subscriptions(identity_provider, product)
-    list_product_subscriptions(identity_provider, product, params::Dict{String,<:Any})
+    list_license_server_endpoints()
+    list_license_server_endpoints(params::Dict{String,<:Any})
+
+List the Remote Desktop Services (RDS) License Server endpoints
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: You can use the following filters to streamline results:
+
+  - IdentityProviderArn
+
+- `"MaxResults"`: The maximum number of results to return from a single request.
+
+- `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+"""
+function list_license_server_endpoints end
+
+function list_license_server_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
+        "POST",
+        "/license-server/ListLicenseServerEndpoints";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_license_server_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "POST",
+        "/license-server/ListLicenseServerEndpoints",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_product_subscriptions(identity_provider)
+    list_product_subscriptions(identity_provider, params::Dict{String,<:Any})
 
 Lists the user-based subscription products available from an identity provider.
 
 # Arguments
 
 - `identity_provider`: An object that specifies details for the identity provider.
-- `product`: The name of the user-based subscription product.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: An array of structures that you can use to filter the results to those that
-  match one or more sets of key-value pairs that you specify.
-- `"MaxResults"`: Maximum number of results to return in a single call.
-- `"NextToken"`: Token for the next set of results.
+- `"Filters"`: You can use the following filters to streamline results:
+
+  - Status
+  - Username
+  - Domain
+
+- `"MaxResults"`: The maximum number of results to return from a single request.
+
+- `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+
+- `"Product"`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
 """
 function list_product_subscriptions end
 
 function list_product_subscriptions(
-    IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
+    IdentityProvider; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
         "/user/ListProductSubscriptions",
-        Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
+        Dict{String,Any}("IdentityProvider" => IdentityProvider);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -295,7 +450,6 @@ end
 
 function list_product_subscriptions(
     IdentityProvider,
-    Product,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -304,15 +458,42 @@ function list_product_subscriptions(
         "/user/ListProductSubscriptions",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityProvider" => IdentityProvider, "Product" => Product
-                ),
-                params,
+                _merge, Dict{String,Any}("IdentityProvider" => IdentityProvider), params
             ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns the list of tags for the specified resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
+  retrieve.
+"""
+function list_tags_for_resource end
+
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "GET", "/tags/$(ResourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager_user_subscriptions(
+        "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -331,10 +512,16 @@ Lists user associations for an identity provider.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: An array of structures that you can use to filter the results to those that
-  match one or more sets of key-value pairs that you specify.
-- `"MaxResults"`: Maximum number of results to return in a single call.
-- `"NextToken"`: Token for the next set of results.
+- `"Filters"`: You can use the following filters to streamline results:
+
+  - Status
+  - Username
+  - Domain
+
+- `"MaxResults"`: The maximum number of results to return from a single request.
+
+- `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
 """
 function list_user_associations end
 
@@ -383,8 +570,13 @@ Registers an identity provider for user-based subscriptions.
 
 # Arguments
 
-- `identity_provider`: An object that specifies details for the identity provider.
+- `identity_provider`: An object that specifies details for the identity provider to
+  register.
+
 - `product`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
 
 # Optional Parameters
 
@@ -392,6 +584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Settings"`: The registered identity provider’s product related configuration settings
   such as the subnets to provision VPC endpoints.
+- `"Tags"`: The tags that apply to the identity provider's registration.
 """
 function register_identity_provider end
 
@@ -445,14 +638,21 @@ Starts a product subscription for a user with the specified identity provider.
 # Arguments
 
 - `identity_provider`: An object that specifies details for the identity provider.
+
 - `product`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
+
 - `username`: The user name from the identity provider of the user.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: The domain name of the user.
+- `"Domain"`: The domain name of the Active Directory that contains the user for whom to
+  start the product subscription.
+- `"Tags"`: The tags that apply to the product subscription.
 """
 function start_product_subscription end
 
@@ -499,78 +699,135 @@ function start_product_subscription(
 end
 
 """
-    stop_product_subscription(identity_provider, product, username)
-    stop_product_subscription(identity_provider, product, username, params::Dict{String,<:Any})
+    stop_product_subscription()
+    stop_product_subscription(params::Dict{String,<:Any})
 
 Stops a product subscription for a user with the specified identity provider.
-
-# Arguments
-
-- `identity_provider`: An object that specifies details for the identity provider.
-- `product`: The name of the user-based subscription product.
-- `username`: The user name from the identity provider for the user.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Domain"`: The domain name of the user.
+- `"Domain"`: The domain name of the Active Directory that contains the user for whom to
+  stop the product subscription.
+
+- `"IdentityProvider"`: An object that specifies details for the identity provider.
+
+- `"Product"`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
+
+- `"ProductUserArn"`: The Amazon Resource Name (ARN) of the product user.
+
+- `"Username"`: The user name from the identity provider for the user.
 """
 function stop_product_subscription end
 
+function stop_product_subscription(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
+        "POST", "/user/StopProductSubscription"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
 function stop_product_subscription(
-    IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
         "/user/StopProductSubscription",
-        Dict{String,Any}(
-            "IdentityProvider" => IdentityProvider,
-            "Product" => Product,
-            "Username" => Username,
-        );
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
-function stop_product_subscription(
-    IdentityProvider,
-    Product,
-    Username,
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds tags to a resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
+- `tags`: The tags to apply to the specified resource.
+"""
+function tag_resource end
+
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
+        "PUT",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_resource(
+    ResourceArn,
+    Tags,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_user_subscriptions(
-        "POST",
-        "/user/StopProductSubscription",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityProvider" => IdentityProvider,
-                    "Product" => Product,
-                    "Username" => Username,
-                ),
-                params,
-            ),
-        );
+        "PUT",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    update_identity_provider_settings(identity_provider, product, update_settings)
-    update_identity_provider_settings(identity_provider, product, update_settings, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from a resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
+  tags from.
+- `tag_keys`: The tag keys to remove from the resource.
+"""
+function untag_resource end
+
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_user_subscriptions(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return license_manager_user_subscriptions(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_identity_provider_settings(update_settings)
+    update_identity_provider_settings(update_settings, params::Dict{String,<:Any})
 
 Updates additional product configuration settings for the registered identity provider.
 
 # Arguments
-
-- `identity_provider`:
-
-- `product`: The name of the user-based subscription product.
 
 - `update_settings`: Updates the registered identity provider’s product related
   configuration settings. You can update any combination of settings in a single operation
@@ -579,31 +836,36 @@ Updates additional product configuration settings for the registered identity pr
   - Subnets which you want to add to provision VPC endpoints.
   - Subnets which you want to remove the VPC endpoints from.
   - Security group ID which permits traffic to the VPC endpoints.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IdentityProvider"`:
+
+- `"IdentityProviderArn"`: The Amazon Resource Name (ARN) of the identity provider to
+  update.
+
+- `"Product"`: The name of the user-based subscription product.
+
+  Valid values: `VISUAL_STUDIO_ENTERPRISE` | `VISUAL_STUDIO_PROFESSIONAL` |
+  `OFFICE_PROFESSIONAL_PLUS` | `REMOTE_DESKTOP_SERVICES`
 """
 function update_identity_provider_settings end
 
 function update_identity_provider_settings(
-    IdentityProvider,
-    Product,
-    UpdateSettings;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    UpdateSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_user_subscriptions(
         "POST",
         "/identity-provider/UpdateIdentityProviderSettings",
-        Dict{String,Any}(
-            "IdentityProvider" => IdentityProvider,
-            "Product" => Product,
-            "UpdateSettings" => UpdateSettings,
-        );
+        Dict{String,Any}("UpdateSettings" => UpdateSettings);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_identity_provider_settings(
-    IdentityProvider,
-    Product,
     UpdateSettings,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -612,15 +874,7 @@ function update_identity_provider_settings(
         "POST",
         "/identity-provider/UpdateIdentityProviderSettings",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "IdentityProvider" => IdentityProvider,
-                    "Product" => Product,
-                    "UpdateSettings" => UpdateSettings,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("UpdateSettings" => UpdateSettings), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

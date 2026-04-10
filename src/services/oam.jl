@@ -37,6 +37,12 @@ Each source account can be linked to as many as five monitoring accounts.
   - `\$AccountEmail` is the globally unique email address of the account
   - `\$AccountEmailNoDomain` is the email address of the account without the domain name
 
+  !!! note
+      In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-
+      West) Regions, the only supported option is to use custom labels, and the
+      `\$AccountName`, `\$AccountEmail`, and `\$AccountEmailNoDomain` variables all resolve
+      as *account-id* instead of the specified variable.
+
 - `resource_types`: An array of strings that define which types of data that the source
   account shares with the monitoring account.
 
@@ -251,6 +257,18 @@ To use this operation, provide the link ARN. To retrieve a list of link ARNs, us
 # Arguments
 
 - `identifier`: The ARN of the link to retrieve information for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeTags"`: Specifies whether to include the tags associated with the link in the
+  response. When `IncludeTags` is set to `true` and the caller has the required permission,
+  `oam:ListTagsForResource`, the API will return the tags for the specified resource. If the
+  caller doesn't have the required permission, `oam:ListTagsForResource`, the API will raise
+  an exception.
+
+  The default value is `false`.
 """
 function get_link end
 
@@ -291,6 +309,18 @@ To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, us
 # Arguments
 
 - `identifier`: The ARN of the sink to retrieve information for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeTags"`: Specifies whether to include the tags associated with the sink in the
+  response. When `IncludeTags` is set to `true` and the caller has the required permission,
+  `oam:ListTagsForResource`, the API will return the tags for the specified resource. If the
+  caller doesn't have the required permission, `oam:ListTagsForResource`, the API will raise
+  an exception.
+
+  The default value is `false`.
 """
 function get_sink end
 
@@ -515,14 +545,17 @@ Creates or updates the resource policy that grants permissions to source account
 the monitoring account sink. When you create a sink policy, you can grant permissions to all
 accounts in an organization or to individual accounts.
 
-You can also use a sink policy to limit the types of data that is shared. The three types
-that you can allow or deny are:
+You can also use a sink policy to limit the types of data that is shared. The six types of
+services with their respective resource types that you can allow or deny are:
 
 - **Metrics** - Specify with `AWS::CloudWatch::Metric`
 - **Log groups** - Specify with `AWS::Logs::LogGroup`
 - **Traces** - Specify with `AWS::XRay::Trace`
 - **Application Insights - Applications** - Specify with
   `AWS::ApplicationInsights::Application`
+- **Internet Monitor** - Specify with `AWS::InternetMonitor::Monitor`
+- **Application Signals** - Specify with `AWS::ApplicationSignals::Service` and
+  `AWS::ApplicationSignals::ServiceLevelObjective`
 
 See the examples in this section to see how to specify permitted source accounts and data
 types.
@@ -716,6 +749,14 @@ To update the list of tags associated with the sink, use [TagResource](https://d
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeTags"`: Specifies whether to include the tags associated with the link in the
+  response after the update operation. When `IncludeTags` is set to `true` and the caller
+  has the required permission, `oam:ListTagsForResource`, the API will return the tags for
+  the specified resource. If the caller doesn't have the required permission,
+  `oam:ListTagsForResource`, the API will raise an exception.
+
+  The default value is `false`.
 
 - `"LinkConfiguration"`: Use this structure to filter which metric namespaces and which log
   groups are to be shared from the source account to the monitoring account.

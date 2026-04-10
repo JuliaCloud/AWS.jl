@@ -5,6 +5,43 @@ using AWS.AWSServices: neptune_graph
 using AWS.UUIDs: uuid4
 
 """
+    cancel_export_task(task_identifier)
+    cancel_export_task(task_identifier, params::Dict{String,<:Any})
+
+Cancel the specified export task.
+
+# Arguments
+
+- `task_identifier`: The unique identifier of the export task.
+"""
+function cancel_export_task end
+
+function cancel_export_task(
+    taskIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune_graph(
+        "DELETE",
+        "/exporttasks/$(taskIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_export_task(
+    taskIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "DELETE",
+        "/exporttasks/$(taskIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_import_task(task_identifier)
     cancel_import_task(task_identifier, params::Dict{String,<:Any})
 
@@ -102,10 +139,11 @@ Creates a new Neptune Analytics graph.
 - `graph_name`: A name for the new Neptune Analytics graph to be created.
 
   The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character
-  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only
+  lowercase letters are allowed.
 
 - `provisioned_memory`: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to
-  use for the graph. Min = 128
+  use for the graph. Min = 16
 
 # Optional Parameters
 
@@ -186,7 +224,8 @@ Creates a snapshot of the specific graph.
 - `snapshot_name`: The snapshot name. For example: `my-snapshot-1`.
 
   The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character
-  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only
+  lowercase letters are allowed.
 
 # Optional Parameters
 
@@ -249,7 +288,8 @@ or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userg
 - `graph_name`: A name for the new Neptune Analytics graph to be created.
 
   The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character
-  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only
+  lowercase letters are allowed.
 
 - `role_arn`: The ARN of the IAM role that will allow access to the data that is to be
   imported.
@@ -261,6 +301,10 @@ or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userg
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"blankNodeHandling"`: The method to handle blank nodes in the dataset. Currently, only
+  `convertToIri` is supported, meaning blank nodes are converted to unique IRIs at load
+  time. Must be provided when format is `ntriples`. For more information, see [Handling RDF values](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html#rdf-handling).
+
 - `"deletionProtection"`: Indicates whether or not to enable deletion protection on the
   graph. The graph can’t be deleted when deletion protection is enabled. (`true` or
   `false`).
@@ -269,8 +313,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to `false`, the task skips the data that caused the error and continues if possible.
 
 - `"format"`: Specifies the format of S3 data to be imported. Valid values are `CSV`, which
-  identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html)
-  or `OPENCYPHER`, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+  identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html),
+  `OPEN_CYPHER`, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html),
+  or `ntriples`, which identifies the [RDF n-triples](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html)
+  format.
 
 - `"importOptions"`: Contains options for controlling the import process. For example, if
   the `failOnError` key is set to `false`, the import skips problem data and attempts to
@@ -284,12 +330,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your
   account.
 
-  If both the minimum and maximum values are specified, the max of the
-  `min-provisioned-memory` and `max-provisioned memory` is used to create the graph. If
-  neither value is specified 128 m-NCUs are used.
+  If both the minimum and maximum values are specified, the final `provisioned-memory` will
+  be chosen per the actual size of your imported data. If neither value is specified, 128 m-
+  NCUs are used.
 
 - `"minProvisionedMemory"`: The minimum provisioned memory-optimized Neptune Capacity Units
-  (m-NCUs) to use for the graph. Default: 128
+  (m-NCUs) to use for the graph. Default: 16
+
+- `"parquetType"`: The parquet type of the import task.
 
 - `"publicConnectivity"`: Specifies whether or not the graph can be reachable over the
   internet. All access to graphs is IAM authenticated. (`true` to enable, or `false` to
@@ -353,8 +401,8 @@ end
     create_private_graph_endpoint(graph_identifier)
     create_private_graph_endpoint(graph_identifier, params::Dict{String,<:Any})
 
-Create a private graph endpoint to allow private access from to the graph from within a VPC.
-You can attach security groups to the private graph endpoint.
+Create a private graph endpoint to allow private access to the graph from within a VPC. You
+can attach security groups to the private graph endpoint.
 
 !!! note
     VPC endpoint charges apply.
@@ -369,7 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"subnetIds"`: Subnets in which private graph endpoint ENIs are created.
 - `"vpcId"`: The VPC in which the private graph endpoint needs to be created.
-- `"vpcSecurityGroupIds"`: Security groups to be attached to the private graph endpoint..
+- `"vpcSecurityGroupIds"`: Security groups to be attached to the private graph endpoint.
 """
 function create_private_graph_endpoint end
 
@@ -446,7 +494,7 @@ end
     delete_graph_snapshot(snapshot_identifier)
     delete_graph_snapshot(snapshot_identifier, params::Dict{String,<:Any})
 
-Deletes the specifed graph snapshot.
+Deletes the specified graph snapshot.
 
 # Arguments
 
@@ -597,6 +645,38 @@ function execute_query(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_export_task(task_identifier)
+    get_export_task(task_identifier, params::Dict{String,<:Any})
+
+Retrieves a specified export task.
+
+# Arguments
+
+- `task_identifier`: The unique identifier of the export task.
+"""
+function get_export_task end
+
+function get_export_task(taskIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune_graph(
+        "GET", "/exporttasks/$(taskIdentifier)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_export_task(
+    taskIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "GET",
+        "/exporttasks/$(taskIdentifier)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -848,6 +928,34 @@ function get_query(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_export_tasks()
+    list_export_tasks(params::Dict{String,<:Any})
+
+Retrieves a list of export tasks.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"graphIdentifier"`: The unique identifier of the Neptune Analytics graph.
+- `"maxResults"`: The maximum number of export tasks to return.
+- `"nextToken"`: Pagination token used to paginate input.
+"""
+function list_export_tasks end
+
+function list_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune_graph("GET", "/exporttasks"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_export_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune_graph(
+        "GET", "/exporttasks", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1161,7 +1269,8 @@ Restores a graph from a snapshot.
 - `graph_name`: A name for the new Neptune Analytics graph to be created from the snapshot.
 
   The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character
-  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+  must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only
+  lowercase letters are allowed.
 
 - `snapshot_identifier`: The ID of the snapshot in question.
 
@@ -1175,7 +1284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provisionedMemory"`: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to
   use for the graph.
 
-  Min = 128
+  Min = 16
 
 - `"publicConnectivity"`: Specifies whether or not the graph can be reachable over the
   internet. All access to graphs is IAM authenticated. (`true` to enable, or `false` to
@@ -1222,6 +1331,120 @@ function restore_graph_from_snapshot(
 end
 
 """
+    start_export_task(destination, format, graph_identifier, kms_key_identifier, role_arn)
+    start_export_task(destination, format, graph_identifier, kms_key_identifier, role_arn, params::Dict{String,<:Any})
+
+Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be
+`AVAILABLE`.
+
+# Arguments
+
+- `destination`: The Amazon S3 URI where data will be exported to.
+- `format`: The format of the export task.
+- `graph_identifier`: The source graph identifier of the export task.
+- `kms_key_identifier`: The KMS key identifier of the export task.
+- `role_arn`: The ARN of the IAM role that will allow data to be exported to the
+  destination.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"exportFilter"`: The export filter of the export task.
+- `"parquetType"`: The parquet type of the export task.
+- `"tags"`: Tags to be applied to the export task.
+"""
+function start_export_task end
+
+function start_export_task(
+    destination,
+    format,
+    graphIdentifier,
+    kmsKeyIdentifier,
+    roleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "POST",
+        "/exporttasks",
+        Dict{String,Any}(
+            "destination" => destination,
+            "format" => format,
+            "graphIdentifier" => graphIdentifier,
+            "kmsKeyIdentifier" => kmsKeyIdentifier,
+            "roleArn" => roleArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_export_task(
+    destination,
+    format,
+    graphIdentifier,
+    kmsKeyIdentifier,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "POST",
+        "/exporttasks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destination" => destination,
+                    "format" => format,
+                    "graphIdentifier" => graphIdentifier,
+                    "kmsKeyIdentifier" => kmsKeyIdentifier,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_graph(graph_identifier)
+    start_graph(graph_identifier, params::Dict{String,<:Any})
+
+Starts the specific graph.
+
+# Arguments
+
+- `graph_identifier`: The unique identifier of the Neptune Analytics graph.
+"""
+function start_graph end
+
+function start_graph(graphIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune_graph(
+        "POST",
+        "/graphs/$(graphIdentifier)/start";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_graph(
+    graphIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "POST",
+        "/graphs/$(graphIdentifier)/start",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_import_task(graph_identifier, role_arn, source)
     start_import_task(graph_identifier, role_arn, source, params::Dict{String,<:Any})
 
@@ -1240,12 +1463,16 @@ The graph needs to be empty and in the AVAILABLE state.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"blankNodeHandling"`: The method to handle blank nodes in the dataset. Currently, only
+  `convertToIri` is supported, meaning blank nodes are converted to unique IRIs at load
+  time. Must be provided when format is `ntriples`. For more information, see [Handling RDF values](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html#rdf-handling).
 - `"failOnError"`: If set to true, the task halts when an import error is encountered. If
   set to false, the task skips the data that caused the error and continues if possible.
 - `"format"`: Specifies the format of Amazon S3 data to be imported. Valid values are CSV,
-  which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load
-  format.
+  which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher
+  load format.
 - `"importOptions"`:
+- `"parquetType"`: The parquet type of the import task.
 """
 function start_import_task end
 
@@ -1276,6 +1503,41 @@ function start_import_task(
                 _merge, Dict{String,Any}("roleArn" => roleArn, "source" => source), params
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_graph(graph_identifier)
+    stop_graph(graph_identifier, params::Dict{String,<:Any})
+
+Stops the specific graph.
+
+# Arguments
+
+- `graph_identifier`: The unique identifier of the Neptune Analytics graph.
+"""
+function stop_graph end
+
+function stop_graph(graphIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune_graph(
+        "POST",
+        "/graphs/$(graphIdentifier)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_graph(
+    graphIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return neptune_graph(
+        "POST",
+        "/graphs/$(graphIdentifier)/stop",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1392,7 +1654,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provisionedMemory"`: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to
   use for the graph.
 
-  Min = 128
+  Min = 16
 
 - `"publicConnectivity"`: Specifies whether or not the graph can be reachable over the
   internet. All access to graphs is IAM authenticated. (`true` to enable, or `false` to

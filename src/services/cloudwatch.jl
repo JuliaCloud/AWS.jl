@@ -5,6 +5,58 @@ using AWS.AWSServices: cloudwatch
 using AWS.UUIDs: uuid4
 
 """
+    delete_alarm_mute_rule(alarm_mute_rule_name)
+    delete_alarm_mute_rule(alarm_mute_rule_name, params::Dict{String,<:Any})
+
+Deletes a specific alarm mute rule.
+
+When you delete a mute rule, any alarms that are currently being muted by that rule are
+immediately unmuted. If those alarms are in an ALARM state, their configured actions will
+trigger.
+
+This operation is idempotent. If you delete a mute rule that does not exist, the operation
+succeeds without returning an error.
+
+**Permissions**
+
+To delete a mute rule, you need the `cloudwatch:DeleteAlarmMuteRule` permission on the alarm
+mute rule resource.
+
+# Arguments
+
+- `alarm_mute_rule_name`: The name of the alarm mute rule to delete.
+"""
+function delete_alarm_mute_rule end
+
+function delete_alarm_mute_rule(
+    AlarmMuteRuleName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "DeleteAlarmMuteRule",
+        Dict{String,Any}("AlarmMuteRuleName" => AlarmMuteRuleName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_alarm_mute_rule(
+    AlarmMuteRuleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudwatch(
+        "DeleteAlarmMuteRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AlarmMuteRuleName" => AlarmMuteRuleName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_alarms(alarm_names)
     delete_alarms(alarm_names, params::Dict{String,<:Any})
 
@@ -13,8 +65,9 @@ this total can include no more than one composite alarm. For example, you could 
 metric alarms and one composite alarms with one operation, but you can't delete two
 composite alarms with one operation.
 
-If you specify an incorrect alarm name or make any other error in the operation, no alarms
-are deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html)
+If you specify any incorrect alarm names, the alarms you specify with correct names are
+still deleted. Other syntax errors might result in no alarms being deleted. To confirm that
+alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html)
 operation after using `DeleteAlarms`.
 
 !!! note
@@ -237,6 +290,53 @@ function delete_metric_stream(
 end
 
 """
+    describe_alarm_contributors(alarm_name)
+    describe_alarm_contributors(alarm_name, params::Dict{String,<:Any})
+
+Returns the information of the current alarm contributors that are in `ALARM` state. This
+operation returns details about the individual time series that contribute to the alarm's
+state.
+
+# Arguments
+
+- `alarm_name`: The name of the alarm for which to retrieve contributor information.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: The token returned by a previous call to indicate that there is more data
+  available.
+"""
+function describe_alarm_contributors end
+
+function describe_alarm_contributors(
+    AlarmName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "DescribeAlarmContributors",
+        Dict{String,Any}("AlarmName" => AlarmName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_alarm_contributors(
+    AlarmName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudwatch(
+        "DescribeAlarmContributors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AlarmName" => AlarmName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_alarm_history()
     describe_alarm_history(params::Dict{String,<:Any})
 
@@ -255,6 +355,8 @@ permission has a narrower scope.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AlarmContributorId"`: The unique identifier of a specific alarm contributor to filter
+  the alarm history results.
 - `"AlarmName"`: The name of the alarm.
 - `"AlarmTypes"`: Use this parameter to specify whether you want the operation to return
   metric alarms or composite alarms. If you omit this parameter, only metric alarms are
@@ -676,6 +778,60 @@ function enable_insight_rules(
 end
 
 """
+    get_alarm_mute_rule(alarm_mute_rule_name)
+    get_alarm_mute_rule(alarm_mute_rule_name, params::Dict{String,<:Any})
+
+Retrieves details for a specific alarm mute rule.
+
+This operation returns complete information about the mute rule, including its
+configuration, status, targeted alarms, and metadata.
+
+The returned status indicates the current state of the mute rule:
+
+- **SCHEDULED**: The mute rule is configured and will become active in the future
+- **ACTIVE**: The mute rule is currently muting alarm actions
+- **EXPIRED**: The mute rule has passed its expiration date and will no longer become active
+
+**Permissions**
+
+To retrieve details for a mute rule, you need the `cloudwatch:GetAlarmMuteRule` permission
+on the alarm mute rule resource.
+
+# Arguments
+
+- `alarm_mute_rule_name`: The name of the alarm mute rule to retrieve.
+"""
+function get_alarm_mute_rule end
+
+function get_alarm_mute_rule(
+    AlarmMuteRuleName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "GetAlarmMuteRule",
+        Dict{String,Any}("AlarmMuteRuleName" => AlarmMuteRuleName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_alarm_mute_rule(
+    AlarmMuteRuleName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudwatch(
+        "GetAlarmMuteRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AlarmMuteRuleName" => AlarmMuteRuleName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_dashboard(dashboard_name)
     get_dashboard(dashboard_name, params::Dict{String,<:Any})
 
@@ -912,12 +1068,12 @@ Metrics Insights query with a **GROUP BY** clause returns an array of time-serie
   - Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval.
     For example, 12:32:34 is rounded down to 12:00:00.
 
-  If you set `Period` to 5, 10, or 30, the start time of your request is rounded down to the
-  nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For
-  example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the
-  start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20.
-  If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5
-  seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+  If you set `Period` to 5, 10, 20, or 30, the start time of your request is rounded down to
+  the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a
+  minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second
+  period, the start time of your request is rounded down and you receive data from 01:05:10
+  to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a
+  period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
 
   For better performance, specify `StartTime` and `EndTime` values that align with the value
   of the metric's `Period` and sync up with the beginning and end of an hour. For example,
@@ -1053,7 +1209,7 @@ in the *Amazon CloudWatch User Guide*.
 - `period`: The granularity, in seconds, of the returned data points. For metrics with
   regular resolution, a period can be as short as one minute (60 seconds) and must be a
   multiple of 60. For high-resolution metrics that are collected at intervals of less than
-  one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution
+  one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution
   metrics are those metrics stored by a `PutMetricData` call that includes a
   `StorageResolution` of 1 second.
 
@@ -1080,12 +1236,12 @@ in the *Amazon CloudWatch User Guide*.
   - Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval.
     For example, 12:32:34 is rounded down to 12:00:00.
 
-  If you set `Period` to 5, 10, or 30, the start time of your request is rounded down to the
-  nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For
-  example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the
-  start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20.
-  If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5
-  seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+  If you set `Period` to 5, 10, 20, or 30, the start time of your request is rounded down to
+  the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a
+  minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second
+  period, the start time of your request is rounded down and you receive data from 01:05:10
+  to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a
+  period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
 
 # Optional Parameters
 
@@ -1295,6 +1451,70 @@ function get_metric_widget_image(
 end
 
 """
+    get_otel_enrichment()
+    get_otel_enrichment(params::Dict{String,<:Any})
+
+Returns the current status of vended metric enrichment for the account, including whether
+CloudWatch vended metrics are enriched with resource ARN and resource tag labels and
+queryable using PromQL. For the list of supported resources, see [Supported AWS infrastructure metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html).
+"""
+function get_otel_enrichment end
+
+function get_otel_enrichment(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudwatch("GetOTelEnrichment"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_otel_enrichment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "GetOTelEnrichment", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_alarm_mute_rules()
+    list_alarm_mute_rules(params::Dict{String,<:Any})
+
+Lists alarm mute rules in your Amazon Web Services account and region.
+
+You can filter the results by alarm name to find all mute rules targeting a specific alarm,
+or by status to find rules that are scheduled, active, or expired.
+
+This operation supports pagination for accounts with many mute rules. Use the `MaxRecords`
+and `NextToken` parameters to retrieve results in multiple calls.
+
+**Permissions**
+
+To list mute rules, you need the `cloudwatch:ListAlarmMuteRules` permission.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AlarmName"`: Filter results to show only mute rules that target the specified alarm
+  name.
+- `"MaxRecords"`: The maximum number of mute rules to return in one call. The default is 50.
+- `"NextToken"`: The token returned from a previous call to indicate where to continue
+  retrieving results.
+- `"Statuses"`: Filter results to show only mute rules with the specified statuses. Valid
+  values are `SCHEDULED`, `ACTIVE`, or `EXPIRED`.
+"""
+function list_alarm_mute_rules end
+
+function list_alarm_mute_rules(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudwatch("ListAlarmMuteRules"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_alarm_mute_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "ListAlarmMuteRules", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_dashboards()
     list_dashboards(params::Dict{String,<:Any})
 
@@ -1432,8 +1652,9 @@ or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/API
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Dimensions"`: The dimensions to filter against. Only the dimensions that match exactly
-  will be returned.
+- `"Dimensions"`: The dimensions to filter against. Only the dimension with names that match
+  exactly will be returned. If you specify one dimension name and a metric has that
+  dimension and also other dimensions, it will be returned.
 
 - `"IncludeLinkedAccounts"`: If you are using this operation in a monitoring account,
   specify `true` to include metrics from source accounts in the returned data.
@@ -1459,7 +1680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The results that are returned are an approximation of the value you specify. There is a
   low probability that the returned results include metrics with last published data as much
-  as 40 minutes more than the specified time interval.
+  as 50 minutes more than the specified time interval.
 """
 function list_metrics end
 
@@ -1515,6 +1736,91 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_alarm_mute_rule(name, rule)
+    put_alarm_mute_rule(name, rule, params::Dict{String,<:Any})
+
+Creates or updates an alarm mute rule.
+
+Alarm mute rules automatically mute alarm actions during predefined time windows. When a
+mute rule is active, targeted alarms continue to evaluate metrics and transition between
+states, but their configured actions (such as Amazon SNS notifications or Auto Scaling
+actions) are muted.
+
+You can create mute rules with recurring schedules using `cron` expressions or one-time mute
+windows using `at` expressions. Each mute rule can target up to 100 specific alarms by name.
+
+If you specify a rule name that already exists, this operation updates the existing rule
+with the new configuration.
+
+**Permissions**
+
+To create or update a mute rule, you must have the `cloudwatch:PutAlarmMuteRule` permission
+on two types of resources: the alarm mute rule resource itself, and each alarm that the rule
+targets.
+
+For example, If you want to allow a user to create mute rules that target only specific
+alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM
+policy with one statement granting `cloudwatch:PutAlarmMuteRule` on the alarm mute rule
+resource (`arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*`), and another
+statement granting `cloudwatch:PutAlarmMuteRule` on the targeted alarm resources
+(`arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm` and
+`arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm`).
+
+You can also use IAM policy conditions to allow targeting alarms based on resource tags. For
+example, you can restrict users to create/update mute rules to only target alarms that have
+a specific tag key-value pair, such as `Team=TeamA`.
+
+# Arguments
+
+- `name`: The name of the alarm mute rule. This name must be unique within your Amazon Web
+  Services account and region.
+- `rule`: The configuration that defines when and how long alarms should be muted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the alarm mute rule that helps you identify its purpose.
+- `"ExpireDate"`: The date and time when the mute rule expires and is no longer evaluated.
+  After this time, the rule status becomes EXPIRED and will no longer mute the targeted
+  alarms. This date and time is interpreted according to the schedule timezone, or UTC if no
+  timezone is specified.
+- `"MuteTargets"`: Specifies which alarms this rule applies to.
+- `"StartDate"`: The date and time after which the mute rule takes effect. If not specified,
+  the mute rule takes effect immediately upon creation and the mutes are applied as per the
+  schedule expression. This date and time is interpreted according to the schedule timezone,
+  or UTC if no timezone is specified.
+- `"Tags"`: A list of key-value pairs to associate with the alarm mute rule. You can use
+  tags to categorize and manage your mute rules.
+"""
+function put_alarm_mute_rule end
+
+function put_alarm_mute_rule(Name, Rule; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudwatch(
+        "PutAlarmMuteRule",
+        Dict{String,Any}("Name" => Name, "Rule" => Rule);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_alarm_mute_rule(
+    Name,
+    Rule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cloudwatch(
+        "PutAlarmMuteRule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "Rule" => Rule), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1750,6 +2056,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*`
 
+  **Start a Amazon Q Developer operational investigation**
+
+  `arn:aws:aiops:*region*:*account-id*:investigation-group:*investigation-group-id*`
+
 - `"AlarmDescription"`: The description for the composite alarm.
 
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
@@ -1924,6 +2234,19 @@ from the first time the rule was created might not be available.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ApplyOnTransformedLogs"`: Specify `true` to have this rule evaluate log events after
+  they have been transformed by [Log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html).
+  If you specify `true`, then the log events in log groups that have transformers will be
+  evaluated by Contributor Insights after being transformed. Log groups that don't have
+  transformers will still have their original log events evaluated by Contributor Insights.
+
+  The default is `false`
+
+  !!! note
+      If a log group has a transformer, and transformation fails for some log events, those
+      log events won't be evaluated by Contributor Insights. For information about
+      investigating log transformation failures, see [Transformation metrics and errors](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Transformation-Errors-Metrics.html).
+
 - `"RuleState"`: The state of the rule. Valid values are ENABLED and DISABLED.
 
 - `"Tags"`: A list of key-value pairs to associate with the Contributor Insights rule. You
@@ -2019,18 +2342,19 @@ function put_managed_insight_rules(
 end
 
 """
-    put_metric_alarm(alarm_name, comparison_operator, evaluation_periods)
-    put_metric_alarm(alarm_name, comparison_operator, evaluation_periods, params::Dict{String,<:Any})
+    put_metric_alarm(alarm_name)
+    put_metric_alarm(alarm_name, params::Dict{String,<:Any})
 
 Creates or updates an alarm and associates it with the specified metric, metric math
-expression, anomaly detection model, or Metrics Insights query. For more information about
-using a Metrics Insights query for an alarm, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html).
+expression, anomaly detection model, Metrics Insights query, or PromQL query. For more
+information about using a Metrics Insights query for an alarm, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html).
 
 Alarms based on anomaly detection models cannot have Auto Scaling actions.
 
 When this operation creates an alarm, the alarm state is immediately set to
-`INSUFFICIENT_DATA`. The alarm is then evaluated and its state is set appropriately. Any
-actions associated with the new state are then executed.
+`INSUFFICIENT_DATA`. For PromQL alarms, the alarm state is instead immediately set to `OK`.
+The alarm is then evaluated and its state is set appropriately. Any actions associated with
+the new state are then executed.
 
 When you update an existing alarm, its state is left unchanged, but the update completely
 overwrites the previous configuration of the alarm.
@@ -2069,20 +2393,6 @@ the following pre-requisites:
 - `alarm_name`: The name for the alarm. This name must be unique within the Region.
 
   The name must contain only UTF-8 characters, and can't contain ASCII control characters
-
-- `comparison_operator`: The arithmetic operation to use when comparing the specified
-  statistic and threshold. The specified statistic value is used as the first operand.
-
-  The values `LessThanLowerOrGreaterThanUpperThreshold`, `LessThanLowerThreshold`, and
-  `GreaterThanUpperThreshold` are used only for alarms based on anomaly detection models.
-
-- `evaluation_periods`: The number of periods over which data is compared to the specified
-  threshold. If you are setting an alarm that requires that a number of consecutive data
-  points be breaching to trigger the alarm, this value specifies that number. If you are
-  setting an "M out of N" alarm, this value is the N.
-
-  An alarm's total current evaluation period can be no longer than one day, so this number
-  multiplied by `Period` cannot be more than 86,400 seconds.
 
 # Optional Parameters
 
@@ -2129,7 +2439,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `arn:aws:ssm:*region*:*account-id*:opsitem:*severity*#CATEGORY=*category-name*`
   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
 
+  **Start a Amazon Q Developer operational investigation**
+
+  `arn:aws:aiops:*region*:*account-id*:investigation-group:*investigation-group-id*`
+
 - `"AlarmDescription"`: The description for the alarm.
+
+- `"ComparisonOperator"`: The arithmetic operation to use when comparing the specified
+  statistic and threshold. The specified statistic value is used as the first operand.
+
+  The values `LessThanLowerOrGreaterThanUpperThreshold`, `LessThanLowerThreshold`, and
+  `GreaterThanUpperThreshold` are used only for alarms based on anomaly detection models.
 
 - `"DatapointsToAlarm"`: The number of data points that must be breaching to trigger the
   alarm. This is used only if you are setting an "M out of N" alarm. In that case, this
@@ -2145,6 +2465,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. For more information, see [Percentile-Based CloudWatch Alarms and Low Data Samples](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples).
 
   Valid Values: `evaluate | ignore`
+
+- `"EvaluationCriteria"`: The evaluation criteria for the alarm. For each `PutMetricAlarm`
+  operation, you must specify either `MetricName`, a `Metrics` array, or an
+  `EvaluationCriteria`.
+
+  If you use the `EvaluationCriteria` parameter, you cannot include the `Namespace`,
+  `MetricName`, `Dimensions`, `Period`, `Unit`, `Statistic`, `ExtendedStatistic`, `Metrics`,
+  `Threshold`, `ComparisonOperator`, `ThresholdMetricId`, `EvaluationPeriods`, or
+  `DatapointsToAlarm` parameters of `PutMetricAlarm` in the same operation. Instead, all
+  evaluation parameters are defined within this structure.
+
+  For an example of how to use this parameter, see the **PromQL alarm** example on this
+  page.
+
+- `"EvaluationInterval"`: The frequency, in seconds, at which the alarm is evaluated. Valid
+  values are 10, 20, 30, and any multiple of 60.
+
+  This parameter is required for alarms that use `EvaluationCriteria`, and cannot be
+  specified for alarms configured with `MetricName` or `Metrics`.
+
+- `"EvaluationPeriods"`: The number of periods over which data is compared to the specified
+  threshold. If you are setting an alarm that requires that a number of consecutive data
+  points be breaching to trigger the alarm, this value specifies that number. If you are
+  setting an "M out of N" alarm, this value is the N.
 
 - `"ExtendedStatistic"`: The extended statistic for the metric specified in `MetricName`.
   When you call `PutMetricAlarm` and specify a `MetricName`, you must specify either
@@ -2205,7 +2549,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
 
 - `"MetricName"`: The name for the metric associated with the alarm. For each
-  `PutMetricAlarm` operation, you must specify either `MetricName` or a `Metrics` array.
+  `PutMetricAlarm` operation, you must specify either `MetricName`, a `Metrics` array, or an
+  `EvaluationCriteria`.
 
   If you are creating an alarm based on a math expression, you cannot specify this
   parameter, or any of the `Namespace`, `Dimensions`, `Period`, `Unit`, `Statistic`, or
@@ -2214,7 +2559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Metrics"`: An array of `MetricDataQuery` structures that enable you to create an alarm
   based on the result of a metric math expression. For each `PutMetricAlarm` operation, you
-  must specify either `MetricName` or a `Metrics` array.
+  must specify either `MetricName`, a `Metrics` array, or an `EvaluationCriteria`.
 
   Each item in the `Metrics` array either retrieves a metric or performs a math expression.
 
@@ -2267,23 +2612,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `arn:aws:ssm-incidents::*account-id*:responseplan/*response-plan-name*`
 
 - `"Period"`: The length, in seconds, used each time the metric specified in `MetricName` is
-  evaluated. Valid values are 10, 30, and any multiple of 60.
+  evaluated. Valid values are 10, 20, 30, and any multiple of 60.
 
   `Period` is required for alarms based on static thresholds. If you are creating an alarm
   based on a metric math expression, you specify the period for each metric within the
   objects in the `Metrics` array.
 
-  Be sure to specify 10 or 30 only for metrics that are stored by a `PutMetricData` call
-  with a `StorageResolution` of 1. If you specify a period of 10 or 30 for a metric that
-  does not have sub-minute resolution, the alarm still attempts to gather data at the period
-  rate that you specify. In this case, it does not receive data for the attempts that do not
-  correspond to a one-minute data resolution, and the alarm might often lapse into
-  INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution
-  alarm, which has a higher charge than other alarms. For more information about pricing,
-  see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
+  Be sure to specify 10, 20, or 30 only for metrics that are stored by a `PutMetricData`
+  call with a `StorageResolution` of 1. If you specify a period of 10, 20, or 30 for a
+  metric that does not have sub-minute resolution, the alarm still attempts to gather data
+  at the period rate that you specify. In this case, it does not receive data for the
+  attempts that do not correspond to a one-minute data resolution, and the alarm might often
+  lapse into INSUFFICENT_DATA status. Specifying 10, 20, or 30 also sets this alarm as a
+  high-resolution alarm, which has a higher charge than other alarms. For more information
+  about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/).
 
-  An alarm's total current evaluation period can be no longer than one day, so `Period`
-  multiplied by `EvaluationPeriods` cannot be more than 86,400 seconds.
+  An alarm's total current evaluation period can be no longer than seven days, so `Period`
+  multiplied by `EvaluationPeriods` can't be more than 604,800 seconds. For alarms with a
+  period of less than one hour (3,600 seconds), the total evaluation period can't be longer
+  than one day (86,400 seconds).
 
 - `"Statistic"`: The statistic for the metric specified in `MetricName`, other than
   percentile. For percentile statistics, use `ExtendedStatistic`. When you call
@@ -2301,6 +2648,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you are using this operation to update an existing alarm, any tags you specify in this
   parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
   or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+
+  To use this field to set tags for an alarm when you create it, you must be signed on with
+  both the `cloudwatch:PutMetricAlarm` and `cloudwatch:TagResource` permissions.
 
 - `"Threshold"`: The value against which the specified statistic is compared.
 
@@ -2327,6 +2677,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       `AWS/DynamoDB` metric has missing data, alarms that evaluate that metric remain in
       their current state.
 
+  !!! note
+      This parameter is not applicable to PromQL alarms.
+
 - `"Unit"`: The unit of measure for the statistic. For example, the units for the Amazon EC2
   NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance
   receives on all network interfaces. You can also specify a unit when you create a custom
@@ -2348,19 +2701,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function put_metric_alarm end
 
-function put_metric_alarm(
-    AlarmName,
-    ComparisonOperator,
-    EvaluationPeriods;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
+function put_metric_alarm(AlarmName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "PutMetricAlarm",
-        Dict{String,Any}(
-            "AlarmName" => AlarmName,
-            "ComparisonOperator" => ComparisonOperator,
-            "EvaluationPeriods" => EvaluationPeriods,
-        );
+        Dict{String,Any}("AlarmName" => AlarmName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2368,23 +2712,13 @@ end
 
 function put_metric_alarm(
     AlarmName,
-    ComparisonOperator,
-    EvaluationPeriods,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudwatch(
         "PutMetricAlarm",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AlarmName" => AlarmName,
-                    "ComparisonOperator" => ComparisonOperator,
-                    "EvaluationPeriods" => EvaluationPeriods,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("AlarmName" => AlarmName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2392,23 +2726,29 @@ function put_metric_alarm(
 end
 
 """
-    put_metric_data(metric_data, namespace)
-    put_metric_data(metric_data, namespace, params::Dict{String,<:Any})
+    put_metric_data(namespace)
+    put_metric_data(namespace, params::Dict{String,<:Any})
 
-Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data points
-with the specified metric. If the specified metric does not exist, CloudWatch creates the
-metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric
-to appear in calls to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
+Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the
+specified metric. If the specified metric does not exist, CloudWatch creates the metric.
+When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear
+in calls to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
 
-You can publish either individual data points in the `Value` field, or arrays of values and
-the number of times each value occurred during the period by using the `Values` and `Counts`
+You can publish metrics with associated entity data (so that related telemetry can be found
+and viewed together), or publish metric data by itself. To send entity data with your
+metrics, use the `EntityMetricData` parameter. To send metrics without entity data, use the
+`MetricData` parameter. The `EntityMetricData` structure includes `MetricData` structures
+for the metric data.
+
+You can publish either individual values in the `Value` field, or arrays of values and the
+number of times each value occurred during the period by using the `Values` and `Counts`
 fields in the `MetricData` structure. Using the `Values` and `Counts` method enables you to
 publish up to 150 values per metric with one `PutMetricData` request, and supports
 retrieving percentile statistics on this data.
 
 Each `PutMetricData` request is limited to 1 MB in size for HTTP POST requests. You can send
 a payload compressed by gzip. Each request is also limited to no more than 1000 different
-metrics.
+metrics (across both the `MetricData` and `EntityMetricData` properties).
 
 Although the `Value` parameter accepts numbers of type `Double`, CloudWatch rejects values
 that are either too small or too large. Values must be in the range of -2^360 to 2^360. In
@@ -2427,7 +2767,7 @@ Data points with time stamps from 24 hours ago or longer can take at least 48 ho
 become available for [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html)
 or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html)
 from the time they are submitted. Data points with time stamps between 3 and 24 hours ago
-can take as much as 2 hours to become available for for [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html)
+can take as much as 2 hours to become available for [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html)
 or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html).
 
 CloudWatch needs raw data points to calculate percentile statistics. If you publish data
@@ -2440,30 +2780,67 @@ one of the following conditions is true:
 
 # Arguments
 
-- `metric_data`: The data for the metric. The array can include no more than 1000 metrics
-  per call.
-
 - `namespace`: The namespace for the metric data. You can use ASCII characters for the
   namespace, except for control characters which are not supported.
 
   To avoid conflicts with Amazon Web Services service namespaces, you should not specify a
   namespace that begins with `AWS/`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EntityMetricData"`: Data for metrics that contain associated entity information. You can
+  include up to two `EntityMetricData` objects, each of which can contain a single `Entity`
+  and associated metrics.
+
+  The limit of metrics allowed, 1000, is the sum of both `EntityMetricData` and `MetricData`
+  metrics.
+
+- `"MetricData"`: The data for the metrics. Use this parameter if your metrics do not
+  contain associated entities. The array can include no more than 1000 metrics per call.
+
+  The limit of metrics allowed, 1000, is the sum of both `EntityMetricData` and `MetricData`
+  metrics.
+
+- `"StrictEntityValidation"`: Whether to accept valid metric data when an invalid entity is
+  sent.
+
+  - When set to `true`: Any validation error (for entity or metric data) will fail the
+    entire request, and no data will be ingested. The failed operation will return a 400
+    result with the error.
+  - When set to `false`: Validation errors in the entity will not associate the metric with
+    the entity, but the metric data will still be accepted and ingested. Validation errors
+    in the metric data will fail the entire request, and no data will be ingested.
+
+  In the case of an invalid entity, the operation will return a `200` status, but an
+  additional response header will contain information about the validation errors. The new
+  header, `X-Amzn-Failure-Message` is an enumeration of the following values:
+    - `InvalidEntity` - The provided entity is invalid.
+    - `InvalidKeyAttributes` - The provided `KeyAttributes` of an entity is invalid.
+    - `InvalidAttributes` - The provided `Attributes` of an entity is invalid.
+    - `InvalidTypeValue` - The provided `Type` in the `KeyAttributes` of an entity is
+      invalid.
+    - `EntitySizeTooLarge` - The number of `EntityMetricData` objects allowed is 2.
+    - `MissingRequiredFields` - There are missing required fields in the `KeyAttributes` for
+      the provided `Type`.
+  For details of the requirements for specifying an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html)
+  in the *CloudWatch User Guide*.
+
+  This parameter is *required* when `EntityMetricData` is included.
 """
 function put_metric_data end
 
-function put_metric_data(
-    MetricData, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function put_metric_data(Namespace; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch(
         "PutMetricData",
-        Dict{String,Any}("MetricData" => MetricData, "Namespace" => Namespace);
+        Dict{String,Any}("Namespace" => Namespace);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function put_metric_data(
-    MetricData,
     Namespace,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2471,11 +2848,7 @@ function put_metric_data(
     return cloudwatch(
         "PutMetricData",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("MetricData" => MetricData, "Namespace" => Namespace),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("Namespace" => Namespace), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2747,6 +3120,32 @@ function start_metric_streams(
 end
 
 """
+    start_otel_enrichment()
+    start_otel_enrichment(params::Dict{String,<:Any})
+
+Enables enrichment and PromQL access for CloudWatch vended metrics for [supported AWS resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html)
+in the account. Once enabled, metrics that contain a resource identifier dimension (for
+example, EC2 `CPUUtilization` with an `InstanceId` dimension) are enriched with resource ARN
+and resource tag labels and become queryable using PromQL.
+
+Before calling this operation, you must enable resource tags on telemetry for your account.
+For more information, see [Enable resource tags on telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/EnableResourceTagsOnTelemetry.html).
+"""
+function start_otel_enrichment end
+
+function start_otel_enrichment(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudwatch("StartOTelEnrichment"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function start_otel_enrichment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "StartOTelEnrichment", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     stop_metric_streams(names)
     stop_metric_streams(names, params::Dict{String,<:Any})
 
@@ -2779,6 +3178,28 @@ function stop_metric_streams(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_otel_enrichment()
+    stop_otel_enrichment(params::Dict{String,<:Any})
+
+Disables enrichment and PromQL access for CloudWatch vended metrics for [supported AWS resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html)
+in the account. After disabling, these metrics are no longer enriched with resource ARN and
+resource tag labels, and cannot be queried using PromQL.
+"""
+function stop_otel_enrichment end
+
+function stop_otel_enrichment(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudwatch("StopOTelEnrichment"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function stop_otel_enrichment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudwatch(
+        "StopOTelEnrichment", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

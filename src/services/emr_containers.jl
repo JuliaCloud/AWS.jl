@@ -215,6 +215,7 @@ security setup each time you create a virtual cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"containerProvider"`: The container provider associated with the security configuration.
 - `"tags"`: The tags to add to the security configuration.
 """
 function create_security_configuration end

@@ -5,33 +5,358 @@ using AWS.AWSServices: bedrock
 using AWS.UUIDs: uuid4
 
 """
-    create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn)
-    create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn, params::Dict{String,<:Any})
+    batch_delete_evaluation_job(job_identifiers)
+    batch_delete_evaluation_job(job_identifiers, params::Dict{String,<:Any})
 
-API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and
-model evaluation jobs that use human workers. To learn more about the requirements for
-creating a model evaluation job see, [Model evaluations](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html).
+Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has
+following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model
+evaluation jobs be deleted in a single request.
 
 # Arguments
 
-- `evaluation_config`: Specifies whether the model evaluation job is automatic or uses human
-  worker.
+- `job_identifiers`: A list of one or more evaluation job Amazon Resource Names (ARNs) you
+  want to delete.
+"""
+function batch_delete_evaluation_job end
 
-- `inference_config`: Specify the models you want to use in your model evaluation job.
-  Automatic model evaluation jobs support a single model, and model evaluation job that use
-  human workers support two models.
+function batch_delete_evaluation_job(
+    jobIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/evaluation-jobs/batch-delete",
+        Dict{String,Any}("jobIdentifiers" => jobIdentifiers);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
-- `job_name`: The name of the model evaluation job. Model evaluation job names must unique
-  with your AWS account, and your account's AWS region.
+function batch_delete_evaluation_job(
+    jobIdentifiers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/evaluation-jobs/batch-delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobIdentifiers" => jobIdentifiers), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
-- `output_data_config`: An object that defines where the results of model evaluation job
-  will be saved in Amazon S3.
+"""
+    cancel_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn)
+    cancel_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn, params::Dict{String,<:Any})
 
-- `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
-  assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the
-  service principal, and provide access to any Amazon S3 buckets specified in the
-  `EvaluationConfig` object. To pass this role to Amazon Bedrock, the caller of this API
-  must have the `iam:PassRole` permission. To learn more about the required permissions, see [Required permissions](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
+Cancels a running Automated Reasoning policy build workflow. This stops the policy
+generation process and prevents further processing of the source documents.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow to cancel. You can get
+  this ID from the StartAutomatedReasoningPolicyBuildWorkflow response or by listing build
+  workflows.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build
+  workflow you want to cancel.
+"""
+function cancel_automated_reasoning_policy_build_workflow end
+
+function cancel_automated_reasoning_policy_build_workflow(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/cancel";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_automated_reasoning_policy_build_workflow(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/cancel",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_automated_reasoning_policy(name)
+    create_automated_reasoning_policy(name, params::Dict{String,<:Any})
+
+Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning
+policies use mathematical techniques to detect hallucinations, suggest corrections, and
+highlight unstated assumptions in the responses of your GenAI application.
+
+To create a policy, you upload a source document that describes the rules that you're
+encoding. Automated Reasoning extracts important concepts from the source document that will
+become variables in the policy and infers policy rules.
+
+# Arguments
+
+- `name`: A unique name for the Automated Reasoning policy. The name must be between 1 and
+  63 characters and can contain letters, numbers, hyphens, and underscores.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than once. If this token matches a previous request, Amazon Bedrock
+  ignores the request but doesn't return an error.
+- `"description"`: A description of the Automated Reasoning policy. Use this to provide
+  context about the policy's purpose and the types of validations it performs.
+- `"kmsKeyId"`: The identifier of the KMS key to use for encrypting the automated reasoning
+  policy and its associated artifacts. If you don't specify a KMS key, Amazon Bedrock uses
+  an KMS managed key for encryption. For enhanced security and control, you can specify a
+  customer managed KMS key.
+- `"policyDefinition"`: The policy definition that contains the formal logic rules,
+  variables, and custom variable types used to validate foundation model responses in your
+  application.
+- `"tags"`: A list of tags to associate with the Automated Reasoning policy. Tags help you
+  organize and manage your policies.
+"""
+function create_automated_reasoning_policy end
+
+function create_automated_reasoning_policy(
+    name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies",
+        Dict{String,Any}("name" => name, "clientRequestToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_automated_reasoning_policy(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientRequestToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_automated_reasoning_policy_test_case(expected_aggregated_findings_result, guard_content, policy_arn)
+    create_automated_reasoning_policy_test_case(expected_aggregated_findings_result, guard_content, policy_arn, params::Dict{String,<:Any})
+
+Creates a test for an Automated Reasoning policy. Tests validate that your policy works as
+expected by providing sample inputs and expected outcomes. Use tests to verify policy
+behavior before deploying to production.
+
+# Arguments
+
+- `expected_aggregated_findings_result`: The expected result of the Automated Reasoning
+  check. Valid values include: , TOO_COMPLEX, and NO_TRANSLATIONS.
+
+  - `VALID` - The claims are true. The claims are implied by the premises and the Automated
+    Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible
+    for these claims to be false. In other words, there are no alternative answers that are
+    true that contradict the claims.
+  - `INVALID` - The claims are false. The claims are not implied by the premises and
+    Automated Reasoning policy. Furthermore, there exists different claims that are
+    consistent with the premises and Automated Reasoning policy.
+  - `SATISFIABLE` - The claims can be true or false. It depends on what assumptions are made
+    for the claim to be implied from the premises and Automated Reasoning policy rules. In
+    this situation, different assumptions can make input claims false and alternative claims
+    true.
+  - `IMPOSSIBLE` - Automated Reasoning can’t make a statement about the claims. This can
+    happen if the premises are logically incorrect, or if there is a conflict within the
+    Automated Reasoning policy itself.
+  - `TRANSLATION_AMBIGUOUS` - Detected an ambiguity in the translation meant it would be
+    unsound to continue with validity checking. Additional context or follow-up questions
+    might be needed to get translation to succeed.
+  - `TOO_COMPLEX` - The input contains too much information for Automated Reasoning to
+    process within its latency limits.
+  - `NO_TRANSLATIONS` - Identifies that some or all of the input prompt wasn't translated
+    into logic. This can happen if the input isn't relevant to the Automated Reasoning
+    policy, or if the policy doesn't have variables to model relevant input. If Automated
+    Reasoning can't translate anything, you get a single `NO_TRANSLATIONS` finding. You
+    might also see a `NO_TRANSLATIONS` (along with other findings) if some part of the
+    validation isn't translated.
+
+- `guard_content`: The output content that's validated by the Automated Reasoning policy.
+  This represents the foundation model response that will be checked for accuracy.
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which
+  to create the test.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error.
+- `"confidenceThreshold"`: The minimum confidence level for logic validation. Content that
+  meets the threshold is considered a high-confidence finding that can be validated.
+- `"queryContent"`: The input query or prompt that generated the content. This provides
+  context for the validation.
+"""
+function create_automated_reasoning_policy_test_case end
+
+function create_automated_reasoning_policy_test_case(
+    expectedAggregatedFindingsResult,
+    guardContent,
+    policyArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/test-cases",
+        Dict{String,Any}(
+            "expectedAggregatedFindingsResult" => expectedAggregatedFindingsResult,
+            "guardContent" => guardContent,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_automated_reasoning_policy_test_case(
+    expectedAggregatedFindingsResult,
+    guardContent,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/test-cases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "expectedAggregatedFindingsResult" => expectedAggregatedFindingsResult,
+                    "guardContent" => guardContent,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_automated_reasoning_policy_version(last_updated_definition_hash, policy_arn)
+    create_automated_reasoning_policy_version(last_updated_definition_hash, policy_arn, params::Dict{String,<:Any})
+
+Creates a new version of an existing Automated Reasoning policy. This allows you to iterate
+on your policy rules while maintaining previous versions for rollback or comparison
+purposes.
+
+# Arguments
+
+- `last_updated_definition_hash`: The hash of the current policy definition used as a
+  concurrency token to ensure the policy hasn't been modified since you last retrieved it.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which
+  to create a version.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error.
+- `"tags"`: A list of tags to associate with the policy version.
+"""
+function create_automated_reasoning_policy_version end
+
+function create_automated_reasoning_policy_version(
+    lastUpdatedDefinitionHash, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/versions",
+        Dict{String,Any}(
+            "lastUpdatedDefinitionHash" => lastUpdatedDefinitionHash,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_automated_reasoning_policy_version(
+    lastUpdatedDefinitionHash,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/versions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "lastUpdatedDefinitionHash" => lastUpdatedDefinitionHash,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_custom_model(model_name, model_source_config)
+    create_custom_model(model_name, model_source_config, params::Dict{String,<:Any})
+
+Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for
+inference.
+
+To use the model for inference, you must purchase Provisioned Throughput for it. You can't
+use On-demand inference with these custom models. For more information about Provisioned
+Throughput, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html).
+
+The model appears in `ListCustomModels` with a `customizationType` of `imported`. To track
+the status of the new model, you use the `GetCustomModel` API operation. The model can be in
+the following states:
+
+- `Creating` - Initial state during validation and registration
+- `Active` - Model is ready for use in inference
+- `Failed` - Creation process encountered an error
+
+**Related APIs**
+
+- [GetCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetCustomModel.html)
+- [ListCustomModels](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListCustomModels.html)
+- [DeleteCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModel.html)
+
+# Arguments
+
+- `model_name`: A unique name for the custom model.
+- `model_source_config`: The data source for the model. The Amazon S3 URI in the model
+  source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
 
 # Optional Parameters
 
@@ -40,9 +365,185 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
   ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-- `"customerEncryptionKeyId"`: Specify your customer managed key ARN that will be used to
-  encrypt your model evaluation job.
-- `"jobDescription"`: A description of the model evaluation job.
+
+- `"modelKmsKeyArn"`: The Amazon Resource Name (ARN) of the customer managed KMS key to
+  encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon
+  Web Services-managed KMS key to encrypt the model.
+
+  If you provide a customer managed KMS key, your Amazon Bedrock service role must have
+  permissions to use it. For more information see [Encryption of imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/encryption-import-model.html).
+
+- `"modelTags"`: A list of key-value pairs to associate with the custom model resource. You
+  can use these tags to organize and identify your resources.
+
+  For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock
+  assumes to perform tasks on your behalf. This role must have permissions to access the
+  Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more
+  information, see [Setting up an IAM service role for importing models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-import-iam-role.html)
+  in the Amazon Bedrock User Guide.
+"""
+function create_custom_model end
+
+function create_custom_model(
+    modelName, modelSourceConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/custom-models/create-custom-model",
+        Dict{String,Any}(
+            "modelName" => modelName,
+            "modelSourceConfig" => modelSourceConfig,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_custom_model(
+    modelName,
+    modelSourceConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/custom-models/create-custom-model",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "modelName" => modelName,
+                    "modelSourceConfig" => modelSourceConfig,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_custom_model_deployment(model_arn, model_deployment_name)
+    create_custom_model_deployment(model_arn, model_deployment_name, params::Dict{String,<:Any})
+
+Deploys a custom model for on-demand inference in Amazon Bedrock. After you deploy your
+custom model, you use the deployment's Amazon Resource Name (ARN) as the `modelId` parameter
+when you submit prompts and generate responses with model inference.
+
+For more information about setting up on-demand inference for custom models, see [Set up inference for a custom model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html).
+
+The following actions are related to the [`create_custom_model_deployment`](@ref) operation:
+
+- [GetCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetCustomModelDeployment.html)
+- [ListCustomModelDeployments](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListCustomModelDeployments.html)
+- [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
+
+# Arguments
+
+- `model_arn`: The Amazon Resource Name (ARN) of the custom model to deploy for on-demand
+  inference. The custom model must be in the `Active` state.
+- `model_deployment_name`: The name for the custom model deployment. The name must be unique
+  within your Amazon Web Services account and Region.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-idempotency.html).
+- `"description"`: A description for the custom model deployment to help you identify its
+  purpose.
+- `"tags"`: Tags to assign to the custom model deployment. You can use tags to organize and
+  track your Amazon Web Services resources for cost allocation and management purposes.
+"""
+function create_custom_model_deployment end
+
+function create_custom_model_deployment(
+    modelArn, modelDeploymentName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/model-customization/custom-model-deployments",
+        Dict{String,Any}(
+            "modelArn" => modelArn,
+            "modelDeploymentName" => modelDeploymentName,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_custom_model_deployment(
+    modelArn,
+    modelDeploymentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-customization/custom-model-deployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "modelArn" => modelArn,
+                    "modelDeploymentName" => modelDeploymentName,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn)
+    create_evaluation_job(evaluation_config, inference_config, job_name, output_data_config, role_arn, params::Dict{String,<:Any})
+
+Creates an evaluation job.
+
+# Arguments
+
+- `evaluation_config`: Contains the configuration details of either an automated or human-
+  based evaluation job.
+
+- `inference_config`: Contains the configuration details of the inference model for the
+  evaluation job.
+
+  For model evaluation jobs, automated jobs support a single model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html),
+  and jobs that use human workers support two models or inference profiles.
+
+- `job_name`: A name for the evaluation job. Names must unique with your Amazon Web Services
+  account, and your account's Amazon Web Services region.
+
+- `output_data_config`: Contains the configuration details of the Amazon S3 bucket for
+  storing the results of the evaluation job.
+
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can
+  assume to perform tasks on your behalf. To learn more about the required permissions, see [Required permissions for model evaluations](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-security.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"applicationType"`: Specifies whether the evaluation job is for evaluating a model or
+  evaluating a knowledge base (retrieval and response generation).
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"customerEncryptionKeyId"`: Specify your customer managed encryption key Amazon Resource
+  Name (ARN) that will be used to encrypt your evaluation job.
+- `"jobDescription"`: A description of the evaluation job.
 - `"jobTags"`: Tags to attach to the model evaluation job.
 """
 function create_evaluation_job end
@@ -103,31 +604,77 @@ function create_evaluation_job(
 end
 
 """
+    create_foundation_model_agreement(model_id, offer_token)
+    create_foundation_model_agreement(model_id, offer_token, params::Dict{String,<:Any})
+
+Request a model access agreement for the specified model.
+
+# Arguments
+
+- `model_id`: Model Id of the model for the access request.
+- `offer_token`: An offer token encapsulates the information for an offer.
+"""
+function create_foundation_model_agreement end
+
+function create_foundation_model_agreement(
+    modelId, offerToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/create-foundation-model-agreement",
+        Dict{String,Any}("modelId" => modelId, "offerToken" => offerToken);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_foundation_model_agreement(
+    modelId,
+    offerToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/create-foundation-model-agreement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("modelId" => modelId, "offerToken" => offerToken),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name)
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name, params::Dict{String,<:Any})
 
-Creates a guardrail to block topics and to filter out harmful content.
+Creates a guardrail to block topics and to implement safeguards for your generative AI
+applications.
 
-- Specify a `name` and optional `description`.
-- Specify messages for when the guardrail successfully blocks a prompt or a model response
-  in the `blockedInputMessaging` and `blockedOutputsMessaging` fields.
-- Specify topics for the guardrail to deny in the `topicPolicyConfig` object. Each [GuardrailTopicConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailTopicConfig.html)
-  object in the `topicsConfig` list pertains to one topic.
-  - Give a `name` and `description` so that the guardrail can properly identify the topic.
-  - Specify `DENY` in the `type` field.
-  - (Optional) Provide up to five prompts that you would categorize as belonging to the
-    topic in the `examples` list.
-- Specify filter strengths for the harmful categories defined in Amazon Bedrock in the
-  `contentPolicyConfig` object. Each [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html)
-  object in the `filtersConfig` list pertains to a harmful category. For more information,
-  see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters).
-  For more information about the fields in a content filter, see [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
-  - Specify the category in the `type` field.
-  - Specify the strength of the filter for prompts in the `inputStrength` field and for
-    model responses in the `strength` field of the [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
-- (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
-- (Optional) Attach any tags to the guardrail in the `tags` object. For more information,
-  see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging).
+You can configure the following policies in a guardrail to avoid undesirable and harmful
+content, filter out denied topics and words, and remove sensitive information for privacy
+protection.
+
+- **Content filters** - Adjust filter strengths to block input prompts or model responses
+  containing harmful content.
+- **Denied topics** - Define a set of topics that are undesirable in the context of your
+  application. These topics will be blocked if detected in user queries or model responses.
+- **Word filters** - Configure filters to block undesirable words, phrases, and profanity.
+  Such words can include offensive terms, competitor names etc.
+- **Sensitive information filters** - Block or mask sensitive information such as personally
+  identifiable information (PII) or custom regex in user inputs and model responses.
+
+In addition to the above policies, you can also configure the messages to be returned to the
+user if a user input or model response is in violation of the policies defined in the
+guardrail.
+
+For more information, see [Amazon Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
+in the *Amazon Bedrock User Guide*.
 
 # Arguments
 
@@ -140,17 +687,36 @@ Creates a guardrail to block topics and to filter out harmful content.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"automatedReasoningPolicyConfig"`: Optional configuration for integrating Automated
+  Reasoning policies with the new guardrail.
+
 - `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than once. If this token matches a previous request, Amazon Bedrock
   ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon S3 User Guide*.
+
 - `"contentPolicyConfig"`: The content filter policies to configure for the guardrail.
+
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  create a guardrail.
+
+- `"crossRegionConfig"`: The system-defined guardrail profile that you're using with your
+  guardrail. Guardrail profiles define the destination Amazon Web Services Regions where
+  guardrail inference requests can be automatically routed.
+
+  For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+
 - `"description"`: A description of the guardrail.
+
 - `"kmsKeyId"`: The ARN of the KMS key that you use to encrypt the guardrail.
+
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
   the guardrail.
+
 - `"tags"`: The tags that you want to attach to the guardrail.
+
 - `"topicPolicyConfig"`: The topic policies to configure for the guardrail.
+
 - `"wordPolicyConfig"`: The word policy you configure for the guardrail.
 """
 function create_guardrail end
@@ -212,7 +778,8 @@ version.
 
 # Arguments
 
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 
@@ -257,8 +824,228 @@ function create_guardrail_version(
 end
 
 """
-    create_model_customization_job(base_model_identifier, custom_model_name, hyper_parameters, job_name, output_data_config, role_arn, training_data_config)
-    create_model_customization_job(base_model_identifier, custom_model_name, hyper_parameters, job_name, output_data_config, role_arn, training_data_config, params::Dict{String,<:Any})
+    create_inference_profile(inference_profile_name, model_source)
+    create_inference_profile(inference_profile_name, model_source, params::Dict{String,<:Any})
+
+Creates an application inference profile to track metrics and costs when invoking a model.
+To create an application inference profile for a foundation model in one region, specify the
+ARN of the model in that region. To create an application inference profile for a foundation
+model across multiple regions, specify the ARN of the system-defined inference profile that
+contains the regions that you want to route requests to. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `inference_profile_name`: A name for the inference profile.
+- `model_source`: The foundation model or system-defined inference profile that the
+  inference profile will track metrics and costs for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"description"`: A description for the inference profile.
+- `"tags"`: An array of objects, each of which contains a tag and its value. For more
+  information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+"""
+function create_inference_profile end
+
+function create_inference_profile(
+    inferenceProfileName, modelSource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/inference-profiles",
+        Dict{String,Any}(
+            "inferenceProfileName" => inferenceProfileName,
+            "modelSource" => modelSource,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_inference_profile(
+    inferenceProfileName,
+    modelSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/inference-profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inferenceProfileName" => inferenceProfileName,
+                    "modelSource" => modelSource,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_marketplace_model_endpoint(endpoint_config, endpoint_name, model_source_identifier)
+    create_marketplace_model_endpoint(endpoint_config, endpoint_name, model_source_identifier, params::Dict{String,<:Any})
+
+Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by
+Amazon SageMaker.
+
+# Arguments
+
+- `endpoint_config`: The configuration for the endpoint, including the number and type of
+  instances to use.
+- `endpoint_name`: The name of the endpoint. This name must be unique within your Amazon Web
+  Services account and region.
+- `model_source_identifier`: The ARN of the model from Amazon Bedrock Marketplace that you
+  want to deploy to the endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"acceptEula"`: Indicates whether you accept the end-user license agreement (EULA) for the
+  model. Set to `true` to accept the EULA.
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. This token is listed as not required because Amazon Web
+  Services SDKs automatically generate it for you and set this parameter. If you're not
+  using the Amazon Web Services SDK or the CLI, you must provide this token or the action
+  will fail.
+
+- `"tags"`: An array of key-value pairs to apply to the underlying Amazon SageMaker
+  endpoint. You can use these tags to organize and identify your Amazon Web Services
+  resources.
+"""
+function create_marketplace_model_endpoint end
+
+function create_marketplace_model_endpoint(
+    endpointConfig,
+    endpointName,
+    modelSourceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/marketplace-model/endpoints",
+        Dict{String,Any}(
+            "endpointConfig" => endpointConfig,
+            "endpointName" => endpointName,
+            "modelSourceIdentifier" => modelSourceIdentifier,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_marketplace_model_endpoint(
+    endpointConfig,
+    endpointName,
+    modelSourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/marketplace-model/endpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endpointConfig" => endpointConfig,
+                    "endpointName" => endpointName,
+                    "modelSourceIdentifier" => modelSourceIdentifier,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_copy_job(source_model_arn, target_model_name)
+    create_model_copy_job(source_model_arn, target_model_name, params::Dict{String,<:Any})
+
+Copies a model to another region so that it can be used there. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Arguments
+
+- `source_model_arn`: The Amazon Resource Name (ARN) of the model to be copied.
+- `target_model_name`: A name for the copied model.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"modelKmsKeyId"`: The ARN of the KMS key that you use to encrypt the model copy.
+- `"targetModelTags"`: Tags to associate with the target model. For more information, see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+"""
+function create_model_copy_job end
+
+function create_model_copy_job(
+    sourceModelArn, targetModelName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/model-copy-jobs",
+        Dict{String,Any}(
+            "sourceModelArn" => sourceModelArn,
+            "targetModelName" => targetModelName,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_model_copy_job(
+    sourceModelArn,
+    targetModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-copy-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sourceModelArn" => sourceModelArn,
+                    "targetModelName" => targetModelName,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_customization_job(base_model_identifier, custom_model_name, job_name, output_data_config, role_arn, training_data_config)
+    create_model_customization_job(base_model_identifier, custom_model_name, job_name, output_data_config, role_arn, training_data_config, params::Dict{String,<:Any})
 
 Creates a fine-tuning job to customize a base model.
 
@@ -274,16 +1061,13 @@ and the training/validation data size. To monitor a job, use the [`get_model_cus
 operation to retrieve the job status.
 
 For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
 - `base_model_identifier`: Name of the base model.
 
 - `custom_model_name`: A name for the resulting custom model.
-
-- `hyper_parameters`: Parameters related to tuning the model. For details on the format for
-  different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
 
 - `job_name`: A name for the fine-tuning job.
 
@@ -306,18 +1090,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customModelKmsKeyId"`: The custom model is encrypted at rest using this key.
 - `"customModelTags"`: Tags to attach to the resulting custom model.
+- `"customizationConfig"`: The customization configuration for the model customization job.
 - `"customizationType"`: The customization type.
+- `"hyperParameters"`: Parameters related to tuning the model. For details on the format for
+  different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
 - `"jobTags"`: Tags to attach to the job.
 - `"validationDataConfig"`: Information about the validation dataset.
-- `"vpcConfig"`: VPC configuration (optional). Configuration parameters for the private
-  Virtual Private Cloud (VPC) that contains the resources you are using for this job.
+- `"vpcConfig"`: The configuration of the Virtual Private Cloud (VPC) that contains the
+  resources that you're using for this job. For more information, see [Protect your model customization jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/vpc-model-customization.html).
 """
 function create_model_customization_job end
 
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
-    hyperParameters,
     jobName,
     outputDataConfig,
     roleArn,
@@ -330,7 +1116,6 @@ function create_model_customization_job(
         Dict{String,Any}(
             "baseModelIdentifier" => baseModelIdentifier,
             "customModelName" => customModelName,
-            "hyperParameters" => hyperParameters,
             "jobName" => jobName,
             "outputDataConfig" => outputDataConfig,
             "roleArn" => roleArn,
@@ -345,7 +1130,6 @@ end
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
-    hyperParameters,
     jobName,
     outputDataConfig,
     roleArn,
@@ -362,11 +1146,262 @@ function create_model_customization_job(
                 Dict{String,Any}(
                     "baseModelIdentifier" => baseModelIdentifier,
                     "customModelName" => customModelName,
-                    "hyperParameters" => hyperParameters,
                     "jobName" => jobName,
                     "outputDataConfig" => outputDataConfig,
                     "roleArn" => roleArn,
                     "trainingDataConfig" => trainingDataConfig,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_import_job(imported_model_name, job_name, model_data_source, role_arn)
+    create_model_import_job(imported_model_name, job_name, model_data_source, role_arn, params::Dict{String,<:Any})
+
+Creates a model import job to import model that you have customized in other environments,
+such as Amazon SageMaker. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
+
+# Arguments
+
+- `imported_model_name`: The name of the imported model.
+- `job_name`: The name of the import job.
+- `model_data_source`: The data source for the imported model.
+- `role_arn`: The Amazon Resource Name (ARN) of the model import job.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"importedModelKmsKeyId"`: The imported model is encrypted at rest using this key.
+- `"importedModelTags"`: Tags to attach to the imported model.
+- `"jobTags"`: Tags to attach to this import job.
+- `"vpcConfig"`: VPC configuration parameters for the private Virtual Private Cloud (VPC)
+  that contains the resources you are using for the import job.
+"""
+function create_model_import_job end
+
+function create_model_import_job(
+    importedModelName,
+    jobName,
+    modelDataSource,
+    roleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-import-jobs",
+        Dict{String,Any}(
+            "importedModelName" => importedModelName,
+            "jobName" => jobName,
+            "modelDataSource" => modelDataSource,
+            "roleArn" => roleArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_model_import_job(
+    importedModelName,
+    jobName,
+    modelDataSource,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-import-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "importedModelName" => importedModelName,
+                    "jobName" => jobName,
+                    "modelDataSource" => modelDataSource,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_invocation_job(input_data_config, job_name, model_id, output_data_config, role_arn)
+    create_model_invocation_job(input_data_config, job_name, model_id, output_data_config, role_arn, params::Dict{String,<:Any})
+
+Creates a batch inference job to invoke a model on multiple prompts. Format your data
+according to [Format your inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data)
+and upload it to an Amazon S3 bucket. For more information, see [Process multiple prompts with batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html).
+
+The response returns a `jobArn` that you can use to stop or get details about the job.
+
+# Arguments
+
+- `input_data_config`: Details about the location of the input to the batch inference job.
+- `job_name`: A name to give the batch inference job.
+- `model_id`: The unique identifier of the foundation model to use for the batch inference
+  job.
+- `output_data_config`: Details about the location of the output of the batch inference job.
+- `role_arn`: The Amazon Resource Name (ARN) of the service role with permissions to carry
+  out and manage batch inference. You can use the console to create a default service role
+  or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"modelInvocationType"`: The invocation endpoint for ModelInvocationJob
+- `"tags"`: Any tags to associate with the batch inference job. For more information, see [Tagging Amazon Bedrock resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+- `"timeoutDurationInHours"`: The number of hours after which to force the batch inference
+  job to time out.
+- `"vpcConfig"`: The configuration of the Virtual Private Cloud (VPC) for the data in the
+  batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
+"""
+function create_model_invocation_job end
+
+function create_model_invocation_job(
+    inputDataConfig,
+    jobName,
+    modelId,
+    outputDataConfig,
+    roleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job",
+        Dict{String,Any}(
+            "inputDataConfig" => inputDataConfig,
+            "jobName" => jobName,
+            "modelId" => modelId,
+            "outputDataConfig" => outputDataConfig,
+            "roleArn" => roleArn,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_model_invocation_job(
+    inputDataConfig,
+    jobName,
+    modelId,
+    outputDataConfig,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputDataConfig" => inputDataConfig,
+                    "jobName" => jobName,
+                    "modelId" => modelId,
+                    "outputDataConfig" => outputDataConfig,
+                    "roleArn" => roleArn,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_prompt_router(fallback_model, models, prompt_router_name, routing_criteria)
+    create_prompt_router(fallback_model, models, prompt_router_name, routing_criteria, params::Dict{String,<:Any})
+
+Creates a prompt router that manages the routing of requests between multiple foundation
+models based on the routing criteria.
+
+# Arguments
+
+- `fallback_model`: The default model to use when the routing criteria is not met.
+- `models`: A list of foundation models that the prompt router can route requests to. At
+  least one model must be specified.
+- `prompt_router_name`: The name of the prompt router. The name must be unique within your
+  Amazon Web Services account in the current region.
+- `routing_criteria`: The criteria, which is the response quality difference, used to
+  determine how incoming requests are routed to different models.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
+  idempotency of your requests. If not specified, the Amazon Web Services SDK automatically
+  generates one for you.
+- `"description"`: An optional description of the prompt router to help identify its
+  purpose.
+- `"tags"`: An array of key-value pairs to apply to this resource as tags. You can use tags
+  to categorize and manage your Amazon Web Services resources.
+"""
+function create_prompt_router end
+
+function create_prompt_router(
+    fallbackModel,
+    models,
+    promptRouterName,
+    routingCriteria;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/prompt-routers",
+        Dict{String,Any}(
+            "fallbackModel" => fallbackModel,
+            "models" => models,
+            "promptRouterName" => promptRouterName,
+            "routingCriteria" => routingCriteria,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_prompt_router(
+    fallbackModel,
+    models,
+    promptRouterName,
+    routingCriteria,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/prompt-routers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "fallbackModel" => fallbackModel,
+                    "models" => models,
+                    "promptRouterName" => promptRouterName,
+                    "routingCriteria" => routingCriteria,
                     "clientRequestToken" => string(uuid4()),
                 ),
                 params,
@@ -384,14 +1419,14 @@ end
 Creates dedicated throughput for a base or custom model with the model units and for the
 duration that you specify. For pricing details, see [Amazon Bedrock Pricing](http://aws.amazon.com/bedrock/pricing/).
 For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
 - `model_id`: The Amazon Resource Name (ARN) or name of the model to associate with this
   Provisioned Throughput. For a list of models for which you can purchase Provisioned
   Throughput, see [Amazon Bedrock model IDs for purchasing Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models)
-  in the Amazon Bedrock User Guide.
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 - `model_units`: Number of model units to allocate. A model unit delivers a specific
   throughput level for the specified model. The throughput level of a model unit specifies
@@ -401,7 +1436,7 @@ in the Amazon Bedrock User Guide.
   to request MUs.
 
   For model unit quotas, see [Provisioned Throughput quotas](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas)
-  in the Amazon Bedrock User Guide.
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
   For more information about what an MU specifies, contact your Amazon Web Services account
   manager.
@@ -423,7 +1458,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Custom models support all levels of commitment. To see which base models support no
   commitment, see [Supported regions and models for Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html)
-  in the Amazon Bedrock User Guide
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
 
 - `"tags"`: Tags to associate with this Provisioned Throughput.
 """
@@ -477,11 +1512,158 @@ function create_provisioned_model_throughput(
 end
 
 """
+    delete_automated_reasoning_policy(policy_arn)
+    delete_automated_reasoning_policy(policy_arn, params::Dict{String,<:Any})
+
+Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If
+you delete a policy more than once, each call succeeds. Deleting a policy removes it
+permanently and cannot be undone.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"force"`: Specifies whether to force delete the automated reasoning policy even if it has
+  active resources. When `false`, Amazon Bedrock validates if all artifacts have been
+  deleted (e.g. policy version, test case, test result) for a policy before deletion. When
+  `true`, Amazon Bedrock will delete the policy and all its artifacts without validation.
+  Default is `false`.
+"""
+function delete_automated_reasoning_policy end
+
+function delete_automated_reasoning_policy(
+    policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_automated_reasoning_policy(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn, updated_at)
+    delete_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn, updated_at, params::Dict{String,<:Any})
+
+Deletes an Automated Reasoning policy build workflow and its associated artifacts. This
+permanently removes the workflow history and any generated assets.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow to delete.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build
+  workflow you want to delete.
+- `updated_at`: The timestamp when the build workflow was last updated. This is used for
+  optimistic concurrency control to prevent accidental deletion of workflows that have been
+  modified.
+"""
+function delete_automated_reasoning_policy_build_workflow end
+
+function delete_automated_reasoning_policy_build_workflow(
+    buildWorkflowId,
+    policyArn,
+    updatedAt;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)",
+        Dict{String,Any}("updatedAt" => updatedAt);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_automated_reasoning_policy_build_workflow(
+    buildWorkflowId,
+    policyArn,
+    updatedAt,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("updatedAt" => updatedAt), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_automated_reasoning_policy_test_case(policy_arn, test_case_id, updated_at)
+    delete_automated_reasoning_policy_test_case(policy_arn, test_case_id, updated_at, params::Dict{String,<:Any})
+
+Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a
+test more than once, each call succeeds.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy that
+  contains the test.
+- `test_case_id`: The unique identifier of the test to delete.
+- `updated_at`: The timestamp when the test was last updated. This is used as a concurrency
+  token to prevent conflicting modifications.
+"""
+function delete_automated_reasoning_policy_test_case end
+
+function delete_automated_reasoning_policy_test_case(
+    policyArn, testCaseId, updatedAt; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)",
+        Dict{String,Any}("updatedAt" => updatedAt);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_automated_reasoning_policy_test_case(
+    policyArn,
+    testCaseId,
+    updatedAt,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("updatedAt" => updatedAt), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_custom_model(model_identifier)
     delete_custom_model(model_identifier, params::Dict{String,<:Any})
 
 Deletes a custom model that you created earlier. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -515,6 +1697,127 @@ function delete_custom_model(
 end
 
 """
+    delete_custom_model_deployment(custom_model_deployment_identifier)
+    delete_custom_model_deployment(custom_model_deployment_identifier, params::Dict{String,<:Any})
+
+Deletes a custom model deployment. This operation stops the deployment and removes it from
+your account. After deletion, the deployment ARN can no longer be used for inference
+requests.
+
+The following actions are related to the [`delete_custom_model_deployment`](@ref) operation:
+
+- [CreateCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModelDeployment.html)
+- [GetCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetCustomModelDeployment.html)
+- [ListCustomModelDeployments](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListCustomModelDeployments.html)
+
+# Arguments
+
+- `custom_model_deployment_identifier`: The Amazon Resource Name (ARN) or name of the custom
+  model deployment to delete.
+"""
+function delete_custom_model_deployment end
+
+function delete_custom_model_deployment(
+    customModelDeploymentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_custom_model_deployment(
+    customModelDeploymentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_enforced_guardrail_configuration(config_id)
+    delete_enforced_guardrail_configuration(config_id, params::Dict{String,<:Any})
+
+Deletes the account-level enforced guardrail configuration.
+
+# Arguments
+
+- `config_id`: Unique ID for the account enforced configuration.
+"""
+function delete_enforced_guardrail_configuration end
+
+function delete_enforced_guardrail_configuration(
+    configId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/enforcedGuardrailsConfiguration/$(configId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_enforced_guardrail_configuration(
+    configId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/enforcedGuardrailsConfiguration/$(configId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_foundation_model_agreement(model_id)
+    delete_foundation_model_agreement(model_id, params::Dict{String,<:Any})
+
+Delete the model access agreement for the specified model.
+
+# Arguments
+
+- `model_id`: Model Id of the model access to delete.
+"""
+function delete_foundation_model_agreement end
+
+function delete_foundation_model_agreement(
+    modelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/delete-foundation-model-agreement",
+        Dict{String,Any}("modelId" => modelId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_foundation_model_agreement(
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/delete-foundation-model-agreement",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("modelId" => modelId), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_guardrail(guardrail_identifier)
     delete_guardrail(guardrail_identifier, params::Dict{String,<:Any})
 
@@ -527,7 +1830,8 @@ Deletes a guardrail.
 
 # Arguments
 
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 
@@ -563,6 +1867,120 @@ function delete_guardrail(
 end
 
 """
+    delete_imported_model(model_identifier)
+    delete_imported_model(model_identifier, params::Dict{String,<:Any})
+
+Deletes a custom model that you imported earlier. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Arguments
+
+- `model_identifier`: Name of the imported model to delete.
+"""
+function delete_imported_model end
+
+function delete_imported_model(
+    modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/imported-models/$(modelIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_imported_model(
+    modelIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/imported-models/$(modelIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_inference_profile(inference_profile_identifier)
+    delete_inference_profile(inference_profile_identifier, params::Dict{String,<:Any})
+
+Deletes an application inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `inference_profile_identifier`: The Amazon Resource Name (ARN) or ID of the application
+  inference profile to delete.
+"""
+function delete_inference_profile end
+
+function delete_inference_profile(
+    inferenceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/inference-profiles/$(inferenceProfileIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_inference_profile(
+    inferenceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/inference-profiles/$(inferenceProfileIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_marketplace_model_endpoint(endpoint_arn)
+    delete_marketplace_model_endpoint(endpoint_arn, params::Dict{String,<:Any})
+
+Deletes an endpoint for a model from Amazon Bedrock Marketplace.
+
+# Arguments
+
+- `endpoint_arn`: The Amazon Resource Name (ARN) of the endpoint you want to delete.
+"""
+function delete_marketplace_model_endpoint end
+
+function delete_marketplace_model_endpoint(
+    endpointArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/marketplace-model/endpoints/$(endpointArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_marketplace_model_endpoint(
+    endpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/marketplace-model/endpoints/$(endpointArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_model_invocation_logging_configuration()
     delete_model_invocation_logging_configuration(params::Dict{String,<:Any})
 
@@ -591,12 +2009,49 @@ function delete_model_invocation_logging_configuration(
 end
 
 """
+    delete_prompt_router(prompt_router_arn)
+    delete_prompt_router(prompt_router_arn, params::Dict{String,<:Any})
+
+Deletes a specified prompt router. This action cannot be undone.
+
+# Arguments
+
+- `prompt_router_arn`: The Amazon Resource Name (ARN) of the prompt router to delete.
+"""
+function delete_prompt_router end
+
+function delete_prompt_router(
+    promptRouterArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/prompt-routers/$(promptRouterArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_prompt_router(
+    promptRouterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/prompt-routers/$(promptRouterArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_provisioned_model_throughput(provisioned_model_id)
     delete_provisioned_model_throughput(provisioned_model_id, params::Dict{String,<:Any})
 
 Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the
 commitment term is over. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -631,12 +2086,442 @@ function delete_provisioned_model_throughput(
 end
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes a previously created Bedrock resource policy.
+
+# Arguments
+
+- `resource_arn`: The ARN of the Bedrock resource to which this resource policy applies.
+"""
+function delete_resource_policy end
+
+function delete_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/resource-policy/$(resourceArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_marketplace_model_endpoint(endpoint_arn)
+    deregister_marketplace_model_endpoint(endpoint_arn, params::Dict{String,<:Any})
+
+Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes
+the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon
+SageMaker endpoint.
+
+# Arguments
+
+- `endpoint_arn`: The Amazon Resource Name (ARN) of the endpoint you want to deregister.
+"""
+function deregister_marketplace_model_endpoint end
+
+function deregister_marketplace_model_endpoint(
+    endpointArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "DELETE",
+        "/marketplace-model/endpoints/$(endpointArn)/registration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_marketplace_model_endpoint(
+    endpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "DELETE",
+        "/marketplace-model/endpoints/$(endpointArn)/registration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    export_automated_reasoning_policy_version(policy_arn)
+    export_automated_reasoning_policy_version(policy_arn, params::Dict{String,<:Any})
+
+Exports the policy definition for an Automated Reasoning policy version. Returns the
+complete policy definition including rules, variables, and custom variable types in a
+structured format.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy to export.
+  Can be either the unversioned ARN for the draft policy or a versioned ARN for a specific
+  policy version.
+"""
+function export_automated_reasoning_policy_version end
+
+function export_automated_reasoning_policy_version(
+    policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/export";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function export_automated_reasoning_policy_version(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/export",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy(policy_arn)
+    get_automated_reasoning_policy(policy_arn, params::Dict{String,<:Any})
+
+Retrieves details about an Automated Reasoning policy or policy version. Returns information
+including the policy definition, metadata, and timestamps.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy to
+  retrieve. Can be either the unversioned ARN for the draft policy or an ARN for a specific
+  policy version.
+"""
+function get_automated_reasoning_policy end
+
+function get_automated_reasoning_policy(
+    policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_annotations(build_workflow_id, policy_arn)
+    get_automated_reasoning_policy_annotations(build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Retrieves the current annotations for an Automated Reasoning policy build workflow.
+Annotations contain corrections to the rules, variables and types to be applied to the
+policy.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow whose annotations you
+  want to retrieve.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose
+  annotations you want to retrieve.
+"""
+function get_automated_reasoning_policy_annotations end
+
+function get_automated_reasoning_policy_annotations(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/annotations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_annotations(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/annotations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn)
+    get_automated_reasoning_policy_build_workflow(build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Retrieves detailed information about an Automated Reasoning policy build workflow, including
+its status, configuration, and metadata.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow to retrieve.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build
+  workflow you want to retrieve.
+"""
+function get_automated_reasoning_policy_build_workflow end
+
+function get_automated_reasoning_policy_build_workflow(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_build_workflow(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_build_workflow_result_assets(asset_type, build_workflow_id, policy_arn)
+    get_automated_reasoning_policy_build_workflow_result_assets(asset_type, build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Retrieves the resulting assets from a completed Automated Reasoning policy build workflow,
+including build logs, quality reports, and generated policy artifacts.
+
+# Arguments
+
+- `asset_type`: The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT,
+  POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT,
+  ASSET_MANIFEST, SOURCE_DOCUMENT).
+- `build_workflow_id`: The unique identifier of the build workflow whose result assets you
+  want to retrieve.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build
+  workflow assets you want to retrieve.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"assetId"`: The unique identifier of the specific asset to retrieve when multiple assets
+  of the same type exist. This is required when retrieving SOURCE_DOCUMENT assets, as
+  multiple source documents may have been used in the workflow. The asset ID can be obtained
+  from the asset manifest.
+"""
+function get_automated_reasoning_policy_build_workflow_result_assets end
+
+function get_automated_reasoning_policy_build_workflow_result_assets(
+    assetType,
+    buildWorkflowId,
+    policyArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/result-assets",
+        Dict{String,Any}("assetType" => assetType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_build_workflow_result_assets(
+    assetType,
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/result-assets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("assetType" => assetType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_next_scenario(build_workflow_id, policy_arn)
+    get_automated_reasoning_policy_next_scenario(build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Retrieves the next test scenario for validating an Automated Reasoning policy. This is used
+during the interactive policy refinement process to test policy behavior.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow associated with the test
+  scenarios.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which
+  you want to get the next test scenario.
+"""
+function get_automated_reasoning_policy_next_scenario end
+
+function get_automated_reasoning_policy_next_scenario(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/scenarios";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_next_scenario(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/scenarios",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_test_case(policy_arn, test_case_id)
+    get_automated_reasoning_policy_test_case(policy_arn, test_case_id, params::Dict{String,<:Any})
+
+Retrieves details about a specific Automated Reasoning policy test.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy that
+  contains the test.
+- `test_case_id`: The unique identifier of the test to retrieve.
+"""
+function get_automated_reasoning_policy_test_case end
+
+function get_automated_reasoning_policy_test_case(
+    policyArn, testCaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_test_case(
+    policyArn,
+    testCaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automated_reasoning_policy_test_result(build_workflow_id, policy_arn, test_case_id)
+    get_automated_reasoning_policy_test_result(build_workflow_id, policy_arn, test_case_id, params::Dict{String,<:Any})
+
+Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed
+validation findings and execution status.
+
+# Arguments
+
+- `build_workflow_id`: The build workflow identifier. The build workflow must display a
+  `COMPLETED` status to get results.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy.
+- `test_case_id`: The unique identifier of the test for which to retrieve results.
+"""
+function get_automated_reasoning_policy_test_result end
+
+function get_automated_reasoning_policy_test_result(
+    buildWorkflowId,
+    policyArn,
+    testCaseId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-cases/$(testCaseId)/test-results";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automated_reasoning_policy_test_result(
+    buildWorkflowId,
+    policyArn,
+    testCaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-cases/$(testCaseId)/test-results",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_custom_model(model_identifier)
     get_custom_model(model_identifier, params::Dict{String,<:Any})
 
-Get the properties associated with a Amazon Bedrock custom model that you have created.For
+Get the properties associated with a Amazon Bedrock custom model that you have created. For
 more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -670,15 +2555,61 @@ function get_custom_model(
 end
 
 """
-    get_evaluation_job(job_identifier)
-    get_evaluation_job(job_identifier, params::Dict{String,<:Any})
+    get_custom_model_deployment(custom_model_deployment_identifier)
+    get_custom_model_deployment(custom_model_deployment_identifier, params::Dict{String,<:Any})
 
-Retrieves the properties associated with a model evaluation job, including the status of the
-job. For more information, see [Model evaluations](https://docs.aws.amazon.com/bedrock/latest/userguide/latest/userguide/model-evaluation.html).
+Retrieves information about a custom model deployment, including its status, configuration,
+and metadata. Use this operation to monitor the deployment status and retrieve details
+needed for inference requests.
+
+The following actions are related to the [`get_custom_model_deployment`](@ref) operation:
+
+- [CreateCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModelDeployment.html)
+- [ListCustomModelDeployments](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListCustomModelDeployments.html)
+- [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
 
 # Arguments
 
-- `job_identifier`: The Amazon Resource Name (ARN) of the model evaluation job.
+- `custom_model_deployment_identifier`: The Amazon Resource Name (ARN) or name of the custom
+  model deployment to retrieve information about.
+"""
+function get_custom_model_deployment end
+
+function get_custom_model_deployment(
+    customModelDeploymentIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_custom_model_deployment(
+    customModelDeploymentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_evaluation_job(job_identifier)
+    get_evaluation_job(job_identifier, params::Dict{String,<:Any})
+
+Gets information about an evaluation job, such as the status of the job.
+
+# Arguments
+
+- `job_identifier`: The Amazon Resource Name (ARN) of the evaluation job you want get
+  information on.
 """
 function get_evaluation_job end
 
@@ -745,6 +2676,43 @@ function get_foundation_model(
 end
 
 """
+    get_foundation_model_availability(model_id)
+    get_foundation_model_availability(model_id, params::Dict{String,<:Any})
+
+Get information about the Foundation model availability.
+
+# Arguments
+
+- `model_id`: The model Id of the foundation model.
+"""
+function get_foundation_model_availability end
+
+function get_foundation_model_availability(
+    modelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/foundation-model-availability/$(modelId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_foundation_model_availability(
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/foundation-model-availability/$(modelId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_guardrail(guardrail_identifier)
     get_guardrail(guardrail_identifier, params::Dict{String,<:Any})
 
@@ -754,6 +2722,7 @@ for the `DRAFT` version.
 # Arguments
 
 - `guardrail_identifier`: The unique identifier of the guardrail for which to get details.
+  This can be an ID or the ARN.
 
 # Optional Parameters
 
@@ -790,12 +2759,157 @@ function get_guardrail(
 end
 
 """
+    get_imported_model(model_identifier)
+    get_imported_model(model_identifier, params::Dict{String,<:Any})
+
+Gets properties associated with a customized model you imported.
+
+# Arguments
+
+- `model_identifier`: Name or Amazon Resource Name (ARN) of the imported model.
+"""
+function get_imported_model end
+
+function get_imported_model(
+    modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/imported-models/$(modelIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_imported_model(
+    modelIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/imported-models/$(modelIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_inference_profile(inference_profile_identifier)
+    get_inference_profile(inference_profile_identifier, params::Dict{String,<:Any})
+
+Gets information about an inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `inference_profile_identifier`: The ID or Amazon Resource Name (ARN) of the inference
+  profile.
+"""
+function get_inference_profile end
+
+function get_inference_profile(
+    inferenceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/inference-profiles/$(inferenceProfileIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_inference_profile(
+    inferenceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/inference-profiles/$(inferenceProfileIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_marketplace_model_endpoint(endpoint_arn)
+    get_marketplace_model_endpoint(endpoint_arn, params::Dict{String,<:Any})
+
+Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
+
+# Arguments
+
+- `endpoint_arn`: The Amazon Resource Name (ARN) of the endpoint you want to get information
+  about.
+"""
+function get_marketplace_model_endpoint end
+
+function get_marketplace_model_endpoint(
+    endpointArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/marketplace-model/endpoints/$(endpointArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_marketplace_model_endpoint(
+    endpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/marketplace-model/endpoints/$(endpointArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_copy_job(job_arn)
+    get_model_copy_job(job_arn, params::Dict{String,<:Any})
+
+Retrieves information about a model copy job. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Arguments
+
+- `job_arn`: The Amazon Resource Name (ARN) of the model copy job.
+"""
+function get_model_copy_job end
+
+function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock(
+        "GET", "/model-copy-jobs/$(jobArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_model_copy_job(
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-copy-jobs/$(jobArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_model_customization_job(job_identifier)
     get_model_customization_job(job_identifier, params::Dict{String,<:Any})
 
 Retrieves the properties associated with a model-customization job, including the status of
 the job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -822,6 +2936,82 @@ function get_model_customization_job(
     return bedrock(
         "GET",
         "/model-customization-jobs/$(jobIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_import_job(job_identifier)
+    get_model_import_job(job_identifier, params::Dict{String,<:Any})
+
+Retrieves the properties associated with import model job, including the status of the job.
+For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Arguments
+
+- `job_identifier`: The identifier of the import job.
+"""
+function get_model_import_job end
+
+function get_model_import_job(
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-import-jobs/$(jobIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_model_import_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/model-import-jobs/$(jobIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_invocation_job(job_identifier)
+    get_model_invocation_job(job_identifier, params::Dict{String,<:Any})
+
+Gets details about a batch inference job. For more information, see [Monitor batch inference jobs](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-monitor)
+
+# Arguments
+
+- `job_identifier`: The Amazon Resource Name (ARN) of the batch inference job.
+"""
+function get_model_invocation_job end
+
+function get_model_invocation_job(
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-invocation-job/$(jobIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_model_invocation_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/model-invocation-job/$(jobIdentifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -857,11 +3047,48 @@ function get_model_invocation_logging_configuration(
 end
 
 """
+    get_prompt_router(prompt_router_arn)
+    get_prompt_router(prompt_router_arn, params::Dict{String,<:Any})
+
+Retrieves details about a prompt router.
+
+# Arguments
+
+- `prompt_router_arn`: The prompt router's ARN
+"""
+function get_prompt_router end
+
+function get_prompt_router(
+    promptRouterArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/prompt-routers/$(promptRouterArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_prompt_router(
+    promptRouterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/prompt-routers/$(promptRouterArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_provisioned_model_throughput(provisioned_model_id)
     get_provisioned_model_throughput(provisioned_model_id, params::Dict{String,<:Any})
 
 Returns details for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -896,6 +3123,311 @@ function get_provisioned_model_throughput(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Gets the resource policy document for a Bedrock resource
+
+# Arguments
+
+- `resource_arn`: The ARN of the Bedrock resource to which this resource policy applies.
+"""
+function get_resource_policy end
+
+function get_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/resource-policy/$(resourceArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/resource-policy/$(resourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_use_case_for_model_access()
+    get_use_case_for_model_access(params::Dict{String,<:Any})
+
+Get usecase for model access.
+"""
+function get_use_case_for_model_access end
+
+function get_use_case_for_model_access(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock(
+        "GET", "/use-case-for-model-access"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_use_case_for_model_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/use-case-for-model-access",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_automated_reasoning_policies()
+    list_automated_reasoning_policies(params::Dict{String,<:Any})
+
+Lists all Automated Reasoning policies in your account, with optional filtering by policy
+ARN. This helps you manage and discover existing policies.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of policies to return in a single call.
+- `"nextToken"`: The pagination token from a previous request to retrieve the next page of
+  results.
+- `"policyArn"`: Optional filter to list only the policy versions with the specified Amazon
+  Resource Name (ARN). If not provided, the DRAFT versions for all policies are listed.
+"""
+function list_automated_reasoning_policies end
+
+function list_automated_reasoning_policies(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/automated-reasoning-policies"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_automated_reasoning_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_automated_reasoning_policy_build_workflows(policy_arn)
+    list_automated_reasoning_policy_build_workflows(policy_arn, params::Dict{String,<:Any})
+
+Lists all build workflows for an Automated Reasoning policy, showing the history of policy
+creation and modification attempts.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build
+  workflows you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of build workflows to return in a single response.
+  Valid range is 1-100.
+- `"nextToken"`: A pagination token from a previous request to continue listing build
+  workflows from where the previous request left off.
+"""
+function list_automated_reasoning_policy_build_workflows end
+
+function list_automated_reasoning_policy_build_workflows(
+    policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_automated_reasoning_policy_build_workflows(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_automated_reasoning_policy_test_cases(policy_arn)
+    list_automated_reasoning_policy_test_cases(policy_arn, params::Dict{String,<:Any})
+
+Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that
+the operation returns quickly and successfully.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which
+  to list tests.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of tests to return in a single call.
+- `"nextToken"`: The pagination token from a previous request to retrieve the next page of
+  results.
+"""
+function list_automated_reasoning_policy_test_cases end
+
+function list_automated_reasoning_policy_test_cases(
+    policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/test-cases";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_automated_reasoning_policy_test_cases(
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/test-cases",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_automated_reasoning_policy_test_results(build_workflow_id, policy_arn)
+    list_automated_reasoning_policy_test_results(build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Lists test results for an Automated Reasoning policy, showing how the policy performed
+against various test scenarios and validation checks.
+
+# Arguments
+
+- `build_workflow_id`: The unique identifier of the build workflow whose test results you
+  want to list.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose test
+  results you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of test results to return in a single response. Valid
+  range is 1-100.
+- `"nextToken"`: A pagination token from a previous request to continue listing test results
+  from where the previous request left off.
+"""
+function list_automated_reasoning_policy_test_results end
+
+function list_automated_reasoning_policy_test_results(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-results";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_automated_reasoning_policy_test_results(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-results",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_custom_model_deployments()
+    list_custom_model_deployments(params::Dict{String,<:Any})
+
+Lists custom model deployments in your account. You can filter the results by creation time,
+name, status, and associated model. Use this operation to manage and monitor your custom
+model deployments.
+
+We recommend using pagination to ensure that the operation returns quickly and successfully.
+
+The following actions are related to the [`list_custom_model_deployments`](@ref) operation:
+
+- [CreateCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModelDeployment.html)
+- [GetCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetCustomModelDeployment.html)
+- [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"createdAfter"`: Filters deployments created after the specified date and time.
+- `"createdBefore"`: Filters deployments created before the specified date and time.
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"modelArnEquals"`: Filters deployments by the Amazon Resource Name (ARN) of the
+  associated custom model.
+- `"nameContains"`: Filters deployments whose names contain the specified string.
+- `"nextToken"`: The token for the next set of results. Use this token to retrieve
+  additional results when the response is truncated.
+- `"sortBy"`: The field to sort the results by. The only supported value is `CreationTime`.
+- `"sortOrder"`: The sort order for the results. Valid values are `Ascending` and
+  `Descending`. Default is `Descending`.
+- `"statusEquals"`: Filters deployments by status. Valid values are `CREATING`, `ACTIVE`,
+  and `FAILED`.
+"""
+function list_custom_model_deployments end
+
+function list_custom_model_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock(
+        "GET",
+        "/model-customization/custom-model-deployments";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_custom_model_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-customization/custom-model-deployments",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_custom_models()
     list_custom_models(params::Dict{String,<:Any})
 
@@ -903,7 +3435,7 @@ Returns a list of the custom models that you have created with the [`create_mode
 operation.
 
 For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
 
@@ -911,15 +3443,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"baseModelArnEquals"`: Return custom models only if the base model Amazon Resource Name
   (ARN) matches this parameter.
+
 - `"creationTimeAfter"`: Return custom models created after the specified time.
+
 - `"creationTimeBefore"`: Return custom models created before the specified time.
+
 - `"foundationModelArnEquals"`: Return custom models only if the foundation model Amazon
   Resource Name (ARN) matches this parameter.
-- `"maxResults"`: Maximum number of results to return in the response.
+
+- `"isOwned"`: Return custom models depending on if the current account owns them (`true`)
+  or if they were shared with the current account (`false`).
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+
+- `"modelStatus"`: The status of them model to filter results by. Possible values include:
+
+  - `Creating` - Include only models that are currently being created and validated.
+  - `Active` - Include only models that have been successfully created and are ready for
+    use.
+  - `Failed` - Include only models where the creation process failed.
+
+  If you don't specify a status, the API returns models in all states.
+
 - `"nameContains"`: Return custom models only if the job name contains these characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+
 - `"sortBy"`: The field to sort by in the returned list of models.
+
 - `"sortOrder"`: The sort order of the results.
 """
 function list_custom_models end
@@ -937,26 +3492,68 @@ function list_custom_models(
 end
 
 """
-    list_evaluation_jobs()
-    list_evaluation_jobs(params::Dict{String,<:Any})
+    list_enforced_guardrails_configuration()
+    list_enforced_guardrails_configuration(params::Dict{String,<:Any})
 
-Lists model evaluation jobs.
+Lists the account-level enforced guardrail configurations.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"creationTimeAfter"`: A filter that includes model evaluation jobs created after the time
-  specified.
-- `"creationTimeBefore"`: A filter that includes model evaluation jobs created prior to the
-  time specified.
+- `"nextToken"`: Opaque continuation token of previous paginated response.
+"""
+function list_enforced_guardrails_configuration end
+
+function list_enforced_guardrails_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/enforcedGuardrailsConfiguration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_enforced_guardrails_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/enforcedGuardrailsConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_evaluation_jobs()
+    list_evaluation_jobs(params::Dict{String,<:Any})
+
+Lists all existing evaluation jobs.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"applicationTypeEquals"`: A filter to only list evaluation jobs that are either model
+  evaluations or knowledge base evaluations.
+- `"creationTimeAfter"`: A filter to only list evaluation jobs created after a specified
+  time.
+- `"creationTimeBefore"`: A filter to only list evaluation jobs created before a specified
+  time.
 - `"maxResults"`: The maximum number of results to return.
-- `"nameContains"`: Query parameter string for model evaluation job names.
+- `"nameContains"`: A filter to only list evaluation jobs that contain a specified string in
+  the job name.
 - `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
   the next set of results.
-- `"sortBy"`: Allows you to sort model evaluation jobs by when they were created.
-- `"sortOrder"`: How you want the order of jobs sorted.
-- `"statusEquals"`: Only return jobs where the status condition is met.
+- `"sortBy"`: Specifies a creation time to sort the list of evaluation jobs by when they
+  were created.
+- `"sortOrder"`: Specifies whether to sort the list of evaluation jobs by either ascending
+  or descending order.
+- `"statusEquals"`: A filter to only list evaluation jobs that are of a certain status.
 """
 function list_evaluation_jobs end
 
@@ -973,12 +3570,55 @@ function list_evaluation_jobs(
 end
 
 """
+    list_foundation_model_agreement_offers(model_id)
+    list_foundation_model_agreement_offers(model_id, params::Dict{String,<:Any})
+
+Get the offers associated with the specified model.
+
+# Arguments
+
+- `model_id`: Model Id of the foundation model.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"offerType"`: Type of offer associated with the model.
+"""
+function list_foundation_model_agreement_offers end
+
+function list_foundation_model_agreement_offers(
+    modelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/list-foundation-model-agreement-offers/$(modelId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_foundation_model_agreement_offers(
+    modelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "GET",
+        "/list-foundation-model-agreement-offers/$(modelId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_foundation_models()
     list_foundation_models(params::Dict{String,<:Any})
 
 Lists Amazon Bedrock foundation models that you can use. You can filter the results with the
 request parameters. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
 
@@ -986,10 +3626,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"byCustomizationType"`: Return models that support the customization type that you
   specify. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-  in the Amazon Bedrock User Guide.
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 - `"byInferenceType"`: Return models that support the inference type that you specify. For
   more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-  in the Amazon Bedrock User Guide.
+  in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 - `"byOutputModality"`: Return models that support the output modality that you specify.
 - `"byProvider"`: Return models belonging to the model provider that you specify.
 """
@@ -1023,7 +3663,8 @@ you can send in another `ListGuardrails` request to see the next batch of result
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"guardrailIdentifier"`: The unique identifier of the guardrail.
+- `"guardrailIdentifier"`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: If there are more results than were returned in the response, the response
   returns a `nextToken` that you can send in another `ListGuardrails` request to see the
@@ -1044,6 +3685,172 @@ function list_guardrails(
 end
 
 """
+    list_imported_models()
+    list_imported_models(params::Dict{String,<:Any})
+
+Returns a list of models you've imported. You can filter the results to return based on one
+or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"creationTimeAfter"`: Return imported models that were created after the specified time.
+- `"creationTimeBefore"`: Return imported models that created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nameContains"`: Return imported models only if the model name contains these characters.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+- `"sortBy"`: The field to sort by in the returned list of imported models.
+- `"sortOrder"`: Specifies whetehr to sort the results in ascending or descending order.
+"""
+function list_imported_models end
+
+function list_imported_models(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock("GET", "/imported-models"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_imported_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/imported-models", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_inference_profiles()
+    list_inference_profiles(params::Dict{String,<:Any})
+
+Returns a list of inference profiles that you can use. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+in the Amazon Bedrock User Guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+
+- `"type"`: Filters for inference profiles that match the type you specify.
+
+  - `SYSTEM_DEFINED` – The inference profile is defined by Amazon Bedrock. You can route
+    inference requests across regions with these inference profiles.
+  - `APPLICATION` – The inference profile was created by a user. This type of inference
+    profile can track metrics and costs when invoking the model in it. The inference profile
+    may route requests to one or multiple regions.
+"""
+function list_inference_profiles end
+
+function list_inference_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock(
+        "GET", "/inference-profiles"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_inference_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/inference-profiles", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_marketplace_model_endpoints()
+    list_marketplace_model_endpoints(params::Dict{String,<:Any})
+
+Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services
+account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single call. If more results
+  are available, the operation returns a `NextToken` value.
+- `"modelSourceIdentifier"`: If specified, only endpoints for the given model source
+  identifier are returned.
+- `"nextToken"`: The token for the next set of results. You receive this token from a
+  previous `ListMarketplaceModelEndpoints` call.
+"""
+function list_marketplace_model_endpoints end
+
+function list_marketplace_model_endpoints(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/marketplace-model/endpoints"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_marketplace_model_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/marketplace-model/endpoints",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_model_copy_jobs()
+    list_model_copy_jobs(params::Dict{String,<:Any})
+
+Returns a list of model copy jobs that you have submitted. You can filter the jobs to return
+based on one or more criteria. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"creationTimeAfter"`: Filters for model copy jobs created after the specified time.
+- `"creationTimeBefore"`: Filters for model copy jobs created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+- `"outputModelNameContains"`: Filters for model copy jobs in which the name of the copied
+  model contains the string that you specify.
+- `"sortBy"`: The field to sort by in the returned list of model copy jobs.
+- `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
+- `"sourceAccountEquals"`: Filters for model copy jobs in which the account that the source
+  model belongs to is equal to the value that you specify.
+- `"sourceModelArnEquals"`: Filters for model copy jobs in which the Amazon Resource Name
+  (ARN) of the source model to is equal to the value that you specify.
+- `"statusEquals"`: Filters for model copy jobs whose status matches the value that you
+  specify.
+"""
+function list_model_copy_jobs end
+
+function list_model_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock("GET", "/model-copy-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_model_copy_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/model-copy-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_model_customization_jobs()
     list_model_customization_jobs(params::Dict{String,<:Any})
 
@@ -1051,7 +3858,7 @@ Returns a list of model customization jobs that you have submitted. You can filt
 to return based on one or more criteria.
 
 For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
 
@@ -1059,11 +3866,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"creationTimeAfter"`: Return customization jobs created after the specified time.
 - `"creationTimeBefore"`: Return customization jobs created before the specified time.
-- `"maxResults"`: Maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
 - `"nameContains"`: Return customization jobs only if the job name contains these
   characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of jobs.
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: Return customization jobs with the specified status.
@@ -1089,11 +3899,156 @@ function list_model_customization_jobs(
 end
 
 """
+    list_model_import_jobs()
+    list_model_import_jobs(params::Dict{String,<:Any})
+
+Returns a list of import jobs you've submitted. You can filter the results to return based
+on one or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"creationTimeAfter"`: Return import jobs that were created after the specified time.
+- `"creationTimeBefore"`: Return import jobs that were created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nameContains"`: Return imported jobs only if the job name contains these characters.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+- `"sortBy"`: The field to sort by in the returned list of imported jobs.
+- `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
+- `"statusEquals"`: Return imported jobs with the specified status.
+"""
+function list_model_import_jobs end
+
+function list_model_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock("GET", "/model-import-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_model_import_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/model-import-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_model_invocation_jobs()
+    list_model_invocation_jobs(params::Dict{String,<:Any})
+
+Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-view.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return. If there are more results than
+  the number that you specify, a `nextToken` value is returned. Use the `nextToken` in a
+  request to return the next batch of results.
+
+- `"nameContains"`: Specify a string to filter for batch inference jobs whose names contain
+  the string.
+
+- `"nextToken"`: If there were more results than the value you specified in the `maxResults`
+  field in a previous `ListModelInvocationJobs` request, the response would have returned a
+  `nextToken` value. To see the next batch of results, send the `nextToken` value in another
+  request.
+
+- `"sortBy"`: An attribute by which to sort the results.
+
+- `"sortOrder"`: Specifies whether to sort the results by ascending or descending order.
+
+- `"statusEquals"`: Specify a status to filter for batch inference jobs whose statuses match
+  the string you specify.
+
+  The following statuses are possible:
+
+  - Submitted – This job has been submitted to a queue for validation.
+  - Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html).
+    The criteria include the following:
+    - Your IAM service role has access to the Amazon S3 buckets containing your files.
+    - Your files are .jsonl files and each individual record is a JSON object in the correct
+      format. Note that validation doesn't check if the `modelInput` value matches the
+      request body for the model.
+    - Your files fulfill the requirements for file size and number of records. For more
+      information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+  - Scheduled – This job has been validated and is now in a queue. The job will
+    automatically start when it reaches its turn.
+  - Expired – This job timed out because it was scheduled but didn't begin before the set
+    timeout duration. Submit a new job request.
+  - InProgress – This job has begun. You can start viewing the results in the output S3
+    location.
+  - Completed – This job has successfully completed. View the output files in the output S3
+    location.
+  - PartiallyCompleted – This job has partially completed. Not all of your records could be
+    processed in time. View the output files in the output S3 location.
+  - Failed – This job has failed. Check the failure message for any further details. For
+    further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+  - Stopped – This job was stopped by a user.
+  - Stopping – This job is being stopped by a user.
+
+- `"submitTimeAfter"`: Specify a time to filter for batch inference jobs that were submitted
+  after the time you specify.
+
+- `"submitTimeBefore"`: Specify a time to filter for batch inference jobs that were
+  submitted before the time you specify.
+"""
+function list_model_invocation_jobs end
+
+function list_model_invocation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock(
+        "GET", "/model-invocation-jobs"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_model_invocation_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/model-invocation-jobs", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_prompt_routers()
+    list_prompt_routers(params::Dict{String,<:Any})
+
+Retrieves a list of prompt routers.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of prompt routers to return in one page of results.
+- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+  page of results.
+- `"type"`: The type of the prompt routers, such as whether it's default or custom.
+"""
+function list_prompt_routers end
+
+function list_prompt_routers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock("GET", "/prompt-routers"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_prompt_routers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "GET", "/prompt-routers", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_provisioned_model_throughputs()
     list_provisioned_model_throughputs(params::Dict{String,<:Any})
 
 Lists the Provisioned Throughputs in the account. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Optional Parameters
 
@@ -1146,8 +4101,8 @@ end
 
 List the tags associated with the specified resource.
 
-For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
-in the Amazon Bedrock User Guide.
+For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -1177,6 +4132,56 @@ function list_tags_for_resource(
         "/listTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceARN" => resourceARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_enforced_guardrail_configuration(guardrail_inference_config)
+    put_enforced_guardrail_configuration(guardrail_inference_config, params::Dict{String,<:Any})
+
+Sets the account-level enforced guardrail configuration.
+
+# Arguments
+
+- `guardrail_inference_config`: Account-level enforced guardrail input configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"configId"`: Unique ID for the account enforced configuration.
+"""
+function put_enforced_guardrail_configuration end
+
+function put_enforced_guardrail_configuration(
+    guardrailInferenceConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "PUT",
+        "/enforcedGuardrailsConfiguration",
+        Dict{String,Any}("guardrailInferenceConfig" => guardrailInferenceConfig);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_enforced_guardrail_configuration(
+    guardrailInferenceConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PUT",
+        "/enforcedGuardrailsConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("guardrailInferenceConfig" => guardrailInferenceConfig),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1224,14 +4229,277 @@ function put_model_invocation_logging_configuration(
 end
 
 """
-    stop_evaluation_job(job_identifier)
-    stop_evaluation_job(job_identifier, params::Dict{String,<:Any})
+    put_resource_policy(resource_arn, resource_policy)
+    put_resource_policy(resource_arn, resource_policy, params::Dict{String,<:Any})
 
-Stops an in progress model evaluation job.
+Adds a resource policy for a Bedrock resource.
 
 # Arguments
 
-- `job_identifier`: The ARN of the model evaluation job you want to stop.
+- `resource_arn`: The ARN of the Bedrock resource to which this resource policy applies.
+- `resource_policy`: The JSON string representing the Bedrock resource policy.
+"""
+function put_resource_policy end
+
+function put_resource_policy(
+    resourceArn, resourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/resource-policy",
+        Dict{String,Any}("resourceArn" => resourceArn, "resourcePolicy" => resourcePolicy);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_resource_policy(
+    resourceArn,
+    resourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/resource-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceArn" => resourceArn, "resourcePolicy" => resourcePolicy
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_use_case_for_model_access(form_data)
+    put_use_case_for_model_access(form_data, params::Dict{String,<:Any})
+
+Put usecase for model access.
+
+# Arguments
+
+- `form_data`: Put customer profile Request.
+"""
+function put_use_case_for_model_access end
+
+function put_use_case_for_model_access(
+    formData; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/use-case-for-model-access",
+        Dict{String,Any}("formData" => formData);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_use_case_for_model_access(
+    formData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/use-case-for-model-access",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("formData" => formData), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_marketplace_model_endpoint(endpoint_identifier, model_source_identifier)
+    register_marketplace_model_endpoint(endpoint_identifier, model_source_identifier, params::Dict{String,<:Any})
+
+Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it
+to be used with Amazon Bedrock APIs.
+
+# Arguments
+
+- `endpoint_identifier`: The ARN of the Amazon SageMaker endpoint you want to register with
+  Amazon Bedrock Marketplace.
+- `model_source_identifier`: The ARN of the model from Amazon Bedrock Marketplace that is
+  deployed on the endpoint.
+"""
+function register_marketplace_model_endpoint end
+
+function register_marketplace_model_endpoint(
+    endpointIdentifier,
+    modelSourceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/marketplace-model/endpoints/$(endpointIdentifier)/registration",
+        Dict{String,Any}("modelSourceIdentifier" => modelSourceIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_marketplace_model_endpoint(
+    endpointIdentifier,
+    modelSourceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/marketplace-model/endpoints/$(endpointIdentifier)/registration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("modelSourceIdentifier" => modelSourceIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_automated_reasoning_policy_build_workflow(build_workflow_type, policy_arn, source_content)
+    start_automated_reasoning_policy_build_workflow(build_workflow_type, policy_arn, source_content, params::Dict{String,<:Any})
+
+Starts a new build workflow for an Automated Reasoning policy. This initiates the process of
+analyzing source documents and generating policy rules, variables, and types.
+
+# Arguments
+
+- `build_workflow_type`: The type of build workflow to start (e.g., DOCUMENT_INGESTION for
+  processing new documents, POLICY_REPAIR for fixing existing policies).
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy for which
+  to start the build workflow.
+- `source_content`: The source content for the build workflow, such as documents to analyze
+  or repair instructions for existing policies.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"x-amz-client-token"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than once. If this token matches a previous request, Amazon Bedrock
+  ignores the request but doesn't return an error.
+"""
+function start_automated_reasoning_policy_build_workflow end
+
+function start_automated_reasoning_policy_build_workflow(
+    buildWorkflowType,
+    policyArn,
+    sourceContent;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowType)/start",
+        Dict{String,Any}(
+            "sourceContent" => sourceContent, "x-amz-client-token" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_automated_reasoning_policy_build_workflow(
+    buildWorkflowType,
+    policyArn,
+    sourceContent,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowType)/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sourceContent" => sourceContent,
+                    "x-amz-client-token" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_automated_reasoning_policy_test_workflow(build_workflow_id, policy_arn)
+    start_automated_reasoning_policy_test_workflow(build_workflow_id, policy_arn, params::Dict{String,<:Any})
+
+Initiates a test workflow to validate Automated Reasoning policy tests. The workflow
+executes the specified tests against the policy and generates validation results.
+
+# Arguments
+
+- `build_workflow_id`: The build workflow identifier. The build workflow must show a
+  `COMPLETED` status before running tests.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy to test.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request but doesn't return an error.
+- `"testCaseIds"`: The list of test identifiers to run. If not provided, all tests for the
+  policy are run.
+"""
+function start_automated_reasoning_policy_test_workflow end
+
+function start_automated_reasoning_policy_test_workflow(
+    buildWorkflowId, policyArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-workflows",
+        Dict{String,Any}("clientRequestToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_automated_reasoning_policy_test_workflow(
+    buildWorkflowId,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/test-workflows",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_evaluation_job(job_identifier)
+    stop_evaluation_job(job_identifier, params::Dict{String,<:Any})
+
+Stops an evaluation job that is current being created or running.
+
+# Arguments
+
+- `job_identifier`: The Amazon Resource Name (ARN) of the evaluation job you want to stop.
 """
 function stop_evaluation_job end
 
@@ -1265,7 +4533,7 @@ end
     stop_model_customization_job(job_identifier, params::Dict{String,<:Any})
 
 Stops an active model customization job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -1299,11 +4567,49 @@ function stop_model_customization_job(
 end
 
 """
+    stop_model_invocation_job(job_identifier)
+    stop_model_invocation_job(job_identifier, params::Dict{String,<:Any})
+
+Stops a batch inference job. You're only charged for tokens that were already processed. For
+more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-stop.html).
+
+# Arguments
+
+- `job_identifier`: The Amazon Resource Name (ARN) of the batch inference job to stop.
+"""
+function stop_model_invocation_job end
+
+function stop_model_invocation_job(
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job/$(jobIdentifier)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_model_invocation_job(
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-invocation-job/$(jobIdentifier)/stop",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
-in the Amazon Bedrock User Guide.
+Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -1347,8 +4653,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Remove one or more tags from a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html)
-in the Amazon Bedrock User Guide.
+Remove one or more tags from a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 
@@ -1391,6 +4697,254 @@ function untag_resource(
 end
 
 """
+    update_automated_reasoning_policy(policy_arn, policy_definition)
+    update_automated_reasoning_policy(policy_arn, policy_definition, params::Dict{String,<:Any})
+
+Updates an existing Automated Reasoning policy with new rules, variables, or configuration.
+This creates a new version of the policy while preserving the previous version.
+
+# Arguments
+
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy to update.
+  This must be the ARN of a draft policy.
+- `policy_definition`: The updated policy definition containing the formal logic rules,
+  variables, and types.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The updated description for the Automated Reasoning policy.
+- `"name"`: The updated name for the Automated Reasoning policy.
+"""
+function update_automated_reasoning_policy end
+
+function update_automated_reasoning_policy(
+    policyArn, policyDefinition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)",
+        Dict{String,Any}("policyDefinition" => policyDefinition);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_automated_reasoning_policy(
+    policyArn,
+    policyDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("policyDefinition" => policyDefinition), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_automated_reasoning_policy_annotations(annotations, build_workflow_id, last_updated_annotation_set_hash, policy_arn)
+    update_automated_reasoning_policy_annotations(annotations, build_workflow_id, last_updated_annotation_set_hash, policy_arn, params::Dict{String,<:Any})
+
+Updates the annotations for an Automated Reasoning policy build workflow. This allows you to
+modify extracted rules, variables, and types before finalizing the policy.
+
+# Arguments
+
+- `annotations`: The updated annotations containing modified rules, variables, and types for
+  the policy.
+- `build_workflow_id`: The unique identifier of the build workflow whose annotations you
+  want to update.
+- `last_updated_annotation_set_hash`: The hash value of the annotation set that you're
+  updating. This is used for optimistic concurrency control to prevent conflicting updates.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose
+  annotations you want to update.
+"""
+function update_automated_reasoning_policy_annotations end
+
+function update_automated_reasoning_policy_annotations(
+    annotations,
+    buildWorkflowId,
+    lastUpdatedAnnotationSetHash,
+    policyArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/annotations",
+        Dict{String,Any}(
+            "annotations" => annotations,
+            "lastUpdatedAnnotationSetHash" => lastUpdatedAnnotationSetHash,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_automated_reasoning_policy_annotations(
+    annotations,
+    buildWorkflowId,
+    lastUpdatedAnnotationSetHash,
+    policyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)/build-workflows/$(buildWorkflowId)/annotations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "annotations" => annotations,
+                    "lastUpdatedAnnotationSetHash" => lastUpdatedAnnotationSetHash,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_automated_reasoning_policy_test_case(expected_aggregated_findings_result, guard_content, last_updated_at, policy_arn, test_case_id)
+    update_automated_reasoning_policy_test_case(expected_aggregated_findings_result, guard_content, last_updated_at, policy_arn, test_case_id, params::Dict{String,<:Any})
+
+Updates an existing Automated Reasoning policy test. You can modify the content, query,
+expected result, and confidence threshold.
+
+# Arguments
+
+- `expected_aggregated_findings_result`: The updated expected result of the Automated
+  Reasoning check.
+- `guard_content`: The updated content to be validated by the Automated Reasoning policy.
+- `last_updated_at`: The timestamp when the test was last updated. This is used as a
+  concurrency token to prevent conflicting modifications.
+- `policy_arn`: The Amazon Resource Name (ARN) of the Automated Reasoning policy that
+  contains the test.
+- `test_case_id`: The unique identifier of the test to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the operation
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error.
+- `"confidenceThreshold"`: The updated minimum confidence level for logic validation. If
+  null is provided, the threshold will be removed.
+- `"queryContent"`: The updated input query or prompt that generated the content.
+"""
+function update_automated_reasoning_policy_test_case end
+
+function update_automated_reasoning_policy_test_case(
+    expectedAggregatedFindingsResult,
+    guardContent,
+    lastUpdatedAt,
+    policyArn,
+    testCaseId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)",
+        Dict{String,Any}(
+            "expectedAggregatedFindingsResult" => expectedAggregatedFindingsResult,
+            "guardContent" => guardContent,
+            "lastUpdatedAt" => lastUpdatedAt,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_automated_reasoning_policy_test_case(
+    expectedAggregatedFindingsResult,
+    guardContent,
+    lastUpdatedAt,
+    policyArn,
+    testCaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/automated-reasoning-policies/$(policyArn)/test-cases/$(testCaseId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "expectedAggregatedFindingsResult" => expectedAggregatedFindingsResult,
+                    "guardContent" => guardContent,
+                    "lastUpdatedAt" => lastUpdatedAt,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_custom_model_deployment(custom_model_deployment_identifier, model_arn)
+    update_custom_model_deployment(custom_model_deployment_identifier, model_arn, params::Dict{String,<:Any})
+
+Updates a custom model deployment with a new custom model. This allows you to deploy updated
+models without creating new deployment endpoints.
+
+# Arguments
+
+- `custom_model_deployment_identifier`: Identifier of the custom model deployment to update
+  with the new custom model.
+- `model_arn`: ARN of the new custom model to deploy. This replaces the currently deployed
+  model.
+"""
+function update_custom_model_deployment end
+
+function update_custom_model_deployment(
+    customModelDeploymentIdentifier,
+    modelArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)",
+        Dict{String,Any}("modelArn" => modelArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_custom_model_deployment(
+    customModelDeploymentIdentifier,
+    modelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/model-customization/custom-model-deployments/$(customModelDeploymentIdentifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("modelArn" => modelArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_guardrail(blocked_input_messaging, blocked_outputs_messaging, guardrail_identifier, name)
     update_guardrail(blocked_input_messaging, blocked_outputs_messaging, guardrail_identifier, name, params::Dict{String,<:Any})
 
@@ -1408,33 +4962,49 @@ Updates a guardrail with the values you specify.
 - Specify filter strengths for the harmful categories defined in Amazon Bedrock in the
   `contentPolicyConfig` object. Each [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html)
   object in the `filtersConfig` list pertains to a harmful category. For more information,
-  see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters).
+  see [Content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-content-filters).
   For more information about the fields in a content filter, see [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
   - Specify the category in the `type` field.
   - Specify the strength of the filter for prompts in the `inputStrength` field and for
     model responses in the `strength` field of the [GuardrailContentFilterConfig](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html).
 - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
-- (Optional) Attach any tags to the guardrail in the `tags` object. For more information,
-  see [Tag resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging).
 
 # Arguments
 
 - `blocked_input_messaging`: The message to return when the guardrail blocks a prompt.
 - `blocked_outputs_messaging`: The message to return when the guardrail blocks a model
   response.
-- `guardrail_identifier`: The unique identifier of the guardrail
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `name`: A name for the guardrail.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"automatedReasoningPolicyConfig"`: Updated configuration for Automated Reasoning policies
+  associated with the guardrail.
+
 - `"contentPolicyConfig"`: The content policy to configure for the guardrail.
+
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used to
+  update a guardrail.
+
+- `"crossRegionConfig"`: The system-defined guardrail profile that you're using with your
+  guardrail. Guardrail profiles define the destination Amazon Web Services Regions where
+  guardrail inference requests can be automatically routed.
+
+  For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+
 - `"description"`: A description of the guardrail.
+
 - `"kmsKeyId"`: The ARN of the KMS key with which to encrypt the guardrail.
+
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
   the guardrail.
+
 - `"topicPolicyConfig"`: The topic policy to configure for the guardrail.
+
 - `"wordPolicyConfig"`: The word policy to configure for the guardrail.
 """
 function update_guardrail end
@@ -1487,11 +5057,74 @@ function update_guardrail(
 end
 
 """
+    update_marketplace_model_endpoint(endpoint_arn, endpoint_config)
+    update_marketplace_model_endpoint(endpoint_arn, endpoint_config, params::Dict{String,<:Any})
+
+Updates the configuration of an existing endpoint for a model from Amazon Bedrock
+Marketplace.
+
+# Arguments
+
+- `endpoint_arn`: The Amazon Resource Name (ARN) of the endpoint you want to update.
+- `endpoint_config`: The new configuration for the endpoint, including the number and type
+  of instances to use.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. This token is listed as not required because Amazon Web
+  Services SDKs automatically generate it for you and set this parameter. If you're not
+  using the Amazon Web Services SDK or the CLI, you must provide this token or the action
+  will fail.
+"""
+function update_marketplace_model_endpoint end
+
+function update_marketplace_model_endpoint(
+    endpointArn, endpointConfig; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock(
+        "PATCH",
+        "/marketplace-model/endpoints/$(endpointArn)",
+        Dict{String,Any}(
+            "endpointConfig" => endpointConfig, "clientRequestToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_marketplace_model_endpoint(
+    endpointArn,
+    endpointConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock(
+        "PATCH",
+        "/marketplace-model/endpoints/$(endpointArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endpointConfig" => endpointConfig,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_provisioned_model_throughput(provisioned_model_id)
     update_provisioned_model_throughput(provisioned_model_id, params::Dict{String,<:Any})
 
 Updates the name or associated model for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html)
-in the Amazon Bedrock User Guide.
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
 
 # Arguments
 

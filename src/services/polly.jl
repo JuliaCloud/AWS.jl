@@ -250,6 +250,95 @@ function put_lexicon(
 end
 
 """
+    start_speech_synthesis_stream(x-amzn-_engine, x-amzn-_output_format, x-amzn-_voice_id)
+    start_speech_synthesis_stream(x-amzn-_engine, x-amzn-_output_format, x-amzn-_voice_id, params::Dict{String,<:Any})
+
+Synthesizes UTF-8 input, plain text, or SSML over a bidirectional streaming connection.
+Specify synthesis parameters in HTTP/2 headers, send text incrementally as events on the
+input stream, and receive synthesized audio as it becomes available.
+
+This operation serves as a bidirectional counterpart to `SynthesizeSpeech`:
+
+- [SynthesizeSpeech](https://docs.aws.amazon.com/polly/latest/API/API_SynthesizeSpeech.html)
+
+# Arguments
+
+- `x-amzn-_engine`: Specifies the engine for Amazon Polly to use when processing input text
+  for speech synthesis. Currently, only the `generative` engine is supported. If you specify
+  a voice that the selected engine doesn't support, Amazon Polly returns an error.
+- `x-amzn-_output_format`: The audio format for the synthesized speech. Currently, Amazon
+  Polly does not support JSON speech marks.
+- `x-amzn-_voice_id`: The voice to use in synthesis. To get a list of available voice IDs,
+  use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/API/API_DescribeVoices.html)
+  operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ActionStream"`: The input event stream that contains text events and stream control
+  events.
+- `"x-amzn-LanguageCode"`: An optional parameter that sets the language code for the speech
+  synthesis request. Specify this parameter only when using a bilingual voice. If a
+  bilingual voice is used and no language code is specified, Amazon Polly uses the default
+  language of the bilingual voice.
+- `"x-amzn-LexiconNames"`: The names of one or more pronunciation lexicons for the service
+  to apply during synthesis. Amazon Polly applies lexicons only when the lexicon language
+  matches the voice language.
+- `"x-amzn-SampleRate"`: The audio frequency, specified in Hz.
+"""
+function start_speech_synthesis_stream end
+
+function start_speech_synthesis_stream(
+    x_amzn_Engine,
+    x_amzn_OutputFormat,
+    x_amzn_VoiceId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return polly(
+        "POST",
+        "/v1/synthesisStream",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}(
+                "x-amzn-Engine" => x_amzn_Engine,
+                "x-amzn-OutputFormat" => x_amzn_OutputFormat,
+                "x-amzn-VoiceId" => x_amzn_VoiceId,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_speech_synthesis_stream(
+    x_amzn_Engine,
+    x_amzn_OutputFormat,
+    x_amzn_VoiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return polly(
+        "POST",
+        "/v1/synthesisStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}(
+                        "x-amzn-Engine" => x_amzn_Engine,
+                        "x-amzn-OutputFormat" => x_amzn_OutputFormat,
+                        "x-amzn-VoiceId" => x_amzn_VoiceId,
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_speech_synthesis_task(output_format, output_s3_bucket_name, text, voice_id)
     start_speech_synthesis_task(output_format, output_s3_bucket_name, text, voice_id, params::Dict{String,<:Any})
 
@@ -265,7 +354,8 @@ synthesis task.
 # Arguments
 
 - `output_format`: The format in which the returned output will be encoded. For audio
-  stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks,
+  this will be json.
 - `output_s3_bucket_name`: Amazon S3 bucket name to which the output file will be saved.
 - `text`: The input text to synthesize. If you specify ssml as the TextType, follow the SSML
   format for the input text.
@@ -303,6 +393,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generative voices is "24000".
 
   Valid values for pcm are "8000" and "16000" The default value is "16000".
+
+  Valid value for ogg_opus is "48000".
+
+  Valid value for mu-law and a-law is "8000".
 
 - `"SnsTopicArn"`: ARN for the SNS topic optionally used for providing status notification
   for a speech synthesis task.
@@ -375,7 +469,8 @@ more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg
 # Arguments
 
 - `output_format`: The format in which the returned output will be encoded. For audio
-  stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+  stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks,
+  this will be json.
 
   When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono),
   little-endian format.
@@ -398,12 +493,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this will result in an error. For information on Amazon Polly voices and which voices are
   available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
 
-  Type: String
-
-  Valid Values: `standard` | `neural` | `long-form` | `generative`
-
-  Required: Yes
-
 - `"LanguageCode"`: Optional language code for the Synthesize Speech request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).
@@ -420,12 +509,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SampleRate"`: The audio frequency specified in Hz.
 
-  The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The
-  default value for standard voices is "22050". The default value for neural voices is
-  "24000". The default value for long-form voices is "24000". The default value for
-  generative voices is "24000".
+  The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and
+  "48000". The default value for standard voices is "22050". The default value for neural
+  voices is "24000". The default value for long-form voices is "24000". The default value
+  for generative voices is "24000".
 
   Valid values for pcm are "8000" and "16000" The default value is "16000".
+
+  Valid value for ogg_opus is "48000".
+
+  Valid value for mu-law and a-law is "8000".
 
 - `"SpeechMarkTypes"`: The type of speech marks returned for the input text.
 

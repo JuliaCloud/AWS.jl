@@ -121,9 +121,9 @@ Starts a SQL transaction.
     A transaction times out if no calls use its transaction ID in three minutes. If a
     transaction times out before it's committed, it's rolled back automatically.
 
-    DDL statements inside a transaction cause an implicit commit. We recommend that you run
-    each DDL statement in a separate `ExecuteStatement` call with `continueAfterTimeout`
-    enabled.
+    For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We
+    recommend that you run each MySQL DDL statement in a separate `ExecuteStatement` call
+    with `continueAfterTimeout` enabled.
 
 # Arguments
 
@@ -239,8 +239,8 @@ end
 Runs one or more SQL statements.
 
 !!! note
-    This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB
-    clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the
+    This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters. For
+    Aurora Serverless v1 DB clusters, the operation is deprecated. Use the
     `BatchExecuteStatement` or [`execute_statement`](@ref) operation.
 
 # Arguments

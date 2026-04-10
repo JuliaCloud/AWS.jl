@@ -170,6 +170,46 @@ function get_component(
 end
 
 """
+    get_configuration_check_operation(operation_id)
+    get_configuration_check_operation(operation_id, params::Dict{String,<:Any})
+
+Gets the details of a configuration check operation by specifying the operation ID.
+
+# Arguments
+
+- `operation_id`: The ID of the configuration check operation.
+"""
+function get_configuration_check_operation end
+
+function get_configuration_check_operation(
+    OperationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/get-configuration-check-operation",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_configuration_check_operation(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/get-configuration-check-operation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_database()
     get_database(params::Dict{String,<:Any})
 
@@ -348,6 +388,103 @@ function list_components(
 end
 
 """
+    list_configuration_check_definitions()
+    list_configuration_check_definitions(params::Dict{String,<:Any})
+
+Lists all configuration check types supported by AWS Systems Manager for SAP.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function list_configuration_check_definitions end
+
+function list_configuration_check_definitions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-configuration-check-definitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_configuration_check_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-configuration-check-definitions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_configuration_check_operations(application_id)
+    list_configuration_check_operations(application_id, params::Dict{String,<:Any})
+
+Lists the configuration check operations performed by AWS Systems Manager for SAP.
+
+# Arguments
+
+- `application_id`: The ID of the application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters of an operation.
+
+- `"ListMode"`: The mode for listing configuration check operations. Defaults to
+  "LATEST_PER_CHECK".
+
+  - LATEST_PER_CHECK - Will list the latest configuration check operation per check type.
+  - ALL_OPERATIONS - Will list all configuration check operations performed on the
+    application.
+
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+
+- `"NextToken"`: The token for the next page of results.
+"""
+function list_configuration_check_operations end
+
+function list_configuration_check_operations(
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-configuration-check-operations",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_configuration_check_operations(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-configuration-check-operations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_databases()
     list_databases(params::Dict{String,<:Any})
 
@@ -488,6 +625,104 @@ function list_operations(
 end
 
 """
+    list_sub_check_results(operation_id)
+    list_sub_check_results(operation_id, params::Dict{String,<:Any})
+
+Lists the sub-check results of a specified configuration check operation.
+
+# Arguments
+
+- `operation_id`: The ID of the configuration check operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function list_sub_check_results end
+
+function list_sub_check_results(
+    OperationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-sub-check-results",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_sub_check_results(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-sub-check-results",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_sub_check_rule_results(sub_check_result_id)
+    list_sub_check_rule_results(sub_check_result_id, params::Dict{String,<:Any})
+
+Lists the rules of a specified sub-check belonging to a configuration check operation.
+
+# Arguments
+
+- `sub_check_result_id`: The ID of the sub check result.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+function list_sub_check_rule_results end
+
+function list_sub_check_rule_results(
+    SubCheckResultId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-sub-check-rule-results",
+        Dict{String,Any}("SubCheckResultId" => SubCheckResultId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_sub_check_rule_results(
+    SubCheckResultId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-sub-check-rule-results",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SubCheckResultId" => SubCheckResultId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -603,10 +838,19 @@ manage SAP applications and components.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ComponentsInfo"`: This is an optional parameter for component details to which the SAP
+  ABAP application is attached, such as Web Dispatcher.
+
+  This is an array of ApplicationComponent objects. You may input 0 to 5 items.
+
 - `"Credentials"`: The credentials of the SAP application.
+
 - `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database.
+
 - `"SapInstanceNumber"`: The SAP instance number of the application.
+
 - `"Sid"`: The System ID of the application.
+
 - `"Tags"`: The tags to be attached to the SAP application.
 """
 function register_application end
@@ -730,6 +974,52 @@ function start_application_refresh(
     return ssm_sap(
         "POST",
         "/start-application-refresh",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_configuration_checks(application_id)
+    start_configuration_checks(application_id, params::Dict{String,<:Any})
+
+Initiates configuration check operations against a specified application.
+
+# Arguments
+
+- `application_id`: The ID of the application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConfigurationCheckIds"`: The list of configuration checks to perform.
+"""
+function start_configuration_checks end
+
+function start_configuration_checks(
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/start-configuration-checks",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_configuration_checks(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/start-configuration-checks",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );

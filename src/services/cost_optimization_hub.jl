@@ -74,6 +74,76 @@ function get_recommendation(
 end
 
 """
+    list_efficiency_metrics(granularity, time_period)
+    list_efficiency_metrics(granularity, time_period, params::Dict{String,<:Any})
+
+Returns cost efficiency metrics aggregated over time and optionally grouped by a specified
+dimension. The metrics provide insights into your cost optimization progress by tracking
+estimated savings, spending, and measures how effectively you're optimizing your Cloud
+resources.
+
+The operation supports both daily and monthly time granularities and allows grouping results
+by account ID, Amazon Web Services Region. Results are returned as time-series data,
+enabling you to analyze trends in your cost optimization performance over the specified time
+period.
+
+# Arguments
+
+- `granularity`: The time granularity for the cost efficiency metrics. Specify `Daily` for
+  metrics aggregated by day, or `Monthly` for metrics aggregated by month.
+- `time_period`: The time period for which to retrieve the cost efficiency metrics. The
+  start date is inclusive and the end date is exclusive. Dates can be specified in either
+  YYYY-MM-DD format or YYYY-MM format depending on the desired granularity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"groupBy"`: The dimension by which to group the cost efficiency metrics. Valid values
+  include account ID, Amazon Web Services Region. When no grouping is specified, metrics are
+  aggregated across all resources in the specified time period.
+- `"maxResults"`: The maximum number of groups to return in the response. Valid values range
+  from 0 to 1000. Use in conjunction with `nextToken` to paginate through results when the
+  total number of groups exceeds this limit.
+- `"nextToken"`: The token to retrieve the next page of results. This value is returned in
+  the response when the number of groups exceeds the specified `maxResults` value.
+- `"orderBy"`: The ordering specification for the results. Defines which dimension to sort
+  by and whether to sort in ascending or descending order.
+"""
+function list_efficiency_metrics end
+
+function list_efficiency_metrics(
+    granularity, timePeriod; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_optimization_hub(
+        "ListEfficiencyMetrics",
+        Dict{String,Any}("granularity" => granularity, "timePeriod" => timePeriod);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_efficiency_metrics(
+    granularity,
+    timePeriod,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_optimization_hub(
+        "ListEfficiencyMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("granularity" => granularity, "timePeriod" => timePeriod),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_enrollment_statuses()
     list_enrollment_statuses(params::Dict{String,<:Any})
 
@@ -126,7 +196,9 @@ savings across different types of recommendations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filter"`:
-- `"maxResults"`: The maximum number of recommendations that are returned for the request.
+- `"maxResults"`: The maximum number of recommendations to be returned for the request.
+- `"metrics"`: Additional metrics to be returned for the request. The only valid value is
+  `savingsPercentage`.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_recommendation_summaries end
@@ -211,7 +283,7 @@ linked role in your account to access its data.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the organization
-  if the account is the management account.
+  if the account is the management account or delegated administrator.
 """
 function update_enrollment_status end
 
@@ -251,6 +323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"memberAccountDiscountVisibility"`: Sets the "member account discount visibility"
   preference.
+- `"preferredCommitment"`: Sets the preferences for how Reserved Instances and Savings Plans
+  cost-saving opportunities are prioritized in terms of payment option and term length.
 - `"savingsEstimationMode"`: Sets the "savings estimation mode" preference.
 """
 function update_preferences end

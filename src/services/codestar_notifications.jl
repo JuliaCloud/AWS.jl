@@ -9,14 +9,15 @@ using AWS.UUIDs: uuid4
     create_notification_rule(detail_type, event_type_ids, name, resource, targets, params::Dict{String,<:Any})
 
 Creates a notification rule for a resource. The rule specifies the events you want
-notifications about and the targets (such as Chatbot topics or Chatbot clients configured
-for Slack) where you want to receive them.
+notifications about and the targets (such as Amazon Q Developer in chat applications topics
+or Amazon Q Developer in chat applications clients configured for Slack) where you want to
+receive them.
 
 # Arguments
 
 - `detail_type`: The level of detail to include in the notifications for this resource.
   `BASIC` will include only the contents of the event as it would appear in Amazon
-  CloudWatch. `FULL` will include any supplemental information provided by AWS CodeStar
+  CloudWatch. `FULL` will include any supplemental information provided by CodeStar
   Notifications and/or the service for the resource for which the notification is created.
 - `event_type_ids`: A list of event types associated with this notification rule. For a list
   of allowed events, see `EventTypeSummary`.
@@ -26,7 +27,8 @@ for Slack) where you want to receive them.
   notification rule. Supported resources include pipelines in CodePipeline, repositories in
   CodeCommit, and build projects in CodeBuild.
 - `targets`: A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service
-  topics and Chatbot clients to associate with the notification rule.
+  topics and Amazon Q Developer in chat applications clients to associate with the
+  notification rule.
 
 # Optional Parameters
 
@@ -146,16 +148,17 @@ Deletes a specified target for notifications.
 
 # Arguments
 
-- `target_address`: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to
-  delete.
+- `target_address`: The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
+  applications topic or Amazon Q Developer in chat applications client to delete.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceUnsubscribeAll"`: A Boolean value that can be used to delete all associations with
-  this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
-  that target and every notification rule in your Amazon Web Services account are deleted.
+  this Amazon Q Developer in chat applications topic. The default value is FALSE. If set to
+  TRUE, all associations between that target and every notification rule in your Amazon Web
+  Services account are deleted.
 """
 function delete_target end
 
@@ -371,9 +374,9 @@ end
     subscribe(arn, target)
     subscribe(arn, target, params::Dict{String,<:Any})
 
-Creates an association between a notification rule and an Chatbot topic or Chatbot client so
-that the associated target can receive notifications when the events described in the rule
-are triggered.
+Creates an association between a notification rule and an Amazon Q Developer in chat
+applications topic or Amazon Q Developer in chat applications client so that the associated
+target can receive notifications when the events described in the rule are triggered.
 
 # Arguments
 
@@ -462,14 +465,15 @@ end
     unsubscribe(arn, target_address)
     unsubscribe(arn, target_address, params::Dict{String,<:Any})
 
-Removes an association between a notification rule and an Chatbot topic so that subscribers
-to that topic stop receiving notifications when the events described in the rule are
-triggered.
+Removes an association between a notification rule and an Amazon Q Developer in chat
+applications topic so that subscribers to that topic stop receiving notifications when the
+events described in the rule are triggered.
 
 # Arguments
 
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
-- `target_address`: The ARN of the Chatbot topic to unsubscribe from the notification rule.
+- `target_address`: The ARN of the Amazon Q Developer in chat applications topic to
+  unsubscribe from the notification rule.
 """
 function unsubscribe end
 
@@ -563,8 +567,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DetailType"`: The level of detail to include in the notifications for this resource.
   BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
-  FULL will include any supplemental information provided by AWS CodeStar Notifications
-  and/or the service for the resource for which the notification is created.
+  FULL will include any supplemental information provided by CodeStar Notifications and/or
+  the service for the resource for which the notification is created.
 - `"EventTypeIds"`: A list of event types associated with this notification rule. For a
   complete list of event types and IDs, see [Notification concepts](https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api)
   in the *Developer Tools Console User Guide*.

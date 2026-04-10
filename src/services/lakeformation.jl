@@ -71,7 +71,13 @@ This decorated role is expected to access data in Amazon S3 by getting temporary
 Lake Formation which is authorized via the virtual API `GetDataAccess`. Therefore, all SAML
 roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include
 `lakeformation:GetDataAccess` in their role policies. A typical IAM policy attached to such
-a role would look as follows:
+a role would include the following actions:
+
+- glue:*Database*
+- glue:*Table*
+- glue:*Partition*
+- glue:*UserDefinedFunction*
+- lakeformation:GetDataAccess
 
 # Arguments
 
@@ -376,6 +382,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon
   Web Services Service Namespaces in the Amazon Web Services General Reference.
 
+- `"ServiceIntegrations"`: A list of service integrations for enabling trusted identity
+  propagation with external services such as Redshift.
+
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs and/or Amazon Web Services
   organization/organizational unit ARNs that are allowed to access data managed by Lake
   Formation.
@@ -420,6 +429,12 @@ Enforce Lake Formation permissions for the given databases, tables, and principa
 
 - `principal`:
 - `resource`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Condition"`:
 """
 function create_lake_formation_opt_in end
 
@@ -501,6 +516,67 @@ function create_lftag(
                 _merge,
                 Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues),
                 params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_lftag_expression(expression, name)
+    create_lftag_expression(expression, name, params::Dict{String,<:Any})
+
+Creates a new LF-Tag expression with the provided name, description, catalog ID, and
+expression body. This call fails if a LF-Tag expression with the same name already exists in
+the caller’s account or if the underlying LF-Tags don't exist. To call this API operation,
+caller needs the following Lake Formation permissions:
+
+`CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
+
+`GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value pairs included in the
+expression.
+
+# Arguments
+
+- `expression`: A list of LF-Tag conditions (key-value pairs).
+- `name`: A name for the expression.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
+  Catalog is the persistent metadata store. It contains database definitions, table
+  definitions, and other control information to manage your Lake Formation environment.
+- `"Description"`: A description with information about the LF-Tag expression.
+"""
+function create_lftag_expression end
+
+function create_lftag_expression(
+    Expression, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/CreateLFTagExpression",
+        Dict{String,Any}("Expression" => Expression, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_lftag_expression(
+    Expression,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/CreateLFTagExpression",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Expression" => Expression, "Name" => Name), params
             ),
         );
         aws_config,
@@ -594,6 +670,12 @@ principals.
 
 - `principal`:
 - `resource`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Condition"`:
 """
 function delete_lake_formation_opt_in end
 
@@ -634,11 +716,11 @@ end
     delete_lftag(tag_key)
     delete_lftag(tag_key, params::Dict{String,<:Any})
 
-Deletes the specified LF-tag given a key name. If the input parameter tag key was not found,
-then the operation will throw an exception. When you delete an LF-tag, the `LFTagPolicy`
-attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any
-resource, the tag policy attach to the deleted LF-tag will no longer be applied to the
-resource.
+Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't
+exist. When you delete an LF-Tag:
+
+- The associated LF-Tag policy becomes invalid.
+- Resources that had this tag assigned will no longer have the tag policy applied to them.
 
 # Arguments
 
@@ -671,6 +753,49 @@ function delete_lftag(
         "POST",
         "/DeleteLFTag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lftag_expression(name)
+    delete_lftag_expression(name, params::Dict{String,<:Any})
+
+Deletes the LF-Tag expression. The caller must be a data lake admin or have `DROP`
+permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all
+`LFTagPolicy` permissions referencing the LF-Tag expression.
+
+# Arguments
+
+- `name`: The name for the LF-Tag expression.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID in which
+  the LF-Tag expression is saved.
+"""
+function delete_lftag_expression end
+
+function delete_lftag_expression(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return lakeformation(
+        "POST",
+        "/DeleteLFTagExpression",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_lftag_expression(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DeleteLFTagExpression",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1159,6 +1284,47 @@ function get_lftag(
 end
 
 """
+    get_lftag_expression(name)
+    get_lftag_expression(name, params::Dict{String,<:Any})
+
+Returns the details about the LF-Tag expression. The caller must be a data lake admin or
+must have `DESCRIBE` permission on the LF-Tag expression resource.
+
+# Arguments
+
+- `name`: The name for the LF-Tag expression
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID.
+"""
+function get_lftag_expression end
+
+function get_lftag_expression(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return lakeformation(
+        "POST",
+        "/GetLFTagExpression",
+        Dict{String,Any}("Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_lftag_expression(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/GetLFTagExpression",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_query_state(query_id)
     get_query_state(query_id, params::Dict{String,<:Any})
 
@@ -1356,6 +1522,73 @@ function get_table_objects(
 end
 
 """
+    get_temporary_data_location_credentials()
+    get_temporary_data_location_credentials(params::Dict{String,<:Any})
+
+Allows a user or application in a secure environment to access data in a specific Amazon S3
+location registered with Lake Formation by providing temporary scoped credentials that are
+limited to the requested data location and the caller's authorized access level.
+
+`GetDataAccess` is logged in CloudTrail whenever a principal requests temporary data
+location credentials to access data in a data lake location that is registered with Lake
+Formation.
+
+The API operation returns an error in the following scenarios:
+
+- The data location is not registered with Lake Formation.
+- No Glue table is associated with the data location.
+- The caller doesn't have required permissions on the associated table. The caller must have
+  `SELECT` or `SUPER` permissions on the associated table, and credential vending for full
+  table access must be enabled in the data lake settings.
+
+For more information, see [Application integration for full table access](https://docs.aws.amazon.com/lake-formation/latest/dg/full-table-credential-vending.html).
+- The data location is in a different Amazon Web Services Region. Lake Formation doesn't
+  support cross-Region access when vending credentials for a data location. Lake Formation
+  only supports Amazon S3 paths registered within the same Region as the API call.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AuditContext"`:
+
+- `"CredentialsScope"`: The credential scope is determined by the caller's Lake Formation
+  permission on the associated table. Credential scope can be either:
+
+  - READ - Provides read-only access to the data location.
+  - READ_WRITE - Provides both read and write access to the data location.
+
+- `"DataLocations"`: The Amazon S3 data location that you want to access.
+
+- `"DurationSeconds"`: The time period, between 900 and 43,200 seconds, for the timeout of
+  the temporary credentials.
+"""
+function get_temporary_data_location_credentials end
+
+function get_temporary_data_location_credentials(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/GetTemporaryDataLocationCredentials";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_temporary_data_location_credentials(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/GetTemporaryDataLocationCredentials",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_temporary_glue_partition_credentials(partition, table_arn)
     get_temporary_glue_partition_credentials(partition, table_arn, params::Dict{String,<:Any})
 
@@ -1425,6 +1658,9 @@ Allows a caller in a secure environment to assume a role with permission to acce
 S3. In order to vend such credentials, Lake Formation assumes the role associated with a
 registered location, for example an Amazon S3 bucket, with a scope down policy which
 restricts the access to a single prefix.
+
+To call this API, the role that the service assumes must have `lakeformation:GetDataAccess`
+permission on the resource.
 
 # Arguments
 
@@ -1617,6 +1853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
+- `"Condition"`:
 - `"PermissionsWithGrantOption"`: Indicates a list of the granted permissions that the
   principal may pass to other users. These permissions may only be a subset of the
   permissions granted in the `Privileges`.
@@ -1730,6 +1967,38 @@ function list_lake_formation_opt_ins(
 end
 
 """
+    list_lftag_expressions()
+    list_lftag_expressions(params::Dict{String,<:Any})
+
+Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions.
+Data Lake and read only admins implicitly can see all tag expressions in their account, else
+caller needs DESCRIBE permissions on tag expression.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
+"""
+function list_lftag_expressions end
+
+function list_lftag_expressions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lakeformation(
+        "POST", "/ListLFTagExpressions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_lftag_expressions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST", "/ListLFTagExpressions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_lftags()
     list_lftags(params::Dict{String,<:Any})
 
@@ -1775,7 +2044,9 @@ Returns a list of the principal permissions on the resource, filtered by the per
 the caller. For example, if you are granted an ALTER permission, you are able to see only
 the principal permissions for ALTER.
 
-This operation returns only those permissions that have been explicitly granted.
+This operation returns only those permissions that have been explicitly granted. If both
+`Principal` and `Resource` parameters are provided, the response returns effective
+permissions rather than the explicitly granted permissions.
 
 For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
@@ -1787,7 +2058,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 
-- `"IncludeRelated"`: Indicates that related permissions should be included in the results.
+- `"IncludeRelated"`: Indicates that related permissions should be included in the results
+  when listing permissions on a table resource.
+
+  Set the field to `TRUE` to show the cell filters on a table resource. Default is `FALSE`.
+  The Principal parameter must not be specified when requesting cell filter information.
 
 - `"MaxResults"`: The maximum number of results to return.
 
@@ -2007,7 +2282,7 @@ end
 
 Registers the resource as managed by the Data Catalog.
 
-To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path.
+To add or update data, Lake Formation needs read/write access to the chosen data location.
 Choose a role that you know has permission to do this, or choose the
 AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first
 Amazon S3 path, the service-linked role and a new inline policy are created on your behalf.
@@ -2018,7 +2293,7 @@ existing policy.
 The following request registers a new location and gives Lake Formation permission to use
 the service-linked role to access that location.
 
-`ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true`
+`ResourceArn = arn:aws:s3:::my-bucket/ UseServiceLinkedRole = true`
 
 If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleArn`:
 
@@ -2031,6 +2306,9 @@ If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleA
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExpectedResourceOwnerAccount"`: The Amazon Web Services account that owns the Glue
+  tables associated with specific Amazon S3 locations.
 
 - `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
@@ -2045,6 +2323,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Using Service-Linked Roles for Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
 
 - `"WithFederation"`: Whether or not the resource is a federated resource.
+
+- `"WithPrivilegedAccess"`: Grants the calling principal the permissions to perform all
+  supported Lake Formation operations on the registered data location.
 """
 function register_resource end
 
@@ -2149,6 +2430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
+- `"Condition"`:
 - `"PermissionsWithGrantOption"`: Indicates a list of permissions for which to revoke the
   grant option allowing the principal to pass permissions to other principals.
 """
@@ -2447,6 +2729,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
   party applications that are allowed to access data managed by Lake Formation.
 
+- `"ServiceIntegrations"`: A list of service integrations for enabling trusted identity
+  propagation with external services such as Redshift.
+
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs or Amazon Web Services
   organization/organizational unit ARNs that are allowed to access to access data managed by
   Lake Formation.
@@ -2534,6 +2819,59 @@ function update_lftag(
 end
 
 """
+    update_lftag_expression(expression, name)
+    update_lftag_expression(expression, name, params::Dict{String,<:Any})
+
+Updates the name of the LF-Tag expression to the new description and expression body
+provided. Updating a LF-Tag expression immediately changes the permission boundaries of all
+existing `LFTagPolicy` permission grants that reference the given LF-Tag expression.
+
+# Arguments
+
+- `expression`: The LF-Tag expression body composed of one more LF-Tag key-value pairs.
+- `name`: The name for the LF-Tag expression.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID.
+- `"Description"`: The description with information about the saved LF-Tag expression.
+"""
+function update_lftag_expression end
+
+function update_lftag_expression(
+    Expression, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/UpdateLFTagExpression",
+        Dict{String,Any}("Expression" => Expression, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_lftag_expression(
+    Expression,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/UpdateLFTagExpression",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Expression" => Expression, "Name" => Name), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_resource(resource_arn, role_arn)
     update_resource(resource_arn, role_arn, params::Dict{String,<:Any})
 
@@ -2549,6 +2887,8 @@ Lake Formation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ExpectedResourceOwnerAccount"`: The Amazon Web Services account that owns the Glue
+  tables associated with specific Amazon S3 locations.
 - `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
@@ -2666,7 +3006,7 @@ Updates the configuration of the storage optimizers for a table.
 # Arguments
 
 - `database_name`: Name of the database where the table is present.
-- `storage_optimizer_config`: Name of the table for which to enable the storage optimizer.
+- `storage_optimizer_config`: Name of the configuration for the storage optimizer.
 - `table_name`: Name of the table for which to enable the storage optimizer.
 
 # Optional Parameters

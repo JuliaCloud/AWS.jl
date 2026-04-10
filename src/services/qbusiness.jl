@@ -5,6 +5,78 @@ using AWS.AWSServices: qbusiness
 using AWS.UUIDs: uuid4
 
 """
+    associate_permission(actions, application_id, principal, statement_id)
+    associate_permission(actions, application_id, principal, statement_id, params::Dict{String,<:Any})
+
+Adds or updates a permission policy for a Amazon Q Business application, allowing cross-
+account access for an ISV. This operation creates a new policy statement for the specified
+Amazon Q Business application. The policy statement defines the IAM actions that the ISV is
+allowed to perform on the Amazon Q Business application's resources.
+
+# Arguments
+
+- `actions`: The list of Amazon Q Business actions that the ISV is allowed to perform.
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `principal`: The Amazon Resource Name of the IAM role for the ISV that is being granted
+  permission.
+- `statement_id`: A unique identifier for the policy statement.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"conditions"`: The conditions that restrict when the permission is effective. These
+  conditions can be used to limit the permission based on specific attributes of the
+  request.
+"""
+function associate_permission end
+
+function associate_permission(
+    actions,
+    applicationId,
+    principal,
+    statementId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/policy",
+        Dict{String,Any}(
+            "actions" => actions, "principal" => principal, "statementId" => statementId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_permission(
+    actions,
+    applicationId,
+    principal,
+    statementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actions" => actions,
+                    "principal" => principal,
+                    "statementId" => statementId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_delete_document(application_id, documents, index_id)
     batch_delete_document(application_id, documents, index_id, params::Dict{String,<:Any})
 
@@ -79,7 +151,14 @@ using CloudWatch.
 # Arguments
 
 - `application_id`: The identifier of the Amazon Q Business application.
+
 - `documents`: One or more documents to add to the index.
+
+  !!! important
+      Ensure that the name of your document doesn't contain any confidential information.
+      Amazon Q Business returns document names in chat responses and citations when
+      relevant.
+
 - `index_id`: The identifier of the Amazon Q Business index to add the documents to.
 
 # Optional Parameters
@@ -124,6 +203,48 @@ function batch_put_document(
 end
 
 """
+    cancel_subscription(application_id, subscription_id)
+    cancel_subscription(application_id, subscription_id, params::Dict{String,<:Any})
+
+Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application.
+An unsubscribed user or group loses all Amazon Q Business feature access at the start of
+next month.
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application for which the
+  subscription is being cancelled.
+- `subscription_id`: The identifier of the Amazon Q Business subscription being cancelled.
+"""
+function cancel_subscription end
+
+function cancel_subscription(
+    applicationId, subscriptionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/subscriptions/$(subscriptionId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_subscription(
+    applicationId,
+    subscriptionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/subscriptions/$(subscriptionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     chat(application_id)
     chat(application_id, params::Dict{String,<:Any})
 
@@ -143,7 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputStream"`: The streaming input for the `Chat` API.
 - `"parentMessageId"`: The identifier used to associate a user message with a AI generated
   response.
-- `"userGroups"`: The groups that a user associated with the chat input belongs to.
+- `"userGroups"`: The group names that a user associated with the chat input belongs to.
 - `"userId"`: The identifier of the user attached to the chat input.
 """
 function chat end
@@ -201,17 +322,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authChallengeResponse"`: An authentication verification event response by a third party
   authentication server to Amazon Q Business.
 
-- `"chatMode"`: The chat modes available to an Amazon Q Business end user.
+- `"chatMode"`: The `chatMode` parameter determines the chat modes available to Amazon Q
+  Business users:
 
-  - `RETRIEVAL_MODE` - The default chat mode for an Amazon Q Business application. When this
-    mode is enabled, Amazon Q Business generates responses only from data sources connected
-    to an Amazon Q Business application.
-  - `CREATOR_MODE` - By selecting this mode, users can choose to generate responses only
-    from the LLM knowledge, without consulting connected data sources, for a chat request.
-  - `PLUGIN_MODE` - By selecting this mode, users can choose to use plugins in chat.
+  - `RETRIEVAL_MODE` - If you choose this mode, Amazon Q generates responses solely from the
+    data sources connected and indexed by the application. If an answer is not found in the
+    data sources or there are no data sources available, Amazon Q will respond with a "*No
+    Answer Found*" message, unless LLM knowledge has been enabled. In that case, Amazon Q
+    will generate a response from the LLM knowledge
+  - `CREATOR_MODE` - By selecting this mode, you can choose to generate responses only from
+    the LLM knowledge. You can also attach files and have Amazon Q generate a response based
+    on the data in those files. If the attached files do not contain an answer for the
+    query, Amazon Q will automatically fall back to generating a response from the LLM
+    knowledge.
+  - `PLUGIN_MODE` - By selecting this mode, users can choose to use plugins in chat to get
+    their responses.
+
+  !!! note
+      If none of the modes are selected, Amazon Q will only respond using the information
+      from the attached files.
 
   For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html), [Plugins](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/plugins.html),
-  and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
+  and [Response sources](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
 
 - `"chatModeConfiguration"`: The chat mode configuration for an Amazon Q Business
   application.
@@ -220,10 +352,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"conversationId"`: The identifier of the Amazon Q Business conversation.
 
-- `"parentMessageId"`: The identifier of the previous end user text input message in a
-  conversation.
+- `"parentMessageId"`: The identifier of the previous system message in a conversation.
 
-- `"userGroups"`: The groups that a user associated with the chat input belongs to.
+- `"userGroups"`: The group names that a user associated with the chat input belongs to.
 
 - `"userId"`: The identifier of the user attached to the chat input.
 
@@ -258,6 +389,115 @@ function chat_sync(
 end
 
 """
+    check_document_access(application_id, document_id, index_id, user_id)
+    check_document_access(application_id, document_id, index_id, user_id, params::Dict{String,<:Any})
+
+Verifies if a user has access permissions for a specified document and returns the actual
+ACL attached to the document. Resolves user access on the document via user aliases and
+groups when verifying user access.
+
+# Arguments
+
+- `application_id`: The unique identifier of the application. This is required to identify
+  the specific Amazon Q Business application context for the document access check.
+- `document_id`: The unique identifier of the document. Specifies which document's access
+  permissions are being checked.
+- `index_id`: The unique identifier of the index. Used to locate the correct index within
+  the application where the document is stored.
+- `user_id`: The unique identifier of the user. Used to check the access permissions for
+  this specific user against the document's ACL.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dataSourceId"`: The unique identifier of the data source. Identifies the specific data
+  source from which the document originates. Should not be used when a document is uploaded
+  directly with BatchPutDocument, as no dataSourceId is available or necessary.
+"""
+function check_document_access end
+
+function check_document_access(
+    applicationId,
+    documentId,
+    indexId,
+    userId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/users/$(userId)/documents/$(documentId)/check-document-access";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function check_document_access(
+    applicationId,
+    documentId,
+    indexId,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/users/$(userId)/documents/$(documentId)/check-document-access",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_anonymous_web_experience_url(application_id, web_experience_id)
+    create_anonymous_web_experience_url(application_id, web_experience_id, params::Dict{String,<:Any})
+
+Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be
+used once and must be used within 5 minutes after it's generated.
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application environment attached
+  to the web experience.
+- `web_experience_id`: The identifier of the web experience.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"sessionDurationInMinutes"`: The duration of the session associated with the unique URL
+  for the web experience.
+"""
+function create_anonymous_web_experience_url end
+
+function create_anonymous_web_experience_url(
+    applicationId, webExperienceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/experiences/$(webExperienceId)/anonymous-url";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_anonymous_web_experience_url(
+    applicationId,
+    webExperienceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/experiences/$(webExperienceId)/anonymous-url",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_application(display_name)
     create_application(display_name, params::Dict{String,<:Any})
 
@@ -266,8 +506,16 @@ Creates an Amazon Q Business application.
 !!! note
     There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are
     also available in Amazon Q Business Lite. For information on what's included in Amazon Q
-    Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers).
+    Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers).
     You must use the Amazon Q Business console to assign subscription tiers to users.
+
+    An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web
+    Services account when `QAppsConfiguration` is enabled in the request. For more
+    information, see [Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html).
+
+    When you create an application, Amazon Q Business may securely transmit data for
+    processing from your selected Amazon Web Services region, but within your geography. For
+    more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
 
 # Arguments
 
@@ -279,15 +527,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"attachmentsConfiguration"`: An option to allow end users to upload files directly during
   chat.
+- `"clientIdsForOIDC"`: The OIDC client ID for a Amazon Q Business application.
 - `"clientToken"`: A token that you provide to identify the request to create your Amazon Q
   Business application.
 - `"description"`: A description for the Amazon Q Business application.
 - `"encryptionConfiguration"`: The identifier of the KMS key that is used to encrypt your
   data. Amazon Q Business doesn't support asymmetric keys.
+- `"iamIdentityProviderArn"`: The Amazon Resource Name (ARN) of an identity provider being
+  used by an Amazon Q Business application.
 - `"identityCenterInstanceArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business application.
+- `"identityType"`: The authentication type being used by a Amazon Q Business application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html)
+- `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
+  the web experience.
+- `"quickSightConfiguration"`: The Amazon Quick Suite configuration for an Amazon Q Business
+  application that uses Quick Suite for authentication. This configuration is required if
+  your application uses Quick Suite as the identity provider. For more information, see [Creating an Amazon Quick Suite integrated application](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html).
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permissions to access your
-  Amazon CloudWatch logs and metrics.
+  Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business
+  will create a [service linked role (SLR)](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles.html#slr-permissions)
+  and use it as the application's role.
 - `"tags"`: A list of key-value pairs that identify or categorize your Amazon Q Business
   application. You can also use tags to help control access to the application. Tag keys and
   values can consist of Unicode letters, digits, white space, and any of the following
@@ -328,6 +589,164 @@ function create_application(
 end
 
 """
+    create_chat_response_configuration(application_id, display_name, response_configurations)
+    create_chat_response_configuration(application_id, display_name, response_configurations, params::Dict{String,<:Any})
+
+Creates a new chat response configuration for an Amazon Q Business application. This
+operation establishes a set of parameters that define how the system generates and formats
+responses to user queries in chat interactions.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application for which to
+  create the new chat response configuration.
+- `display_name`: A human-readable name for the new chat response configuration, making it
+  easier to identify and manage among multiple configurations.
+- `response_configurations`: A collection of response configuration settings that define how
+  Amazon Q Business will generate and format responses to user queries in chat interactions.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This helps prevent the same configuration from being created multiple times if retries
+  occur.
+- `"tags"`: A list of key-value pairs to apply as tags to the new chat response
+  configuration, enabling categorization and management of resources across Amazon Web
+  Services services.
+"""
+function create_chat_response_configuration end
+
+function create_chat_response_configuration(
+    applicationId,
+    displayName,
+    responseConfigurations;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/chatresponseconfigurations",
+        Dict{String,Any}(
+            "displayName" => displayName,
+            "responseConfigurations" => responseConfigurations,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_chat_response_configuration(
+    applicationId,
+    displayName,
+    responseConfigurations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/chatresponseconfigurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "displayName" => displayName,
+                    "responseConfigurations" => responseConfigurations,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_accessor(action_configurations, application_id, display_name, principal)
+    create_data_accessor(action_configurations, application_id, display_name, principal, params::Dict{String,<:Any})
+
+Creates a new data accessor for an ISV to access data from a Amazon Q Business application.
+The data accessor is an entity that represents the ISV's access to the Amazon Q Business
+application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of
+action configurations that define the specific actions the ISV is allowed to perform and any
+associated data filters. When the data accessor is created, an IAM Identity Center
+application is also created to manage the ISV's identity and authentication for accessing
+the Amazon Q Business application.
+
+# Arguments
+
+- `action_configurations`: A list of action configurations specifying the allowed actions
+  and any associated filters.
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `display_name`: A friendly name for the data accessor.
+- `principal`: The Amazon Resource Name (ARN) of the IAM role for the ISV that will be
+  accessing the data.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"authenticationDetail"`: The authentication configuration details for the data accessor.
+  This specifies how the ISV will authenticate when accessing data through this data
+  accessor.
+- `"clientToken"`: A unique, case-sensitive identifier you provide to ensure idempotency of
+  the request.
+- `"tags"`: The tags to associate with the data accessor.
+"""
+function create_data_accessor end
+
+function create_data_accessor(
+    actionConfigurations,
+    applicationId,
+    displayName,
+    principal;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/dataaccessors",
+        Dict{String,Any}(
+            "actionConfigurations" => actionConfigurations,
+            "displayName" => displayName,
+            "principal" => principal,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_accessor(
+    actionConfigurations,
+    applicationId,
+    displayName,
+    principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/dataaccessors",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionConfigurations" => actionConfigurations,
+                    "displayName" => displayName,
+                    "principal" => principal,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_data_source(application_id, configuration, display_name, index_id)
     create_data_source(application_id, configuration, display_name, index_id, params::Dict{String,<:Any})
 
@@ -340,9 +759,28 @@ was successfully created. Otherwise, an exception is raised.
 
 - `application_id`: The identifier of the Amazon Q Business application the data source will
   be attached to.
-- `configuration`: Configuration information to connect to your data source repository. For
-  configuration templates for your specific data source, see [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html).
+
+- `configuration`: Configuration information to connect your data source repository to
+  Amazon Q Business. Use this parameter to provide a JSON schema with configuration
+  information specific to your data source connector.
+
+  Each data source has a JSON schema provided by Amazon Q Business that you must use. For
+  example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:
+
+  - [Amazon S3 JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html)
+  - [Web Crawler JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html)
+
+  You can find configuration templates for your specific data source using the following
+  steps:
+
+  1. Navigate to the [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html)
+     page in the Amazon Q Business User Guide, and select the data source of your choice.
+  2. Then, from your specific data source connector page, select **Using the API**. You will
+     find the JSON schema for your data source, including parameter descriptions, in this
+     section.
+
 - `display_name`: A name for the data source connector.
+
 - `index_id`: The identifier of the index that you want to use with the data source
   connector.
 
@@ -358,8 +796,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"documentEnrichmentConfiguration"`:
 
+- `"mediaExtractionConfiguration"`: The configuration for extracting information from media
+  in documents during ingestion.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
-  data source and required resources.
+  data source and required resources. This field is required for all connector types except
+  custom connectors, where it is optional.
 
 - `"syncSchedule"`: Sets the frequency for Amazon Q Business to check the documents in your
   data source repository and update your index. If you don't set a schedule, Amazon Q
@@ -458,7 +900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use tags to help control access to the index. Tag keys and values can consist of Unicode
   letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 - `"type"`: The index type that's suitable for your needs. For more information on what's
-  included in each type of index or index tier, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers).
+  included in each type of index, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers).
 """
 function create_index end
 
@@ -651,6 +1093,78 @@ function create_retriever(
 end
 
 """
+    create_subscription(application_id, principal, type)
+    create_subscription(application_id, principal, type, params::Dict{String,<:Any})
+
+Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business
+application.
+
+Amazon Q Business offers two subscription tiers: `Q_LITE` and `Q_BUSINESS`. Subscription
+tier determines feature access for the user. For more information on subscriptions and
+pricing tiers, see [Amazon Q Business pricing](https://aws.amazon.com/q/business/pricing/).
+
+!!! note
+    For an example IAM role policy for assigning subscriptions, see [Set up required permissions](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/setting-up.html#permissions)
+    in the Amazon Q Business User Guide.
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application the subscription
+  should be added to.
+- `principal`: The IAM Identity Center `UserId` or `GroupId` of a user or group in the IAM
+  Identity Center instance connected to the Amazon Q Business application.
+- `type`: The type of Amazon Q Business subscription you want to create.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A token that you provide to identify the request to create a subscription
+  for your Amazon Q Business application.
+"""
+function create_subscription end
+
+function create_subscription(
+    applicationId, principal, type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/subscriptions",
+        Dict{String,Any}(
+            "principal" => principal, "type" => type, "clientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_subscription(
+    applicationId,
+    principal,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/subscriptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "principal" => principal,
+                    "type" => type,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_user(application_id, user_id)
     create_user(application_id, user_id, params::Dict{String,<:Any})
 
@@ -720,18 +1234,51 @@ Creates an Amazon Q Business web experience.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"browserExtensionConfiguration"`: The browser extension configuration for an Amazon Q
+  Business web experience.
+
+  !!! note
+      For Amazon Q Business application using external OIDC-compliant identity providers
+      (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to
+      the IdP application. For more information, see [Configure external OIDC identity provider for your browser extensions.](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/browser-extensions.html).
+
 - `"clientToken"`: A token you provide to identify a request to create an Amazon Q Business
   web experience.
+
+- `"customizationConfiguration"`: Sets the custom logo, favicon, font, and color used in the
+  Amazon Q web experience.
+
+- `"identityProviderConfiguration"`: Information about the identity provider (IdP) used to
+  authenticate end users of an Amazon Q Business web experience.
+
+- `"origins"`: Sets the website domain origins that are allowed to embed the Amazon Q
+  Business web experience. The *domain origin* refers to the base URL for accessing a
+  website including the protocol (`http/https`), the domain name, and the port number (if
+  specified).
+
+  !!! note
+      You must only submit a *base URL* and not a full path. For example,
+      `https://docs.aws.amazon.com`.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the service role attached to your web
   experience.
+
+  !!! note
+      The `roleArn` parameter is required when your Amazon Q Business application is created
+      with IAM Identity Center. It is not required for SAML-based applications.
+
 - `"samplePromptsControlMode"`: Determines whether sample prompts are enabled in the web
   experience for an end user.
+
 - `"subtitle"`: A subtitle to personalize your Amazon Q Business web experience.
+
 - `"tags"`: A list of key-value pairs that identify or categorize your Amazon Q Business web
   experience. You can also use tags to help control access to the web experience. Tag keys
   and values can consist of Unicode letters, digits, white space, and any of the following
   symbols: _ . : / = + - @.
+
 - `"title"`: The title for your Amazon Q Business web experience.
+
 - `"welcomeMessage"`: The customized welcome message for end users of an Amazon Q Business
   web experience.
 """
@@ -803,6 +1350,56 @@ function delete_application(
 end
 
 """
+    delete_attachment(application_id, attachment_id, conversation_id)
+    delete_attachment(application_id, attachment_id, conversation_id, params::Dict{String,<:Any})
+
+Deletes an attachment associated with a specific Amazon Q Business conversation.
+
+# Arguments
+
+- `application_id`: The unique identifier for the Amazon Q Business application environment.
+- `attachment_id`: The unique identifier for the attachment.
+- `conversation_id`: The unique identifier of the conversation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"userId"`: The unique identifier of the user involved in the conversation.
+"""
+function delete_attachment end
+
+function delete_attachment(
+    applicationId,
+    attachmentId,
+    conversationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/conversations/$(conversationId)/attachments/$(attachmentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_attachment(
+    applicationId,
+    attachmentId,
+    conversationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/conversations/$(conversationId)/attachments/$(attachmentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_chat_controls_configuration(application_id)
     delete_chat_controls_configuration(application_id, params::Dict{String,<:Any})
 
@@ -834,6 +1431,49 @@ function delete_chat_controls_configuration(
     return qbusiness(
         "DELETE",
         "/applications/$(applicationId)/chatcontrols",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_chat_response_configuration(application_id, chat_response_configuration_id)
+    delete_chat_response_configuration(application_id, chat_response_configuration_id, params::Dict{String,<:Any})
+
+Deletes a specified chat response configuration from an Amazon Q Business application.
+
+# Arguments
+
+- `application_id`: The unique identifier of theAmazon Q Business application from which to
+  delete the chat response configuration.
+- `chat_response_configuration_id`: The unique identifier of the chat response configuration
+  to delete from the specified application.
+"""
+function delete_chat_response_configuration end
+
+function delete_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -881,6 +1521,47 @@ function delete_conversation(
     return qbusiness(
         "DELETE",
         "/applications/$(applicationId)/conversations/$(conversationId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_accessor(application_id, data_accessor_id)
+    delete_data_accessor(application_id, data_accessor_id, params::Dict{String,<:Any})
+
+Deletes a specified data accessor. This operation permanently removes the data accessor and
+its associated IAM Identity Center application. Any access granted to the ISV through this
+data accessor will be revoked.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `data_accessor_id`: The unique identifier of the data accessor to delete.
+"""
+function delete_data_accessor end
+
+function delete_data_accessor(
+    applicationId, dataAccessorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_accessor(
+    applicationId,
+    dataAccessorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1191,6 +1872,47 @@ function delete_web_experience(
 end
 
 """
+    disassociate_permission(application_id, statement_id)
+    disassociate_permission(application_id, statement_id, params::Dict{String,<:Any})
+
+Removes a permission policy from a Amazon Q Business application, revoking the cross-account
+access that was previously granted to an ISV. This operation deletes the specified policy
+statement from the application's permission policy.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `statement_id`: The statement ID of the permission to remove.
+"""
+function disassociate_permission end
+
+function disassociate_permission(
+    applicationId, statementId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/policy/$(statementId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_permission(
+    applicationId,
+    statementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "DELETE",
+        "/applications/$(applicationId)/policy/$(statementId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_application(application_id)
     get_application(application_id, params::Dict{String,<:Any})
 
@@ -1226,7 +1948,7 @@ end
     get_chat_controls_configuration(application_id)
     get_chat_controls_configuration(application_id, params::Dict{String,<:Any})
 
-Gets information about an chat controls configured for an existing Amazon Q Business
+Gets information about chat controls configured for an existing Amazon Q Business
 application.
 
 # Arguments
@@ -1271,6 +1993,94 @@ function get_chat_controls_configuration(
 end
 
 """
+    get_chat_response_configuration(application_id, chat_response_configuration_id)
+    get_chat_response_configuration(application_id, chat_response_configuration_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific chat response configuration from an Amazon Q
+Business application. This operation returns the complete configuration settings and
+metadata.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application containing
+  the chat response configuration to retrieve.
+- `chat_response_configuration_id`: The unique identifier of the chat response configuration
+  to retrieve from the specified application.
+"""
+function get_chat_response_configuration end
+
+function get_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_accessor(application_id, data_accessor_id)
+    get_data_accessor(application_id, data_accessor_id, params::Dict{String,<:Any})
+
+Retrieves information about a specified data accessor. This operation returns details about
+the data accessor, including its display name, unique identifier, Amazon Resource Name
+(ARN), the associated Amazon Q Business application and IAM Identity Center application, the
+IAM role for the ISV, the action configurations, and the timestamps for when the data
+accessor was created and last updated.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `data_accessor_id`: The unique identifier of the data accessor to retrieve.
+"""
+function get_data_accessor end
+
+function get_data_accessor(
+    applicationId, dataAccessorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_accessor(
+    applicationId,
+    dataAccessorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_source(application_id, data_source_id, index_id)
     get_data_source(application_id, data_source_id, index_id, params::Dict{String,<:Any})
 
@@ -1305,6 +2115,63 @@ function get_data_source(
     return qbusiness(
         "GET",
         "/applications/$(applicationId)/indices/$(indexId)/datasources/$(dataSourceId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_document_content(application_id, document_id, index_id)
+    get_document_content(application_id, document_id, index_id, params::Dict{String,<:Any})
+
+Retrieves the content of a document that was ingested into Amazon Q Business. This API
+validates user authorization against document ACLs before returning a pre-signed URL for
+secure document access. You can download or view source documents referenced in chat
+responses through the URL.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application containing
+  the document. This ensures the request is scoped to the correct application environment
+  and its associated security policies.
+- `document_id`: The unique identifier of the document that is indexed via BatchPutDocument
+  API or file-upload or connector sync. It is also found in chat or chatSync response.
+- `index_id`: The identifier of the index where documents are indexed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"dataSourceId"`: The identifier of the data source from which the document was ingested.
+  This field is not present if the document is ingested by directly calling the
+  BatchPutDocument API. If the document is from a file-upload data source, the datasource
+  will be "uploaded-docs-file-stat-datasourceid".
+- `"outputFormat"`: Document outputFormat. Defaults to RAW if not selected.
+"""
+function get_document_content end
+
+function get_document_content(
+    applicationId, documentId, indexId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/documents/$(documentId)/content";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_document_content(
+    applicationId,
+    documentId,
+    indexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/index/$(indexId)/documents/$(documentId)/content",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1399,6 +2266,59 @@ function get_index(
 end
 
 """
+    get_media(application_id, conversation_id, media_id, message_id)
+    get_media(application_id, conversation_id, media_id, message_id, params::Dict{String,<:Any})
+
+Returns the image bytes corresponding to a media object. If you have implemented your own
+application with the Chat and ChatSync APIs, and have enabled content extraction from visual
+data in Amazon Q Business, you use the GetMedia API operation to download the images so you
+can show them in your UI with responses.
+
+For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business which contains the media object.
+- `conversation_id`: The identifier of the Amazon Q Business conversation.
+- `media_id`: The identifier of the media object. You can find this in the
+  `sourceAttributions` returned by the `Chat`, `ChatSync`, and `ListMessages` API responses.
+- `message_id`: The identifier of the Amazon Q Business message.
+"""
+function get_media end
+
+function get_media(
+    applicationId,
+    conversationId,
+    mediaId,
+    messageId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/media/$(mediaId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_media(
+    applicationId,
+    conversationId,
+    mediaId,
+    messageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/conversations/$(conversationId)/messages/$(messageId)/media/$(mediaId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_plugin(application_id, plugin_id)
     get_plugin(application_id, plugin_id, params::Dict{String,<:Any})
 
@@ -1431,6 +2351,43 @@ function get_plugin(
     return qbusiness(
         "GET",
         "/applications/$(applicationId)/plugins/$(pluginId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_policy(application_id)
+    get_policy(application_id, params::Dict{String,<:Any})
+
+Retrieves the current permission policy for a Amazon Q Business application. The policy is
+returned as a JSON-formatted string and defines the IAM actions that are allowed or denied
+for the application's resources.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application.
+"""
+function get_policy end
+
+function get_policy(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/policy";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_policy(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/policy",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1560,6 +2517,10 @@ end
 
 Lists Amazon Q Business applications.
 
+!!! note
+    Amazon Q Business applications may securely transmit data for processing across Amazon
+    Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1580,6 +2541,105 @@ function list_applications(
 )
     return qbusiness(
         "GET", "/applications", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_attachments(application_id)
+    list_attachments(application_id, params::Dict{String,<:Any})
+
+Gets a list of attachments associated with an Amazon Q Business web experience or a list of
+attachements associated with a specific Amazon Q Business conversation.
+
+# Arguments
+
+- `application_id`: The unique identifier for the Amazon Q Business application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"conversationId"`: The unique identifier of the Amazon Q Business web experience
+  conversation.
+- `"maxResults"`: The maximum number of attachements to return.
+- `"nextToken"`: If the number of attachments returned exceeds `maxResults`, Amazon Q
+  Business returns a next token as a pagination token to retrieve the next set of
+  attachments.
+- `"userId"`: The unique identifier of the user involved in the Amazon Q Business web
+  experience conversation.
+"""
+function list_attachments end
+
+function list_attachments(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/attachments";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_attachments(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/attachments",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_chat_response_configurations(application_id)
+    list_chat_response_configurations(application_id, params::Dict{String,<:Any})
+
+Retrieves a list of all chat response configurations available in a specified Amazon Q
+Business application. This operation returns summary information about each configuration to
+help administrators manage and select appropriate response settings.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application for which to
+  list available chat response configurations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of chat response configurations to return in a single
+  response. This parameter helps control pagination of results when many configurations
+  exist.
+- `"nextToken"`: A pagination token used to retrieve the next set of results when the number
+  of configurations exceeds the specified `maxResults` value.
+"""
+function list_chat_response_configurations end
+
+function list_chat_response_configurations(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/chatresponseconfigurations";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_chat_response_configurations(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/chatresponseconfigurations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1625,6 +2685,53 @@ function list_conversations(
     return qbusiness(
         "GET",
         "/applications/$(applicationId)/conversations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_accessors(application_id)
+    list_data_accessors(application_id, params::Dict{String,<:Any})
+
+Lists the data accessors for a Amazon Q Business application. This operation returns a
+paginated list of data accessor summaries, including the friendly name, unique identifier,
+ARN, associated IAM role, and creation/update timestamps for each data accessor.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: The token for the next set of results. (You received this token from a
+  previous call.)
+"""
+function list_data_accessors end
+
+function list_data_accessors(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/dataaccessors";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_accessors(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/dataaccessors",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1908,8 +3015,8 @@ Gets a list of messages associated with an Amazon Q Business web experience.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of messages to return.
-- `"nextToken"`: If the number of retrievers returned exceeds `maxResults`, Amazon Q
-  Business returns a next token as a pagination token to retrieve the next set of messages.
+- `"nextToken"`: If the number of messages returned exceeds `maxResults`, Amazon Q Business
+  returns a next token as a pagination token to retrieve the next set of messages.
 - `"userId"`: The identifier of the user involved in the Amazon Q Business web experience
   conversation.
 """
@@ -1938,6 +3045,131 @@ function list_messages(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_plugin_actions(application_id, plugin_id)
+    list_plugin_actions(application_id, plugin_id, params::Dict{String,<:Any})
+
+Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business
+application.
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application the plugin is
+  attached to.
+- `plugin_id`: The identifier of the Amazon Q Business plugin.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of plugin actions to return.
+- `"nextToken"`: If the number of plugin actions returned exceeds `maxResults`, Amazon Q
+  Business returns a next token as a pagination token to retrieve the next set of plugin
+  actions.
+"""
+function list_plugin_actions end
+
+function list_plugin_actions(
+    applicationId, pluginId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/plugins/$(pluginId)/actions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_plugin_actions(
+    applicationId,
+    pluginId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/plugins/$(pluginId)/actions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_plugin_type_actions(plugin_type)
+    list_plugin_type_actions(plugin_type, params::Dict{String,<:Any})
+
+Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
+
+# Arguments
+
+- `plugin_type`: The type of the plugin.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of plugins to return.
+- `"nextToken"`: If the number of plugins returned exceeds `maxResults`, Amazon Q Business
+  returns a next token as a pagination token to retrieve the next set of plugins.
+"""
+function list_plugin_type_actions end
+
+function list_plugin_type_actions(
+    pluginType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/pluginTypes/$(pluginType)/actions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_plugin_type_actions(
+    pluginType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/pluginTypes/$(pluginType)/actions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_plugin_type_metadata()
+    list_plugin_type_metadata(params::Dict{String,<:Any})
+
+Lists metadata for all Amazon Q Business plugin types.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of plugin metadata items to return.
+- `"nextToken"`: If the metadata returned exceeds `maxResults`, Amazon Q Business returns a
+  next token as a pagination token to retrieve the next set of metadata.
+"""
+function list_plugin_type_metadata end
+
+function list_plugin_type_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
+    return qbusiness(
+        "GET", "/pluginTypeMetadata"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_plugin_type_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET", "/pluginTypeMetadata", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2023,6 +3255,53 @@ function list_retrievers(
     return qbusiness(
         "GET",
         "/applications/$(applicationId)/retrievers",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_subscriptions(application_id)
+    list_subscriptions(application_id, params::Dict{String,<:Any})
+
+Lists all subscriptions created in an Amazon Q Business application.
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application linked to the
+  subscription.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of Amazon Q Business subscriptions to return.
+- `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of Amazon Q Business subscriptions.
+"""
+function list_subscriptions end
+
+function list_subscriptions(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/subscriptions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_subscriptions(
+    applicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "GET",
+        "/applications/$(applicationId)/subscriptions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2178,24 +3457,21 @@ list of users or people who work in these teams. Only users who work in research
 engineering, and therefore belong in the intellectual property group, can see top-secret
 company documents in their Amazon Q Business chat results.
 
+There are two options for creating groups, either passing group members inline or using an
+S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000
+members per group and for provided S3 files there is a limit of 100 thousand members. When
+creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q
+Buisness to access the file.
+
 # Arguments
 
 - `application_id`: The identifier of the application in which the user and group mapping
   belongs.
-
 - `group_members`:
-
 - `group_name`: The list that contains your users or sub groups that belong the same group.
   For example, the group "Company" includes the user "CEO" and the sub groups "Research",
   "Engineering", and "Sales and Marketing".
-
-  If you have more than 1000 users and/or sub groups for a single group, you need to provide
-  the path to the S3 file that lists your users and sub groups for a group. Your sub groups
-  can contain more than 1000 users, but the list of sub groups that belong to a group
-  (and/or users) must be no more than 1000.
-
 - `index_id`: The identifier of the index in which you want to map users to their groups.
-
 - `type`: The type of the group.
 
 # Optional Parameters
@@ -2208,6 +3484,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   "Research", "Engineering", and "Sales and Marketing" are all tied to the company's
   documents stored in the data sources Confluence and Salesforce. However, "Sales and
   Marketing" team only needs access to customer-related documents stored in Salesforce.
+
+- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file
+  that contains your list of users that belong to a group.
 """
 function put_group end
 
@@ -2247,6 +3526,73 @@ function put_group(
                 _merge,
                 Dict{String,Any}(
                     "groupMembers" => groupMembers, "groupName" => groupName, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_relevant_content(application_id, content_source, query_text)
+    search_relevant_content(application_id, content_source, query_text, params::Dict{String,<:Any})
+
+Searches for relevant content in a Amazon Q Business application based on a query. This
+operation takes a search query text, the Amazon Q Business application identifier, and
+optional filters (such as content source and maximum results) as input. It returns a list of
+relevant content items, where each item includes the content text, the unique document
+identifier, the document title, the document URI, any relevant document attributes, and
+score attributes indicating the confidence level of the relevance.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application to search.
+- `content_source`: The source of content to search in.
+- `query_text`: The text to search for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"attributeFilter"`:
+- `"maxResults"`: The maximum number of results to return.
+- `"nextToken"`: The token for the next set of results. (You received this token from a
+  previous call.)
+"""
+function search_relevant_content end
+
+function search_relevant_content(
+    applicationId,
+    contentSource,
+    queryText;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/relevant-content",
+        Dict{String,Any}("contentSource" => contentSource, "queryText" => queryText);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function search_relevant_content(
+    applicationId,
+    contentSource,
+    queryText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "POST",
+        "/applications/$(applicationId)/relevant-content",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "contentSource" => contentSource, "queryText" => queryText
                 ),
                 params,
             ),
@@ -2431,6 +3777,15 @@ end
 
 Updates an existing Amazon Q Business application.
 
+!!! note
+    Amazon Q Business applications may securely transmit data for processing across Amazon
+    Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
+
+!!! note
+    An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web
+    Services account when `QAppsConfiguration` is enabled in the request. For more
+    information, see [Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html).
+
 # Arguments
 
 - `application_id`: The identifier of the Amazon Q Business application.
@@ -2441,10 +3796,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"attachmentsConfiguration"`: An option to allow end users to upload files directly during
   chat.
+- `"autoSubscriptionConfiguration"`: An option to enable updating the default subscription
+  type assigned to an Amazon Q Business application using IAM identity federation for user
+  management.
 - `"description"`: A description for the Amazon Q Business application.
 - `"displayName"`: A name for the Amazon Q Business application.
 - `"identityCenterInstanceArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+- `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
+  the web experience.
 - `"roleArn"`: An Amazon Web Services Identity and Access Management (IAM) role that gives
   Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
 """
@@ -2476,7 +3838,7 @@ end
     update_chat_controls_configuration(application_id)
     update_chat_controls_configuration(application_id, params::Dict{String,<:Any})
 
-Updates an set of chat controls configured for an existing Amazon Q Business application.
+Updates a set of chat controls configured for an existing Amazon Q Business application.
 
 # Arguments
 
@@ -2492,6 +3854,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token that you provide to identify the request to update a Amazon Q
   Business application chat configuration.
 - `"creatorModeConfiguration"`: The configuration details for `CREATOR_MODE`.
+- `"hallucinationReductionConfiguration"`: The hallucination reduction settings for your
+  application.
+- `"orchestrationConfiguration"`: The chat response orchestration settings for your
+  application.
 - `"responseScope"`: The response scope configured for your application. This determines
   whether your application uses its retrieval augmented generation (RAG) system to generate
   answers only from your enterprise data, or also uses the large language models (LLM)
@@ -2532,6 +3898,141 @@ function update_chat_controls_configuration(
 end
 
 """
+    update_chat_response_configuration(application_id, chat_response_configuration_id, response_configurations)
+    update_chat_response_configuration(application_id, chat_response_configuration_id, response_configurations, params::Dict{String,<:Any})
+
+Updates an existing chat response configuration in an Amazon Q Business application. This
+operation allows administrators to modify configuration settings, display name, and response
+parameters to refine how the system generates responses.
+
+# Arguments
+
+- `application_id`: The unique identifier of the Amazon Q Business application containing
+  the chat response configuration to update.
+- `chat_response_configuration_id`: The unique identifier of the chat response configuration
+  to update within the specified application.
+- `response_configurations`: The updated collection of response configuration settings that
+  define how Amazon Q Business generates and formats responses to user queries.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This helps prevent the same update from being processed multiple times if retries occur.
+- `"displayName"`: The new human-readable name to assign to the chat response configuration,
+  making it easier to identify among multiple configurations.
+"""
+function update_chat_response_configuration end
+
+function update_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId,
+    responseConfigurations;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)",
+        Dict{String,Any}(
+            "responseConfigurations" => responseConfigurations,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_chat_response_configuration(
+    applicationId,
+    chatResponseConfigurationId,
+    responseConfigurations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/chatresponseconfigurations/$(chatResponseConfigurationId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "responseConfigurations" => responseConfigurations,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_accessor(action_configurations, application_id, data_accessor_id)
+    update_data_accessor(action_configurations, application_id, data_accessor_id, params::Dict{String,<:Any})
+
+Updates an existing data accessor. This operation allows modifying the action configurations
+(the allowed actions and associated filters) and the display name of the data accessor. It
+does not allow changing the IAM role associated with the data accessor or other core
+properties of the data accessor.
+
+# Arguments
+
+- `action_configurations`: The updated list of action configurations specifying the allowed
+  actions and any associated filters.
+- `application_id`: The unique identifier of the Amazon Q Business application.
+- `data_accessor_id`: The unique identifier of the data accessor to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"authenticationDetail"`: The updated authentication configuration details for the data
+  accessor. This specifies how the ISV will authenticate when accessing data through this
+  data accessor.
+- `"displayName"`: The updated friendly name for the data accessor.
+"""
+function update_data_accessor end
+
+function update_data_accessor(
+    actionConfigurations,
+    applicationId,
+    dataAccessorId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)",
+        Dict{String,Any}("actionConfigurations" => actionConfigurations);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_accessor(
+    actionConfigurations,
+    applicationId,
+    dataAccessorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/dataaccessors/$(dataAccessorId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("actionConfigurations" => actionConfigurations),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_data_source(application_id, data_source_id, index_id)
     update_data_source(application_id, data_source_id, index_id, params::Dict{String,<:Any})
 
@@ -2552,6 +4053,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the data source connector.
 - `"displayName"`: A name of the data source connector.
 - `"documentEnrichmentConfiguration"`:
+- `"mediaExtractionConfiguration"`: The configuration for extracting information from media
+  in documents for your data source.
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
   data source and required resources.
 - `"syncSchedule"`: The chosen update frequency for your data source.
@@ -2737,6 +4240,51 @@ function update_retriever(
 end
 
 """
+    update_subscription(application_id, subscription_id, type)
+    update_subscription(application_id, subscription_id, type, params::Dict{String,<:Any})
+
+Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant.
+Downgrades apply at the start of the next month. Subscription tier determines feature access
+for the user. For more information on subscriptions and pricing tiers, see [Amazon Q Business pricing](https://aws.amazon.com/q/business/pricing/).
+
+# Arguments
+
+- `application_id`: The identifier of the Amazon Q Business application where the
+  subscription update should take effect.
+- `subscription_id`: The identifier of the Amazon Q Business subscription to be updated.
+- `type`: The type of the Amazon Q Business subscription to be updated.
+"""
+function update_subscription end
+
+function update_subscription(
+    applicationId, subscriptionId, type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/subscriptions/$(subscriptionId)",
+        Dict{String,Any}("type" => type);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_subscription(
+    applicationId,
+    subscriptionId,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return qbusiness(
+        "PUT",
+        "/applications/$(applicationId)/subscriptions/$(subscriptionId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_user(application_id, user_id)
     update_user(application_id, user_id, params::Dict{String,<:Any})
 
@@ -2800,12 +4348,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"authenticationConfiguration"`: The authentication configuration of the Amazon Q Business
   web experience.
+
+- `"browserExtensionConfiguration"`: The browser extension configuration for an Amazon Q
+  Business web experience.
+
+  !!! note
+      For Amazon Q Business application using external OIDC-compliant identity providers
+      (IdPs). The IdP administrator must add the browser extension sign-in redirect URLs to
+      the IdP application. For more information, see [Configure external OIDC identity provider for your browser extensions.](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/browser-extensions.html).
+
+- `"customizationConfiguration"`: Updates the custom logo, favicon, font, and color used in
+  the Amazon Q web experience.
+
+- `"identityProviderConfiguration"`: Information about the identity provider (IdP) used to
+  authenticate end users of an Amazon Q Business web experience.
+
+- `"origins"`: Updates the website domain origins that are allowed to embed the Amazon Q
+  Business web experience. The *domain origin* refers to the *base URL* for accessing a
+  website including the protocol (`http/https`), the domain name, and the port number (if
+  specified).
+
+  !!! note
+      - Any values except `null` submitted as part of this update will replace all previous
+        values.
+      - You must only submit a *base URL* and not a full path. For example,
+        `https://docs.aws.amazon.com`.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the role with permission to access the
   Amazon Q Business web experience and required resources.
+
 - `"samplePromptsControlMode"`: Determines whether sample prompts are enabled in the web
   experience for an end user.
+
 - `"subtitle"`: The subtitle of the Amazon Q Business web experience.
+
 - `"title"`: The title of the Amazon Q Business web experience.
+
 - `"welcomeMessage"`: A customized welcome message for an end user in an Amazon Q Business
   web experience.
 """

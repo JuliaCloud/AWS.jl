@@ -106,11 +106,12 @@ Checks whether the specified access isn't allowed by a policy.
 # Arguments
 
 - `access`: An access object containing the permissions that shouldn't be granted by the
-  specified policy. If only actions are specified, IAM Access Analyzer checks for access of
-  the actions on all resources in the policy. If only resources are specified, then IAM
-  Access Analyzer checks which actions have access to the specified resources. If both
-  actions and resources are specified, then IAM Access Analyzer checks which of the
-  specified actions have access to the specified resources.
+  specified policy. If only actions are specified, IAM Access Analyzer checks for access to
+  peform at least one of the actions on any resource in the policy. If only resources are
+  specified, then IAM Access Analyzer checks for access to perform any action on at least
+  one of the resources. If both actions and resources are specified, IAM Access Analyzer
+  checks for access to perform at least one of the specified actions on at least one of the
+  specified resources.
 
 - `policy_document`: The JSON policy document to use as the content for the policy.
 
@@ -118,9 +119,7 @@ Checks whether the specified access isn't allowed by a policy.
   Identity policies include managed and inline policies for IAM roles, users, and groups.
 
   Resource policies grant permissions on Amazon Web Services resources. Resource policies
-  include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can
-  provide a generic input such as identity policy or resource policy or a specific input
-  such as managed policy or Amazon S3 bucket policy.
+  include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
 """
 function check_access_not_granted end
 
@@ -373,10 +372,8 @@ Creates an analyzer for your account.
 # Arguments
 
 - `analyzer_name`: The name of the analyzer to create.
-- `type`: The type of analyzer to create. Only `ACCOUNT`, `ORGANIZATION`,
-  `ACCOUNT_UNUSED_ACCESS`, and `ORGANIZATION_UNUSED_ACCESS` analyzers are supported. You can
-  create only one analyzer per account per Region. You can create up to 5 analyzers per
-  organization per Region.
+- `type`: The type of analyzer to create. You can create only one analyzer per account per
+  Region. You can create up to 5 analyzers per organization per Region.
 
 # Optional Parameters
 
@@ -384,11 +381,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"archiveRules"`: Specifies the archive rules to add for the analyzer. Archive rules
   automatically archive findings that meet the criteria you define for the rule.
+
 - `"clientToken"`: A client token.
+
 - `"configuration"`: Specifies the configuration of the analyzer. If the analyzer is an
   unused access analyzer, the specified scope of unused access is used for the
-  configuration. If the analyzer is an external access analyzer, this field is not used.
-- `"tags"`: An array of key-value pairs to apply to the analyzer.
+  configuration. If the analyzer is an internal access analyzer, the specified internal
+  access analysis rules are used for the configuration.
+
+- `"tags"`: An array of key-value pairs to apply to the analyzer. You can use the set of
+  Unicode letters, digits, whitespace, `_`, `.`, `/`, `=`, `+`, and `-`.
+
+  For the tag key, you can specify a value that is 1 to 128 characters in length and cannot
+  be prefixed with `aws:`.
+
+  For the tag value, you can specify a value that is 0 to 256 characters in length.
 """
 function create_analyzer end
 
@@ -681,6 +688,9 @@ end
 
 Retrieves information about a resource that was analyzed.
 
+!!! note
+    This action is supported only for external access analyzers.
+
 # Arguments
 
 - `analyzer_arn`: The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources)
@@ -805,6 +815,10 @@ end
 Retrieves information about the specified finding. GetFinding and GetFindingV2 both use
 `access-analyzer:GetFinding` in the `Action` element of an IAM policy statement. You must
 have permission to perform the `access-analyzer:GetFinding` action.
+
+!!! note
+    GetFinding is supported only for external access analyzers. You must use GetFindingV2
+    for internal and unused access analyzers.
 
 # Arguments
 
@@ -933,6 +947,48 @@ function get_finding_v2(
     return accessanalyzer(
         "GET",
         "/findingv2/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_findings_statistics(analyzer_arn)
+    get_findings_statistics(analyzer_arn, params::Dict{String,<:Any})
+
+Retrieves a list of aggregated finding statistics for an external access or unused access
+analyzer.
+
+# Arguments
+
+- `analyzer_arn`: The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources)
+  used to generate the statistics.
+"""
+function get_findings_statistics end
+
+function get_findings_statistics(
+    analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return accessanalyzer(
+        "POST",
+        "/analyzer/findings/statistics",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_findings_statistics(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/analyzer/findings/statistics",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
@@ -1094,7 +1150,7 @@ end
     list_analyzed_resources(analyzer_arn, params::Dict{String,<:Any})
 
 Retrieves a list of resources of the specified type that have been analyzed by the specified
-external access analyzer. This action is not supported for unused access analyzers.
+analyzer.
 
 # Arguments
 
@@ -1222,6 +1278,10 @@ action.
 
 To learn about filter keys that you can use to retrieve a list of findings, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html)
 in the **IAM User Guide**.
+
+!!! note
+    ListFindings is supported only for external access analyzers. You must use
+    ListFindingsV2 for internal and unused access analyzers.
 
 # Arguments
 
@@ -1454,6 +1514,9 @@ end
 
 Immediately starts a scan of the policies applied to the specified resource.
 
+!!! note
+    This action is supported only for external access analyzers.
+
 # Arguments
 
 - `analyzer_arn`: The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources)
@@ -1578,6 +1641,47 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_analyzer(analyzer_name)
+    update_analyzer(analyzer_name, params::Dict{String,<:Any})
+
+Modifies the configuration of an existing analyzer.
+
+!!! note
+    This action is not supported for external access analyzers.
+
+# Arguments
+
+- `analyzer_name`: The name of the analyzer to modify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"configuration"`:
+"""
+function update_analyzer end
+
+function update_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config())
+    return accessanalyzer(
+        "PUT", "/analyzer/$(analyzerName)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_analyzer(
+    analyzerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return accessanalyzer(
+        "PUT",
+        "/analyzer/$(analyzerName)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

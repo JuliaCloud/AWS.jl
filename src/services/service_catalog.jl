@@ -4595,7 +4595,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `jp` - Japanese
   - `zh` - Chinese
 
-- `"AccessLevelFilter"`: The access level to use to obtain results. The default is `User`.
+- `"AccessLevelFilter"`: The access level to use to obtain results. The default is
+  `Account`.
 
 - `"Filters"`: The search filters.
 

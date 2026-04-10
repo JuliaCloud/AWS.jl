@@ -335,7 +335,8 @@ Provides the list of entities of a given type.
 - `catalog`: The catalog related to the request. Fixed value: `AWSMarketplace`
 - `entity_type`: The type of entities to retrieve. Valid values are: `AmiProduct`,
   `ContainerProduct`, `DataProduct`, `SaaSProduct`, `ProcurementPolicy`, `Experience`,
-  `Audience`, `BrandingSettings`, `Offer`, `Seller`, `ResaleAuthorization`.
+  `Audience`, `BrandingSettings`, `Offer`, `OfferSet`, `Seller`, `ResaleAuthorization`,
+  `Solution`.
 
 # Optional Parameters
 
@@ -502,6 +503,10 @@ later in this topic because it contains two changes to run the same change type
 For more information about working with change sets, see [Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets).
 For information about change types for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products).
 Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
+
+To download "DetailsDocument" shapes, see [Python](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python)
+and [Java](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main)
+shapes on GitHub.
 
 # Arguments
 

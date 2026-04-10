@@ -22,6 +22,9 @@ action.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"clientToken"`: The client token for the test suite definition creation. This token is
+  used for tracking test suite definition creation using retries and obtaining its status.
+  This parameter is optional.
 - `"tags"`: The tags to be attached to the suite definition.
 """
 function create_suite_definition end
@@ -32,7 +35,10 @@ function create_suite_definition(
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions",
-        Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
+        Dict{String,Any}(
+            "suiteDefinitionConfiguration" => suiteDefinitionConfiguration,
+            "clientToken" => string(uuid4()),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -50,7 +56,8 @@ function create_suite_definition(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "suiteDefinitionConfiguration" => suiteDefinitionConfiguration
+                    "suiteDefinitionConfiguration" => suiteDefinitionConfiguration,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),

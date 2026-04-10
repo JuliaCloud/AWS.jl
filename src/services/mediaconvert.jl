@@ -93,11 +93,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pricing. For information about feature limitations, see the AWS Elemental MediaConvert
   User Guide.
 
-- `"BillingTagsSource"`: Optional. Choose a tag type that AWS Billing and Cost Management
-  will use to sort your AWS Elemental MediaConvert costs on any billing report that you set
-  up. Any transcoding outputs that don't have an associated tag will appear in your billing
-  report unsorted. If you don't choose a valid value for this field, your job outputs will
-  appear on the billing report unsorted.
+- `"BillingTagsSource"`: Optionally choose a Billing tags source that AWS Billing and Cost
+  Management will use to display tags for individual output costs on any billing report that
+  you set up. Leave blank to use the default value, Job.
 
 - `"ClientRequestToken"`: Prevent duplicate jobs from being created and ensure idempotency
   for your requests. A client request token can be any string that includes up to 64 ASCII
@@ -109,6 +107,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the queue that you submit your job to. Specify an alternate queue and the maximum time
   that your job will wait in the initial queue before hopping. For more information about
   this feature, see the AWS Elemental MediaConvert User Guide.
+
+- `"JobEngineVersion"`: Use Job engine versions to run jobs for your production workflow on
+  one version, while you test and validate the latest version. Job engine versions represent
+  periodically grouped MediaConvert releases with new features, updates, improvements, and
+  fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version
+  feature is not publicly available at this time. To request access, contact AWS support.
 
 - `"JobTemplate"`: Optional. When you create a job, you can either specify a job template or
   specify the transcoding settings individually.
@@ -319,6 +323,12 @@ User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-qu
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ConcurrentJobs"`: Specify the maximum number of jobs your queue can process
+  concurrently. For on-demand queues, the value you enter is constrained by your service
+  quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per
+  account. For reserved queues, specify the number of jobs you can process concurrently in
+  your reservation plan instead.
+
 - `"Description"`: Optional. A description of the queue that you are creating.
 
 - `"PricingPlan"`: Specifies whether the pricing plan for the queue is on-demand or
@@ -355,6 +365,52 @@ function create_queue(
         "POST",
         "/2017-08-29/queues",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_resource_share(job_id, support_case_id)
+    create_resource_share(job_id, support_case_id, params::Dict{String,<:Any})
+
+Create a new resource share request for MediaConvert resources with AWS Support.
+
+# Arguments
+
+- `job_id`: Specify MediaConvert Job ID or ARN to share
+- `support_case_id`: AWS Support case identifier
+"""
+function create_resource_share end
+
+function create_resource_share(
+    JobId, SupportCaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/resourceShares",
+        Dict{String,Any}("JobId" => JobId, "SupportCaseId" => SupportCaseId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_resource_share(
+    JobId,
+    SupportCaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/resourceShares",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("JobId" => JobId, "SupportCaseId" => SupportCaseId),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -479,8 +535,9 @@ end
     describe_endpoints()
     describe_endpoints(params::Dict{String,<:Any})
 
-Send an request with an empty body to the regional API endpoint to get your account API
-endpoint.
+Send a request with an empty body to the regional API endpoint to get your account API
+endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your
+requests directly to the regional endpoint instead.
 
 # Optional Parameters
 
@@ -599,6 +656,36 @@ function get_job_template(
     return mediaconvert(
         "GET",
         "/2017-08-29/jobTemplates/$(Name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_jobs_query_results(id)
+    get_jobs_query_results(id, params::Dict{String,<:Any})
+
+Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
+
+# Arguments
+
+- `id`: The ID of the jobs query.
+"""
+function get_jobs_query_results end
+
+function get_jobs_query_results(Id; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconvert(
+        "GET", "/2017-08-29/jobsQueries/$(Id)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_jobs_query_results(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/jobsQueries/$(Id)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -879,6 +966,68 @@ function list_tags_for_resource(
 end
 
 """
+    list_versions()
+    list_versions(params::Dict{String,<:Any})
+
+Retrieve a JSON array of all available Job engine versions and the date they expire.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: Optional. Number of valid Job engine versions, up to twenty, that will be
+  returned at one time.
+- `"nextToken"`: Optional. Use this string, provided with the response to a previous
+  request, to request the next batch of Job engine versions.
+"""
+function list_versions end
+
+function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconvert(
+        "GET", "/2017-08-29/versions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET", "/2017-08-29/versions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    probe()
+    probe(params::Dict{String,<:Any})
+
+Use Probe to obtain detailed information about your input media files. Probe returns a JSON
+that includes container, codec, frame rate, resolution, track count, audio layout, captions,
+and more. You can use this information to learn more about your media files, or to help make
+decisions while automating your transcoding workflow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"InputFiles"`: Specify a media file to probe.
+"""
+function probe end
+
+function probe(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconvert(
+        "POST", "/2017-08-29/probe"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function probe(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST", "/2017-08-29/probe", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     put_policy(policy)
     put_policy(policy, params::Dict{String,<:Any})
 
@@ -910,6 +1059,86 @@ function put_policy(
         "PUT",
         "/2017-08-29/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_jobs()
+    search_jobs(params::Dict{String,<:Any})
+
+Retrieve a JSON array that includes job details for up to twenty of your most recent jobs.
+Optionally filter results further according to input file, queue, or status. To retrieve the
+twenty next most recent jobs, use the nextToken string returned with the array.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"inputFile"`: Optional. Provide your input file URL or your partial input file name. The
+  maximum length for an input file is 300 characters.
+- `"maxResults"`: Optional. Number of jobs, up to twenty, that will be returned at one time.
+- `"nextToken"`: Optional. Use this string, provided with the response to a previous
+  request, to request the next batch of jobs.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"queue"`: Optional. Provide a queue name, or a queue ARN, to return only jobs from that
+  queue.
+- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or
+  ERROR.
+"""
+function search_jobs end
+
+function search_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconvert(
+        "GET", "/2017-08-29/search"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function search_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "GET", "/2017-08-29/search", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    start_jobs_query()
+    start_jobs_query(params::Dict{String,<:Any})
+
+Start an asynchronous jobs query using the provided filters. To receive the list of jobs
+that match your query, call the GetJobsQueryResults API using the query ID returned by this
+API.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FilterList"`: Optional. Provide an array of JobsQueryFilters for your StartJobsQuery
+  request.
+- `"MaxResults"`: Optional. Number of jobs, up to twenty, that will be included in the jobs
+  query.
+- `"NextToken"`: Use this string to request the next batch of jobs matched by a jobs query.
+- `"Order"`: Optional. When you request lists of resources, you can specify whether they are
+  sorted in ASCENDING or DESCENDING order. Default varies by resource.
+"""
+function start_jobs_query end
+
+function start_jobs_query(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediaconvert(
+        "POST", "/2017-08-29/jobsQueries"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_jobs_query(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mediaconvert(
+        "POST",
+        "/2017-08-29/jobsQueries",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1104,6 +1333,12 @@ Modify one of your existing queues.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConcurrentJobs"`: Specify the maximum number of jobs your queue can process
+  concurrently. For on-demand queues, the value you enter is constrained by your service
+  quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per
+  account. For reserved queues, update your reservation plan instead in order to increase
+  your yearly commitment.
 
 - `"Description"`: The new description for the queue, if you are changing it.
 

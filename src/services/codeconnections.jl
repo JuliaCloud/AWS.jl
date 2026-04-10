@@ -224,6 +224,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PublishDeploymentStatus"`: Whether to enable or disable publishing of deployment status
   to source providers.
+- `"PullRequestComment"`: A toggle that specifies whether to enable or disable pull request
+  comments for the sync configuration to be created.
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
 function create_sync_configuration end
@@ -1254,6 +1256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigFile"`: The configuration file for the sync configuration to be updated.
 - `"PublishDeploymentStatus"`: Whether to enable or disable publishing of deployment status
   to source providers.
+- `"PullRequestComment"`: TA toggle that specifies whether to enable or disable pull request
+  comments for the sync configuration to be updated.
 - `"RepositoryLinkId"`: The ID of the repository link for the sync configuration to be
   updated.
 - `"RoleArn"`: The ARN of the IAM role for the sync configuration to be updated.

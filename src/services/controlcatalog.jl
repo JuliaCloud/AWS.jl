@@ -5,6 +5,66 @@ using AWS.AWSServices: controlcatalog
 using AWS.UUIDs: uuid4
 
 """
+    get_control(control_arn)
+    get_control(control_arn, params::Dict{String,<:Any})
+
+Returns details about a specific control, most notably a list of Amazon Web Services Regions
+where this control is supported. Input a value for the *ControlArn* parameter, in ARN form.
+`GetControl` accepts *controltower* or *controlcatalog* control ARNs as input. Returns a
+*controlcatalog* ARN format.
+
+In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show
+the `DeployableRegions` field, because it does not apply. Controls that have the value
+`REGIONAL` in the `Scope` field return a value for the `DeployableRegions` field, as shown
+in the example.
+
+# Arguments
+
+- `control_arn`: The Amazon Resource Name (ARN) of the control. It has one of the following
+  formats:
+
+  *Global format*
+
+  `arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}`
+
+  *Or Regional format*
+
+  `arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}`
+
+  Here is a more general pattern that covers Amazon Web Services Control Tower and Control
+  Catalog ARNs:
+
+  `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+\$`
+"""
+function get_control end
+
+function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST",
+        "/get-control",
+        Dict{String,Any}("ControlArn" => ControlArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_control(
+    ControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return controlcatalog(
+        "POST",
+        "/get-control",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ControlArn" => ControlArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_common_controls()
     list_common_controls(params::Dict{String,<:Any})
 
@@ -21,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objective.
 
   This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in
-  the `CommonControlFilter` isn’t currently supported.
+  the `CommonControlFilter` isn’t supported.
 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 
@@ -44,10 +104,82 @@ function list_common_controls(
 end
 
 """
+    list_control_mappings()
+    list_control_mappings(params::Dict{String,<:Any})
+
+Returns a paginated list of control mappings from the Control Catalog. Control mappings show
+relationships between controls and other entities, such as common controls or compliance
+frameworks.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: An optional filter that narrows the results to specific control mappings based
+  on control ARNs, common control ARNs, or mapping types.
+- `"maxResults"`: The maximum number of results on a page or for an API request call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_control_mappings end
+
+function list_control_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/list-control-mappings"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_control_mappings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controlcatalog(
+        "POST",
+        "/list-control-mappings",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_controls()
+    list_controls(params::Dict{String,<:Any})
+
+Returns a paginated list of all available controls in the Control Catalog library. Allows
+you to discover available controls. The list of controls is given as structures of type
+*controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the
+examples.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: An optional filter that narrows the results to controls with specific
+  implementation types or identifiers. If you don't provide a filter, the operation returns
+  all available controls.
+- `"maxResults"`: The maximum number of results on a page or for an API request call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_controls end
+
+function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/list-controls"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_controls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controlcatalog(
+        "POST", "/list-controls", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
-Returns a paginated list of domains from the Amazon Web Services Control Catalog.
+Returns a paginated list of domains from the Control Catalog.
 
 # Optional Parameters
 
@@ -74,7 +206,7 @@ end
     list_objectives()
     list_objectives(params::Dict{String,<:Any})
 
-Returns a paginated list of objectives from the Amazon Web Services Control Catalog.
+Returns a paginated list of objectives from the Control Catalog.
 
 You can apply an optional filter to see the objectives that belong to a specific domain. If
 you don’t provide a filter, the operation returns all objectives.
@@ -86,7 +218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ObjectiveFilter"`: An optional filter that narrows the results to a specific domain.
 
   This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the
-  `ObjectiveFilter` isn’t currently supported.
+  `ObjectiveFilter` isn’t supported.
 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 

@@ -55,6 +55,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is critical to all later functions of the gateway and cannot be changed after activation.
   The default value is `CACHED`.
 
+  !!! important
+      Amazon FSx File Gateway is no longer available to new customers. Existing customers of
+      FSx File Gateway can continue to use the service normally. For capabilities similar to
+      FSx File Gateway, visit [this blog post](https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/).
+
   Valid Values: `STORED` | `CACHED` | `VTL` | `FILE_S3` | `FILE_FSX_SMB`
 
 - `"MediumChangerType"`: The value that indicates the type of medium changer to use for tape
@@ -510,8 +515,8 @@ volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instanc
   volume to.
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
-  of the network interfaces available on a gateway.
+  target. Accepts IPv4 and IPv6 addresses. Use `DescribeGatewayInformation` to get a list of
+  the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -627,6 +632,48 @@ function cancel_archival(
 end
 
 """
+    cancel_cache_report(cache_report_arn)
+    cancel_cache_report(cache_report_arn, params::Dict{String,<:Any})
+
+Cancels generation of a specified cache report. You can use this operation to manually
+cancel an IN-PROGRESS report for any reason. This action changes the report status from IN-
+PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you
+attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an
+error.
+
+# Arguments
+
+- `cache_report_arn`: The Amazon Resource Name (ARN) of the cache report you want to cancel.
+"""
+function cancel_cache_report end
+
+function cancel_cache_report(
+    CacheReportARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return storage_gateway(
+        "CancelCacheReport",
+        Dict{String,Any}("CacheReportARN" => CacheReportARN);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_cache_report(
+    CacheReportARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "CancelCacheReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheReportARN" => CacheReportARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_retrieval(gateway_arn, tape_arn)
     cancel_retrieval(gateway_arn, tape_arn, params::Dict{String,<:Any})
 
@@ -703,8 +750,8 @@ in bytes.
 - `gateway_arn`:
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
-  of the network interfaces available on a gateway.
+  target. Accepts IPv4 and IPv6 addresses. Use `DescribeGatewayInformation` to get a list of
+  the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -841,7 +888,7 @@ for S3 File Gateways.
 
       Bucket ARN:
 
-      `arn:aws:s3:::my-bucket/prefix/`
+      `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
 
       Access point ARN:
 
@@ -876,7 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
 
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
-  list must contain either valid IP addresses or valid CIDR blocks.
+  list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
 
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
@@ -884,11 +931,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
 
+- `"EncryptionType"`: A value that specifies the type of server-side encryption that the
+  file share will use for the data that it stores in Amazon S3.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
       `FileShareName` must be set if an S3 prefix name is set in `LocationARN`, or if an
       access point or access point alias is used.
+
+      A valid NFS file share name can only contain the following characters: `a`-`z`,
+      `A`-`Z`, `0`-`9`, `-`, `.`, and `_`.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to `true` to enable MIME type guessing,
@@ -896,14 +958,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values: `true` | `false`
 
-- `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
-  key, or `false` to use a key managed by Amazon S3. Optional.
+- `"KMSEncrypted"`: Optional. Set to `true` to use Amazon S3 server-side encryption with
+  your own KMS key (SSE-KMS), or `false` to use a key managed by Amazon S3 (SSE-S3). To use
+  dual-layer encryption (DSSE-KMS), set the `EncryptionType` parameter instead.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
 
   Valid Values: `true` | `false`
 
-- `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
-  for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
-  This value can only be set when `KMSEncrypted` is `true`. Optional.
+- `"KMSKey"`: Optional. The Amazon Resource Name (ARN) of a symmetric customer master key
+  (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support
+  asymmetric CMKs. This value must be set if `KMSEncrypted` is `true`, or if
+  `EncryptionType` is `SseKms` or `DsseKms`.
 
 - `"NFSFileShareDefaults"`: File share default values. Optional.
 
@@ -916,6 +989,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
       S3, only the timing of the notification.
+
+      This setting is not meant to specify an exact time at which the notification will be
+      sent. In some cases, the gateway might require more than the specified delay time to
+      generate and send notifications.
 
   The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
@@ -1055,7 +1132,7 @@ for S3 File Gateways.
 
       Bucket ARN:
 
-      `arn:aws:s3:::my-bucket/prefix/`
+      `arn:aws:s3:::amzn-s3-demo-bucket/prefix/`
 
       Access point ARN:
 
@@ -1116,11 +1193,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
 
+- `"EncryptionType"`: A value that specifies the type of server-side encryption that the
+  file share will use for the data that it stores in Amazon S3.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
       `FileShareName` must be set if an S3 prefix name is set in `LocationARN`, or if an
       access point or access point alias is used.
+
+      A valid SMB file share name cannot contain the following characters:
+      `[`,`]`,`#`,`;`,`<`,`>`,`:`,`"`,`\\`,`/`,`|`,`?`,`*`,`+`, or ASCII control characters
+      `1-31`.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to `true` to enable MIME type guessing,
@@ -1133,14 +1226,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
   Can only be set if Authentication is set to `ActiveDirectory`.
 
-- `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
-  key, or `false` to use a key managed by Amazon S3. Optional.
+- `"KMSEncrypted"`: Optional. Set to `true` to use Amazon S3 server-side encryption with
+  your own KMS key (SSE-KMS), or `false` to use a key managed by Amazon S3 (SSE-S3). To use
+  dual-layer encryption (DSSE-KMS), set the `EncryptionType` parameter instead.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
 
   Valid Values: `true` | `false`
 
-- `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
-  for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
-  This value can only be set when `KMSEncrypted` is `true`. Optional.
+- `"KMSKey"`: Optional. The Amazon Resource Name (ARN) of a symmetric customer master key
+  (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support
+  asymmetric CMKs. This value must be set if `KMSEncrypted` is `true`, or if
+  `EncryptionType` is `SseKms` or `DsseKms`.
 
 - `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
   controls the number of seconds to wait after the last point in time a client wrote to a
@@ -1151,6 +1255,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
       S3, only the timing of the notification.
+
+      This setting is not meant to specify an exact time at which the notification will be
+      sent. In some cases, the gateway might require more than the specified delay time to
+      generate and send notifications.
 
   The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
@@ -1193,8 +1301,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file share. Set it to `false` to map file and directory permissions to the POSIX
   permissions.
 
-  For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
-  in the *Storage Gateway User Guide*.
+  For more information, see [Using Windows ACLs to limit SMB file share access](https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html)
+  in the *Amazon S3 File Gateway User Guide*.
 
   Valid Values: `true` | `false`
 
@@ -1464,8 +1572,8 @@ ARN that initiators can use to connect to the volume target.
 - `gateway_arn`:
 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
-  target. Only IPv4 addresses are accepted. Use `DescribeGatewayInformation` to get a list
-  of the network interfaces available on a gateway.
+  target. Accepts IPv4 and IPv6 addresses. Use `DescribeGatewayInformation` to get a list of
+  the network interfaces available on a gateway.
 
   Valid Values: A valid IP address.
 
@@ -1945,6 +2053,50 @@ function delete_bandwidth_rate_limit(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cache_report(cache_report_arn)
+    delete_cache_report(cache_report_arn, params::Dict{String,<:Any})
+
+Deletes the specified cache report and any associated tags from the Storage Gateway
+database. You can only delete completed reports. If the status of the report you attempt to
+delete still IN-PROGRESS, the delete operation returns an error. You can use
+`CancelCacheReport` to cancel an IN-PROGRESS report.
+
+!!! note
+    `DeleteCacheReport` does not delete the report object from your Amazon S3 bucket.
+
+# Arguments
+
+- `cache_report_arn`: The Amazon Resource Name (ARN) of the cache report you want to delete.
+"""
+function delete_cache_report end
+
+function delete_cache_report(
+    CacheReportARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return storage_gateway(
+        "DeleteCacheReport",
+        Dict{String,Any}("CacheReportARN" => CacheReportARN);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_cache_report(
+    CacheReportARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "DeleteCacheReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheReportARN" => CacheReportARN), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2505,6 +2657,46 @@ function describe_cache(
         "DescribeCache",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cache_report(cache_report_arn)
+    describe_cache_report(cache_report_arn, params::Dict{String,<:Any})
+
+Returns information about the specified cache report, including completion status and
+generation progress.
+
+# Arguments
+
+- `cache_report_arn`: The Amazon Resource Name (ARN) of the cache report you want to
+  describe.
+"""
+function describe_cache_report end
+
+function describe_cache_report(
+    CacheReportARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return storage_gateway(
+        "DescribeCacheReport",
+        Dict{String,Any}("CacheReportARN" => CacheReportARN);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_cache_report(
+    CacheReportARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "DescribeCacheReport",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CacheReportARN" => CacheReportARN), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3377,6 +3569,73 @@ function disassociate_file_system(
 end
 
 """
+    evict_files_failing_upload(file_share_arn)
+    evict_files_failing_upload(file_share_arn, params::Dict{String,<:Any})
+
+Starts a process that cleans the specified file share's cache of file entries that are
+failing upload to Amazon S3. This API operation reports success if the request is received
+with valid arguments, and there are no other cache clean operations currently in-progress
+for the specified file share. After a successful request, the cache clean operation occurs
+asynchronously and reports progress using CloudWatch logs and notifications.
+
+!!! important
+    If `ForceRemove` is set to `True`, the cache clean operation will delete file data from
+    the gateway which might otherwise be recoverable. We recommend using this operation only
+    after all other methods to clear files failing upload have been exhausted, and if your
+    business need outweighs the potential data loss.
+
+# Arguments
+
+- `file_share_arn`: The Amazon Resource Name (ARN) of the file share for which you want to
+  start the cache clean operation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ForceRemove"`: Specifies whether cache entries with full or partial file data currently
+  stored on the gateway will be forcibly removed by the cache clean operation.
+
+  Valid arguments:
+
+  - `False` - The cache clean operation skips cache entries failing upload if they are
+    associated with data currently stored on the gateway. This preserves the cached data.
+  - `True` - The cache clean operation removes cache entries failing upload even if they are
+    associated with data currently stored on the gateway. This deletes the cached data.
+
+    !!! important
+        If `ForceRemove` is set to `True`, the cache clean operation will delete file data
+        from the gateway which might otherwise be recoverable.
+"""
+function evict_files_failing_upload end
+
+function evict_files_failing_upload(
+    FileShareARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return storage_gateway(
+        "EvictFilesFailingUpload",
+        Dict{String,Any}("FileShareARN" => FileShareARN);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function evict_files_failing_upload(
+    FileShareARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "EvictFilesFailingUpload",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FileShareARN" => FileShareARN), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     join_domain(domain_name, gateway_arn, password, user_name)
     join_domain(domain_name, gateway_arn, password, user_name, params::Dict{String,<:Any})
 
@@ -3409,12 +3668,20 @@ gateways that support the SMB file protocol.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DomainControllers"`: List of IPv4 addresses, NetBIOS names, or host names of your domain
+- `"DomainControllers"`: List of IP addresses, NetBIOS names, or host names of your domain
   server. If you need to specify the port number include it after the colon (“:”). For
   example, `mydc.mydomain.com:389`.
+
+  !!! note
+      S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing
+      formats.
+
+      FSx File Gateway does not support IPv6.
+
 - `"OrganizationalUnit"`: The organizational unit (OU) is a container in an Active Directory
   that can hold users, groups, computers, and other OUs and this parameter specifies the OU
   that the gateway will join within the AD domain.
+
 - `"TimeoutInSeconds"`: Specifies the time in seconds, in which the `JoinDomain` operation
   must complete. The default is 20 seconds.
 """
@@ -3500,6 +3767,37 @@ function list_automatic_tape_creation_policies(
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cache_reports()
+    list_cache_reports(params::Dict{String,<:Any})
+
+Returns a list of existing cache reports for all file shares associated with your Amazon Web
+Services account. This list includes all information provided by the `DescribeCacheReport`
+action, such as report name, status, completion progress, start time, end time, filters, and
+tags.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Marker"`: Opaque pagination token returned from a previous `ListCacheReports` operation.
+  If present, `Marker` specifies where to continue the list from after a previous call to
+  `ListCacheReports`. Optional.
+"""
+function list_cache_reports end
+
+function list_cache_reports(; aws_config::AbstractAWSConfig=current_aws_config())
+    return storage_gateway("ListCacheReports"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_cache_reports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return storage_gateway(
+        "ListCacheReports", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3904,16 +4202,16 @@ end
     notify_when_uploaded(file_share_arn)
     notify_when_uploaded(file_share_arn, params::Dict{String,<:Any})
 
-Sends you notification through CloudWatch Events when all files written to your file share
+Sends you notification through Amazon EventBridge when all files written to your file share
 have been uploaded to Amazon S3.
 
-Storage Gateway can send a notification through Amazon CloudWatch Events when all files
-written to your file share up to that point in time have been uploaded to Amazon S3. These
-files include files written to the file share up to the time that you make a request for
-notification. When the upload is done, Storage Gateway sends you notification through an
-Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification
-through event targets such as Amazon SNS or Lambda function. This operation is only
-supported for S3 File Gateways.
+Storage Gateway can send a notification through Amazon EventBridge when all files written to
+your file share up to that point in time have been uploaded to Amazon S3. These files
+include files written to the file share up to the time that you make a request for
+notification. When the upload is done, Storage Gateway sends you notification through
+EventBridge. You can configure EventBridge to send the notification through event targets
+such as Amazon SNS or Lambda function. This operation is only supported for S3 File
+Gateways.
 
 For more information, see [Getting file upload notification](https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification)
 in the *Amazon S3 File Gateway User Guide*.
@@ -4449,6 +4747,120 @@ function start_availability_monitor_test(
 end
 
 """
+    start_cache_report(bucket_region, client_token, file_share_arn, location_arn, role)
+    start_cache_report(bucket_region, client_token, file_share_arn, location_arn, role, params::Dict{String,<:Any})
+
+Starts generating a report of the file metadata currently cached by an S3 File Gateway for a
+specific file share. You can use this report to identify and resolve issues if you have
+files failing upload from your gateway to Amazon S3. The report is a CSV file containing a
+list of files which match the set of filter parameters you specify in the request.
+
+!!! note
+    The **Files Failing Upload** flag is reset every 24 hours and during gateway reboot. If
+    this report captures the files after the reset, but before they become flagged again,
+    they will not be reported as **Files Failing Upload**.
+
+The following requirements must be met to successfully generate a cache report:
+
+- You must have `s3:PutObject` and `s3:AbortMultipartUpload` permissions for the Amazon S3
+  bucket where you want to store the cache report.
+- No other cache reports can currently be in-progress for the specified file share.
+- There must be fewer than 10 existing cache reports for the specified file share.
+- The gateway must be online and connected to Amazon Web Services.
+- The root disk must have at least 20GB of free space when report generation starts.
+- You must specify at least one value for `InclusionFilters` or `ExclusionFilters` in the
+  request.
+
+# Arguments
+
+- `bucket_region`: The Amazon Web Services Region of the Amazon S3 bucket where you want to
+  save the cache report.
+
+- `client_token`: A unique identifier that you use to ensure idempotent report generation if
+  you need to retry an unsuccessful `StartCacheReport` request. If you retry a request, use
+  the same `ClientToken` you specified in the initial request.
+
+- `file_share_arn`:
+
+- `location_arn`: The ARN of the Amazon S3 bucket where you want to save the cache report.
+
+  !!! note
+      We do not recommend saving the cache report to the same Amazon S3 bucket for which you
+      are generating the report.
+
+      This field does not accept access point ARNs.
+
+- `role`: The ARN of the IAM role used when saving the cache report to Amazon S3.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ExclusionFilters"`: The list of filters and parameters that determine which files are
+  excluded from the report. You must specify at least one value for `InclusionFilters` or
+  `ExclusionFilters` in a `StartCacheReport` request.
+- `"InclusionFilters"`: The list of filters and parameters that determine which files are
+  included in the report. You must specify at least one value for `InclusionFilters` or
+  `ExclusionFilters` in a `StartCacheReport` request.
+- `"Tags"`: A list of up to 50 key/value tags that you can assign to the cache report. Using
+  tags can help you categorize your reports and more easily locate them in search results.
+- `"VPCEndpointDNSName"`: The DNS name of the VPC endpoint associated with the Amazon S3
+  where you want to save the cache report. Optional.
+"""
+function start_cache_report end
+
+function start_cache_report(
+    BucketRegion,
+    ClientToken,
+    FileShareARN,
+    LocationARN,
+    Role;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "StartCacheReport",
+        Dict{String,Any}(
+            "BucketRegion" => BucketRegion,
+            "ClientToken" => ClientToken,
+            "FileShareARN" => FileShareARN,
+            "LocationARN" => LocationARN,
+            "Role" => Role,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_cache_report(
+    BucketRegion,
+    ClientToken,
+    FileShareARN,
+    LocationARN,
+    Role,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return storage_gateway(
+        "StartCacheReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BucketRegion" => BucketRegion,
+                    "ClientToken" => ClientToken,
+                    "FileShareARN" => FileShareARN,
+                    "LocationARN" => LocationARN,
+                    "Role" => Role,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_gateway(gateway_arn)
     start_gateway(gateway_arn, params::Dict{String,<:Any})
 
@@ -4972,7 +5384,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `ALL_VERSIONS` - Enables regular gateway maintenance updates.
 
-  `EMERGENCY_VERSIONS_ONLY` - Disables regular gateway maintenance updates.
+  `EMERGENCY_VERSIONS_ONLY` - Disables regular gateway maintenance updates. The gateway will
+  still receive emergency version updates on rare occasions if necessary to remedy highly
+  critical security or durability issues. You will be notified before an emergency version
+  update is applied. These updates are applied during your gateway's scheduled maintenance
+  window.
 """
 function update_maintenance_start_time end
 
@@ -5034,7 +5450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
 
 - `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
-  list must contain either valid IP addresses or valid CIDR blocks.
+  list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
 
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
   bucket by the S3 File Gateway. The default value is `S3_STANDARD`. Optional.
@@ -5042,11 +5458,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
 
+- `"EncryptionType"`: A value that specifies the type of server-side encryption that the
+  file share will use for the data that it stores in Amazon S3.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
       `FileShareName` must be set if an S3 prefix name is set in `LocationARN`, or if an
       access point or access point alias is used.
+
+      A valid NFS file share name can only contain the following characters: `a`-`z`,
+      `A`-`Z`, `0`-`9`, `-`, `.`, and `_`.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to `true` to enable MIME type guessing,
@@ -5054,14 +5485,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Valid Values: `true` | `false`
 
-- `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
-  key, or `false` to use a key managed by Amazon S3. Optional.
+- `"KMSEncrypted"`: Optional. Set to `true` to use Amazon S3 server-side encryption with
+  your own KMS key (SSE-KMS), or `false` to use a key managed by Amazon S3 (SSE-S3). To use
+  dual-layer encryption (DSSE-KMS), set the `EncryptionType` parameter instead.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
 
   Valid Values: `true` | `false`
 
-- `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
-  for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
-  This value can only be set when `KMSEncrypted` is `true`. Optional.
+- `"KMSKey"`: Optional. The Amazon Resource Name (ARN) of a symmetric customer master key
+  (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support
+  asymmetric CMKs. This value must be set if `KMSEncrypted` is `true`, or if
+  `EncryptionType` is `SseKms` or `DsseKms`.
 
 - `"NFSFileShareDefaults"`: The default values for the file share. Optional.
 
@@ -5074,6 +5516,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
       S3, only the timing of the notification.
+
+      This setting is not meant to specify an exact time at which the notification will be
+      sent. In some cases, the gateway might require more than the specified delay time to
+      generate and send notifications.
 
   The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
@@ -5191,11 +5637,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid Values: `S3_STANDARD` | `S3_INTELLIGENT_TIERING` | `S3_STANDARD_IA` |
   `S3_ONEZONE_IA`
 
+- `"EncryptionType"`: A value that specifies the type of server-side encryption that the
+  file share will use for the data that it stores in Amazon S3.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
+
 - `"FileShareName"`: The name of the file share. Optional.
 
   !!! note
       `FileShareName` must be set if an S3 prefix name is set in `LocationARN`, or if an
       access point or access point alias is used.
+
+      A valid SMB file share name cannot contain the following characters:
+      `[`,`]`,`#`,`;`,`<`,`>`,`:`,`"`,`\\`,`/`,`|`,`?`,`*`,`+`, or ASCII control characters
+      `1-31`.
 
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to `true` to enable MIME type guessing,
@@ -5208,14 +5670,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Acceptable formats include: `DOMAIN\\User1`, `user1`, `@group1`, and `@DOMAIN\\group1`.
   Can only be set if Authentication is set to `ActiveDirectory`.
 
-- `"KMSEncrypted"`: Set to `true` to use Amazon S3 server-side encryption with your own KMS
-  key, or `false` to use a key managed by Amazon S3. Optional.
+- `"KMSEncrypted"`: Optional. Set to `true` to use Amazon S3 server-side encryption with
+  your own KMS key (SSE-KMS), or `false` to use a key managed by Amazon S3 (SSE-S3). To use
+  dual-layer encryption (DSSE-KMS), set the `EncryptionType` parameter instead.
+
+  !!! note
+      We recommend using `EncryptionType` instead of `KMSEncrypted` to set the file share
+      encryption method. You do not need to provide values for both parameters.
+
+      If values for both parameters exist in the same request, then the specified encryption
+      methods must not conflict. For example, if `EncryptionType` is `SseS3`, then
+      `KMSEncrypted` must be `false`. If `EncryptionType` is `SseKms` or `DsseKms`, then
+      `KMSEncrypted` must be `true`.
 
   Valid Values: `true` | `false`
 
-- `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
-  for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
-  This value can only be set when `KMSEncrypted` is `true`. Optional.
+- `"KMSKey"`: Optional. The Amazon Resource Name (ARN) of a symmetric customer master key
+  (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support
+  asymmetric CMKs. This value must be set if `KMSEncrypted` is `true`, or if
+  `EncryptionType` is `SseKms` or `DsseKms`.
 
 - `"NotificationPolicy"`: The notification policy of the file share. `SettlingTimeInSeconds`
   controls the number of seconds to wait after the last point in time a client wrote to a
@@ -5226,6 +5699,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       `SettlingTimeInSeconds` has no effect on the timing of the object uploading to Amazon
       S3, only the timing of the notification.
+
+      This setting is not meant to specify an exact time at which the notification will be
+      sent. In some cases, the gateway might require more than the specified delay time to
+      generate and send notifications.
 
   The following example sets `NotificationPolicy` on with `SettlingTimeInSeconds` set to 60.
 
@@ -5268,8 +5745,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file share. Set it to `false` to map file and directory permissions to the POSIX
   permissions.
 
-  For more information, see [Using Microsoft Windows ACLs to control access to an SMB file share](https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
-  in the *Storage Gateway User Guide*.
+  For more information, see [Using Windows ACLs to limit SMB file share access](https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html)
+  in the *Amazon S3 File Gateway User Guide*.
 
   Valid Values: `true` | `false`
 

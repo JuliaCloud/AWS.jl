@@ -5,6 +5,47 @@ using AWS.AWSServices: verifiedpermissions
 using AWS.UUIDs: uuid4
 
 """
+    batch_get_policy(requests)
+    batch_get_policy(requests, params::Dict{String,<:Any})
+
+Retrieves information about a group (batch) of policies.
+
+!!! note
+    The [`batch_get_policy`](@ref) operation doesn't have its own IAM permission. To
+    authorize this operation for Amazon Web Services principals, include the permission
+    `verifiedpermissions:GetPolicy` in their IAM policies.
+
+# Arguments
+
+- `requests`: An array of up to 100 policies you want information about.
+"""
+function batch_get_policy end
+
+function batch_get_policy(requests; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
+        "BatchGetPolicy",
+        Dict{String,Any}("requests" => requests);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_policy(
+    requests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "BatchGetPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requests" => requests), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_is_authorized(policy_store_id, requests)
     batch_is_authorized(policy_store_id, requests, params::Dict{String,<:Any})
 
@@ -33,14 +74,25 @@ requests.
 
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make the authorization decisions for the input.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `requests`: An array of up to 30 requests that you want Verified Permissions to evaluate.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"entities"`: Specifies the list of resources and principals and their associated
-  attributes that Verified Permissions can examine when evaluating the policies.
+- `"entities"`: (Optional) Specifies the list of resources and principals and their
+  associated attributes that Verified Permissions can examine when evaluating the policies.
+  These additional entities and their attributes can be referenced and checked by
+  conditional elements in the policies in the specified policy store.
 
   !!! note
       You can include only principal and resource entities in this parameter; you can't
@@ -107,6 +159,15 @@ contain up to 30 requests.
 
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `requests`: An array of up to 30 requests that you want Verified Permissions to evaluate.
 
 # Optional Parameters
@@ -121,8 +182,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must be an access token. Verified Permissions returns an error if the `token_use` claim in
   the submitted token isn't `access`.
 
-- `"entities"`: Specifies the list of resources and their associated attributes that
-  Verified Permissions can examine when evaluating the policies.
+- `"entities"`: (Optional) Specifies the list of resources and their associated attributes
+  that Verified Permissions can examine when evaluating the policies. These additional
+  entities and their attributes can be referenced and checked by conditional elements in the
+  policies in the specified policy store.
 
   !!! important
       You can't include principals in this parameter, only resource and action entities.
@@ -203,7 +266,7 @@ principal `Attributes`.
       `Namespace::[Entity type]::[User pool ID]|[user principal attribute]`, for example
       `MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
     - OpenID Connect (OIDC) provider:
-      `Namespace::[Entity type]::[principalIdClaim]|[user principal attribute]`, for example
+      `Namespace::[Entity type]::[entityIdPrefix]|[user principal attribute]`, for example
       `MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222`.
 
 !!! note
@@ -215,9 +278,18 @@ principal `Attributes`.
 
 - `configuration`: Specifies the details required to communicate with the identity provider
   (IdP) associated with this identity source.
+
 - `policy_store_id`: Specifies the ID of the policy store in which you want to store this
   identity source. Only policies and requests made using this policy store can reference
   identities from the identity provider configured in the new identity source.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 
 # Optional Parameters
 
@@ -311,8 +383,17 @@ static policy or a policy linked to a policy template.
 - `definition`: A structure that specifies the policy type and content to use for the new
   policy. You must include either a static or a templateLinked element. The policy content
   must be written in the Cedar policy language.
+
 - `policy_store_id`: Specifies the `PolicyStoreId` of the policy store you want to store the
   policy in.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 
 # Optional Parameters
 
@@ -332,6 +413,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Verified Permissions recognizes a `ClientToken` for eight hours. After eight hours, the
   next request with the same parameters performs the operation again regardless of the value
   of `ClientToken`.
+
+- `"name"`: Specifies a name for the policy that is unique among all policies within the
+  policy store. You can use the name in place of the policy ID in API operations that
+  reference the policy. The name must be prefixed with `name/`.
+
+  If you specify a name that is already associated with another policy in the policy store,
+  you receive a `ConflictException` error.
 """
 function create_policy end
 
@@ -421,8 +509,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next request with the same parameters performs the operation again regardless of the value
   of `ClientToken`.
 
+- `"deletionProtection"`: Specifies whether the policy store can be deleted. If enabled, the
+  policy store can't be deleted.
+
+  The default state is `DISABLED`.
+
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
+
+- `"encryptionSettings"`: Specifies the encryption settings used to encrypt the policy store
+  and their child resources. Allows for the ability to use a customer owned KMS key for
+  encryption of data.
+
+  This is an optional field to be used when providing a customer-managed KMS key for
+  encryption.
+
+- `"tags"`: The list of key-value pairs to associate with the policy store.
 """
 function create_policy_store end
 
@@ -462,6 +564,72 @@ function create_policy_store(
 end
 
 """
+    create_policy_store_alias(alias_name, policy_store_id)
+    create_policy_store_alias(alias_name, policy_store_id, params::Dict{String,<:Any})
+
+Creates a policy store alias for the specified policy store. A policy store alias is an
+alternative identifier that you can use to reference a policy store in API operations.
+
+This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the
+`aliasName` and `policyStoreId` fields are the same between the requests, subsequent
+requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success
+response will be returned and a new policy store alias will not be created.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
+
+# Arguments
+
+- `alias_name`: Specifies the name of the policy store alias to create. The name must be
+  unique within your Amazon Web Services account and Amazon Web Services Region.
+
+  !!! note
+      The alias name must always be prefixed with `policy-store-alias/`.
+
+- `policy_store_id`: Specifies the ID of the policy store to associate with the alias.
+
+  !!! note
+      The associated policy store must be specified using its ID. The alias name cannot be
+      used.
+"""
+function create_policy_store_alias end
+
+function create_policy_store_alias(
+    aliasName, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "CreatePolicyStoreAlias",
+        Dict{String,Any}("aliasName" => aliasName, "policyStoreId" => policyStoreId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_policy_store_alias(
+    aliasName,
+    policyStoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "CreatePolicyStoreAlias",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "aliasName" => aliasName, "policyStoreId" => policyStoreId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_policy_template(policy_store_id, statement)
     create_policy_template(policy_store_id, statement, params::Dict{String,<:Any})
 
@@ -480,6 +648,15 @@ policies that are linked to that template are immediately updated as well.
 # Arguments
 
 - `policy_store_id`: The ID of the policy store in which to create the policy template.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `statement`: Specifies the content that you want to use for the new policy template,
   written in the Cedar policy language.
 
@@ -503,6 +680,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of `ClientToken`.
 
 - `"description"`: Specifies a description for the policy template.
+
+- `"name"`: Specifies a name for the policy template that is unique among all policy
+  templates within the policy store. You can use the name in place of the policy template ID
+  in API operations that reference the policy template. The name must be prefixed with
+  `name/`.
+
+  If you specify a name that is already associated with another policy template in the
+  policy store, you receive a `ConflictException` error.
 """
 function create_policy_template end
 
@@ -557,8 +742,17 @@ operations.
 # Arguments
 
 - `identity_source_id`: Specifies the ID of the identity source that you want to delete.
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to delete.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function delete_identity_source end
 
@@ -609,8 +803,23 @@ response returns a successful `HTTP 200` status code.
 # Arguments
 
 - `policy_id`: Specifies the ID of the policy that you want to delete.
+
+  You can use the policy name in place of the policy ID. When using a name, prefix it with
+  `name/`. For example:
+
+  - ID: `SPEXAMPLEabcdefg111111`
+  - Name: `name/example-policy`
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want to delete.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function delete_policy end
 
@@ -657,6 +866,9 @@ response will still return a successful HTTP 200 status code.
 # Arguments
 
 - `policy_store_id`: Specifies the ID of the policy store that you want to delete.
+
+  !!! note
+      To specify a policy store, the alias name cannot be used. Only the ID can be used.
 """
 function delete_policy_store end
 
@@ -687,6 +899,55 @@ function delete_policy_store(
 end
 
 """
+    delete_policy_store_alias(alias_name)
+    delete_policy_store_alias(alias_name, params::Dict{String,<:Any})
+
+Deletes the specified policy store alias.
+
+This operation is idempotent. If you specify a policy store alias that does not exist, the
+request response will still return a successful HTTP 200 status code.
+
+When a policy store alias is deleted, it enters the `PendingDeletion` state. When a policy
+store alias is in the `PendingDeletion` state, new policy store aliases cannot be created
+with the same name. If the policy store alias is used in an API that has a `policyStoreId`
+field, the operation will fail with a `ResourceNotFound` exception.
+
+# Arguments
+
+- `alias_name`: Specifies the name of the policy store alias that you want to delete.
+
+  !!! note
+      The alias name must always be prefixed with `policy-store-alias/`.
+"""
+function delete_policy_store_alias end
+
+function delete_policy_store_alias(
+    aliasName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "DeletePolicyStoreAlias",
+        Dict{String,Any}("aliasName" => aliasName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_policy_store_alias(
+    aliasName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "DeletePolicyStoreAlias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("aliasName" => aliasName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_policy_template(policy_store_id, policy_template_id)
     delete_policy_template(policy_store_id, policy_template_id, params::Dict{String,<:Any})
 
@@ -701,7 +962,22 @@ Deletes the specified policy template from the policy store.
 
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want to delete.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `policy_template_id`: Specifies the ID of the policy template that you want to delete.
+
+  You can use the policy template name in place of the policy template ID. When using a
+  name, prefix it with `name/`. For example:
+
+  - ID: `PTEXAMPLEabcdefg111111`
+  - Name: `name/example-policy-template`
 """
 function delete_policy_template end
 
@@ -749,8 +1025,17 @@ Retrieves the details about the specified identity source.
 # Arguments
 
 - `identity_source_id`: Specifies the ID of the identity source you want information about.
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   you want information about.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function get_identity_source end
 
@@ -798,8 +1083,23 @@ Retrieves information about the specified policy.
 # Arguments
 
 - `policy_id`: Specifies the ID of the policy you want information about.
+
+  You can use the policy name in place of the policy ID. When using a name, prefix it with
+  `name/`. For example:
+
+  - ID: `SPEXAMPLEabcdefg111111`
+  - Name: `name/example-policy`
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want information about.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function get_policy end
 
@@ -842,7 +1142,27 @@ Retrieves details about a policy store.
 
 # Arguments
 
-- `policy_store_id`: Specifies the ID of the policy store that you want information about.
+- `policy_store_id`: Specifies the policy store that you want information about.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: Specifies whether to return the tags that are attached to the policy store. If
+  this parameter is included in the API call, the tags are returned, otherwise they are not
+  returned.
+
+  !!! note
+      If this parameter is included in the API call but there are no tags attached to the
+      policy store, the `tags` response parameter is omitted from the response.
 """
 function get_policy_store end
 
@@ -871,6 +1191,48 @@ function get_policy_store(
 end
 
 """
+    get_policy_store_alias(alias_name)
+    get_policy_store_alias(alias_name, params::Dict{String,<:Any})
+
+Retrieves details about the specified policy store alias.
+
+# Arguments
+
+- `alias_name`: Specifies the name of the policy store alias that you want information
+  about.
+
+  !!! note
+      The alias name must always be prefixed with `policy-store-alias/`.
+"""
+function get_policy_store_alias end
+
+function get_policy_store_alias(
+    aliasName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "GetPolicyStoreAlias",
+        Dict{String,Any}("aliasName" => aliasName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_policy_store_alias(
+    aliasName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "GetPolicyStoreAlias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("aliasName" => aliasName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_policy_template(policy_store_id, policy_template_id)
     get_policy_template(policy_store_id, policy_template_id, params::Dict{String,<:Any})
 
@@ -880,8 +1242,23 @@ Retrieve the details for the specified policy template in the specified policy s
 
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want information about.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `policy_template_id`: Specifies the ID of the policy template that you want information
   about.
+
+  You can use the policy template name in place of the policy template ID. When using a
+  name, prefix it with `name/`. For example:
+
+  - ID: `PTEXAMPLEabcdefg111111`
+  - Name: `name/example-policy-template`
 """
 function get_policy_template end
 
@@ -929,6 +1306,14 @@ Retrieve the details for the specified schema in the specified policy store.
 # Arguments
 
 - `policy_store_id`: Specifies the ID of the policy store that contains the schema.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function get_schema end
 
@@ -971,6 +1356,14 @@ list of the policies that resulted in the decision.
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
 
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -981,8 +1374,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"context"`: Specifies additional context that can be used to make more granular
   authorization decisions.
 
-- `"entities"`: Specifies the list of resources and principals and their associated
-  attributes that Verified Permissions can examine when evaluating the policies.
+- `"entities"`: (Optional) Specifies the list of resources and principals and their
+  associated attributes that Verified Permissions can examine when evaluating the policies.
+  These additional entities and their attributes can be referenced and checked by
+  conditional elements in the policies in the specified policy store.
 
   !!! note
       You can include only principal and resource entities in this parameter; you can't
@@ -1030,8 +1425,6 @@ can include in the evaluation. The request is evaluated against all matching pol
 specified policy store. The result of the decision is either `Allow` or `Deny`, along with a
 list of the policies that resulted in the decision.
 
-At this time, Verified Permissions accepts tokens from only Amazon Cognito.
-
 Verified Permissions validates each token that is specified in a request by checking its
 expiration date and its signature.
 
@@ -1044,6 +1437,14 @@ expiration date and its signature.
 
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 
 # Optional Parameters
 
@@ -1062,8 +1463,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"context"`: Specifies additional context that can be used to make more granular
   authorization decisions.
 
-- `"entities"`: Specifies the list of resources and their associated attributes that
-  Verified Permissions can examine when evaluating the policies.
+- `"entities"`: (Optional) Specifies the list of resources and their associated attributes
+  that Verified Permissions can examine when evaluating the policies. These additional
+  entities and their attributes can be referenced and checked by conditional elements in the
+  policies in the specified policy store.
 
   !!! important
       You can't include principals in this parameter, only resource and action entities.
@@ -1123,6 +1526,14 @@ store.
 
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity sources
   that you want to list.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 
 # Optional Parameters
 
@@ -1185,6 +1596,14 @@ Returns a paginated list of all policies stored in the specified policy store.
 
 - `policy_store_id`: Specifies the ID of the policy store you want to list policies from.
 
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1232,6 +1651,52 @@ function list_policies(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_policy_store_aliases()
+    list_policy_store_aliases(params::Dict{String,<:Any})
+
+Returns a paginated list of all policy store aliases in the calling Amazon Web Services
+account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filter"`: Specifies a filter to narrow the results. You can filter by `policyStoreId` to
+  list only the policy store aliases associated with a specific policy store.
+
+- `"maxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the `NextToken`
+  response element is returned with a value (not null). Include the specified value as the
+  `next_token` request parameter in the next call to the operation to get the next set of
+  results. Note that the service might return fewer results than the maximum even when there
+  are more results available. You should check `NextToken` after every operation to ensure
+  that you receive all of the results.
+
+  If you do not specify this parameter, the operation defaults to 5 policy store aliases per
+  response. You can specify a maximum of 50 policy store aliases per response.
+
+- `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a `NextToken` response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  `NextToken` response to request the next page of results.
+"""
+function list_policy_store_aliases end
+
+function list_policy_store_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
+        "ListPolicyStoreAliases"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_policy_store_aliases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "ListPolicyStoreAliases", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1288,6 +1753,14 @@ Returns a paginated list of all policy templates in the specified policy store.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy templates
   you want to list.
 
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1337,6 +1810,45 @@ function list_policy_templates(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns the tags associated with the specified Amazon Verified Permissions resource. In
+Verified Permissions, policy stores can be tagged.
+
+# Arguments
+
+- `resource_arn`: The ARN of the resource for which you want to view tags.
+"""
+function list_tags_for_resource end
+
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_schema(definition, policy_store_id)
     put_schema(definition, policy_store_id, params::Dict{String,<:Any})
 
@@ -1355,7 +1867,16 @@ later update a policy, then it is evaluated against the new schema at that time.
 
 - `definition`: Specifies the definition of the schema to be stored. The schema definition
   must be written in Cedar schema JSON.
+
 - `policy_store_id`: Specifies the ID of the policy store in which to place the schema.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
 """
 function put_schema end
 
@@ -1393,6 +1914,106 @@ function put_schema(
 end
 
 """
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions
+resource. Tags can help you organize and categorize your resources. You can also use them to
+scope user permissions by granting a user permission to access or change only resources with
+certain tag values. In Verified Permissions, policy stores can be tagged.
+
+Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+strings of characters.
+
+You can use the TagResource action with a resource that already has tags. If you specify a
+new tag key, this tag is appended to the list of tags associated with the resource. If you
+specify a tag key that is already associated with the resource, the new tag value that you
+specify replaces the previous value for that tag.
+
+You can associate as many as 50 tags with a resource.
+
+# Arguments
+
+- `resource_arn`: The ARN of the resource that you're adding tags to.
+- `tags`: The list of key-value pairs to associate with the resource.
+"""
+function tag_resource end
+
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes one or more tags from the specified Amazon Verified Permissions resource. In
+Verified Permissions, policy stores can be tagged.
+
+# Arguments
+
+- `resource_arn`: The ARN of the resource from which you are removing tags.
+- `tag_keys`: The list of tag keys to remove from the resource.
+"""
+function untag_resource end
+
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return verifiedpermissions(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_identity_source(identity_source_id, policy_store_id, update_configuration)
     update_identity_source(identity_source_id, policy_store_id, update_configuration, params::Dict{String,<:Any})
 
@@ -1411,14 +2032,16 @@ mapping of identities from the IdP to a different principal entity type.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to update.
 
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `update_configuration`: Specifies the details required to communicate with the identity
   provider (IdP) associated with this identity source.
-
-  !!! note
-      At this time, the only valid member of this structure is a Amazon Cognito user pool
-      configuration.
-
-      You must specify a `userPoolArn`, and optionally, a `ClientId`.
 
 # Optional Parameters
 
@@ -1473,8 +2096,8 @@ function update_identity_source(
 end
 
 """
-    update_policy(definition, policy_id, policy_store_id)
-    update_policy(definition, policy_id, policy_store_id, params::Dict{String,<:Any})
+    update_policy(policy_id, policy_store_id)
+    update_policy(policy_id, policy_store_id, params::Dict{String,<:Any})
 
 Modifies a Cedar static policy in the specified policy store. You can change only certain
 elements of the [UpdatePolicyDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition)
@@ -1504,8 +2127,34 @@ you must update the template instead, using [UpdatePolicyTemplate](https://docs.
 
 # Arguments
 
-- `definition`: Specifies the updated policy content that you want to replace on the
+- `policy_id`: Specifies the ID of the policy that you want to update. To find this value,
+  you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
+
+  You can use the policy name in place of the policy ID. When using a name, prefix it with
+  `name/`. For example:
+
+  - ID: `SPEXAMPLEabcdefg111111`
+  - Name: `name/example-policy`
+
+- `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
+  want to update.
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"definition"`: Specifies the updated policy content that you want to replace on the
   specified policy. The content must be valid Cedar policy language text.
+
+  If you don't specify this parameter, the existing policy definition remains unchanged.
 
   You can change only the following elements from the policy definition:
 
@@ -1519,31 +2168,31 @@ you must update the template instead, using [UpdatePolicyTemplate](https://docs.
   - The `principal` referenced by the policy.
   - The `resource` referenced by the policy.
 
-- `policy_id`: Specifies the ID of the policy that you want to update. To find this value,
-  you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
+- `"name"`: Specifies a name for the policy that is unique among all policies within the
+  policy store. You can use the name in place of the policy ID in API operations that
+  reference the policy. The name must be prefixed with `name/`.
 
-- `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
-  want to update.
+  !!! note
+      If you don't include the name in an update request, the existing name is unchanged. To
+      remove a name, set it to an empty string (`""`).
+
+  If you specify a name that is already associated with another policy in the policy store,
+  you receive a `ConflictException` error.
 """
 function update_policy end
 
 function update_policy(
-    definition, policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+    policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return verifiedpermissions(
         "UpdatePolicy",
-        Dict{String,Any}(
-            "definition" => definition,
-            "policyId" => policyId,
-            "policyStoreId" => policyStoreId,
-        );
+        Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_policy(
-    definition,
     policyId,
     policyStoreId,
     params::AbstractDict{String};
@@ -1554,11 +2203,7 @@ function update_policy(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "definition" => definition,
-                    "policyId" => policyId,
-                    "policyStoreId" => policyStoreId,
-                ),
+                Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId),
                 params,
             ),
         );
@@ -1581,12 +2226,27 @@ Modifies the validation setting for a policy store.
 # Arguments
 
 - `policy_store_id`: Specifies the ID of the policy store that you want to update
+
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `validation_settings`: A structure that defines the validation settings that want to
   enable for the policy store.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"deletionProtection"`: Specifies whether the policy store can be deleted. If enabled, the
+  policy store can't be deleted.
+
+  When you call `UpdatePolicyStore`, this parameter is unchanged unless explicitly included
+  in the call.
 
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
@@ -1651,7 +2311,21 @@ elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/lat
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want to update.
 
+  To specify a policy store, use its ID or alias name. When using an alias name, prefix it
+  with `policy-store-alias/`. For example:
+
+  - ID: `PSEXAMPLEabcdefg111111`
+  - Alias name: `policy-store-alias/example-policy-store`
+
+  To view aliases, use [ListPolicyStoreAliases](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html).
+
 - `policy_template_id`: Specifies the ID of the policy template that you want to update.
+
+  You can use the policy template name in place of the policy template ID. When using a
+  name, prefix it with `name/`. For example:
+
+  - ID: `PTEXAMPLEabcdefg111111`
+  - Name: `name/example-policy-template`
 
 - `statement`: Specifies new statement content written in Cedar policy language to replace
   the current body of the policy template.
@@ -1672,6 +2346,18 @@ elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/lat
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: Specifies a new description to apply to the policy template.
+
+- `"name"`: Specifies a name for the policy template that is unique among all policy
+  templates within the policy store. You can use the name in place of the policy template ID
+  in API operations that reference the policy template. The name must be prefixed with
+  `name/`.
+
+  !!! note
+      If you don't include the name in an update request, the existing name is unchanged. To
+      remove a name, set it to an empty string (`""`).
+
+  If you specify a name that is already associated with another policy template in the
+  policy store, you receive a `ConflictException` error.
 """
 function update_policy_template end
 

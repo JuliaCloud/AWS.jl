@@ -197,9 +197,9 @@ using the `CreatePlatformApplication` action.
   The `PlatformCredential` is `API key`.
 - For GCM (Firebase Cloud Messaging) using token credentials, there is no
   `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted private key file. When
-  using the Amazon Web Services CLI, the file must be in string format and special
-  characters must be ignored. To format the file correctly, Amazon SNS recommends using the
-  following command: `SERVICE_JSON=`jq @json <<< cat service.json``.
+  using the Amazon Web Services CLI or Amazon Web Services SDKs, the file must be in string
+  format and special characters must be ignored. To format the file correctly, Amazon SNS
+  recommends using the following command: `SERVICE_JSON=\$(jq @json < service.json)`.
 - For MPNS, `PlatformPrincipal` is `TLS certificate` and `PlatformCredential` is
   `private key`.
 - For WNS, `PlatformPrincipal` is `Package Security Identifier` and `PlatformCredential` is
@@ -410,18 +410,66 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries to
     HTTP/S endpoints.
   - `DisplayName` – The display name to use for a topic with SMS subscriptions.
-  - `FifoTopic` – Set to true to create a FIFO topic.
   - `Policy` – The policy that defines who can access your topic. By default, only the topic
     owner can publish or subscribe to the topic.
-  - `SignatureVersion` – The signature version corresponds to the hashing algorithm used
-    while creating the signature of the notifications, subscription confirmations, or
-    unsubscribe confirmation messages sent by Amazon SNS. By default, `SignatureVersion` is
-    set to `1`.
   - `TracingConfig` – Tracing mode of an Amazon SNS topic. By default `TracingConfig` is set
     to `PassThrough`, and the topic passes through the tracing header it receives from an
     Amazon SNS publisher to its subscriptions. If set to `Active`, Amazon SNS will vend X-
     Ray segment data to topic owner account if the sampled flag in the tracing header is
     true. This is only supported on standard topics.
+  - HTTP
+    - `HTTPSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
+      Amazon SNS topic that is subscribed to an HTTP endpoint.
+    - `HTTPSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    - `HTTPFailureFeedbackRoleArn` – Indicates failed message delivery status for an Amazon
+      SNS topic that is subscribed to an HTTP endpoint.
+  - Amazon Data Firehose
+    - `FirehoseSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
+      Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+    - `FirehoseSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+    - `FirehoseFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+  - Lambda
+    - `LambdaSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
+      Amazon SNS topic that is subscribed to an Lambda endpoint.
+    - `LambdaSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    - `LambdaFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an Lambda endpoint.
+  - Platform application endpoint
+    - `ApplicationSuccessFeedbackRoleArn` – Indicates successful message delivery status for
+      an Amazon SNS topic that is subscribed to a platform application endpoint.
+    - `ApplicationSuccessFeedbackSampleRate` – Indicates percentage of successful messages
+      to sample for an Amazon SNS topic that is subscribed to an platform application
+      endpoint.
+    - `ApplicationFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an platform application endpoint.
+
+  !!! note
+      In addition to being able to configure topic attributes for message delivery status of
+      notification messages sent to Amazon SNS application endpoints, you can also configure
+      application attributes for the delivery status of push notification messages sent to
+      push notification services.
+
+      For example, For more information, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
+
+  - Amazon SQS
+    - `SQSSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
+      Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    - `SQSSuccessFeedbackSampleRate` – Indicates percentage of successful messages to sample
+      for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    - `SQSFailureFeedbackRoleArn` – Indicates failed message delivery status for an Amazon
+      SNS topic that is subscribed to an Amazon SQS endpoint.
+
+  !!! note
+      The <ENDPOINT>SuccessFeedbackRoleArn and <ENDPOINT>FailureFeedbackRoleArn attributes
+      are used to give Amazon SNS write access to use CloudWatch Logs on your behalf. The
+      <ENDPOINT>SuccessFeedbackSampleRate attribute is for specifying the sample rate
+      percentage (0-100) of successfully delivered messages. After you configure the
+      <ENDPOINT>FailureFeedbackRoleArn attribute, then all failed message deliveries
+      generate CloudWatch Logs.
 
   The following attribute applies only to [server-side encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
 
@@ -432,11 +480,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The following attributes apply only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
 
-  - `ArchivePolicy` – Adds or updates an inline policy document to archive messages stored
-    in the specified Amazon SNS topic.
-  - `BeginningArchiveTime` – The earliest starting point at which a message in the topic’s
-    archive can be replayed from. This point in time is based on the configured message
-    retention period set by the topic’s message archiving policy.
+  - `ArchivePolicy` – The policy that sets the retention period for messages stored in the
+    message archive of an Amazon SNS FIFO topic.
   - `ContentBasedDeduplication` – Enables content-based deduplication for FIFO topics.
     - By default, `ContentBasedDeduplication` is set to `false`. If you create a FIFO topic
       and this attribute is `false`, you must specify a value for the
@@ -448,6 +493,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   (Optional) To override the generated value, you can specify a value for the
   `MessageDeduplicationId` parameter for the `Publish` action.
+
+  - `FifoThroughputScope` – Enables higher throughput for your FIFO topic by adjusting the
+    scope of deduplication. This attribute has two possible values:
+    - `Topic` – The scope of message deduplication is across the entire topic. This is the
+      default value and maintains existing behavior, with a maximum throughput of 3000
+      messages per second or 20MB per second, whichever comes first.
+    - `MessageGroup` – The scope of deduplication is within each individual message group,
+      which enables higher throughput per topic subject to regional quotas. For more
+      information on quotas or to request an increase, see [Amazon SNS service quotas](https://docs.aws.amazon.com/general/latest/gr/sns.html)
+      in the Amazon Web Services General Reference.
 
 - `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
 
@@ -1366,30 +1421,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MessageAttributes"`: Message attributes for Publish action.
 
-- `"MessageDeduplicationId"`: This parameter applies only to FIFO (first-in-first-out)
+- `"MessageDeduplicationId"`: - This parameter applies only to FIFO (first-in-first-out)
   topics. The `MessageDeduplicationId` can contain up to 128 alphanumeric characters
   `(a-z, A-Z, 0-9)` and punctuation
   `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
+- Every message must have a unique
+  `MessageDeduplicationId`, which is a token used for deduplication of sent messages within
+  the 5 minute minimum deduplication interval.
+  - The scope of deduplication depends on the `FifoThroughputScope` attribute, when set to
+    `Topic` the message deduplication scope is across the entire topic, when set to
+    `MessageGroup` the message deduplication scope is within each individual message group.
+  - If a message with a particular `MessageDeduplicationId` is sent successfully, subsequent
+    messages within the deduplication scope and interval, with the same
+    `MessageDeduplicationId`, are accepted successfully but aren't delivered.
+  - Every message must have a unique `MessageDeduplicationId`:
+    - You may provide a `MessageDeduplicationId` explicitly.
+    - If you aren't able to provide a `MessageDeduplicationId` and you enable
+      `ContentBasedDeduplication` for your topic, Amazon SNS uses a SHA-256 hash to generate
+      the `MessageDeduplicationId` using the body of the message (but not the attributes of
+      the message).
+    - If you don't provide a `MessageDeduplicationId` and the topic doesn't have
+      `ContentBasedDeduplication` set, the action fails with an error.
+    - If the topic has a `ContentBasedDeduplication` set, your `MessageDeduplicationId`
+      overrides the generated one.
+  - When `ContentBasedDeduplication` is in effect, messages with identical content sent
+    within the deduplication scope and interval are treated as duplicates and only one copy
+    of the message is delivered.
+  - If you send one message with `ContentBasedDeduplication` enabled, and then another
+    message with a `MessageDeduplicationId` that is the same as the one generated for the
+    first `MessageDeduplicationId`, the two messages are treated as duplicates, within the
+    deduplication scope and interval, and only one copy of the message is delivered.
 
-Every message must have a unique
-  `MessageDeduplicationId`, which is a token used for deduplication of sent messages. If a
-  message with a particular `MessageDeduplicationId` is sent successfully, any message sent
-  with the same `MessageDeduplicationId` during the 5-minute deduplication interval is
-  treated as a duplicate.
+- `"MessageGroupId"`: The `MessageGroupId` can contain up to 128 alphanumeric characters
+  `(a-z, A-Z, 0-9)` and punctuation
+  `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
 
-  If the topic has `ContentBasedDeduplication` set, the system generates a
-  `MessageDeduplicationId` based on the contents of the message. Your
-  `MessageDeduplicationId` overrides the generated one.
-
-- `"MessageGroupId"`: This parameter applies only to FIFO (first-in-first-out) topics. The
-  `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z, A-Z, 0-9)` and
-  punctuation `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
-
-The
+For FIFO topics: The
   `MessageGroupId` is a tag that specifies that a message belongs to a specific message
   group. Messages that belong to the same message group are processed in a FIFO manner
   (however, messages in different message groups might be processed out of order). Every
   message must include a `MessageGroupId`.
+
+  For standard topics: The `MessageGroupId` is optional and is forwarded only to Amazon SQS
+  standard subscriptions to activate [fair queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fair-queues.html).
+  The `MessageGroupId` is not used for, or sent to, any other endpoint types. When provided,
+  the same validation rules apply as for FIFO topics.
 
 - `"MessageStructure"`: Set `MessageStructure` to `json` if you want to send a different
   message for each protocol. For example, using one publish action, you can send a short
@@ -1453,30 +1529,39 @@ end
     publish_batch(publish_batch_request_entries, topic_arn)
     publish_batch(publish_batch_request_entries, topic_arn, params::Dict{String,<:Any})
 
-Publishes up to ten messages to the specified topic. This is a batch version of `Publish`.
+Publishes up to 10 messages to the specified topic in a single batch. This is a batch
+version of the `Publish` API. If you try to send more than 10 messages in a single batch
+request, you will receive a `TooManyEntriesInBatchRequest` exception.
+
 For FIFO topics, multiple messages within a single batch are published in the order they are
-sent, and messages are deduplicated within the batch and across batches for 5 minutes.
+sent, and messages are deduplicated within the batch and across batches for five minutes.
 
 The result of publishing each message is reported individually in the response. Because the
 batch request can result in a combination of successful and unsuccessful actions, you should
-check for batch errors even when the call returns an HTTP status code of `200`.
+check for batch errors even when the call returns an HTTP status code of 200.
 
 The maximum allowed individual message size and the maximum total payload size (the sum of
 the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes).
 
+!!! important
+    The `PublishBatch` API can send up to 10 messages at a time. If you attempt to send more
+    than 10 messages in one request, you will encounter a `TooManyEntriesInBatchRequest`
+    exception. In such cases, split your messages into multiple requests, each containing no
+    more than 10 messages.
+
 Some actions take lists of parameters. These lists are specified using the `param.n`
-notation. Values of `n` are integers starting from 1. For example, a parameter list with two
-elements looks like this:
+notation. Values of `n` are integers starting from **1**. For example, a parameter list with
+two elements looks like this:
 
-&AttributeName.1=first
+`&AttributeName.1=first`
 
-&AttributeName.2=second
+`&AttributeName.2=second`
 
 If you send a batch message to a topic, Amazon SNS publishes the batch message to each
 endpoint that is subscribed to the topic. The format of the batch message depends on the
 notification protocol for each subscribed endpoint.
 
-When a `messageId` is returned, the batch message is saved and Amazon SNS immediately
+When a `messageId` is returned, the batch message is saved, and Amazon SNS immediately
 delivers the message to subscribers.
 
 # Arguments
@@ -1987,8 +2072,6 @@ Allows a topic owner to set an attribute of the topic to a new value.
   The following lists the names, descriptions, and values of the special request parameters
   that the `SetTopicAttributes` action uses:
 
-  - `ApplicationSuccessFeedbackRoleArn` – Indicates failed message delivery status for an
-    Amazon SNS topic that is subscribed to a platform application endpoint.
   - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries to
     HTTP/S endpoints.
   - `DisplayName` – The display name to use for a topic with SMS subscriptions.
@@ -2006,14 +2089,13 @@ Allows a topic owner to set an attribute of the topic to a new value.
       sample for an Amazon SNS topic that is subscribed to an HTTP endpoint.
     - `HTTPFailureFeedbackRoleArn` – Indicates failed message delivery status for an Amazon
       SNS topic that is subscribed to an HTTP endpoint.
-  - Amazon Kinesis Data Firehose
+  - Amazon Data Firehose
     - `FirehoseSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
-      Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+      Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
     - `FirehoseSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
-      sample for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose
-      endpoint.
+      sample for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
     - `FirehoseFailureFeedbackRoleArn` – Indicates failed message delivery status for an
-      Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+      Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
   - Lambda
     - `LambdaSuccessFeedbackRoleArn` – Indicates successful message delivery status for an
       Amazon SNS topic that is subscribed to an Lambda endpoint.
@@ -2023,12 +2105,12 @@ Allows a topic owner to set an attribute of the topic to a new value.
       Amazon SNS topic that is subscribed to an Lambda endpoint.
   - Platform application endpoint
     - `ApplicationSuccessFeedbackRoleArn` – Indicates successful message delivery status for
-      an Amazon SNS topic that is subscribed to an Amazon Web Services application endpoint.
+      an Amazon SNS topic that is subscribed to an platform application endpoint.
     - `ApplicationSuccessFeedbackSampleRate` – Indicates percentage of successful messages
-      to sample for an Amazon SNS topic that is subscribed to an Amazon Web Services
-      application endpoint.
+      to sample for an Amazon SNS topic that is subscribed to an platform application
+      endpoint.
     - `ApplicationFailureFeedbackRoleArn` – Indicates failed message delivery status for an
-      Amazon SNS topic that is subscribed to an Amazon Web Services application endpoint.
+      Amazon SNS topic that is subscribed to an platform application endpoint.
 
   !!! note
       In addition to being able to configure topic attributes for message delivery status of
@@ -2067,6 +2149,8 @@ Allows a topic owner to set an attribute of the topic to a new value.
 
   The following attribute applies only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
 
+  - `ArchivePolicy` – The policy that sets the retention period for messages stored in the
+    message archive of an Amazon SNS FIFO topic.
   - `ContentBasedDeduplication` – Enables content-based deduplication for FIFO topics.
     - By default, `ContentBasedDeduplication` is set to `false`. If you create a FIFO topic
       and this attribute is `false`, you must specify a value for the
@@ -2078,6 +2162,16 @@ Allows a topic owner to set an attribute of the topic to a new value.
 
   (Optional) To override the generated value, you can specify a value for the
   `MessageDeduplicationId` parameter for the `Publish` action.
+
+  - `FifoThroughputScope` – Enables higher throughput for your FIFO topic by adjusting the
+    scope of deduplication. This attribute has two possible values:
+    - `Topic` – The scope of message deduplication is across the entire topic. This is the
+      default value and maintains existing behavior, with a maximum throughput of 3000
+      messages per second or 20MB per second, whichever comes first.
+    - `MessageGroup` – The scope of deduplication is within each individual message group,
+      which enables higher throughput per topic subject to regional quotas. For more
+      information on quotas or to request an increase, see [Amazon SNS service quotas](https://docs.aws.amazon.com/general/latest/gr/sns.html)
+      in the Amazon Web Services General Reference.
 
 - `topic_arn`: The ARN of the topic to modify.
 
@@ -2146,8 +2240,8 @@ This action is throttled at 100 transactions per second (TPS).
   - `application` – delivery of JSON-encoded message to an EndpointArn for a mobile app and
     device
   - `lambda` – delivery of JSON-encoded message to an Lambda function
-  - `firehose` – delivery of JSON-encoded message to an Amazon Kinesis Data Firehose
-    delivery stream.
+  - `firehose` – delivery of JSON-encoded message to an Amazon Data Firehose delivery
+    stream.
 
 - `topic_arn`: The ARN of the topic you want to subscribe to.
 
@@ -2212,8 +2306,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - For the `application` protocol, the endpoint is the EndpointArn of a mobile app and
     device.
   - For the `lambda` protocol, the endpoint is the ARN of an Lambda function.
-  - For the `firehose` protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose
-    delivery stream.
+  - For the `firehose` protocol, the endpoint is the ARN of an Amazon Data Firehose delivery
+    stream.
 
 - `"ReturnSubscriptionArn"`: Sets whether the response from the `Subscribe` request includes
   the subscription ARN, even if the subscription is not yet confirmed.
@@ -2320,11 +2414,6 @@ signature is required. If the `Unsubscribe` call does not require authentication
 requester is not the subscription owner, a final cancellation message is delivered to the
 endpoint, so that the endpoint owner can easily resubscribe to the topic if the
 `Unsubscribe` request was unintended.
-
-!!! note
-    Amazon SQS queue subscriptions require authentication for deletion. Only the owner of
-    the subscription, or the owner of the topic can unsubscribe using the required Amazon
-    Web Services signature.
 
 This action is throttled at 100 transactions per second (TPS).
 

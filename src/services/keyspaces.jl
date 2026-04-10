@@ -14,7 +14,7 @@ Web Services account, keyspace names must be unique within each Region.
 `CreateKeyspace` is an asynchronous operation. You can monitor the creation status of the
 new keyspace by using the [`get_keyspace`](@ref) operation.
 
-For more information, see [Creating keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/working-with-keyspaces.html#keyspaces-create)
+For more information, see [Create a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.keyspaces.html)
 in the *Amazon Keyspaces Developer Guide*.
 
 # Arguments
@@ -30,8 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `replicationStrategy` - the required value is `SINGLE_REGION` or `MULTI_REGION`.
   - `regionList` - if the `replicationStrategy` is `MULTI_REGION`, the `regionList` requires
     the current Region and at least one additional Amazon Web Services Region where the
-    keyspace is going to be replicated in. The maximum number of supported replication
-    Regions including the current Region is six.
+    keyspace is going to be replicated in.
 
 - `"tags"`: A list of key-value pair tags to be attached to the keyspace.
 
@@ -76,7 +75,7 @@ table is set to `CREATING`. You can monitor the creation status of the new table
 the [`get_table`](@ref) operation, which returns the current `status` of the table. You can
 start using a table when the status is `ACTIVE`.
 
-For more information, see [Creating tables](https://docs.aws.amazon.com/keyspaces/latest/devguide/working-with-tables.html#tables-create)
+For more information, see [Create a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.tables.html)
 in the *Amazon Keyspaces Developer Guide*.
 
 # Arguments
@@ -135,6 +134,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
   in the *Amazon Keyspaces Developer Guide*.
+
+- `"cdcSpecification"`: The CDC stream settings of the table.
 
 - `"clientSideTimestamps"`: Enables client-side timestamps for the table. By default, the
   setting is disabled. You can enable client-side timestamps with the following option:
@@ -204,6 +205,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
   in the *Amazon Keyspaces Developer Guide*.
+
+- `"warmThroughputSpecification"`: Specifies the warm throughput settings for the table.
+  Pre-warming a table helps you avoid capacity exceeded exceptions by pre-provisioning read
+  and write capacity units to reduce cold start latency when your table receives traffic.
+
+  For more information about pre-warming in Amazon Keyspaces, see [Pre-warm a table in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/warm-throughput.html)
+  in the *Amazon Keyspaces Developer Guide*.
 """
 function create_table end
 
@@ -241,6 +249,84 @@ function create_table(
                     "keyspaceName" => keyspaceName,
                     "schemaDefinition" => schemaDefinition,
                     "tableName" => tableName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_type(field_definitions, keyspace_name, type_name)
+    create_type(field_definitions, keyspace_name, type_name, params::Dict{String,<:Any})
+
+The [`create_type`](@ref) operation creates a new user-defined type in the specified
+keyspace.
+
+To configure the required permissions, see [Permissions to create a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-create)
+in the *Amazon Keyspaces Developer Guide*.
+
+For more information, see [User-defined types (UDTs)](https://docs.aws.amazon.com/keyspaces/latest/devguide/udts.html)
+in the *Amazon Keyspaces Developer Guide*.
+
+# Arguments
+
+- `field_definitions`: The field definitions, consisting of names and types, that define
+  this type.
+
+- `keyspace_name`: The name of the keyspace.
+
+- `type_name`: The name of the user-defined type.
+
+  UDT names must contain 48 characters or less, must begin with an alphabetic character, and
+  can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper
+  case characters automatically into lower case characters.
+
+  Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name
+  inside double quotes, Amazon Keyspaces preserves upper casing and allows special
+  characters.
+
+  You can also use double quotes as part of the name when you create the UDT, but you must
+  escape each double quote character with an additional double quote character.
+"""
+function create_type end
+
+function create_type(
+    fieldDefinitions,
+    keyspaceName,
+    typeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "CreateType",
+        Dict{String,Any}(
+            "fieldDefinitions" => fieldDefinitions,
+            "keyspaceName" => keyspaceName,
+            "typeName" => typeName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_type(
+    fieldDefinitions,
+    keyspaceName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "CreateType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "fieldDefinitions" => fieldDefinitions,
+                    "keyspaceName" => keyspaceName,
+                    "typeName" => typeName,
                 ),
                 params,
             ),
@@ -337,10 +423,60 @@ function delete_table(
 end
 
 """
+    delete_type(keyspace_name, type_name)
+    delete_type(keyspace_name, type_name, params::Dict{String,<:Any})
+
+The [`delete_type`](@ref) operation deletes a user-defined type (UDT). You can only delete a
+type that is not used in a table or another UDT.
+
+To configure the required permissions, see [Permissions to delete a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-drop)
+in the *Amazon Keyspaces Developer Guide*.
+
+# Arguments
+
+- `keyspace_name`: The name of the keyspace of the to be deleted type.
+- `type_name`: The name of the type to be deleted.
+"""
+function delete_type end
+
+function delete_type(
+    keyspaceName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return keyspaces(
+        "DeleteType",
+        Dict{String,Any}("keyspaceName" => keyspaceName, "typeName" => typeName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_type(
+    keyspaceName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "DeleteType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("keyspaceName" => keyspaceName, "typeName" => typeName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_keyspace(keyspace_name)
     get_keyspace(keyspace_name, params::Dict{String,<:Any})
 
-Returns the name and the Amazon Resource Name (ARN) of the specified table.
+Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication
+strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of
+newly added Regions after an [`update_keyspace`](@ref) operation.
 
 # Arguments
 
@@ -379,8 +515,8 @@ end
 Returns information about the table, including the table's name and current status, the
 keyspace name, configuration settings, and metadata.
 
-To read table metadata using `GetTable`, `Select` action permissions for the table and
-system tables are required to complete the operation.
+To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions
+for the table and the system keyspace.
 
 # Arguments
 
@@ -481,10 +617,63 @@ function get_table_auto_scaling_settings(
 end
 
 """
+    get_type(keyspace_name, type_name)
+    get_type(keyspace_name, type_name, params::Dict{String,<:Any})
+
+The [`get_type`](@ref) operation returns information about the type, for example the field
+definitions, the timestamp when the type was last modified, the level of nesting, the
+status, and details about if the type is used in other types and tables.
+
+To read keyspace metadata using `GetType`, the IAM principal needs `Select` action
+permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view)
+in the *Amazon Keyspaces Developer Guide*.
+
+# Arguments
+
+- `keyspace_name`: The name of the keyspace that contains this type.
+- `type_name`: The formatted name of the type. For example, if the name of the type was
+  created without double quotes, Amazon Keyspaces saved the name in lower-case characters.
+  If the name was created in double quotes, you must use double quotes to specify the type
+  name.
+"""
+function get_type end
+
+function get_type(
+    keyspaceName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return keyspaces(
+        "GetType",
+        Dict{String,Any}("keyspaceName" => keyspaceName, "typeName" => typeName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_type(
+    keyspaceName,
+    typeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "GetType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("keyspaceName" => keyspaceName, "typeName" => typeName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_keyspaces()
     list_keyspaces(params::Dict{String,<:Any})
 
-Returns a list of keyspaces.
+The [`list_keyspaces`](@ref) operation returns a list of keyspaces.
 
 # Optional Parameters
 
@@ -513,7 +702,10 @@ end
     list_tables(keyspace_name)
     list_tables(keyspace_name, params::Dict{String,<:Any})
 
-Returns a list of tables for a specified keyspace.
+The [`list_tables`](@ref) operation returns a list of tables for a specified keyspace.
+
+To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action
+permissions for the system keyspace.
 
 # Arguments
 
@@ -562,6 +754,9 @@ end
 
 Returns a list of all tags associated with the specified Amazon Keyspaces resource.
 
+To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select`
+action permissions for the specified resource and the system keyspace.
+
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Keyspaces resource.
@@ -599,6 +794,57 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_types(keyspace_name)
+    list_types(keyspace_name, params::Dict{String,<:Any})
+
+The [`list_types`](@ref) operation returns a list of types for a specified keyspace.
+
+To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action
+permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view)
+in the *Amazon Keyspaces Developer Guide*.
+
+# Arguments
+
+- `keyspace_name`: The name of the keyspace that contains the listed types.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The total number of types to return in the output. If the total number of
+  types available is more than the value specified, a `NextToken` is provided in the output.
+  To resume pagination, provide the `NextToken` value as an argument of a subsequent API
+  invocation.
+- `"nextToken"`: The pagination token. To resume pagination, provide the `NextToken` value
+  as an argument of a subsequent API invocation.
+"""
+function list_types end
+
+function list_types(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return keyspaces(
+        "ListTypes",
+        Dict{String,Any}("keyspaceName" => keyspaceName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_types(
+    keyspaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "ListTypes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("keyspaceName" => keyspaceName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -856,6 +1102,104 @@ function untag_resource(
 end
 
 """
+    update_keyspace(keyspace_name, replication_specification)
+    update_keyspace(keyspace_name, replication_specification, params::Dict{String,<:Any})
+
+Adds a new Amazon Web Services Region to the keyspace. You can add a new Region to a
+keyspace that is either a single or a multi-Region keyspace. Amazon Keyspaces is going to
+replicate all tables in the keyspace to the new Region. To successfully replicate all tables
+to the new Region, they must use client-side timestamps for conflict resolution. To enable
+client-side timestamps, specify `clientSideTimestamps.status = enabled` when invoking the
+API. For more information about client-side timestamps, see [Client-side timestamps in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps.html)
+in the *Amazon Keyspaces Developer Guide*.
+
+To add a Region to a keyspace using the `UpdateKeyspace` API, the IAM principal needs
+permissions for the following IAM actions:
+
+- `cassandra:Alter`
+- `cassandra:AlterMultiRegionResource`
+- `cassandra:Create`
+- `cassandra:CreateMultiRegionResource`
+- `cassandra:Select`
+- `cassandra:SelectMultiRegionResource`
+- `cassandra:Modify`
+- `cassandra:ModifyMultiRegionResource`
+
+If the keyspace contains a table that is configured in provisioned mode with auto scaling
+enabled, the following additional IAM actions need to be allowed.
+
+- `application-autoscaling:RegisterScalableTarget`
+- `application-autoscaling:DeregisterScalableTarget`
+- `application-autoscaling:DescribeScalableTargets`
+- `application-autoscaling:PutScalingPolicy`
+- `application-autoscaling:DescribeScalingPolicies`
+
+To use the `UpdateKeyspace` API, the IAM principal also needs permissions to create a
+service-linked role with the following elements:
+
+- `iam:CreateServiceLinkedRole` - The **action** the principal can perform.
+-
+ `arn:aws:iam::*:role/aws-service-role/replication.cassandra.amazonaws.com/AWSServiceRoleForKeyspacesReplication`
+ - The **resource** that the action can be performed on.
+- `iam:AWSServiceName: replication.cassandra.amazonaws.com` - The only Amazon Web Services
+  service that this role can be attached to is Amazon Keyspaces.
+
+For more information, see [Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/howitworks_replication_permissions_addReplica.html)
+in the *Amazon Keyspaces Developer Guide*.
+
+# Arguments
+
+- `keyspace_name`: The name of the keyspace.
+- `replication_specification`:
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientSideTimestamps"`:
+"""
+function update_keyspace end
+
+function update_keyspace(
+    keyspaceName,
+    replicationSpecification;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "UpdateKeyspace",
+        Dict{String,Any}(
+            "keyspaceName" => keyspaceName,
+            "replicationSpecification" => replicationSpecification,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_keyspace(
+    keyspaceName,
+    replicationSpecification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return keyspaces(
+        "UpdateKeyspace",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "keyspaceName" => keyspaceName,
+                    "replicationSpecification" => replicationSpecification,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_table(keyspace_name, table_name)
     update_table(keyspace_name, table_name, params::Dict{String,<:Any})
 
@@ -902,6 +1246,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
   in the *Amazon Keyspaces Developer Guide*.
+
+- `"cdcSpecification"`: The CDC stream settings of the table.
 
 - `"clientSideTimestamps"`: Enables client-side timestamps for the table. By default, the
   setting is disabled. You can enable client-side timestamps with the following option:
@@ -951,6 +1297,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
   in the *Amazon Keyspaces Developer Guide*.
+
+- `"warmThroughputSpecification"`: Modifies the warm throughput settings for the table. You
+  can update the read and write capacity units to adjust the pre-provisioned throughput.
 """
 function update_table end
 

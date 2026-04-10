@@ -74,9 +74,9 @@ end
 
 Returns a list of entities that have been affected by the specified events, based on the
 specified filter criteria. Entities can refer to individual customer resources, groups of
-customer resources, or any other construct, depending on the Amazon Web Service. Events that
-have impact beyond that of the affected entities, or where the extent of impact is unknown,
-include at least one entity indicating this.
+customer resources, or any other construct, depending on the Amazon Web Services service.
+Events that have impact beyond that of the affected entities, or where the extent of impact
+is unknown, include at least one entity indicating this.
 
 At least one event ARN is required.
 
@@ -97,7 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"maxResults"`: The maximum number of items to return in one batch, between 1 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a `nextToken` pagination token is returned in the response. To retrieve the
@@ -135,7 +135,7 @@ end
 Returns a list of entities that have been affected by one or more events for one or more
 accounts in your organization in Organizations, based on the filter criteria. Entities can
 refer to individual customer resources, groups of customer resources, or any other
-construct, depending on the Amazon Web Service.
+construct, depending on the Amazon Web Services service.
 
 At least one event Amazon Resource Name (ARN) and account ID are required.
 
@@ -156,7 +156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"maxResults"`: The maximum number of items to return in one batch, between 1 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a `nextToken` pagination token is returned in the response. To retrieve the
@@ -466,7 +466,7 @@ end
 
 Returns the event types that meet the specified filter criteria. You can use this API
 operation to find information about the Health event, such as the category, Amazon Web
-Service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html)
+Services service, and event code. The metadata for each event appears in the [EventType](https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html)
 object.
 
 If you don't specify a filter criteria, the API operation returns all event types, in no
@@ -541,7 +541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: Values to narrow the results returned.
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"maxResults"`: The maximum number of items to return in one batch, between 1 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a `nextToken` pagination token is returned in the response. To retrieve the
@@ -595,7 +595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: Values to narrow the results returned.
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"maxResults"`: The maximum number of items to return in one batch, between 1 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a `nextToken` pagination token is returned in the response. To retrieve the

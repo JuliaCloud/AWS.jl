@@ -24,7 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelType"`: A type of the signaling channel that you are creating. Currently,
   `SINGLE_MASTER` is the only supported channel type.
 - `"SingleMasterConfiguration"`: A structure containing the configuration for the
-  `SINGLE_MASTER` channel type.
+  `SINGLE_MASTER` channel type. The default configuration for the channel message's time to
+  live is 60 seconds (1 minute).
 - `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 function create_signaling_channel end
@@ -87,7 +88,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream. Kinesis Video Streams retains the data in a data store that is associated with the
   stream.
 
-  The default value is 0, indicating that the stream does not persist data.
+  The default value is 0, indicating that the stream does not persist data. The minimum is 1
+  hour.
 
   When the `DataRetentionInHours` value is 0, consumers can still consume the fragments that
   remain in the service host buffer, which has a retention time limit of 5 minutes and a
@@ -97,13 +99,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceName"`: The name of the device that is writing to the stream.
 
   !!! note
-      In the current implementation, Kinesis Video Streams does not use this name.
+      In the current implementation, Kinesis Video Streams doesn't use this name.
 
 - `"KmsKeyId"`: The ID of the Key Management Service (KMS) key that you want Kinesis Video
   Streams to use to encrypt stream data.
 
-  If no key ID is specified, the default, Kinesis Video-managed key
-  (`Amazon Web Services/kinesisvideo`) is used.
+  If no key ID is specified, the default, Kinesis Video-managed key (`aws/kinesisvideo`) is
+  used.
 
   For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
 
@@ -115,6 +117,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example valid values include "video/h264" and "video/h264,audio/aac".
 
   This parameter is optional; the default value is `null` (or empty in JSON).
+
+- `"StreamStorageConfiguration"`: The configuration for the stream's storage, including the
+  default storage tier for stream data. This configuration determines how stream data is
+  stored and accessed, with different tiers offering varying levels of performance and cost
+  optimization.
+
+  If not specified, the stream will use the default storage configuration with HOT tier for
+  optimal performance.
 
 - `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
@@ -568,6 +578,50 @@ function describe_stream(
 end
 
 """
+    describe_stream_storage_configuration()
+    describe_stream_storage_configuration(params::Dict{String,<:Any})
+
+Retrieves the current storage configuration for the specified Kinesis video stream.
+
+In the request, you must specify either the `StreamName` or the `StreamARN`.
+
+You must have permissions for the `KinesisVideo:DescribeStreamStorageConfiguration` action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which you want to retrieve
+  the storage configuration.
+- `"StreamName"`: The name of the stream for which you want to retrieve the storage
+  configuration.
+"""
+function describe_stream_storage_configuration end
+
+function describe_stream_storage_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeStreamStorageConfiguration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_stream_storage_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/describeStreamStorageConfiguration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_endpoint(apiname)
     get_data_endpoint(apiname, params::Dict{String,<:Any})
 
@@ -630,7 +684,9 @@ the `Protocols` and `Role` properties.
 
 `Protocols` is used to determine the communication mechanism. For example, if you specify
 `WSS` as the protocol, this API produces a secure websocket endpoint. If you specify `HTTPS`
-as the protocol, this API generates an HTTPS endpoint.
+as the protocol, this API generates an HTTPS endpoint. If you specify `WEBRTC` as the
+protocol, but the signaling channel isn't configured for ingestion, you will receive the
+error `InvalidArgumentException`.
 
 `Role` determines the messaging permissions. A `MASTER` role results in this API generating
 an endpoint that a client can use to communicate with any of the viewers on the channel. A
@@ -1422,7 +1478,9 @@ expired as per the previous `MessageTtlSeconds` value.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"SingleMasterConfiguration"`: The structure containing the configuration for the
-  `SINGLE_MASTER` type of the signaling channel that you want to update.
+  `SINGLE_MASTER` type of the signaling channel that you want to update. This parameter and
+  the channel message's time-to-live are required for channels with the `SINGLE_MASTER`
+  channel type.
 """
 function update_signaling_channel end
 
@@ -1526,6 +1584,82 @@ function update_stream(
         "/updateStream",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("CurrentVersion" => CurrentVersion), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_stream_storage_configuration(current_version, stream_storage_configuration)
+    update_stream_storage_configuration(current_version, stream_storage_configuration, params::Dict{String,<:Any})
+
+Updates the storage configuration for an existing Kinesis video stream.
+
+This operation allows you to modify the storage tier settings for a stream, enabling you to
+optimize storage costs and performance based on your access patterns.
+
+`UpdateStreamStorageConfiguration` is an asynchronous operation.
+
+You must have permissions for the `KinesisVideo:UpdateStreamStorageConfiguration` action.
+
+# Arguments
+
+- `current_version`: The version of the stream whose storage configuration you want to
+  change. To get the version, call either the `DescribeStream` or the `ListStreams` API.
+
+- `stream_storage_configuration`: The new storage configuration for the stream. This
+  includes the default storage tier that determines how stream data is stored and accessed.
+
+  Different storage tiers offer varying levels of performance and cost optimization to match
+  your specific use case requirements.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which you want to update
+  the storage configuration.
+- `"StreamName"`: The name of the stream for which you want to update the storage
+  configuration.
+"""
+function update_stream_storage_configuration end
+
+function update_stream_storage_configuration(
+    CurrentVersion,
+    StreamStorageConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis_video(
+        "POST",
+        "/updateStreamStorageConfiguration",
+        Dict{String,Any}(
+            "CurrentVersion" => CurrentVersion,
+            "StreamStorageConfiguration" => StreamStorageConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_stream_storage_configuration(
+    CurrentVersion,
+    StreamStorageConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return kinesis_video(
+        "POST",
+        "/updateStreamStorageConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrentVersion" => CurrentVersion,
+                    "StreamStorageConfiguration" => StreamStorageConfiguration,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

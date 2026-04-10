@@ -308,6 +308,10 @@ end
 
 You can use this API to run a scheduled query manually.
 
+If you enabled `QueryInsights`, this API also returns insights and metrics related to the
+query that you executed as part of an Amazon SNS notification. `QueryInsights` helps with
+performance tuning of your query. For more information about `QueryInsights`, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html).
+
 # Arguments
 
 - `invocation_time`: The timestamp in UTC. Query will be run as if it was invoked at this
@@ -319,6 +323,12 @@ You can use this API to run a scheduled query manually.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: Not used.
+
+- `"QueryInsights"`: Encapsulates settings for enabling `QueryInsights`.
+
+  Enabling `QueryInsights` returns insights and metrics as a part of the Amazon SNS
+  notification for the query that you executed. You can use `QueryInsights` to tune your
+  query performance and cost.
 """
 function execute_scheduled_query end
 
@@ -492,8 +502,19 @@ end
     query(query_string, params::Dict{String,<:Any})
 
 `Query` is a synchronous operation that enables you to run a query against your Amazon
-Timestream data. `Query` will time out after 60 seconds. You must update the default timeout
-in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html)
+Timestream data.
+
+If you enabled `QueryInsights`, this API also returns insights and metrics related to the
+query that you executed. `QueryInsights` helps with performance tuning of your query. For
+more information about `QueryInsights`, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html).
+
+!!! note
+    The maximum number of `Query` API requests you're allowed to make with `QueryInsights`
+    enabled is 1 query per second (QPS). If you exceed this query rate, it might result in
+    throttling.
+
+`Query` will time out after 60 seconds. You must update the default timeout in the SDK to
+support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html)
 for details.
 
 Your query request will fail in the following cases:
@@ -569,6 +590,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If the IAM principal of the query initiator and the result reader are not the same
     and/or the query initiator and the result reader do not have the same query string in
     the query requests, the query will fail with an `Invalid pagination token` error.
+
+- `"QueryInsights"`: Encapsulates settings for enabling `QueryInsights`.
+
+  Enabling `QueryInsights` returns insights and metrics in addition to query results for the
+  query that you executed. You can use `QueryInsights` to tune your query performance.
 """
 function query end
 
@@ -712,12 +738,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxQueryTCU"`: The maximum number of compute units the service will use at any point in
   time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You
   can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on.
+  The maximum value supported for `MaxQueryTCU` is 1000. To request an increase to this soft
+  limit, contact Amazon Web Services Support. For information about the default quota for
+  maxQueryTCU, see Default quotas. This configuration is applicable only for on-demand usage
+  of Timestream Compute Units (TCUs).
 
   The maximum value supported for `MaxQueryTCU` is 1000. To request an increase to this soft
   limit, contact Amazon Web Services Support. For information about the default quota for
-  maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+  `maxQueryTCU`, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+
+- `"QueryCompute"`: Modifies the query compute settings configured in your account,
+  including the query pricing model and provisioned Timestream Compute Units (TCUs) in your
+  account.
+
+  !!! note
+      This API is idempotent, meaning that making the same request multiple times will have
+      the same effect as making the request once.
 
 - `"QueryPricingModel"`: The pricing model for queries in an account.
+
+  !!! note
+      The `QueryPricingModel` parameter is used by several Timestream operations; however,
+      the `UpdateAccountSettings` API operation doesn't recognize any values other than
+      `COMPUTE_UNITS`.
 """
 function update_account_settings end
 

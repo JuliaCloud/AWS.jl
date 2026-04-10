@@ -31,7 +31,7 @@ You must also have the following permissions: `sso:CreateApplication`,
   IAM Identity Center. You can use the [ListInstances](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html)
   API operation to retrieve a list of your Identity Center instances and their ARNs.
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function associate_access_grants_identity_center end
 
@@ -120,7 +120,7 @@ For directory groups - `identitystore:DescribeGroup`
   - `WRITE` – Grant write-only access to the S3 data.
   - `READWRITE` – Grant both read and write access to the S3 data.
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -211,7 +211,7 @@ and `sso:PutApplicationAuthenticationMethod` permissions.
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -304,7 +304,7 @@ You must also have the following permission for the specified IAM role: `iam:Pas
   store in your S3 buckets. For example, object key names that start with the `engineering/`
   prefix or object key names that start with the `marketing/campaigns/` prefix.
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -365,12 +365,12 @@ end
     create_access_point(bucket, name, x-amz-account-id)
     create_access_point(bucket, name, x-amz-account-id, params::Dict{String,<:Any})
 
-!!! note
-    This operation is not supported by directory buckets.
-
-Creates an access point and associates it with the specified bucket. For more information,
-see [Managing Data Access with Amazon S3 Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
+Creates an access point and associates it to a specified bucket. For more information, see [Managing access to shared datasets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
+or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
 in the *Amazon S3 User Guide*.
+
+To create an access point and attach it to a volume on an Amazon FSx file system, see [CreateAndAttachS3AccessPoint](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CreateAndAttachS3AccessPoint.html)
+in the *Amazon FSx API Reference*.
 
 !!! note
     S3 on Outposts only supports VPC-style access points.
@@ -390,6 +390,7 @@ The following actions are related to `CreateAccessPoint`:
 - [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
 - [DeleteAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html)
 - [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
+- [ListAccessPointsForDirectoryBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForDirectoryBuckets.html)
 
 # Arguments
 
@@ -408,6 +409,11 @@ The following actions are related to `CreateAccessPoint`:
 
 - `name`: The name you want to assign to this access point.
 
+  For directory buckets, the access point name must consist of a base name that you provide
+  and suffix that includes the `ZoneID` (Amazon Web Services Availability Zone or Local
+  Zone) of your bucket location, followed by `--xa-s3`. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
+  in the *Amazon S3 User Guide*.
+
 - `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
   specified access point.
 
@@ -424,6 +430,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PublicAccessBlockConfiguration"`: The `PublicAccessBlock` configuration that you want to
   apply to the access point.
+
+- `"Scope"`: For directory buckets, you can filter access control to specific prefixes, API
+  operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
+  in the *Amazon S3 User Guide*.
+
+  !!! note
+      Scope is only supported for access points attached to directory buckets.
+
+- `"Tags"`: An array of tags that you can apply to an access point. Tags are key-value pairs
+  of metadata used to control access to your access points. For more information about tags,
+  see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html).
+  For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
 
 - `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this access
   point to requests from the specified virtual private cloud (VPC).
@@ -680,7 +698,7 @@ Related actions include:
 - `client_request_token`: An idempotency token to ensure that you don't accidentally submit
   the same request twice. You can use any string up to the maximum length.
 - `operation`: The action that you want this job to perform on every object listed in the
-  manifest. For more information about the available actions, see [Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html)
+  manifest. For more information about the available actions, see [Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html)
   in the *Amazon S3 User Guide*.
 - `priority`: The numerical priority for this job. Higher numbers indicate higher priority.
 - `report`: Configuration parameters for the optional job-completion report.
@@ -931,7 +949,7 @@ You must have the `s3:DeleteAccessGrant` permission to use this operation.
 
 - `access_grant_id`: The ID of the access grant. S3 Access Grants auto-generates this ID
   when you create the access grant.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function delete_access_grant end
 
@@ -990,7 +1008,7 @@ You must have the `s3:DeleteAccessGrantsInstance` permission to use this operati
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function delete_access_grants_instance end
 
@@ -1045,7 +1063,7 @@ operation.
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function delete_access_grants_instance_resource_policy end
 
@@ -1105,7 +1123,7 @@ You must have the `s3:DeleteAccessGrantsLocation` permission to use this operati
   from your S3 Access Grants instance. S3 Access Grants assigned this ID when you registered
   the location. S3 Access Grants assigns the ID `default` to the default location `s3://`
   and assigns an auto-generated ID to other locations that you register.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function delete_access_grants_location end
 
@@ -1151,9 +1169,6 @@ end
 """
     delete_access_point(name, x-amz-account-id)
     delete_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
-
-!!! note
-    This operation is not supported by directory buckets.
 
 Deletes the specified access point.
 
@@ -1291,9 +1306,6 @@ end
     delete_access_point_policy(name, x-amz-account-id)
     delete_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
-!!! note
-    This operation is not supported by directory buckets.
-
 Deletes the access point policy for the specified access point.
 
 All Amazon S3 on Outposts REST API requests for this action require an additional parameter
@@ -1409,6 +1421,65 @@ function delete_access_point_policy_for_object_lambda(
     return s3_control(
         "DELETE",
         "/v20180820/accesspointforobjectlambda/$(Name)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_access_point_scope(name, x-amz-account-id)
+    delete_access_point_scope(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes an existing access point scope for a directory bucket.
+
+!!! note
+    When you delete the scope of an access point, all prefixes and permissions are deleted.
+
+To use this operation, you must have the permission to perform the
+`s3express:DeleteAccessPointScope` action.
+
+For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+
+# Arguments
+
+- `name`: The name of the access point with the scope that you want to delete.
+- `x-amz-account-id`: The Amazon Web Services account ID that owns the access point with the
+  scope that you want to delete.
+"""
+function delete_access_point_scope end
+
+function delete_access_point_scope(
+    Name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accesspoint/$(Name)/scope",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_access_point_scope(
+    Name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accesspoint/$(Name)/scope",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -2020,8 +2091,12 @@ end
 !!! note
     This operation is not supported by directory buckets.
 
-Removes the `PublicAccessBlock` configuration for an Amazon Web Services account. For more
-information, see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
+Removes the `PublicAccessBlock` configuration for an Amazon Web Services account. This
+operation might be restricted when the account is managed by organization-level Block Public
+Access policies. You’ll get an Access Denied (403) error when the account is managed by
+organization-level Block Public Access policies. Organization-level policies override
+account-level settings, preventing direct account-level modifications. For more information,
+see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
 
 Related actions include:
 
@@ -2396,7 +2471,7 @@ You must have the `sso:DeleteApplication` permission to use this operation.
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function dissociate_access_grants_identity_center end
 
@@ -2450,7 +2525,7 @@ You must have the `s3:GetAccessGrant` permission to use this operation.
 
 - `access_grant_id`: The ID of the access grant. S3 Access Grants auto-generates this ID
   when you create the access grant.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function get_access_grant end
 
@@ -2501,9 +2576,13 @@ Retrieves the S3 Access Grants instance for a Region in your account.
 
 You must have the `s3:GetAccessGrantsInstance` permission to use this operation.
 
+!!! note
+    `GetAccessGrantsInstance` is not supported for cross-account access. You can only call
+    the API from the account that owns the S3 Access Grants instance.
+
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function get_access_grants_instance end
 
@@ -2618,7 +2697,7 @@ operation.
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function get_access_grants_instance_resource_policy end
 
@@ -2674,7 +2753,7 @@ You must have the `s3:GetAccessGrantsLocation` permission to use this operation.
   Access Grants assigns this ID when you register the location. S3 Access Grants assigns the
   ID `default` to the default location `s3://` and assigns an auto-generated ID to other
   locations that you register.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function get_access_grants_location end
 
@@ -2720,9 +2799,6 @@ end
 """
     get_access_point(name, x-amz-account-id)
     get_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
-
-!!! note
-    This operation is not supported by directory buckets.
 
 Returns configuration information about the specified access point.
 
@@ -2918,9 +2994,6 @@ end
 """
     get_access_point_policy(name, x-amz-account-id)
     get_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
-
-!!! note
-    This operation is not supported by directory buckets.
 
 Returns the access point policy associated with the specified access point.
 
@@ -3139,6 +3212,62 @@ function get_access_point_policy_status_for_object_lambda(
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda/$(Name)/policyStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_point_scope(name, x-amz-account-id)
+    get_access_point_scope(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the access point scope for a directory bucket.
+
+To use this operation, you must have the permission to perform the
+`s3express:GetAccessPointScope` action.
+
+For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+
+# Arguments
+
+- `name`: The name of the access point with the scope you want to retrieve.
+- `x-amz-account-id`: The Amazon Web Services account ID that owns the access point with the
+  scope that you want to retrieve.
+"""
+function get_access_point_scope end
+
+function get_access_point_scope(
+    Name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accesspoint/$(Name)/scope",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_access_point_scope(
+    Name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accesspoint/$(Name)/scope",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3727,11 +3856,14 @@ groups `sts:SetContext`, and for IAM users or roles `sts:SetSourceIdentity`.
   credentials. If the requesting account has an access grant for this data, S3 Access Grants
   vends temporary access credentials in the response.
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"auditContext"`: The context to identify the job or query associated with the credential
+  request. This information will be displayed in CloudTrail log in your account.
 
 - `"durationSeconds"`: The session duration, in seconds, of the temporary access credential
   that S3 Access Grants vends to the grantee or client application. The default value is 1
@@ -4132,8 +4264,9 @@ end
 !!! note
     This operation is not supported by directory buckets.
 
-Retrieves the `PublicAccessBlock` configuration for an Amazon Web Services account. For more
-information, see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
+Retrieves the `PublicAccessBlock` configuration for an Amazon Web Services account. This
+operation returns the effective account-level configuration, which may inherit from
+organization-level policies. For more information, see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
 
 Related actions include:
 
@@ -4372,7 +4505,7 @@ You must have the `s3:ListAccessGrants` permission to use this operation.
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -4469,7 +4602,7 @@ You must have the `s3:ListAccessGrantsInstances` permission to use this operatio
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -4532,7 +4665,7 @@ You must have the `s3:ListAccessGrantsLocations` permission to use this operatio
 
 # Arguments
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -4598,11 +4731,13 @@ end
 !!! note
     This operation is not supported by directory buckets.
 
-Returns a list of the access points that are owned by the current account that's associated
-with the specified bucket. You can retrieve up to 1000 access points per call. If the
-specified bucket has more than 1,000 access points (or the number specified in `maxResults`,
+Returns a list of the access points. You can retrieve up to 1,000 access points per call. If
+the call returns more than 1,000 access points (or the number specified in `maxResults`,
 whichever is less), the response will include a continuation token that you can use to list
 the additional access points.
+
+Returns only access points attached to S3 buckets by default. To return all access points
+specify `DataSourceType` as `ALL`.
 
 All Amazon S3 on Outposts REST API requests for this action require an additional parameter
 of `x-amz-outpost-id` to be passed with the request. In addition, you must use an S3 on
@@ -4639,6 +4774,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports`. The value
   must be URL encoded.
 
+- `"dataSourceId"`: The unique identifier for the data source of the access point.
+
+- `"dataSourceType"`: The type of the data source that the access point is attached to.
+  Returns only access points attached to S3 buckets by default. To return all access points
+  specify `DataSourceType` as `ALL`.
+
 - `"maxResults"`: The maximum number of access points that you want to include in the list.
   If the specified bucket has more than this number of access points, then the response will
   include a continuation token in the `NextToken` field that you can use to retrieve the
@@ -4672,6 +4813,77 @@ function list_access_points(
     return s3_control(
         "GET",
         "/v20180820/accesspoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_access_points_for_directory_buckets(x-amz-account-id)
+    list_access_points_for_directory_buckets(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of the access points that are owned by the Amazon Web Services account and
+that are associated with the specified directory bucket.
+
+To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html).
+
+To use this operation, you must have the permission to perform the
+`s3express:ListAccessPointsForDirectoryBuckets` action.
+
+For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+
+# Arguments
+
+- `x-amz-account-id`: The Amazon Web Services account ID that owns the access points.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"directoryBucket"`: The name of the directory bucket associated with the access points
+  you want to list.
+- `"maxResults"`: The maximum number of access points that you would like returned in the
+  `ListAccessPointsForDirectoryBuckets` response. If the directory bucket is associated with
+  more than this number of access points, the results include the pagination token
+  `NextToken`. Make another call using the `NextToken` to retrieve more results.
+- `"nextToken"`: If `NextToken` is returned, there are more access points available than
+  requested in the `maxResults` value. The value of `NextToken` is a unique pagination token
+  for each page. Make the call again using the returned token to retrieve the next page.
+  Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+"""
+function list_access_points_for_directory_buckets end
+
+function list_access_points_for_directory_buckets(
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accesspointfordirectory",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_access_points_for_directory_buckets(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accesspointfordirectory",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -4747,6 +4959,85 @@ function list_access_points_for_object_lambda(
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_caller_access_grants(x-amz-account-id)
+    list_caller_access_grants(x-amz-account-id, params::Dict{String,<:Any})
+
+Use this API to list the access grants that grant the caller access to Amazon S3 data
+through S3 Access Grants. The caller (grantee) can be an Identity and Access Management
+(IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must
+pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can,
+optionally, narrow the results by `GrantScope`, using a fragment of the data's S3 path, and
+S3 Access Grants will return only the grants with a path that contains the path fragment.
+You can also pass the `AllowedByApplication` filter in the request, which returns only the
+grants authorized for applications, whether the application is the caller's Identity Center
+application or any other application (`ALL`). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html)
+in the *Amazon S3 User Guide*.
+
+### Permissions
+
+You must have the `s3:ListCallerAccessGrants` permission to use this operation.
+
+# Arguments
+
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allowedByApplication"`: If this optional parameter is passed in the request, a filter is
+  applied to the results. The results will include only the access grants for the caller's
+  Identity Center application or for any other applications (`ALL`).
+- `"grantscope"`: The S3 path of the data that you would like to access. Must start with
+  `s3://`. You can optionally pass only the beginning characters of a path, and S3 Access
+  Grants will search for all applicable grants for the path fragment.
+- `"maxResults"`: The maximum number of access grants that you would like returned in the
+  `List Caller Access Grants` response. If the results include the pagination token
+  `NextToken`, make another call using the `NextToken` to determine if there are more
+  results.
+- `"nextToken"`: A pagination token to request the next page of results. Pass this value
+  into a subsequent `List Caller Access Grants` request in order to retrieve the next page
+  of results.
+"""
+function list_caller_access_grants end
+
+function list_caller_access_grants(
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/caller/grants",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_caller_access_grants(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/caller/grants",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -5105,29 +5396,43 @@ end
     list_tags_for_resource(resource_arn, x-amz-account-id)
     list_tags_for_resource(resource_arn, x-amz-account-id, params::Dict{String,<:Any})
 
-This operation allows you to list all the Amazon Web Services resource tags for a specified
-resource. Each tag is a label consisting of a user-defined key and value. Tags can help you
-manage, identify, organize, search for, and filter resources.
+This operation allows you to list all of the tags for a specified resource. Each tag is a
+label consisting of a key and value. Tags can help you organize, track costs for, and
+control access to resources.
+
+!!! note
+    This operation is only supported for the following Amazon S3 resources:
+
+    - [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    - [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    - [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    - [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
+    - [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    - [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
 
 ### Permissions
 
-You must have the `s3:ListTagsForResource` permission to use this operation.
+For general purpose buckets, access points for general purpose buckets, Storage Lens groups,
+and S3 Access Grants, you must have the `s3:ListTagsForResource` permission to use this
+operation.
 
-!!! note
-    This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
-    and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
-    The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance,
-    registered location, or grant.
+### Directory bucket permissions
 
-For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions).
+For directory buckets, you must have the `s3express:ListTagsForResource` permission to use
+this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html)
+in the *Amazon S3 User Guide*.
 
+### HTTP Host header syntax
+
+**Directory buckets** - The HTTP Host header syntax is
+`s3express-control.*region*.amazonaws.com`.
 For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you want to list
-  the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants
-  instance, registered location, or grant.
+  tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3
+  Access Grants instance, registered location, or grant.
 - `x-amz-account-id`: The Amazon Web Services account ID of the resource owner.
 """
 function list_tags_for_resource end
@@ -5183,7 +5488,7 @@ operation.
 # Arguments
 
 - `policy`: The resource policy of the S3 Access Grants instance that you are updating.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 
@@ -5302,9 +5607,6 @@ end
     put_access_point_policy(name, policy, x-amz-account-id)
     put_access_point_policy(name, policy, x-amz-account-id, params::Dict{String,<:Any})
 
-!!! note
-    This operation is not supported by directory buckets.
-
 Associates an access policy with the specified access point. Each access point can have only
 one policy, so a request made to this API replaces any existing policy associated with the
 specified access point.
@@ -5338,6 +5640,7 @@ The following actions are related to `PutAccessPointPolicy`:
 
 - `policy`: The policy that you want to apply to the specified access point. For more
   information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
+  or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html)
   in the *Amazon S3 User Guide*.
 
 - `x-amz-account-id`: The Amazon Web Services account ID for owner of the bucket associated
@@ -5440,6 +5743,72 @@ function put_access_point_policy_for_object_lambda(
                 _merge,
                 Dict{String,Any}(
                     "Policy" => Policy,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_access_point_scope(name, scope, x-amz-account-id)
+    put_access_point_scope(name, scope, x-amz-account-id, params::Dict{String,<:Any})
+
+Creates or replaces the access point scope for a directory bucket. You can use the access
+point scope to restrict access to specific prefixes, API operations, or a combination of
+both.
+
+!!! note
+    You can specify any amount of prefixes, but the total length of characters of all
+    prefixes must be less than 256 bytes in size.
+
+To use this operation, you must have the permission to perform the
+`s3express:PutAccessPointScope` action.
+
+For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+
+# Arguments
+
+- `name`: The name of the access point with the scope that you want to create or replace.
+- `scope`: Object prefixes, API operations, or a combination of both.
+- `x-amz-account-id`: The Amazon Web Services account ID that owns the access point with
+  scope that you want to create or replace.
+"""
+function put_access_point_scope end
+
+function put_access_point_scope(
+    Name, Scope, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/accesspoint/$(Name)/scope",
+        Dict{String,Any}(
+            "Scope" => Scope,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_access_point_scope(
+    Name,
+    Scope,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/accesspoint/$(Name)/scope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Scope" => Scope,
                     "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
                 ),
                 params,
@@ -6174,8 +6543,12 @@ end
     This operation is not supported by directory buckets.
 
 Creates or modifies the `PublicAccessBlock` configuration for an Amazon Web Services
-account. For this operation, users must have the `s3:PutAccountPublicAccessBlock`
-permission. For more information, see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
+account. This operation may be restricted when the account is managed by organization-level
+Block Public Access policies. You might get an Access Denied (403) error when the account is
+managed by organization-level Block Public Access policies. Organization-level policies
+override account-level settings, preventing direct account-level modifications. For this
+operation, users must have the `s3:PutAccountPublicAccessBlock` permission. For more
+information, see [Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html).
 
 Related actions include:
 
@@ -6480,29 +6853,43 @@ end
     tag_resource(resource_arn, tag, x-amz-account-id)
     tag_resource(resource_arn, tag, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates a new Amazon Web Services resource tag or updates an existing resource tag. Each tag
-is a label consisting of a user-defined key and value. Tags can help you manage, identify,
-organize, search for, and filter resources. You can add up to 50 Amazon Web Services
-resource tags for each S3 resource.
+Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of
+a key and value that is applied to your resource. Tags can help you organize, track costs
+for, and control access to your resources. You can add up to 50 Amazon Web Services resource
+tags for each S3 resource.
 
 !!! note
-    This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
-    and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
-    The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance,
-    registered location, or grant.
+    This operation is only supported for the following Amazon S3 resource:
+
+    - [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    - [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    - [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    - [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
+    - [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    - [S3 Access Grants instances, registered locations, or grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
 
 ### Permissions
 
-You must have the `s3:TagResource` permission to use this operation.
-For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions).
+For general purpose buckets, access points for general purpose buckets, Storage Lens groups,
+and S3 Access Grants, you must have the `s3:TagResource` permission to use this operation.
 
+### Directory bucket permissions
+
+For directory buckets, you must have the `s3express:TagResource` permission to use this
+operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html)
+in the *Amazon S3 User Guide*.
+
+### HTTP Host header syntax
+
+**Directory buckets** - The HTTP Host header syntax is
+`s3express-control.*region*.amazonaws.com`.
 For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you're trying to
-  add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants
-  instance, registered location, or grant.
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you're applying
+  tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access
+  Grants instance, registered location, or grant.
 - `tag`: The Amazon Web Services resource tags that you want to add to the specified S3
   resource.
 - `x-amz-account-id`: The Amazon Web Services account ID that created the S3 resource that
@@ -6561,27 +6948,41 @@ end
     untag_resource(resource_arn, tag_keys, x-amz-account-id)
     untag_resource(resource_arn, tag_keys, x-amz-account-id, params::Dict{String,<:Any})
 
-This operation removes the specified Amazon Web Services resource tags from an S3 resource.
-Each tag is a label consisting of a user-defined key and value. Tags can help you manage,
-identify, organize, search for, and filter resources.
+This operation removes the specified user-defined tags from an S3 resource. You can pass one
+or more tag keys.
 
 !!! note
-    This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
-    and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
-    The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance,
-    registered location, or grant.
+    This operation is only supported for the following Amazon S3 resources:
+
+    - [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    - [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    - [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    - [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
+    - [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    - [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
 
 ### Permissions
 
-You must have the `s3:UntagResource` permission to use this operation.
-For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions).
+For general purpose buckets, access points for general purpose buckets, Storage Lens groups,
+and S3 Access Grants, you must have the `s3:UntagResource` permission to use this operation.
 
+### Directory bucket permissions
+
+For directory buckets, you must have the `s3express:UntagResource` permission to use this
+operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html)
+in the *Amazon S3 User Guide*.
+
+### HTTP Host header syntax
+
+**Directory buckets** - The HTTP Host header syntax is
+`s3express-control.*region*.amazonaws.com`.
 For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
 
 # Arguments
 
-- `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you're trying to
-  remove the tags from.
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you're removing
+  tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3
+  Access Grants instance, registered location, or grant.
 - `tag_keys`: The array of tag key-value pairs that you're trying to remove from of the S3
   resource.
 - `x-amz-account-id`: The Amazon Web Services account ID that owns the resource that you're
@@ -6665,7 +7066,7 @@ You must also have the following permission: `iam:PassRole`
 - `iamrole_arn`: The Amazon Resource Name (ARN) of the IAM role for the registered location.
   S3 Access Grants assumes this role to manage access to the registered location.
 
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 """
 function update_access_grants_location end
 

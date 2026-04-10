@@ -19,7 +19,7 @@ If there is a Classic Load Balancer attached to your Auto Scaling group, the ins
 also registered with the load balancer. If there are target groups attached to your Auto
 Scaling group, the instances are also registered with the target groups.
 
-For more information, see [Attach EC2 instances to your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-instance-asg.html)
+For more information, see [Detach or attach instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-detach-attach-instances.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -69,10 +69,10 @@ end
     attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`attach_traffic_sources`](@ref), which can attach
-    multiple traffic sources types. We recommend using `AttachTrafficSources` to simplify
-    how you manage traffic sources. However, we continue to support
-    `AttachLoadBalancerTargetGroups`. You can use both the original
+    This API operation is superseded by [AttachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html),
+    which can attach multiple traffic sources types. We recommend using
+    `AttachTrafficSources` to simplify how you manage traffic sources. However, we continue
+    to support `AttachLoadBalancerTargetGroups`. You can use both the original
     `AttachLoadBalancerTargetGroups` API operation and `AttachTrafficSources` on the same
     Auto Scaling group.
 
@@ -86,8 +86,8 @@ This operation is used with the following load balancer types:
   and UDP.
 - Gateway Load Balancer - Operates at the network layer (layer 3).
 
-To describe the target groups for an Auto Scaling group, call the [`describe_load_balancer_target_groups`](@ref)
-API. To detach the target group from the Auto Scaling group, call the [`detach_load_balancer_target_groups`](@ref)
+To describe the target groups for an Auto Scaling group, call the [DescribeLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html)
+API. To detach the target group from the Auto Scaling group, call the [DetachLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancerTargetGroups.html)
 API.
 
 This operation is additive and does not detach existing target groups or Classic Load
@@ -150,17 +150,17 @@ end
     attach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`attach_traffic_sources`](@ref), which can attach
-    multiple traffic sources types. We recommend using `AttachTrafficSources` to simplify
-    how you manage traffic sources. However, we continue to support `AttachLoadBalancers`.
-    You can use both the original `AttachLoadBalancers` API operation and
-    `AttachTrafficSources` on the same Auto Scaling group.
+    This API operation is superseded by [AttachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html),
+    which can attach multiple traffic sources types. We recommend using
+    `AttachTrafficSources` to simplify how you manage traffic sources. However, we continue
+    to support `AttachLoadBalancers`. You can use both the original `AttachLoadBalancers`
+    API operation and `AttachTrafficSources` on the same Auto Scaling group.
 
 Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2
 Auto Scaling registers the running instances with these Classic Load Balancers.
 
-To describe the load balancers for an Auto Scaling group, call the [`describe_load_balancers`](@ref)
-API. To detach a load balancer from the Auto Scaling group, call the [`detach_load_balancers`](@ref)
+To describe the load balancers for an Auto Scaling group, call the [DescribeLoadBalancers](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancers.html)
+API. To detach a load balancer from the Auto Scaling group, call the [DetachLoadBalancers](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancers.html)
 API.
 
 This operation is additive and does not detach existing Classic Load Balancers or target
@@ -233,9 +233,9 @@ You can use any of the following as traffic sources for an Auto Scaling group:
 This operation is additive and does not detach existing traffic sources from the Auto
 Scaling group.
 
-After the operation completes, use the [`describe_traffic_sources`](@ref) API to return
-details about the state of the attachments between traffic sources and your Auto Scaling
-group. To detach a traffic source from the Auto Scaling group, call the [`detach_traffic_sources`](@ref)
+After the operation completes, use the [DescribeTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html)
+API to return details about the state of the attachments between traffic sources and your
+Auto Scaling group. To detach a traffic source from the Auto Scaling group, call the [DetachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html)
 API.
 
 # Arguments
@@ -243,6 +243,15 @@ API.
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 - `traffic_sources`: The unique identifiers of one or more traffic sources. You can specify
   up to 10 traffic sources.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SkipZonalShiftValidation"`: If you enable zonal shift with cross-zone disabled load
+  balancers, capacity could become imbalanced across Availability Zones. To skip the
+  validation, specify `true`. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
 """
 function attach_traffic_sources end
 
@@ -401,11 +410,22 @@ in Amazon EC2 Auto Scaling, which helps you update instances in your Auto Scalin
 after you make configuration changes.
 
 When you cancel an instance refresh, this does not roll back any changes that it made. Use
-the [`rollback_instance_refresh`](@ref) API to roll back instead.
+the [RollbackInstanceRefresh](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RollbackInstanceRefresh.html)
+API to roll back instead.
 
 # Arguments
 
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"WaitForTransitioningInstances"`: When cancelling an instance refresh, this indicates
+  whether to wait for in-flight launches and terminations to complete. The default is true.
+
+  When set to false, Amazon EC2 Auto Scaling cancels the instance refresh without waiting
+  for any pending launches or terminations to complete.
 """
 function cancel_instance_refresh end
 
@@ -459,7 +479,7 @@ This step is a part of the procedure for adding a lifecycle hook to an Auto Scal
    terminate.
 5. If you need more time, record the lifecycle action heartbeat to keep the instance in a
    wait state.
-6. **If you finish before the timeout period ends, send a callback by using the [`complete_lifecycle_action`](@ref)
+6. **If you finish before the timeout period ends, send a callback by using the [CompleteLifecycleAction](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html)
    API call.**
 
 For more information, see [Complete a lifecycle action](https://docs.aws.amazon.com/autoscaling/ec2/userguide/completing-lifecycle-hooks.html)
@@ -536,8 +556,8 @@ functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
 Creates an Auto Scaling group with the specified name and attributes.
 
 If you exceed your maximum limit of Auto Scaling groups, the call fails. To query this
-limit, call the [`describe_account_limits`](@ref) API. For information about updating this
-limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html)
+limit, call the [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html)
+API. For information about updating this limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 If you're new to Amazon EC2 Auto Scaling, see the introductory tutorials in [Get started with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/get-started-with-ec2-auto-scaling.html)
@@ -574,6 +594,11 @@ must specify these sizes with the same units that you use for weighting instance
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AvailabilityZoneDistribution"`: The instance capacity distribution across Availability
+  Zones.
+
+- `"AvailabilityZoneImpairmentPolicy"`: The policy for Availability Zone impairment.
+
 - `"AvailabilityZones"`: A list of Availability Zones where instances in the Auto Scaling
   group can be created. Used for launching into the default VPC subnet in each Availability
   Zone when not using the `VPCZoneIdentifier` property, or for attaching a network interface
@@ -586,12 +611,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   terminates an old instance. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html)
   in the in the *Amazon EC2 Auto Scaling User Guide*.
 
+- `"CapacityReservationSpecification"`: The capacity reservation specification for the Auto
+  Scaling group.
+
 - `"Context"`: Reserved.
 
 - `"DefaultCooldown"`: *Only needed if you use simple scaling policies.*
 
   The amount of time, in seconds, between one scaling activity ending and another one
-  starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+  starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Default: `300` seconds
@@ -616,6 +644,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: None
 
+- `"DeletionProtection"`: The deletion protection setting for the Auto Scaling group. This
+  setting helps safeguard your Auto Scaling group and its instances by controlling whether
+  the `DeleteAutoScalingGroup` operation is allowed. When deletion protection is enabled,
+  users cannot delete the Auto Scaling group according to the specified protection level
+  until the setting is changed back to a less restrictive level.
+
+  The valid values are `none`, `prevent-force-deletion`, and `prevent-all-deletion`.
+
+  Default: `none`
+
+  For more information, see [Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
+
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group at the time of its creation and the capacity it attempts to maintain. It can scale
   beyond this capacity if you configure auto scaling. This number must be greater than or
@@ -625,7 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DesiredCapacityType"`: The unit of measurement for the value specified for desired
   capacity. Amazon EC2 Auto Scaling supports `DesiredCapacityType` for attribute-based
-  instance type selection only. For more information, see [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html)
+  instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   By default, Amazon EC2 Auto Scaling specifies `units`, which translates into number of
@@ -644,8 +685,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HealthCheckType"`: A comma-separated value string of one or more health check types.
 
-  The valid values are `EC2`, `ELB`, and `VPC_LATTICE`. `EC2` is the default health check
-  and cannot be disabled. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html)
+  The valid values are `EC2`, `EBS`, `ELB`, and `VPC_LATTICE`. `EC2` is the default health
+  check and cannot be disabled. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Only specify `EC2` if you must clear a value that was previously set.
@@ -653,8 +694,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceId"`: The ID of the instance used to base the launch configuration on. If
   specified, Amazon EC2 Auto Scaling uses the configuration values from the specified
   instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html)
-  API operation. For more information, see [Creating an Auto Scaling group using an EC2 instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html)
+  API operation. For more information, see [Create an Auto Scaling group using parameters from an existing instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
+
+- `"InstanceLifecyclePolicy"`: The instance lifecycle policy for the Auto Scaling group.
+  This policy controls instance behavior when an instance transitions through its lifecycle
+  states. Configure retention triggers to specify when instances should move to a `Retained`
+  state instead of automatic termination.
+
+  For more information, see [Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
+
+  !!! note
+      Instances in a Retained state will continue to incur standard EC2 charges until
+      terminated.
 
 - `"InstanceMaintenancePolicy"`: An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
@@ -675,7 +728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The launch template that is specified must be configured for use with an Auto Scaling
-      group. For more information, see [Creating a launch template for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
+      group. For more information, see [Create a launch template for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
       in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"LifecycleHookSpecificationList"`: One or more lifecycle hooks to add to the Auto Scaling
@@ -687,7 +740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxInstanceLifetime"`: The maximum amount of time, in seconds, that an instance can be
   in service. The default is null. If specified, the value must be either 0 or a number
-  equal to or greater than 86,400 seconds (1 day). For more information, see [Replacing Auto Scaling instances based on maximum instance lifetime](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html)
+  equal to or greater than 86,400 seconds (1 day). For more information, see [Replace Auto Scaling instances based on maximum instance lifetime](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"MixedInstancesPolicy"`: The mixed instances policy. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html)
@@ -695,12 +748,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more
-  information about preventing instances from terminating on scale in, see [Using instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
+  information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"PlacementGroup"`: The name of the placement group into which to launch your instances.
   For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  in the *Amazon EC2 User Guide*.
 
   !!! note
       A *cluster* placement group is a logical grouping of instances within a single
@@ -712,6 +765,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, Amazon EC2 Auto Scaling uses a service-linked role named
   `AWSServiceRoleForAutoScaling`, which it creates if it does not exist. For more
   information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
+
+- `"SkipZonalShiftValidation"`: If you enable zonal shift with cross-zone disabled load
+  balancers, capacity could become imbalanced across Availability Zones. To skip the
+  validation, specify `true`. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"Tags"`: One or more tags. You can tag your Auto Scaling group and propagate the tags to
@@ -730,7 +788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instance to terminate. These policies are executed in the order that you list them. For
-  more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
+  more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Valid values: `Default` | `AllocationStrategy` | `ClosestToNextInstanceHour` |
@@ -799,11 +857,11 @@ end
 Creates a launch configuration.
 
 If you exceed your maximum limit of launch configurations, the call fails. To query this
-limit, call the [`describe_account_limits`](@ref) API. For information about updating this
-limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html)
+limit, call the [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html)
+API. For information about updating this limit, see [Quotas for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
-For more information, see [Launch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html)
+For more information, see [Launch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-configurations.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 !!! note
@@ -830,7 +888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IPv4 address on the subnet.
 
   If you specify `true`, each instance in the Auto Scaling group receives a unique public
-  IPv4 address. For more information, see [Launching Auto Scaling instances in a VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html)
+  IPv4 address. For more information, see [Provide network connectivity for your Auto Scaling instances using Amazon VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   If you specify this property, you must specify at least one subnet for `VPCZoneIdentifier`
@@ -839,7 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BlockDeviceMappings"`: The block device mapping entries that define the block devices to
   attach to the instances at launch. By default, the block devices specified in the block
   device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  in the *Amazon EC2 User Guide*.
 
 - `"ClassicLinkVPCId"`: Available for backward compatibility.
 
@@ -850,8 +908,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and an optimized configuration stack to provide optimal I/O performance. This optimization
   is not available with all instance types. Additional fees are incurred when you enable EBS
   optimization for an instance type that is not EBS-optimized by default. For more
-  information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html)
+  in the *Amazon EC2 User Guide*.
 
   The default value is `false`.
 
@@ -861,8 +919,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"ImageId"`: The ID of the Amazon Machine Image (AMI) that was assigned during
-  registration. For more information, see [Finding a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  registration. For more information, see [Find a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html)
+  in the *Amazon EC2 User Guide*.
 
   If you specify `InstanceId`, an `ImageId` is not required.
 
@@ -873,7 +931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To create a launch configuration with a block device mapping or override any other
   instance attributes, specify them as part of the same request.
 
-  For more information, see [Creating a launch configuration using an EC2 instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-lc-with-instanceID.html)
+  For more information, see [Create a launch configuration](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"InstanceMonitoring"`: Controls whether instances in this group are launched with
@@ -884,12 +942,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! important
       When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute
       and your account is charged a fee. When you disable detailed monitoring, CloudWatch
-      generates metrics every 5 minutes. For more information, see [Configure Monitoring for Auto Scaling Instances](https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html)
+      generates metrics every 5 minutes. For more information, see [Configure monitoring for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html)
       in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"InstanceType"`: Specifies the instance type of the EC2 instance. For information about
   available instance types, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  in the *Amazon EC2 User Guide*.
 
   If you specify `InstanceId`, an `InstanceType` is not required.
 
@@ -898,20 +956,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       We recommend that you use PV-GRUB instead of kernels and RAM disks. For more
       information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
-      in the *Amazon EC2 User Guide for Linux Instances*.
+      in the *Amazon EC2 User Guide*.
 
-- `"KeyName"`: The name of the key pair. For more information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+- `"KeyName"`: The name of the key pair. For more information, see [Amazon EC2 key pairs and Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+  in the *Amazon EC2 User Guide*.
 
-- `"MetadataOptions"`: The metadata options for the instances. For more information, see [Configuring the Instance Metadata Options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds)
+- `"MetadataOptions"`: The metadata options for the instances. For more information, see [Configure the instance metadata options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"PlacementTenancy"`: The tenancy of the instance, either `default` or `dedicated`. An
   instance with `dedicated` tenancy runs on isolated, single-tenant hardware and can only be
   launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with
   the instance placement tenancy attribute set to `default`), you must set the value of this
-  property to `dedicated`. For more information, see [Configuring instance tenancy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-dedicated-instances.html)
-  in the *Amazon EC2 Auto Scaling User Guide*.
+  property to `dedicated`.
 
   If you specify `PlacementTenancy`, you must specify at least one subnet for
   `VPCZoneIdentifier` when you create your group.
@@ -923,10 +980,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   !!! note
       We recommend that you use PV-GRUB instead of kernels and RAM disks. For more
       information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
-      in the *Amazon EC2 User Guide for Linux Instances*.
+      in the *Amazon EC2 User Guide*.
 
 - `"SecurityGroups"`: A list that contains the security group IDs to assign to the instances
-  in the Auto Scaling group. For more information, see [Control traffic to resources using security groups](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
+  in the Auto Scaling group. For more information, see [Control traffic to your Amazon Web Services resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html)
   in the *Amazon Virtual Private Cloud User Guide*.
 
 - `"SpotPrice"`: The maximum hourly price to be paid for any Spot Instance launched to
@@ -1029,11 +1086,11 @@ force the deletion in order for it to succeed. The force delete operation will a
 terminate the EC2 instances. If the group has a warm pool, the force delete option also
 deletes the warm pool.
 
-To remove instances from the Auto Scaling group before deleting it, call the [`detach_instances`](@ref)
+To remove instances from the Auto Scaling group before deleting it, call the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html)
 API with the list of instances and the option to decrement the desired capacity. This
 ensures that Amazon EC2 Auto Scaling does not launch replacement instances.
 
-To terminate all instances before deleting the Auto Scaling group, call the [`update_auto_scaling_group`](@ref)
+To terminate all instances before deleting the Auto Scaling group, call the [UpdateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_UpdateAutoScalingGroup.html)
 API and set the minimum size and desired capacity of the Auto Scaling group to zero.
 
 If the group has scaling policies, deleting the group deletes the policies, the underlying
@@ -1243,7 +1300,7 @@ Deletes the specified scaling policy.
 Deleting either a step scaling policy or a simple scaling policy deletes the underlying
 alarm action, but does not delete the alarm, even if it no longer has an associated action.
 
-For more information, see [Deleting a scaling policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html)
+For more information, see [Delete a scaling policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -1486,7 +1543,7 @@ only those Auto Scaling groups that meet the filter criteria. If you do not spec
 names or filters, the output includes information for all Auto Scaling groups.
 
 This operation also returns information about instances in Auto Scaling groups. To retrieve
-information about the instances in a warm pool, you must call the [`describe_warm_pool`](@ref)
+information about the instances in a warm pool, you must call the [DescribeWarmPool](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeWarmPool.html)
 API.
 
 # Optional Parameters
@@ -1500,6 +1557,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you omit this property, all Auto Scaling groups are described.
 
 - `"Filters"`: One or more filters to limit the results based on specific tags.
+
+- `"IncludeInstances"`: Specifies whether to include information about Amazon EC2 instances
+  in the response. When set to `true` (default), the response includes instance details.
 
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value is
   `50` and the maximum value is `100`.
@@ -1774,10 +1834,10 @@ end
     describe_load_balancer_target_groups(auto_scaling_group_name, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`describe_traffic_sources`](@ref), which can
-    describe multiple traffic sources types. We recommend using `DetachTrafficSources` to
-    simplify how you manage traffic sources. However, we continue to support
-    `DescribeLoadBalancerTargetGroups`. You can use both the original
+    This API operation is superseded by [DescribeTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html),
+    which can describe multiple traffic sources types. We recommend using
+    `DetachTrafficSources` to simplify how you manage traffic sources. However, we continue
+    to support `DescribeLoadBalancerTargetGroups`. You can use both the original
     `DescribeLoadBalancerTargetGroups` API operation and `DescribeTrafficSources` on the
     same Auto Scaling group.
 
@@ -1794,18 +1854,18 @@ EC2 Auto Scaling can terminate and replace any instances that are reported as un
 no registered instances pass the health checks, the target group doesn't enter the
 `InService` state.
 
-Target groups also have an `InService` state if you attach them in the [`create_auto_scaling_group`](@ref)
+Target groups also have an `InService` state if you attach them in the [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html)
 API call. If your target group state is `InService`, but it is not working properly, check
-the scaling activities by calling [`describe_scaling_activities`](@ref) and take any
-corrective actions necessary.
+the scaling activities by calling [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html)
+and take any corrective actions necessary.
 
 For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html)
 in the *Amazon EC2 Auto Scaling User Guide*. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 !!! note
-    You can use this operation to describe target groups that were attached by using [`attach_load_balancer_target_groups`](@ref),
-    but not for target groups that were attached by using [`attach_traffic_sources`](@ref).
+    You can use this operation to describe target groups that were attached by using [AttachLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachLoadBalancerTargetGroups.html),
+    but not for target groups that were attached by using [AttachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html).
 
 # Arguments
 
@@ -1857,16 +1917,17 @@ end
     describe_load_balancers(auto_scaling_group_name, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`describe_traffic_sources`](@ref), which can
-    describe multiple traffic sources types. We recommend using `DescribeTrafficSources` to
-    simplify how you manage traffic sources. However, we continue to support
-    `DescribeLoadBalancers`. You can use both the original `DescribeLoadBalancers` API
-    operation and `DescribeTrafficSources` on the same Auto Scaling group.
+    This API operation is superseded by [DescribeTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html),
+    which can describe multiple traffic sources types. We recommend using
+    `DescribeTrafficSources` to simplify how you manage traffic sources. However, we
+    continue to support `DescribeLoadBalancers`. You can use both the original
+    `DescribeLoadBalancers` API operation and `DescribeTrafficSources` on the same Auto
+    Scaling group.
 
 Gets information about the load balancers for the specified Auto Scaling group.
 
 This operation describes only Classic Load Balancers. If you have Application Load
-Balancers, Network Load Balancers, or Gateway Load Balancers, use the [`describe_load_balancer_target_groups`](@ref)
+Balancers, Network Load Balancers, or Gateway Load Balancers, use the [DescribeLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html)
 API instead.
 
 To determine the attachment status of the load balancer, use the `State` element in the
@@ -1879,10 +1940,10 @@ EC2 Auto Scaling can terminate and replace any instances that are reported as un
 no registered instances pass the health checks, the load balancer doesn't enter the
 `InService` state.
 
-Load balancers also have an `InService` state if you attach them in the [`create_auto_scaling_group`](@ref)
+Load balancers also have an `InService` state if you attach them in the [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html)
 API call. If your load balancer state is `InService`, but it is not working properly, check
-the scaling activities by calling [`describe_scaling_activities`](@ref) and take any
-corrective actions necessary.
+the scaling activities by calling [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html)
+and take any corrective actions necessary.
 
 For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html)
 in the *Amazon EC2 Auto Scaling User Guide*. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html)
@@ -2043,7 +2104,7 @@ end
 Gets information about the scaling activities in the account and Region.
 
 When scaling events occur, you see a record of the scaling activity in the scaling
-activities. For more information, see [Verifying a scaling activity for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-verify-scaling-activity.html)
+activities. For more information, see [Verify a scaling activity for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-verify-scaling-activity.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 If the scaling event succeeds, the value of the `StatusCode` element in the response is
@@ -2056,14 +2117,40 @@ in the *Amazon EC2 Auto Scaling User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActivityIds"`: The activity IDs of the desired scaling activities. If you omit this
-  property, all activities for the past six weeks are described. If unknown activities are
-  requested, they are ignored with no error. If you specify an Auto Scaling group, the
-  results are limited to that group.
+- `"ActivityIds"`: The activity IDs of the desired scaling activities. If unknown activity
+  IDs are requested, they are ignored with no error. Only activities started within the last
+  six weeks can be returned regardless of the activity IDs specified. If other filters are
+  specified with the request, only results matching all filter criteria can be returned.
 
   Array Members: Maximum number of 50 IDs.
 
 - `"AutoScalingGroupName"`: The name of the Auto Scaling group.
+
+  !!! important
+      Omitting this property performs an account-wide operation, which can result in slower
+      or timed-out requests.
+
+- `"Filters"`: One or more filters to limit the results based on specific criteria. The
+  following filters are supported:
+
+  - `StartTimeLowerBound` - The earliest scaling activities to return based on the activity
+    start time. Scaling activities with a start time earlier than this value are not
+    included in the results. Only activities started within the last six weeks can be
+    returned regardless of the value specified.
+  - `StartTimeUpperBound` - The latest scaling activities to return based on the activity
+    start time. Scaling activities with a start time later than this value are not included
+    in the results. Only activities started within the last six weeks can be returned
+    regardless of the value specified.
+  - `Status` - The `StatusCode` value of the scaling activity. This filter can only be used
+    in combination with the `AutoScalingGroupName` parameter. For valid `StatusCode` values,
+    see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html)
+    in the *Amazon EC2 Auto Scaling API Reference*.
+
+  `StartTimeLowerBound` and `StartTimeUpperBound` accept ISO 8601 formatted timestamps.
+  Timestamps without a timezone offset are assumed to be UTC.
+
+  - `2000-01-18T08:15:00Z`
+  - `2000-01-18T16:15:00+08:00`
 
 - `"IncludeDeletedGroups"`: Indicates whether to include scaling activity from deleted Auto
   Scaling groups.
@@ -2094,7 +2181,8 @@ end
     describe_scaling_process_types()
     describe_scaling_process_types(params::Dict{String,<:Any})
 
-Describes the scaling process types for use with the [`resume_processes`](@ref) and [`suspend_processes`](@ref)
+Describes the scaling process types for use with the [ResumeProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_ResumeProcesses.html)
+and [SuspendProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendProcesses.html)
 APIs.
 """
 function describe_scaling_process_types end
@@ -2122,7 +2210,7 @@ end
 Gets information about the scheduled actions that haven't run or that have not reached their
 end time.
 
-To describe the scaling activities for scheduled actions that have already run, call the [`describe_scaling_activities`](@ref)
+To describe the scaling activities for scheduled actions that have already run, call the [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html)
 API.
 
 # Optional Parameters
@@ -2210,7 +2298,7 @@ end
 
 Describes the termination policies supported by Amazon EC2 Auto Scaling.
 
-For more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
+For more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 """
 function describe_termination_policy_types end
@@ -2370,7 +2458,7 @@ If there is a Classic Load Balancer attached to the Auto Scaling group, the inst
 deregistered from the load balancer. If there are target groups attached to the Auto Scaling
 group, the instances are deregistered from the target groups.
 
-For more information, see [Detach EC2 instances from your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html)
+For more information, see [Detach or attach instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-detach-attach-instances.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -2431,10 +2519,10 @@ end
     detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`detach_traffic_sources`](@ref), which can detach
-    multiple traffic sources types. We recommend using `DetachTrafficSources` to simplify
-    how you manage traffic sources. However, we continue to support
-    `DetachLoadBalancerTargetGroups`. You can use both the original
+    This API operation is superseded by [DetachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html),
+    which can detach multiple traffic sources types. We recommend using
+    `DetachTrafficSources` to simplify how you manage traffic sources. However, we continue
+    to support `DetachLoadBalancerTargetGroups`. You can use both the original
     `DetachLoadBalancerTargetGroups` API operation and `DetachTrafficSources` on the same
     Auto Scaling group.
 
@@ -2442,12 +2530,12 @@ Detaches one or more target groups from the specified Auto Scaling group.
 
 When you detach a target group, it enters the `Removing` state while deregistering the
 instances in the group. When all instances are deregistered, then you can no longer describe
-the target group using the [`describe_load_balancer_target_groups`](@ref) API call. The
-instances remain running.
+the target group using the [DescribeLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html)
+API call. The instances remain running.
 
 !!! note
-    You can use this operation to detach target groups that were attached by using [`attach_load_balancer_target_groups`](@ref),
-    but not for target groups that were attached by using [`attach_traffic_sources`](@ref).
+    You can use this operation to detach target groups that were attached by using [AttachLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachLoadBalancerTargetGroups.html),
+    but not for target groups that were attached by using [AttachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html).
 
 # Arguments
 
@@ -2501,22 +2589,22 @@ end
     detach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
 !!! note
-    This API operation is superseded by [`detach_traffic_sources`](@ref), which can detach
-    multiple traffic sources types. We recommend using `DetachTrafficSources` to simplify
-    how you manage traffic sources. However, we continue to support `DetachLoadBalancers`.
-    You can use both the original `DetachLoadBalancers` API operation and
-    `DetachTrafficSources` on the same Auto Scaling group.
+    This API operation is superseded by [DetachTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html),
+    which can detach multiple traffic sources types. We recommend using
+    `DetachTrafficSources` to simplify how you manage traffic sources. However, we continue
+    to support `DetachLoadBalancers`. You can use both the original `DetachLoadBalancers`
+    API operation and `DetachTrafficSources` on the same Auto Scaling group.
 
 Detaches one or more Classic Load Balancers from the specified Auto Scaling group.
 
 This operation detaches only Classic Load Balancers. If you have Application Load Balancers,
-Network Load Balancers, or Gateway Load Balancers, use the [`detach_load_balancer_target_groups`](@ref)
+Network Load Balancers, or Gateway Load Balancers, use the [DetachLoadBalancerTargetGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancerTargetGroups.html)
 API instead.
 
 When you detach a load balancer, it enters the `Removing` state while deregistering the
 instances in the group. When all instances are deregistered, then you can no longer describe
-the load balancer using the [`describe_load_balancers`](@ref) API call. The instances remain
-running.
+the load balancer using the [DescribeLoadBalancers](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancers.html)
+API call. The instances remain running.
 
 # Arguments
 
@@ -2573,8 +2661,8 @@ Detaches one or more traffic sources from the specified Auto Scaling group.
 
 When you detach a traffic source, it enters the `Removing` state while deregistering the
 instances in the group. When all instances are deregistered, then you can no longer describe
-the traffic source using the [`describe_traffic_sources`](@ref) API call. The instances
-continue to run.
+the traffic source using the [DescribeTrafficSources](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html)
+API call. The instances continue to run.
 
 # Arguments
 
@@ -2662,7 +2750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you omit this property, all metrics are disabled.
 
-  For more information, see [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics)
+  For more information, see [Amazon CloudWatch metrics for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 """
 function disable_metrics_collection end
@@ -2745,7 +2833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you specify `Granularity` and don't specify any metrics, all metrics are enabled.
 
-  For more information, see [Auto Scaling group metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-cloudwatch-monitoring.html#as-group-metrics)
+  For more information, see [Amazon CloudWatch metrics for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 """
 function enable_metrics_collection end
@@ -2879,7 +2967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HonorCooldown"`: Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period
   to complete before executing the policy.
 
-  Valid only if the policy type is `SimpleScaling`. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+  Valid only if the policy type is `SimpleScaling`. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"MetricValue"`: The metric value to compare to `BreachThreshold`. This enables you to
@@ -3054,6 +3142,85 @@ function get_predictive_scaling_forecast(
 end
 
 """
+    launch_instances(auto_scaling_group_name, client_token, requested_capacity)
+    launch_instances(auto_scaling_group_name, client_token, requested_capacity, params::Dict{String,<:Any})
+
+Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and
+other details if launch is successful or error details if launch is unsuccessful.
+
+# Arguments
+
+- `auto_scaling_group_name`: The name of the Auto Scaling group to launch instances into.
+- `client_token`: A unique, case-sensitive identifier to ensure idempotency of the request.
+- `requested_capacity`: The number of instances to launch. Although this value can exceed
+  100 for instance weights, the actual instance count is limited to 100 instances per
+launch.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AvailabilityZoneIds"`: A list of Availability Zone IDs where instances should be
+  launched. Must match or be included in the group's AZ configuration. You cannot specify
+  both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ groups, optional for
+  single-AZ groups.
+- `"AvailabilityZones"`: The Availability Zones for the instance launch. Must match or be
+  included in the Auto Scaling group's Availability Zone configuration. Either
+  `AvailabilityZones` or `SubnetIds` must be specified for groups with multiple Availability
+  Zone configurations.
+- `"RetryStrategy"`: Specifies whether to retry asynchronously if the synchronous launch
+  fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION
+  (increase desired capacity and retry with group configuration).
+- `"SubnetIds"`: The subnet IDs for the instance launch. Either `AvailabilityZones` or
+  `SubnetIds` must be specified. If both are specified, the subnets must reside in the
+  specified Availability Zones.
+"""
+function launch_instances end
+
+function launch_instances(
+    AutoScalingGroupName,
+    ClientToken,
+    RequestedCapacity;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return auto_scaling(
+        "LaunchInstances",
+        Dict{String,Any}(
+            "AutoScalingGroupName" => AutoScalingGroupName,
+            "ClientToken" => ClientToken,
+            "RequestedCapacity" => RequestedCapacity,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function launch_instances(
+    AutoScalingGroupName,
+    ClientToken,
+    RequestedCapacity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return auto_scaling(
+        "LaunchInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingGroupName" => AutoScalingGroupName,
+                    "ClientToken" => ClientToken,
+                    "RequestedCapacity" => RequestedCapacity,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name)
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
@@ -3075,8 +3242,9 @@ This step is a part of the procedure for adding a lifecycle hook to an Auto Scal
 4. **Create the lifecycle hook. Specify whether the hook is used when the instances launch
    or terminate.**
 5. If you need more time, record the lifecycle action heartbeat to keep the instance in a
-   wait state using the [`record_lifecycle_action_heartbeat`](@ref) API call.
-6. If you finish before the timeout period ends, send a callback by using the [`complete_lifecycle_action`](@ref)
+   wait state using the [RecordLifecycleActionHeartbeat](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RecordLifecycleActionHeartbeat.html)
+   API call.
+6. If you finish before the timeout period ends, send a callback by using the [CompleteLifecycleAction](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html)
    API call.
 
 For more information, see [Amazon EC2 Auto Scaling lifecycle hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html)
@@ -3085,8 +3253,8 @@ in the *Amazon EC2 Auto Scaling User Guide*.
 If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling
 group, the call fails.
 
-You can view the lifecycle hooks for an Auto Scaling group using the [`describe_lifecycle_hooks`](@ref)
-API call. If you are no longer using a lifecycle hook, you can delete it by calling the [`delete_lifecycle_hook`](@ref)
+You can view the lifecycle hooks for an Auto Scaling group using the [DescribeLifecycleHooks](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLifecycleHooks.html)
+API call. If you are no longer using a lifecycle hook, you can delete it by calling the [DeleteLifecycleHook](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteLifecycleHook.html)
 API.
 
 # Arguments
@@ -3190,7 +3358,7 @@ server or an email address.
 
 This configuration overwrites any existing configuration.
 
-For more information, see [Getting Amazon SNS notifications when your Auto Scaling group scales](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ASGettingNotifications.html)
+For more information, see [Amazon SNS notification options for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-sns-notifications.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call
@@ -3200,8 +3368,8 @@ fails.
 
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 - `notification_types`: The type of event that causes the notification to be sent. To query
-  the notification types supported by Amazon EC2 Auto Scaling, call the
-  `DescribeAutoScalingNotificationTypes` API.
+  the notification types supported by Amazon EC2 Auto Scaling, call the [DescribeAutoScalingNotificationTypes](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingNotificationTypes.html)
+  API.
 - `topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic.
 """
 function put_notification_configuration end
@@ -3264,8 +3432,8 @@ in the *Amazon EC2 Auto Scaling User Guide*.
 For more information about using predictive scaling, see [Predictive scaling for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
-You can view the scaling policies for an Auto Scaling group using the [`describe_policies`](@ref)
-API call. If you are no longer using a scaling policy, you can delete it by calling the [`delete_policy`](@ref)
+You can view the scaling policies for an Auto Scaling group using the [DescribePolicies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribePolicies.html)
+API call. If you are no longer using a scaling policy, you can delete it by calling the [DeletePolicy](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeletePolicy.html)
 API.
 
 # Arguments
@@ -3287,13 +3455,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Cooldown"`: A cooldown period, in seconds, that applies to a specific simple scaling
   policy. When a cooldown period is specified here, it overrides the default cooldown.
 
-  Valid only if the policy type is `SimpleScaling`. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+  Valid only if the policy type is `SimpleScaling`. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Default: None
 
 - `"Enabled"`: Indicates whether the scaling policy is enabled or disabled. The default is
-  enabled. For more information, see [Disabling a scaling policy for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enable-disable-scaling-policy.html)
+  enabled. For more information, see [Disable a scaling policy for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enable-disable-scaling-policy.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"EstimatedInstanceWarmup"`: *Not needed if the default instance warmup is defined for the
@@ -3427,11 +3595,11 @@ end
 
 Creates or updates a scheduled scaling action for an Auto Scaling group.
 
-For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html)
+For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
-You can view the scheduled actions for an Auto Scaling group using the [`describe_scheduled_actions`](@ref)
-API call. If you are no longer using a scheduled action, you can delete it by calling the [`delete_scheduled_action`](@ref)
+You can view the scheduled actions for an Auto Scaling group using the [DescribeScheduledActions](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScheduledActions.html)
+API call. If you are no longer using a scheduled action, you can delete it by calling the [DeleteScheduledAction](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteScheduledAction.html)
 API.
 
 If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an error
@@ -3530,16 +3698,16 @@ end
 Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool
 of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your
 application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its
-new desired capacity. For more information and example configurations, see [Warm pools for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html)
-in the *Amazon EC2 Auto Scaling User Guide*.
+new desired capacity.
 
 This operation must be called from the Region in which the Auto Scaling group was created.
-This operation cannot be called on an Auto Scaling group that has a mixed instances policy
-or a launch template or launch configuration that requests Spot Instances.
 
-You can view the instances in the warm pool using the [`describe_warm_pool`](@ref) API call.
-If you are no longer using a warm pool, you can delete it by calling the [`delete_warm_pool`](@ref)
+You can view the instances in the warm pool using the [DescribeWarmPool](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeWarmPool.html)
+API call. If you are no longer using a warm pool, you can delete it by calling the [DeleteWarmPool](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteWarmPool.html)
 API.
+
+For more information, see [Warm pools for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html)
+in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
 
@@ -3618,7 +3786,7 @@ end
     record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Records a heartbeat for the lifecycle action associated with the specified token or
-instance. This extends the timeout by the length of time defined using the [`put_lifecycle_hook`](@ref)
+instance. This extends the timeout by the length of time defined using the [PutLifecycleHook](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutLifecycleHook.html)
 API call.
 
 This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:
@@ -3634,7 +3802,7 @@ This step is a part of the procedure for adding a lifecycle hook to an Auto Scal
    terminate.
 5. **If you need more time, record the lifecycle action heartbeat to keep the instance in a
    wait state.**
-6. If you finish before the timeout period ends, send a callback by using the [`complete_lifecycle_action`](@ref)
+6. If you finish before the timeout period ends, send a callback by using the [CompleteLifecycleAction](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html)
    API call.
 
 For more information, see [Amazon EC2 Auto Scaling lifecycle hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html)
@@ -3702,7 +3870,7 @@ end
 Resumes the specified suspended auto scaling processes, or all suspended process, for the
 specified Auto Scaling group.
 
-For more information, see [Suspending and resuming scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html)
+For more information, see [Suspend and resume Amazon EC2 Auto Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -3781,7 +3949,8 @@ A rollback is not supported in the following situations:
 
 When you receive a successful response from this operation, Amazon EC2 Auto Scaling
 immediately begins replacing instances. You can check the status of this operation through
-the [`describe_instance_refreshes`](@ref) API operation.
+the [DescribeInstanceRefreshes](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html)
+API operation.
 
 # Arguments
 
@@ -3829,7 +3998,7 @@ If a scale-in activity occurs as a result of a new `DesiredCapacity` value that 
 than the current size of the group, the Auto Scaling group uses its termination policy to
 determine which instances to terminate.
 
-For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-manual-scaling.html)
+For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -3894,7 +4063,7 @@ end
 
 Sets the health status of the specified instance.
 
-For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html)
+For more information, see [Set up a custom health check for your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/set-up-a-custom-health-check.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -3913,8 +4082,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   period. Set this to `False`, to have the call not respect the grace period associated with
   the group.
 
-  For more information about the health check grace period, see [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html)
-  in the *Amazon EC2 Auto Scaling API Reference*.
+  For more information about the health check grace period, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
 """
 function set_instance_health end
 
@@ -3958,8 +4127,7 @@ end
 Updates the instance protection settings of the specified instances. This operation cannot
 be called on instances in a warm pool.
 
-For more information about preventing instances that are part of an Auto Scaling group from
-terminating on scale in, see [Using instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
+For more information, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the
@@ -4031,21 +4199,21 @@ Then start an instance refresh to immediately begin the process of updating inst
 group.
 
 If successful, the request's response contains a unique ID that you can use to track the
-progress of the instance refresh. To query its status, call the [`describe_instance_refreshes`](@ref)
-API. To describe the instance refreshes that have already run, call the [`describe_instance_refreshes`](@ref)
-API. To cancel an instance refresh that is in progress, use the [`cancel_instance_refresh`](@ref)
+progress of the instance refresh. To query its status, call the [DescribeInstanceRefreshes](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html)
+API. To describe the instance refreshes that have already run, call the [DescribeInstanceRefreshes](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html)
+API. To cancel an instance refresh that is in progress, use the [CancelInstanceRefresh](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CancelInstanceRefresh.html)
 API.
 
 An instance refresh might fail for several reasons, such as EC2 launch failures,
 misconfigured health checks, or not ignoring or allowing the termination of instances that
 are in `Standby` state or protected from scale in. You can monitor for failed EC2 launches
-using the scaling activities. To find the scaling activities, call the [`describe_scaling_activities`](@ref)
+using the scaling activities. To find the scaling activities, call the [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html)
 API.
 
 If you enable auto rollback, your Auto Scaling group will be rolled back automatically when
 the instance refresh fails. You can enable this feature before starting an instance refresh
 by specifying the `AutoRollback` property in the instance refresh preferences. Otherwise, to
-roll back an instance refresh before it finishes, use the [`rollback_instance_refresh`](@ref)
+roll back an instance refresh before it finishes, use the [RollbackInstanceRefresh](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RollbackInstanceRefresh.html)
 API.
 
 # Arguments
@@ -4080,8 +4248,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Checkpoints
   - CloudWatch alarms
   - Skip matching
+  - Bake time
 
-- `"Strategy"`: The strategy to use for the instance refresh. The only valid value is
+- `"Strategy"`: The strategy to use for the instance refresh. The default value is
   `Rolling`.
 """
 function start_instance_refresh end
@@ -4124,10 +4293,11 @@ Suspends the specified auto scaling processes, or all processes, for the specifi
 Scaling group.
 
 If you suspend either the `Launch` or `Terminate` process types, it can prevent other
-process types from functioning properly. For more information, see [Suspending and resuming scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html)
+process types from functioning properly. For more information, see [Suspend and resume Amazon EC2 Auto Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
-To resume processes that have been suspended, call the [`resume_processes`](@ref) API.
+To resume processes that have been suspended, call the [ResumeProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_ResumeProcesses.html)
+API.
 
 # Arguments
 
@@ -4200,7 +4370,7 @@ launches instances to replace the ones that are terminated.
 By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you
 decrement the desired capacity, your Auto Scaling group can become unbalanced between
 Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing
-might terminate instances in other zones. For more information, see [Rebalancing activities](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage)
+might terminate instances in other zones. For more information, see [Manual scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html)
 in the *Amazon EC2 Auto Scaling User Guide*.
 
 # Arguments
@@ -4286,9 +4456,9 @@ Note the following about changing `DesiredCapacity`, `MaxSize`, or `MinSize`:
   and the new `MaxSize` is smaller than the current size of the group, this sets the group's
   `DesiredCapacity` to the new `MaxSize` value.
 
-To see which properties have been set, call the [`describe_auto_scaling_groups`](@ref) API.
-To view the scaling policies for an Auto Scaling group, call the [`describe_policies`](@ref)
-API. If the group has scaling policies, you can update them by calling the [`put_scaling_policy`](@ref)
+To see which properties have been set, call the [DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html)
+API. To view the scaling policies for an Auto Scaling group, call the [DescribePolicies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribePolicies.html)
+API. If the group has scaling policies, you can update them by calling the [PutScalingPolicy](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html)
 API.
 
 # Arguments
@@ -4299,17 +4469,31 @@ API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AvailabilityZoneDistribution"`: The instance capacity distribution across Availability
+  Zones.
+
+- `"AvailabilityZoneImpairmentPolicy"`: The policy for Availability Zone impairment.
+
 - `"AvailabilityZones"`: One or more Availability Zones for the group.
 
-- `"CapacityRebalance"`: Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html)
+- `"CapacityRebalance"`: Enables or disables Capacity Rebalancing. If Capacity Rebalancing
+  is disabled, proactive replacement of at-risk Spot Instances does not occur. For more
+  information, see [Capacity Rebalancing in Auto Scaling to replace at-risk Spot Instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
+
+  !!! note
+      To suspend rebalancing across Availability Zones, use the [SuspendProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendedProcess.html)
+      API.
+
+- `"CapacityReservationSpecification"`: The capacity reservation specification for the Auto
+  Scaling group.
 
 - `"Context"`: Reserved.
 
 - `"DefaultCooldown"`: *Only needed if you use simple scaling policies.*
 
   The amount of time, in seconds, between one scaling activity ending and another one
-  starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+  starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"DefaultInstanceWarmup"`: The amount of time, in seconds, until a new instance is
@@ -4330,6 +4514,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       strongly recommend keeping the default instance warmup enabled by specifying a value
       of `0` or other nominal value.
 
+- `"DeletionProtection"`: The deletion protection setting for the Auto Scaling group. This
+  setting helps safeguard your Auto Scaling group and its instances by controlling whether
+  the `DeleteAutoScalingGroup` operation is allowed. When deletion protection is enabled,
+  users cannot delete the Auto Scaling group according to the specified protection level
+  until the setting is changed back to a less restrictive level.
+
+  The valid values are `none`, `prevent-force-deletion`, and `prevent-all-deletion`.
+
+  Default: `none`
+
+  For more information, see [Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
+
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group after this operation completes and the capacity it attempts to maintain. This number
   must be greater than or equal to the minimum size of the group and less than or equal to
@@ -4337,7 +4534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DesiredCapacityType"`: The unit of measurement for the value specified for desired
   capacity. Amazon EC2 Auto Scaling supports `DesiredCapacityType` for attribute-based
-  instance type selection only. For more information, see [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html)
+  instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   By default, Amazon EC2 Auto Scaling specifies `units`, which translates into number of
@@ -4354,11 +4551,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HealthCheckType"`: A comma-separated value string of one or more health check types.
 
-  The valid values are `EC2`, `ELB`, and `VPC_LATTICE`. `EC2` is the default health check
-  and cannot be disabled. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html)
+  The valid values are `EC2`, `EBS`, `ELB`, and `VPC_LATTICE`. `EC2` is the default health
+  check and cannot be disabled. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Only specify `EC2` if you must clear a value that was previously set.
+
+- `"InstanceLifecyclePolicy"`: The instance lifecycle policy for the Auto Scaling group.
+  This policy controls instance behavior when an instance transitions through its lifecycle
+  states. Configure retention triggers to specify when instances should move to a `Retained`
+  state instead of automatic termination.
+
+  For more information, see [Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"InstanceMaintenancePolicy"`: An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
@@ -4393,12 +4598,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more
-  information about preventing instances from terminating on scale in, see [Using instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
+  information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
 - `"PlacementGroup"`: The name of an existing placement group into which to launch your
-  instances. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
-  in the *Amazon EC2 User Guide for Linux Instances*.
+  instances. To remove the placement group setting, pass an empty string for
+  `placement-group`. For more information about placement groups, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
+  in the *Amazon EC2 User Guide*.
 
   !!! note
       A *cluster* placement group is a logical grouping of instances within a single
@@ -4410,9 +4616,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
+- `"SkipZonalShiftValidation"`: If you enable zonal shift with cross-zone disabled load
+  balancers, capacity could become imbalanced across Availability Zones. To skip the
+  validation, specify `true`. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html)
+  in the *Amazon EC2 Auto Scaling User Guide*.
+
 - `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instances to terminate. The policies are executed in the order that you list them. For
-  more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
+  more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
   in the *Amazon EC2 Auto Scaling User Guide*.
 
   Valid values: `Default` | `AllocationStrategy` | `ClosestToNextInstanceHour` |

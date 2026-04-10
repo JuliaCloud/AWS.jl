@@ -74,6 +74,8 @@ Accepts a subscription request to a specific asset.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"assetPermissions"`: The asset permissions of the accept subscription request.
+- `"assetScopes"`: The asset scopes of the accept subscription request.
 - `"decisionComment"`: A description that specifies the reason for accepting the specified
   subscription request.
 """
@@ -106,10 +108,379 @@ function accept_subscription_request(
 end
 
 """
+    add_entity_owner(domain_identifier, entity_identifier, entity_type, owner)
+    add_entity_owner(domain_identifier, entity_identifier, entity_type, owner, params::Dict{String,<:Any})
+
+Adds the owner of an entity (a domain unit).
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which you want to add the entity owner.
+- `entity_identifier`: The ID of the entity to which you want to add an owner.
+- `entity_type`: The type of an entity.
+- `owner`: The owner that you want to add to the entity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+"""
+function add_entity_owner end
+
+function add_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner",
+        Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function add_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/addOwner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    add_policy_grant(detail, domain_identifier, entity_identifier, entity_type, policy_type, principal)
+    add_policy_grant(detail, domain_identifier, entity_identifier, entity_type, policy_type, principal, params::Dict{String,<:Any})
+
+Adds a policy grant (an authorization policy) to a specified entity, including domain units,
+environment blueprint configurations, or environment profiles.
+
+# Arguments
+
+- `detail`: The details of the policy grant.
+- `domain_identifier`: The ID of the domain where you want to add a policy grant.
+- `entity_identifier`: The ID of the entity (resource) to which you want to add a policy
+  grant.
+- `entity_type`: The type of entity (resource) to which the grant is added.
+- `policy_type`: The type of policy that you want to grant.
+- `principal`: The principal to whom the permissions are granted.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+"""
+function add_policy_grant end
+
+function add_policy_grant(
+    detail,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant",
+        Dict{String,Any}(
+            "detail" => detail,
+            "policyType" => policyType,
+            "principal" => principal,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function add_policy_grant(
+    detail,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/addGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "detail" => detail,
+                    "policyType" => policyType,
+                    "principal" => principal,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_environment_role(domain_identifier, environment_identifier, environment_role_arn)
+    associate_environment_role(domain_identifier, environment_identifier, environment_role_arn, params::Dict{String,<:Any})
+
+Associates the environment role in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment role is
+  associated.
+- `environment_identifier`: The ID of the Amazon DataZone environment.
+- `environment_role_arn`: The ARN of the environment role.
+"""
+function associate_environment_role end
+
+function associate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_governed_terms(domain_identifier, entity_identifier, entity_type, governed_glossary_terms)
+    associate_governed_terms(domain_identifier, entity_identifier, entity_type, governed_glossary_terms, params::Dict{String,<:Any})
+
+Associates governed terms with an asset.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where governed terms are to be associated with
+  an asset.
+- `entity_identifier`: The ID of the asset with which you want to associate a governed term.
+- `entity_type`: The type of the asset with which you want to associate a governed term.
+- `governed_glossary_terms`: The glossary terms in a restricted glossary.
+"""
+function associate_governed_terms end
+
+function associate_governed_terms(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    governedGlossaryTerms;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/associate-governed-terms",
+        Dict{String,Any}("governedGlossaryTerms" => governedGlossaryTerms);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_governed_terms(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    governedGlossaryTerms,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/associate-governed-terms",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("governedGlossaryTerms" => governedGlossaryTerms),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_attributes_metadata(attribute_identifier, domain_identifier, entity_identifier, entity_type)
+    batch_get_attributes_metadata(attribute_identifier, domain_identifier, entity_identifier, entity_type, params::Dict{String,<:Any})
+
+Gets the attribute metadata.
+
+# Arguments
+
+- `attribute_identifier`: The attribute identifier.
+- `domain_identifier`: The domain ID where you want to get the attribute metadata.
+- `entity_identifier`: The entity ID for which you want to get attribute metadata.
+- `entity_type`: The entity type for which you want to get attribute metadata.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"entityRevision"`: The entity revision for which you want to get attribute metadata.
+"""
+function batch_get_attributes_metadata end
+
+function batch_get_attributes_metadata(
+    attributeIdentifier,
+    domainIdentifier,
+    entityIdentifier,
+    entityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/attributes-metadata",
+        Dict{String,Any}("attributeIdentifier" => attributeIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_attributes_metadata(
+    attributeIdentifier,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/attributes-metadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("attributeIdentifier" => attributeIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_put_attributes_metadata(attributes, domain_identifier, entity_identifier, entity_type)
+    batch_put_attributes_metadata(attributes, domain_identifier, entity_identifier, entity_type, params::Dict{String,<:Any})
+
+Writes the attribute metadata.
+
+# Arguments
+
+- `attributes`: The attributes of the metadata.
+- `domain_identifier`: The domain ID where you want to write the attribute metadata.
+- `entity_identifier`: The entity ID for which you want to write the attribute metadata.
+- `entity_type`: The entity type for which you want to write the attribute metadata.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
+"""
+function batch_put_attributes_metadata end
+
+function batch_put_attributes_metadata(
+    attributes,
+    domainIdentifier,
+    entityIdentifier,
+    entityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/attributes-metadata",
+        Dict{String,Any}("attributes" => attributes, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_put_attributes_metadata(
+    attributes,
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/attributes-metadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "attributes" => attributes, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_metadata_generation_run(domain_identifier, identifier)
     cancel_metadata_generation_run(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Cancels the metadata generation run.
+
+Prerequisites:
+
+- The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS).
+- Runs in SUCCEEDED status cannot be cancelled.
+- User must have access to the run and cancel permissions.
 
 # Arguments
 
@@ -186,10 +557,97 @@ function cancel_subscription(
 end
 
 """
+    create_account_pool(account_source, domain_identifier, name, resolution_strategy)
+    create_account_pool(account_source, domain_identifier, name, resolution_strategy, params::Dict{String,<:Any})
+
+Creates an account pool.
+
+# Arguments
+
+- `account_source`: The source of accounts for the account pool. In the current release,
+  it's either a static list of accounts provided by the customer or a custom Amazon Web
+  Services Lambda handler.
+- `domain_identifier`: The ID of the domain where the account pool is created.
+- `name`: The name of the account pool.
+- `resolution_strategy`: The mechanism used to resolve the account selection from the
+  account pool.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the account pool.
+"""
+function create_account_pool end
+
+function create_account_pool(
+    accountSource,
+    domainIdentifier,
+    name,
+    resolutionStrategy;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/account-pools",
+        Dict{String,Any}(
+            "accountSource" => accountSource,
+            "name" => name,
+            "resolutionStrategy" => resolutionStrategy,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_account_pool(
+    accountSource,
+    domainIdentifier,
+    name,
+    resolutionStrategy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/account-pools",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accountSource" => accountSource,
+                    "name" => name,
+                    "resolutionStrategy" => resolutionStrategy,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_asset(domain_identifier, name, owning_project_identifier, type_identifier)
     create_asset(domain_identifier, name, owning_project_identifier, type_identifier, params::Dict{String,<:Any})
 
 Creates an asset in Amazon DataZone catalog.
+
+Before creating assets, make sure that the following requirements are met:
+
+- `--domain-identifier` must refer to an existing domain.
+- `--owning-project-identifier` must be a valid project within the domain.
+- Asset type must be created beforehand using `create-asset-type`, or be a supported system-
+  defined type. For more information, see [create-asset-type](https://docs.aws.amazon.com/cli/latest/reference/datazone/create-asset-type.html).
+- `--type-revision` (if used) must match a valid revision of the asset type.
+- `formsInput` is required when it is associated as required in the `asset-type`. For more
+  information, see [create-form-type](https://docs.aws.amazon.com/cli/latest/reference/datazone/create-form-type.html).
+- Form content must include all required fields as per the form schema (e.g., `bucketArn`).
+
+You must invoke the following pre-requisite commands before invoking this API:
+
+- [CreateFormType](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateFormType.html)
+- [CreateAssetType](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateAssetType.html)
 
 # Arguments
 
@@ -204,12 +662,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
+
 - `"description"`: Asset description.
+
 - `"externalIdentifier"`: The external identifier of the asset.
+
+  If the value for the `externalIdentifier` parameter is specified, it must be a unique
+  value.
+
 - `"formsInput"`: Metadata forms attached to the asset.
+
 - `"glossaryTerms"`: Glossary terms attached to the asset.
+
 - `"predictionConfiguration"`: The configuration of the automatically generated business-
   friendly metadata for the asset.
+
 - `"typeRevision"`: The revision of this asset's type.
 """
 function create_asset end
@@ -264,10 +731,111 @@ function create_asset(
 end
 
 """
+    create_asset_filter(asset_identifier, configuration, domain_identifier, name)
+    create_asset_filter(asset_identifier, configuration, domain_identifier, name, params::Dict{String,<:Any})
+
+Creates a data asset filter.
+
+Asset filters provide a sophisticated way to create controlled views of data assets by
+selecting specific columns or applying row-level filters. This capability is crucial for
+organizations that need to share data while maintaining security and privacy controls. For
+example, your database might be filtered to show only non-PII fields to certain users, or
+sales data might be filtered by region for different regional teams. Asset filters enable
+fine-grained access control while maintaining a single source of truth.
+
+Prerequisites:
+
+- A valid domain (`--domain-identifier`) must exist.
+- A data asset (`--asset-identifier`) must already be created under that domain.
+- The asset must have the referenced columns available in its schema for column-based
+  filtering.
+- You cannot specify both (`columnConfiguration`, `rowConfiguration`)at the same time.
+
+# Arguments
+
+- `asset_identifier`: The ID of the data asset.
+- `configuration`: The configuration of the asset filter.
+- `domain_identifier`: The ID of the domain in which you want to create an asset filter.
+- `name`: The name of the asset filter.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"description"`: The description of the asset filter.
+"""
+function create_asset_filter end
+
+function create_asset_filter(
+    assetIdentifier,
+    configuration,
+    domainIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+        Dict{String,Any}(
+            "configuration" => configuration,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_asset_filter(
+    assetIdentifier,
+    configuration,
+    domainIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_asset_revision(domain_identifier, identifier, name)
     create_asset_revision(domain_identifier, identifier, name, params::Dict{String,<:Any})
 
 Creates a revision of the asset.
+
+Asset revisions represent new versions of existing assets, capturing changes to either the
+underlying data or its metadata. They maintain a historical record of how assets evolve over
+time, who made changes, and when those changes occurred. This versioning capability is
+crucial for governance and compliance, allowing organizations to track changes, understand
+their impact, and roll back if necessary.
+
+Prerequisites:
+
+- Asset must already exist in the domain with identifier.
+- `formsInput` is required when asset has the form type. `typeRevision` should be the latest
+  version of form type.
+- The form content must include all required fields (e.g., `bucketArn` for
+  `S3ObjectCollectionForm`).
+- The owning project of the original asset must still exist and be active.
+- User must have write access to the project and domain.
 
 # Arguments
 
@@ -330,6 +898,16 @@ end
     create_asset_type(domain_identifier, forms_input, name, owning_project_identifier, params::Dict{String,<:Any})
 
 Creates a custom asset type.
+
+Prerequisites:
+
+- The `formsInput` field is required, however, can be passed as empty (e.g.
+  `-forms-input {})`.
+- You must have `CreateAssetType` permissions.
+- The domain-identifier and owning-project-identifier must be valid and active.
+- The name of the asset type must be unique within the domain — duplicate names will cause
+  failure.
+- JSON input must be valid — incorrect formatting causes Invalid JSON errors.
 
 # Arguments
 
@@ -396,8 +974,220 @@ function create_asset_type(
 end
 
 """
-    create_data_source(domain_identifier, environment_identifier, name, project_identifier, type)
-    create_data_source(domain_identifier, environment_identifier, name, project_identifier, type, params::Dict{String,<:Any})
+    create_connection(domain_identifier, name)
+    create_connection(domain_identifier, name, params::Dict{String,<:Any})
+
+Creates a new connection. In Amazon DataZone, a connection enables you to connect your
+resources (domains, projects, and environments) to external resources and services.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the connection is created.
+- `name`: The connection name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"awsLocation"`: The location where the connection is created.
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"configurations"`: The configurations of the connection.
+- `"description"`: A connection description.
+- `"enableTrustedIdentityPropagation"`: Specifies whether the trusted identity propagation
+  is enabled.
+- `"environmentIdentifier"`: The ID of the environment where the connection is created.
+- `"props"`: The connection props.
+- `"scope"`: The scope of the connection.
+"""
+function create_connection end
+
+function create_connection(
+    domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/connections",
+        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_connection(
+    domainIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/connections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_product(domain_identifier, name, owning_project_identifier)
+    create_data_product(domain_identifier, name, owning_project_identifier, params::Dict{String,<:Any})
+
+Creates a data product.
+
+A data product is a comprehensive package that combines data assets with their associated
+metadata, documentation, and access controls. It's designed to serve specific business needs
+or use cases, making it easier for users to find and consume data appropriately. Data
+products include important information about data quality, freshness, and usage guidelines,
+effectively bridging the gap between data producers and consumers while ensuring proper
+governance.
+
+Prerequisites:
+
+- The domain must exist and be accessible.
+- The owning project must be valid and active.
+- The name must be unique within the domain (no existing data product with the same name).
+- User must have create permissions for data products in the project.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the data product is created.
+- `name`: The name of the data product.
+- `owning_project_identifier`: The ID of the owning project of the data product.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"description"`: The description of the data product.
+- `"formsInput"`: The metadata forms of the data product.
+- `"glossaryTerms"`: The glossary terms of the data product.
+- `"items"`: The data assets of the data product.
+"""
+function create_data_product end
+
+function create_data_product(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products",
+        Dict{String,Any}(
+            "name" => name,
+            "owningProjectIdentifier" => owningProjectIdentifier,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_product(
+    domainIdentifier,
+    name,
+    owningProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "owningProjectIdentifier" => owningProjectIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_product_revision(domain_identifier, identifier, name)
+    create_data_product_revision(domain_identifier, identifier, name, params::Dict{String,<:Any})
+
+Creates a data product revision.
+
+Prerequisites:
+
+- The original data product must exist in the given domain.
+- User must have permissions on the data product.
+- The domain must be valid and accessible.
+- The new revision name must comply with naming constraints (if required).
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the data product revision is created.
+- `identifier`: The ID of the data product revision.
+- `name`: The name of the data product revision.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"description"`: The description of the data product revision.
+- `"formsInput"`: The metadata forms of the data product revision.
+- `"glossaryTerms"`: The glossary terms of the data product revision.
+- `"items"`: The data assets of the data product revision.
+"""
+function create_data_product_revision end
+
+function create_data_product_revision(
+    domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
+        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_product_revision(
+    domainIdentifier,
+    identifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_source(domain_identifier, name, project_identifier, type)
+    create_data_source(domain_identifier, name, project_identifier, type, params::Dict{String,<:Any})
 
 Creates an Amazon DataZone data source.
 
@@ -405,12 +1195,13 @@ Creates an Amazon DataZone data source.
 
 - `domain_identifier`: The ID of the Amazon DataZone domain where the data source is
   created.
-- `environment_identifier`: The unique identifier of the Amazon DataZone environment to
-  which the data source publishes assets.
 - `name`: The name of the data source.
 - `project_identifier`: The identifier of the Amazon DataZone project in which you want to
   add this data source.
-- `type`: The type of the data source.
+- `type`: The type of the data source. In Amazon DataZone, you can use data sources to
+  import technical metadata of assets (data) from the source databases or data warehouses
+  into Amazon DataZone. In the current release of Amazon DataZone, you can create and run
+  data sources for Amazon Web Services Glue and Amazon Redshift.
 
 # Optional Parameters
 
@@ -422,8 +1213,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"configuration"`: Specifies the configuration of the data source. It can be set to either
   `glueRunConfiguration` or `redshiftRunConfiguration`.
+- `"connectionIdentifier"`: The ID of the connection.
 - `"description"`: The description of the data source.
 - `"enableSetting"`: Specifies whether the data source is enabled.
+- `"environmentIdentifier"`: The unique identifier of the Amazon DataZone environment to
+  which the data source publishes assets.
 - `"publishOnImport"`: Specifies whether the assets that this data source creates in the
   inventory are to be also automatically published to the catalog.
 - `"recommendation"`: Specifies whether the business name generation is to be enabled for
@@ -434,7 +1228,6 @@ function create_data_source end
 
 function create_data_source(
     domainIdentifier,
-    environmentIdentifier,
     name,
     projectIdentifier,
     type;
@@ -444,7 +1237,6 @@ function create_data_source(
         "POST",
         "/v2/domains/$(domainIdentifier)/data-sources",
         Dict{String,Any}(
-            "environmentIdentifier" => environmentIdentifier,
             "name" => name,
             "projectIdentifier" => projectIdentifier,
             "type" => type,
@@ -457,7 +1249,6 @@ end
 
 function create_data_source(
     domainIdentifier,
-    environmentIdentifier,
     name,
     projectIdentifier,
     type,
@@ -471,7 +1262,6 @@ function create_data_source(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "environmentIdentifier" => environmentIdentifier,
                     "name" => name,
                     "projectIdentifier" => projectIdentifier,
                     "type" => type,
@@ -505,9 +1295,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 - `"description"`: The description of the Amazon DataZone domain.
+- `"domainVersion"`: The version of the domain that is created.
 - `"kmsKeyIdentifier"`: The identifier of the Amazon Web Services Key Management Service
   (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting
   data.
+- `"serviceRole"`: The service role of the domain that is created.
 - `"singleSignOn"`: The single-sign on configuration of the Amazon DataZone domain.
 - `"tags"`: The tags specified for the Amazon DataZone domain.
 """
@@ -555,8 +1347,75 @@ function create_domain(
 end
 
 """
-    create_environment(domain_identifier, environment_profile_identifier, name, project_identifier)
-    create_environment(domain_identifier, environment_profile_identifier, name, project_identifier, params::Dict{String,<:Any})
+    create_domain_unit(domain_identifier, name, parent_domain_unit_identifier)
+    create_domain_unit(domain_identifier, name, parent_domain_unit_identifier, params::Dict{String,<:Any})
+
+Creates a domain unit in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to crate a domain unit.
+- `name`: The name of the domain unit.
+- `parent_domain_unit_identifier`: The ID of the parent domain unit.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"description"`: The description of the domain unit.
+"""
+function create_domain_unit end
+
+function create_domain_unit(
+    domainIdentifier,
+    name,
+    parentDomainUnitIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}(
+            "name" => name,
+            "parentDomainUnitIdentifier" => parentDomainUnitIdentifier,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_domain_unit(
+    domainIdentifier,
+    name,
+    parentDomainUnitIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "parentDomainUnitIdentifier" => parentDomainUnitIdentifier,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_environment(domain_identifier, name, project_identifier)
+    create_environment(domain_identifier, name, project_identifier, params::Dict{String,<:Any})
 
 Create an Amazon DataZone environment.
 
@@ -564,8 +1423,6 @@ Create an Amazon DataZone environment.
 
 - `domain_identifier`: The identifier of the Amazon DataZone domain in which the environment
   is created.
-- `environment_profile_identifier`: The identifier of the environment profile that is used
-  to create this Amazon DataZone environment.
 - `name`: The name of the Amazon DataZone environment.
 - `project_identifier`: The identifier of the Amazon DataZone project in which this
   environment is created.
@@ -574,7 +1431,18 @@ Create an Amazon DataZone environment.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"deploymentOrder"`: The deployment order of the environment.
 - `"description"`: The description of the Amazon DataZone environment.
+- `"environmentAccountIdentifier"`: The ID of the account in which the environment is being
+  created.
+- `"environmentAccountRegion"`: The region of the account in which the environment is being
+  created.
+- `"environmentBlueprintIdentifier"`: The ID of the blueprint with which the environment is
+  being created.
+- `"environmentConfigurationId"`: The configuration ID of the environment.
+- `"environmentConfigurationName"`: The configuration name of the environment.
+- `"environmentProfileIdentifier"`: The identifier of the environment profile that is used
+  to create this Amazon DataZone environment.
 - `"glossaryTerms"`: The glossary terms that can be used in this Amazon DataZone
   environment.
 - `"userParameters"`: The user parameters of this Amazon DataZone environment.
@@ -583,7 +1451,6 @@ function create_environment end
 
 function create_environment(
     domainIdentifier,
-    environmentProfileIdentifier,
     name,
     projectIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -591,11 +1458,7 @@ function create_environment(
     return datazone(
         "POST",
         "/v2/domains/$(domainIdentifier)/environments",
-        Dict{String,Any}(
-            "environmentProfileIdentifier" => environmentProfileIdentifier,
-            "name" => name,
-            "projectIdentifier" => projectIdentifier,
-        );
+        Dict{String,Any}("name" => name, "projectIdentifier" => projectIdentifier);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -603,7 +1466,6 @@ end
 
 function create_environment(
     domainIdentifier,
-    environmentProfileIdentifier,
     name,
     projectIdentifier,
     params::AbstractDict{String};
@@ -615,10 +1477,130 @@ function create_environment(
         Dict{String,Any}(
             mergewith(
                 _merge,
+                Dict{String,Any}("name" => name, "projectIdentifier" => projectIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_environment_action(domain_identifier, environment_identifier, name, parameters)
+    create_environment_action(domain_identifier, environment_identifier, name, parameters, params::Dict{String,<:Any})
+
+Creates an action for the environment, for example, creates a console link for an analytics
+tool that is available in this environment.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment action
+  is created.
+- `environment_identifier`: The ID of the environment in which the environment action is
+  created.
+- `name`: The name of the environment action.
+- `parameters`: The parameters of the environment action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the environment action that is being created in the
+  environment.
+"""
+function create_environment_action end
+
+function create_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    parameters;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+        Dict{String,Any}("name" => name, "parameters" => parameters);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    name,
+    parameters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("name" => name, "parameters" => parameters), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_environment_blueprint(domain_identifier, name, provisioning_properties)
+    create_environment_blueprint(domain_identifier, name, provisioning_properties, params::Dict{String,<:Any})
+
+Creates a Amazon DataZone blueprint.
+
+# Arguments
+
+- `domain_identifier`: The identifier of the domain in which this blueprint is created.
+- `name`: The name of this Amazon DataZone blueprint.
+- `provisioning_properties`: The provisioning properties of this Amazon DataZone blueprint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the Amazon DataZone blueprint.
+- `"userParameters"`: The user parameters of this Amazon DataZone blueprint.
+"""
+function create_environment_blueprint end
+
+function create_environment_blueprint(
+    domainIdentifier,
+    name,
+    provisioningProperties;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints",
+        Dict{String,Any}(
+            "name" => name, "provisioningProperties" => provisioningProperties
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_environment_blueprint(
+    domainIdentifier,
+    name,
+    provisioningProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
                 Dict{String,Any}(
-                    "environmentProfileIdentifier" => environmentProfileIdentifier,
-                    "name" => name,
-                    "projectIdentifier" => projectIdentifier,
+                    "name" => name, "provisioningProperties" => provisioningProperties
                 ),
                 params,
             ),
@@ -710,6 +1692,26 @@ end
 
 Creates a metadata form type.
 
+Prerequisites:
+
+- The domain must exist and be in an `ENABLED` state.
+- The owning project must exist and be accessible.
+- The name must be unique within the domain.
+
+For custom form types, to indicate that a field should be searchable, annotate it with
+`@amazon.datazone#searchable`. By default, searchable fields are indexed for semantic
+search, where related query terms will match the attribute value even if they are not
+stemmed or keyword matches. To indicate that a field should be indexed for lexical search
+(which disables semantic search but supports stemmed and partial matches), annotate it with
+`@amazon.datazone#searchable(modes:["LEXICAL"])`. To indicate that a field should be indexed
+for technical identifier search (for more information on technical identifier search, see: [https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/](https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/)),
+annotate it with `@amazon.datazone#searchable(modes:["TECHNICAL"])`.
+
+To denote that a field will store glossary term ids (which are filterable via the
+Search/SearchListings APIs), annotate it with
+`@amazon.datazone#glossaryterm("\${GLOSSARY_ID}")`, where `\${GLOSSARY_ID}` is the id of the
+glossary that the glossary terms stored in the field belong to.
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain in which this metadata form type
@@ -781,6 +1783,21 @@ end
 
 Creates an Amazon DataZone business glossary.
 
+Specifies that this is a create glossary policy.
+
+A glossary serves as the central repository for business terminology and definitions within
+an organization. It helps establish and maintain a common language across different
+departments and teams, reducing miscommunication and ensuring consistent interpretation of
+business concepts. Glossaries can include hierarchical relationships between terms, cross-
+references, and links to actual data assets, making them invaluable for both business users
+and technical teams trying to understand and use data correctly.
+
+Prerequisites:
+
+- Domain must exist and be in an active state.
+- Owning project must exist and be accessible by the caller.
+- The glossary name must be unique within the domain.
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain in which this business glossary
@@ -796,6 +1813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"description"`: The description of this business glossary.
 - `"status"`: The status of this business glossary.
+- `"usageRestrictions"`: The usage restriction of the restricted glossary.
 """
 function create_glossary end
 
@@ -849,6 +1867,22 @@ end
     create_glossary_term(domain_identifier, glossary_identifier, name, params::Dict{String,<:Any})
 
 Creates a business glossary term.
+
+A glossary term represents an individual entry within the Amazon DataZone glossary, serving
+as a standardized definition for a specific business concept or data element. Each term can
+include rich metadata such as detailed definitions, synonyms, related terms, and usage
+examples. Glossary terms can be linked directly to data assets, providing business context
+to technical data elements. This linking capability helps users understand the business
+meaning of data fields and ensures consistent interpretation across different systems and
+teams. Terms can also have relationships with other terms, creating a semantic network that
+reflects the complexity of business concepts.
+
+Prerequisites:
+
+- Domain must exist.
+- Glossary must exist.
+- The term name must be unique within the glossary.
+- Ensure term does not conflict with existing terms in hierarchy.
 
 # Arguments
 
@@ -1063,7 +2097,12 @@ Creates an Amazon DataZone project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the Amazon DataZone project.
+- `"domainUnitId"`: The ID of the domain unit. This parameter is not required and if it is
+  not specified, then the project is created at the root domain unit level.
 - `"glossaryTerms"`: The glossary terms that can be used in this Amazon DataZone project.
+- `"projectProfileId"`: The ID of the project profile.
+- `"resourceTags"`: The resource tags of the project.
+- `"userParameters"`: The user parameters of the project.
 """
 function create_project end
 
@@ -1150,8 +2189,150 @@ function create_project_membership(
 end
 
 """
-    create_subscription_grant(domain_identifier, environment_identifier, granted_entity, subscription_target_identifier)
-    create_subscription_grant(domain_identifier, environment_identifier, granted_entity, subscription_target_identifier, params::Dict{String,<:Any})
+    create_project_profile(domain_identifier, name)
+    create_project_profile(domain_identifier, name, params::Dict{String,<:Any})
+
+Creates a project profile.
+
+# Arguments
+
+- `domain_identifier`: A domain ID of the project profile.
+- `name`: Project profile name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allowCustomProjectResourceTags"`: Specifies whether custom project resource tags are
+  supported.
+- `"description"`: A description of a project profile.
+- `"domainUnitIdentifier"`: A domain unit ID of the project profile.
+- `"environmentConfigurations"`: Environment configurations of the project profile.
+- `"projectResourceTags"`: The resource tags of the project profile.
+- `"projectResourceTagsDescription"`: Field viewable through the UI that provides a project
+  user with the allowed resource tag specifications.
+- `"status"`: Project profile status.
+"""
+function create_project_profile end
+
+function create_project_profile(
+    domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/project-profiles",
+        Dict{String,Any}("name" => name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_project_profile(
+    domainIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/project-profiles",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_rule(action, detail, domain_identifier, name, scope, target)
+    create_rule(action, detail, domain_identifier, name, scope, target, params::Dict{String,<:Any})
+
+Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific
+requirements across user workflows (e.g., publishing assets to the catalog, requesting
+subscriptions, creating projects) within the Amazon DataZone data portal. These rules help
+maintain consistency, ensure compliance, and uphold governance standards in data management
+processes. For instance, a metadata enforcement rule can specify the required information
+for creating a subscription request or publishing a data asset to the catalog, ensuring
+alignment with organizational standards.
+
+# Arguments
+
+- `action`: The action of the rule.
+- `detail`: The detail of the rule.
+- `domain_identifier`: The ID of the domain where the rule is created.
+- `name`: The name of the rule.
+- `scope`: The scope of the rule.
+- `target`: The target of the rule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"description"`: The description of the rule.
+"""
+function create_rule end
+
+function create_rule(
+    action,
+    detail,
+    domainIdentifier,
+    name,
+    scope,
+    target;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/rules",
+        Dict{String,Any}(
+            "action" => action,
+            "detail" => detail,
+            "name" => name,
+            "scope" => scope,
+            "target" => target,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_rule(
+    action,
+    detail,
+    domainIdentifier,
+    name,
+    scope,
+    target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/rules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "action" => action,
+                    "detail" => detail,
+                    "name" => name,
+                    "scope" => scope,
+                    "target" => target,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_subscription_grant(domain_identifier, environment_identifier, granted_entity)
+    create_subscription_grant(domain_identifier, environment_identifier, granted_entity, params::Dict{String,<:Any})
 
 Creates a subsscription grant in Amazon DataZone.
 
@@ -1162,8 +2343,6 @@ Creates a subsscription grant in Amazon DataZone.
 - `environment_identifier`: The ID of the environment in which the subscription grant is
   created.
 - `granted_entity`: The entity to which the subscription is to be granted.
-- `subscription_target_identifier`: The ID of the subscription target for which the
-  subscription grant is created.
 
 # Optional Parameters
 
@@ -1172,14 +2351,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"assetTargetNames"`: The names of the assets for which the subscription grant is created.
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
+- `"subscriptionTargetIdentifier"`: The ID of the subscription target for which the
+  subscription grant is created.
 """
 function create_subscription_grant end
 
 function create_subscription_grant(
     domainIdentifier,
     environmentIdentifier,
-    grantedEntity,
-    subscriptionTargetIdentifier;
+    grantedEntity;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
@@ -1188,7 +2368,6 @@ function create_subscription_grant(
         Dict{String,Any}(
             "environmentIdentifier" => environmentIdentifier,
             "grantedEntity" => grantedEntity,
-            "subscriptionTargetIdentifier" => subscriptionTargetIdentifier,
             "clientToken" => string(uuid4()),
         );
         aws_config,
@@ -1200,7 +2379,6 @@ function create_subscription_grant(
     domainIdentifier,
     environmentIdentifier,
     grantedEntity,
-    subscriptionTargetIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -1213,7 +2391,6 @@ function create_subscription_grant(
                 Dict{String,Any}(
                     "environmentIdentifier" => environmentIdentifier,
                     "grantedEntity" => grantedEntity,
-                    "subscriptionTargetIdentifier" => subscriptionTargetIdentifier,
                     "clientToken" => string(uuid4()),
                 ),
                 params,
@@ -1244,8 +2421,11 @@ Creates a subscription request in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"assetPermissions"`: The asset permissions of the subscription request.
+- `"assetScopes"`: The asset scopes of the subscription request.
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
+- `"metadataForms"`: The metadata form included in the subscription request.
 """
 function create_subscription_request end
 
@@ -1325,6 +2505,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
 - `"provider"`: The provider of the subscription target.
+- `"subscriptionGrantCreationMode"`: Determines the subscription grant creation mode for
+  this target, defining if grants are auto-created upon subscription approval or managed
+  manually.
 """
 function create_subscription_target end
 
@@ -1451,10 +2634,55 @@ function create_user_profile(
 end
 
 """
+    delete_account_pool(domain_identifier, identifier)
+    delete_account_pool(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes an account pool.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the account pool is deleted.
+- `identifier`: The ID of the account pool to be deleted.
+"""
+function delete_account_pool end
+
+function delete_account_pool(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_account_pool(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_asset(domain_identifier, identifier)
     delete_asset(domain_identifier, identifier, params::Dict{String,<:Any})
 
-Delets an asset in Amazon DataZone.
+Deletes an asset in Amazon DataZone.
+
+- --domain-identifier must refer to a valid and existing domain.
+- --identifier must refer to an existing asset in the specified domain.
+- Asset must not be referenced in any existing asset filters.
+- Asset must not be linked to any draft or published data product.
+- User must have delete permissions for the domain and project.
 
 # Arguments
 
@@ -1490,10 +2718,69 @@ function delete_asset(
 end
 
 """
+    delete_asset_filter(asset_identifier, domain_identifier, identifier)
+    delete_asset_filter(asset_identifier, domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes an asset filter.
+
+Prerequisites:
+
+- The asset filter must exist.
+- The domain and asset must not have been deleted.
+- Ensure the --identifier refers to a valid filter ID.
+
+# Arguments
+
+- `asset_identifier`: The ID of the data asset.
+- `domain_identifier`: The ID of the domain where you want to delete an asset filter.
+- `identifier`: The ID of the asset filter that you want to delete.
+"""
+function delete_asset_filter end
+
+function delete_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_asset_type(domain_identifier, identifier)
     delete_asset_type(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Deletes an asset type in Amazon DataZone.
+
+Prerequisites:
+
+- The asset type must exist in the domain.
+- You must have DeleteAssetType permission.
+- The asset type must not be in use (e.g., assigned to any asset). If used, deletion will
+  fail.
+- You should retrieve the asset type using get-asset-type to confirm its presence before
+  deletion.
 
 # Arguments
 
@@ -1530,6 +2817,138 @@ function delete_asset_type(
 end
 
 """
+    delete_connection(domain_identifier, identifier)
+    delete_connection(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes and connection. In Amazon DataZone, a connection enables you to connect your
+resources (domains, projects, and environments) to external resources and services.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the connection is deleted.
+- `identifier`: The ID of the connection that is deleted.
+"""
+function delete_connection end
+
+function delete_connection(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_connection(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_export_configuration(domain_identifier)
+    delete_data_export_configuration(domain_identifier, params::Dict{String,<:Any})
+
+Deletes data export configuration for a domain.
+
+This operation does not delete the S3 table created by the PutDataExportConfiguration
+operation.
+
+To temporarily disable export without deleting the configuration, use the
+PutDataExportConfiguration operation with the `--no-enable-export` flag instead. This allows
+you to re-enable export for the same domain using the `--enable-export` flag without
+deleting S3 table.
+
+# Arguments
+
+- `domain_identifier`: The domain ID for which you want to delete the data export
+  configuration.
+"""
+function delete_data_export_configuration end
+
+function delete_data_export_configuration(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_export_configuration(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_product(domain_identifier, identifier)
+    delete_data_product(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes a data product in Amazon DataZone.
+
+Prerequisites:
+
+- The data product must exist and not be deleted or archived.
+- The user must have delete permissions for the data product.
+- Domain and project must be active.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the data product is
+  deleted.
+- `identifier`: The identifier of the data product that is deleted.
+"""
+function delete_data_product end
+
+function delete_data_product(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_data_product(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_data_source(domain_identifier, identifier)
     delete_data_source(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -1547,6 +2966,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
   idempotency of the request.
+- `"retainPermissionsOnRevokeFailure"`: Specifies that the granted permissions are retained
+  in case of a self-subscribe functionality failure for a data source.
 """
 function delete_data_source end
 
@@ -1627,6 +3048,45 @@ function delete_domain(
 end
 
 """
+    delete_domain_unit(domain_identifier, identifier)
+    delete_domain_unit(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes a domain unit.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to delete a domain unit.
+- `identifier`: The ID of the domain unit that you want to delete.
+"""
+function delete_domain_unit end
+
+function delete_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_environment(domain_identifier, identifier)
     delete_environment(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -1660,6 +3120,93 @@ function delete_environment(
     return datazone(
         "DELETE",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_environment_action(domain_identifier, environment_identifier, identifier)
+    delete_environment_action(domain_identifier, environment_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes an action for the environment, for example, deletes a console link for an analytics
+tool that is available in this environment.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which an environment action
+  is deleted.
+- `environment_identifier`: The ID of the environment where an environment action is
+  deleted.
+- `identifier`: The ID of the environment action that is deleted.
+"""
+function delete_environment_action end
+
+function delete_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_environment_blueprint(domain_identifier, identifier)
+    delete_environment_blueprint(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes a blueprint in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the blueprint is
+  deleted.
+- `identifier`: The ID of the blueprint that is deleted.
+"""
+function delete_environment_blueprint end
+
+function delete_environment_blueprint(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_environment_blueprint(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1753,7 +3300,15 @@ end
     delete_form_type(domain_identifier, form_type_identifier)
     delete_form_type(domain_identifier, form_type_identifier, params::Dict{String,<:Any})
 
-Delets and metadata form type in Amazon DataZone.
+Deletes and metadata form type in Amazon DataZone.
+
+Prerequisites:
+
+- The form type must exist in the domain.
+- The form type must not be in use by any asset types or assets.
+- The domain must be valid and accessible.
+- User must have delete permissions on the form type.
+- Any dependencies (such as linked asset types) must be removed first.
 
 # Arguments
 
@@ -1795,6 +3350,14 @@ end
 
 Deletes a business glossary in Amazon DataZone.
 
+Prerequisites:
+
+- The glossary must be in DISABLED state.
+- The glossary must not have any glossary terms associated with it.
+- The glossary must exist in the specified domain.
+- The caller must have the `datazone:DeleteGlossary` permission in the domain and glossary.
+- Glossary should not be linked to any active metadata forms.
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain in which the business glossary
@@ -1834,6 +3397,13 @@ end
     delete_glossary_term(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Deletes a business glossary term in Amazon DataZone.
+
+Prerequisites:
+
+- Glossary term must exist and be active.
+- The term must not be linked to other assets or child terms.
+- Caller must have delete permissions in the domain/glossary.
+- Ensure all associations (such as to assets or parent terms) are removed before deletion.
 
 # Arguments
 
@@ -1996,6 +3566,90 @@ function delete_project_membership(
         "POST",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/deleteMembership",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("member" => member), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_project_profile(domain_identifier, identifier)
+    delete_project_profile(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes a project profile.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where a project profile is deleted.
+- `identifier`: The ID of the project profile that is deleted.
+"""
+function delete_project_profile end
+
+function delete_project_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_project_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_rule(domain_identifier, identifier)
+    delete_rule(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific
+requirements across user workflows (e.g., publishing assets to the catalog, requesting
+subscriptions, creating projects) within the Amazon DataZone data portal. These rules help
+maintain consistency, ensure compliance, and uphold governance standards in data management
+processes. For instance, a metadata enforcement rule can specify the required information
+for creating a subscription request or publishing a data asset to the catalog, ensuring
+alignment with organizational standards.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain that where the rule is to be deleted.
+- `identifier`: The ID of the rule that is to be deleted.
+"""
+function delete_rule end
+
+function delete_rule(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_rule(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2190,15 +3844,176 @@ function delete_time_series_data_points(
 end
 
 """
+    disassociate_environment_role(domain_identifier, environment_identifier, environment_role_arn)
+    disassociate_environment_role(domain_identifier, environment_identifier, environment_role_arn, params::Dict{String,<:Any})
+
+Disassociates the environment role in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which an environment role is
+  disassociated.
+- `environment_identifier`: The ID of the environment.
+- `environment_role_arn`: The ARN of the environment role.
+"""
+function disassociate_environment_role end
+
+function disassociate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_environment_role(
+    domainIdentifier,
+    environmentIdentifier,
+    environmentRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "DELETE",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/roles/$(environmentRoleArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_governed_terms(domain_identifier, entity_identifier, entity_type, governed_glossary_terms)
+    disassociate_governed_terms(domain_identifier, entity_identifier, entity_type, governed_glossary_terms, params::Dict{String,<:Any})
+
+Disassociates restricted terms from an asset.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to disassociate restricted terms
+  from an asset.
+- `entity_identifier`: The ID of an asset from which you want to disassociate restricted
+  terms.
+- `entity_type`: The type of the asset from which you want to disassociate restricted terms.
+- `governed_glossary_terms`: The restricted glossary terms that you want to disassociate
+  from an asset.
+"""
+function disassociate_governed_terms end
+
+function disassociate_governed_terms(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    governedGlossaryTerms;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/disassociate-governed-terms",
+        Dict{String,Any}("governedGlossaryTerms" => governedGlossaryTerms);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_governed_terms(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    governedGlossaryTerms,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/disassociate-governed-terms",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("governedGlossaryTerms" => governedGlossaryTerms),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_pool(domain_identifier, identifier)
+    get_account_pool(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the details of the account pool.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which the account pool lives whose details
+  are to be displayed.
+- `identifier`: The ID of the account pool whose details are to be displayed.
+"""
+function get_account_pool end
+
+function get_account_pool(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_account_pool(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_asset(domain_identifier, identifier)
     get_asset(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Gets an Amazon DataZone asset.
 
+An asset is the fundamental building block in Amazon DataZone, representing any data
+resource that needs to be cataloged and managed. It can take many forms, from Amazon S3
+buckets and database tables to dashboards and machine learning models. Each asset contains
+comprehensive metadata about the resource, including its location, schema, ownership, and
+lineage information. Assets are essential for organizing and managing data resources across
+an organization, making them discoverable and usable while maintaining proper governance.
+
+Before using the Amazon DataZone GetAsset command, ensure the following prerequisites are
+met:
+
+- Domain identifier must exist and be valid
+- Asset identifier must exist
+- User must have the required permissions to perform the action
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain to which the asset belongs.
+
 - `identifier`: The ID of the Amazon DataZone asset.
+
+  This parameter supports either the value of `assetId` or `externalIdentifier` as input. If
+  you are passing the value of `externalIdentifier`, you must prefix this value with
+  `externalIdentifer%2F`.
 
 # Optional Parameters
 
@@ -2235,10 +4050,74 @@ function get_asset(
 end
 
 """
+    get_asset_filter(asset_identifier, domain_identifier, identifier)
+    get_asset_filter(asset_identifier, domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets an asset filter.
+
+Prerequisites:
+
+- Domain (`--domain-identifier`), asset (`--asset-identifier`), and filter (`--identifier`)
+  must all exist.
+- The asset filter should not have been deleted.
+- The asset must still exist (since the filter is linked to it).
+
+# Arguments
+
+- `asset_identifier`: The ID of the data asset.
+- `domain_identifier`: The ID of the domain where you want to get an asset filter.
+- `identifier`: The ID of the asset filter.
+"""
+function get_asset_filter end
+
+function get_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_asset_type(domain_identifier, identifier)
     get_asset_type(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Gets an Amazon DataZone asset type.
+
+Asset types define the categories and characteristics of different kinds of data assets
+within Amazon DataZone.. They determine what metadata fields are required, what operations
+are possible, and how the asset integrates with other Amazon Web Services services. Asset
+types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue
+tables to custom types defined for specific organizational needs. Understanding asset types
+is crucial for properly organizing and managing different kinds of data resources.
+
+Prerequisites:
+
+- The asset type with identifier must exist in the domain. ResourceNotFoundException.
+- You must have the GetAssetType permission.
+- Ensure the domain-identifier value is correct and accessible.
 
 # Arguments
 
@@ -2273,6 +4152,141 @@ function get_asset_type(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/asset-types/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connection(domain_identifier, identifier)
+    get_connection(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets a connection. In Amazon DataZone, a connection enables you to connect your resources
+(domains, projects, and environments) to external resources and services.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where we get the connection.
+- `identifier`: The connection ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"withSecret"`: Specifies whether a connection has a secret.
+"""
+function get_connection end
+
+function get_connection(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_connection(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_export_configuration(domain_identifier)
+    get_data_export_configuration(domain_identifier, params::Dict{String,<:Any})
+
+Gets data export configuration details.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to get the data export
+  configuration details.
+"""
+function get_data_export_configuration end
+
+function get_data_export_configuration(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_export_configuration(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_product(domain_identifier, identifier)
+    get_data_product(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the data product.
+
+Prerequisites:
+
+- The data product ID must exist.
+- The domain must be valid and accessible.
+- User must have read or discovery permissions for the data product.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the data product lives.
+- `identifier`: The ID of the data product.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"revision"`: The revision of the data product.
+"""
+function get_data_product end
+
+function get_data_product(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_data_product(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2390,6 +4404,45 @@ function get_domain(
 end
 
 """
+    get_domain_unit(domain_identifier, identifier)
+    get_domain_unit(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the details of the specified domain unit.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to get a domain unit.
+- `identifier`: The identifier of the domain unit that you want to get.
+"""
+function get_domain_unit end
+
+function get_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_environment(domain_identifier, identifier)
     get_environment(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -2422,6 +4475,51 @@ function get_environment(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_environment_action(domain_identifier, environment_identifier, identifier)
+    get_environment_action(domain_identifier, environment_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the specified environment action.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the
+  `GetEnvironmentAction` API is invoked.
+- `environment_identifier`: The environment ID of the environment action.
+- `identifier`: The ID of the environment action
+"""
+function get_environment_action end
+
+function get_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2509,6 +4607,48 @@ function get_environment_blueprint_configuration(
 end
 
 """
+    get_environment_credentials(domain_identifier, environment_identifier)
+    get_environment_credentials(domain_identifier, environment_identifier, params::Dict{String,<:Any})
+
+Gets the credentials of an environment in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which this environment and
+  its credentials exist.
+- `environment_identifier`: The ID of the environment whose credentials this operation gets.
+"""
+function get_environment_credentials end
+
+function get_environment_credentials(
+    domainIdentifier,
+    environmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_environment_credentials(
+    domainIdentifier,
+    environmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/credentials",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_environment_profile(domain_identifier, identifier)
     get_environment_profile(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -2553,6 +4693,30 @@ end
     get_form_type(domain_identifier, form_type_identifier, params::Dict{String,<:Any})
 
 Gets a metadata form type in Amazon DataZone.
+
+Form types define the structure and validation rules for collecting metadata about assets in
+Amazon DataZone. They act as templates that ensure consistent metadata capture across
+similar types of assets, while allowing for customization to meet specific organizational
+needs. Form types can include required fields, validation rules, and dependencies, helping
+maintain high-quality metadata that makes data assets more discoverable and usable.
+
+- The form type with the specified identifier must exist in the given domain.
+- The domain must be valid and active.
+- User must have permission on the form type.
+- The form type should not be deleted or in an invalid state.
+
+One use case for this API is to determine whether a form field is indexed for search.
+
+A searchable field will be annotated with `@amazon.datazone#searchable`. By default,
+searchable fields are indexed for semantic search, where related query terms will match the
+attribute value even if they are not stemmed or keyword matches. If a field is indexed
+technical identifier search, it will be annotated with
+`@amazon.datazone#searchable(modes:["TECHNICAL"])`. If a field is indexed for lexical search
+(supports stemmed and prefix matches but not semantic matches), it will be annotated with
+`@amazon.datazone#searchable(modes:["LEXICAL"])`.
+
+A field storing glossary term IDs (which is filterable) will be annotated with
+`@amazon.datazone#glossaryterm("\${glossaryId}")`.
 
 # Arguments
 
@@ -2600,6 +4764,11 @@ end
 
 Gets a business glossary in Amazon DataZone.
 
+Prerequisites:
+
+- The specified glossary ID must exist and be associated with the given domain.
+- The caller must have the `datazone:GetGlossary` permission on the domain.
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain in which this business glossary
@@ -2639,6 +4808,12 @@ end
     get_glossary_term(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Gets a business glossary term in Amazon DataZone.
+
+Prerequisites:
+
+- Glossary term with identifier must exist in the domain.
+- User must have permission on the glossary term.
+- Domain must be accessible and active.
 
 # Arguments
 
@@ -2753,10 +4928,139 @@ function get_iam_portal_login_url(
 end
 
 """
+    get_job_run(domain_identifier, identifier)
+    get_job_run(domain_identifier, identifier, params::Dict{String,<:Any})
+
+The details of the job run.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain.
+- `identifier`: The ID of the job run.
+"""
+function get_job_run end
+
+function get_job_run(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/jobRuns/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_job_run(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/jobRuns/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lineage_event(domain_identifier, identifier)
+    get_lineage_event(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Describes the lineage event.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain.
+- `identifier`: The ID of the lineage event.
+"""
+function get_lineage_event end
+
+function get_lineage_event(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/events/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_lineage_event(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/events/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lineage_node(domain_identifier, identifier)
+    get_lineage_node(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the data lineage node.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which you want to get the data lineage node.
+
+- `identifier`: The ID of the data lineage node that you want to get.
+
+  Both, a lineage node identifier generated by Amazon DataZone and a `sourceIdentifier` of
+  the lineage node are supported. If `sourceIdentifier` is greater than 1800 characters, you
+  can use lineage node identifier generated by Amazon DataZone to get the node details.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"timestamp"`: The event time stamp for which you want to get the data lineage node.
+"""
+function get_lineage_node end
+
+function get_lineage_node(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_lineage_node(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_listing(domain_identifier, identifier)
     get_listing(domain_identifier, identifier, params::Dict{String,<:Any})
 
-Gets a listing (a record of an asset at a given time).
+Gets a listing (a record of an asset at a given time). If you specify a listing version,
+only details that are specific to that version are returned.
 
 # Arguments
 
@@ -2803,11 +5107,23 @@ end
 
 Gets a metadata generation run in Amazon DataZone.
 
+Prerequisites:
+
+- Valid domain and run identifier.
+- The metadata generation run must exist.
+- User must have read access to the metadata run.
+
 # Arguments
 
 - `domain_identifier`: The ID of the Amazon DataZone domain the metadata generation run of
   which you want to get.
 - `identifier`: The identifier of the metadata generation run.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"type"`: The type of the metadata generation run.
 """
 function get_metadata_generation_run end
 
@@ -2870,6 +5186,96 @@ function get_project(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_project_profile(domain_identifier, identifier)
+    get_project_profile(domain_identifier, identifier, params::Dict{String,<:Any})
+
+The details of the project profile.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain.
+- `identifier`: The ID of the project profile.
+"""
+function get_project_profile end
+
+function get_project_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_project_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_rule(domain_identifier, identifier)
+    get_rule(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces
+specific requirements across user workflows (e.g., publishing assets to the catalog,
+requesting subscriptions, creating projects) within the Amazon DataZone data portal. These
+rules help maintain consistency, ensure compliance, and uphold governance standards in data
+management processes. For instance, a metadata enforcement rule can specify the required
+information for creating a subscription request or publishing a data asset to the catalog,
+ensuring alignment with organizational standards.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where the `GetRule` action is to be invoked.
+- `identifier`: The ID of the rule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"revision"`: The revision of the rule.
+"""
+function get_rule end
+
+function get_rule(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_rule(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3144,10 +5550,192 @@ function get_user_profile(
 end
 
 """
+    list_account_pools(domain_identifier)
+    list_account_pools(domain_identifier, params::Dict{String,<:Any})
+
+Lists existing account pools.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where exsting account pools are to be listed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of account pools to return in a single call to
+  ListAccountPools. When the number of account pools to be listed is greater than the value
+  of MaxResults, the response contains a NextToken value that you can use in a subsequent
+  call to ListAccountPools to list the next set of account pools.
+
+- `"name"`: The name of the account pool to be listed.
+
+- `"nextToken"`: When the number of account pools is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of account pools, the response includes a pagination token named
+  NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools
+  to list the next set of account pools.
+
+- `"sortBy"`: The sort by mechanism in which the existing account pools are to be listed.
+
+- `"sortOrder"`: The sort order in which the existing account pools are to be listed.
+"""
+function list_account_pools end
+
+function list_account_pools(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_account_pools(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_accounts_in_account_pool(domain_identifier, identifier)
+    list_accounts_in_account_pool(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Lists the accounts in the specified account pool.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which the accounts in the specified account
+  pool are to be listed.
+- `identifier`: The ID of the account pool whose accounts are to be listed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of accounts to return in a single call to
+  ListAccountsInAccountPool. When the number of accounts to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
+  subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+
+- `"nextToken"`: When the number of accounts is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of accounts, the response includes a pagination token named NextToken. You
+  can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list
+  the next set of accounts.
+"""
+function list_accounts_in_account_pool end
+
+function list_accounts_in_account_pool(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)/accounts";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_accounts_in_account_pool(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)/accounts",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_asset_filters(asset_identifier, domain_identifier)
+    list_asset_filters(asset_identifier, domain_identifier, params::Dict{String,<:Any})
+
+Lists asset filters.
+
+Prerequisites:
+
+- A valid domain and asset must exist.
+- The asset must have at least one filter created to return results.
+
+# Arguments
+
+- `asset_identifier`: The ID of the data asset.
+- `domain_identifier`: The ID of the domain where you want to list asset filters.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of asset filters to return in a single call to
+  `ListAssetFilters`. When the number of asset filters to be listed is greater than the
+  value of `MaxResults`, the response contains a `NextToken` value that you can use in a
+  subsequent call to `ListAssetFilters` to list the next set of asset filters.
+
+- `"nextToken"`: When the number of asset filters is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of asset filters, the response includes a pagination token named
+  `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListAssetFilters` to list the next set of asset filters.
+
+- `"status"`: The status of the asset filter.
+"""
+function list_asset_filters end
+
+function list_asset_filters(
+    assetIdentifier, domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_asset_filters(
+    assetIdentifier,
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_asset_revisions(domain_identifier, identifier)
     list_asset_revisions(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Lists the revisions for the asset.
+
+Prerequisites:
+
+- The asset must exist in the domain.
+- There must be at least one revision of the asset (which happens automatically after
+  creation).
+- The domain must be valid and active.
+- User must have permissions on the asset and domain.
 
 # Arguments
 
@@ -3191,6 +5779,135 @@ function list_asset_revisions(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/assets/$(identifier)/revisions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_connections(domain_identifier)
+    list_connections(domain_identifier, params::Dict{String,<:Any})
+
+Lists connections. In Amazon DataZone, a connection enables you to connect your resources
+(domains, projects, and environments) to external resources and services.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list connections.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"environmentIdentifier"`: The ID of the environment where you want to list connections.
+
+- `"maxResults"`: The maximum number of connections to return in a single call to
+  ListConnections. When the number of connections to be listed is greater than the value of
+  MaxResults, the response contains a NextToken value that you can use in a subsequent call
+  to ListConnections to list the next set of connections.
+
+- `"name"`: The name of the connection.
+
+- `"nextToken"`: When the number of connections is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of connections, the response includes a pagination token named NextToken.
+  You can specify this NextToken value in a subsequent call to ListConnections to list the
+  next set of connections.
+
+- `"projectIdentifier"`: The ID of the project where you want to list connections.
+
+- `"scope"`: The scope of the connection.
+
+- `"sortBy"`: Specifies how you want to sort the listed connections.
+
+- `"sortOrder"`: Specifies the sort order for the listed connections.
+
+- `"type"`: The type of connection.
+"""
+function list_connections end
+
+function list_connections(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/connections";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_connections(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/connections",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_product_revisions(domain_identifier, identifier)
+    list_data_product_revisions(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Lists data product revisions.
+
+Prerequisites:
+
+- The data product ID must exist within the domain.
+- User must have view permissions on the data product.
+- The domain must be in a valid and accessible state.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain of the data product revisions that you want to
+  list.
+- `identifier`: The ID of the data product revision.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of asset filters to return in a single call to
+  `ListDataProductRevisions`. When the number of data product revisions to be listed is
+  greater than the value of `MaxResults`, the response contains a `NextToken` value that you
+  can use in a subsequent call to `ListDataProductRevisions` to list the next set of data
+  product revisions.
+
+- `"nextToken"`: When the number of data product revisions is greater than the default value
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of data product revisions, the response includes a pagination
+  token named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListDataProductRevisions` to list the next set of data product revisions.
+"""
+function list_data_product_revisions end
+
+function list_data_product_revisions(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_data_product_revisions(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/data-products/$(identifier)/revisions",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3329,6 +6046,8 @@ Lists data sources in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"connectionIdentifier"`: The ID of the connection.
+
 - `"environmentIdentifier"`: The identifier of the environment in which to list the data
   sources.
 
@@ -3383,6 +6102,72 @@ function list_data_sources(
 end
 
 """
+    list_domain_units_for_parent(domain_identifier, parent_domain_unit_identifier)
+    list_domain_units_for_parent(domain_identifier, parent_domain_unit_identifier, params::Dict{String,<:Any})
+
+Lists child domain units for the specified parent domain unit.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which you want to list domain units for a
+  parent domain unit.
+- `parent_domain_unit_identifier`: The ID of the parent domain unit.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of domain units to return in a single call to
+  ListDomainUnitsForParent. When the number of domain units to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
+  subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+
+- `"nextToken"`: When the number of domain units is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of domain units, the response includes a pagination token named NextToken.
+  You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to
+  list the next set of domain units.
+"""
+function list_domain_units_for_parent end
+
+function list_domain_units_for_parent(
+    domainIdentifier,
+    parentDomainUnitIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}("parentDomainUnitIdentifier" => parentDomainUnitIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_domain_units_for_parent(
+    domainIdentifier,
+    parentDomainUnitIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/domain-units",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "parentDomainUnitIdentifier" => parentDomainUnitIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
@@ -3416,6 +6201,123 @@ function list_domains(
 )
     return datazone(
         "GET", "/v2/domains", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_entity_owners(domain_identifier, entity_identifier, entity_type)
+    list_entity_owners(domain_identifier, entity_identifier, entity_type, params::Dict{String,<:Any})
+
+Lists the entity (domain units) owners.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list entity owners.
+- `entity_identifier`: The ID of the entity that you want to list.
+- `entity_type`: The type of the entity that you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of entities to return in a single call to
+  `ListEntityOwners`. When the number of entities to be listed is greater than the value of
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListEntityOwners` to list the next set of entities.
+
+- `"nextToken"`: When the number of entities is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of entities, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `ListEntityOwners` to list
+  the next set of entities.
+"""
+function list_entity_owners end
+
+function list_entity_owners(
+    domainIdentifier,
+    entityIdentifier,
+    entityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_entity_owners(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/owners",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_environment_actions(domain_identifier, environment_identifier)
+    list_environment_actions(domain_identifier, environment_identifier, params::Dict{String,<:Any})
+
+Lists existing environment actions.
+
+# Arguments
+
+- `domain_identifier`: The ID of the Amazon DataZone domain in which the environment actions
+  are listed.
+- `environment_identifier`: The ID of the envrironment whose environment actions are listed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of environment actions to return in a single call to
+  `ListEnvironmentActions`. When the number of environment actions to be listed is greater
+  than the value of `MaxResults`, the response contains a `NextToken` value that you can use
+  in a subsequent call to `ListEnvironmentActions` to list the next set of environment
+  actions.
+
+- `"nextToken"`: When the number of environment actions is greater than the default value
+  for the `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that
+  is less than the number of environment actions, the response includes a pagination token
+  named `NextToken`. You can specify this `NextToken` value in a subsequent call to
+  `ListEnvironmentActions` to list the next set of environment actions.
+"""
+function list_environment_actions end
+
+function list_environment_actions(
+    domainIdentifier,
+    environmentIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_environment_actions(
+    domainIdentifier,
+    environmentIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3669,10 +6571,208 @@ function list_environments(
 end
 
 """
+    list_job_runs(domain_identifier, job_identifier)
+    list_job_runs(domain_identifier, job_identifier, params::Dict{String,<:Any})
+
+Lists job runs.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list job runs.
+- `job_identifier`: The ID of the job run.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of job runs to return in a single call to ListJobRuns.
+  When the number of job runs to be listed is greater than the value of MaxResults, the
+  response contains a NextToken value that you can use in a subsequent call to ListJobRuns
+  to list the next set of job runs.
+
+- `"nextToken"`: When the number of job runs is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of job runs, the response includes a pagination token named NextToken. You
+  can specify this NextToken value in a subsequent call to ListJobRuns to list the next set
+  of job runs.
+
+- `"sortOrder"`: Specifies the order in which job runs are to be sorted.
+
+- `"status"`: The status of a job run.
+"""
+function list_job_runs end
+
+function list_job_runs(
+    domainIdentifier, jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/jobs/$(jobIdentifier)/runs";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_job_runs(
+    domainIdentifier,
+    jobIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/jobs/$(jobIdentifier)/runs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lineage_events(domain_identifier)
+    list_lineage_events(domain_identifier, params::Dict{String,<:Any})
+
+Lists lineage events.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list lineage events.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of lineage events to return in a single call to
+  ListLineageEvents. When the number of lineage events to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
+  subsequent call to ListLineageEvents to list the next set of lineage events.
+
+- `"nextToken"`: When the number of lineage events is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of lineage events, the response includes a pagination token named
+  NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents
+  to list the next set of lineage events.
+
+- `"processingStatus"`: The processing status of a lineage event.
+
+- `"sortOrder"`: The sort order of the lineage events.
+
+- `"timestampAfter"`: The after timestamp of a lineage event.
+
+- `"timestampBefore"`: The before timestamp of a lineage event.
+"""
+function list_lineage_events end
+
+function list_lineage_events(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/events";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_lineage_events(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/events",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lineage_node_history(domain_identifier, identifier)
+    list_lineage_node_history(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Lists the history of the specified data lineage node.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list the history of the
+  specified data lineage node.
+- `identifier`: The ID of the data lineage node whose history you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"direction"`: The direction of the data lineage node refers to the lineage node having
+  neighbors in that direction. For example, if direction is `UPSTREAM`, the
+  `ListLineageNodeHistory` API responds with historical versions with upstream neighbors
+  only.
+
+- `"maxResults"`: The maximum number of history items to return in a single call to
+  ListLineageNodeHistory. When the number of memberships to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
+  subsequent call to ListLineageNodeHistory to list the next set of items.
+
+- `"nextToken"`: When the number of history items is greater than the default value for the
+  MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of items, the response includes a pagination token named NextToken. You
+  can specify this NextToken value in a subsequent call to ListLineageNodeHistory to list
+  the next set of items.
+
+- `"sortOrder"`: The order by which you want data lineage node history to be sorted.
+
+- `"timestampGTE"`: Specifies whether the action is to return data lineage node history from
+  the time after the event timestamp.
+
+- `"timestampLTE"`: Specifies whether the action is to return data lineage node history from
+  the time prior of the event timestamp.
+"""
+function list_lineage_node_history end
+
+function list_lineage_node_history(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_lineage_node_history(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/lineage/nodes/$(identifier)/history",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_metadata_generation_runs(domain_identifier)
     list_metadata_generation_runs(domain_identifier, params::Dict{String,<:Any})
 
 Lists all metadata generation runs.
+
+Metadata generation runs represent automated processes that leverage AI/ML capabilities to
+create or enhance asset metadata at scale. This feature helps organizations maintain
+comprehensive and consistent metadata across large numbers of assets without manual
+intervention. It can automatically generate business descriptions, tags, and other metadata
+elements, significantly reducing the time and effort required for metadata management while
+improving consistency and completeness.
+
+Prerequisites:
+
+- Valid domain identifier.
+- User must have access to metadata generation runs in the domain.
 
 # Arguments
 
@@ -3695,6 +6795,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call to ListMetadataGenerationRuns to list the next set of revisions.
 
 - `"status"`: The status of the metadata generation runs.
+
+- `"targetIdentifier"`: The target ID for which you want to list metadata generation runs.
 
 - `"type"`: The type of the metadata generation runs.
 """
@@ -3789,6 +6891,71 @@ function list_notifications(
 end
 
 """
+    list_policy_grants(domain_identifier, entity_identifier, entity_type, policy_type)
+    list_policy_grants(domain_identifier, entity_identifier, entity_type, policy_type, params::Dict{String,<:Any})
+
+Lists policy grants.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list policy grants.
+- `entity_identifier`: The ID of the entity for which you want to list policy grants.
+- `entity_type`: The type of entity for which you want to list policy grants.
+- `policy_type`: The type of policy that you want to list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of grants to return in a single call to
+  `ListPolicyGrants`. When the number of grants to be listed is greater than the value of
+  `MaxResults`, the response contains a `NextToken` value that you can use in a subsequent
+  call to `ListPolicyGrants` to list the next set of grants.
+
+- `"nextToken"`: When the number of grants is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of grants, the response includes a pagination token named `NextToken`. You
+  can specify this `NextToken` value in a subsequent call to `ListPolicyGrants` to list the
+  next set of grants.
+"""
+function list_policy_grants end
+
+function list_policy_grants(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants",
+        Dict{String,Any}("policyType" => policyType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_policy_grants(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/grants",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("policyType" => policyType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_project_memberships(domain_identifier, project_identifier)
     list_project_memberships(domain_identifier, project_identifier, params::Dict{String,<:Any})
 
@@ -3841,6 +7008,64 @@ function list_project_memberships(
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects/$(projectIdentifier)/memberships",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_project_profiles(domain_identifier)
+    list_project_profiles(domain_identifier, params::Dict{String,<:Any})
+
+Lists project profiles.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to list project profiles.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of project profiles to return in a single call to
+  ListProjectProfiles. When the number of project profiles to be listed is greater than the
+  value of MaxResults, the response contains a NextToken value that you can use in a
+  subsequent call to ListProjectProfiles to list the next set of project profiles.
+
+- `"name"`: The name of a project profile.
+
+- `"nextToken"`: When the number of project profiles is greater than the default value for
+  the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less
+  than the number of project profiles, the response includes a pagination token named
+  NextToken. You can specify this NextToken value in a subsequent call to
+  ListProjectProfiles to list the next set of project profiles.
+
+- `"sortBy"`: Specifies by what to sort project profiles.
+
+- `"sortOrder"`: Specifies the sort order of the project profiles.
+"""
+function list_project_profiles end
+
+function list_project_profiles(
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/project-profiles";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_project_profiles(
+    domainIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/project-profiles",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3904,6 +7129,83 @@ function list_projects(
 end
 
 """
+    list_rules(domain_identifier, target_identifier, target_type)
+    list_rules(domain_identifier, target_identifier, target_type, params::Dict{String,<:Any})
+
+Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces
+specific requirements across user workflows (e.g., publishing assets to the catalog,
+requesting subscriptions, creating projects) within the Amazon DataZone data portal. These
+rules help maintain consistency, ensure compliance, and uphold governance standards in data
+management processes. For instance, a metadata enforcement rule can specify the required
+information for creating a subscription request or publishing a data asset to the catalog,
+ensuring alignment with organizational standards.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which the rules are to be listed.
+- `target_identifier`: The target ID of the rule.
+- `target_type`: The target type of the rule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"assetTypes"`: The asset types of the rule.
+
+- `"dataProduct"`: The data product of the rule.
+
+- `"includeCascaded"`: Specifies whether to include cascading rules in the results.
+
+- `"maxResults"`: The maximum number of rules to return in a single call to `ListRules`.
+  When the number of rules to be listed is greater than the value of `MaxResults`, the
+  response contains a `NextToken` value that you can use in a subsequent call to `ListRules`
+  to list the next set of rules.
+
+- `"nextToken"`: When the number of rules is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of rules, the response includes a pagination token named `NextToken`. You
+  can specify this `NextToken` value in a subsequent call to `ListRules` to list the next
+  set of rules.
+
+- `"projectIds"`: The IDs of projects in which rules are to be listed.
+
+- `"ruleAction"`: The action of the rule.
+
+- `"ruleType"`: The type of the rule.
+"""
+function list_rules end
+
+function list_rules(
+    domainIdentifier,
+    targetIdentifier,
+    targetType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/list-rules/$(targetType)/$(targetIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_rules(
+    domainIdentifier,
+    targetIdentifier,
+    targetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "GET",
+        "/v2/domains/$(domainIdentifier)/list-rules/$(targetType)/$(targetIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_subscription_grants(domain_identifier)
     list_subscription_grants(domain_identifier, params::Dict{String,<:Any})
 
@@ -3930,6 +7232,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is less than the number of subscription grants, the response includes a pagination token
   named `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListSubscriptionGrants` to list the next set of subscription grants.
+
+- `"owningGroupId"`: The ID of the owning group.
+
+- `"owningIamPrincipalArn"`: The ARN of the owning IAM principal.
+
+- `"owningProjectId"`: The ID of the owning project of the subscription grants.
+
+- `"owningUserId"`: The ID of the owning user.
 
 - `"sortBy"`: Specifies the way of sorting the results of this action.
 
@@ -3996,13 +7306,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   named `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListSubscriptionRequests` to list the next set of subscription requests.
 
+- `"owningGroupId"`: The ID of the owning group.
+
+- `"owningIamPrincipalArn"`: The ARN of the owning IAM principal.
+
 - `"owningProjectId"`: The identifier of the project for the subscription requests.
+
+- `"owningUserId"`: The ID of the owning user.
 
 - `"sortBy"`: Specifies the way to sort the results of this action.
 
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 
 - `"status"`: Specifies the status of the subscription requests.
+
+  !!! note
+      This is not a required parameter, but if not specified, by default, Amazon DataZone
+      returns only `PENDING` subscription requests.
 
 - `"subscribedListingId"`: The identifier of the subscribed listing.
 """
@@ -4123,13 +7443,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken`. You can specify this `NextToken` value in a subsequent call to
   `ListSubscriptions` to list the next set of subscriptions.
 
+- `"owningGroupId"`: The ID of the owning group.
+
+- `"owningIamPrincipalArn"`: The ARN of the owning IAM principal.
+
 - `"owningProjectId"`: The identifier of the owning project.
+
+- `"owningUserId"`: The ID of the owning user.
 
 - `"sortBy"`: Specifies the way in which the results of this action are to be sorted.
 
 - `"sortOrder"`: Specifies the sort order for the results of this action.
 
 - `"status"`: The status of the subscriptions that you want to list.
+
+  !!! note
+      This is not a required parameter, but if not provided, by default, Amazon DataZone
+      returns only `APPROVED` subscriptions.
 
 - `"subscribedListingId"`: The identifier of the subscribed listing for the subscriptions
   that you want to list.
@@ -4265,6 +7595,60 @@ function list_time_series_data_points(
 end
 
 """
+    post_lineage_event(domain_identifier, event)
+    post_lineage_event(domain_identifier, event, params::Dict{String,<:Any})
+
+Posts a data lineage event.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to post a data lineage event.
+- `event`: The data lineage event that you want to post. Only open-lineage run event are
+  supported as events.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Client-Token"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+"""
+function post_lineage_event end
+
+function post_lineage_event(
+    domainIdentifier, event; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/lineage/events",
+        Dict{String,Any}("event" => event, "Client-Token" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function post_lineage_event(
+    domainIdentifier,
+    event,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/lineage/events",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("event" => event, "Client-Token" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     post_time_series_data_points(domain_identifier, entity_identifier, entity_type, forms)
     post_time_series_data_points(domain_identifier, entity_identifier, entity_type, forms, params::Dict{String,<:Any})
 
@@ -4328,6 +7712,83 @@ function post_time_series_data_points(
 end
 
 """
+    put_data_export_configuration(domain_identifier, enable_export)
+    put_data_export_configuration(domain_identifier, enable_export, params::Dict{String,<:Any})
+
+Creates data export configuration details.
+
+If you want to temporarily disable export and later re-enable it for the same domain, use
+the `--no-enable-export` flag to disable and the `--enable-export` flag to re-enable. This
+preserves the configuration and allows you to re-enable export without deleting S3 table.
+
+!!! note
+    You can enable asset metadata export for only one domain per account per Region. To
+    enable export for a different domain, complete the following steps:
+
+    1. Delete the export configuration for the currently enabled domain using the
+       DeleteDataExportConfiguration operation.
+    2. Delete the asset S3 table under the aws-sagemaker-catalog S3 table bucket. We
+       recommend backing up the S3 table before deletion.
+    3. Call the PutDataExportConfiguration API to enable export for the new domain.
+
+# Arguments
+
+- `domain_identifier`: The domain ID for which you want to create data export configuration
+  details.
+- `enable_export`: Specifies that the export is to be enabled as part of creating data
+  export configuration details.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
+
+- `"encryptionConfiguration"`: The encryption configuration as part of creating data export
+  configuration details.
+
+  The KMS key provided here as part of encryptionConfiguration must have the required
+  permissions as described in [KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio](https://docs.aws.amazon.com/sagemaker-unified-studio/latest/adminguide/sagemaker-unified-studio-export-asset-metadata-kms-permissions.html).
+"""
+function put_data_export_configuration end
+
+function put_data_export_configuration(
+    domainIdentifier, enableExport; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration",
+        Dict{String,Any}("enableExport" => enableExport, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_data_export_configuration(
+    domainIdentifier,
+    enableExport,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/data-export-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "enableExport" => enableExport, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_environment_blueprint_configuration(domain_identifier, enabled_regions, environment_blueprint_identifier)
     put_environment_blueprint_configuration(domain_identifier, enabled_regions, environment_blueprint_identifier, params::Dict{String,<:Any})
 
@@ -4343,7 +7804,10 @@ Writes the configuration for the specified environment blueprint in Amazon DataZ
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"environmentRolePermissionBoundary"`: The environment role permissions boundary.
+- `"globalParameters"`: Region-agnostic environment blueprint parameters.
 - `"manageAccessRoleArn"`: The ARN of the manage access role.
+- `"provisioningConfigurations"`: The provisioning configuration of a blueprint.
 - `"provisioningRoleArn"`: The ARN of the provisioning role.
 - `"regionalParameters"`: The regional parameters in the environment blueprint.
 """
@@ -4377,6 +7841,64 @@ function put_environment_blueprint_configuration(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("enabledRegions" => enabledRegions), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    query_graph(domain_identifier, match)
+    query_graph(domain_identifier, match, params::Dict{String,<:Any})
+
+Queries entities in the graph store.
+
+# Arguments
+
+- `domain_identifier`: The identifier of the Amazon DataZone domain.
+- `match`: List of query match clauses.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"additionalAttributes"`: Additional details on the queried entity that can be requested
+  in the response.
+
+- `"maxResults"`: The maximum number of entities to return in a single call to `QueryGraph`.
+  When the number of entities to be listed is greater than the value of `MaxResults`, the
+  response contains a `NextToken` value that you can use in a subsequent call to
+  `QueryGraph` to list the next set of entities.
+
+- `"nextToken"`: When the number of entities is greater than the default value for the
+  `MaxResults` parameter, or if you explicitly specify a value for `MaxResults` that is less
+  than the number of entities, the response includes a pagination token named `NextToken`.
+  You can specify this `NextToken` value in a subsequent call to `QueryGraph` to list the
+  next set of entities.
+"""
+function query_graph end
+
+function query_graph(
+    domainIdentifier, match; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/graph/query",
+        Dict{String,Any}("match" => match);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function query_graph(
+    domainIdentifier,
+    match,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/graph/query",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("match" => match), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4483,6 +8005,142 @@ function reject_subscription_request(
 end
 
 """
+    remove_entity_owner(domain_identifier, entity_identifier, entity_type, owner)
+    remove_entity_owner(domain_identifier, entity_identifier, entity_type, owner, params::Dict{String,<:Any})
+
+Removes an owner from an entity.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to remove an owner from an
+  entity.
+- `entity_identifier`: The ID of the entity from which you want to remove an owner.
+- `entity_type`: The type of the entity from which you want to remove an owner.
+- `owner`: The owner that you want to remove from an entity.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+"""
+function remove_entity_owner end
+
+function remove_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner",
+        Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_entity_owner(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    owner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/entities/$(entityType)/$(entityIdentifier)/removeOwner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("owner" => owner, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_policy_grant(domain_identifier, entity_identifier, entity_type, policy_type, principal)
+    remove_policy_grant(domain_identifier, entity_identifier, entity_type, policy_type, principal, params::Dict{String,<:Any})
+
+Removes a policy grant.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to remove a policy grant.
+- `entity_identifier`: The ID of the entity from which you want to remove a policy grant.
+- `entity_type`: The type of the entity from which you want to remove a policy grant.
+- `policy_type`: The type of the policy that you want to remove.
+- `principal`: The principal from which you want to remove a policy grant.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that is provided to ensure the
+  idempotency of the request.
+- `"grantIdentifier"`: The ID of the policy grant that is to be removed from a specified
+  entity.
+"""
+function remove_policy_grant end
+
+function remove_policy_grant(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant",
+        Dict{String,Any}(
+            "policyType" => policyType,
+            "principal" => principal,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_policy_grant(
+    domainIdentifier,
+    entityIdentifier,
+    entityType,
+    policyType,
+    principal,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "POST",
+        "/v2/domains/$(domainIdentifier)/policies/managed/$(entityType)/$(entityIdentifier)/removeGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyType" => policyType,
+                    "principal" => principal,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     revoke_subscription(domain_identifier, identifier)
     revoke_subscription(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -4534,6 +8192,51 @@ end
     search(domain_identifier, search_scope, params::Dict{String,<:Any})
 
 Searches for assets in Amazon DataZone.
+
+Search in Amazon DataZone is a powerful capability that enables users to discover and
+explore data assets, glossary terms, and data products across their organization. It
+provides both basic and advanced search functionality, allowing users to find resources
+based on names, descriptions, metadata, and other attributes. Search can be scoped to
+specific types of resources (like assets, glossary terms, or data products) and can be
+filtered using various criteria such as creation date, owner, or status. The search
+functionality is essential for making the wealth of data resources in an organization
+discoverable and usable, helping users find the right data for their needs quickly and
+efficiently.
+
+Many search commands in Amazon DataZone are paginated, including `search` and
+`search-types`. When the result set is large, Amazon DataZone returns a `nextToken` in the
+response. This token can be used to retrieve the next page of results.
+
+Prerequisites:
+
+- The --domain-identifier must refer to an existing Amazon DataZone domain.
+- --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.
+- The user must have search permissions in the specified domain.
+- If using --filters, ensure that the JSON is well-formed and that each filter includes
+  valid attribute and value keys.
+- For paginated results, be prepared to use --next-token to fetch additional pages.
+
+To run a standard free-text search, the `searchText` parameter must be supplied. By default,
+all searchable fields are indexed for semantic search and will return semantic matches for
+SearchListings queries. To prevent semantic search indexing for a custom form attribute, see
+the [CreateFormType API documentation](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateFormType.html).
+To run a lexical search query, enclose the query with double quotes (""). This will disable
+semantic search even for fields that have semantic search enabled and will only return
+results that contain the keywords wrapped by double quotes (order of tokens in the query is
+not enforced). Free-text search is supported for all attributes annotated with
+@amazon.datazone#searchable.
+
+To run a filtered search, provide filter clause using the `filters` parameter. To filter on
+glossary terms, use the special attribute `__DataZoneGlossaryTerms`. To filter on an indexed
+numeric attribute (i.e., a numeric attribute annotated with `@amazon.datazone#sortable`),
+provide a filter using the `intValue` parameter. The filters parameter can also be used to
+run more advanced free-text searches that target specific attributes (attributes must be
+annotated with `@amazon.datazone#searchable` for free-text search). Create/update timestamp
+filtering is supported using the special `creationTime`/`lastUpdatedTime` attributes. Filter
+types can be mixed and matched to power complex queries.
+
+To find out whether an attribute has been annotated and indexed for a given search type, use
+the GetFormType API to retrieve the form containing the attribute.
 
 # Arguments
 
@@ -4663,7 +8366,42 @@ end
     search_listings(domain_identifier)
     search_listings(domain_identifier, params::Dict{String,<:Any})
 
-Searches listings (records of an asset at a given time) in Amazon DataZone.
+Searches listings in Amazon DataZone.
+
+SearchListings is a powerful capability that enables users to discover and explore published
+assets and data products across their organization. It provides both basic and advanced
+search functionality, allowing users to find resources based on names, descriptions,
+metadata, and other attributes. SearchListings also supports filtering using various
+criteria such as creation date, owner, or status. This API is essential for making the
+wealth of data resources in an organization discoverable and usable, helping users find the
+right data for their needs quickly and efficiently.
+
+SearchListings returns results in a paginated format. When the result set is large, the
+response will include a nextToken, which can be used to retrieve the next page of results.
+
+The SearchListings API gives users flexibility in specifying what kind of search is run.
+
+To run a standard free-text search, the `searchText` parameter must be supplied. By default,
+all searchable fields are indexed for semantic search and will return semantic matches for
+SearchListings queries. To prevent semantic search indexing for a custom form attribute, see
+the [CreateFormType API documentation](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateFormType.html).
+To run a lexical search query, enclose the query with double quotes (""). This will disable
+semantic search even for fields that have semantic search enabled and will only return
+results that contain the keywords wrapped by double quotes (order of tokens in the query is
+not enforced). Free-text search is supported for all attributes annotated with
+@amazon.datazone#searchable.
+
+To run a filtered search, provide filter clause using the `filters` parameter. To filter on
+glossary terms, use the special attribute `__DataZoneGlossaryTerms`. To filter on an indexed
+numeric attribute (i.e., a numeric attribute annotated with `@amazon.datazone#sortable`),
+provide a filter using the `intValue` parameter. The filters parameter can also be used to
+run more advanced free-text searches that target specific attributes (attributes must be
+annotated with `@amazon.datazone#searchable` for free-text search). Create/update timestamp
+filtering is supported using the special `creationTime`/`lastUpdatedTime` attributes. Filter
+types can be mixed and matched to power complex queries.
+
+To find out whether an attribute has been annotated and indexed for a given search type, use
+the GetFormType API to retrieve the form containing the attribute.
 
 # Arguments
 
@@ -4674,6 +8412,9 @@ Searches listings (records of an asset at a given time) in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"additionalAttributes"`: Specifies additional attributes for the search.
+
+- `"aggregations"`: Enables you to specify one or more attributes to compute and return
+  counts grouped by field values.
 
 - `"filters"`: Specifies the filters for the search of listings.
 
@@ -4726,6 +8467,16 @@ end
     search_types(domain_identifier, managed, search_scope, params::Dict{String,<:Any})
 
 Searches for types in Amazon DataZone.
+
+Prerequisites:
+
+- The --domain-identifier must refer to an existing Amazon DataZone domain.
+- --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE,
+  DATA_PRODUCT_TYPE.
+- The --managed flag must be present without a value.
+- The user must have permissions for form or asset types in the domain.
+- If using --filters, ensure that the JSON is valid.
+- Filters contain correct structure (attribute, value, operator).
 
 # Arguments
 
@@ -4909,10 +8660,20 @@ function start_data_source_run(
 end
 
 """
-    start_metadata_generation_run(domain_identifier, owning_project_identifier, target, type)
-    start_metadata_generation_run(domain_identifier, owning_project_identifier, target, type, params::Dict{String,<:Any})
+    start_metadata_generation_run(domain_identifier, owning_project_identifier, target)
+    start_metadata_generation_run(domain_identifier, owning_project_identifier, target, params::Dict{String,<:Any})
 
 Starts the metadata generation run.
+
+Prerequisites:
+
+- Asset must be created and belong to the specified domain and project.
+- Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue
+  table).
+- Asset must have a structured schema with valid rows and columns.
+- Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES,
+  BUSINESS_GLOSSARY_ASSOCIATIONS.
+- The user must have permission to run metadata generation in the domain/project.
 
 # Arguments
 
@@ -4921,7 +8682,6 @@ Starts the metadata generation run.
 - `owning_project_identifier`: The ID of the project that owns the asset for which you want
   to start a metadata generation run.
 - `target`: The asset for which you want to start a metadata generation run.
-- `type`: The type of the metadata generation run.
 
 # Optional Parameters
 
@@ -4929,14 +8689,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
   This field is automatically populated if not provided.
+- `"type"`: The type of the metadata generation run.
+- `"types"`: The types of the metadata generation run.
 """
 function start_metadata_generation_run end
 
 function start_metadata_generation_run(
     domainIdentifier,
     owningProjectIdentifier,
-    target,
-    type;
+    target;
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
@@ -4945,7 +8706,6 @@ function start_metadata_generation_run(
         Dict{String,Any}(
             "owningProjectIdentifier" => owningProjectIdentifier,
             "target" => target,
-            "type" => type,
             "clientToken" => string(uuid4()),
         );
         aws_config,
@@ -4957,7 +8717,6 @@ function start_metadata_generation_run(
     domainIdentifier,
     owningProjectIdentifier,
     target,
-    type,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -4970,7 +8729,6 @@ function start_metadata_generation_run(
                 Dict{String,Any}(
                     "owningProjectIdentifier" => owningProjectIdentifier,
                     "target" => target,
-                    "type" => type,
                     "clientToken" => string(uuid4()),
                 ),
                 params,
@@ -5060,6 +8818,165 @@ function untag_resource(
 end
 
 """
+    update_account_pool(domain_identifier, identifier)
+    update_account_pool(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates the account pool.
+
+# Arguments
+
+- `domain_identifier`: The domain ID where the account pool that is to be updated lives.
+- `identifier`: The ID of the account pool that is to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"accountSource"`: The source of accounts for the account pool. In the current release,
+  it's either a static list of accounts provided by the customer or a custom Amazon Web
+  Services Lambda handler.
+- `"description"`: The description of the account pool that is to be udpated.
+- `"name"`: The name of the account pool that is to be updated.
+- `"resolutionStrategy"`: The mechanism used to resolve the account selection from the
+  account pool.
+"""
+function update_account_pool end
+
+function update_account_pool(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_account_pool(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/account-pools/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_asset_filter(asset_identifier, domain_identifier, identifier)
+    update_asset_filter(asset_identifier, domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates an asset filter.
+
+Prerequisites:
+
+- The domain, asset, and asset filter identifier must all exist.
+- The asset must contain the columns being referenced in the update.
+- If applying a row filter, ensure the column referenced in the expression exists in the
+  asset schema.
+
+# Arguments
+
+- `asset_identifier`: The ID of the data asset.
+- `domain_identifier`: The ID of the domain where you want to update an asset filter.
+- `identifier`: The ID of the asset filter.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"configuration"`: The configuration of the asset filter.
+- `"description"`: The description of the asset filter.
+- `"name"`: The name of the asset filter.
+"""
+function update_asset_filter end
+
+function update_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_asset_filter(
+    assetIdentifier,
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/assets/$(assetIdentifier)/filters/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_connection(domain_identifier, identifier)
+    update_connection(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates a connection. In Amazon DataZone, a connection enables you to connect your resources
+(domains, projects, and environments) to external resources and services.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where a connection is to be updated.
+- `identifier`: The ID of the connection to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"awsLocation"`: The location where a connection is to be updated.
+- `"configurations"`: The configurations of the connection.
+- `"description"`: The description of a connection.
+- `"props"`: The connection props.
+"""
+function update_connection end
+
+function update_connection(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_connection(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/connections/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_data_source(domain_identifier, identifier)
     update_data_source(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -5086,6 +9003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UpdateDataSource` action.
 - `"recommendation"`: The recommendation to be updated as part of the `UpdateDataSource`
   action.
+- `"retainPermissionsOnRevokeFailure"`: Specifies that the granted permissions are retained
+  in case of a self-subscribe functionality failure for a data source.
 - `"schedule"`: The schedule to be updated as part of the `UpdateDataSource` action.
 """
 function update_data_source end
@@ -5136,6 +9055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainExecutionRole"`: The domain execution role to be updated as part of the
   `UpdateDomain` action.
 - `"name"`: The name to be updated as part of the `UpdateDomain` action.
+- `"serviceRole"`: The service role of the domain.
 - `"singleSignOn"`: The single sign-on option to be updated as part of the `UpdateDomain`
   action.
 """
@@ -5168,6 +9088,52 @@ function update_domain(
 end
 
 """
+    update_domain_unit(domain_identifier, identifier)
+    update_domain_unit(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates the domain unit.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where you want to update a domain unit.
+- `identifier`: The ID of the domain unit that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the domain unit that you want to update.
+- `"name"`: The name of the domain unit that you want to update.
+"""
+function update_domain_unit end
+
+function update_domain_unit(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_domain_unit(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PUT",
+        "/v2/domains/$(domainIdentifier)/domain-units/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_environment(domain_identifier, identifier)
     update_environment(domain_identifier, identifier, params::Dict{String,<:Any})
 
@@ -5183,10 +9149,14 @@ Updates the specified environment in Amazon DataZone.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"blueprintVersion"`: The blueprint version to which the environment should be updated.
+  You can only specify the following string for this parameter: `latest`.
 - `"description"`: The description to be updated as part of the `UpdateEnvironment` action.
+- `"environmentConfigurationName"`: The configuration name of the environment.
 - `"glossaryTerms"`: The glossary terms to be updated as part of the `UpdateEnvironment`
   action.
 - `"name"`: The name to be updated as part of the `UpdateEnvironment` action.
+- `"userParameters"`: The user parameters of the environment.
 """
 function update_environment end
 
@@ -5210,6 +9180,109 @@ function update_environment(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/environments/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_environment_action(domain_identifier, environment_identifier, identifier)
+    update_environment_action(domain_identifier, environment_identifier, identifier, params::Dict{String,<:Any})
+
+Updates an environment action.
+
+# Arguments
+
+- `domain_identifier`: The domain ID of the environment action.
+- `environment_identifier`: The environment ID of the environment action.
+- `identifier`: The ID of the environment action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the environment action.
+- `"name"`: The name of the environment action.
+- `"parameters"`: The parameters of the environment action.
+"""
+function update_environment_action end
+
+function update_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_environment_action(
+    domainIdentifier,
+    environmentIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environments/$(environmentIdentifier)/actions/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_environment_blueprint(domain_identifier, identifier)
+    update_environment_blueprint(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates an environment blueprint in Amazon DataZone.
+
+# Arguments
+
+- `domain_identifier`: The identifier of the Amazon DataZone domain in which an environment
+  blueprint is to be updated.
+- `identifier`: The identifier of the environment blueprint to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description to be updated as part of the `UpdateEnvironmentBlueprint`
+  action.
+- `"provisioningProperties"`: The provisioning properties to be updated as part of the
+  `UpdateEnvironmentBlueprint` action.
+- `"userParameters"`: The user parameters to be updated as part of the
+  `UpdateEnvironmentBlueprint` action.
+"""
+function update_environment_blueprint end
+
+function update_environment_blueprint(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_environment_blueprint(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/environment-blueprints/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5276,6 +9349,13 @@ end
 
 Updates the business glossary in Amazon DataZone.
 
+Prerequisites:
+
+- The glossary must exist in the given domain.
+- The caller must have the `datazone:UpdateGlossary` permission to update it.
+- When updating the name, the new name must be unique within the domain.
+- The glossary must not be deleted or in a terminal state.
+
 # Arguments
 
 - `domain_identifier`: The identifier of the Amazon DataZone domain in which a business
@@ -5328,6 +9408,13 @@ end
     update_glossary_term(domain_identifier, identifier, params::Dict{String,<:Any})
 
 Updates a business glossary term in Amazon DataZone.
+
+Prerequisites:
+
+- Glossary term must exist in the specified domain.
+- New name must not conflict with existing terms in the same glossary.
+- User must have permissions on the term.
+- The term must not be in DELETED status.
 
 # Arguments
 
@@ -5432,8 +9519,8 @@ Updates the specified project in Amazon DataZone.
 
 # Arguments
 
-- `domain_identifier`: The identifier of the Amazon DataZone domain in which a project is to
-  be updated.
+- `domain_identifier`: The ID of the Amazon DataZone domain where a project is being
+  updated.
 - `identifier`: The identifier of the project that is to be updated.
 
 # Optional Parameters
@@ -5441,8 +9528,14 @@ Updates the specified project in Amazon DataZone.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description to be updated as part of the `UpdateProject` action.
+- `"domainUnitId"`: The ID of the domain unit.
+- `"environmentDeploymentDetails"`: The environment deployment details of the project.
 - `"glossaryTerms"`: The glossary terms to be updated as part of the `UpdateProject` action.
 - `"name"`: The name to be updated as part of the `UpdateProject` action.
+- `"projectProfileVersion"`: The project profile version to which the project should be
+  updated. You can only specify the following string for this parameter: `latest`.
+- `"resourceTags"`: The resource tags of the project.
+- `"userParameters"`: The user parameters of the project.
 """
 function update_project end
 
@@ -5466,6 +9559,184 @@ function update_project(
     return datazone(
         "PATCH",
         "/v2/domains/$(domainIdentifier)/projects/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_project_profile(domain_identifier, identifier)
+    update_project_profile(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates a project profile.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain where a project profile is to be updated.
+- `identifier`: The ID of a project profile that is to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"allowCustomProjectResourceTags"`: Specifies whether custom project resource tags are
+  supported.
+- `"description"`: The description of a project profile.
+- `"domainUnitIdentifier"`: The ID of the domain unit where a project profile is to be
+  updated.
+- `"environmentConfigurations"`: The environment configurations of a project profile.
+- `"name"`: The name of a project profile.
+- `"projectResourceTags"`: The resource tags of the project profile.
+- `"projectResourceTagsDescription"`: Field viewable through the UI that provides a project
+  user with the allowed resource tag specifications.
+- `"status"`: The status of a project profile.
+"""
+function update_project_profile end
+
+function update_project_profile(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_project_profile(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/project-profiles/$(identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_root_domain_unit_owner(current_owner, domain_identifier, new_owner)
+    update_root_domain_unit_owner(current_owner, domain_identifier, new_owner, params::Dict{String,<:Any})
+
+Updates the owner of the root domain unit.
+
+# Arguments
+
+- `current_owner`: The current owner of the root domain unit.
+- `domain_identifier`: The ID of the domain where the root domain unit owner is to be
+  updated.
+- `new_owner`: The new owner of the root domain unit.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
+  This field is automatically populated if not provided.
+"""
+function update_root_domain_unit_owner end
+
+function update_root_domain_unit_owner(
+    currentOwner,
+    domainIdentifier,
+    newOwner;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/root-domain-unit-owner",
+        Dict{String,Any}(
+            "currentOwner" => currentOwner,
+            "newOwner" => newOwner,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_root_domain_unit_owner(
+    currentOwner,
+    domainIdentifier,
+    newOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/root-domain-unit-owner",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "currentOwner" => currentOwner,
+                    "newOwner" => newOwner,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_rule(domain_identifier, identifier)
+    update_rule(domain_identifier, identifier, params::Dict{String,<:Any})
+
+Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific
+requirements across user workflows (e.g., publishing assets to the catalog, requesting
+subscriptions, creating projects) within the Amazon DataZone data portal. These rules help
+maintain consistency, ensure compliance, and uphold governance standards in data management
+processes. For instance, a metadata enforcement rule can specify the required information
+for creating a subscription request or publishing a data asset to the catalog, ensuring
+alignment with organizational standards.
+
+# Arguments
+
+- `domain_identifier`: The ID of the domain in which a rule is to be updated.
+- `identifier`: The ID of the rule that is to be updated
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the rule.
+- `"detail"`: The detail of the rule.
+- `"includeChildDomainUnits"`: Specifies whether to update this rule in the child domain
+  units.
+- `"name"`: The name of the rule.
+- `"scope"`: The scrope of the rule.
+"""
+function update_rule end
+
+function update_rule(
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_rule(
+    domainIdentifier,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return datazone(
+        "PATCH",
+        "/v2/domains/$(domainIdentifier)/rules/$(identifier)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5606,6 +9877,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `UpdateSubscriptionTarget` action.
 - `"name"`: The name to be updated as part of the `UpdateSubscriptionTarget` action.
 - `"provider"`: The provider to be updated as part of the `UpdateSubscriptionTarget` action.
+- `"subscriptionGrantCreationMode"`: Determines the subscription grant creation mode for
+  this target, defining if grants are auto-created upon subscription approval or managed
+  manually.
 - `"subscriptionTargetConfig"`: The configuration to be updated as part of the
   `UpdateSubscriptionTarget` action.
 """

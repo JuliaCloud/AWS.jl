@@ -283,9 +283,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can't add, update, or delete a `HealthCheckCustomConfig` configuration from an
   existing service.
 
-- `"NamespaceId"`: The ID of the namespace that you want to use to create the service. The
-  namespace ID must be specified, but it can be specified either here or in the `DnsConfig`
-  object.
+- `"NamespaceId"`: The ID or Amazon Resource Name (ARN) of the namespace that you want to
+  use to create the service. For namespaces shared with your Amazon Web Services account,
+  specify the namespace ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 
 - `"Tags"`: The tags to add to the service. Each tag consists of a key and an optional value
   that you define. Tags keys can be up to 128 characters in length, and tag values can be up
@@ -332,7 +333,7 @@ services, the request fails.
 
 # Arguments
 
-- `id`: The ID of the namespace that you want to delete.
+- `id`: The ID or Amazon Resource Name (ARN) of the namespace that you want to delete.
 """
 function delete_namespace end
 
@@ -360,12 +361,14 @@ end
     delete_service(id)
     delete_service(id, params::Dict{String,<:Any})
 
-Deletes a specified service. If the service still contains one or more registered instances,
-the request fails.
+Deletes a specified service and all associated service attributes. If the service still
+contains one or more registered instances, the request fails.
 
 # Arguments
 
-- `id`: The ID of the service that you want to delete.
+- `id`: The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the
+  namespace associated with the service is shared with your Amazon Web Services account,
+  specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html).
 """
 function delete_service end
 
@@ -390,6 +393,55 @@ function delete_service(
 end
 
 """
+    delete_service_attributes(attributes, service_id)
+    delete_service_attributes(attributes, service_id, params::Dict{String,<:Any})
+
+Deletes specific attributes associated with a service.
+
+# Arguments
+
+- `attributes`: A list of keys corresponding to each attribute that you want to delete.
+
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service from which the
+  attributes will be deleted. For services created in a namespace shared with your Amazon
+  Web Services account, specify the service ARN. For more information about shared
+  namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
+"""
+function delete_service_attributes end
+
+function delete_service_attributes(
+    Attributes, ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return servicediscovery(
+        "DeleteServiceAttributes",
+        Dict{String,Any}("Attributes" => Attributes, "ServiceId" => ServiceId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_service_attributes(
+    Attributes,
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return servicediscovery(
+        "DeleteServiceAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attributes" => Attributes, "ServiceId" => ServiceId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     deregister_instance(instance_id, service_id)
     deregister_instance(instance_id, service_id, params::Dict{String,<:Any})
 
@@ -400,7 +452,10 @@ the specified instance.
 
 - `instance_id`: The value that you specified for `Id` in the [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html)
   request.
-- `service_id`: The ID of the service that the instance is associated with.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that the instance is
+  associated with. If the namespace associated with the service is shared with your account,
+  specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 """
 function deregister_instance end
 
@@ -447,10 +502,10 @@ discover instances.
 
 # Arguments
 
-- `namespace_name`: The `HttpName` name of the namespace. It's found in the `HttpProperties`
-  member of the `Properties` member of the namespace. In most cases, `Name` and `HttpName`
-  match. However, if you reuse `Name` for namespace creation, a generated hash is added to
-  `HttpName` to distinguish the two.
+- `namespace_name`: The `HttpName` name of the namespace. The `HttpName` is found in the
+  `HttpProperties` member of the `Properties` member of the namespace. In most cases, `Name`
+  and `HttpName` match. However, if you reuse `Name` for namespace creation, a generated
+  hash is added to `HttpName` to distinguish the two.
 - `service_name`: The name of the service that you specified when you registered the
   instance.
 
@@ -488,6 +543,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `QueryParameters` parameter and this parameter, all of these instances are returned.
   Otherwise, the filters are ignored, and only instances that match the filters that are
   specified in the `QueryParameters` parameter are returned.
+
+- `"OwnerAccount"`: The ID of the Amazon Web Services account that owns the namespace
+  associated with the instance, as specified in the namespace `ResourceOwner` field. For
+  instances associated with namespaces that are shared with your account, you must specify
+  an `OwnerAccount`.
 
 - `"QueryParameters"`: Filters to scope the results based on custom attributes for the
   instance (for example, `{version=v1, az=1a}`). Only instances that match all the specified
@@ -536,10 +596,20 @@ Discovers the increasing revision associated with an instance.
 
 # Arguments
 
-- `namespace_name`: The `HttpName` name of the namespace. It's found in the `HttpProperties`
-  member of the `Properties` member of the namespace.
+- `namespace_name`: The `HttpName` name of the namespace. The `HttpName` is found in the
+  `HttpProperties` member of the `Properties` member of the namespace.
 - `service_name`: The name of the service that you specified when you registered the
   instance.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"OwnerAccount"`: The ID of the Amazon Web Services account that owns the namespace
+  associated with the instance, as specified in the namespace `ResourceOwner` field. For
+  instances associated with namespaces that are shared with your account, you must specify
+  an `OwnerAccount`. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 """
 function discover_instances_revision end
 
@@ -585,7 +655,10 @@ Gets information about a specified instance.
 # Arguments
 
 - `instance_id`: The ID of the instance that you want to get information about.
-- `service_id`: The ID of the service that the instance is associated with.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that the instance is
+  associated with. For services created in a shared namespace, specify the service ARN. For
+  more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 """
 function get_instance end
 
@@ -633,7 +706,10 @@ instances that are associated with a specified service.
 
 # Arguments
 
-- `service_id`: The ID of the service that the instance is associated with.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that the instance is
+  associated with. For services created in a shared namespace, specify the service ARN. For
+  more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 
 # Optional Parameters
 
@@ -696,7 +772,10 @@ Gets information about a namespace.
 
 # Arguments
 
-- `id`: The ID of the namespace that you want to get information about.
+- `id`: The ID or Amazon Resource Name (ARN) of the namespace that you want to get
+  information about. For namespaces shared with your Amazon Web Services account, specify
+  the namespace ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*
 """
 function get_namespace end
 
@@ -733,6 +812,15 @@ Gets information about any operation that returns an operation ID in the respons
 # Arguments
 
 - `operation_id`: The ID of the operation that you want to get more information about.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"OwnerAccount"`: The ID of the Amazon Web Services account that owns the namespace
+  associated with the operation, as specified in the namespace `ResourceOwner` field. For
+  operations associated with namespaces that are shared with your account, you must specify
+  an `OwnerAccount`.
 """
 function get_operation end
 
@@ -768,7 +856,10 @@ Gets the settings for a specified service.
 
 # Arguments
 
-- `id`: The ID of the service that you want to get settings for.
+- `id`: The ID or Amazon Resource Name (ARN) of the service that you want to get settings
+  for. For services created by consumers in a shared namespace, specify the service ARN. For
+  more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 """
 function get_service end
 
@@ -793,6 +884,47 @@ function get_service(
 end
 
 """
+    get_service_attributes(service_id)
+    get_service_attributes(service_id, params::Dict{String,<:Any})
+
+Returns the attributes associated with a specified service.
+
+# Arguments
+
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that you want to get
+  attributes for. For services created in a namespace shared with your Amazon Web Services
+  account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
+"""
+function get_service_attributes end
+
+function get_service_attributes(
+    ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return servicediscovery(
+        "GetServiceAttributes",
+        Dict{String,Any}("ServiceId" => ServiceId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_service_attributes(
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return servicediscovery(
+        "GetServiceAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ServiceId" => ServiceId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_instances(service_id)
     list_instances(service_id, params::Dict{String,<:Any})
 
@@ -801,7 +933,10 @@ service.
 
 # Arguments
 
-- `service_id`: The ID of the service that you want to list instances for.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that you want to list
+  instances for. For services created in a shared namespace, specify the service ARN. For
+  more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 
 # Optional Parameters
 
@@ -848,7 +983,7 @@ end
     list_namespaces(params::Dict{String,<:Any})
 
 Lists summary information about the namespaces that were created by the current Amazon Web
-Services account.
+Services account and shared with the current Amazon Web Services account.
 
 # Optional Parameters
 
@@ -1174,7 +1309,10 @@ in the *Cloud Map Developer Guide*.
       by public DNS queries and any `Type` member of `DnsRecord` for the service contains
       `SRV` because the `InstanceId` is discoverable by public DNS queries.
 
-- `service_id`: The ID of the service that you want to use for settings for the instance.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that you want to use for
+  settings for the instance. For services created in a shared namespace, specify the service
+  ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
 
 # Optional Parameters
 
@@ -1329,7 +1467,7 @@ Updates an HTTP namespace.
 
 # Arguments
 
-- `id`: The ID of the namespace that you want to update.
+- `id`: The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
 - `namespace`: Updated properties for the the HTTP namespace.
 
 # Optional Parameters
@@ -1396,8 +1534,13 @@ For more information, see [HealthCheckCustomConfig](https://docs.aws.amazon.com/
 # Arguments
 
 - `instance_id`: The ID of the instance that you want to change the health status for.
-- `service_id`: The ID of the service that includes the configuration for the custom health
-  check that you want to change the status for.
+
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that includes the
+  configuration for the custom health check that you want to change the status for. For
+  services created in a shared namespace, specify the service ARN. For more information
+  about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*.
+
 - `status`: The new status of the instance, `HEALTHY` or `UNHEALTHY`.
 """
 function update_instance_custom_health_status end
@@ -1446,7 +1589,7 @@ Updates a private DNS namespace.
 
 # Arguments
 
-- `id`: The ID of the namespace that you want to update.
+- `id`: The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
 - `namespace`: Updated properties for the private DNS namespace.
 
 # Optional Parameters
@@ -1505,7 +1648,7 @@ Updates a public DNS namespace.
 
 # Arguments
 
-- `id`: The ID of the namespace being updated.
+- `id`: The ID or Amazon Resource Name (ARN) of the namespace being updated.
 - `namespace`: Updated properties for the public DNS namespace.
 
 # Optional Parameters
@@ -1575,13 +1718,25 @@ For public and private DNS namespaces, note the following:
 - If you omit an existing `HealthCheckCustomConfig` configuration from an `UpdateService`
   request, the configuration isn't deleted from the service.
 
+!!! note
+    You can't call `UpdateService` and update settings in the following scenarios:
+
+    - When the service is associated with an HTTP namespace
+    - When the service is associated with a shared namespace and contains instances that
+      were registered by Amazon Web Services accounts other than the account making the
+      `UpdateService` call
+
 When you update settings for a service, Cloud Map also updates the corresponding settings in
 all the records and health checks that were created by using the specified service.
 
 # Arguments
 
-- `id`: The ID of the service that you want to update.
-- `service`: A complex type that contains the new settings for the service.
+- `id`: The ID or Amazon Resource Name (ARN) of the service that you want to update. If the
+  namespace associated with the service is shared with your Amazon Web Services account,
+  specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html)
+  in the *Cloud Map Developer Guide*
+- `service`: A complex type that contains the new settings for the service. You can specify
+  a maximum of 30 attributes (key-value pairs).
 """
 function update_service end
 
@@ -1604,6 +1759,52 @@ function update_service(
         "UpdateService",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "Service" => Service), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_service_attributes(attributes, service_id)
+    update_service_attributes(attributes, service_id, params::Dict{String,<:Any})
+
+Submits a request to update a specified service to add service-level attributes.
+
+# Arguments
+
+- `attributes`: A string map that contains attribute key-value pairs.
+- `service_id`: The ID or Amazon Resource Name (ARN) of the service that you want to update.
+  For services created in a namespace shared with your Amazon Web Services account, specify
+  the service ARN.
+"""
+function update_service_attributes end
+
+function update_service_attributes(
+    Attributes, ServiceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return servicediscovery(
+        "UpdateServiceAttributes",
+        Dict{String,Any}("Attributes" => Attributes, "ServiceId" => ServiceId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_service_attributes(
+    Attributes,
+    ServiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return servicediscovery(
+        "UpdateServiceAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attributes" => Attributes, "ServiceId" => ServiceId),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

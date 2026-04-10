@@ -5,6 +5,181 @@ using AWS.AWSServices: marketplace_agreement
 using AWS.UUIDs: uuid4
 
 """
+    batch_create_billing_adjustment_request(billing_adjustment_request_entries)
+    batch_create_billing_adjustment_request(billing_adjustment_request_entries, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to submit billing adjustment requests for one or more invoices
+within an agreement. Each entry in the batch specifies an invoice and the adjustment amount.
+The operation returns successfully created adjustment request IDs and any errors for entries
+that failed validation.
+
+!!! note
+    Each entry requires a unique `clientToken` for idempotency. A `ValidationException` is
+    returned if the adjustment amount exceeds the maximum refundable amount for the invoice.
+
+# Arguments
+
+- `billing_adjustment_request_entries`: A list of billing adjustment request entries. Each
+  entry specifies the invoice and adjustment details.
+"""
+function batch_create_billing_adjustment_request end
+
+function batch_create_billing_adjustment_request(
+    billingAdjustmentRequestEntries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "BatchCreateBillingAdjustmentRequest",
+        Dict{String,Any}(
+            "billingAdjustmentRequestEntries" => billingAdjustmentRequestEntries
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_create_billing_adjustment_request(
+    billingAdjustmentRequestEntries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "BatchCreateBillingAdjustmentRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "billingAdjustmentRequestEntries" => billingAdjustmentRequestEntries
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_agreement_cancellation_request(agreement_cancellation_request_id, agreement_id, cancellation_reason)
+    cancel_agreement_cancellation_request(agreement_cancellation_request_id, agreement_id, cancellation_reason, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in
+a pending state. Once cancelled, the cancellation request transitions to `CANCELLED` status
+and can no longer be approved or rejected by the buyer.
+
+!!! note
+    Only cancellation requests in `PENDING_APPROVAL` status can be cancelled. A
+    `ConflictException` is thrown if the cancellation request is in any other status.
+
+# Arguments
+
+- `agreement_cancellation_request_id`: The unique identifier of the cancellation request to
+  cancel.
+- `agreement_id`: The unique identifier of the agreement associated with the cancellation
+  request.
+- `cancellation_reason`: A required message explaining why the cancellation request is being
+  withdrawn (1-2000 characters).
+"""
+function cancel_agreement_cancellation_request end
+
+function cancel_agreement_cancellation_request(
+    agreementCancellationRequestId,
+    agreementId,
+    cancellationReason;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "CancelAgreementCancellationRequest",
+        Dict{String,Any}(
+            "agreementCancellationRequestId" => agreementCancellationRequestId,
+            "agreementId" => agreementId,
+            "cancellationReason" => cancellationReason,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_agreement_cancellation_request(
+    agreementCancellationRequestId,
+    agreementId,
+    cancellationReason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "CancelAgreementCancellationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementCancellationRequestId" => agreementCancellationRequestId,
+                    "agreementId" => agreementId,
+                    "cancellationReason" => cancellationReason,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    cancel_agreement_payment_request(agreement_id, payment_request_id)
+    cancel_agreement_payment_request(agreement_id, payment_request_id, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to cancel a payment request that is in `PENDING_APPROVAL` status.
+Once cancelled, the payment request transitions to `CANCELLED` status and can no longer be
+accepted or rejected by the buyer.
+
+!!! note
+    Only payment requests in `PENDING_APPROVAL` status can be cancelled. A
+    `ConflictException` is thrown if the payment request is in any other status.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement associated with the payment
+  request.
+- `payment_request_id`: The unique identifier of the payment request to cancel.
+"""
+function cancel_agreement_payment_request end
+
+function cancel_agreement_payment_request(
+    agreementId, paymentRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "CancelAgreementPaymentRequest",
+        Dict{String,Any}(
+            "agreementId" => agreementId, "paymentRequestId" => paymentRequestId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function cancel_agreement_payment_request(
+    agreementId,
+    paymentRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "CancelAgreementPaymentRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementId" => agreementId, "paymentRequestId" => paymentRequestId
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_agreement(agreement_id)
     describe_agreement(agreement_id, params::Dict{String,<:Any})
 
@@ -35,6 +210,121 @@ function describe_agreement(
         "DescribeAgreement",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("agreementId" => agreementId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agreement_cancellation_request(agreement_cancellation_request_id, agreement_id)
+    get_agreement_cancellation_request(agreement_cancellation_request_id, agreement_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific agreement cancellation request. Both sellers
+(proposers) and buyers (acceptors) can use this operation to view cancellation requests
+associated with their agreements.
+
+!!! note
+    The calling identity must be either the acceptor or proposer of the agreement. A
+    `ResourceNotFoundException` is returned if the cancellation request does not exist.
+
+# Arguments
+
+- `agreement_cancellation_request_id`: The unique identifier of the cancellation request.
+- `agreement_id`: The unique identifier of the agreement associated with the cancellation
+  request.
+"""
+function get_agreement_cancellation_request end
+
+function get_agreement_cancellation_request(
+    agreementCancellationRequestId,
+    agreementId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetAgreementCancellationRequest",
+        Dict{String,Any}(
+            "agreementCancellationRequestId" => agreementCancellationRequestId,
+            "agreementId" => agreementId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_agreement_cancellation_request(
+    agreementCancellationRequestId,
+    agreementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetAgreementCancellationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementCancellationRequestId" => agreementCancellationRequestId,
+                    "agreementId" => agreementId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agreement_payment_request(agreement_id, payment_request_id)
+    get_agreement_payment_request(agreement_id, payment_request_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific payment request. Both sellers (proposers)
+and buyers (acceptors) can use this operation to view payment requests associated with their
+agreements. The response includes the current status, charge details, timestamps, and the
+charge ID if the request has been approved.
+
+!!! note
+    The calling identity must be either the acceptor or proposer of the payment request. A
+    `ResourceNotFoundException` is returned if the payment request does not exist.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement associated with the payment
+  request.
+- `payment_request_id`: The identifier of the payment request.
+"""
+function get_agreement_payment_request end
+
+function get_agreement_payment_request(
+    agreementId, paymentRequestId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "GetAgreementPaymentRequest",
+        Dict{String,Any}(
+            "agreementId" => agreementId, "paymentRequestId" => paymentRequestId
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_agreement_payment_request(
+    agreementId,
+    paymentRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetAgreementPaymentRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementId" => agreementId, "paymentRequestId" => paymentRequestId
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -100,30 +390,354 @@ function get_agreement_terms(
 end
 
 """
+    get_billing_adjustment_request(agreement_id, billing_adjustment_request_id)
+    get_billing_adjustment_request(agreement_id, billing_adjustment_request_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a specific billing adjustment request. Sellers
+(proposers) can use this operation to view the status and details of a billing adjustment
+request they submitted.
+
+!!! note
+    A `ResourceNotFoundException` is returned if the billing adjustment request does not
+    exist or the caller does not have permission to access it.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement associated with the billing
+  adjustment request.
+- `billing_adjustment_request_id`: The unique identifier of the billing adjustment request.
+"""
+function get_billing_adjustment_request end
+
+function get_billing_adjustment_request(
+    agreementId,
+    billingAdjustmentRequestId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetBillingAdjustmentRequest",
+        Dict{String,Any}(
+            "agreementId" => agreementId,
+            "billingAdjustmentRequestId" => billingAdjustmentRequestId,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_billing_adjustment_request(
+    agreementId,
+    billingAdjustmentRequestId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "GetBillingAdjustmentRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementId" => agreementId,
+                    "billingAdjustmentRequestId" => billingAdjustmentRequestId,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_agreement_cancellation_requests(party_type)
+    list_agreement_cancellation_requests(party_type, params::Dict{String,<:Any})
+
+Lists agreement cancellation requests available to you as a seller or buyer. Both sellers
+(proposers) and buyers (acceptors) can use this operation to find cancellation requests by
+specifying their party type and applying optional filters.
+
+!!! note
+    `PartyType` is a required parameter. A `ValidationException` is returned if `PartyType`
+    is not provided. Pagination is supported through `maxResults` (1-50, default 20) and
+    `nextToken` parameters.
+
+# Arguments
+
+- `party_type`: The party type for the cancellation requests. Required parameter. Use
+  `Proposer` to list cancellation requests where you are the seller, or `Acceptor` to list
+  cancellation requests where you are the buyer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"agreementId"`: An optional parameter to filter cancellation requests for a specific
+  agreement.
+- `"agreementType"`: An optional parameter to filter cancellation requests by agreement type
+  (e.g., `PurchaseAgreement`).
+- `"catalog"`: An optional parameter to filter cancellation requests by catalog (e.g.,
+  `AWSMarketplace`).
+- `"maxResults"`: The maximum number of cancellation requests to return in the response.
+- `"nextToken"`: A token to specify where to start pagination. Use the `nextToken` value
+  from a previous response to retrieve the next page of results.
+- `"status"`: An optional parameter to filter cancellation requests by status. Valid values
+  include `PENDING_APPROVAL`, `APPROVED`, `REJECTED`, `CANCELLED`, and `VALIDATION_FAILED`.
+"""
+function list_agreement_cancellation_requests end
+
+function list_agreement_cancellation_requests(
+    partyType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "ListAgreementCancellationRequests",
+        Dict{String,Any}("partyType" => partyType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_agreement_cancellation_requests(
+    partyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "ListAgreementCancellationRequests",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("partyType" => partyType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_agreement_invoice_line_items(agreement_id, group_by)
+    list_agreement_invoice_line_items(agreement_id, group_by, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to retrieve aggregated billing data from AWS Marketplace
+agreements using flexible grouping. Supports invoice-level aggregation with filtering by
+billing period, invoice type, and issued date.
+
+!!! note
+    The `groupBy` parameter is required and currently supports only `INVOICE_ID` as a value.
+    The `agreementId` parameter is required.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement.
+- `group_by`: Specifies a grouping strategy for line items. Currently supports `INVOICE_ID`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"afterIssuedTime"`: An optional filter for invoices issued after the specified timestamp.
+- `"beforeIssuedTime"`: An optional filter for invoices issued before the specified
+  timestamp.
+- `"invoiceBillingPeriod"`: An optional filter for the billing period associated with the
+  invoice.
+- `"invoiceId"`: An optional filter to retrieve invoice information for a specific invoice.
+- `"invoiceType"`: An optional filter for the type of invoice. Valid values are `INVOICE`
+  and `CREDIT_MEMO`.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token to specify where to start pagination.
+"""
+function list_agreement_invoice_line_items end
+
+function list_agreement_invoice_line_items(
+    agreementId, groupBy; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "ListAgreementInvoiceLineItems",
+        Dict{String,Any}("agreementId" => agreementId, "groupBy" => groupBy);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_agreement_invoice_line_items(
+    agreementId,
+    groupBy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "ListAgreementInvoiceLineItems",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("agreementId" => agreementId, "groupBy" => groupBy),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_agreement_payment_requests(party_type)
+    list_agreement_payment_requests(party_type, params::Dict{String,<:Any})
+
+Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and
+buyers (acceptors) can use this operation to find payment requests by specifying their party
+type and applying optional parameters.
+
+!!! note
+    `PartyType` is a required parameter. A `ValidationException` is returned if `PartyType`
+    is not provided. Pagination is supported through `maxResults` (1-50, default 50) and
+    `nextToken` parameters.
+
+# Arguments
+
+- `party_type`: The party type for the payment requests. Required parameter. Use `Proposer`
+  to list payment requests where you are the seller, or `Acceptor` to list payment requests
+  where you are the buyer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"agreementId"`: An optional parameter to list payment requests for a specific agreement.
+- `"agreementType"`: An optional parameter to list payment requests by agreement type (e.g.,
+  `PurchaseAgreement`).
+- `"catalog"`: An optional parameter to list payment requests by catalog (e.g.,
+  `AWSMarketplace`).
+- `"maxResults"`: The maximum number of payment requests to return in a single response (1-
+  50). Default is 50.
+- `"nextToken"`: A token to specify where to start pagination. Use the `nextToken` value
+  from a previous response to retrieve the next page of results.
+- `"status"`: An optional parameter to list payment requests by status. Valid values include
+  `VALIDATING`, `VALIDATION_FAILED`, `PENDING_APPROVAL`, `APPROVED`, `REJECTED`, and
+  `CANCELLED`.
+"""
+function list_agreement_payment_requests end
+
+function list_agreement_payment_requests(
+    partyType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "ListAgreementPaymentRequests",
+        Dict{String,Any}("partyType" => partyType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_agreement_payment_requests(
+    partyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "ListAgreementPaymentRequests",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("partyType" => partyType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_billing_adjustment_requests()
+    list_billing_adjustment_requests(params::Dict{String,<:Any})
+
+Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this
+operation to view all billing adjustment requests associated with an agreement.
+
+!!! note
+    Pagination is supported through `maxResults` and `nextToken` parameters.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"agreementId"`: The unique identifier of the agreement to list billing adjustment
+  requests for.
+- `"agreementType"`: An optional filter to return billing adjustment requests by agreement
+  type (e.g., `PurchaseAgreement`).
+- `"catalog"`: An optional filter to return billing adjustment requests by catalog (e.g.,
+  `AWSMarketplace`).
+- `"createdAfter"`: An optional filter to return billing adjustment requests created after
+  the specified POSIX timestamp (Unix epoch seconds).
+- `"createdBefore"`: An optional filter to return billing adjustment requests created before
+  the specified POSIX timestamp (Unix epoch seconds).
+- `"maxResults"`: The maximum number of billing adjustment requests to return in the
+  response.
+- `"nextToken"`: A token to specify where to start pagination. Use the `nextToken` value
+  from a previous response to retrieve the next page of results.
+- `"status"`: An optional filter to return billing adjustment requests with the specified
+  status.
+"""
+function list_billing_adjustment_requests end
+
+function list_billing_adjustment_requests(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "ListBillingAdjustmentRequests"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_billing_adjustment_requests(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "ListBillingAdjustmentRequests", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     search_agreements()
     search_agreements(params::Dict{String,<:Any})
 
-Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The
-search returns a list of agreements with basic agreement information.
+Searches across all agreements that a proposer has in AWS Marketplace. The search returns a
+list of agreements with basic agreement information.
 
-The following filter combinations are supported:
+The following filter combinations are supported when the `PartyType` is `Proposer`:
 
-- `PartyType` as `Proposer` + `AgreementType` + `ResourceIdentifier`
-- `PartyType` as `Proposer` + `AgreementType` + `OfferId`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId`
-- `PartyType` as `Proposer` + `AgreementType` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `ResourceIdentifier` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `OfferId` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `ResourceType` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType` +
-  `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier` +
-  `Status`
-- `PartyType` as `Proposer` + `AgreementType` + `AcceptorAccountId` + `ResourceType`
+- `AgreementType`
+- `AgreementType` + `EndTime`
+- `AgreementType` + `ResourceType`
+- `AgreementType` + `ResourceType` + `EndTime`
+- `AgreementType` + `ResourceType` + `Status`
+- `AgreementType` + `ResourceType` + `Status` + `EndTime`
+- `AgreementType` + `ResourceId`
+- `AgreementType` + `ResourceId` + `EndTime`
+- `AgreementType` + `ResourceId` + `Status`
+- `AgreementType` + `ResourceId` + `Status` + `EndTime`
+- `AgreementType` + `AcceptorAccountId`
+- `AgreementType` + `AcceptorAccountId` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `Status`
+- `AgreementType` + `AcceptorAccountId` + `Status` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `OfferId`
+- `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
+- `AgreementType` + `AcceptorAccountId` + `OfferId` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `ResourceId`
+- `AgreementType` + `AcceptorAccountId` + `ResourceId` + `Status`
+- `AgreementType` + `AcceptorAccountId` + `ResourceId` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `ResourceId` + `Status` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `ResourceType`
+- `AgreementType` + `AcceptorAccountId` + `ResourceType` + `EndTime`
+- `AgreementType` + `AcceptorAccountId` + `ResourceType` + `Status`
+- `AgreementType` + `AcceptorAccountId` + `ResourceType` + `Status` + `EndTime`
+- `AgreementType` + `Status`
+- `AgreementType` + `Status` + `EndTime`
+- `AgreementType` + `OfferId`
+- `AgreementType` + `OfferId` + `EndTime`
+- `AgreementType` + `OfferId` + `Status`
+- `AgreementType` + `OfferId` + `Status` + `EndTime`
+- `AgreementType` + `OfferSetId`
+- `AgreementType` + `OfferSetId` + `EndTime`
+- `AgreementType` + `OfferSetId` + `Status`
+- `AgreementType` + `OfferSetId` + `Status` + `EndTime`
+
+!!! note
+    To filter by `EndTime`, you can use either `BeforeEndTime` or `AfterEndTime`. Only
+    `EndTime` is supported for sorting.
 
 # Optional Parameters
 
@@ -137,10 +751,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - `ResourceIdentifier` – The unique identifier of the resource.
   - `ResourceType` – Type of the resource, which is the product (`AmiProduct`,
-    `ContainerProduct`, or `SaaSProduct`).
-  - `PartyType` – The party type (either `Acceptor` or `Proposer`) of the caller. For
-    agreements where the caller is the proposer, use the `Proposer` filter. For agreements
-    where the caller is the acceptor, use the `Acceptor` filter.
+    `ContainerProduct`, `SaaSProduct`, `ProfessionalServicesProduct`, or
+    `MachineLearningProduct`).
+  - `PartyType` – The party type of the caller. For agreements where the caller is the
+    proposer, use the `Proposer` filter.
   - `AcceptorAccountId` – The AWS account ID of the party accepting the agreement terms.
   - `OfferId` – The unique identifier of the offer in which the terms are registered in the
     agreement token.
@@ -150,14 +764,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     an agreement.
   - `AfterEndTime` – A date used to filter agreements with a date after the `endTime` of an
     agreement.
-  - `AgreementType` – The type of agreement. Values include `PurchaseAgreement` or
-    `VendorInsightsAgreement`.
+  - `AgreementType` – The type of agreement. Supported value includes `PurchaseAgreement`.
+  - `OfferSetId` – A unique identifier for the offer set containing this offer. All
+    agreements created from offers in this set include this identifier as context.
 
 - `"maxResults"`: The maximum number of agreements to return in the response.
 
 - `"nextToken"`: A token to specify where to start pagination.
 
-- `"sort"`: An object that contains the `SortBy` and `SortOrder` attributes.
+- `"sort"`: An object that contains the `SortBy` and `SortOrder` attributes. Only `EndTime`
+  is supported for `SearchAgreements`. The default sort is `EndTime` descending.
 """
 function search_agreements end
 
@@ -172,5 +788,163 @@ function search_agreements(
 )
     return marketplace_agreement(
         "SearchAgreements", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    send_agreement_cancellation_request(agreement_id, reason_code)
+    send_agreement_cancellation_request(agreement_id, reason_code, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to submit a cancellation request for an active agreement. The
+cancellation request is created in `PENDING_APPROVAL` status, at which point the buyer can
+review it.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement for which the cancellation request
+  is being submitted.
+- `reason_code`: The reason code for the cancellation request. Valid values include
+  `INCORRECT_TERMS_ACCEPTED`, `REPLACING_AGREEMENT`, `TEST_AGREEMENT`,
+  `ALTERNATIVE_PROCUREMENT_CHANNEL`, `PRODUCT_DISCONTINUED`, `UNINTENDED_RENEWAL`,
+  `BUYER_DISSATISFACTION`, and `OTHER`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"description"`: An optional detailed description of the cancellation reason (1-2000
+  characters).
+"""
+function send_agreement_cancellation_request end
+
+function send_agreement_cancellation_request(
+    agreementId, reasonCode; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_agreement(
+        "SendAgreementCancellationRequest",
+        Dict{String,Any}(
+            "agreementId" => agreementId,
+            "reasonCode" => reasonCode,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_agreement_cancellation_request(
+    agreementId,
+    reasonCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "SendAgreementCancellationRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementId" => agreementId,
+                    "reasonCode" => reasonCode,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_agreement_payment_request(agreement_id, charge_amount, name, term_id)
+    send_agreement_payment_request(agreement_id, charge_amount, name, term_id, params::Dict{String,<:Any})
+
+Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific
+charge amount for an agreement that includes a `VariablePaymentTerm`. The payment request is
+created in `PENDING_APPROVAL` status, at which point the buyer can accept or reject it.
+
+!!! note
+    The agreement must be active and have a `VariablePaymentTerm` to support payment
+    requests. The `chargeAmount` must not exceed the remaining available balance under the
+    `VariablePaymentTerm` `maxTotalChargeAmount`.
+
+# Arguments
+
+- `agreement_id`: The unique identifier of the agreement for which the payment request is
+  being submitted. Use `GetAgreementTerms` to retrieve agreement term details.
+
+- `charge_amount`: The amount requested to be charged to the buyer, positive decimal value
+  in the currency of the accepted term.
+
+  !!! note
+      A `ValidationException` is returned if the `chargeAmount` exceeds the available
+      balance, if the agreement doesn't have an active `VariablePaymentTerm`, or if the
+      `termId` is invalid.
+
+- `name`: A descriptive name for the payment request (5-64 characters).
+
+- `term_id`: The unique identifier of the `VariablePaymentTerm` for the agreement that the
+  payment request is being sent for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"description"`: An optional detailed description of the payment request (1-2000
+  characters).
+"""
+function send_agreement_payment_request end
+
+function send_agreement_payment_request(
+    agreementId,
+    chargeAmount,
+    name,
+    termId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "SendAgreementPaymentRequest",
+        Dict{String,Any}(
+            "agreementId" => agreementId,
+            "chargeAmount" => chargeAmount,
+            "name" => name,
+            "termId" => termId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function send_agreement_payment_request(
+    agreementId,
+    chargeAmount,
+    name,
+    termId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return marketplace_agreement(
+        "SendAgreementPaymentRequest",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "agreementId" => agreementId,
+                    "chargeAmount" => chargeAmount,
+                    "name" => name,
+                    "termId" => termId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end

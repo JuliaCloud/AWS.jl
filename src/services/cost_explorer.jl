@@ -133,13 +133,13 @@ end
     create_cost_category_definition(name, rule_version, rules)
     create_cost_category_definition(name, rule_version, rules, params::Dict{String,<:Any})
 
-Creates a new Cost Category with the requested name and rules.
+Creates a new cost category with the requested name and rules.
 
 # Arguments
 
 - `name`:
 - `rule_version`:
-- `rules`: The Cost Category rules used to categorize costs. For more information, see [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
+- `rules`: The cost category rules used to categorize costs. For more information, see [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
 
 # Optional Parameters
 
@@ -147,7 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DefaultValue"`:
 
-- `"EffectiveStart"`: The Cost Category's effective start date. It can only be a billing
+- `"EffectiveStart"`: The cost category's effective start date. It can only be a billing
   start date (first day of the month). If the date isn't provided, it's the first day of the
   current month. Dates can't be before the previous twelve months, or in the future.
 
@@ -169,7 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     Services use
 
 - `"SplitChargeRules"`: The split charge rules used to allocate your charges between your
-  Cost Category values.
+  cost category values.
 """
 function create_cost_category_definition end
 
@@ -290,12 +290,12 @@ end
     delete_cost_category_definition(cost_category_arn)
     delete_cost_category_definition(cost_category_arn, params::Dict{String,<:Any})
 
-Deletes a Cost Category. Expenses from this month going forward will no longer be
-categorized with this Cost Category.
+Deletes a cost category. Expenses from this month going forward will no longer be
+categorized with this cost category.
 
 # Arguments
 
-- `cost_category_arn`: The unique identifier for your Cost Category.
+- `cost_category_arn`: The unique identifier for your cost category.
 """
 function delete_cost_category_definition end
 
@@ -332,22 +332,22 @@ end
     describe_cost_category_definition(cost_category_arn, params::Dict{String,<:Any})
 
 Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a
-Cost Category that's defined in the account.
+cost category that's defined in the account.
 
-You have the option to use `EffectiveOn` to return a Cost Category that's active on a
+You have the option to use `EffectiveOn` to return a cost category that's active on a
 specific date. If there's no `EffectiveOn` specified, you see a Cost Category that's
-effective on the current date. If Cost Category is still effective, `EffectiveEnd` is
+effective on the current date. If cost category is still effective, `EffectiveEnd` is
 omitted in the response.
 
 # Arguments
 
-- `cost_category_arn`: The unique identifier for your Cost Category.
+- `cost_category_arn`: The unique identifier for your cost category.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EffectiveOn"`: The date when the Cost Category was effective.
+- `"EffectiveOn"`: The date when the cost category was effective.
 """
 function describe_cost_category_definition end
 
@@ -558,6 +558,44 @@ function get_approximate_usage_records(
 end
 
 """
+    get_commitment_purchase_analysis(analysis_id)
+    get_commitment_purchase_analysis(analysis_id, params::Dict{String,<:Any})
+
+Retrieves a commitment purchase analysis result based on the `AnalysisId`.
+
+# Arguments
+
+- `analysis_id`: The analysis ID that's associated with the commitment purchase analysis.
+"""
+function get_commitment_purchase_analysis end
+
+function get_commitment_purchase_analysis(
+    AnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "GetCommitmentPurchaseAnalysis",
+        Dict{String,Any}("AnalysisId" => AnalysisId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_commitment_purchase_analysis(
+    AnalysisId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCommitmentPurchaseAnalysis",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AnalysisId" => AnalysisId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_cost_and_usage(granularity, metrics, time_period)
     get_cost_and_usage(granularity, metrics, time_period, params::Dict{String,<:Any})
 
@@ -602,6 +640,12 @@ in the *Billing and Cost Management User Guide*.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
 
 - `"Filter"`: Filters Amazon Web Services costs by different dimensions. For example, you
   can specify `SERVICE` and `LINKED_ACCOUNT` and get the costs that are associated with that
@@ -668,6 +712,90 @@ function get_cost_and_usage(
 end
 
 """
+    get_cost_and_usage_comparisons(baseline_time_period, comparison_time_period, metric_for_comparison)
+    get_cost_and_usage_comparisons(baseline_time_period, comparison_time_period, metric_for_comparison, params::Dict{String,<:Any})
+
+Retrieves cost and usage comparisons for your account between two periods within the last 13
+months. If you have enabled multi-year data at monthly granularity, you can go back up to 38
+months.
+
+# Arguments
+
+- `baseline_time_period`: The reference time period for comparison. This time period serves
+  as the baseline against which other cost and usage data will be compared. The interval
+  must start and end on the first day of a month, with a duration of exactly one month.
+- `comparison_time_period`: The comparison time period for analysis. This time period's cost
+  and usage data will be compared against the baseline time period. The interval must start
+  and end on the first day of a month, with a duration of exactly one month.
+- `metric_for_comparison`: The cost and usage metric to compare. Valid values are
+  `AmortizedCost`, `BlendedCost`, `NetAmortizedCost`, `NetUnblendedCost`,
+  `NormalizedUsageAmount`, `UnblendedCost`, and `UsageQuantity`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
+
+- `"Filter"`:
+
+- `"GroupBy"`: You can group results using the attributes `DIMENSION`, `TAG`, and
+  `COST_CATEGORY`.
+
+- `"MaxResults"`: The maximum number of results that are returned for the request.
+
+- `"NextPageToken"`: The token to retrieve the next set of paginated results.
+"""
+function get_cost_and_usage_comparisons end
+
+function get_cost_and_usage_comparisons(
+    BaselineTimePeriod,
+    ComparisonTimePeriod,
+    MetricForComparison;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostAndUsageComparisons",
+        Dict{String,Any}(
+            "BaselineTimePeriod" => BaselineTimePeriod,
+            "ComparisonTimePeriod" => ComparisonTimePeriod,
+            "MetricForComparison" => MetricForComparison,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_cost_and_usage_comparisons(
+    BaselineTimePeriod,
+    ComparisonTimePeriod,
+    MetricForComparison,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostAndUsageComparisons",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BaselineTimePeriod" => BaselineTimePeriod,
+                    "ComparisonTimePeriod" => ComparisonTimePeriod,
+                    "MetricForComparison" => MetricForComparison,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_cost_and_usage_with_resources(filter, granularity, time_period)
     get_cost_and_usage_with_resources(filter, granularity, time_period, params::Dict{String,<:Any})
 
@@ -716,6 +844,12 @@ level data. All other resource-level data is available at daily granularity.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
 
 - `"GroupBy"`: You can group Amazon Web Services costs using up to two different groups:
   `DIMENSION`, `TAG`, `COST_CATEGORY`.
@@ -784,10 +918,10 @@ end
     get_cost_categories(time_period)
     get_cost_categories(time_period, params::Dict{String,<:Any})
 
-Retrieves an array of Cost Category names and values incurred cost.
+Retrieves an array of cost category names and values incurred cost.
 
 !!! note
-    If some Cost Category names and values are not associated with any cost, they will not
+    If some cost category names and values are not associated with any cost, they will not
     be returned by this API.
 
 # Arguments
@@ -797,6 +931,12 @@ Retrieves an array of Cost Category names and values incurred cost.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
 
 - `"CostCategoryName"`:
 
@@ -818,9 +958,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SearchString"`: The value that you want to search the filter values for.
 
-  If you don't specify a `CostCategoryName`, `SearchString` is used to filter Cost Category
+  If you don't specify a `CostCategoryName`, `SearchString` is used to filter cost category
   names that match the `SearchString` pattern. If you specify a `CostCategoryName`,
-  `SearchString` is used to filter Cost Category values that match the `SearchString`
+  `SearchString` is used to filter cost category values that match the `SearchString`
   pattern.
 
 - `"SortBy"`: The value that you sort the data by.
@@ -867,6 +1007,91 @@ function get_cost_categories(
 end
 
 """
+    get_cost_comparison_drivers(baseline_time_period, comparison_time_period, metric_for_comparison)
+    get_cost_comparison_drivers(baseline_time_period, comparison_time_period, metric_for_comparison, params::Dict{String,<:Any})
+
+Retrieves key factors driving cost changes between two time periods within the last 13
+months, such as usage changes, discount changes, and commitment-based savings. If you have
+enabled multi-year data at monthly granularity, you can go back up to 38 months.
+
+# Arguments
+
+- `baseline_time_period`: The reference time period for comparison. This time period serves
+  as the baseline against which other cost and usage data will be compared. The interval
+  must start and end on the first day of a month, with a duration of exactly one month.
+- `comparison_time_period`: The comparison time period for analysis. This time period's cost
+  and usage data will be compared against the baseline time period. The interval must start
+  and end on the first day of a month, with a duration of exactly one month.
+- `metric_for_comparison`: The cost and usage metric to compare. Valid values are
+  `AmortizedCost`, `BlendedCost`, `NetAmortizedCost`, `NetUnblendedCost`,
+  `NormalizedUsageAmount`, `UnblendedCost`, and `UsageQuantity`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
+
+- `"Filter"`:
+
+- `"GroupBy"`: You can group results using the attributes `DIMENSION`, `TAG`, and
+  `COST_CATEGORY`. Note that `SERVICE` and `USAGE_TYPE` dimensions are automatically
+  included in the cost comparison drivers analysis.
+
+- `"MaxResults"`: The maximum number of results that are returned for the request.
+
+- `"NextPageToken"`: The token to retrieve the next set of paginated results.
+"""
+function get_cost_comparison_drivers end
+
+function get_cost_comparison_drivers(
+    BaselineTimePeriod,
+    ComparisonTimePeriod,
+    MetricForComparison;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostComparisonDrivers",
+        Dict{String,Any}(
+            "BaselineTimePeriod" => BaselineTimePeriod,
+            "ComparisonTimePeriod" => ComparisonTimePeriod,
+            "MetricForComparison" => MetricForComparison,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_cost_comparison_drivers(
+    BaselineTimePeriod,
+    ComparisonTimePeriod,
+    MetricForComparison,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "GetCostComparisonDrivers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BaselineTimePeriod" => BaselineTimePeriod,
+                    "ComparisonTimePeriod" => ComparisonTimePeriod,
+                    "MetricForComparison" => MetricForComparison,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_cost_forecast(granularity, metric, time_period)
     get_cost_forecast(granularity, metric, time_period, params::Dict{String,<:Any})
 
@@ -876,7 +1101,7 @@ forecast time period that you select, based on your past costs.
 # Arguments
 
 - `granularity`: How granular you want the forecast to be. You can get 3 months of `DAILY`
-  forecasts or 12 months of `MONTHLY` forecasts.
+  forecasts or 18 months of `MONTHLY` forecasts.
 
   The `GetCostForecast` operation supports only `DAILY` and `MONTHLY` granularities.
 
@@ -898,13 +1123,18 @@ forecast time period that you select, based on your past costs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
+
 - `"Filter"`: The filters that you want to use to filter your forecast. The
   `GetCostForecast` API supports filtering by the following dimensions:
 
   - `AZ`
   - `INSTANCE_TYPE`
   - `LINKED_ACCOUNT`
-  - `LINKED_ACCOUNT_NAME`
   - `OPERATION`
   - `PURCHASE_TYPE`
   - `REGION`
@@ -992,6 +1222,12 @@ search the dimension values for an arbitrary string.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
+
 - `"Context"`: The context for the call to `GetDimensionValues`. This can be `RESERVATIONS`
   or `COST_AND_USAGE`. The default value is `COST_AND_USAGE`. If the context is set to
   `RESERVATIONS`, the resulting dimension values can be used in the
@@ -1005,10 +1241,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible
     values are the following:
 
-  - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services.
+  - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services
+    services.
 
   - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting
-    reseller for Amazon Web Services in India.
+    reseller for Amazon Web Services services in India.
 
   - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are
     built on Amazon Web Services by third-party software providers.
@@ -1151,8 +1388,8 @@ end
 Retrieves the reservation coverage for your account, which you can use to see how much of
 your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service,
 or Amazon Redshift usage is covered by a reservation. An organization's management account
-can see the coverage of the associated member accounts. This supports dimensions, Cost
-Categories, and nested expressions. For any time period, you can filter data about
+can see the coverage of the associated member accounts. This supports dimensions, cost
+categories, and nested expressions. For any time period, you can filter data about
 reservation usage by the following dimensions:
 
 - AZ
@@ -1394,6 +1631,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - PLATFORM
   - REGION
   - SERVICE
+
+    !!! note
+        If not specified, the `SERVICE` filter defaults to Amazon Elastic Compute Cloud -
+        Compute. Supported values for `SERVICE` are Amazon Elastic Compute Cloud - Compute,
+        Amazon Relational Database Service, Amazon ElastiCache, Amazon Redshift, and Amazon
+        Elasticsearch Service. The value for the `SERVICE` filter should not exceed "1".
+
   - SCOPE
   - TENANCY
 
@@ -1583,7 +1827,7 @@ end
 
 Retrieves the Savings Plans covered for your account. This enables you to see how much of
 your cost is covered by a Savings Plan. An organization’s management account can see the
-coverage of the associated member accounts. This supports dimensions, Cost Categories, and
+coverage of the associated member accounts. This supports dimensions, cost categories, and
 nested expressions. For any time period, you can filter data for Savings Plans usage with
 the following dimensions:
 
@@ -1956,6 +2200,12 @@ values for an arbitrary string.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
+
 - `"Filter"`:
 
 - `"MaxResults"`: This field is only used when SortBy is provided in the request. The
@@ -2025,7 +2275,7 @@ forecast time period that you select, based on your past usage.
 # Arguments
 
 - `granularity`: How granular you want the forecast to be. You can get 3 months of `DAILY`
-  forecasts or 12 months of `MONTHLY` forecasts.
+  forecasts or 18 months of `MONTHLY` forecasts.
 
   The `GetUsageForecast` operation supports only `DAILY` and `MONTHLY` granularities.
 
@@ -2046,6 +2296,12 @@ forecast time period that you select, based on your past usage.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"BillingViewArn"`: The Amazon Resource Name (ARN) that uniquely identifies a specific
+  billing view. The ARN is used to specify which particular billing view you want to
+  interact with or retrieve information from when making API calls related to Amazon Web
+  Services Billing and Cost Management features. The BillingViewArn can be retrieved by
+  calling the ListBillingViews API.
 
 - `"Filter"`: The filters that you want to use to filter your forecast. The
   `GetUsageForecast` API supports filtering by the following dimensions:
@@ -2115,6 +2371,42 @@ function get_usage_forecast(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_commitment_purchase_analyses()
+    list_commitment_purchase_analyses(params::Dict{String,<:Any})
+
+Lists the commitment purchase analyses for your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AnalysisIds"`: The analysis IDs associated with the commitment purchase analyses.
+- `"AnalysisStatus"`: The status of the analysis.
+- `"NextPageToken"`: The token to retrieve the next set of results.
+- `"PageSize"`: The number of analyses that you want returned in a single response object.
+"""
+function list_commitment_purchase_analyses end
+
+function list_commitment_purchase_analyses(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCommitmentPurchaseAnalyses"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_commitment_purchase_analyses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCommitmentPurchaseAnalyses",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2200,22 +2492,30 @@ end
     list_cost_category_definitions(params::Dict{String,<:Any})
 
 Returns the name, Amazon Resource Name (ARN), `NumberOfRules` and effective dates of all
-Cost Categories defined in the account. You have the option to use `EffectiveOn` to return a
-list of Cost Categories that were active on a specific date. If there is no `EffectiveOn`
-specified, you’ll see Cost Categories that are effective on the current date. If Cost
-Category is still effective, `EffectiveEnd` is omitted in the response.
-`ListCostCategoryDefinitions` supports pagination. The request can have a `MaxResults` range
-up to 100.
+cost categories defined in the account. You have the option to use `EffectiveOn` and
+`SupportedResourceTypes` to return a list of cost categories that were active on a specific
+date. If there is no `EffectiveOn` specified, you’ll see cost categories that are effective
+on the current date. If cost category is still effective, `EffectiveEnd` is omitted in the
+response. `ListCostCategoryDefinitions` supports pagination. The request can have a
+`MaxResults` range up to 100.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EffectiveOn"`: The date when the Cost Category was effective.
+- `"EffectiveOn"`: The date when the cost category was effective.
+
 - `"MaxResults"`: The number of entries a paginated response contains.
+
 - `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services provides
   the token when the response from a previous call has more results than the maximum page
   size.
+
+- `"SupportedResourceTypes"`: Filter cost category definitions that are supported by given
+  resource types based on the latest version. If the filter is present, the result only
+  includes Cost Categories that supports input resource type. If the filter isn't provided,
+  no filtering is applied. The valid values are `billing:rispgroupsharing` and
+  `billing:billingview`.
 """
 function list_cost_category_definitions end
 
@@ -2232,6 +2532,46 @@ function list_cost_category_definitions(
 )
     return cost_explorer(
         "ListCostCategoryDefinitions", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_cost_category_resource_associations()
+    list_cost_category_resource_associations(params::Dict{String,<:Any})
+
+Returns resource associations of all cost categories defined in the account. You have the
+option to use `CostCategoryArn` to get the association for a specific cost category.
+`ListCostCategoryResourceAssociations` supports pagination. The request can have a
+`MaxResults` range up to 100.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CostCategoryArn"`: The unique identifier for your cost category.
+- `"MaxResults"`: The number of entries a paginated response contains.
+- `"NextToken"`: The token to retrieve the next set of results. Amazon Web Services provides
+  the token when the response from a previous call has more results than the maximum page
+  size.
+"""
+function list_cost_category_resource_associations end
+
+function list_cost_category_resource_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCostCategoryResourceAssociations"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_cost_category_resource_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cost_explorer(
+        "ListCostCategoryResourceAssociations",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2360,11 +2700,63 @@ function provide_anomaly_feedback(
 end
 
 """
+    start_commitment_purchase_analysis(commitment_purchase_analysis_configuration)
+    start_commitment_purchase_analysis(commitment_purchase_analysis_configuration, params::Dict{String,<:Any})
+
+Specifies the parameters of a planned commitment purchase and starts the generation of the
+analysis. This enables you to estimate the cost, coverage, and utilization impact of your
+planned commitment purchases.
+
+# Arguments
+
+- `commitment_purchase_analysis_configuration`: The configuration for the commitment
+  purchase analysis.
+"""
+function start_commitment_purchase_analysis end
+
+function start_commitment_purchase_analysis(
+    CommitmentPurchaseAnalysisConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "StartCommitmentPurchaseAnalysis",
+        Dict{String,Any}(
+            "CommitmentPurchaseAnalysisConfiguration" =>
+                CommitmentPurchaseAnalysisConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_commitment_purchase_analysis(
+    CommitmentPurchaseAnalysisConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cost_explorer(
+        "StartCommitmentPurchaseAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CommitmentPurchaseAnalysisConfiguration" =>
+                        CommitmentPurchaseAnalysisConfiguration,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_cost_allocation_tag_backfill(backfill_from)
     start_cost_allocation_tag_backfill(backfill_from, params::Dict{String,<:Any})
 
 Request a cost allocation tag backfill. This will backfill the activation status (either
-`active` or `inactive`) for all tag keys from `para:BackfillFrom` up to the when this
+`active` or `inactive`) for all tag keys from `para:BackfillFrom` up to the time this
 request is made.
 
 You can request a backfill once every 24 hours.
@@ -2745,13 +3137,13 @@ end
     update_cost_category_definition(cost_category_arn, rule_version, rules)
     update_cost_category_definition(cost_category_arn, rule_version, rules, params::Dict{String,<:Any})
 
-Updates an existing Cost Category. Changes made to the Cost Category rules will be used to
+Updates an existing cost category. Changes made to the cost category rules will be used to
 categorize the current month’s expenses and future expenses. This won’t change
 categorization for the previous months.
 
 # Arguments
 
-- `cost_category_arn`: The unique identifier for your Cost Category.
+- `cost_category_arn`: The unique identifier for your cost category.
 - `rule_version`:
 - `rules`: The `Expression` object used to categorize costs. For more information, see [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
 
@@ -2760,11 +3152,11 @@ categorization for the previous months.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DefaultValue"`:
-- `"EffectiveStart"`: The Cost Category's effective start date. It can only be a billing
+- `"EffectiveStart"`: The cost category's effective start date. It can only be a billing
   start date (first day of the month). If the date isn't provided, it's the first day of the
   current month. Dates can't be before the previous twelve months, or in the future.
 - `"SplitChargeRules"`: The split charge rules used to allocate your charges between your
-  Cost Category values.
+  cost category values.
 """
 function update_cost_category_definition end
 

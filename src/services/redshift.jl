@@ -722,6 +722,20 @@ name. The cluster subnet group identifies the subnets of your VPC that Amazon Re
 when creating the cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
 in the *Amazon Redshift Cluster Management Guide*.
 
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a subnet group for a provisioned cluster is in an
+account with VPC BPA turned on, the following capabilities are blocked:
+
+- Creating a public cluster
+- Restoring a public cluster
+- Modifying a private cluster to be public
+- Adding a subnet with VPC BPA turned on to the subnet group when there's at least one
+  public cluster within the group
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
+
 # Arguments
 
 - `cluster_identifier`: A unique identifier for the cluster. You use this identifier to
@@ -755,7 +769,8 @@ in the *Amazon Redshift Cluster Management Guide*.
   types, go to [Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
   in the *Amazon Redshift Cluster Management Guide*.
 
-  Valid Values: `dc2.large` | `dc2.8xlarge` | `ra3.xlplus` | `ra3.4xlarge` | `ra3.16xlarge`
+  Valid Values: `dc2.large` | `dc2.8xlarge` | `ra3.large` | `ra3.xlplus` | `ra3.4xlarge` |
+  `ra3.16xlarge`
 
 # Optional Parameters
 
@@ -803,6 +818,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AvailabilityZoneRelocation"`: The option to enable relocation for an Amazon Redshift
   cluster between Availability Zones after the cluster is created.
+
+- `"CatalogName"`: The name of the Glue data catalog that will be associated with the
+  cluster enabled with Amazon Redshift federated permissions.
+
+  Constraints:
+
+  - Must contain at least one lowercase letter.
+  - Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-
+    ).
+
+  Pattern: `^[a-z0-9_-]*[a-z]+[a-z0-9_-]*\$`
+
+  Example: `my-catalog_01`
 
 - `"ClusterParameterGroupName"`: The name of the parameter group to be associated with this
   cluster.
@@ -871,9 +899,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clusters in EC2-VPC, go to [Supported Platforms to Launch Your Cluster](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms)
   in the Amazon Redshift Cluster Management Guide.
 
-- `"Encrypted"`: If `true`, the data in the cluster is encrypted at rest.
+- `"Encrypted"`: If `true`, the data in the cluster is encrypted at rest. If you set the
+  value on this parameter to `false`, the request will fail.
 
-  Default: false
+  Default: true
 
 - `"EnhancedVpcRouting"`: An option that specifies whether to create the cluster with
   enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the
@@ -881,6 +910,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon Redshift Cluster Management Guide.
 
   If this option is `true`, enhanced VPC routing is enabled.
+
+  Default: false
+
+- `"ExtraComputeForAutomaticOptimization"`: If `true`, allocates additional compute
+  resources for running automatic optimization operations.
 
   Default: false
 
@@ -986,6 +1020,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 30-minute window.
 
 - `"PubliclyAccessible"`: If `true`, the cluster can be accessed from a public network.
+
+  Default: false
 
 - `"RedshiftIdcApplicationArn"`: The Amazon resource name (ARN) of the Amazon Redshift IAM
   Identity Center application.
@@ -1760,6 +1796,83 @@ function create_hsm_configuration(
 end
 
 """
+    create_integration(integration_name, source_arn, target_arn)
+    create_integration(integration_name, source_arn, target_arn, params::Dict{String,<:Any})
+
+Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
+
+# Arguments
+
+- `integration_name`: The name of the integration.
+- `source_arn`: The Amazon Resource Name (ARN) of the database to use as the source for
+  replication.
+- `target_arn`: The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use
+  as the target for replication.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AdditionalEncryptionContext"`: An optional set of non-secret key–value pairs that
+  contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
+  in the *Amazon Web Services Key Management Service Developer Guide*.
+
+  You can only include this parameter if you specify the `KMSKeyId` parameter.
+
+- `"Description"`: A description of the integration.
+
+- `"KMSKeyId"`: An Key Management Service (KMS) key identifier for the key to use to encrypt
+  the integration. If you don't specify an encryption key, the default Amazon Web Services
+  owned key is used.
+
+- `"TagList"`: A list of tags.
+"""
+function create_integration end
+
+function create_integration(
+    IntegrationName,
+    SourceArn,
+    TargetArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "CreateIntegration",
+        Dict{String,Any}(
+            "IntegrationName" => IntegrationName,
+            "SourceArn" => SourceArn,
+            "TargetArn" => TargetArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_integration(
+    IntegrationName,
+    SourceArn,
+    TargetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "CreateIntegration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IntegrationName" => IntegrationName,
+                    "SourceArn" => SourceArn,
+                    "TargetArn" => TargetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_redshift_idc_application(iam_role_arn, idc_display_name, idc_instance_arn, redshift_idc_application_name)
     create_redshift_idc_application(iam_role_arn, idc_display_name, idc_instance_arn, redshift_idc_application_name, params::Dict{String,<:Any})
 
@@ -1781,6 +1894,8 @@ Creates an Amazon Redshift application for use with IAM Identity Center.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ApplicationType"`: The type of application being created. Valid values are `None` or
+  `Lakehouse`. Use `Lakehouse` to enable Amazon Redshift federated permissions on cluster.
 - `"AuthorizedTokenIssuerList"`: The token issuer list for the Amazon Redshift IAM Identity
   Center application instance.
 - `"IdentityNamespace"`: The namespace for the Amazon Redshift IAM Identity Center
@@ -1788,6 +1903,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token.
 - `"ServiceIntegrations"`: A collection of service integrations for the Redshift IAM
   Identity Center application.
+- `"SsoTagKeys"`: A list of tags keys that Redshift Identity Center applications copy to IAM
+  Identity Center. For each input key, the tag corresponding to the key-value pair is
+  propagated.
+- `"Tags"`: A list of tags.
 """
 function create_redshift_idc_application end
 
@@ -2101,7 +2220,8 @@ is identified by the returned usage limit identifier.
   time duration or data size. If `FeatureType` is `spectrum`, then `LimitType` must be
   `data-scanned`. If `FeatureType` is `concurrency-scaling`, then `LimitType` must be
   `time`. If `FeatureType` is `cross-region-datasharing`, then `LimitType` must be
-  `data-scanned`.
+  `data-scanned`. If `FeatureType` is `extra-compute-for-automatic-optimization`, then
+  `LimitType` must be `time`.
 
 # Optional Parameters
 
@@ -2770,6 +2890,44 @@ function delete_hsm_configuration(
 end
 
 """
+    delete_integration(integration_arn)
+    delete_integration(integration_arn, params::Dict{String,<:Any})
+
+Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
+
+# Arguments
+
+- `integration_arn`: The unique identifier of the integration to delete.
+"""
+function delete_integration end
+
+function delete_integration(
+    IntegrationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
+        "DeleteIntegration",
+        Dict{String,Any}("IntegrationArn" => IntegrationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_integration(
+    IntegrationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "DeleteIntegration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IntegrationArn" => IntegrationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_partner(account_id, cluster_identifier, database_name, partner_name)
     delete_partner(account_id, cluster_identifier, database_name, partner_name, params::Dict{String,<:Any})
 
@@ -3123,6 +3281,61 @@ function delete_usage_limit(
         "DeleteUsageLimit",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UsageLimitId" => UsageLimitId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_namespace(consumer_identifiers, namespace_identifier)
+    deregister_namespace(consumer_identifiers, namespace_identifier, params::Dict{String,<:Any})
+
+Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data
+Catalog.
+
+# Arguments
+
+- `consumer_identifiers`: An array containing the ID of the consumer account that you want
+  to deregister the cluster or serverless namespace from.
+- `namespace_identifier`: The unique identifier of the cluster or serverless namespace that
+  you want to deregister.
+"""
+function deregister_namespace end
+
+function deregister_namespace(
+    ConsumerIdentifiers,
+    NamespaceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "DeregisterNamespace",
+        Dict{String,Any}(
+            "ConsumerIdentifiers" => ConsumerIdentifiers,
+            "NamespaceIdentifier" => NamespaceIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_namespace(
+    ConsumerIdentifiers,
+    NamespaceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "DeregisterNamespace",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConsumerIdentifiers" => ConsumerIdentifiers,
+                    "NamespaceIdentifier" => NamespaceIdentifier,
+                ),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4483,6 +4696,47 @@ function describe_inbound_integrations(
 end
 
 """
+    describe_integrations()
+    describe_integrations(params::Dict{String,<:Any})
+
+Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: A filter that specifies one or more resources to return.
+
+- `"IntegrationArn"`: The unique identifier of the integration.
+
+- `"Marker"`: An optional pagination token provided by a previous `DescribeIntegrations`
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by `MaxRecords`.
+
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified `MaxRecords` value, a value is
+  returned in a `marker` field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+
+  Default: `100`
+
+  Constraints: minimum 20, maximum 100.
+"""
+function describe_integrations end
+
+function describe_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift("DescribeIntegrations"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
+        "DescribeIntegrations", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     describe_logging_status(cluster_identifier)
     describe_logging_status(cluster_identifier, params::Dict{String,<:Any})
 
@@ -5233,6 +5487,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - HSM certificate
   - Parameter group
   - Snapshot copy grant
+  - Integration (zero-ETL integration or S3 event integration)
+
+    !!! note
+        To describe the tags associated with an `integration`, don't specify `ResourceType`,
+        instead specify the `ResourceName` of the integration.
 
   For more information about Amazon Redshift resource types and constructing ARNs, go to [Specifying Policy Elements: Actions, Effects, Resources, and Principals](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions)
   in the Amazon Redshift Cluster Management Guide.
@@ -5504,16 +5763,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"S3KeyPrefix"`: The prefix applied to the log file names.
 
-  Constraints:
-
-  - Cannot exceed 512 characters
-  - Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\\), or
-    control characters. The hexadecimal codes for invalid characters are:
-    - x00 to x20
-    - x22
-    - x27
-    - x5c
-    - x7f or larger
+  Valid characters are any letter from any language, any whitespace character, any numeric
+  character, and the following characters: underscore (`_`), period (`.`), colon (`:`),
+  slash (`/`), equal (`=`), plus (`+`), backslash (`\\`), hyphen (`-`), at symbol (`@`).
 """
 function enable_logging end
 
@@ -5834,6 +6086,87 @@ function get_cluster_credentials_with_iam(
 end
 
 """
+    get_identity_center_auth_token(cluster_identifier)
+    get_identity_center_auth_token(cluster_identifier, params::Dict{String,<:Any})
+
+Generates an encrypted authentication token that propagates the caller's Amazon Web Services
+IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web
+Services IAM Identity Center identity from enhanced credentials and creates a secure token
+that Amazon Redshift drivers can use for authentication.
+
+The token is encrypted using Key Management Service (KMS) and can only be decrypted by the
+specified Amazon Redshift clusters. The token contains the caller's Amazon Web Services IAM
+Identity Center identity information and is valid for a limited time period.
+
+This API is exclusively for use with Amazon Web Services IAM Identity Center enhanced
+credentials. If the caller is not using enhanced credentials with embedded Amazon Web
+Services IAM Identity Center identity, the API will return an error.
+
+# Arguments
+
+- `cluster_identifier`: A list of cluster identifiers that the generated token can be used
+  with. The token will be scoped to only allow authentication to the specified clusters.
+
+  Constraints:
+
+  - `ClusterIds` must contain at least 1 cluster identifier.
+  - `ClusterIds` can hold a maximum of 20 cluster identifiers.
+  - Cluster identifiers must be 1 to 63 characters in length.
+  - The characters accepted for cluster identifiers are the following:
+    - Alphanumeric characters
+    - Hyphens
+  - Cluster identifiers must start with a letter.
+  - Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClusterIds"`: A list of cluster identifiers that the generated token can be used with.
+  The token will be scoped to only allow authentication to the specified clusters.
+
+  Constraints:
+
+  - `ClusterIds` must contain at least 1 cluster identifier.
+  - `ClusterIds` can hold a maximum of 20 cluster identifiers.
+  - Cluster identifiers must be 1 to 63 characters in length.
+  - The characters accepted for cluster identifiers are the following:
+    - Alphanumeric characters
+    - Hyphens
+  - Cluster identifiers must start with a letter.
+  - Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+"""
+function get_identity_center_auth_token end
+
+function get_identity_center_auth_token(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
+        "GetIdentityCenterAuthToken",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_identity_center_auth_token(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "GetIdentityCenterAuthToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_reserved_node_exchange_configuration_options(action_type)
     get_reserved_node_exchange_configuration_options(action_type, params::Dict{String,<:Any})
 
@@ -6146,6 +6479,20 @@ not need a reboot. However, modifying a parameter group requires a reboot for pa
 take effect. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html)
 in the *Amazon Redshift Cluster Management Guide*.
 
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a subnet group for a provisioned cluster is in an
+account with VPC BPA turned on, the following capabilities are blocked:
+
+- Creating a public cluster
+- Restoring a public cluster
+- Modifying a private cluster to be public
+- Adding a subnet with VPC BPA turned on to the subnet group when there's at least one
+  public cluster within the group
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
+
 # Arguments
 
 - `cluster_identifier`: The unique identifier of the cluster to be modified.
@@ -6246,6 +6593,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Default: false
 
+- `"ExtraComputeForAutomaticOptimization"`: If `true`, allocates additional compute
+  resources for running automatic optimization operations.
+
+  Default: false
+
 - `"HsmClientCertificateIdentifier"`: Specifies the name of the HSM client certificate the
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 
@@ -6325,7 +6677,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html)
   in the *Amazon Redshift Cluster Management Guide*.
 
-  Valid Values: `dc2.large` | `dc2.8xlarge` | `ra3.xlplus` | `ra3.4xlarge` | `ra3.16xlarge`
+  Valid Values: `dc2.large` | `dc2.8xlarge` | `ra3.large` | `ra3.xlplus` | `ra3.4xlarge` |
+  `ra3.16xlarge`
 
 - `"NumberOfNodes"`: The new number of nodes of the cluster. If you specify a new number of
   nodes, you must also specify the node type parameter.
@@ -6362,6 +6715,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PubliclyAccessible"`: If `true`, the cluster can be accessed from a public network. Only
   clusters in VPCs can be set to be publicly available.
+
+  Default: false
 
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups to be
   associated with the cluster. This change is asynchronously applied as soon as possible.
@@ -6524,7 +6879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeferMaintenance"`: A boolean indicating whether to enable the deferred maintenance
   window.
 - `"DeferMaintenanceDuration"`: An integer indicating the duration of the maintenance window
-  in days. If you specify a duration, you can't specify an end time. The duration must be 45
+  in days. If you specify a duration, you can't specify an end time. The duration must be 60
   days or less.
 - `"DeferMaintenanceEndTime"`: A timestamp indicating end time for the deferred maintenance
   window. If you specify an end time, you can't specify a duration.
@@ -6748,6 +7103,20 @@ end
 
 Modifies a cluster subnet group to include the specified list of VPC subnets. The operation
 replaces the existing list of subnets with the new list of subnets.
+
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a subnet group for a provisioned cluster is in an
+account with VPC BPA turned on, the following capabilities are blocked:
+
+- Creating a public cluster
+- Restoring a public cluster
+- Modifying a private cluster to be public
+- Adding a subnet with VPC BPA turned on to the subnet group when there's at least one
+  public cluster within the group
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
 
 # Arguments
 
@@ -6980,6 +7349,125 @@ function modify_event_subscription(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_integration(integration_arn)
+    modify_integration(integration_arn, params::Dict{String,<:Any})
+
+Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
+
+# Arguments
+
+- `integration_arn`: The unique identifier of the integration to modify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A new description for the integration.
+- `"IntegrationName"`: A new name for the integration.
+"""
+function modify_integration end
+
+function modify_integration(
+    IntegrationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
+        "ModifyIntegration",
+        Dict{String,Any}("IntegrationArn" => IntegrationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function modify_integration(
+    IntegrationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "ModifyIntegration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IntegrationArn" => IntegrationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_lakehouse_configuration(cluster_identifier)
+    modify_lakehouse_configuration(cluster_identifier, params::Dict{String,<:Any})
+
+Modifies the lakehouse configuration for a cluster. This operation allows you to manage
+Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted
+identity propagation.
+
+# Arguments
+
+- `cluster_identifier`: The unique identifier of the cluster whose lakehouse configuration
+  you want to modify.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CatalogName"`: The name of the Glue data catalog that will be associated with the
+  cluster enabled with Amazon Redshift federated permissions.
+
+  Constraints:
+
+  - Must contain at least one lowercase letter.
+  - Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-
+    ).
+
+  Pattern: `^[a-z0-9_-]*[a-z]+[a-z0-9_-]*\$`
+
+  Example: `my-catalog_01`
+
+- `"DryRun"`: A boolean value that, if `true`, validates the request without actually
+  modifying the lakehouse configuration. Use this to check for errors before making changes.
+
+- `"LakehouseIdcApplicationArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
+  application used for enabling Amazon Web Services IAM Identity Center trusted identity
+  propagation on a cluster enabled with Amazon Redshift federated permissions.
+
+- `"LakehouseIdcRegistration"`: Modifies the Amazon Web Services IAM Identity Center trusted
+  identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+  Valid values are `Associate` or `Disassociate`.
+
+- `"LakehouseRegistration"`: Specifies whether to register or deregister the cluster with
+  Amazon Redshift federated permissions. Valid values are `Register` or `Deregister`.
+"""
+function modify_lakehouse_configuration end
+
+function modify_lakehouse_configuration(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
+        "ModifyLakehouseConfiguration",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function modify_lakehouse_configuration(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "ModifyLakehouseConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
             ),
         );
         aws_config,
@@ -7490,6 +7978,60 @@ function reboot_cluster(
 end
 
 """
+    register_namespace(consumer_identifiers, namespace_identifier)
+    register_namespace(consumer_identifiers, namespace_identifier, params::Dict{String,<:Any})
+
+Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
+
+# Arguments
+
+- `consumer_identifiers`: An array containing the ID of the consumer account that you want
+  to register the namespace to.
+- `namespace_identifier`: The unique identifier of the cluster or serverless namespace that
+  you want to register.
+"""
+function register_namespace end
+
+function register_namespace(
+    ConsumerIdentifiers,
+    NamespaceIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "RegisterNamespace",
+        Dict{String,Any}(
+            "ConsumerIdentifiers" => ConsumerIdentifiers,
+            "NamespaceIdentifier" => NamespaceIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_namespace(
+    ConsumerIdentifiers,
+    NamespaceIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return redshift(
+        "RegisterNamespace",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConsumerIdentifiers" => ConsumerIdentifiers,
+                    "NamespaceIdentifier" => NamespaceIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reject_data_share(data_share_arn)
     reject_data_share(data_share_arn, params::Dict{String,<:Any})
 
@@ -7596,6 +8138,7 @@ Elastic resize operations have the following restrictions:
 - You can only resize clusters of the following types:
   - dc2.large
   - dc2.8xlarge
+  - ra3.large
   - ra3.xlplus
   - ra3.4xlarge
   - ra3.16xlarge
@@ -7665,6 +8208,20 @@ type of the same size during restore.
 If you restore a cluster into a VPC, you must provide a cluster subnet group where you want
 the cluster restored.
 
+VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you
+own in a Region from reaching or being reached from the internet through internet gateways
+and egress-only internet gateways. If a subnet group for a provisioned cluster is in an
+account with VPC BPA turned on, the following capabilities are blocked:
+
+- Creating a public cluster
+- Restoring a public cluster
+- Modifying a private cluster to be public
+- Adding a subnet with VPC BPA turned on to the subnet group when there's at least one
+  public cluster within the group
+
+For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html)
+in the *Amazon VPC User Guide*.
+
 For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html)
 in the *Amazon Redshift Cluster Management Guide*.
 
@@ -7716,6 +8273,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AvailabilityZoneRelocation"`: The option to enable relocation for an Amazon Redshift
   cluster between Availability Zones after the cluster is restored.
+
+- `"CatalogName"`: The name of the Glue Data Catalog that will be associated with the
+  cluster enabled with Amazon Redshift federated permissions.
+
+  Constraints:
+
+  - Must contain at least one lowercase letter.
+  - Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-
+    ).
+
+  Pattern: `^[a-z0-9_-]*[a-z]+[a-z0-9_-]*\$`
+
+  Example: `my-catalog_01`
 
 - `"ClusterParameterGroupName"`: The name of the parameter group to be associated with this
   cluster.
@@ -7842,6 +8412,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 30-minute window.
 
 - `"PubliclyAccessible"`: If `true`, the cluster can be accessed from a public network.
+
+  Default: false
+
+- `"RedshiftIdcApplicationArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
+  application used for enabling Amazon Web Services IAM Identity Center trusted identity
+  propagation on a cluster enabled with Amazon Redshift federated permissions.
 
 - `"ReservedNodeId"`: The identifier of the target reserved node offering.
 

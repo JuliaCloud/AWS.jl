@@ -8,7 +8,12 @@ using AWS.UUIDs: uuid4
     accept_administrator_invitation(administrator_id, invitation_id)
     accept_administrator_invitation(administrator_id, invitation_id, params::Dict{String,<:Any})
 
-Accepts the invitation to be a member account and be monitored by the Security Hub
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
+
+Accepts the invitation to be a member account and be monitored by the Security Hub CSPM
 administrator account that the invitation was sent from.
 
 This operation is only used by member accounts that are not added through Organizations.
@@ -18,10 +23,10 @@ account to view findings generated in the member account.
 
 # Arguments
 
-- `administrator_id`: The account ID of the Security Hub administrator account that sent the
-  invitation.
-- `invitation_id`: The identifier of the invitation sent from the Security Hub administrator
-  account.
+- `administrator_id`: The account ID of the Security Hub CSPM administrator account that
+  sent the invitation.
+- `invitation_id`: The identifier of the invitation sent from the Security Hub CSPM
+  administrator account.
 """
 function accept_administrator_invitation end
 
@@ -68,13 +73,13 @@ end
 
 This method is deprecated. Instead, use `AcceptAdministratorInvitation`.
 
-The Security Hub console continues to use `AcceptInvitation`. It will eventually change to
-use `AcceptAdministratorInvitation`. Any IAM policies that specifically control access to
+The Security Hub CSPM console continues to use `AcceptInvitation`. It will eventually change
+to use `AcceptAdministratorInvitation`. Any IAM policies that specifically control access to
 this function must continue to use `AcceptInvitation`. You should also add
 `AcceptAdministratorInvitation` to your policies to ensure that the correct permissions are
 in place after the console begins to use `AcceptAdministratorInvitation`.
 
-Accepts the invitation to be a member account and be monitored by the Security Hub
+Accepts the invitation to be a member account and be monitored by the Security Hub CSPM
 administrator account that the invitation was sent from.
 
 This operation is only used by member accounts that are not added through Organizations.
@@ -84,9 +89,9 @@ account to view findings generated in the member account.
 
 # Arguments
 
-- `invitation_id`: The identifier of the invitation sent from the Security Hub administrator
-  account.
-- `master_id`: The account ID of the Security Hub administrator account that sent the
+- `invitation_id`: The identifier of the invitation sent from the Security Hub CSPM
+  administrator account.
+- `master_id`: The account ID of the Security Hub CSPM administrator account that sent the
   invitation.
 """
 function accept_invitation end
@@ -176,7 +181,7 @@ end
 Disables the standards specified by the provided `StandardsSubscriptionArns`.
 
 For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html)
-section of the *Security Hub User Guide*.
+section of the *Security Hub CSPM User Guide*.
 
 # Arguments
 
@@ -224,7 +229,7 @@ Enables the standards specified by the provided `StandardsArn`. To obtain the AR
 standard, use the [`describe_standards`](@ref) operation.
 
 For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html)
-section of the *Security Hub User Guide*.
+section of the *Security Hub CSPM User Guide*.
 
 # Arguments
 
@@ -314,10 +319,10 @@ end
     batch_get_configuration_policy_associations(configuration_policy_association_identifiers)
     batch_get_configuration_policy_associations(configuration_policy_association_identifiers, params::Dict{String,<:Any})
 
-Returns associations between an Security Hub configuration and a batch of target accounts,
-organizational units, or the root. Only the Security Hub delegated administrator can invoke
-this operation from the home Region. A configuration can refer to a configuration policy or
-to a self-managed configuration.
+Returns associations between an Security Hub CSPM configuration and a batch of target
+accounts, organizational units, or the root. Only the Security Hub CSPM delegated
+administrator can invoke this operation from the home Region. A configuration can refer to a
+configuration policy or to a self-managed configuration.
 
 # Arguments
 
@@ -417,6 +422,10 @@ end
 For a batch of security controls and standards, identifies whether each control is currently
 enabled or disabled in a standard.
 
+Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard
+subscription for the association has a `NOT_READY_FOR_UPDATES` value for
+`StandardsControlsUpdatable`.
+
 # Arguments
 
 - `standards_control_association_ids`: An array with one or more objects that includes a
@@ -467,8 +476,8 @@ end
     batch_import_findings(findings)
     batch_import_findings(findings, params::Dict{String,<:Any})
 
-Imports security findings generated by a finding provider into Security Hub. This action is
-requested by the finding provider to import its findings into Security Hub.
+Imports security findings generated by a finding provider into Security Hub CSPM. This
+action is requested by the finding provider to import its findings into Security Hub CSPM.
 
 `BatchImportFindings` must be called by one of the following:
 
@@ -476,16 +485,16 @@ requested by the finding provider to import its findings into Security Hub.
   or are a partner sending findings from within a customer's Amazon Web Services account. In
   these cases, the identifier of the account that you are calling `BatchImportFindings` from
   needs to be the same as the `AwsAccountId` attribute for the finding.
-- An Amazon Web Services account that Security Hub has allow-listed for an official partner
-  integration. In this case, you can call `BatchImportFindings` from the allow-listed
-  account and send findings from different customer accounts in the same batch.
+- An Amazon Web Services account that Security Hub CSPM has allow-listed for an official
+  partner integration. In this case, you can call `BatchImportFindings` from the allow-
+  listed account and send findings from different customer accounts in the same batch.
 
 The maximum allowed size for a finding is 240 Kb. An error is returned for any finding
 larger than 240 Kb.
 
 After a finding is created, `BatchImportFindings` cannot be used to update the following
-finding fields and objects, which Security Hub customers use to manage their investigation
-workflow.
+finding fields and objects, which Security Hub CSPM customers use to manage their
+investigation workflow.
 
 - `Note`
 - `UserDefinedFields`
@@ -592,15 +601,11 @@ end
     batch_update_findings(finding_identifiers)
     batch_update_findings(finding_identifiers, params::Dict{String,<:Any})
 
-Used by Security Hub customers to update information about their investigation into a
-finding. Requested by administrator accounts or member accounts. Administrator accounts can
-update findings for their account and their member accounts. Member accounts can update
-findings for their account.
-
-Updates from `BatchUpdateFindings` do not affect the value of `UpdatedAt` for a finding.
-
-Administrator and member accounts can use `BatchUpdateFindings` to update the following
-finding fields and objects.
+Used by Security Hub CSPM customers to update information about their investigation into one
+or more findings. Requested by administrator accounts or member accounts. Administrator
+accounts can update findings for their account and their member accounts. A member account
+can update findings only for their own account. Administrator and member accounts can use
+this operation to update the following fields and objects for one or more findings:
 
 - `Confidence`
 - `Criticality`
@@ -612,10 +617,14 @@ finding fields and objects.
 - `VerificationState`
 - `Workflow`
 
+If you use this operation to update a finding, your updates don’t affect the value for the
+`UpdatedAt` field of the finding. Also note that it can take several minutes for Security
+Hub CSPM to process your request and update each finding specified in the request.
+
 You can configure IAM policies to restrict access to fields and field values. For example,
 you might not want member accounts to be able to suppress findings or change the finding
-severity. See [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access)
-in the *Security Hub User Guide*.
+severity. For more information see [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access)
+in the *Security Hub CSPM User Guide*.
 
 # Arguments
 
@@ -709,6 +718,54 @@ function batch_update_findings(
 end
 
 """
+    batch_update_findings_v2()
+    batch_update_findings_v2(params::Dict{String,<:Any})
+
+Used by customers to update information about their investigation into a finding. Requested
+by delegated administrator accounts or member accounts. Delegated administrator accounts can
+update findings for their account and their member accounts. Member accounts can update
+findings for their account. `BatchUpdateFindings` and `BatchUpdateFindingV2` both use
+`securityhub:BatchUpdateFindings` in the `Action` element of an IAM policy statement. You
+must have permission to perform the `securityhub:BatchUpdateFindings` action. Updates from
+`BatchUpdateFindingsV2` don't affect the value of f`inding_info.modified_time`,
+`finding_info.modified_time_dt`, `time`, `time_dt for a finding`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Comment"`: The updated value for a user provided comment about the finding. Minimum
+  character length 1. Maximum character length 512.
+- `"FindingIdentifiers"`: Provides information to identify a specific V2 finding.
+- `"MetadataUids"`: The list of finding `metadata.uid` to indicate findings to update.
+  Finding `metadata.uid` is a globally unique identifier associated with the finding.
+  Customers cannot use `MetadataUids` together with `FindingIdentifiers`.
+- `"SeverityId"`: The updated value for the normalized severity identifier. The severity ID
+  is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+- `"StatusId"`: The updated value for the normalized status identifier. The status ID is an
+  integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+"""
+function batch_update_findings_v2 end
+
+function batch_update_findings_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub(
+        "PATCH", "/findingsv2/batchupdatev2"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function batch_update_findings_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "PATCH",
+        "/findingsv2/batchupdatev2",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_update_standards_control_associations(standards_control_association_updates)
     batch_update_standards_control_associations(standards_control_association_updates, params::Dict{String,<:Any})
 
@@ -719,6 +776,10 @@ of a control in a standard.
 
 - `standards_control_association_updates`: Updates the enablement status of a security
   control in a specified standard.
+
+  Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard
+  subscription for the control has `StandardsControlsUpdatable` value
+  `NOT_READY_FOR_UPDATES`.
 """
 function batch_update_standards_control_associations end
 
@@ -763,9 +824,9 @@ end
     create_action_target(description, id, name)
     create_action_target(description, id, name, params::Dict{String,<:Any})
 
-Creates a custom action target in Security Hub.
+Creates a custom action target in Security Hub CSPM.
 
-You can use custom actions on findings and insights in Security Hub to trigger target
+You can use custom actions on findings and insights in Security Hub CSPM to trigger target
 actions in Amazon CloudWatch Events.
 
 # Arguments
@@ -811,6 +872,63 @@ function create_action_target(
 end
 
 """
+    create_aggregator_v2(region_linking_mode)
+    create_aggregator_v2(region_linking_mode, params::Dict{String,<:Any})
+
+Enables aggregation across Amazon Web Services Regions.
+
+# Arguments
+
+- `region_linking_mode`: Determines how Regions are linked to an Aggregator V2.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique identifier used to ensure idempotency.
+- `"LinkedRegions"`: The list of Regions that are linked to the aggregation Region.
+- `"Tags"`: A list of key-value pairs to be applied to the AggregatorV2.
+"""
+function create_aggregator_v2 end
+
+function create_aggregator_v2(
+    RegionLinkingMode; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/aggregatorv2/create",
+        Dict{String,Any}(
+            "RegionLinkingMode" => RegionLinkingMode, "ClientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_aggregator_v2(
+    RegionLinkingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/aggregatorv2/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RegionLinkingMode" => RegionLinkingMode,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_automation_rule(actions, criteria, description, rule_name, rule_order)
     create_automation_rule(actions, criteria, description, rule_name, rule_order, params::Dict{String,<:Any})
 
@@ -821,14 +939,14 @@ Creates an automation rule based on input parameters.
 - `actions`: One or more actions to update finding fields if a finding matches the
   conditions specified in `Criteria`.
 - `criteria`: A set of ASFF finding field attributes and corresponding expected values that
-  Security Hub uses to filter findings. If a rule is enabled and a finding matches the
-  conditions specified in this parameter, Security Hub applies the rule action to the
+  Security Hub CSPM uses to filter findings. If a rule is enabled and a finding matches the
+  conditions specified in this parameter, Security Hub CSPM applies the rule action to the
   finding.
 - `description`: A description of the rule.
 - `rule_name`: The name of the rule.
 - `rule_order`: An integer ranging from 1 to 1000 that represents the order in which the
-  rule action is applied to findings. Security Hub applies rules with lower values for this
-  parameter first.
+  rule action is applied to findings. Security Hub CSPM applies rules with lower values for
+  this parameter first.
 
 # Optional Parameters
 
@@ -837,12 +955,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsTerminal"`: Specifies whether a rule is the last to be applied with respect to a
   finding that matches the rule criteria. This is useful when a finding matches the criteria
   for multiple rules, and each rule has different actions. If a rule is terminal, Security
-  Hub applies the rule action to a finding that matches the rule criteria and doesn't
+  Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't
   evaluate other rules for the finding. By default, a rule isn't terminal.
 
 - `"RuleStatus"`: Whether the rule is active after it is created. If this parameter is equal
-  to `ENABLED`, Security Hub starts applying the rule to findings and finding updates after
-  the rule is created. To change the value of this parameter after creating a rule, use [`BatchUpdateAutomationRules`](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+  to `ENABLED`, Security Hub CSPM starts applying the rule to findings and finding updates
+  after the rule is created. To change the value of this parameter after creating a rule,
+  use [`BatchUpdateAutomationRules`](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
 
 - `"Tags"`: User-defined tags associated with an automation rule.
 """
@@ -902,22 +1021,101 @@ function create_automation_rule(
 end
 
 """
+    create_automation_rule_v2(actions, criteria, description, rule_name, rule_order)
+    create_automation_rule_v2(actions, criteria, description, rule_name, rule_order, params::Dict{String,<:Any})
+
+Creates a V2 automation rule.
+
+# Arguments
+
+- `actions`: A list of actions to be performed when the rule criteria is met.
+- `criteria`: The filtering type and configuration of the automation rule.
+- `description`: A description of the V2 automation rule.
+- `rule_name`: The name of the V2 automation rule.
+- `rule_order`: The value for the rule priority.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique identifier used to ensure idempotency.
+- `"RuleStatus"`: The status of the V2 automation rule.
+- `"Tags"`: A list of key-value pairs associated with the V2 automation rule.
+"""
+function create_automation_rule_v2 end
+
+function create_automation_rule_v2(
+    Actions,
+    Criteria,
+    Description,
+    RuleName,
+    RuleOrder;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrulesv2/create",
+        Dict{String,Any}(
+            "Actions" => Actions,
+            "Criteria" => Criteria,
+            "Description" => Description,
+            "RuleName" => RuleName,
+            "RuleOrder" => RuleOrder,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_automation_rule_v2(
+    Actions,
+    Criteria,
+    Description,
+    RuleName,
+    RuleOrder,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrulesv2/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions,
+                    "Criteria" => Criteria,
+                    "Description" => Description,
+                    "RuleName" => RuleName,
+                    "RuleOrder" => RuleOrder,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_configuration_policy(configuration_policy, name)
     create_configuration_policy(configuration_policy, name, params::Dict{String,<:Any})
 
-Creates a configuration policy with the defined configuration. Only the Security Hub
+Creates a configuration policy with the defined configuration. Only the Security Hub CSPM
 delegated administrator can invoke this operation from the home Region.
 
 # Arguments
 
-- `configuration_policy`: An object that defines how Security Hub is configured. It includes
-  whether Security Hub is enabled or disabled, a list of enabled security standards, a list
-  of enabled or disabled security controls, and a list of custom parameter values for
-  specified controls. If you provide a list of security controls that are enabled in the
-  configuration policy, Security Hub disables all other controls (including newly released
-  controls). If you provide a list of security controls that are disabled in the
-  configuration policy, Security Hub enables all other controls (including newly released
-  controls).
+- `configuration_policy`: An object that defines how Security Hub CSPM is configured. It
+  includes whether Security Hub CSPM is enabled or disabled, a list of enabled security
+  standards, a list of enabled or disabled security controls, and a list of custom parameter
+  values for specified controls. If you provide a list of security controls that are enabled
+  in the configuration policy, Security Hub CSPM disables all other controls (including
+  newly released controls). If you provide a list of security controls that are disabled in
+  the configuration policy, Security Hub CSPM enables all other controls (including newly
+  released controls).
 
 - `name`: The name of the configuration policy. Alphanumeric characters and the following
   ASCII characters are permitted: `-, ., !, *, /`.
@@ -928,8 +1126,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: The description of the configuration policy.
 - `"Tags"`: User-defined tags associated with a configuration policy. For more information,
-  see [Tagging Security Hub resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html)
-  in the *Security Hub user guide*.
+  see [Tagging Security Hub CSPM resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html)
+  in the *Security Hub CSPM user guide*.
 """
 function create_configuration_policy end
 
@@ -969,44 +1167,111 @@ function create_configuration_policy(
 end
 
 """
+    create_connector_v2(name, provider)
+    create_connector_v2(name, provider, params::Dict{String,<:Any})
+
+Grants permission to create a connectorV2 based on input parameters.
+
+# Arguments
+
+- `name`: The unique name of the connectorV2.
+- `provider`: The third-party provider’s service configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique identifier used to ensure idempotency.
+- `"Description"`: The description of the connectorV2.
+- `"KmsKeyArn"`: The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the
+  connectorV2.
+- `"Tags"`: The tags to add to the connectorV2 when you create.
+"""
+function create_connector_v2 end
+
+function create_connector_v2(
+    Name, Provider; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/connectorsv2",
+        Dict{String,Any}(
+            "Name" => Name, "Provider" => Provider, "ClientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_connector_v2(
+    Name,
+    Provider,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/connectorsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "Provider" => Provider, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_finding_aggregator(region_linking_mode)
     create_finding_aggregator(region_linking_mode, params::Dict{String,<:Any})
 
-Used to enable finding aggregation. Must be called from the aggregation Region.
+!!! note
+    The *aggregation Region* is now called the *home Region*.
 
-For more details about cross-Region replication, see [Configuring finding aggregation](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html)
-in the *Security Hub User Guide*.
+Used to enable cross-Region aggregation. This operation can be invoked from the home Region
+only.
+
+For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub CSPM](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html)
+in the *Security Hub CSPM User Guide*.
 
 # Arguments
 
 - `region_linking_mode`: Indicates whether to aggregate findings from all of the available
   Regions in the current partition. Also determines whether to automatically aggregate
-  findings from new Regions as Security Hub supports them and you opt into them.
+  findings from new Regions as Security Hub CSPM supports them and you opt into them.
 
   The selected option also determines how to use the Regions provided in the Regions list.
 
   The options are as follows:
 
-  - `ALL_REGIONS` - Indicates to aggregate findings from all of the Regions where Security
-    Hub is enabled. When you choose this option, Security Hub also automatically aggregates
-    findings from new Regions as Security Hub supports them and you opt into them.
-  - `ALL_REGIONS_EXCEPT_SPECIFIED` - Indicates to aggregate findings from all of the Regions
-    where Security Hub is enabled, except for the Regions listed in the `Regions` parameter.
-    When you choose this option, Security Hub also automatically aggregates findings from
-    new Regions as Security Hub supports them and you opt into them.
-  - `SPECIFIED_REGIONS` - Indicates to aggregate findings only from the Regions listed in
-    the `Regions` parameter. Security Hub does not automatically aggregate findings from new
-    Regions.
+  - `ALL_REGIONS` - Aggregates findings from all of the Regions where Security Hub CSPM is
+    enabled. When you choose this option, Security Hub CSPM also automatically aggregates
+    findings from new Regions as Security Hub CSPM supports them and you opt into them.
+  - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregates findings from all of the Regions where
+    Security Hub CSPM is enabled, except for the Regions listed in the `Regions` parameter.
+    When you choose this option, Security Hub CSPM also automatically aggregates findings
+    from new Regions as Security Hub CSPM supports them and you opt into them.
+  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the `Regions`
+    parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.
+  - `NO_REGIONS` - Aggregates no data because no Regions are selected as linked Regions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Regions"`: If `RegionLinkingMode` is `ALL_REGIONS_EXCEPT_SPECIFIED`, then this is a
-  space-separated list of Regions that do not aggregate findings to the aggregation Region.
+  space-separated list of Regions that don't replicate and send findings to the home Region.
 
   If `RegionLinkingMode` is `SPECIFIED_REGIONS`, then this is a space-separated list of
-  Regions that do aggregate findings to the aggregation Region.
+  Regions that do replicate and send findings to the home Region.
+
+  An `InvalidInputException` error results if you populate this field while
+  `RegionLinkingMode` is `NO_REGIONS`.
 """
 function create_finding_aggregator end
 
@@ -1044,8 +1309,8 @@ end
     create_insight(filters, group_by_attribute, name)
     create_insight(filters, group_by_attribute, name, params::Dict{String,<:Any})
 
-Creates a custom insight in Security Hub. An insight is a consolidation of findings that
-relate to a security issue that requires attention or remediation.
+Creates a custom insight in Security Hub CSPM. An insight is a consolidation of findings
+that relate to a security issue that requires attention or remediation.
 
 To group the related findings in the insight, use the `GroupByAttribute`.
 
@@ -1105,37 +1370,38 @@ end
     create_members(account_details)
     create_members(account_details, params::Dict{String,<:Any})
 
-Creates a member association in Security Hub between the specified accounts and the account
-used to make the request, which is the administrator account. If you are integrated with
-Organizations, then the administrator account is designated by the organization management
-account.
+Creates a member association in Security Hub CSPM between the specified accounts and the
+account used to make the request, which is the administrator account. If you are integrated
+with Organizations, then the administrator account is designated by the organization
+management account.
 
 `CreateMembers` is always used to add accounts that are not organization members.
 
 For accounts that are managed using Organizations, `CreateMembers` is only used in the
 following cases:
 
-- Security Hub is not configured to automatically add new organization accounts.
-- The account was disassociated or deleted in Security Hub.
+- Security Hub CSPM is not configured to automatically add new organization accounts.
+- The account was disassociated or deleted in Security Hub CSPM.
 
-This action can only be used by an account that has Security Hub enabled. To enable Security
-Hub, you can use the [`enable_security_hub`](@ref) operation.
+This action can only be used by an account that has Security Hub CSPM enabled. To enable
+Security Hub CSPM, you can use the [`enable_security_hub`](@ref) operation.
 
 For accounts that are not organization members, you create the account association and then
 send an invitation to the member account. To send the invitation, you use the [`invite_members`](@ref)
 operation. If the account owner accepts the invitation, the account becomes a member account
-in Security Hub.
+in Security Hub CSPM.
 
-Accounts that are managed using Organizations do not receive an invitation. They
-automatically become a member account in Security Hub.
+Accounts that are managed using Organizations don't receive an invitation. They
+automatically become a member account in Security Hub CSPM.
 
-- If the organization account does not have Security Hub enabled, then Security Hub and the
-  default standards are automatically enabled. Note that Security Hub cannot be enabled
-  automatically for the organization management account. The organization management account
-  must enable Security Hub before the administrator account enables it as a member account.
-- For organization accounts that already have Security Hub enabled, Security Hub does not
-  make any other changes to those accounts. It does not change their enabled standards or
-  controls.
+- If the organization account does not have Security Hub CSPM enabled, then Security Hub
+  CSPM and the default standards are automatically enabled. Note that Security Hub CSPM
+  cannot be enabled automatically for the organization management account. The organization
+  management account must enable Security Hub CSPM before the administrator account enables
+  it as a member account.
+- For organization accounts that already have Security Hub CSPM enabled, Security Hub CSPM
+  does not make any other changes to those accounts. It does not change their enabled
+  standards or controls.
 
 A permissions policy is added that permits the administrator account to view the findings
 generated in the member account.
@@ -1145,9 +1411,9 @@ To remove the association between the administrator and member accounts, use the
 
 # Arguments
 
-- `account_details`: The list of accounts to associate with the Security Hub administrator
-  account. For each account, the list includes the account ID and optionally the email
-  address.
+- `account_details`: The list of accounts to associate with the Security Hub CSPM
+  administrator account. For each account, the list includes the account ID and optionally
+  the email address.
 """
 function create_members end
 
@@ -1178,16 +1444,84 @@ function create_members(
 end
 
 """
+    create_ticket_v2(connector_id, finding_metadata_uid)
+    create_ticket_v2(connector_id, finding_metadata_uid, params::Dict{String,<:Any})
+
+Grants permission to create a ticket in the chosen ITSM based on finding information for the
+provided finding metadata UID.
+
+# Arguments
+
+- `connector_id`: The UUID of the connectorV2 to identify connectorV2 resource.
+- `finding_metadata_uid`: The the unique ID for the finding.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: The client idempotency token.
+- `"Mode"`: The mode for ticket creation. When set to DRYRUN, the ticket is created using a
+  Security Hub owned template test finding to verify the integration is working correctly.
+"""
+function create_ticket_v2 end
+
+function create_ticket_v2(
+    ConnectorId, FindingMetadataUid; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/ticketsv2",
+        Dict{String,Any}(
+            "ConnectorId" => ConnectorId,
+            "FindingMetadataUid" => FindingMetadataUid,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_ticket_v2(
+    ConnectorId,
+    FindingMetadataUid,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/ticketsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConnectorId" => ConnectorId,
+                    "FindingMetadataUid" => FindingMetadataUid,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     decline_invitations(account_ids)
     decline_invitations(account_ids, params::Dict{String,<:Any})
 
-Declines invitations to become a member account.
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
+
+Declines invitations to become a Security Hub CSPM member account.
 
 A prospective member account uses this operation to decline an invitation to become a
 member.
 
-This operation is only called by member accounts that aren't part of an organization.
-Organization accounts don't receive invitations.
+Only member accounts that aren't part of an Amazon Web Services organization should use this
+operation. Organization accounts don't receive invitations.
 
 # Arguments
 
@@ -1226,7 +1560,7 @@ end
     delete_action_target(action_target_arn)
     delete_action_target(action_target_arn, params::Dict{String,<:Any})
 
-Deletes a custom action target from Security Hub.
+Deletes a custom action target from Security Hub CSPM.
 
 Deleting a custom action target does not affect any findings or insights that were already
 sent to Amazon CloudWatch Events using the custom action.
@@ -1263,11 +1597,85 @@ function delete_action_target(
 end
 
 """
+    delete_aggregator_v2(aggregator_v2_arn)
+    delete_aggregator_v2(aggregator_v2_arn, params::Dict{String,<:Any})
+
+Deletes the Aggregator V2.
+
+# Arguments
+
+- `aggregator_v2_arn`: The ARN of the Aggregator V2.
+"""
+function delete_aggregator_v2 end
+
+function delete_aggregator_v2(
+    AggregatorV2Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "DELETE",
+        "/aggregatorv2/delete/$(AggregatorV2Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_aggregator_v2(
+    AggregatorV2Arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "DELETE",
+        "/aggregatorv2/delete/$(AggregatorV2Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_automation_rule_v2(identifier)
+    delete_automation_rule_v2(identifier, params::Dict{String,<:Any})
+
+Deletes a V2 automation rule.
+
+# Arguments
+
+- `identifier`: The ARN of the V2 automation rule.
+"""
+function delete_automation_rule_v2 end
+
+function delete_automation_rule_v2(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "DELETE",
+        "/automationrulesv2/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_automation_rule_v2(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "DELETE",
+        "/automationrulesv2/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_configuration_policy(identifier)
     delete_configuration_policy(identifier, params::Dict{String,<:Any})
 
-Deletes a configuration policy. Only the Security Hub delegated administrator can invoke
-this operation from the home Region. For the deletion to succeed, you must first
+Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can
+invoke this operation from the home Region. For the deletion to succeed, you must first
 disassociate a configuration policy from target accounts, organizational units, or the root
 by invoking the [`start_configuration_policy_disassociation`](@ref) operation.
 
@@ -1304,15 +1712,55 @@ function delete_configuration_policy(
 end
 
 """
+    delete_connector_v2(connector_id)
+    delete_connector_v2(connector_id, params::Dict{String,<:Any})
+
+Grants permission to delete a connectorV2.
+
+# Arguments
+
+- `connector_id`: The UUID of the connectorV2 to identify connectorV2 resource.
+"""
+function delete_connector_v2 end
+
+function delete_connector_v2(
+    ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "DELETE",
+        "/connectorsv2/$(ConnectorId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_connector_v2(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "DELETE",
+        "/connectorsv2/$(ConnectorId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_finding_aggregator(finding_aggregator_arn)
     delete_finding_aggregator(finding_aggregator_arn, params::Dict{String,<:Any})
 
-Deletes a finding aggregator. When you delete the finding aggregator, you stop finding
-aggregation.
+!!! note
+    The *aggregation Region* is now called the *home Region*.
 
-When you stop finding aggregation, findings that were already aggregated to the aggregation
-Region are still visible from the aggregation Region. New findings and finding updates are
-not aggregated.
+Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region
+aggregation. Finding replication stops occurring from the linked Regions to the home Region.
+
+When you stop cross-Region aggregation, findings that were already replicated and sent to
+the home Region are still visible from the home Region. However, new findings and finding
+updates are no longer replicated and sent to the home Region.
 
 # Arguments
 
@@ -1382,13 +1830,19 @@ end
     delete_invitations(account_ids)
     delete_invitations(account_ids, params::Dict{String,<:Any})
 
-Deletes invitations received by the Amazon Web Services account to become a member account.
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
 
-A Security Hub administrator account can use this operation to delete invitations sent to
-one or more member accounts.
+Deletes invitations to become a Security Hub CSPM member account.
 
-This operation is only used to delete invitations that are sent to member accounts that
-aren't part of an organization. Organization accounts don't receive invitations.
+A Security Hub CSPM administrator account can use this operation to delete invitations sent
+to one or more prospective member accounts.
+
+This operation is only used to delete invitations that are sent to prospective member
+accounts that aren't part of an Amazon Web Services organization. Organization accounts
+don't receive invitations.
 
 # Arguments
 
@@ -1427,7 +1881,7 @@ end
     delete_members(account_ids)
     delete_members(account_ids, params::Dict{String,<:Any})
 
-Deletes the specified member accounts from Security Hub.
+Deletes the specified member accounts from Security Hub CSPM.
 
 You can invoke this API only to delete accounts that became members through invitation. You
 can't invoke this API to delete accounts that belong to an Organizations organization.
@@ -1468,7 +1922,7 @@ end
     describe_action_targets()
     describe_action_targets(params::Dict{String,<:Any})
 
-Returns a list of the custom action targets in Security Hub in your account.
+Returns a list of the custom action targets in Security Hub CSPM in your account.
 
 # Optional Parameters
 
@@ -1506,7 +1960,7 @@ end
     describe_hub(params::Dict{String,<:Any})
 
 Returns details about the Hub resource in your account, including the `HubArn` and the time
-when you enabled Security Hub.
+when you enabled Security Hub CSPM.
 
 # Optional Parameters
 
@@ -1532,8 +1986,8 @@ end
     describe_organization_configuration()
     describe_organization_configuration(params::Dict{String,<:Any})
 
-Returns information about the way your organization is configured in Security Hub. Only the
-Security Hub administrator account can invoke this operation.
+Returns information about the way your organization is configured in Security Hub CSPM. Only
+the Security Hub CSPM administrator account can invoke this operation.
 """
 function describe_organization_configuration end
 
@@ -1561,12 +2015,12 @@ end
     describe_products()
     describe_products(params::Dict{String,<:Any})
 
-Returns information about product integrations in Security Hub.
+Returns information about product integrations in Security Hub CSPM.
 
 You can optionally provide an integration ARN. If you provide an integration ARN, then the
 results only include that integration.
 
-If you do not provide an integration ARN, then the results include all of the available
+If you don't provide an integration ARN, then the results include all of the available
 product integrations.
 
 # Optional Parameters
@@ -1598,10 +2052,57 @@ function describe_products(
 end
 
 """
+    describe_products_v2()
+    describe_products_v2(params::Dict{String,<:Any})
+
+Gets information about the product integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The token required for pagination. On your first call, set the value of
+  this parameter to `NULL`. For subsequent calls, to continue listing data, set the value of
+  this parameter to the value returned in the previous response.
+"""
+function describe_products_v2 end
+
+function describe_products_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("GET", "/productsV2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_products_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET", "/productsV2", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_security_hub_v2()
+    describe_security_hub_v2(params::Dict{String,<:Any})
+
+Returns details about the service resource in your account.
+"""
+function describe_security_hub_v2 end
+
+function describe_security_hub_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("GET", "/hubv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function describe_security_hub_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub("GET", "/hubv2", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     describe_standards()
     describe_standards(params::Dict{String,<:Any})
 
-Returns a list of the available standards in Security Hub.
+Returns a list of the available standards in Security Hub CSPM.
 
 For each standard, the results include the standard ARN, the name, and a description.
 
@@ -1639,6 +2140,9 @@ Returns a list of security standards controls.
 
 For each control, the results include information about whether it is currently enabled, the
 severity, and a link to remediation information.
+
+This operation returns an empty list for standard subscriptions where
+`StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
 
 # Arguments
 
@@ -1689,8 +2193,8 @@ end
     disable_import_findings_for_product(product_subscription_arn)
     disable_import_findings_for_product(product_subscription_arn, params::Dict{String,<:Any})
 
-Disables the integration of the specified product with Security Hub. After the integration
-is disabled, findings from that product are no longer sent to Security Hub.
+Disables the integration of the specified product with Security Hub CSPM. After the
+integration is disabled, findings from that product are no longer sent to Security Hub CSPM.
 
 # Arguments
 
@@ -1728,13 +2232,20 @@ end
     disable_organization_admin_account(admin_account_id)
     disable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Disables a Security Hub administrator account. Can only be called by the organization
+Disables a Security Hub CSPM administrator account. Can only be called by the organization
 management account.
 
 # Arguments
 
-- `admin_account_id`: The Amazon Web Services account identifier of the Security Hub
+- `admin_account_id`: The Amazon Web Services account identifier of the Security Hub CSPM
   administrator account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Feature"`: The feature for which the delegated admin account is disabled. Defaults to
+  Security Hub CSPM if not specified.
 """
 function disable_organization_admin_account end
 
@@ -1770,20 +2281,20 @@ end
     disable_security_hub()
     disable_security_hub(params::Dict{String,<:Any})
 
-Disables Security Hub in your account only in the current Amazon Web Services Region. To
-disable Security Hub in all Regions, you must submit one request per Region where you have
-enabled Security Hub.
+Disables Security Hub CSPM in your account only in the current Amazon Web Services Region.
+To disable Security Hub CSPM in all Regions, you must submit one request per Region where
+you have enabled Security Hub CSPM.
 
-You can't disable Security Hub in an account that is currently the Security Hub
+You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM
 administrator.
 
-When you disable Security Hub, your existing findings and insights and any Security Hub
-configuration settings are deleted after 90 days and cannot be recovered. Any standards that
-were enabled are disabled, and your administrator and member account associations are
+When you disable Security Hub CSPM, your existing findings and insights and any Security Hub
+CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards
+that were enabled are disabled, and your administrator and member account associations are
 removed.
 
 If you want to save your existing findings, you must export them before you disable Security
-Hub.
+Hub CSPM.
 """
 function disable_security_hub end
 
@@ -1800,10 +2311,31 @@ function disable_security_hub(
 end
 
 """
+    disable_security_hub_v2()
+    disable_security_hub_v2(params::Dict{String,<:Any})
+
+Disable the service for the current Amazon Web Services Region or specified Amazon Web
+Services Region.
+"""
+function disable_security_hub_v2 end
+
+function disable_security_hub_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("DELETE", "/hubv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function disable_security_hub_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "DELETE", "/hubv2", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     disassociate_from_administrator_account()
     disassociate_from_administrator_account(params::Dict{String,<:Any})
 
-Disassociates the current Security Hub member account from the associated administrator
+Disassociates the current Security Hub CSPM member account from the associated administrator
 account.
 
 This operation is only used by accounts that are not part of an organization. For
@@ -1837,14 +2369,14 @@ end
 
 This method is deprecated. Instead, use `DisassociateFromAdministratorAccount`.
 
-The Security Hub console continues to use `DisassociateFromMasterAccount`. It will
+The Security Hub CSPM console continues to use `DisassociateFromMasterAccount`. It will
 eventually change to use `DisassociateFromAdministratorAccount`. Any IAM policies that
 specifically control access to this function must continue to use
 `DisassociateFromMasterAccount`. You should also add `DisassociateFromAdministratorAccount`
 to your policies to ensure that the correct permissions are in place after the console
 begins to use `DisassociateFromAdministratorAccount`.
 
-Disassociates the current Security Hub member account from the associated administrator
+Disassociates the current Security Hub CSPM member account from the associated administrator
 account.
 
 This operation is only used by accounts that are not part of an organization. For
@@ -1916,11 +2448,11 @@ end
     enable_import_findings_for_product(product_arn)
     enable_import_findings_for_product(product_arn, params::Dict{String,<:Any})
 
-Enables the integration of a partner product with Security Hub. Integrated products send
-findings to Security Hub.
+Enables the integration of a partner product with Security Hub CSPM. Integrated products
+send findings to Security Hub CSPM.
 
 When you enable a product integration, a permissions policy that grants permission for the
-product to send findings to Security Hub is applied.
+product to send findings to Security Hub CSPM is applied.
 
 # Arguments
 
@@ -1960,13 +2492,20 @@ end
     enable_organization_admin_account(admin_account_id)
     enable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Designates the Security Hub administrator account for an organization. Can only be called by
-the organization management account.
+Designates the Security Hub CSPM administrator account for an organization. Can only be
+called by the organization management account.
 
 # Arguments
 
 - `admin_account_id`: The Amazon Web Services account identifier of the account to designate
-  as the Security Hub administrator account.
+  as the Security Hub CSPM administrator account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Feature"`: The feature for which the delegated admin account is enabled. Defaults to
+  Security Hub CSPM if not specified.
 """
 function enable_organization_admin_account end
 
@@ -2002,14 +2541,14 @@ end
     enable_security_hub()
     enable_security_hub(params::Dict{String,<:Any})
 
-Enables Security Hub for your account in the current Region or the Region you specify in the
-request.
+Enables Security Hub CSPM for your account in the current Region or the Region you specify
+in the request.
 
-When you enable Security Hub, you grant to Security Hub the permissions necessary to gather
-findings from other services that are integrated with Security Hub.
+When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary
+to gather findings from other services that are integrated with Security Hub CSPM.
 
-When you use the [`enable_security_hub`](@ref) operation to enable Security Hub, you also
-automatically enable the following standards:
+When you use the [`enable_security_hub`](@ref) operation to enable Security Hub CSPM, you
+also automatically enable the following standards:
 
 - Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
 - Amazon Web Services Foundational Security Best Practices
@@ -2018,34 +2557,35 @@ Other standards are not automatically enabled.
 
 To opt out of automatically enabled standards, set `EnableDefaultStandards` to `false`.
 
-After you enable Security Hub, to enable a standard, use the [`batch_enable_standards`](@ref)
+After you enable Security Hub CSPM, to enable a standard, use the [`batch_enable_standards`](@ref)
 operation. To disable a standard, use the [`batch_disable_standards`](@ref) operation.
 
 To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html)
-in the *Security Hub User Guide*.
+in the *Security Hub CSPM User Guide*.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ControlFindingGenerator"`: This field, used when enabling Security Hub, specifies
+- `"ControlFindingGenerator"`: This field, used when enabling Security Hub CSPM, specifies
   whether the calling account has consolidated control findings turned on. If the value for
-  this field is set to `SECURITY_CONTROL`, Security Hub generates a single finding for a
-  control check even when the check applies to multiple enabled standards.
+  this field is set to `SECURITY_CONTROL`, Security Hub CSPM generates a single finding for
+  a control check even when the check applies to multiple enabled standards.
 
-  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates separate
-  findings for a control check when the check applies to multiple enabled standards.
+  If the value for this field is set to `STANDARD_CONTROL`, Security Hub CSPM generates
+  separate findings for a control check when the check applies to multiple enabled
+  standards.
 
   The value for this field in a member account matches the value in the administrator
   account. For accounts that aren't part of an organization, the default value of this field
-  is `SECURITY_CONTROL` if you enabled Security Hub on or after February 23, 2023.
+  is `SECURITY_CONTROL` if you enabled Security Hub CSPM on or after February 23, 2023.
 
-- `"EnableDefaultStandards"`: Whether to enable the security standards that Security Hub has
-  designated as automatically enabled. If you do not provide a value for
+- `"EnableDefaultStandards"`: Whether to enable the security standards that Security Hub
+  CSPM has designated as automatically enabled. If you don't provide a value for
   `EnableDefaultStandards`, it is set to `true`. To not enable the automatically enabled
   standards, set `EnableDefaultStandards` to `false`.
 
-- `"Tags"`: The tags to add to the hub resource when you enable Security Hub.
+- `"Tags"`: The tags to add to the hub resource when you enable Security Hub CSPM.
 """
 function enable_security_hub end
 
@@ -2062,10 +2602,37 @@ function enable_security_hub(
 end
 
 """
+    enable_security_hub_v2()
+    enable_security_hub_v2(params::Dict{String,<:Any})
+
+Enables the service in account for the current Amazon Web Services Region or specified
+Amazon Web Services Region.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: The tags to add to the hub V2 resource when you enable Security Hub.
+"""
+function enable_security_hub_v2 end
+
+function enable_security_hub_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("POST", "/hubv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function enable_security_hub_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST", "/hubv2", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_administrator_account()
     get_administrator_account(params::Dict{String,<:Any})
 
-Provides the details for the Security Hub administrator account for the current member
+Provides the details for the Security Hub CSPM administrator account for the current member
 account.
 
 Can be used by both member accounts that are managed using Organizations and accounts that
@@ -2086,10 +2653,84 @@ function get_administrator_account(
 end
 
 """
+    get_aggregator_v2(aggregator_v2_arn)
+    get_aggregator_v2(aggregator_v2_arn, params::Dict{String,<:Any})
+
+Returns the configuration of the specified Aggregator V2.
+
+# Arguments
+
+- `aggregator_v2_arn`: The ARN of the Aggregator V2.
+"""
+function get_aggregator_v2 end
+
+function get_aggregator_v2(
+    AggregatorV2Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/aggregatorv2/get/$(AggregatorV2Arn)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_aggregator_v2(
+    AggregatorV2Arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "GET",
+        "/aggregatorv2/get/$(AggregatorV2Arn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_automation_rule_v2(identifier)
+    get_automation_rule_v2(identifier, params::Dict{String,<:Any})
+
+Returns an automation rule for the V2 service.
+
+# Arguments
+
+- `identifier`: The ARN of the V2 automation rule.
+"""
+function get_automation_rule_v2 end
+
+function get_automation_rule_v2(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/automationrulesv2/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_automation_rule_v2(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "GET",
+        "/automationrulesv2/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_configuration_policy(identifier)
     get_configuration_policy(identifier, params::Dict{String,<:Any})
 
-Provides information about a configuration policy. Only the Security Hub delegated
+Provides information about a configuration policy. Only the Security Hub CSPM delegated
 administrator can invoke this operation from the home Region.
 
 # Arguments
@@ -2130,7 +2771,8 @@ end
 
 Returns the association between a configuration and a target account, organizational unit,
 or the root. The configuration can be a configuration policy or self-managed behavior. Only
-the Security Hub delegated administrator can invoke this operation from the home Region.
+the Security Hub CSPM delegated administrator can invoke this operation from the home
+Region.
 
 # Arguments
 
@@ -2158,6 +2800,38 @@ function get_configuration_policy_association(
         "POST",
         "/configurationPolicyAssociation/get",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_connector_v2(connector_id)
+    get_connector_v2(connector_id, params::Dict{String,<:Any})
+
+Grants permission to retrieve details for a connectorV2 based on connector id.
+
+# Arguments
+
+- `connector_id`: The UUID of the connectorV2 to identify connectorV2 resource.
+"""
+function get_connector_v2 end
+
+function get_connector_v2(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub(
+        "GET", "/connectorsv2/$(ConnectorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_connector_v2(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "GET",
+        "/connectorsv2/$(ConnectorId)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2204,7 +2878,11 @@ end
     get_finding_aggregator(finding_aggregator_arn)
     get_finding_aggregator(finding_aggregator_arn, params::Dict{String,<:Any})
 
-Returns the current finding aggregation configuration.
+!!! note
+    The *aggregation Region* is now called the *home Region*.
+
+Returns the current configuration in the calling account for cross-Region aggregation. A
+finding aggregator is a resource that establishes the home Region and any linked Regions.
 
 # Arguments
 
@@ -2242,8 +2920,16 @@ end
     get_finding_history(finding_identifier)
     get_finding_history(finding_identifier, params::Dict{String,<:Any})
 
-Returns history for a Security Hub finding in the last 90 days. The history includes changes
-made to any fields in the Amazon Web Services Security Finding Format (ASFF).
+Returns the history of a Security Hub CSPM finding. The history includes changes made to any
+fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp
+fields, such as the `CreatedAt` and `UpdatedAt` fields.
+
+This operation might return fewer results than the maximum number of results (`MaxResults`)
+specified in a request, even when more results are available. If this occurs, the response
+includes a `NextToken` value, which you should use to retrieve the next set of results in
+the response. The presence of a `NextToken` value in a response doesn't necessarily indicate
+that the results are incomplete. However, you should continue to specify a `NextToken` value
+until you receive a response that doesn't include this value.
 
 # Arguments
 
@@ -2256,59 +2942,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EndTime"`: An ISO 8601-formatted timestamp that indicates the end time of the requested
   finding history.
 
-  If you provide values for both `StartTime` and `EndTime`, Security Hub returns finding
-  history for the specified time period. If you provide a value for `StartTime` but not for
-  `EndTime`, Security Hub returns finding history from the `StartTime` to the time at which
-  the API is called. If you provide a value for `EndTime` but not for `StartTime`, Security
-  Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
+  If you provide values for both `StartTime` and `EndTime`, Security Hub CSPM returns
+  finding history for the specified time period. If you provide a value for `StartTime` but
+  not for `EndTime`, Security Hub CSPM returns finding history from the `StartTime` to the
+  time at which the API is called. If you provide a value for `EndTime` but not for
+  `StartTime`, Security Hub CSPM returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
   timestamp of the finding to the `EndTime`. If you provide neither `StartTime` nor
-  `EndTime`, Security Hub returns finding history from the CreatedAt timestamp of the
+  `EndTime`, Security Hub CSPM returns finding history from the `CreatedAt` timestamp of the
   finding to the time at which the API is called. In all of these scenarios, the response is
-  limited to 100 results, and the maximum time period is limited to 90 days.
+  limited to 100 results.
 
-  This field accepts only the specified formats. Timestamps can end with `Z` or
-  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to a
-  maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats
-  with examples:
-
-  - `YYYY-MM-DDTHH:MM:SSZ` (for example, `2019-01-31T23:00:00Z`)
-  - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ` (for example, `2019-01-31T23:00:00.123456789Z`)
-  - `YYYY-MM-DDTHH:MM:SS+HH:MM` (for example, `2024-01-04T15:25:10+17:59`)
-  - `YYYY-MM-DDTHH:MM:SS-HHMM` (for example, `2024-01-04T15:25:10-1759`)
-  - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM` (for example,
-    `2024-01-04T15:25:10.123456789+17:59`)
+  For more information about the validation and formatting of timestamp fields in Security
+  Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 - `"MaxResults"`: The maximum number of results to be returned. If you don’t provide it,
-  Security Hub returns up to 100 results of finding history.
+  Security Hub CSPM returns up to 100 results of finding history.
 
 - `"NextToken"`: A token for pagination purposes. Provide `NULL` as the initial value. In
   subsequent requests, provide the token included in the response to get up to an additional
-  100 results of finding history. If you don’t provide `NextToken`, Security Hub returns up
-to 100 results of finding history for each request.
+  100 results of finding history. If you don’t provide `NextToken`, Security Hub CSPM
+returns up to 100 results of finding history for each request.
 
 - `"StartTime"`: A timestamp that indicates the start time of the requested finding history.
 
-  If you provide values for both `StartTime` and `EndTime`, Security Hub returns finding
-  history for the specified time period. If you provide a value for `StartTime` but not for
-  `EndTime`, Security Hub returns finding history from the `StartTime` to the time at which
-  the API is called. If you provide a value for `EndTime` but not for `StartTime`, Security
-  Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
+  If you provide values for both `StartTime` and `EndTime`, Security Hub CSPM returns
+  finding history for the specified time period. If you provide a value for `StartTime` but
+  not for `EndTime`, Security Hub CSPM returns finding history from the `StartTime` to the
+  time at which the API is called. If you provide a value for `EndTime` but not for
+  `StartTime`, Security Hub CSPM returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt)
   timestamp of the finding to the `EndTime`. If you provide neither `StartTime` nor
-  `EndTime`, Security Hub returns finding history from the CreatedAt timestamp of the
+  `EndTime`, Security Hub CSPM returns finding history from the `CreatedAt` timestamp of the
   finding to the time at which the API is called. In all of these scenarios, the response is
-  limited to 100 results, and the maximum time period is limited to 90 days.
+  limited to 100 results.
 
-  This field accepts only the specified formats. Timestamps can end with `Z` or
-  `("+" / "-") time-hour [":" time-minute]`. The time-secfrac after seconds is limited to a
-  maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats
-  with examples:
-
-  - `YYYY-MM-DDTHH:MM:SSZ` (for example, `2019-01-31T23:00:00Z`)
-  - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ` (for example, `2019-01-31T23:00:00.123456789Z`)
-  - `YYYY-MM-DDTHH:MM:SS+HH:MM` (for example, `2024-01-04T15:25:10+17:59`)
-  - `YYYY-MM-DDTHH:MM:SS-HHMM` (for example, `2024-01-04T15:25:10-1759`)
-  - `YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM` (for example,
-    `2024-01-04T15:25:10.123456789+17:59`)
+  For more information about the validation and formatting of timestamp fields in Security
+  Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 """
 function get_finding_history end
 
@@ -2343,14 +3011,65 @@ function get_finding_history(
 end
 
 """
+    get_finding_statistics_v2(group_by_rules)
+    get_finding_statistics_v2(group_by_rules, params::Dict{String,<:Any})
+
+Returns aggregated statistical data about findings. `GetFindingStatisticsV2` use
+`securityhub:GetAdhocInsightResults` in the `Action` element of an IAM policy statement. You
+must have permission to perform the `s` action.
+
+# Arguments
+
+- `group_by_rules`: Specifies how security findings should be aggregated and organized in
+  the statistical analysis. It can accept up to 5 `groupBy` fields in a single call.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxStatisticResults"`: The maximum number of results to be returned.
+- `"SortOrder"`: Orders the aggregation count in descending or ascending order. Descending
+  order is the default.
+"""
+function get_finding_statistics_v2 end
+
+function get_finding_statistics_v2(
+    GroupByRules; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/findingsv2/statistics",
+        Dict{String,Any}("GroupByRules" => GroupByRules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_finding_statistics_v2(
+    GroupByRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/findingsv2/statistics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GroupByRules" => GroupByRules), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_findings()
     get_findings(params::Dict{String,<:Any})
 
 Returns a list of findings that match the specified criteria.
 
-If finding aggregation is enabled, then when you call `GetFindings` from the aggregation
-Region, the results include all of the matching findings from both the aggregation Region
-and the linked Regions.
+If cross-Region aggregation is enabled, then when you call `GetFindings` from the home
+Region, the results include all of the matching findings from both the home Region and
+linked Regions.
 
 # Optional Parameters
 
@@ -2390,10 +3109,103 @@ function get_findings(
 end
 
 """
+    get_findings_trends_v2(end_time, start_time)
+    get_findings_trends_v2(end_time, start_time, params::Dict{String,<:Any})
+
+Returns findings trend data based on the specified criteria. This operation helps you
+analyze patterns and changes in findings over time.
+
+# Arguments
+
+- `end_time`: The ending timestamp for the time period to analyze findings trends, in ISO
+  8601 format.
+- `start_time`: The starting timestamp for the time period to analyze findings trends, in
+  ISO 8601 format.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters to apply to the findings trend data.
+- `"MaxResults"`: The maximum number of trend data points to return in a single response.
+- `"NextToken"`: The token to use for paginating results. This value is returned in the
+  response if more results are available.
+"""
+function get_findings_trends_v2 end
+
+function get_findings_trends_v2(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/findingsTrendsv2",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_findings_trends_v2(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/findingsTrendsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_findings_v2()
+    get_findings_v2(params::Dict{String,<:Any})
+
+Return a list of findings that match the specified criteria. `GetFindings` and
+`GetFindingsV2` both use `securityhub:GetFindings` in the `Action` element of an IAM policy
+statement. You must have permission to perform the `securityhub:GetFindings` action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The finding attributes used to define a condition to filter the returned OCSF
+  findings. You can filter up to 10 composite filters. For each filter type inside of a
+  composite filter, you can provide up to 20 filters.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The token required for pagination. On your first call, set the value of
+  this parameter to `NULL`. For subsequent calls, to continue listing data, set the value of
+  this parameter to the value returned in the previous response.
+- `"SortCriteria"`: The finding attributes used to sort the list of returned findings.
+"""
+function get_findings_v2 end
+
+function get_findings_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("POST", "/findingsv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_findings_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST", "/findingsv2", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_insight_results(insight_arn)
     get_insight_results(insight_arn, params::Dict{String,<:Any})
 
-Lists the results of the Security Hub insight specified by the insight ARN.
+Lists the results of the Security Hub CSPM insight specified by the insight ARN.
 
 # Arguments
 
@@ -2434,7 +3246,7 @@ Lists and describes insights for the specified insight ARNs.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"InsightArns"`: The ARNs of the insights to describe. If you do not provide any insight
+- `"InsightArns"`: The ARNs of the insights to describe. If you don't provide any insight
   ARNs, then `GetInsights` returns all of your custom insights. It does not return any
   managed insights.
 
@@ -2464,8 +3276,13 @@ end
     get_invitations_count()
     get_invitations_count(params::Dict{String,<:Any})
 
-Returns the count of all Security Hub membership invitations that were sent to the current
-member account, not including the currently accepted invitation.
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
+
+Returns the count of all Security Hub CSPM membership invitations that were sent to the
+calling member account, not including the currently accepted invitation.
 """
 function get_invitations_count end
 
@@ -2489,13 +3306,13 @@ end
 
 This method is deprecated. Instead, use `GetAdministratorAccount`.
 
-The Security Hub console continues to use `GetMasterAccount`. It will eventually change to
-use `GetAdministratorAccount`. Any IAM policies that specifically control access to this
+The Security Hub CSPM console continues to use `GetMasterAccount`. It will eventually change
+to use `GetAdministratorAccount`. Any IAM policies that specifically control access to this
 function must continue to use `GetMasterAccount`. You should also add
 `GetAdministratorAccount` to your policies to ensure that the correct permissions are in
 place after the console begins to use `GetAdministratorAccount`.
 
-Provides the details for the Security Hub administrator account for the current member
+Provides the details for the Security Hub CSPM administrator account for the current member
 account.
 
 Can be used by both member accounts that are managed using Organizations and accounts that
@@ -2519,18 +3336,18 @@ end
     get_members(account_ids)
     get_members(account_ids, params::Dict{String,<:Any})
 
-Returns the details for the Security Hub member accounts for the specified account IDs.
+Returns the details for the Security Hub CSPM member accounts for the specified account IDs.
 
-An administrator account can be either the delegated Security Hub administrator account for
-an organization or an administrator account that enabled Security Hub manually.
+An administrator account can be either the delegated Security Hub CSPM administrator account
+for an organization or an administrator account that enabled Security Hub CSPM manually.
 
 The results include both member accounts that are managed using Organizations and accounts
 that were invited manually.
 
 # Arguments
 
-- `account_ids`: The list of account IDs for the Security Hub member accounts to return the
-  details for.
+- `account_ids`: The list of account IDs for the Security Hub CSPM member accounts to return
+  the details for.
 """
 function get_members end
 
@@ -2557,6 +3374,144 @@ function get_members(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resources_statistics_v2(group_by_rules)
+    get_resources_statistics_v2(group_by_rules, params::Dict{String,<:Any})
+
+Retrieves statistical information about Amazon Web Services resources and their associated
+security findings.
+
+# Arguments
+
+- `group_by_rules`: How resource statistics should be aggregated and organized in the
+  response.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxStatisticResults"`: The maximum number of results to be returned.
+- `"SortOrder"`: Sorts aggregated statistics.
+"""
+function get_resources_statistics_v2 end
+
+function get_resources_statistics_v2(
+    GroupByRules; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/resourcesv2/statistics",
+        Dict{String,Any}("GroupByRules" => GroupByRules);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resources_statistics_v2(
+    GroupByRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/resourcesv2/statistics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GroupByRules" => GroupByRules), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resources_trends_v2(end_time, start_time)
+    get_resources_trends_v2(end_time, start_time, params::Dict{String,<:Any})
+
+Returns resource trend data based on the specified criteria. This operation helps you
+analyze patterns and changes in resource compliance over time.
+
+# Arguments
+
+- `end_time`: The ending timestamp for the time period to analyze resources trends, in ISO
+  8601 format.
+- `start_time`: The starting timestamp for the time period to analyze resources trends, in
+  ISO 8601 format.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: The filters to apply to the resources trend data.
+- `"MaxResults"`: The maximum number of trend data points to return in a single response.
+- `"NextToken"`: The token to use for paginating results. This value is returned in the
+  response if more results are available.
+"""
+function get_resources_trends_v2 end
+
+function get_resources_trends_v2(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/resourcesTrendsv2",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_resources_trends_v2(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/resourcesTrendsv2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resources_v2()
+    get_resources_v2(params::Dict{String,<:Any})
+
+Returns a list of resources.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filters"`: Filters resources based on a set of criteria.
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The token required for pagination. On your first call, set the value of
+  this parameter to `NULL`. For subsequent calls, to continue listing data, set the value of
+  this parameter to the value returned in the previous response.
+- `"SortCriteria"`: The finding attributes used to sort the list of returned findings.
+"""
+function get_resources_v2 end
+
+function get_resources_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("POST", "/resourcesv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function get_resources_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST", "/resourcesv2", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2608,22 +3563,28 @@ end
     invite_members(account_ids)
     invite_members(account_ids, params::Dict{String,<:Any})
 
-Invites other Amazon Web Services accounts to become member accounts for the Security Hub
-administrator account that the invitation is sent from.
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
 
-This operation is only used to invite accounts that do not belong to an organization.
-Organization accounts do not receive invitations.
+Invites other Amazon Web Services accounts to become member accounts for the Security Hub
+CSPM administrator account that the invitation is sent from.
+
+This operation is only used to invite accounts that don't belong to an Amazon Web Services
+organization. Organization accounts don't receive invitations.
 
 Before you can use this action to invite a member, you must first use the `CreateMembers`
-action to create the member account in Security Hub.
+action to create the member account in Security Hub CSPM.
 
-When the account owner enables Security Hub and accepts the invitation to become a member
-account, the administrator account can view the findings generated from the member account.
+When the account owner enables Security Hub CSPM and accepts the invitation to become a
+member account, the administrator account can view the findings generated in the member
+account.
 
 # Arguments
 
 - `account_ids`: The list of account IDs of the Amazon Web Services accounts to invite to
-  Security Hub as members.
+  Security Hub CSPM as members.
 """
 function invite_members end
 
@@ -2650,6 +3611,37 @@ function invite_members(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_aggregators_v2()
+    list_aggregators_v2(params::Dict{String,<:Any})
+
+Retrieves a list of V2 aggregators.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The token required for pagination. On your first call, set the value of
+  this parameter to `NULL`. For subsequent calls, to continue listing data, set the value of
+  this parameter to the value returned in the previous response.
+"""
+function list_aggregators_v2 end
+
+function list_aggregators_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub(
+        "GET", "/aggregatorv2/list"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_aggregators_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET", "/aggregatorv2/list", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2686,12 +3678,47 @@ function list_automation_rules(
 end
 
 """
+    list_automation_rules_v2()
+    list_automation_rules_v2(params::Dict{String,<:Any})
+
+Returns a list of automation rules and metadata for the calling account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: The token required for pagination. On your first call, set the value of
+  this parameter to `NULL`. For subsequent calls, to continue listing data, set the value of
+  this parameter to the value returned in the previous response.
+"""
+function list_automation_rules_v2 end
+
+function list_automation_rules_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub(
+        "GET", "/automationrulesv2/list"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_automation_rules_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/automationrulesv2/list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_configuration_policies()
     list_configuration_policies(params::Dict{String,<:Any})
 
-Lists the configuration policies that the Security Hub delegated administrator has created
-for your organization. Only the delegated administrator can invoke this operation from the
-home Region.
+Lists the configuration policies that the Security Hub CSPM delegated administrator has
+created for your organization. Only the delegated administrator can invoke this operation
+from the home Region.
 
 # Optional Parameters
 
@@ -2736,8 +3763,8 @@ end
     list_configuration_policy_associations(params::Dict{String,<:Any})
 
 Provides information about the associations for your configuration policies and self-managed
-behavior. Only the Security Hub delegated administrator can invoke this operation from the
-home Region.
+behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from
+the home Region.
 
 # Optional Parameters
 
@@ -2786,11 +3813,41 @@ function list_configuration_policy_associations(
 end
 
 """
+    list_connectors_v2()
+    list_connectors_v2(params::Dict{String,<:Any})
+
+Grants permission to retrieve a list of connectorsV2 and their metadata for the calling
+account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConnectorStatus"`: The status for the connectorV2.
+- `"MaxResults"`: The maximum number of results to be returned.
+- `"NextToken"`: The pagination token per the Amazon Web Services Pagination standard
+- `"ProviderName"`: The name of the third-party provider.
+"""
+function list_connectors_v2 end
+
+function list_connectors_v2(; aws_config::AbstractAWSConfig=current_aws_config())
+    return securityhub("GET", "/connectorsv2"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_connectors_v2(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "GET", "/connectorsv2", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_enabled_products_for_import()
     list_enabled_products_for_import(params::Dict{String,<:Any})
 
 Lists all findings-generating solutions (products) that you are subscribed to receive
-findings from in Security Hub.
+findings from in Security Hub CSPM.
 
 # Optional Parameters
 
@@ -2826,8 +3883,9 @@ end
     list_finding_aggregators()
     list_finding_aggregators(params::Dict{String,<:Any})
 
-If finding aggregation is enabled, then `ListFindingAggregators` returns the ARN of the
-finding aggregator. You can run this operation from any Region.
+If cross-Region aggregation is enabled, then `ListFindingAggregators` returns the Amazon
+Resource Name (ARN) of the finding aggregator. You can run this operation from any Amazon
+Web Services Region.
 
 # Optional Parameters
 
@@ -2862,11 +3920,15 @@ end
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Lists all Security Hub membership invitations that were sent to the current Amazon Web
-Services account.
+!!! note
+    We recommend using Organizations instead of Security Hub CSPM invitations to manage your
+    member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html)
+    in the *Security Hub CSPM User Guide*.
 
-This operation is only used by accounts that are managed by invitation. Accounts that are
-managed using the integration with Organizations do not receive invitations.
+Lists all Security Hub CSPM membership invitations that were sent to the calling account.
+
+Only accounts that are managed by invitation can use this operation. Accounts that are
+managed using the integration with Organizations don't receive invitations.
 
 # Optional Parameters
 
@@ -2898,7 +3960,8 @@ end
     list_members()
     list_members(params::Dict{String,<:Any})
 
-Lists details about all member accounts for the current Security Hub administrator account.
+Lists details about all member accounts for the current Security Hub CSPM administrator
+account.
 
 The results include both member accounts that belong to an organization and member accounts
 that were invited manually.
@@ -2941,13 +4004,15 @@ end
     list_organization_admin_accounts()
     list_organization_admin_accounts(params::Dict{String,<:Any})
 
-Lists the Security Hub administrator accounts. Can only be called by the organization
+Lists the Security Hub CSPM administrator accounts. Can only be called by the organization
 management account.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"Feature"`: The feature where the delegated administrator account is listed. Defaults to
+  Security Hub CSPM if not specified.
 - `"MaxResults"`: The maximum number of items to return in the response.
 - `"NextToken"`: The token that is required for pagination. On your first call to the
   `ListOrganizationAdminAccounts` operation, set the value of this parameter to `NULL`. For
@@ -3022,6 +4087,9 @@ end
 Specifies whether a control is currently enabled or disabled in each enabled standard in the
 calling account.
 
+This operation omits standards control associations for standard subscriptions where
+`StandardsControlsUpdatable` has value `NOT_READY_FOR_UPDATES`.
+
 # Arguments
 
 - `security_control_id`: The identifier of the control (identified with `SecurityControlId`,
@@ -3037,8 +4105,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first 25 standard and control associations. The results also include a `NextToken`
   parameter that you can use in a subsequent API call to get the next 25 associations. This
   repeats until all associations for the specified control are returned. The number of
-  results is limited by the number of supported Security Hub standards that you've enabled
-  in the calling account.
+  results is limited by the number of supported Security Hub CSPM standards that you've
+  enabled in the calling account.
 
 - `"NextToken"`: Optional pagination parameter.
 """
@@ -3105,13 +4173,61 @@ function list_tags_for_resource(
 end
 
 """
+    register_connector_v2(auth_code, auth_state)
+    register_connector_v2(auth_code, auth_state, params::Dict{String,<:Any})
+
+Grants permission to complete the authorization based on input parameters.
+
+# Arguments
+
+- `auth_code`: The authCode retrieved from authUrl to complete the OAuth 2.0 authorization
+  code flow.
+- `auth_state`: The authState retrieved from authUrl to complete the OAuth 2.0 authorization
+  code flow.
+"""
+function register_connector_v2 end
+
+function register_connector_v2(
+    AuthCode, AuthState; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/connectorsv2/register",
+        Dict{String,Any}("AuthCode" => AuthCode, "AuthState" => AuthState);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_connector_v2(
+    AuthCode,
+    AuthState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/connectorsv2/register",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AuthCode" => AuthCode, "AuthState" => AuthState),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_configuration_policy_association(configuration_policy_identifier, target)
     start_configuration_policy_association(configuration_policy_identifier, target, params::Dict{String,<:Any})
 
 Associates a target account, organizational unit, or the root with a specified
 configuration. The target can be associated with a configuration policy or self-managed
-behavior. Only the Security Hub delegated administrator can invoke this operation from the
-home Region.
+behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from
+the home Region.
 
 # Arguments
 
@@ -3172,7 +4288,7 @@ Disassociates a target account, organizational unit, or the root from a specifie
 configuration. When you disassociate a configuration from its target, the target inherits
 the configuration of the closest parent. If there’s no configuration to inherit, the target
 retains its settings but becomes a self-managed account. A target can be disassociated from
-a configuration policy or self-managed behavior. Only the Security Hub delegated
+a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated
 administrator can invoke this operation from the home Region.
 
 # Arguments
@@ -3308,7 +4424,7 @@ end
     update_action_target(action_target_arn)
     update_action_target(action_target_arn, params::Dict{String,<:Any})
 
-Updates the name and description of a custom action target in Security Hub.
+Updates the name and description of a custom action target in Security Hub CSPM.
 
 # Arguments
 
@@ -3349,11 +4465,110 @@ function update_action_target(
 end
 
 """
+    update_aggregator_v2(aggregator_v2_arn, region_linking_mode)
+    update_aggregator_v2(aggregator_v2_arn, region_linking_mode, params::Dict{String,<:Any})
+
+Udpates the configuration for the Aggregator V2.
+
+# Arguments
+
+- `aggregator_v2_arn`: The ARN of the Aggregator V2.
+- `region_linking_mode`: Determines how Amazon Web Services Regions should be linked to the
+  Aggregator V2.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"LinkedRegions"`: A list of Amazon Web Services Regions linked to the aggegation Region.
+"""
+function update_aggregator_v2 end
+
+function update_aggregator_v2(
+    AggregatorV2Arn, RegionLinkingMode; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "PATCH",
+        "/aggregatorv2/update/$(AggregatorV2Arn)",
+        Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_aggregator_v2(
+    AggregatorV2Arn,
+    RegionLinkingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/aggregatorv2/update/$(AggregatorV2Arn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RegionLinkingMode" => RegionLinkingMode), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_automation_rule_v2(identifier)
+    update_automation_rule_v2(identifier, params::Dict{String,<:Any})
+
+Updates a V2 automation rule.
+
+# Arguments
+
+- `identifier`: The ARN of the automation rule.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Actions"`: A list of actions to be performed when the rule criteria is met.
+- `"Criteria"`: The filtering type and configuration of the automation rule.
+- `"Description"`: A description of the automation rule.
+- `"RuleName"`: The name of the automation rule.
+- `"RuleOrder"`: Represents a value for the rule priority.
+- `"RuleStatus"`: The status of the automation rule.
+"""
+function update_automation_rule_v2 end
+
+function update_automation_rule_v2(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "PATCH",
+        "/automationrulesv2/$(Identifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_automation_rule_v2(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/automationrulesv2/$(Identifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_configuration_policy(identifier)
     update_configuration_policy(identifier, params::Dict{String,<:Any})
 
-Updates a configuration policy. Only the Security Hub delegated administrator can invoke
-this operation from the home Region.
+Updates a configuration policy. Only the Security Hub CSPM delegated administrator can
+invoke this operation from the home Region.
 
 # Arguments
 
@@ -3364,14 +4579,14 @@ this operation from the home Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ConfigurationPolicy"`: An object that defines how Security Hub is configured. It
-  includes whether Security Hub is enabled or disabled, a list of enabled security
+- `"ConfigurationPolicy"`: An object that defines how Security Hub CSPM is configured. It
+  includes whether Security Hub CSPM is enabled or disabled, a list of enabled security
   standards, a list of enabled or disabled security controls, and a list of custom parameter
   values for specified controls. If you provide a list of security controls that are enabled
-  in the configuration policy, Security Hub disables all other controls (including newly
-  released controls). If you provide a list of security controls that are disabled in the
-  configuration policy, Security Hub enables all other controls (including newly released
-  controls).
+  in the configuration policy, Security Hub CSPM disables all other controls (including
+  newly released controls). If you provide a list of security controls that are disabled in
+  the configuration policy, Security Hub CSPM enables all other controls (including newly
+  released controls).
 
   When updating a configuration policy, provide a complete list of standards that you want
   to enable and a complete list of controls that you want to enable or disable. The updated
@@ -3412,14 +4627,58 @@ function update_configuration_policy(
 end
 
 """
+    update_connector_v2(connector_id)
+    update_connector_v2(connector_id, params::Dict{String,<:Any})
+
+Grants permission to update a connectorV2 based on its id and input parameters.
+
+# Arguments
+
+- `connector_id`: The UUID of the connectorV2 to identify connectorV2 resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the connectorV2.
+- `"Provider"`: The third-party provider’s service configuration.
+"""
+function update_connector_v2 end
+
+function update_connector_v2(
+    ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return securityhub(
+        "PATCH", "/connectorsv2/$(ConnectorId)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function update_connector_v2(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/connectorsv2/$(ConnectorId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_finding_aggregator(finding_aggregator_arn, region_linking_mode)
     update_finding_aggregator(finding_aggregator_arn, region_linking_mode, params::Dict{String,<:Any})
 
-Updates the finding aggregation configuration. Used to update the Region linking mode and
-the list of included or excluded Regions. You cannot use `UpdateFindingAggregator` to change
-the aggregation Region.
+!!! note
+    The *aggregation Region* is now called the *home Region*.
 
-You must run `UpdateFindingAggregator` from the current aggregation Region.
+Updates cross-Region aggregation settings. You can use this operation to update the Region
+linking mode and the list of included or excluded Amazon Web Services Regions. However, you
+can't use this operation to change the home Region.
+
+You can invoke this operation from the current home Region only.
 
 # Arguments
 
@@ -3428,32 +4687,35 @@ You must run `UpdateFindingAggregator` from the current aggregation Region.
 
 - `region_linking_mode`: Indicates whether to aggregate findings from all of the available
   Regions in the current partition. Also determines whether to automatically aggregate
-  findings from new Regions as Security Hub supports them and you opt into them.
+  findings from new Regions as Security Hub CSPM supports them and you opt into them.
 
   The selected option also determines how to use the Regions provided in the Regions list.
 
   The options are as follows:
 
-  - `ALL_REGIONS` - Indicates to aggregate findings from all of the Regions where Security
-    Hub is enabled. When you choose this option, Security Hub also automatically aggregates
-    findings from new Regions as Security Hub supports them and you opt into them.
-  - `ALL_REGIONS_EXCEPT_SPECIFIED` - Indicates to aggregate findings from all of the Regions
-    where Security Hub is enabled, except for the Regions listed in the `Regions` parameter.
-    When you choose this option, Security Hub also automatically aggregates findings from
-    new Regions as Security Hub supports them and you opt into them.
-  - `SPECIFIED_REGIONS` - Indicates to aggregate findings only from the Regions listed in
-    the `Regions` parameter. Security Hub does not automatically aggregate findings from new
-    Regions.
+  - `ALL_REGIONS` - Aggregates findings from all of the Regions where Security Hub CSPM is
+    enabled. When you choose this option, Security Hub CSPM also automatically aggregates
+    findings from new Regions as Security Hub CSPM supports them and you opt into them.
+  - `ALL_REGIONS_EXCEPT_SPECIFIED` - Aggregates findings from all of the Regions where
+    Security Hub CSPM is enabled, except for the Regions listed in the `Regions` parameter.
+    When you choose this option, Security Hub CSPM also automatically aggregates findings
+    from new Regions as Security Hub CSPM supports them and you opt into them.
+  - `SPECIFIED_REGIONS` - Aggregates findings only from the Regions listed in the `Regions`
+    parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.
+  - `NO_REGIONS` - Aggregates no data because no Regions are selected as linked Regions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Regions"`: If `RegionLinkingMode` is `ALL_REGIONS_EXCEPT_SPECIFIED`, then this is a
-  space-separated list of Regions that do not aggregate findings to the aggregation Region.
+  space-separated list of Regions that don't replicate and send findings to the home Region.
 
   If `RegionLinkingMode` is `SPECIFIED_REGIONS`, then this is a space-separated list of
-  Regions that do aggregate findings to the aggregation Region.
+  Regions that do replicate and send findings to the home Region.
+
+  An `InvalidInputException` error results if you populate this field while
+  `RegionLinkingMode` is `NO_REGIONS`.
 """
 function update_finding_aggregator end
 
@@ -3505,12 +4767,14 @@ end
 `UpdateFindings` is a deprecated operation. Instead of `UpdateFindings`, use the [`batch_update_findings`](@ref)
 operation.
 
-Updates the `Note` and `RecordState` of the Security Hub-aggregated findings that the filter
-attributes specify. Any member account that can view the finding also sees the update to the
-finding.
+The [`update_findings`](@ref) operation updates the `Note` and `RecordState` of the Security
+Hub CSPM aggregated findings that the filter attributes specify. Any member account that can
+view the finding can also see the update to the finding.
 
-Finding updates made with `UpdateFindings` might not be persisted if the same finding is
-later updated by the finding provider through the [`batch_import_findings`](@ref) operation.
+Finding updates made with `UpdateFindings` aren't persisted if the same finding is later
+updated by the finding provider through the [`batch_import_findings`](@ref) operation. In
+addition, Security Hub CSPM doesn't record updates made with `UpdateFindings` in the finding
+history.
 
 # Arguments
 
@@ -3553,7 +4817,7 @@ end
     update_insight(insight_arn)
     update_insight(insight_arn, params::Dict{String,<:Any})
 
-Updates the Security Hub insight identified by the specified insight ARN.
+Updates the Security Hub CSPM insight identified by the specified insight ARN.
 
 # Arguments
 
@@ -3593,34 +4857,34 @@ end
     update_organization_configuration(auto_enable)
     update_organization_configuration(auto_enable, params::Dict{String,<:Any})
 
-Updates the configuration of your organization in Security Hub. Only the Security Hub
-administrator account can invoke this operation.
+Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub
+CSPM administrator account can invoke this operation.
 
 # Arguments
 
-- `auto_enable`: Whether to automatically enable Security Hub in new member accounts when
-  they join the organization.
+- `auto_enable`: Whether to automatically enable Security Hub CSPM in new member accounts
+  when they join the organization.
 
-  If set to `true`, then Security Hub is automatically enabled in new accounts. If set to
-  `false`, then Security Hub isn't enabled in new accounts automatically. The default value
-  is `false`.
+  If set to `true`, then Security Hub CSPM is automatically enabled in new accounts. If set
+  to `false`, then Security Hub CSPM isn't enabled in new accounts automatically. The
+  default value is `false`.
 
   If the `ConfigurationType` of your organization is set to `CENTRAL`, then this field is
   set to `false` and can't be changed in the home Region and linked Regions. However, in
   that case, the delegated administrator can create a configuration policy in which Security
-  Hub is enabled and associate the policy with new organization accounts.
+  Hub CSPM is enabled and associate the policy with new organization accounts.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AutoEnableStandards"`: Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html)
+- `"AutoEnableStandards"`: Whether to automatically enable Security Hub CSPM [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html)
   in new member accounts when they join the organization.
 
   The default value of this parameter is equal to `DEFAULT`.
 
-  If equal to `DEFAULT`, then Security Hub default standards are automatically enabled for
-  new member accounts. If equal to `NONE`, then default standards are not automatically
+  If equal to `DEFAULT`, then Security Hub CSPM default standards are automatically enabled
+  for new member accounts. If equal to `NONE`, then default standards are not automatically
   enabled for new member accounts.
 
   If the `ConfigurationType` of your organization is set to `CENTRAL`, then this field is
@@ -3722,7 +4986,7 @@ end
     update_security_hub_configuration()
     update_security_hub_configuration(params::Dict{String,<:Any})
 
-Updates configuration options for Security Hub.
+Updates configuration options for Security Hub CSPM.
 
 # Optional Parameters
 
@@ -3734,13 +4998,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   By default, this is set to `true`, and new controls are enabled automatically. To not
   automatically enable new controls, set this to `false`.
 
+  When you automatically enable new controls, you can interact with the controls in the
+  console and programmatically immediately after release. However, automatically enabled
+  controls have a temporary default status of `DISABLED`. It can take up to several days for
+  Security Hub CSPM to process the control release and designate the control as `ENABLED` in
+  your account. During the processing period, you can manually enable or disable a control,
+  and Security Hub CSPM will maintain that designation regardless of whether you have
+  `AutoEnableControls` set to `true`.
+
 - `"ControlFindingGenerator"`: Updates whether the calling account has consolidated control
   findings turned on. If the value for this field is set to `SECURITY_CONTROL`, Security Hub
-  generates a single finding for a control check even when the check applies to multiple
-  enabled standards.
+  CSPM generates a single finding for a control check even when the check applies to
+  multiple enabled standards.
 
-  If the value for this field is set to `STANDARD_CONTROL`, Security Hub generates separate
-  findings for a control check when the check applies to multiple enabled standards.
+  If the value for this field is set to `STANDARD_CONTROL`, Security Hub CSPM generates
+  separate findings for a control check when the check applies to multiple enabled
+  standards.
 
   For accounts that are part of an organization, this value can only be updated in the
   administrator account.
@@ -3766,6 +5039,9 @@ end
     update_standards_control(standards_control_arn, params::Dict{String,<:Any})
 
 Used to control whether an individual security standard control is enabled or disabled.
+
+Calls to this operation return a `RESOURCE_NOT_FOUND_EXCEPTION` error when the standard
+subscription for the control has `StandardsControlsUpdatable` value `NOT_READY_FOR_UPDATES`.
 
 # Arguments
 

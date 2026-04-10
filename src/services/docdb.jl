@@ -300,11 +300,11 @@ identified by `TargetDBClusterSnapshotIdentifier` while that cluster snapshot is
 
   Constraints:
 
-  - Must specify a valid system snapshot in the *available* state.
-  - If the source snapshot is in the same Amazon Web Services Region as the copy, specify a
-    valid snapshot identifier.
-  - If the source snapshot is in a different Amazon Web Services Region than the copy,
-    specify a valid cluster snapshot ARN.
+  - Must specify a valid cluster snapshot in the *available* state.
+  - If the source cluster snapshot is in the same Amazon Web Services Region as the copy,
+    specify a valid snapshot identifier.
+  - If the source cluster snapshot is in a different Amazon Web Services Region or owned by
+    another Amazon Web Services account, specify the snapshot ARN.
 
   Example: `my-cluster-snapshot1`
 
@@ -498,11 +498,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services account has a different default encryption key for each Amazon Web Services
   Regions.
 
+- `"ManageMasterUserPassword"`: Specifies whether to manage the master user password with
+  Amazon Web Services Secrets Manager.
+
+  Constraint: You can't manage the master user password with Amazon Web Services Secrets
+  Manager if `MasterUserPassword` is specified.
+
 - `"MasterUserPassword"`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote ("), or the
   "at" symbol (@).
 
   Constraints: Must contain from 8 to 100 characters.
+
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+  This setting is valid only if the master user password is managed by Amazon DocumentDB in
+  Amazon Web Services Secrets Manager for the DB cluster.
+
+  The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify
+  the key ARN or alias ARN.
+
+  If you don't specify `MasterUserSecretKmsKeyId`, then the `aws/secretsmanager` KMS key is
+  used to encrypt the secret. If the secret is in a different Amazon Web Services account,
+  then you can't use the `aws/secretsmanager` KMS key to encrypt the secret, and you must
+  use a customer managed KMS key.
+
+  There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services
+  account has a different default KMS key for each Amazon Web Services Region.
 
 - `"MasterUsername"`: The name of the master user for the cluster.
 
@@ -511,6 +534,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Must be from 1 to 63 letters or numbers.
   - The first character must be a letter.
   - Cannot be a reserved word for the chosen database engine.
+
+- `"NetworkType"`: The network type of the cluster.
+
+  The network type is determined by the `DBSubnetGroup` specified for the cluster. A
+  `DBSubnetGroup` can support only the IPv4 protocol or the IPv4 and the IPv6 protocols
+  (`DUAL`).
+
+  For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html)
+  in the Amazon DocumentDB Developer Guide.
+
+  Valid Values: `IPV4` | `DUAL`
 
 - `"Port"`: The port number on which the instances in the cluster accept connections.
 
@@ -541,6 +575,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Constraints: Minimum 30-minute window.
 
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of an Amazon
+  DocumentDB Serverless cluster.
+
 - `"StorageEncrypted"`: Specifies whether the cluster is encrypted.
 
 - `"StorageType"`: The storage type to associate with the DB cluster.
@@ -553,7 +590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default value is `standard`
 
   !!! note
-      When you create a DocumentDB DB cluster with the storage type set to `iopt1`, the
+      When you create an Amazon DocumentDB cluster with the storage type set to `iopt1`, the
       storage type is returned in the response. The storage type isn't returned when you set
       it to `standard`.
 
@@ -1073,7 +1110,7 @@ end
 
 Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web
 Services Regions. The global cluster contains one primary cluster with read-write
-capability, and up-to give read-only secondary clusters. Global clusters uses storage-based
+capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based
 fast replication across regions with latencies less than one second, using dedicated
 infrastructure with no impact to your workload’s performance.
 
@@ -2437,6 +2474,105 @@ function failover_dbcluster(
 end
 
 """
+    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
+    failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
+
+Promotes the specified secondary DB cluster to be the primary DB cluster in the global
+cluster when failing over a global cluster occurs.
+
+Use this operation to respond to an unplanned event, such as a regional disaster in the
+primary region. Failing over can result in a loss of write transaction data that wasn't
+replicated to the chosen secondary before the failover event occurred. However, the recovery
+process that promotes a DB instance on the chosen seconday DB cluster to be the primary
+writer DB instance guarantees that the data is in a transactionally consistent state.
+
+# Arguments
+
+- `global_cluster_identifier`: The identifier of the Amazon DocumentDB global cluster to
+  apply this operation. The identifier is the unique key assigned by the user when the
+  cluster is created. In other words, it's the name of the global cluster.
+
+  Constraints:
+
+  - Must match the identifier of an existing global cluster.
+  - Minimum length of 1. Maximum length of 255.
+
+  Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+
+- `target_db_cluster_identifier`: The identifier of the secondary Amazon DocumentDB cluster
+  that you want to promote to the primary for the global cluster. Use the Amazon Resource
+  Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its
+  Amazon Web Services region.
+
+  Constraints:
+
+  - Must match the identifier of an existing secondary cluster.
+  - Minimum length of 1. Maximum length of 255.
+
+  Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AllowDataLoss"`: Specifies whether to allow data loss for this global cluster operation.
+  Allowing data loss triggers a global failover operation.
+
+  If you don't specify `AllowDataLoss`, the global cluster operation defaults to a
+  switchover.
+
+  Constraints:
+
+  - Can't be specified together with the `Switchover` parameter.
+
+- `"Switchover"`: Specifies whether to switch over this global database cluster.
+
+  Constraints:
+
+  - Can't be specified together with the `AllowDataLoss` parameter.
+"""
+function failover_global_cluster end
+
+function failover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return docdb(
+        "FailoverGlobalCluster",
+        Dict{String,Any}(
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function failover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return docdb(
+        "FailoverGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+                    "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_name)
     list_tags_for_resource(resource_name, params::Dict{String,<:Any})
 
@@ -2504,9 +2640,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowMajorVersionUpgrade"`: A value that indicates whether major version upgrades are
   allowed.
 
-  Constraints: You must allow major version upgrades when specifying a value for the
-  `EngineVersion` parameter that is a different major version than the DB cluster's current
-  version.
+  Constraints:
+
+  - You must allow major version upgrades when specifying a value for the `EngineVersion`
+    parameter that is a different major version than the cluster's current version.
+  - Since some parameters are version specific, changing them requires executing a new
+    `ModifyDBCluster` API call after the in-place MVU completes.
+
+  !!! note
+      Performing an MVU directly impacts the following parameters:
+
+      - `MasterUserPassword`
+      - `NewDBClusterIdentifier`
+      - `VpcSecurityGroupIds`
+      - `Port`
 
 - `"ApplyImmediately"`: A value that specifies whether the changes in this request and any
   pending changes are asynchronously applied as soon as possible, regardless of the
@@ -2552,11 +2699,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   `aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"`
 
+- `"ManageMasterUserPassword"`: Specifies whether to manage the master user password with
+  Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user
+  password with Amazon Web Services Secrets Manager, you can turn on this management. In
+  this case, you can't specify `MasterUserPassword`. If the cluster already manages the
+  master user password with Amazon Web Services Secrets Manager, and you specify that the
+  master user password is not managed with Amazon Web Services Secrets Manager, then you
+  must specify `MasterUserPassword`. In this case, Amazon DocumentDB deletes the secret and
+  uses the new password for the master user specified by `MasterUserPassword`.
+
 - `"MasterUserPassword"`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote ("), or the
   "at" symbol (@).
 
   Constraints: Must contain from 8 to 100 characters.
+
+- `"MasterUserSecretKmsKeyId"`: The Amazon Web Services KMS key identifier to encrypt a
+  secret that is automatically generated and managed in Amazon Web Services Secrets Manager.
+
+  This setting is valid only if both of the following conditions are met:
+
+  - The cluster doesn't manage the master user password in Amazon Web Services Secrets
+    Manager. If the cluster already manages the master user password in Amazon Web Services
+    Secrets Manager, you can't change the KMS key that is used to encrypt the secret.
+  - You are enabling `ManageMasterUserPassword` to manage the master user password in Amazon
+    Web Services Secrets Manager. If you are turning on `ManageMasterUserPassword` and don't
+    specify `MasterUserSecretKmsKeyId`, then the `aws/secretsmanager` KMS key is used to
+    encrypt the secret. If the secret is in a different Amazon Web Services account, then
+    you can't use the `aws/secretsmanager` KMS key to encrypt the secret, and you must use a
+    customer managed KMS key.
+
+  The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify
+  the key ARN or alias ARN.
+
+  There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services
+  account has a different default KMS key for each Amazon Web Services Region.
+
+- `"NetworkType"`: The network type of the cluster.
+
+  The network type is determined by the `DBSubnetGroup` specified for the cluster. A
+  `DBSubnetGroup` can support only the IPv4 protocol or the IPv4 and the IPv6 protocols
+  (`DUAL`).
+
+  For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html)
+  in the Amazon DocumentDB Developer Guide.
+
+  Valid Values: `IPV4` | `DUAL`
 
 - `"NewDBClusterIdentifier"`: The new cluster identifier for the cluster when renaming a
   cluster. This value is stored as a lowercase string.
@@ -2599,6 +2788,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
   Constraints: Minimum 30-minute window.
+
+- `"RotateMasterUserPassword"`: Specifies whether to rotate the secret managed by Amazon Web
+  Services Secrets Manager for the master user password.
+
+  This setting is valid only if the master user password is managed by Amazon DocumentDB in
+  Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated
+  password.
+
+  Constraint: You must apply the change immediately when rotating the master user password.
+
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of an Amazon
+  DocumentDB Serverless cluster.
 
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
@@ -3512,11 +3713,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - If the snapshot or the cluster snapshot in `SnapshotIdentifier` is not encrypted, then
     the restored DB cluster is not encrypted.
 
+- `"NetworkType"`: The network type of the cluster.
+
+  The network type is determined by the `DBSubnetGroup` specified for the cluster. A
+  `DBSubnetGroup` can support only the IPv4 protocol or the IPv4 and the IPv6 protocols
+  (`DUAL`).
+
+  For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html)
+  in the Amazon DocumentDB Developer Guide.
+
+  Valid Values: `IPV4` | `DUAL`
+
 - `"Port"`: The port number on which the new cluster accepts connections.
 
   Constraints: Must be a value from `1150` to `65535`.
 
   Default: The same port as the original cluster.
+
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of an Amazon
+  DocumentDB Serverless cluster.
 
 - `"StorageType"`: The storage type to associate with the DB cluster.
 
@@ -3641,6 +3856,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If `DBClusterIdentifier` refers to a cluster that is not encrypted, then the restore
   request is rejected.
 
+- `"NetworkType"`: The network type of the cluster.
+
+  The network type is determined by the `DBSubnetGroup` specified for the cluster. A
+  `DBSubnetGroup` can support only the IPv4 protocol or the IPv4 and the IPv6 protocols
+  (`DUAL`).
+
+  For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html)
+  in the Amazon DocumentDB Developer Guide.
+
+  Valid Values: `IPV4` | `DUAL`
+
 - `"Port"`: The port number on which the new cluster accepts connections.
 
   Constraints: Must be a value from `1150` to `65535`.
@@ -3671,6 +3897,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you don't specify a `RestoreType` value, then the new DB cluster is restored as a full
   copy of the source DB cluster.
+
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of an Amazon
+  DocumentDB Serverless cluster.
 
 - `"StorageType"`: The storage type to associate with the DB cluster.
 

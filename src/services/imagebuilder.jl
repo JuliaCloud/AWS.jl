@@ -164,7 +164,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: Describes the contents of the component.
 
-- `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this component.
+- `"dryRun"`: Validates the required permissions for the operation and the request
+  parameters, without actually making the request, and provides an error response. Upon a
+  successful request, the error response is `DryRunOperationException`.
+
+- `"kmsKeyId"`: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to
+  encrypt this component. This can be either the Key ARN or the Alias ARN. For more
+  information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)
+  in the *Key Management Service Developer Guide*.
 
 - `"supportedOsVersions"`: The operating system (OS) version supported by the component. If
   the OS information is available, a prefix match is performed against the base image OS
@@ -232,8 +239,8 @@ function create_component(
 end
 
 """
-    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository)
-    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository, params::Dict{String,<:Any})
+    create_container_recipe(client_token, container_type, name, parent_image, semantic_version, target_repository)
+    create_container_recipe(client_token, container_type, name, parent_image, semantic_version, target_repository, params::Dict{String,<:Any})
 
 Creates a new container recipe. Container recipes define how images are configured, tested,
 and assessed.
@@ -243,10 +250,6 @@ and assessed.
 - `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
   request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
-
-- `components`: Components for build and test that are included in the container recipe.
-  Recipes require a minimum of one build component, and can have a maximum of 20 build and
-  test components in any combination.
 
 - `container_type`: The type of container to create.
 
@@ -275,6 +278,7 @@ and assessed.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"components"`: The components included in the container recipe.
 - `"description"`: The description of the container recipe.
 - `"dockerfileTemplateData"`: The Dockerfile template used to build your image as an inline
   data blob.
@@ -283,7 +287,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"imageOsVersionOverride"`: Specifies the operating system version for the base image.
 - `"instanceConfiguration"`: A group of options that can be used to configure an instance
   for building and testing container images.
-- `"kmsKeyId"`: Identifies which KMS key is used to encrypt the container image.
+- `"kmsKeyId"`: The Amazon Resource Name (ARN) that uniquely identifies which KMS key is
+  used to encrypt the Dockerfile template. This can be either the Key ARN or the Alias ARN.
+  For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)
+  in the *Key Management Service Developer Guide*.
 - `"platformOverride"`: Specifies the operating system platform when you use a custom base
   image.
 - `"tags"`: Tags that are attached to the container recipe.
@@ -293,7 +300,6 @@ function create_container_recipe end
 
 function create_container_recipe(
     clientToken,
-    components,
     containerType,
     name,
     parentImage,
@@ -306,7 +312,6 @@ function create_container_recipe(
         "/CreateContainerRecipe",
         Dict{String,Any}(
             "clientToken" => clientToken,
-            "components" => components,
             "containerType" => containerType,
             "name" => name,
             "parentImage" => parentImage,
@@ -320,7 +325,6 @@ end
 
 function create_container_recipe(
     clientToken,
-    components,
     containerType,
     name,
     parentImage,
@@ -337,7 +341,6 @@ function create_container_recipe(
                 _merge,
                 Dict{String,Any}(
                     "clientToken" => clientToken,
-                    "components" => components,
                     "containerType" => containerType,
                     "name" => name,
                     "parentImage" => parentImage,
@@ -449,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   images are configured, tested, and assessed.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
 - `"imageTestsConfiguration"`: The image tests configuration of the image.
+- `"loggingConfiguration"`: Define logging configuration for the image build process.
 - `"tags"`: The tags of the image.
 - `"workflows"`: Contains an array of workflow configuration objects.
 """
@@ -530,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to configure images created by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
 - `"imageTestsConfiguration"`: The image test configuration of the image pipeline.
+- `"loggingConfiguration"`: Define logging configuration for the image build process.
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
 - `"tags"`: The tags of the image pipeline.
@@ -583,8 +588,8 @@ function create_image_pipeline(
 end
 
 """
-    create_image_recipe(client_token, components, name, parent_image, semantic_version)
-    create_image_recipe(client_token, components, name, parent_image, semantic_version, params::Dict{String,<:Any})
+    create_image_recipe(client_token, name, parent_image, semantic_version)
+    create_image_recipe(client_token, name, parent_image, semantic_version, params::Dict{String,<:Any})
 
 Creates a new image recipe. Image recipes define how images are configured, tested, and
 assessed.
@@ -595,16 +600,19 @@ assessed.
   request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
 
-- `components`: The components included in the image recipe.
-
 - `name`: The name of the image recipe.
 
-- `parent_image`: The base image of the image recipe. The value of the string can be the ARN
-  of the base image or an AMI ID. The format for the ARN follows this example:
-  `arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x`.
-  You can provide the specific version that you want to use, or you can use a wildcard in
-  all of the fields. If you enter an AMI ID for the string value, you must have access to
-  the AMI, and the AMI must be in the same Region in which you are using Image Builder.
+- `parent_image`: The base image for customizations specified in the image recipe. You can
+  specify the parent image using one of the following options:
+
+  - AMI ID
+  - Image Builder image Amazon Resource Name (ARN)
+  - Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by `ssm:`,
+    followed by the parameter name or ARN.
+  - Amazon Web Services Marketplace product ID
+
+  If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access
+  to the AMI, and the AMI must be in the source Region.
 
 - `semantic_version`: The semantic version of the image recipe. This version follows the
   semantic version syntax.
@@ -627,7 +635,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"additionalInstanceConfiguration"`: Specify additional settings and launch scripts for
   your build instances.
+- `"amiTags"`: Tags that are applied to the AMI that Image Builder creates during the Build
+  phase prior to image distribution.
 - `"blockDeviceMappings"`: The block device mappings of the image recipe.
+- `"components"`: The components included in the image recipe.
 - `"description"`: The description of the image recipe.
 - `"tags"`: The tags of the image recipe.
 - `"workingDirectory"`: The working directory used during build and test workflows.
@@ -636,7 +647,6 @@ function create_image_recipe end
 
 function create_image_recipe(
     clientToken,
-    components,
     name,
     parentImage,
     semanticVersion;
@@ -647,7 +657,6 @@ function create_image_recipe(
         "/CreateImageRecipe",
         Dict{String,Any}(
             "clientToken" => clientToken,
-            "components" => components,
             "name" => name,
             "parentImage" => parentImage,
             "semanticVersion" => semanticVersion,
@@ -659,7 +668,6 @@ end
 
 function create_image_recipe(
     clientToken,
-    components,
     name,
     parentImage,
     semanticVersion,
@@ -674,7 +682,6 @@ function create_image_recipe(
                 _merge,
                 Dict{String,Any}(
                     "clientToken" => clientToken,
-                    "components" => components,
                     "name" => name,
                     "parentImage" => parentImage,
                     "semanticVersion" => semanticVersion,
@@ -721,7 +728,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logging"`: The logging configuration of the infrastructure configuration.
 
-- `"resourceTags"`: The tags attached to the resource created by Image Builder.
+- `"placement"`: The instance placement settings that define where the instances that are
+  launched from your image will run.
+
+- `"resourceTags"`: The metadata tags to assign to the Amazon EC2 instance that Image
+  Builder launches during the build process. Tags are formatted as key value pairs.
 
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
@@ -737,7 +748,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subnetId"`: The subnet ID in which to place the instance used to customize your Amazon
   EC2 AMI.
 
-- `"tags"`: The tags of the infrastructure configuration.
+- `"tags"`: The metadata tags to assign to the infrastructure configuration resource that
+  Image Builder creates as output. Tags are formatted as key value pairs.
 
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the
@@ -921,7 +933,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: Describes the workflow.
 
-- `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this workflow resource.
+- `"dryRun"`: Validates the required permissions for the operation and the request
+  parameters, without actually making the request, and provides an error response. Upon a
+  successful request, the error response is `DryRunOperationException`.
+
+- `"kmsKeyId"`: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to
+  encrypt this workflow resource. This can be either the Key ARN or the Alias ARN. For more
+  information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)
+  in the *Key Management Service Developer Guide*.
 
 - `"tags"`: Tags that apply to the workflow resource.
 
@@ -1383,6 +1402,81 @@ function delete_workflow(
             mergewith(
                 _merge,
                 Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    distribute_image(client_token, distribution_configuration_arn, execution_role, source_image)
+    distribute_image(client_token, distribution_configuration_arn, execution_role, source_image, params::Dict{String,<:Any})
+
+DistributeImage distributes existing AMIs to additional regions and accounts without
+rebuilding the image.
+
+# Arguments
+
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+  in the *Amazon EC2 API Reference*.
+- `distribution_configuration_arn`: The Amazon Resource Name (ARN) of the distribution
+  configuration to use.
+- `execution_role`: The IAM role to use for the distribution.
+- `source_image`: The source image Amazon Resource Name (ARN) to distribute.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"loggingConfiguration"`: The logging configuration for the distribution.
+- `"tags"`: The tags to apply to the distributed image.
+"""
+function distribute_image end
+
+function distribute_image(
+    clientToken,
+    distributionConfigurationArn,
+    executionRole,
+    sourceImage;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/DistributeImage",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "distributionConfigurationArn" => distributionConfigurationArn,
+            "executionRole" => executionRole,
+            "sourceImage" => sourceImage,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function distribute_image(
+    clientToken,
+    distributionConfigurationArn,
+    executionRole,
+    sourceImage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/DistributeImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "distributionConfigurationArn" => distributionConfigurationArn,
+                    "executionRole" => executionRole,
+                    "sourceImage" => sourceImage,
+                ),
                 params,
             ),
         );
@@ -1956,6 +2050,65 @@ function get_lifecycle_policy(
 end
 
 """
+    get_marketplace_resource(resource_arn, resource_type)
+    get_marketplace_resource(resource_arn, resource_type, params::Dict{String,<:Any})
+
+Verify the subscription and perform resource dependency checks on the requested Amazon Web
+Services Marketplace resource. For Amazon Web Services Marketplace components, the response
+contains fields to download the components and their artifacts.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web
+  Services Marketplace resource.
+- `resource_type`: Specifies which type of Amazon Web Services Marketplace resource Image
+  Builder retrieves.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"resourceLocation"`: The bucket path that you can specify to download the resource from
+  Amazon S3.
+"""
+function get_marketplace_resource end
+
+function get_marketplace_resource(
+    resourceArn, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/GetMarketplaceResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "resourceType" => resourceType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_marketplace_resource(
+    resourceArn,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/GetMarketplaceResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceArn" => resourceArn, "resourceType" => resourceType
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_workflow(workflow_build_version_arn)
     get_workflow(workflow_build_version_arn, params::Dict{String,<:Any})
 
@@ -2133,7 +2286,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `uri` can be used to specify the data within the component.
 - `"description"`: The description of the component. Describes the contents of the
   component.
-- `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
+- `"kmsKeyId"`: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to
+  encrypt this component. This can be either the Key ARN or the Alias ARN. For more
+  information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)
+  in the *Key Management Service Developer Guide*.
 - `"tags"`: The tags of the component.
 - `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
   permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
@@ -2200,6 +2356,106 @@ function import_component(
 end
 
 """
+    import_disk_image(client_token, infrastructure_configuration_arn, name, os_version, platform, semantic_version, uri)
+    import_disk_image(client_token, infrastructure_configuration_arn, name, os_version, platform, semantic_version, uri, params::Dict{String,<:Any})
+
+Import a Windows operating system image from a verified Microsoft ISO disk file. The
+following disk images are supported:
+
+- Windows 11 Enterprise
+
+# Arguments
+
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+  in the *Amazon EC2 API Reference*.
+- `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
+  configuration resource that's used for launching the EC2 instance on which the ISO image
+  is built.
+- `name`: The name of the image resource that's created from the import.
+- `os_version`: The operating system version for the imported image. Allowed values include
+  the following: `Microsoft Windows 11`.
+- `platform`: The operating system platform for the imported image. Allowed values include
+  the following: `Windows`.
+- `semantic_version`: The semantic version to attach to the image that's created during the
+  import process. This version follows the semantic version syntax.
+- `uri`: The `uri` of the ISO disk file that's stored in Amazon S3.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description for your disk image import.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create that
+  grants Image Builder access to perform workflow actions to import an image from a
+  Microsoft ISO file.
+- `"loggingConfiguration"`: Define logging configuration for the image build process.
+- `"tags"`: Tags that are attached to image resources created from the import.
+"""
+function import_disk_image end
+
+function import_disk_image(
+    clientToken,
+    infrastructureConfigurationArn,
+    name,
+    osVersion,
+    platform,
+    semanticVersion,
+    uri;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportDiskImage",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+            "name" => name,
+            "osVersion" => osVersion,
+            "platform" => platform,
+            "semanticVersion" => semanticVersion,
+            "uri" => uri,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function import_disk_image(
+    clientToken,
+    infrastructureConfigurationArn,
+    name,
+    osVersion,
+    platform,
+    semanticVersion,
+    uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportDiskImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+                    "name" => name,
+                    "osVersion" => osVersion,
+                    "platform" => platform,
+                    "semanticVersion" => semanticVersion,
+                    "uri" => uri,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_vm_image(client_token, name, platform, semantic_version, vm_import_task_id)
     import_vm_image(client_token, name, platform, semantic_version, vm_import_task_id, params::Dict{String,<:Any})
 
@@ -2246,6 +2502,7 @@ as the base image for your Image Builder recipe.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description for the base image that is created by the import process.
+- `"loggingConfiguration"`: Define logging configuration for the image build process.
 - `"osVersion"`: The operating system version for the imported VM.
 - `"tags"`: Tags that are attached to the import resources.
 """
@@ -2305,62 +2562,37 @@ function import_vm_image(
 end
 
 """
-    list_component_build_versions(component_version_arn)
-    list_component_build_versions(component_version_arn, params::Dict{String,<:Any})
+    list_component_build_versions()
+    list_component_build_versions(params::Dict{String,<:Any})
 
-Returns the list of component build versions for the specified semantic version.
-
-!!! note
-    The semantic version has four nodes: <major>.<minor>.<patch>/<build>. You can assign
-    values for the first three, and can filter on all of them.
-
-    **Filtering:** With semantic versioning, you have the flexibility to use wildcards (x)
-    to specify the most recent versions or nodes when selecting the base image or components
-    for your recipe. When you use a wildcard in any node, all nodes to the right of the
-    first wildcard must also be wildcards.
-
-# Arguments
-
-- `component_version_arn`: The component version Amazon Resource Name (ARN) whose versions
-  you want to list.
+Returns the list of component build versions for the specified component version Amazon
+Resource Name (ARN).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"componentVersionArn"`: The component version Amazon Resource Name (ARN) whose versions
+  you want to list.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_component_build_versions end
 
-function list_component_build_versions(
-    componentVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function list_component_build_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
-        "POST",
-        "/ListComponentBuildVersions",
-        Dict{String,Any}("componentVersionArn" => componentVersionArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListComponentBuildVersions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_component_build_versions(
-    componentVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
         "/ListComponentBuildVersions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("componentVersionArn" => componentVersionArn),
-                params,
-            ),
-        );
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2398,7 +2630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `type`
   - `version`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2441,7 +2673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `parentImage`
   - `platform`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2477,7 +2709,7 @@ Returns a list of distribution configurations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: You can filter on `name` to streamline results.
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2507,15 +2739,10 @@ function list_distribution_configurations(
 end
 
 """
-    list_image_build_versions(image_version_arn)
-    list_image_build_versions(image_version_arn, params::Dict{String,<:Any})
+    list_image_build_versions()
+    list_image_build_versions(params::Dict{String,<:Any})
 
 Returns a list of image build versions.
-
-# Arguments
-
-- `image_version_arn`: The Amazon Resource Name (ARN) of the image whose build versions you
-  want to retrieve.
 
 # Optional Parameters
 
@@ -2529,38 +2756,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `type`
   - `version`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"imageVersionArn"`: The Amazon Resource Name (ARN) of the image whose build versions you
+  want to retrieve.
+
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_build_versions end
 
-function list_image_build_versions(
-    imageVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function list_image_build_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
-        "POST",
-        "/ListImageBuildVersions",
-        Dict{String,Any}("imageVersionArn" => imageVersionArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListImageBuildVersions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_image_build_versions(
-    imageVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
         "/ListImageBuildVersions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("imageVersionArn" => imageVersionArn), params
-            ),
-        );
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2582,7 +2800,7 @@ Web Services Systems Manager Inventory at build time.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2640,7 +2858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `name`
   - `version`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2696,7 +2914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `name`
   - `status`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2733,15 +2951,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `parentImage`
   - `platform`
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 
-- `"owner"`: The owner defines which image recipes you want to list. By default, this
-  request will only show image recipes owned by your account. You can use this field to
-  specify if you want to view image recipes owned by yourself, by Amazon, or those image
-  recipes that have been shared with you by other customers.
+- `"owner"`: You can specify the recipe owner to filter results by that owner. By default,
+  this request will only show image recipes owned by your account. To filter by a different
+  owner, specify one of the `Valid Values` that are listed for this parameter.
 """
 function list_image_recipes end
 
@@ -2829,7 +3046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you don't request a filter, then all findings in your account are listed.
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2877,7 +3094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"includeDeprecated"`: Includes deprecated images in the response list.
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -2912,7 +3129,7 @@ Returns a list of infrastructure configurations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: You can filter on `name` to streamline results.
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -2957,7 +3174,7 @@ actions.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
@@ -3019,7 +3236,7 @@ Get the lifecycle runtime history for the specified resource.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -3064,7 +3281,7 @@ Get a list of lifecycle policies in your Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Streamline results based on one of the following values: `Name`, `Status`.
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -3130,7 +3347,7 @@ Services account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -3155,51 +3372,36 @@ function list_waiting_workflow_steps(
 end
 
 """
-    list_workflow_build_versions(workflow_version_arn)
-    list_workflow_build_versions(workflow_version_arn, params::Dict{String,<:Any})
+    list_workflow_build_versions()
+    list_workflow_build_versions(params::Dict{String,<:Any})
 
 Returns a list of build versions for a specific workflow resource.
-
-# Arguments
-
-- `workflow_version_arn`: The Amazon Resource Name (ARN) of the workflow resource for which
-  to get a list of build versions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
+- `"workflowVersionArn"`: The Amazon Resource Name (ARN) of the workflow resource for which
+  to get a list of build versions.
 """
 function list_workflow_build_versions end
 
-function list_workflow_build_versions(
-    workflowVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function list_workflow_build_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
-        "POST",
-        "/ListWorkflowBuildVersions",
-        Dict{String,Any}("workflowVersionArn" => workflowVersionArn);
-        aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "POST", "/ListWorkflowBuildVersions"; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 function list_workflow_build_versions(
-    workflowVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return imagebuilder(
         "POST",
         "/ListWorkflowBuildVersions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("workflowVersionArn" => workflowVersionArn), params
-            ),
-        );
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3221,7 +3423,7 @@ version.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -3275,7 +3477,7 @@ the request.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
@@ -3325,7 +3527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"byName"`: Specify all or part of the workflow name to streamline results.
 - `"filters"`: Used to streamline search results.
-- `"maxResults"`: The maximum items to return in a request.
+- `"maxResults"`: Specify the maximum number of items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 - `"owner"`: Used to get a list of workflow build version filtered by the identity of the
@@ -3551,6 +3753,59 @@ function put_image_recipe_policy(
 end
 
 """
+    retry_image(client_token, image_build_version_arn)
+    retry_image(client_token, image_build_version_arn, params::Dict{String,<:Any})
+
+RetryImage retries an image distribution without rebuilding the image.
+
+# Arguments
+
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
+  request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+  in the *Amazon EC2 API Reference*.
+- `image_build_version_arn`: The source image Amazon Resource Name (ARN) to retry.
+"""
+function retry_image end
+
+function retry_image(
+    clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/RetryImage",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "imageBuildVersionArn" => imageBuildVersionArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function retry_image(
+    clientToken,
+    imageBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/RetryImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "imageBuildVersionArn" => imageBuildVersionArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     send_workflow_step_action(action, client_token, image_build_version_arn, step_execution_id)
     send_workflow_step_action(action, client_token, image_build_version_arn, step_execution_id, params::Dict{String,<:Any})
 
@@ -3637,6 +3892,13 @@ Manually triggers a pipeline to create an image.
   in the *Amazon EC2 API Reference*.
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline that you want
   to manually invoke.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: Specify tags for Image Builder to apply to the image resource that's created
+  When it starts pipeline execution.
 """
 function start_image_pipeline_execution end
 
@@ -3689,8 +3951,8 @@ resources.
 - `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of the
   request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
   in the *Amazon EC2 API Reference*.
-- `resource_arn`: The ARN of the Image Builder resource that is updated. The state update
-  might also impact associated resources.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Image Builder resource that is
+  updated. The state update might also impact associated resources.
 - `state`: Indicates the lifecycle action to take for this request.
 
 # Optional Parameters
@@ -3937,6 +4199,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to configure images updated by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
 - `"imageTestsConfiguration"`: The image test configuration of the image pipeline.
+- `"loggingConfiguration"`: Update logging configuration for the output image that's created
+  when the pipeline runs.
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
 - `"workflows"`: Contains the workflows to run for the pipeline.
@@ -4028,6 +4292,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to and debug the instance used to create your image.
 
 - `"logging"`: The logging configuration of the infrastructure configuration.
+
+- `"placement"`: The instance placement settings that define where the instances that are
+  launched from your image will run.
 
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
 

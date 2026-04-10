@@ -237,6 +237,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: A name for the association that you're creating between a Resolver rule and a
   VPC.
+
+  The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-
+  9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
 """
 function associate_resolver_rule end
 
@@ -327,8 +330,8 @@ function create_firewall_domain_list(
 end
 
 """
-    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority)
-    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority, params::Dict{String,<:Any})
+    create_firewall_rule(action, creator_request_id, firewall_rule_group_id, name, priority)
+    create_firewall_rule(action, creator_request_id, firewall_rule_group_id, name, priority, params::Dict{String,<:Any})
 
 Creates a single DNS Firewall rule in the specified rule group, using the specified domain
 list.
@@ -336,9 +339,10 @@ list.
 # Arguments
 
 - `action`: The action that DNS Firewall should take on a DNS query when it matches one of
-  the domains in the rule's domain list:
+  the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
 
-  - `ALLOW` - Permit the request to go through.
+  - `ALLOW` - Permit the request to go through. Not available for DNS Firewall Advanced
+    rules.
   - `ALERT` - Permit the request and send metrics and logs to Cloud Watch.
   - `BLOCK` - Disallow the request. This option requires additional details in the rule's
     `BlockResponse`.
@@ -346,8 +350,6 @@ list.
 - `creator_request_id`: A unique string that identifies the request and that allows you to
   retry failed requests without the risk of running the operation twice. `CreatorRequestId`
   can be any unique string, for example, a date/time stamp.
-
-- `firewall_domain_list_id`: The ID of the domain list that you want to use in the rule.
 
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group where you want
   to create the rule.
@@ -394,13 +396,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This setting is required if the rule action setting is `BLOCK`.
 
+- `"ConfidenceThreshold"`: The confidence threshold for DNS Firewall Advanced. You must
+  provide this value when you create a DNS Firewall Advanced rule. The confidence level
+  values mean:
+
+  - `LOW`: Provides the highest detection rate for threats, but also increases false
+    positives.
+  - `MEDIUM`: Provides a balance between detecting threats and false positives.
+  - `HIGH`: Detects only the most well corroborated threats with a low rate of false
+    positives.
+
+- `"DnsThreatProtection"`: Use to create a DNS Firewall Advanced rule.
+
+- `"FirewallDomainListId"`: The ID of the domain list that you want to use in the rule.
+  Can't be used together with `DnsThreatProtecton`.
+
 - `"FirewallDomainRedirectionAction"`: How you want the the rule to evaluate DNS redirection
   in the DNS redirection chain, such as CNAME or DNAME.
 
-  `Inspect_Redirection_Domain`(Default) inspects all domains in the redirection chain. The
+  `INSPECT_REDIRECTION_DOMAIN`: (Default) inspects all domains in the redirection chain. The
   individual domains in the redirection chain must be added to the domain list.
 
-  `Trust_Redirection_Domain` inspects only the first domain in the redirection chain. You
+  `TRUST_REDIRECTION_DOMAIN`: Inspects only the first domain in the redirection chain. You
   don't need to add the subsequent domains in the domain in the redirection list to the
   domain list.
 
@@ -428,7 +445,6 @@ function create_firewall_rule end
 function create_firewall_rule(
     Action,
     CreatorRequestId,
-    FirewallDomainListId,
     FirewallRuleGroupId,
     Name,
     Priority;
@@ -439,7 +455,6 @@ function create_firewall_rule(
         Dict{String,Any}(
             "Action" => Action,
             "CreatorRequestId" => CreatorRequestId,
-            "FirewallDomainListId" => FirewallDomainListId,
             "FirewallRuleGroupId" => FirewallRuleGroupId,
             "Name" => Name,
             "Priority" => Priority,
@@ -452,7 +467,6 @@ end
 function create_firewall_rule(
     Action,
     CreatorRequestId,
-    FirewallDomainListId,
     FirewallRuleGroupId,
     Name,
     Priority,
@@ -467,7 +481,6 @@ function create_firewall_rule(
                 Dict{String,Any}(
                     "Action" => Action,
                     "CreatorRequestId" => CreatorRequestId,
-                    "FirewallDomainListId" => FirewallDomainListId,
                     "FirewallRuleGroupId" => FirewallRuleGroupId,
                     "Name" => Name,
                     "Priority" => Priority,
@@ -633,8 +646,11 @@ outbound:
 
 - `direction`: Specify the applicable value:
 
-  - `INBOUND`: Resolver forwards DNS queries to the DNS service for a VPC from your network
-  - `OUTBOUND`: Resolver forwards DNS queries from the DNS service for a VPC to your network
+  - `INBOUND`: Resolver forwards DNS queries to the DNS service for a VPC from your network.
+  - `OUTBOUND`: Resolver forwards DNS queries from the DNS service for a VPC to your
+    network.
+  - `INBOUND_DELEGATION`: Resolver delegates queries to Route 53 private hosted zones from
+    your network.
 
 - `ip_addresses`: The subnets and IP addresses in your VPC that DNS queries originate from
   (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The
@@ -670,9 +686,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for the `OutpostArn`.
 
 - `"Protocols"`: The protocols you want to use for the endpoint. DoH-FIPS is applicable for
-  inbound endpoints only.
+  default inbound endpoints only.
 
-  For an inbound endpoint you can apply the protocols as follows:
+  For a default inbound endpoint you can apply the protocols as follows:
 
   - Do53 and DoH in combination.
   - Do53 and DoH-FIPS in combination.
@@ -680,6 +696,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - DoH alone.
   - DoH-FIPS alone.
   - None, which is treated as Do53.
+
+  For a delegation inbound endpoint you can use Do53 only.
 
   For an outbound endpoint you can apply the protocols as follows:
 
@@ -692,7 +710,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
   endpoint type is applied to all IP addresses.
 
+- `"RniEnhancedMetricsEnabled"`: Specifies whether RNI enhanced metrics are enabled for the
+  Resolver endpoints. When set to true, one-minute granular metrics are published in
+  CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not
+  published. Default is false.
+
+  !!! note
+      Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+      endpoint RNI enhanced metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
+
+- `"TargetNameServerMetricsEnabled"`: Specifies whether target name server metrics are
+  enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics
+  are published in CloudWatch for each target name server associated with this endpoint.
+  When set to false, metrics are not published. Default is false. This is not supported for
+  inbound Resolver endpoints.
+
+  !!! note
+      Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+      endpoint target name server metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
 """
 function create_resolver_endpoint end
 
@@ -771,11 +808,11 @@ queries that originate in all VPCs that are associated with the configuration.
 
   - **S3 bucket**:
 
-  `arn:aws:s3:::examplebucket`
+  `arn:aws:s3:::amzn-s3-demo-bucket`
 
   You can optionally append a file prefix to the end of the ARN.
 
-  `arn:aws:s3:::examplebucket/development/`
+  `arn:aws:s3:::amzn-s3-demo-bucket/development/`
   - **CloudWatch Logs log group**:
 
   `arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*`
@@ -852,7 +889,7 @@ of the DNS resolvers in your network.
   can be any unique string, for example, a date/time stamp.
 
 - `rule_type`: When you want to forward DNS queries for specified domain name to resolvers
-  on your network, specify `FORWARD`.
+  on your network, specify `FORWARD` or `DELEGATE`.
 
   When you have a forwarding rule to forward DNS queries for a domain to your network and
   you want Resolver to process queries for a subdomain of that domain, specify `SYSTEM`.
@@ -867,6 +904,9 @@ of the DNS resolvers in your network.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DelegationRecord"`: DNS queries with the delegation records that match this domain name
+  are forwarded to the resolvers on your network.
+
 - `"DomainName"`: DNS queries for this domain name are forwarded to the IP addresses that
   you specify in `TargetIps`. If a query matches multiple Resolver rules (example.com and
   www.example.com), outbound DNS queries are routed using the Resolver rule that contains
@@ -874,6 +914,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Name"`: A friendly name that lets you easily find a rule in the Resolver dashboard in
   the Route 53 console.
+
+  The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-
+  9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
 
 - `"ResolverEndpointId"`: The ID of the outbound Resolver endpoint that you want to use to
   route DNS queries to the IP addresses that you specify in `TargetIps`.
@@ -884,7 +927,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a
   space.
 
-  `TargetIps` is available only when the value of `Rule type` is `FORWARD`.
+  `TargetIps` is available only when the value of `Rule type` is `FORWARD`. You should not
+  provide TargetIps when the Rule type is `DELEGATE`.
+
+  !!! note
+      when creating a DELEGATE rule, you must not provide the `TargetIps` parameter. If you
+      provide the `TargetIps`, you may receive an ERROR message similar to "Delegate
+      resolver rules need to specify a nameserver name". This error means you should not
+      provide `TargetIps`.
 """
 function create_resolver_rule end
 
@@ -964,20 +1014,23 @@ function delete_firewall_domain_list(
 end
 
 """
-    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
-    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+    delete_firewall_rule(firewall_rule_group_id)
+    delete_firewall_rule(firewall_rule_group_id, params::Dict{String,<:Any})
 
 Deletes the specified firewall rule.
 
 # Arguments
 
-- `firewall_domain_list_id`: The ID of the domain list that's used in the rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group that you want
   to delete the rule from.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FirewallDomainListId"`: The ID of the domain list that's used in the rule.
+
+- `"FirewallThreatProtectionId"`: The ID that is created for a DNS Firewall Advanced rule.
 
 - `"Qtype"`: The DNS query type that the rule you are deleting evaluates. Allowed values
   are;
@@ -1002,23 +1055,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_firewall_rule end
 
 function delete_firewall_rule(
-    FirewallDomainListId,
-    FirewallRuleGroupId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "DeleteFirewallRule",
-        Dict{String,Any}(
-            "FirewallDomainListId" => FirewallDomainListId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-        );
+        Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function delete_firewall_rule(
-    FirewallDomainListId,
     FirewallRuleGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1028,10 +1075,7 @@ function delete_firewall_rule(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "FirewallDomainListId" => FirewallDomainListId,
-                    "FirewallRuleGroupId" => FirewallRuleGroupId,
-                ),
+                Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId),
                 params,
             ),
         );
@@ -2420,9 +2464,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Action"`: Optional additional filter for the rules to retrieve.
 
   The action that DNS Firewall should take on a DNS query when it matches one of the domains
-  in the rule's domain list:
+  in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
 
-  - `ALLOW` - Permit the request to go through.
+  - `ALLOW` - Permit the request to go through. Not availabe for DNS Firewall Advanced
+    rules.
   - `ALERT` - Permit the request to go through but send an alert to the logs.
   - `BLOCK` - Disallow the request. If this is specified, additional handling details are
     provided in the rule's `BlockResponse` setting.
@@ -3426,14 +3471,13 @@ function update_firewall_domains(
 end
 
 """
-    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
-    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+    update_firewall_rule(firewall_rule_group_id)
+    update_firewall_rule(firewall_rule_group_id, params::Dict{String,<:Any})
 
 Updates the specified firewall rule.
 
 # Arguments
 
-- `firewall_domain_list_id`: The ID of the domain list to use in the rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group for the rule.
 
 # Optional Parameters
@@ -3441,9 +3485,10 @@ Updates the specified firewall rule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Action"`: The action that DNS Firewall should take on a DNS query when it matches one of
-  the domains in the rule's domain list:
+  the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
 
-  - `ALLOW` - Permit the request to go through.
+  - `ALLOW` - Permit the request to go through. Not available for DNS Firewall Advanced
+    rules.
   - `ALERT` - Permit the request to go through but send an alert to the logs.
   - `BLOCK` - Disallow the request. This option requires additional details in the rule's
     `BlockResponse`.
@@ -3468,15 +3513,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `OVERRIDE` - Provide a custom override in the response. This option requires custom
     handling details in the rule's `BlockOverride*` settings.
 
+- `"ConfidenceThreshold"`: The confidence threshold for DNS Firewall Advanced. You must
+  provide this value when you create a DNS Firewall Advanced rule. The confidence level
+  values mean:
+
+  - `LOW`: Provides the highest detection rate for threats, but also increases false
+    positives.
+  - `MEDIUM`: Provides a balance between detecting threats and false positives.
+  - `HIGH`: Detects only the most well corroborated threats with a low rate of false
+    positives.
+
+- `"DnsThreatProtection"`: The type of the DNS Firewall Advanced rule. Valid values are:
+
+  - `DGA`: Domain generation algorithms detection. DGAs are used by attackers to generate a
+    large number of domains to to launch malware attacks.
+  - `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by attackers to
+    exfiltrate data from the client by using the DNS tunnel without making a network
+    connection to the client.
+
+- `"FirewallDomainListId"`: The ID of the domain list to use in the rule.
+
 - `"FirewallDomainRedirectionAction"`: How you want the the rule to evaluate DNS redirection
   in the DNS redirection chain, such as CNAME or DNAME.
 
-  `Inspect_Redirection_Domain`(Default) inspects all domains in the redirection chain. The
+  `INSPECT_REDIRECTION_DOMAIN`: (Default) inspects all domains in the redirection chain. The
   individual domains in the redirection chain must be added to the domain list.
 
-  `Trust_Redirection_Domain` inspects only the first domain in the redirection chain. You
+  `TRUST_REDIRECTION_DOMAIN`: Inspects only the first domain in the redirection chain. You
   don't need to add the subsequent domains in the domain in the redirection list to the
   domain list.
+
+- `"FirewallThreatProtectionId"`: The DNS Firewall Advanced rule ID.
 
 - `"Name"`: The name of the rule.
 
@@ -3506,27 +3573,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
     must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For
     more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
+    !!! note
+        If you set up a firewall BLOCK rule with action NXDOMAIN on query type equals AAAA,
+        this action will not be applied to synthetic IPv6 addresses generated when DNS64 is
+        enabled.
 """
 function update_firewall_rule end
 
 function update_firewall_rule(
-    FirewallDomainListId,
-    FirewallRuleGroupId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53resolver(
         "UpdateFirewallRule",
-        Dict{String,Any}(
-            "FirewallDomainListId" => FirewallDomainListId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-        );
+        Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function update_firewall_rule(
-    FirewallDomainListId,
     FirewallRuleGroupId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -3536,10 +3602,7 @@ function update_firewall_rule(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "FirewallDomainListId" => FirewallDomainListId,
-                    "FirewallRuleGroupId" => FirewallRuleGroupId,
-                ),
+                Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId),
                 params,
             ),
         );
@@ -3677,8 +3740,8 @@ Amazon Virtual Private Cloud.
   !!! note
       It can take some time for the status change to be completed.
 
-- `resource_id`: Resource ID of the Amazon VPC that you want to update the Resolver
-  configuration for.
+- `resource_id`: The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that
+  you're configuring Resolver for.
 """
 function update_resolver_config end
 
@@ -3784,9 +3847,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the Resolver endpoint that you want to update.
 
 - `"Protocols"`: The protocols you want to use for the endpoint. DoH-FIPS is applicable for
-  inbound endpoints only.
+  default inbound endpoints only.
 
-  For an inbound endpoint you can apply the protocols as follows:
+  For a default inbound endpoint you can apply the protocols as follows:
 
   - Do53 and DoH in combination.
   - Do53 and DoH-FIPS in combination.
@@ -3794,6 +3857,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - DoH alone.
   - DoH-FIPS alone.
   - None, which is treated as Do53.
+
+  For a delegation inbound endpoint you can use Do53 only.
 
   For an outbound endpoint you can apply the protocols as follows:
 
@@ -3813,6 +3878,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint uses to forward DNS queries.
 
   Updating to `IPV6` type isn't currently supported.
+
+- `"RniEnhancedMetricsEnabled"`: Updates whether RNI enhanced metrics are enabled for the
+  Resolver endpoints. When set to true, one-minute granular metrics are published in
+  CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not
+  published.
+
+  !!! note
+      Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+      endpoint RNI enhanced metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+
+- `"TargetNameServerMetricsEnabled"`: Updates whether target name server metrics are enabled
+  for the outbound Resolver endpoints. When set to true, one-minute granular metrics are
+  published in CloudWatch for each target name server associated with this endpoint. When
+  set to false, metrics are not published. This setting is not supported for inbound
+  Resolver endpoints.
+
+  !!! note
+      Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+      endpoint target name server metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
 
 - `"UpdateIpAddresses"`: Specifies the IPv6 address when you update the Resolver endpoint
   from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically

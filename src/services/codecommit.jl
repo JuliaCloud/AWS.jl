@@ -758,7 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"kmsKeyId"`: The ID of the encryption key. You can view the ID of an encryption key in
   the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more
-  information about acceptable values for kmsKeyID, see [KeyId](https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId)
+  information about acceptable values for kmsKeyID, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId)
   in the Decrypt API description in the *Key Management Service API Reference*.
 
   If no key is specified, the default `aws/codecommit` Amazon Web Services managed key is
@@ -4512,7 +4512,7 @@ repository.
 
 - `kms_key_id`: The ID of the encryption key. You can view the ID of an encryption key in
   the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more
-  information about acceptable values for keyID, see [KeyId](https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId)
+  information about acceptable values for keyID, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId)
   in the Decrypt API description in the *Key Management Service API Reference*.
 - `repository_name`: The name of the repository for which you want to update the KMS
   encryption key used to encrypt and decrypt the repository.

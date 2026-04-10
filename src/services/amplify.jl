@@ -44,6 +44,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
 
+- `"cacheConfig"`: The cache configuration for the Amplify app.
+
+- `"computeRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR
+  app. The SSR Compute role allows the Amplify Hosting compute service to securely access
+  specific Amazon Web Services resources based on the role's permissions. For more
+  information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+  in the *Amplify User Guide*.
+
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 
 - `"customRules"`: The custom rewrite and redirect rules for an Amplify app.
@@ -65,8 +73,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html)
   in the *Amplify Hosting User Guide*.
 
-- `"iamServiceRoleArn"`: The AWS Identity and Access Management (IAM) service role for an
+- `"iamServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for the
   Amplify app.
+
+- `"jobConfig"`: Describes the configuration details that apply to the jobs for an Amplify
+  app.
 
 - `"oauthToken"`: The OAuth token for a third-party source control system for an Amplify
   app. The OAuth token is used to create a webhook and a read-only deploy key using SSH
@@ -86,6 +97,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
   `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
   platform type to `WEB_DYNAMIC`.
+
+  If you are deploying an SSG only app with Next.js version 14 or later, you must set the
+  platform type to `WEB_COMPUTE` and set the artifacts `baseDirectory` to `.next` in the
+  application's build settings. For an example of the build specification settings, see [Amplify build settings for a Next.js 14 SSG application](https://docs.aws.amazon.com/amplify/latest/userguide/deploy-nextjs-app.html#build-setting-detection-ssg-14)
+  in the *Amplify Hosting User Guide*.
 
 - `"repository"`: The Git repository for the Amplify app.
 
@@ -204,6 +220,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"buildSpec"`: The build specification (build spec) for the branch.
 
+- `"computeRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to assign to a branch
+  of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely
+  access specific Amazon Web Services resources based on the role's permissions. For more
+  information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+  in the *Amplify User Guide*.
+
 - `"description"`: The description for the branch.
 
 - `"displayName"`: The display name for a branch. This is used as the default domain prefix.
@@ -221,6 +243,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   code changes can take up to 10 minutes to roll out.
 
 - `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+
+- `"enableSkewProtection"`: Specifies whether the skew protection feature is enabled for the
+  branch.
+
+  Deployment skew protection is available to Amplify applications to eliminate version skew
+  issues between client and servers in web applications. When you apply skew protection to a
+  branch, you can ensure that your clients always interact with the correct version of
+  server-side assets, regardless of when a deployment occurs. For more information about
+  skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html)
+  in the *Amplify User Guide*.
 
 - `"environmentVariables"`: The environment variables for the branch.
 
@@ -270,7 +302,7 @@ end
     create_deployment(app_id, branch_name, params::Dict{String,<:Any})
 
 Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not
-connected to a repository.
+connected to a Git repository.
 
 The maximum duration between the `CreateDeployment` call and the `StartDeployment` call
 cannot exceed 8 hours. If the duration exceeds 8 hours, the `StartDeployment` call and the
@@ -977,7 +1009,13 @@ end
     list_artifacts(app_id, branch_name, job_id)
     list_artifacts(app_id, branch_name, job_id, params::Dict{String,<:Any})
 
-Returns a list of artifacts for a specified app, branch, and job.
+Returns a list of end-to-end testing artifacts for a specified app, branch, and job.
+
+To return the build artifacts, use the [GetJob](https://docs.aws.amazon.com/amplify/latest/APIReference/API_GetJob.html)
+API.
+
+For more information about Amplify testing support, see [Setting up end-to-end Cypress tests for your Amplify application](https://docs.aws.amazon.com/amplify/latest/userguide/running-tests.html)
+in the *Amplify Hosting User Guide*.
 
 # Arguments
 
@@ -1267,7 +1305,7 @@ end
     start_deployment(app_id, branch_name, params::Dict{String,<:Any})
 
 Starts a deployment for a manually deployed app. Manually deployed apps are not connected to
-a repository.
+a Git repository.
 
 The maximum duration between the `CreateDeployment` call and the `StartDeployment` call
 cannot exceed 8 hours. If the duration exceeds 8 hours, the `StartDeployment` call and the
@@ -1276,16 +1314,21 @@ associated `Job` will fail.
 # Arguments
 
 - `app_id`: The unique ID for an Amplify app.
-- `branch_name`: The name of the branch to use for the job.
+- `branch_name`: The name of the branch to use for the deployment job.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"jobId"`: The job ID for this deployment, generated by the create deployment request.
-- `"sourceUrl"`: The source URL for this deployment, used when calling start deployment
-  without create deployment. The source URL can be any HTTP GET URL that is publicly
-  accessible and downloads a single .zip file.
+- `"jobId"`: The job ID for this deployment that is generated by the `CreateDeployment`
+  request.
+- `"sourceUrl"`: The source URL for the deployment that is used when calling
+  `StartDeployment` without `CreateDeployment`. The source URL can be either an HTTP GET URL
+  that is publicly accessible and downloads a single .zip file, or an Amazon S3 bucket and
+  prefix.
+- `"sourceUrlType"`: The type of source specified by the `sourceURL`. If the value is `ZIP`,
+  the source is a .zip file. If the value is `BUCKET_PREFIX`, the source is an Amazon S3
+  bucket and prefix. If no value is specified, the default is `ZIP`.
 """
 function start_deployment end
 
@@ -1534,6 +1577,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
 
+- `"cacheConfig"`: The cache configuration for the Amplify app.
+
+- `"computeRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR
+  app. The SSR Compute role allows the Amplify Hosting compute service to securely access
+  specific Amazon Web Services resources based on the role's permissions. For more
+  information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+  in the *Amplify User Guide*.
+
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 
 - `"customRules"`: The custom redirect and rewrite rules for an Amplify app.
@@ -1551,8 +1602,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"environmentVariables"`: The environment variables for an Amplify app.
 
-- `"iamServiceRoleArn"`: The AWS Identity and Access Management (IAM) service role for an
+- `"iamServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for the
   Amplify app.
+
+- `"jobConfig"`: Describes the configuration details that apply to the jobs for an Amplify
+  app.
 
 - `"name"`: The name for an Amplify app.
 
@@ -1576,6 +1630,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
   `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
   platform type to `WEB_DYNAMIC`.
+
+  If you are deploying an SSG only app with Next.js version 14 or later, you must set the
+  platform type to `WEB_COMPUTE`.
 
 - `"repository"`: The name of the Git repository for an Amplify app.
 """
@@ -1626,6 +1683,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"buildSpec"`: The build specification (build spec) for the branch.
 
+- `"computeRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to assign to a branch
+  of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely
+  access specific Amazon Web Services resources based on the role's permissions. For more
+  information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+  in the *Amplify User Guide*.
+
 - `"description"`: The description for the branch.
 
 - `"displayName"`: The display name for a branch. This is used as the default domain prefix.
@@ -1643,6 +1706,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   code changes can take up to 10 minutes to roll out.
 
 - `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+
+- `"enableSkewProtection"`: Specifies whether the skew protection feature is enabled for the
+  branch.
+
+  Deployment skew protection is available to Amplify applications to eliminate version skew
+  issues between client and servers in web applications. When you apply skew protection to a
+  branch, you can ensure that your clients always interact with the correct version of
+  server-side assets, regardless of when a deployment occurs. For more information about
+  skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html)
+  in the *Amplify User Guide*.
 
 - `"environmentVariables"`: The environment variables for the branch.
 

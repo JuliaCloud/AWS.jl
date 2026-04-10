@@ -76,23 +76,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   Inbound:
 
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
-  - Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0
-  - Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0
-  - Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
-  - Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
-  - Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
-  - Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed Microsoft AD VPC IPv4
+    CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: Managed Microsoft AD
+    VPC IPv4 CIDR
+  - Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: Managed Microsoft AD
+    VPC IPv4 CIDR
+  - Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR
+  - Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR
+  - Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR
+  - Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft AD VPC IPv4 CIDR
 
   Outbound:
 
@@ -308,6 +321,8 @@ the [`connect_directory`](@ref) operation, see [Directory Service API Permission
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the directory.
+- `"NetworkType"`: The network type for your directory. The default value is `IPv4` or
+  `IPv6` based on the provided subnet capabilities.
 - `"ShortName"`: The NetBIOS name of your self-managed directory, such as `CORP`.
 - `"Tags"`: The tags to be assigned to AD Connector.
 """
@@ -478,8 +493,8 @@ function create_computer(
 end
 
 """
-    create_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name)
-    create_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name, params::Dict{String,<:Any})
+    create_conditional_forwarder(directory_id, remote_domain_name)
+    create_conditional_forwarder(directory_id, remote_domain_name, params::Dict{String,<:Any})
 
 Creates a conditional forwarder associated with your Amazon Web Services directory.
 Conditional forwarders are required in order to set up a trust relationship with another
@@ -489,25 +504,27 @@ domain. The conditional forwarder points to the trusted domain.
 
 - `directory_id`: The directory ID of the Amazon Web Services directory for which you are
   creating the conditional forwarder.
-- `dns_ip_addrs`: The IP addresses of the remote DNS server associated with
-  RemoteDomainName.
 - `remote_domain_name`: The fully qualified domain name (FQDN) of the remote domain with
   which you will set up a trust relationship.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DnsIpAddrs"`: The IP addresses of the remote DNS server associated with
+  RemoteDomainName.
+- `"DnsIpv6Addrs"`: The IPv6 addresses of the remote DNS server associated with
+  RemoteDomainName.
 """
 function create_conditional_forwarder end
 
 function create_conditional_forwarder(
-    DirectoryId,
-    DnsIpAddrs,
-    RemoteDomainName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    DirectoryId, RemoteDomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return directory_service(
         "CreateConditionalForwarder",
         Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "DnsIpAddrs" => DnsIpAddrs,
-            "RemoteDomainName" => RemoteDomainName,
+            "DirectoryId" => DirectoryId, "RemoteDomainName" => RemoteDomainName
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -516,7 +533,6 @@ end
 
 function create_conditional_forwarder(
     DirectoryId,
-    DnsIpAddrs,
     RemoteDomainName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -527,9 +543,7 @@ function create_conditional_forwarder(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "DirectoryId" => DirectoryId,
-                    "DnsIpAddrs" => DnsIpAddrs,
-                    "RemoteDomainName" => RemoteDomainName,
+                    "DirectoryId" => DirectoryId, "RemoteDomainName" => RemoteDomainName
                 ),
                 params,
             ),
@@ -581,6 +595,8 @@ For additional information about how Active Directory passwords are enforced, se
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A description for the directory.
+- `"NetworkType"`: The network type for your directory. Simple AD supports IPv4 and Dual-
+  stack only.
 - `"ShortName"`: The NetBIOS name of the directory, such as `CORP`.
 - `"Tags"`: The tags to be assigned to the Simple AD directory.
 - `"VpcSettings"`: A `DirectoryVpcSettings` object that contains additional information for
@@ -612,6 +628,73 @@ function create_directory(
             mergewith(
                 _merge,
                 Dict{String,Any}("Name" => Name, "Password" => Password, "Size" => Size),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_hybrid_ad(assessment_id, secret_arn)
+    create_hybrid_ad(assessment_id, secret_arn, params::Dict{String,<:Any})
+
+Creates a hybrid directory that connects your self-managed Active Directory (AD)
+infrastructure and Amazon Web Services.
+
+You must have a successful directory assessment using [`start_adassessment`](@ref) to
+validate your environment compatibility before you use this operation.
+
+Updates are applied asynchronously. Use [`describe_directories`](@ref) to monitor the
+progress of directory creation.
+
+# Arguments
+
+- `assessment_id`: The unique identifier of the successful directory assessment that
+  validates your self-managed AD environment. You must have a successful directory
+  assessment before you create a hybrid directory.
+
+- `secret_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager
+  secret that contains the credentials for the service account used to join hybrid domain
+  controllers to your self-managed AD domain. This secret is used once and not stored.
+
+  The secret must contain key-value pairs with keys matching `customerAdAdminDomainUsername`
+  and `customerAdAdminDomainPassword`. For example:
+  `{"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: The tags to be assigned to the directory. Each tag consists of a key and value
+  pair. You can specify multiple tags as a list.
+"""
+function create_hybrid_ad end
+
+function create_hybrid_ad(
+    AssessmentId, SecretArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "CreateHybridAD",
+        Dict{String,Any}("AssessmentId" => AssessmentId, "SecretArn" => SecretArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_hybrid_ad(
+    AssessmentId,
+    SecretArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "CreateHybridAD",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AssessmentId" => AssessmentId, "SecretArn" => SecretArn),
                 params,
             ),
         );
@@ -702,6 +785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services console `Directory Details` page after the directory is created.
 - `"Edition"`: Managed Microsoft AD is available in two editions: `Standard` and
   `Enterprise`. `Enterprise` is the default.
+- `"NetworkType"`: The network type for your domain. The default value is `IPv4` or `IPv6`
+  based on the provided subnet capabilities.
 - `"ShortName"`: The NetBIOS name for your domain, such as `CORP`. If you don't specify a
   NetBIOS name, it will default to the first part of your directory DNS. For example, `CORP`
   for the directory DNS `corp.example.com`.
@@ -812,8 +897,8 @@ forest trust or an external trust.
 - `remote_domain_name`: The Fully Qualified Domain Name (FQDN) of the external domain for
   which to create the trust relationship.
 - `trust_direction`: The direction of the trust relationship.
-- `trust_password`: The trust password. The must be the same password that was used when
-  creating the trust relationship on the external domain.
+- `trust_password`: The trust password. The trust password must be the same password that
+  was used when creating the trust relationship on the external domain.
 
 # Optional Parameters
 
@@ -821,6 +906,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConditionalForwarderIpAddrs"`: The IP addresses of the remote DNS server associated with
   RemoteDomainName.
+- `"ConditionalForwarderIpv6Addrs"`: The IPv6 addresses of the remote DNS server associated
+  with RemoteDomainName.
 - `"SelectiveAuth"`: Optional parameter to enable selective authentication for the trust.
 - `"TrustType"`: The trust relationship type. `Forest` is the default.
 """
@@ -867,6 +954,48 @@ function create_trust(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_adassessment(assessment_id)
+    delete_adassessment(assessment_id, params::Dict{String,<:Any})
+
+Deletes a directory assessment and all associated data. This operation permanently removes
+the assessment results, validation reports, and configuration information.
+
+You cannot delete system-initiated assessments. You can delete customer-created assessments
+even if they are in progress.
+
+# Arguments
+
+- `assessment_id`: The unique identifier of the directory assessment to delete.
+"""
+function delete_adassessment end
+
+function delete_adassessment(
+    AssessmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DeleteADAssessment",
+        Dict{String,Any}("AssessmentId" => AssessmentId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_adassessment(
+    AssessmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DeleteADAssessment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AssessmentId" => AssessmentId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1172,6 +1301,87 @@ function deregister_event_topic(
 end
 
 """
+    describe_adassessment(assessment_id)
+    describe_adassessment(assessment_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about a directory assessment, including its current status,
+validation results, and configuration details. Use this operation to monitor assessment
+progress and review results.
+
+# Arguments
+
+- `assessment_id`: The identifier of the directory assessment to describe.
+"""
+function describe_adassessment end
+
+function describe_adassessment(
+    AssessmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DescribeADAssessment",
+        Dict{String,Any}("AssessmentId" => AssessmentId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_adassessment(
+    AssessmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DescribeADAssessment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AssessmentId" => AssessmentId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_caenrollment_policy(directory_id)
+    describe_caenrollment_policy(directory_id, params::Dict{String,<:Any})
+
+Retrieves detailed information about the certificate authority (CA) enrollment policy for
+the specified directory. This policy determines how client certificates are automatically
+enrolled and managed through Amazon Web Services Private Certificate Authority.
+
+# Arguments
+
+- `directory_id`: The identifier of the directory for which to retrieve the CA enrollment
+  policy information.
+"""
+function describe_caenrollment_policy end
+
+function describe_caenrollment_policy(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DescribeCAEnrollmentPolicy",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_caenrollment_policy(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DescribeCAEnrollmentPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_certificate(certificate_id, directory_id)
     describe_certificate(certificate_id, directory_id, params::Dict{String,<:Any})
 
@@ -1372,6 +1582,45 @@ function describe_directories(
 end
 
 """
+    describe_directory_data_access(directory_id)
+    describe_directory_data_access(directory_id, params::Dict{String,<:Any})
+
+Obtains status of directory data access enablement through the Directory Service Data API
+for the specified directory.
+
+# Arguments
+
+- `directory_id`: The directory identifier.
+"""
+function describe_directory_data_access end
+
+function describe_directory_data_access(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DescribeDirectoryDataAccess",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_directory_data_access(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DescribeDirectoryDataAccess",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_domain_controllers(directory_id)
     describe_domain_controllers(directory_id, params::Dict{String,<:Any})
 
@@ -1455,6 +1704,56 @@ function describe_event_topics(
 )
     return directory_service(
         "DescribeEventTopics", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_hybrid_adupdate(directory_id)
+    describe_hybrid_adupdate(directory_id, params::Dict{String,<:Any})
+
+Retrieves information about update activities for a hybrid directory. This operation
+provides details about configuration changes, administrator account updates, and self-
+managed instance settings (IDs and DNS IPs).
+
+# Arguments
+
+- `directory_id`: The identifier of the hybrid directory for which to retrieve update
+  information.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: The pagination token from a previous request to `DescribeHybridADUpdate`.
+  Pass null if this is the first request.
+- `"UpdateType"`: The type of update activities to retrieve. Valid values include
+  `SelfManagedInstances` and `HybridAdministratorAccount`.
+"""
+function describe_hybrid_adupdate end
+
+function describe_hybrid_adupdate(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DescribeHybridADUpdate",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_hybrid_adupdate(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DescribeHybridADUpdate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1779,6 +2078,51 @@ function describe_update_directory(
 end
 
 """
+    disable_caenrollment_policy(directory_id)
+    disable_caenrollment_policy(directory_id, params::Dict{String,<:Any})
+
+Disables the certificate authority (CA) enrollment policy for the specified directory. This
+stops automatic certificate enrollment and management for domain-joined clients, but does
+not affect existing certificates.
+
+!!! important
+    Disabling the CA enrollment policy prevents new certificates from being automatically
+    enrolled, but existing certificates remain valid and functional until they expire.
+
+# Arguments
+
+- `directory_id`: The identifier of the directory for which to disable the CA enrollment
+  policy.
+"""
+function disable_caenrollment_policy end
+
+function disable_caenrollment_policy(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DisableCAEnrollmentPolicy",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disable_caenrollment_policy(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DisableCAEnrollmentPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     disable_client_authentication(directory_id, type)
     disable_client_authentication(directory_id, type, params::Dict{String,<:Any})
 
@@ -1787,8 +2131,8 @@ Disables alternative client authentication methods for the specified directory.
 # Arguments
 
 - `directory_id`: The identifier of the directory
-- `type`: The type of client authentication to disable. Currently, only the parameter,
-  `SmartCard` is supported.
+- `type`: The type of client authentication to disable. Currently the only parameter
+  `"SmartCard"` is supported.
 """
 function disable_client_authentication end
 
@@ -1817,6 +2161,45 @@ function disable_client_authentication(
                 Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disable_directory_data_access(directory_id)
+    disable_directory_data_access(directory_id, params::Dict{String,<:Any})
+
+Deactivates access to directory data via the Directory Service Data API for the specified
+directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
+
+# Arguments
+
+- `directory_id`: The directory identifier.
+"""
+function disable_directory_data_access end
+
+function disable_directory_data_access(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "DisableDirectoryDataAccess",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disable_directory_data_access(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "DisableDirectoryDataAccess",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1959,6 +2342,68 @@ function disable_sso(
 end
 
 """
+    enable_caenrollment_policy(directory_id, pca_connector_arn)
+    enable_caenrollment_policy(directory_id, pca_connector_arn, params::Dict{String,<:Any})
+
+Enables certificate authority (CA) enrollment policy for the specified directory. This
+allows domain-joined clients to automatically request and receive certificates from the
+specified Amazon Web Services Private Certificate Authority.
+
+!!! note
+    Before enabling CA enrollment, ensure that the PCA connector is properly configured and
+    accessible from the directory. The connector must be in an active state and have the
+    necessary permissions.
+
+# Arguments
+
+- `directory_id`: The identifier of the directory for which to enable the CA enrollment
+  policy.
+
+- `pca_connector_arn`: The Amazon Resource Name (ARN) of the Private Certificate Authority
+  (PCA) connector to use for automatic certificate enrollment. This connector must be
+  properly configured and accessible from the directory.
+
+  The ARN format is:
+  `arn:aws:pca-connector-ad:*region*:*account-id*:connector/*connector-id*`
+"""
+function enable_caenrollment_policy end
+
+function enable_caenrollment_policy(
+    DirectoryId, PcaConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "EnableCAEnrollmentPolicy",
+        Dict{String,Any}(
+            "DirectoryId" => DirectoryId, "PcaConnectorArn" => PcaConnectorArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function enable_caenrollment_policy(
+    DirectoryId,
+    PcaConnectorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "EnableCAEnrollmentPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DirectoryId" => DirectoryId, "PcaConnectorArn" => PcaConnectorArn
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     enable_client_authentication(directory_id, type)
     enable_client_authentication(directory_id, type, params::Dict{String,<:Any})
 
@@ -1998,6 +2443,45 @@ function enable_client_authentication(
                 Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_directory_data_access(directory_id)
+    enable_directory_data_access(directory_id, params::Dict{String,<:Any})
+
+Enables access to directory data via the Directory Service Data API for the specified
+directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
+
+# Arguments
+
+- `directory_id`: The directory identifier.
+"""
+function enable_directory_data_access end
+
+function enable_directory_data_access(
+    DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "EnableDirectoryDataAccess",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function enable_directory_data_access(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "EnableDirectoryDataAccess",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2207,6 +2691,40 @@ function get_snapshot_limits(
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_adassessments()
+    list_adassessments(params::Dict{String,<:Any})
+
+Retrieves a list of directory assessments for the specified directory or all assessments in
+your account. Use this operation to monitor assessment status and manage multiple
+assessments.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DirectoryId"`: The identifier of the directory for which to list assessments. If not
+  specified, all assessments in your account are returned.
+- `"Limit"`: The maximum number of assessment summaries to return.
+- `"NextToken"`: The pagination token from a previous request to `ListADAssessments`. Pass
+  null if this is the first request.
+"""
+function list_adassessments end
+
+function list_adassessments(; aws_config::AbstractAWSConfig=current_aws_config())
+    return directory_service(
+        "ListADAssessments"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_adassessments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "ListADAssessments", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2580,32 +3098,35 @@ function reject_shared_directory(
 end
 
 """
-    remove_ip_routes(cidr_ips, directory_id)
-    remove_ip_routes(cidr_ips, directory_id, params::Dict{String,<:Any})
+    remove_ip_routes(directory_id)
+    remove_ip_routes(directory_id, params::Dict{String,<:Any})
 
 Removes IP address blocks from a directory.
 
 # Arguments
 
-- `cidr_ips`: IP address blocks that you want to remove.
 - `directory_id`: Identifier (ID) of the directory from which you want to remove the IP
   addresses.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CidrIps"`: IP address blocks that you want to remove.
+- `"CidrIpv6s"`: IPv6 address blocks that you want to remove.
 """
 function remove_ip_routes end
 
-function remove_ip_routes(
-    CidrIps, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function remove_ip_routes(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "RemoveIpRoutes",
-        Dict{String,Any}("CidrIps" => CidrIps, "DirectoryId" => DirectoryId);
+        Dict{String,Any}("DirectoryId" => DirectoryId);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function remove_ip_routes(
-    CidrIps,
     DirectoryId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2613,11 +3134,7 @@ function remove_ip_routes(
     return directory_service(
         "RemoveIpRoutes",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CidrIps" => CidrIps, "DirectoryId" => DirectoryId),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2712,6 +3229,7 @@ end
     reset_user_password(directory_id, new_password, user_name, params::Dict{String,<:Any})
 
 Resets the password for any user in your Managed Microsoft AD or Simple AD directory.
+Disabled users will become enabled and can be authenticated following the API call.
 
 You can reset the password for any user in your directory with the following exceptions:
 
@@ -2905,6 +3423,55 @@ function share_directory(
 end
 
 """
+    start_adassessment()
+    start_adassessment(params::Dict{String,<:Any})
+
+Initiates a directory assessment to validate your self-managed AD environment for hybrid
+domain join. The assessment checks compatibility and connectivity of the self-managed AD
+environment.
+
+A directory assessment is automatically created when you create a hybrid directory. There
+are two types of assessments: `CUSTOMER` and `SYSTEM`. Your Amazon Web Services account has
+a limit of 100 `CUSTOMER` directory assessments.
+
+The assessment process typically takes 30 minutes or more to complete. The assessment
+process is asynchronous and you can monitor it with `DescribeADAssessment`.
+
+The `InstanceIds` must have a one-to-one correspondence with `CustomerDnsIps`, meaning that
+if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-
+10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship,
+either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410].
+
+Note: You must provide exactly one `DirectoryId` or `AssessmentConfiguration`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AssessmentConfiguration"`: Configuration parameters for the directory assessment,
+  including DNS server information, domain name, Amazon VPC subnet, and Amazon Web Services
+  System Manager managed node details.
+- `"DirectoryId"`: The identifier of the directory for which to perform the assessment. This
+  should be an existing directory. If the assessment is not for an existing directory, this
+  parameter should be omitted.
+"""
+function start_adassessment end
+
+function start_adassessment(; aws_config::AbstractAWSConfig=current_aws_config())
+    return directory_service(
+        "StartADAssessment"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function start_adassessment(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return directory_service(
+        "StartADAssessment", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     start_schema_extension(create_snapshot_before_schema_extension, description, directory_id, ldif_content)
     start_schema_extension(create_snapshot_before_schema_extension, description, directory_id, ldif_content, params::Dict{String,<:Any})
 
@@ -3020,8 +3587,8 @@ function unshare_directory(
 end
 
 """
-    update_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name)
-    update_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name, params::Dict{String,<:Any})
+    update_conditional_forwarder(directory_id, remote_domain_name)
+    update_conditional_forwarder(directory_id, remote_domain_name, params::Dict{String,<:Any})
 
 Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
 
@@ -3029,25 +3596,27 @@ Updates a conditional forwarder that has been set up for your Amazon Web Service
 
 - `directory_id`: The directory ID of the Amazon Web Services directory for which to update
   the conditional forwarder.
-- `dns_ip_addrs`: The updated IP addresses of the remote DNS server associated with the
-  conditional forwarder.
 - `remote_domain_name`: The fully qualified domain name (FQDN) of the remote domain with
   which you will set up a trust relationship.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DnsIpAddrs"`: The updated IP addresses of the remote DNS server associated with the
+  conditional forwarder.
+- `"DnsIpv6Addrs"`: The updated IPv6 addresses of the remote DNS server associated with the
+  conditional forwarder.
 """
 function update_conditional_forwarder end
 
 function update_conditional_forwarder(
-    DirectoryId,
-    DnsIpAddrs,
-    RemoteDomainName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    DirectoryId, RemoteDomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return directory_service(
         "UpdateConditionalForwarder",
         Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "DnsIpAddrs" => DnsIpAddrs,
-            "RemoteDomainName" => RemoteDomainName,
+            "DirectoryId" => DirectoryId, "RemoteDomainName" => RemoteDomainName
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3056,7 +3625,6 @@ end
 
 function update_conditional_forwarder(
     DirectoryId,
-    DnsIpAddrs,
     RemoteDomainName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -3067,9 +3635,7 @@ function update_conditional_forwarder(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "DirectoryId" => DirectoryId,
-                    "DnsIpAddrs" => DnsIpAddrs,
-                    "RemoteDomainName" => RemoteDomainName,
+                    "DirectoryId" => DirectoryId, "RemoteDomainName" => RemoteDomainName
                 ),
                 params,
             ),
@@ -3083,22 +3649,25 @@ end
     update_directory_setup(directory_id, update_type)
     update_directory_setup(directory_id, update_type, params::Dict{String,<:Any})
 
-Updates the directory for a particular update type.
+Updates directory configuration for the specified update type.
 
 # Arguments
 
-- `directory_id`: The identifier of the directory on which you want to perform the update.
-- `update_type`: The type of update that needs to be performed on the directory. For
-  example, OS.
+- `directory_id`: The identifier of the directory to update.
+- `update_type`: The type of update to perform on the directory.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"CreateSnapshotBeforeUpdate"`: The boolean that specifies if a snapshot for the directory
-  needs to be taken before updating the directory.
-- `"OSUpdateSettings"`: The settings for the OS update that needs to be performed on the
-  directory.
+- `"CreateSnapshotBeforeUpdate"`: Specifies whether to create a directory snapshot before
+  performing the update.
+- `"DirectorySizeUpdateSettings"`: Directory size configuration to apply during the update
+  operation.
+- `"NetworkUpdateSettings"`: Network configuration to apply during the directory update
+  operation.
+- `"OSUpdateSettings"`: Operating system configuration to apply during the directory update
+  operation.
 """
 function update_directory_setup end
 
@@ -3127,6 +3696,74 @@ function update_directory_setup(
                 Dict{String,Any}("DirectoryId" => DirectoryId, "UpdateType" => UpdateType),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_hybrid_ad(directory_id)
+    update_hybrid_ad(directory_id, params::Dict{String,<:Any})
+
+Updates the configuration of an existing hybrid directory. You can recover hybrid directory
+administrator account or modify self-managed instance settings.
+
+Updates are applied asynchronously. Use [`describe_hybrid_adupdate`](@ref) to monitor the
+progress of configuration changes.
+
+The `InstanceIds` must have a one-to-one correspondence with `CustomerDnsIps`, meaning that
+if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-
+10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship,
+either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410].
+
+!!! note
+    You must provide at least one update to `UpdateHybridADRequest\$HybridAdministratorAccountUpdate` or `UpdateHybridADRequest\$SelfManagedInstancesSettings`.
+
+# Arguments
+
+- `directory_id`: The identifier of the hybrid directory to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"HybridAdministratorAccountUpdate"`: We create a hybrid directory administrator account
+  when we create a hybrid directory. Use `HybridAdministratorAccountUpdate` to recover the
+  hybrid directory administrator account if you have deleted it.
+
+  To recover your hybrid directory administrator account, we need temporary access to a user
+  in your self-managed AD with administrator permissions in the form of a secret from Amazon
+  Web Services Secrets Manager. We use these credentials once during recovery and don't
+  store them.
+
+  If your hybrid directory administrator account exists, then you don’t need to use
+  `HybridAdministratorAccountUpdate`, even if you have updated your self-managed AD
+  administrator user.
+
+- `"SelfManagedInstancesSettings"`: Updates to the self-managed AD configuration, including
+  DNS server IP addresses and Amazon Web Services System Manager managed node identifiers.
+"""
+function update_hybrid_ad end
+
+function update_hybrid_ad(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
+    return directory_service(
+        "UpdateHybridAD",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_hybrid_ad(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return directory_service(
+        "UpdateHybridAD",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

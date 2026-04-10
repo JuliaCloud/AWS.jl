@@ -120,6 +120,127 @@ function create_addon_subscription(
 end
 
 """
+    create_address_list(address_list_name)
+    create_address_list(address_list_name, params::Dict{String,<:Any})
+
+Creates a new address list.
+
+# Arguments
+
+- `address_list_name`: A user-friendly name for the address list.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
+  the same request.
+- `"Tags"`: The tags used to organize, track, or control access for the resource. For
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
+"""
+function create_address_list end
+
+function create_address_list(
+    AddressListName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "CreateAddressList",
+        Dict{String,Any}(
+            "AddressListName" => AddressListName, "ClientToken" => string(uuid4())
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_address_list(
+    AddressListName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "CreateAddressList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressListName" => AddressListName, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_address_list_import_job(address_list_id, import_data_format, name)
+    create_address_list_import_job(address_list_id, import_data_format, name, params::Dict{String,<:Any})
+
+Creates an import job for an address list.
+
+# Arguments
+
+- `address_list_id`: The unique identifier of the address list for importing addresses to.
+- `import_data_format`: The format of the input for an import job.
+- `name`: A user-friendly name for the import job.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
+  the same request.
+"""
+function create_address_list_import_job end
+
+function create_address_list_import_job(
+    AddressListId,
+    ImportDataFormat,
+    Name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "CreateAddressListImportJob",
+        Dict{String,Any}(
+            "AddressListId" => AddressListId,
+            "ImportDataFormat" => ImportDataFormat,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_address_list_import_job(
+    AddressListId,
+    ImportDataFormat,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "CreateAddressListImportJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressListId" => AddressListId,
+                    "ImportDataFormat" => ImportDataFormat,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_archive(archive_name)
     create_archive(archive_name, params::Dict{String,<:Any})
 
@@ -195,8 +316,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same request.
 - `"IngressPointConfiguration"`: If you choose an Authenticated ingress endpoint, you must
   configure either an SMTP password or a secret ARN.
+- `"NetworkConfiguration"`: Specifies the network configuration for the ingress point. This
+  allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If
+  not specified, the default network type is IPv4-only.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
   example, { "tags": {"key1":"value1", "key2":"value2"} }.
+- `"TlsPolicy"`: The Transport Layer Security (TLS) policy for the ingress point. The FIPS
+  value is only valid in US and Canada regions.
 """
 function create_ingress_point end
 
@@ -538,6 +664,44 @@ function delete_addon_subscription(
 end
 
 """
+    delete_address_list(address_list_id)
+    delete_address_list(address_list_id, params::Dict{String,<:Any})
+
+Deletes an address list.
+
+# Arguments
+
+- `address_list_id`: The identifier of an existing address list resource to delete.
+"""
+function delete_address_list end
+
+function delete_address_list(
+    AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "DeleteAddressList",
+        Dict{String,Any}("AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_address_list(
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "DeleteAddressList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AddressListId" => AddressListId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_archive(archive_id)
     delete_archive(archive_id, params::Dict{String,<:Any})
 
@@ -727,6 +891,50 @@ function delete_traffic_policy(
 end
 
 """
+    deregister_member_from_address_list(address, address_list_id)
+    deregister_member_from_address_list(address, address_list_id, params::Dict{String,<:Any})
+
+Removes a member from an address list.
+
+# Arguments
+
+- `address`: The address to be removed from the address list.
+- `address_list_id`: The unique identifier of the address list to remove the address from.
+"""
+function deregister_member_from_address_list end
+
+function deregister_member_from_address_list(
+    Address, AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "DeregisterMemberFromAddressList",
+        Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_member_from_address_list(
+    Address,
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "DeregisterMemberFromAddressList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_addon_instance(addon_instance_id)
     get_addon_instance(addon_instance_id, params::Dict{String,<:Any})
 
@@ -803,6 +1011,76 @@ function get_addon_subscription(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_address_list(address_list_id)
+    get_address_list(address_list_id, params::Dict{String,<:Any})
+
+Fetch attributes of an address list.
+
+# Arguments
+
+- `address_list_id`: The identifier of an existing address list resource to be retrieved.
+"""
+function get_address_list end
+
+function get_address_list(AddressListId; aws_config::AbstractAWSConfig=current_aws_config())
+    return mailmanager(
+        "GetAddressList",
+        Dict{String,Any}("AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_address_list(
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "GetAddressList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AddressListId" => AddressListId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_address_list_import_job(job_id)
+    get_address_list_import_job(job_id, params::Dict{String,<:Any})
+
+Fetch attributes of an import job.
+
+# Arguments
+
+- `job_id`: The identifier of the import job that needs to be retrieved.
+"""
+function get_address_list_import_job end
+
+function get_address_list_import_job(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "GetAddressListImportJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_address_list_import_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "GetAddressListImportJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1045,6 +1323,13 @@ Fetch ingress endpoint resource attributes.
 # Arguments
 
 - `ingress_point_id`: The identifier of an ingress endpoint.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IncludeTrustStoreContents"`: Whether to include the trust store contents in the
+  response. Use INCLUDE to retrieve trust store certificate and CRL contents.
 """
 function get_ingress_point end
 
@@ -1068,6 +1353,50 @@ function get_ingress_point(
         "GetIngressPoint",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("IngressPointId" => IngressPointId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_member_of_address_list(address, address_list_id)
+    get_member_of_address_list(address, address_list_id, params::Dict{String,<:Any})
+
+Fetch attributes of a member in an address list.
+
+# Arguments
+
+- `address`: The address to be retrieved from the address list.
+- `address_list_id`: The unique identifier of the address list to retrieve the address from.
+"""
+function get_member_of_address_list end
+
+function get_member_of_address_list(
+    Address, AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "GetMemberOfAddressList",
+        Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_member_of_address_list(
+    Address,
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "GetMemberOfAddressList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1245,6 +1574,82 @@ function list_addon_subscriptions(
 end
 
 """
+    list_address_list_import_jobs(address_list_id)
+    list_address_list_import_jobs(address_list_id, params::Dict{String,<:Any})
+
+Lists jobs for an address list.
+
+# Arguments
+
+- `address_list_id`: The unique identifier of the address list for listing import jobs.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: If you received a pagination token from a previous call to this API, you
+  can provide it here to continue paginating through the next page of results.
+- `"PageSize"`: The maximum number of import jobs that are returned per call. You can use
+  NextToken to retrieve the next page of jobs.
+"""
+function list_address_list_import_jobs end
+
+function list_address_list_import_jobs(
+    AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "ListAddressListImportJobs",
+        Dict{String,Any}("AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_address_list_import_jobs(
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "ListAddressListImportJobs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AddressListId" => AddressListId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_address_lists()
+    list_address_lists(params::Dict{String,<:Any})
+
+Lists address lists for this account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: If you received a pagination token from a previous call to this API, you
+  can provide it here to continue paginating through the next page of results.
+- `"PageSize"`: The maximum number of address list resources that are returned per call. You
+  can use NextToken to retrieve the next page of address lists.
+"""
+function list_address_lists end
+
+function list_address_lists(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mailmanager("ListAddressLists"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_address_lists(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "ListAddressLists", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_archive_exports(archive_id)
     list_archive_exports(archive_id, params::Dict{String,<:Any})
 
@@ -1396,6 +1801,54 @@ function list_ingress_points(
 end
 
 """
+    list_members_of_address_list(address_list_id)
+    list_members_of_address_list(address_list_id, params::Dict{String,<:Any})
+
+Lists members of an address list.
+
+# Arguments
+
+- `address_list_id`: The unique identifier of the address list to list the addresses from.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: Filter to be used to limit the results.
+- `"NextToken"`: If you received a pagination token from a previous call to this API, you
+  can provide it here to continue paginating through the next page of results.
+- `"PageSize"`: The maximum number of address list members that are returned per call. You
+  can use NextToken to retrieve the next page of members.
+"""
+function list_members_of_address_list end
+
+function list_members_of_address_list(
+    AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "ListMembersOfAddressList",
+        Dict{String,Any}("AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_members_of_address_list(
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "ListMembersOfAddressList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AddressListId" => AddressListId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_relays()
     list_relays(params::Dict{String,<:Any})
 
@@ -1516,6 +1969,85 @@ function list_traffic_policies(
 end
 
 """
+    register_member_to_address_list(address, address_list_id)
+    register_member_to_address_list(address, address_list_id, params::Dict{String,<:Any})
+
+Adds a member to an address list.
+
+# Arguments
+
+- `address`: The address to be added to the address list.
+- `address_list_id`: The unique identifier of the address list where the address should be
+  added.
+"""
+function register_member_to_address_list end
+
+function register_member_to_address_list(
+    Address, AddressListId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "RegisterMemberToAddressList",
+        Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_member_to_address_list(
+    Address,
+    AddressListId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return mailmanager(
+        "RegisterMemberToAddressList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Address" => Address, "AddressListId" => AddressListId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_address_list_import_job(job_id)
+    start_address_list_import_job(job_id, params::Dict{String,<:Any})
+
+Starts an import job for an address list.
+
+# Arguments
+
+- `job_id`: The identifier of the import job that needs to be started.
+"""
+function start_address_list_import_job end
+
+function start_address_list_import_job(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "StartAddressListImportJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_address_list_import_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "StartAddressListImportJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_archive_export(archive_id, export_destination_configuration, from_timestamp, to_timestamp)
     start_archive_export(archive_id, export_destination_configuration, from_timestamp, to_timestamp, params::Dict{String,<:Any})
 
@@ -1533,6 +2065,7 @@ Initiates an export of emails from the specified archive.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Criteria to filter which emails are included in the export.
+- `"IncludeMetadata"`: Whether to include message metadata as JSON files in the export.
 - `"MaxResults"`: The maximum number of email items to include in the export.
 """
 function start_archive_export end
@@ -1647,6 +2180,40 @@ function start_archive_search(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_address_list_import_job(job_id)
+    stop_address_list_import_job(job_id, params::Dict{String,<:Any})
+
+Stops an ongoing import job for an address list.
+
+# Arguments
+
+- `job_id`: The identifier of the import job that needs to be stopped.
+"""
+function stop_address_list_import_job end
+
+function stop_address_list_import_job(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "StopAddressListImportJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_address_list_import_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mailmanager(
+        "StopAddressListImportJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1875,6 +2442,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleSetId"`: The identifier of an existing rule set that you attach to an ingress
   endpoint resource.
 - `"StatusToUpdate"`: The update status of an ingress endpoint.
+- `"TlsPolicy"`: The Transport Layer Security (TLS) policy for the ingress point. Valid
+  values are REQUIRED, OPTIONAL. Only ingress endpoints using REQUIRED or OPTIONAL as
+  TlsPolicy can be updated.
 - `"TrafficPolicyId"`: The identifier of an existing traffic policy that you attach to an
   ingress endpoint resource.
 """
@@ -1954,7 +2524,7 @@ end
     update_rule_set(rule_set_id)
     update_rule_set(rule_set_id, params::Dict{String,<:Any})
 
-&gt;Update attributes of an already provisioned rule set.
+Update attributes of an already provisioned rule set.
 
 # Arguments
 

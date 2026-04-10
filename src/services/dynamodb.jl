@@ -11,7 +11,7 @@ using AWS.UUIDs: uuid4
 This operation allows you to perform batch reads or writes on data stored in DynamoDB, using
 PartiQL. Each read statement in a `BatchExecuteStatement` must specify an equality condition
 on all key attributes. This enforces that each `SELECT` statement in a batch returns at most
-a single item.
+a single item. For more information, see [Running batch operations with PartiQL for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html).
 
 !!! note
     The entire batch must consist of either read statements or write statements, you cannot
@@ -115,6 +115,10 @@ If a requested item does not exist, it is not returned in the result. Requests f
 nonexistent items consume the minimum read capacity units according to the type of read. For
 more information, see [Working with Tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations)
 in the *Amazon DynamoDB Developer Guide*.
+
+!!! note
+    `BatchGetItem` will result in a `ValidationException` if the same key is specified
+    multiple times.
 
 # Arguments
 
@@ -226,9 +230,11 @@ can investigate and optionally resend the requests. Typically, you would call
 new `BatchWriteItem` request with those unprocessed items until all items have been
 processed.
 
-If *none* of the items can be processed due to insufficient provisioned throughput on all of
-the tables in the request, then `BatchWriteItem` returns a
-`ProvisionedThroughputExceededException`.
+For tables and indexes with provisioned capacity, if none of the items can be processed due
+to insufficient provisioned throughput on all of the tables in the request, then
+`BatchWriteItem` returns a `ProvisionedThroughputExceededException`. For all tables and
+indexes, if none of the items can be processed due to other throttling scenarios (such as
+exceeding partition level limits), then `BatchWriteItem` returns a `ThrottlingException`.
 
 !!! important
     If DynamoDB returns any unprocessed items, you should retry the batch operation on those
@@ -413,12 +419,14 @@ relationship between two or more DynamoDB tables with the same table name in the
 Regions.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 If you want to add a new replica table to a global table, each of the following conditions
 must be true:
@@ -492,8 +500,8 @@ function create_global_table(
 end
 
 """
-    create_table(attribute_definitions, key_schema, table_name)
-    create_table(attribute_definitions, key_schema, table_name, params::Dict{String,<:Any})
+    create_table(table_name)
+    create_table(table_name, params::Dict{String,<:Any})
 
 The [`create_table`](@ref) operation adds a new table to your account. In an Amazon Web
 Services account, table names must be unique within each Region. That is, you can have two
@@ -513,10 +521,63 @@ You can use the `DescribeTable` action to check the table status.
 
 # Arguments
 
-- `attribute_definitions`: An array of attributes that describe the key schema for the table
-  and indexes.
+- `table_name`: The name of the table to create. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
-- `key_schema`: Specifies the attributes that make up the primary key for a table or an
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AttributeDefinitions"`: An array of attributes that describe the key schema for the
+  table and indexes.
+
+- `"BillingMode"`: Controls how you are charged for read and write throughput and how you
+  manage capacity. This setting can be changed later.
+
+  - `PAY_PER_REQUEST` - We recommend using `PAY_PER_REQUEST` for most DynamoDB workloads.
+    `PAY_PER_REQUEST` sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+  - `PROVISIONED` - We recommend using `PROVISIONED` for steady workloads with predictable
+    growth where capacity requirements can be reliably forecasted. `PROVISIONED` sets the
+    billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
+
+- `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
+  (true) or disabled (false) on the table.
+
+- `"GlobalSecondaryIndexes"`: One or more global secondary indexes (the maximum is 20) to be
+  created on the table. Each global secondary index in the array includes the following:
+
+  - `IndexName` - The name of the global secondary index. Must be unique only for this
+    table.
+  - `KeySchema` - Specifies the key schema for the global secondary index. Each global
+    secondary index supports up to 4 partition keys and up to 4 sort keys.
+  - `Projection` - Specifies attributes that are copied (projected) from the table into the
+    index. These are in addition to the primary key attributes and index key attributes,
+    which are automatically projected. Each attribute specification is composed of:
+    - `ProjectionType` - One of the following:
+      - `KEYS_ONLY` - Only the index and primary keys are projected into the index.
+      - `INCLUDE` - Only the specified table attributes are projected into the index. The
+        list of projected attributes is in `NonKeyAttributes`.
+      - `ALL` - All of the table attributes are projected into the index.
+    - `NonKeyAttributes` - A list of one or more non-key attribute names that are projected
+      into the secondary index. The total count of attributes provided in
+      `NonKeyAttributes`, summed across all of the secondary indexes, must not exceed 100.
+      If you project the same attribute into two different indexes, this counts as two
+      distinct attributes when determining the total. This limit only applies when you
+      specify the ProjectionType of `INCLUDE`. You still can specify the ProjectionType of
+      `ALL` to project all attributes from the source table, even if the table has more than
+      100 attributes.
+  - `ProvisionedThroughput` - The provisioned throughput settings for the global secondary
+    index, consisting of read and write capacity units.
+
+- `"GlobalTableSettingsReplicationMode"`: Controls the settings synchronization mode for the
+  global table. For multi-account global tables, this parameter is required and the only
+  supported value is ENABLED. For same-account global tables, this parameter is set to
+  ENABLED_WITH_OVERRIDES.
+
+- `"GlobalTableSourceArn"`: The Amazon Resource Name (ARN) of the source table used for the
+  creation of a multi-account global table.
+
+- `"KeySchema"`: Specifies the attributes that make up the primary key for a table or an
   index. The attributes in `KeySchema` must also be defined in the `AttributeDefinitions`
   array. For more information, see [Data Model](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html)
   in the *Amazon DynamoDB Developer Guide*.
@@ -547,46 +608,6 @@ You can use the `DescribeTable` action to check the table status.
   For more information, see [Working with Tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key)
   in the *Amazon DynamoDB Developer Guide*.
 
-- `table_name`: The name of the table to create. You can also provide the Amazon Resource
-  Name (ARN) of the table in this parameter.
-
-# Optional Parameters
-
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-
-- `"BillingMode"`: Controls how you are charged for read and write throughput and how you
-  manage capacity. This setting can be changed later.
-
-  - `PROVISIONED` - We recommend using `PROVISIONED` for predictable workloads.
-    `PROVISIONED` sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
-  - `PAY_PER_REQUEST` - We recommend using `PAY_PER_REQUEST` for unpredictable workloads.
-    `PAY_PER_REQUEST` sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
-
-- `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
-  (true) or disabled (false) on the table.
-
-- `"GlobalSecondaryIndexes"`: One or more global secondary indexes (the maximum is 20) to be
-  created on the table. Each global secondary index in the array includes the following:
-
-  - `IndexName` - The name of the global secondary index. Must be unique only for this
-    table.
-  - `KeySchema` - Specifies the key schema for the global secondary index.
-  - `Projection` - Specifies attributes that are copied (projected) from the table into the
-    index. These are in addition to the primary key attributes and index key attributes,
-    which are automatically projected. Each attribute specification is composed of:
-    - `ProjectionType` - One of the following:
-      - `KEYS_ONLY` - Only the index and primary keys are projected into the index.
-      - `INCLUDE` - Only the specified table attributes are projected into the index. The
-        list of projected attributes is in `NonKeyAttributes`.
-      - `ALL` - All of the table attributes are projected into the index.
-    - `NonKeyAttributes` - A list of one or more non-key attribute names that are projected
-      into the secondary index. The total count of attributes provided in
-      `NonKeyAttributes`, summed across all of the secondary indexes, must not exceed 100.
-      If you project the same attribute into two different indexes, this counts as two
-      distinct attributes when determining the total.
-  - `ProvisionedThroughput` - The provisioned throughput settings for the global secondary
-    index, consisting of read and write capacity units.
-
 - `"LocalSecondaryIndexes"`: One or more local secondary indexes (the maximum is 5) to be
   created on the table. Each index is scoped to a given partition key value. There is a 10
   GB size limit per partition key value; otherwise, the size of a local secondary index is
@@ -609,7 +630,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       into the secondary index. The total count of attributes provided in
       `NonKeyAttributes`, summed across all of the secondary indexes, must not exceed 100.
       If you project the same attribute into two different indexes, this counts as two
-      distinct attributes when determining the total.
+      distinct attributes when determining the total. This limit only applies when you
+      specify the ProjectionType of `INCLUDE`. You still can specify the ProjectionType of
+      `ALL` to project all attributes from the source table, even if the table has more than
+      100 attributes.
 
 - `"OnDemandThroughput"`: Sets the maximum number of read and write units for the specified
   table in on-demand capacity mode. If you use this parameter, you must specify
@@ -660,30 +684,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `STANDARD_INFREQUENT_ACCESS`.
 
 - `"Tags"`: A list of key-value pairs to label the table. For more information, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
+
+- `"WarmThroughput"`: Represents the warm throughput (in read units per second and write
+  units per second) for creating a table.
 """
 function create_table end
 
-function create_table(
-    AttributeDefinitions,
-    KeySchema,
-    TableName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
+function create_table(TableName; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb(
         "CreateTable",
-        Dict{String,Any}(
-            "AttributeDefinitions" => AttributeDefinitions,
-            "KeySchema" => KeySchema,
-            "TableName" => TableName,
-        );
+        Dict{String,Any}("TableName" => TableName);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function create_table(
-    AttributeDefinitions,
-    KeySchema,
     TableName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -691,15 +707,7 @@ function create_table(
     return dynamodb(
         "CreateTable",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AttributeDefinitions" => AttributeDefinitions,
-                    "KeySchema" => KeySchema,
-                    "TableName" => TableName,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("TableName" => TableName), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -988,13 +996,10 @@ is in `CREATING` or `UPDATING` states, then DynamoDB returns a `ResourceInUseExc
 the specified table does not exist, DynamoDB returns a `ResourceNotFoundException`. If table
 is already in the `DELETING` state, no error is returned.
 
-!!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version).
-
 !!! note
     DynamoDB might continue to accept data read and write operations, such as `GetItem` and
-    `PutItem`, on a table in the `DELETING` state until the table deletion is complete.
+    `PutItem`, on a table in the `DELETING` state until the table deletion is complete. For
+    the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus).
 
 When you delete a table, any indexes on that table are also deleted.
 
@@ -1085,7 +1090,8 @@ After continuous backups and point in time recovery are enabled, you can restore
 point in time within `EarliestRestorableDateTime` and `LatestRestorableDateTime`.
 
 `LatestRestorableDateTime` is typically 5 minutes before the current time. You can restore
-your table to any point in time during the last 35 days.
+your table to any point in time in the last 35 days. You can set the recovery period to any
+value between 1 and 35 days.
 
 You can call `DescribeContinuousBackups` at a maximum rate of 10 times per second.
 
@@ -1233,12 +1239,14 @@ end
 Returns information about the specified global table.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -1281,12 +1289,14 @@ end
 Describes Region-specific settings for a global table.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -1468,10 +1478,6 @@ end
 Returns information about the table, including the current status of the table, when it was
 created, the primary key schema, and any indexes on the table.
 
-!!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version).
-
 !!! note
     If you issue a `DescribeTable` request immediately after a `CreateTable` request,
     DynamoDB might return a `ResourceNotFoundException`. This is because `DescribeTable`
@@ -1515,10 +1521,6 @@ end
     describe_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
 Describes auto scaling settings across replicas of the global table at once.
-
-!!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version).
 
 # Arguments
 
@@ -1871,7 +1873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might not be idempotent.
 
   If you submit a request with the same client token but a change in other parameters within
-  the 8-hour idempotency window, DynamoDB returns an `ImportConflictException`.
+  the 8-hour idempotency window, DynamoDB returns an `ExportConflictException`.
 
 - `"ExportFormat"`: The format for the exported data. Valid values for `ExportFormat` are
   `DYNAMODB_JSON` or `ION`.
@@ -2289,7 +2291,8 @@ end
     list_exports()
     list_exports(params::Dict{String,<:Any})
 
-Lists completed exports within the past 90 days.
+Lists completed exports within the past 90 days, in reverse alphanumeric order of
+`ExportArn`.
 
 # Optional Parameters
 
@@ -2320,12 +2323,14 @@ end
 Lists all global tables that have a replica in the specified Region.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Optional Parameters
 
@@ -2489,6 +2494,11 @@ Invalid Requests with empty values will be rejected with a `ValidationException`
     contains the `attribute_not_exists` function with the name of the attribute being used
     as the partition key for the table. Since every record must contain that attribute, the
     `attribute_not_exists` function will only succeed if no matching item exists.
+
+!!! note
+    To determine whether `PutItem` overwrote an existing item, use `ReturnValues` set to
+    `ALL_OLD`. If the response includes the `Attributes` element, an existing item was
+    overwritten.
 
 For more information about `PutItem`, see [Working with Items](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html)
 in the *Amazon DynamoDB Developer Guide*.
@@ -3153,8 +3163,9 @@ end
 
 Restores the specified table to the specified point in time within
 `EarliestRestorableDateTime` and `LatestRestorableDateTime`. You can restore your table to
-any point in time during the last 35 days. Any number of users can execute up to 50
-concurrent restores (any type of restore) in a given account.
+any point in time in the last 35 days. You can set the recovery period to any value between
+1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of
+restore) in a given account.
 
 When you restore using point in time recovery, DynamoDB restores your table data to the
 state based on the selected date and time (day:hour:minute:second) to a new table.
@@ -3518,6 +3529,16 @@ Associate a set of tags with an Amazon DynamoDB resource. You can then activate 
 defined tags so that they appear on the Billing and Cost Management console for cost
 allocation tracking. You can call TagResource up to five times per second, per account.
 
+- `TagResource` is an asynchronous operation. If you issue a [`list_tags_of_resource`](@ref)
+  request immediately after a `TagResource` request, DynamoDB might return your previous tag
+  set, if there was one, or an empty tag set. This is because `ListTagsOfResource` uses an
+  eventually consistent query, and the metadata for your tags or table might not be
+  available at that moment. Wait for a few seconds, and then try the `ListTagsOfResource`
+  request again.
+- The application or removal of tags using `TagResource` and `UntagResource` APIs is
+  eventually consistent. `ListTagsOfResource` API will only reflect the changes after a few
+  seconds.
+
 For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html)
 in the *Amazon DynamoDB Developer Guide*.
 
@@ -3745,6 +3766,16 @@ end
 Removes the association of tags from an Amazon DynamoDB resource. You can call
 `UntagResource` up to five times per second, per account.
 
+- `UntagResource` is an asynchronous operation. If you issue a [`list_tags_of_resource`](@ref)
+  request immediately after an `UntagResource` request, DynamoDB might return your previous
+  tag set, if there was one, or an empty tag set. This is because `ListTagsOfResource` uses
+  an eventually consistent query, and the metadata for your tags or table might not be
+  available at that moment. Wait for a few seconds, and then try the `ListTagsOfResource`
+  request again.
+- The application or removal of tags using `TagResource` and `UntagResource` APIs is
+  eventually consistent. `ListTagsOfResource` API will only reflect the changes after a few
+  seconds.
+
 For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html)
 in the *Amazon DynamoDB Developer Guide*.
 
@@ -3802,7 +3833,8 @@ Once continuous backups and point in time recovery are enabled, you can restore 
 in time within `EarliestRestorableDateTime` and `LatestRestorableDateTime`.
 
 `LatestRestorableDateTime` is typically 5 minutes before the current time. You can restore
-your table to any point in time during the last 35 days.
+your table to any point in time in the last 35 days. You can set the `RecoveryPeriodInDays`
+to any value between 1 and 35 days.
 
 # Arguments
 
@@ -3873,6 +3905,8 @@ key, you should not enable CloudWatch Contributor Insights for DynamoDB for this
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ContributorInsightsMode"`: Specifies whether to track all access and throttled events or
+  throttled events only for the DynamoDB table or index.
 - `"IndexName"`: The global secondary index name, if applicable.
 """
 function update_contributor_insights end
@@ -3924,17 +3958,18 @@ as the global table, have the same key schema, have DynamoDB Streams enabled, an
 same provisioned and maximum write capacity units.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 !!! note
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version). If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
-    you can use [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html)
+    If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    (Current) you can use [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html)
     instead.
 
     Although you can use `UpdateGlobalTable` to add replicas and remove replicas in a single
@@ -3998,12 +4033,14 @@ end
 Updates settings for a global table.
 
 !!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version), as it provides greater flexibility, higher efficiency and consumes
-    less write capacity than 2017.11.29 (Legacy). To determine which version you are using,
-    see [Determining the version](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
+    This documentation is for version 2017.11.29 (Legacy) of global tables, which should be
+    avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    when possible, because it provides greater flexibility, higher efficiency, and consumes
+    less write capacity than 2017.11.29 (Legacy).
+
+    To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html).
     To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-    (Current), see [Updating global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
+    (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
 
 # Arguments
 
@@ -4253,8 +4290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is a set of strings, the `Value` must also be a set of strings.
 
   !!! important
-      The `ADD` action only supports Number and set data types. In addition, `ADD` can only
-      be used on top-level attributes, not nested attributes.
+      The `ADD` action only supports Number and set data types.
 
   - `DELETE` - Deletes an element from a set.
 
@@ -4263,8 +4299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `[a,c]`, then the final attribute value is `[b]`. Specifying an empty set is an error.
 
   !!! important
-      The `DELETE` action only supports set data types. In addition, `DELETE` can only be
-      used on top-level attributes, not nested attributes.
+      The `DELETE` action only supports set data types.
 
   You can have many actions in a single expression, such as the following:
   `SET a=:value1, b=:value2 DELETE :value3, :value4, :value5`
@@ -4360,10 +4395,6 @@ end
 Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams
 settings for a given table.
 
-!!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version).
-
 You can only perform one of the following operations at once:
 
 - Modify the provisioned throughput settings of the table.
@@ -4395,10 +4426,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   estimated based on the consumed read and write capacity of your table and global secondary
   indexes over the past 30 minutes.
 
-  - `PROVISIONED` - We recommend using `PROVISIONED` for predictable workloads.
-    `PROVISIONED` sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
-  - `PAY_PER_REQUEST` - We recommend using `PAY_PER_REQUEST` for unpredictable workloads.
+  - `PAY_PER_REQUEST` - We recommend using `PAY_PER_REQUEST` for most DynamoDB workloads.
     `PAY_PER_REQUEST` sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+  - `PROVISIONED` - We recommend using `PROVISIONED` for steady workloads with predictable
+    growth where capacity requirements can be reliably forecasted. `PROVISIONED` sets the
+    billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
 
 - `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
   (true) or disabled (false) on the table.
@@ -4416,6 +4448,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html)
   in the *Amazon DynamoDB Developer Guide*.
 
+- `"GlobalTableSettingsReplicationMode"`: Controls the settings replication mode for a
+  global table replica. This attribute can be defined using UpdateTable operation only on a
+  regional table with values:
+
+  - `ENABLED`: Defines settings replication on a regional table to be used as a source table
+    for creating Multi-Account Global Table.
+  - `DISABLED`: Remove settings replication on a regional table. Settings replication needs
+    to be defined to ENABLED again in order to create a Multi-Account Global Table using
+    this table.
+
+- `"GlobalTableWitnessUpdates"`: A list of witness updates for a MRSC global table. A
+  witness provides a cost-effective alternative to a full replica in a MRSC global table by
+  maintaining replicated change data written to global table replicas. You cannot perform
+  read or write operations on a witness. For each witness, you can request one action:
+
+  - `Create` - add a new witness to the global table.
+  - `Delete` - remove a witness from the global table.
+
+  You can create or delete only one witness per `UpdateTable` operation.
+
+  For more information, see [Multi-Region strong consistency (MRSC)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes)
+  in the Amazon DynamoDB Developer Guide
+
+- `"MultiRegionConsistency"`: Specifies the consistency mode for a new global table. This
+  parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create)
+  actions in the [ReplicaUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates)
+  action list.
+
+  You can specify one of the following consistency modes:
+
+  - `EVENTUAL`: Configures a new global table for multi-Region eventual consistency (MREC).
+    This is the default consistency mode for global tables.
+  - `STRONG`: Configures a new global table for multi-Region strong consistency (MRSC).
+
+  If you don't specify this field, the global table consistency mode defaults to `EVENTUAL`.
+  For more information about global tables consistency modes, see [Consistency modes](https://docs.aws.amazon.com/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes)
+  in DynamoDB developer guide.
+
 - `"OnDemandThroughput"`: Updates the maximum number of read and write units for the
   specified table in on-demand capacity mode. If you use this parameter, you must specify
   `MaxReadRequestUnits`, `MaxWriteRequestUnits`, or both.
@@ -4425,10 +4495,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ReplicaUpdates"`: A list of replica update actions (create, delete, or update) for the
   table.
-
-  !!! note
-      For global tables, this property only applies to global tables using Version
-      2019.11.21 (Current version).
 
 - `"SSESpecification"`: The new server-side encryption settings for the specified table.
 
@@ -4441,6 +4507,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"TableClass"`: The table class of the table to be updated. Valid values are `STANDARD`
   and `STANDARD_INFREQUENT_ACCESS`.
+
+- `"WarmThroughput"`: Represents the warm throughput (in read units per second and write
+  units per second) for updating a table.
 """
 function update_table end
 
@@ -4473,10 +4542,6 @@ end
     update_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
 Updates auto scaling settings on your global tables at once.
-
-!!! important
-    For global tables, this operation only applies to global tables using Version 2019.11.21
-    (Current version).
 
 # Arguments
 

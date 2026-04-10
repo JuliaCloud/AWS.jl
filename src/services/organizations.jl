@@ -8,35 +8,30 @@ using AWS.UUIDs: uuid4
     accept_handshake(handshake_id)
     accept_handshake(handshake_id, params::Dict{String,<:Any})
 
-Sends a response to the originator of a handshake agreeing to the action proposed by the
-handshake request.
+Accepts a handshake by sending an `ACCEPTED` response to the sender. You can view accepted
+handshakes in API responses for 30 days before they are deleted.
 
-You can only call this operation by the following principals when they also have the
-relevant IAM permissions:
+**Only the management account can accept the following handshakes**:
 
-- **Invitation to join** or **Approve all features request** handshakes: only a principal
-  from the member account.
+- Enable all features final confirmation (`APPROVE_ALL_FEATURES`)
+- Billing transfer (`TRANSFER_RESPONSIBILITY`)
 
-The user who calls the API for an invitation to join must have the
-`organizations:AcceptHandshake` permission. If you enabled all features in the organization,
-the user must also have the `iam:CreateServiceLinkedRole` permission so that Organizations
-can create the required service-linked role named `AWSServiceRoleForOrganizations`. For more
-information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integrate_services-using_slrs)
-in the *Organizations User Guide*.
-- **Enable all features final confirmation** handshake: only a principal from the management
-  account.
-
-For more information about invitations, see [Inviting an Amazon Web Services account to join your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html)
-in the *Organizations User Guide*. For more information about requests to enable all
-features in the organization, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html)
+For more information, see [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite)
+and [Responding to a billing transfer invitation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_transfer_billing-respond-invitation.html)
 in the *Organizations User Guide*.
 
-After you accept a handshake, it continues to appear in the results of relevant APIs for
-only 30 days. After that, it's deleted.
+**Only a member account can accept the following handshakes**:
+
+- Invitation to join (`INVITE`)
+- Approve all features request (`ENABLE_ALL_FEATURES`)
+
+For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html)
+and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite)
+in the *Organizations User Guide*.
 
 # Arguments
 
-- `handshake_id`: The unique identifier (ID) of the handshake that you want to accept.
+- `handshake_id`: ID for the handshake that you want to accept.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -75,26 +70,35 @@ Attaches a policy to a root, an organizational unit (OU), or an individual accou
 policy affects accounts depends on the type of policy. Refer to the *Organizations User
 Guide* for information about each policy type:
 
-- [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-- [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
 - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+- [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+- [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+- [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
 - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+- [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+- [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+- [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+- [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+- [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+- [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+- [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+- [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy that you want to attach to the
-  target. You can get the ID for the policy by calling the `ListPolicies` operation.
+- `policy_id`: ID for the policy that you want to attach to the target. You can get the ID
+  for the policy by calling the `ListPolicies` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
   character (_).
 
-- `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
-  attach the policy to. You can get the ID by calling the `ListRoots`,
-  `ListOrganizationalUnitsForParent`, or `ListAccounts` operations.
+- `target_id`: ID for the root, OU, or account that you want to attach the policy to. You
+  can get the ID by calling the `ListRoots`, `ListOrganizationalUnitsForParent`, or
+  `ListAccounts` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one
   of the following:
@@ -143,19 +147,18 @@ end
     cancel_handshake(handshake_id)
     cancel_handshake(handshake_id, params::Dict{String,<:Any})
 
-Cancels a handshake. Canceling a handshake sets the handshake state to `CANCELED`.
+Cancels a `Handshake`.
 
-This operation can be called only from the account that originated the handshake. The
-recipient of the handshake can't cancel it, but can use [`decline_handshake`](@ref) instead.
-After a handshake is canceled, the recipient can no longer respond to that handshake.
+Only the account that sent a handshake can call this operation. The recipient of the
+handshake can't cancel it, but can use [`decline_handshake`](@ref) to decline. After a
+handshake is canceled, the recipient can no longer respond to the handshake.
 
-After you cancel a handshake, it continues to appear in the results of relevant APIs for
-only 30 days. After that, it's deleted.
+You can view canceled handshakes in API responses for 30 days before they are deleted.
 
 # Arguments
 
-- `handshake_id`: The unique identifier (ID) of the handshake that you want to cancel. You
-  can get the ID from the `ListHandshakesForOrganization` operation.
+- `handshake_id`: ID for the handshake that you want to cancel. You can get the ID from the
+  `ListHandshakesForOrganization` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -209,12 +212,16 @@ SUSPENDED.
   in the *Organizations User Guide*.
 
 !!! note
-    - You can close only 10% of member accounts, between 10 and 1000, within a rolling 30
-      day period. This quota is not bound by a calendar month, but starts when you close an
-      account. After you reach this limit, you can close additional accounts. For more
-      information, see [Closing a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html)
-      and [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)in
-      the *Organizations User Guide*.
+    - Resources remaining within the account after closing will be automatically deleted
+      after 90 days. During this 90-day period, the resources won't be available unless you
+      contact Amazon Web Services Support to reopen the account. After 90 days, you can't
+      reopen an account. You might still receive a [bill after account closure](https://repost.aws/knowledge-center/closed-account-bill).
+    - Within a rolling 30 day period you can close the higher of either 250 or 20% of the
+      member accounts in your organization, up to a maximum of 1,000. This quota is not
+      bound by a calendar month, but starts when you close an account. After you reach this
+      limit, you can't close additional accounts. For more information, see [Closing a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html)
+      and [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)
+      in the *Organizations User Guide*.
     - To reinstate a closed account, contact Amazon Web Services Support within the 90-day
       grace period while the account is in SUSPENDED status.
     - If the Amazon Web Services account you attempt to close is linked to an Amazon Web
@@ -285,7 +292,7 @@ administrator permissions in the new member account. Principals in the managemen
 can assume the role. Organizations clones the company name and address information for the
 new account from the organization's management account.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html)
 in the *Organizations User Guide*.
@@ -293,20 +300,18 @@ in the *Organizations User Guide*.
 !!! important
     - When you create an account in an organization using the Organizations console, API, or
       CLI commands, the information required for the account to operate as a standalone
-      account, such as a payment method and signing the end user license agreement (EULA) is
-      *not* automatically collected. If you must remove an account from your organization
-      later, you can do so only after you provide the missing information. For more
-      information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html)
+      account, such as a payment method is *not* automatically collected. If you must remove
+      an account from your organization later, you can do so only after you provide the
+      missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html)
       in the *Organizations User Guide*.
     - If you get an exception that indicates that you exceeded your account limits for the
       organization, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
     - If you get an exception that indicates that the operation failed because your
       organization is still initializing, wait one hour and then try again. If the error
       persists, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
-    - Using `CreateAccount` to create multiple temporary accounts isn't recommended. You can
-      only close an account from the Billing and Cost Management console, and you must be
-      signed in as the root user. For information on the requirements and process for
-      closing an account, see [Closing a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html)
+    - It isn't recommended to use `CreateAccount` to create multiple temporary accounts, and
+      using the `CreateAccount` API to close accounts is subject to a 30-day usage quota.
+      For information on the requirements and process for closing an account, see [Closing a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html)
       in the *Organizations User Guide*.
 
 !!! note
@@ -695,14 +700,13 @@ in the *Organizations User Guide*.
 If the request includes tags, then the requester must have the `organizations:TagResource`
 permission.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
 - `name`: The friendly name to assign to the new OU.
 
-- `parent_id`: The unique identifier (ID) of the parent root or OU that you want to create
-  the new OU in.
+- `parent_id`: ID for the parent root or OU that you want to create the new OU in.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one
   of the following:
@@ -769,8 +773,8 @@ For more information about policies and their use, see [Managing Organizations p
 If the request includes tags, then the requester must have the `organizations:TagResource`
 permission.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -790,10 +794,19 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 - `type`: The type of policy to create. You can specify one of the following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+  - [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
 # Optional Parameters
 
@@ -857,20 +870,18 @@ end
     decline_handshake(handshake_id)
     decline_handshake(handshake_id, params::Dict{String,<:Any})
 
-Declines a handshake request. This sets the handshake state to `DECLINED` and effectively
-deactivates the request.
+Declines a `Handshake`.
 
-This operation can be called only from the account that received the handshake. The
-originator of the handshake can use [`cancel_handshake`](@ref) instead. The originator can't
-reactivate a declined request, but can reinitiate the process with a new handshake request.
+Only the account that receives a handshake can call this operation. The sender of the
+handshake can use [`cancel_handshake`](@ref) to cancel if the handshake hasn't yet been
+responded to.
 
-After you decline a handshake, it continues to appear in the results of relevant APIs for
-only 30 days. After that, it's deleted.
+You can view canceled handshakes in API responses for 30 days before they are deleted.
 
 # Arguments
 
-- `handshake_id`: The unique identifier (ID) of the handshake that you want to decline. You
-  can get the ID from the `ListHandshakesForAccount` operation.
+- `handshake_id`: ID for the handshake that you want to decline. You can get the ID from the
+  `ListHandshakesForAccount` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -929,12 +940,12 @@ end
 Deletes an organizational unit (OU) from a root or another OU. You must first remove all
 accounts and child OUs from the OU that you want to delete.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
-- `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
-  want to delete. You can get the ID from the `ListOrganizationalUnitsForParent` operation.
+- `organizational_unit_id`: ID for the organizational unit that you want to delete. You can
+  get the ID from the `ListOrganizationalUnitsForParent` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
   requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root
@@ -980,13 +991,13 @@ end
 Deletes the specified policy from your organization. Before you perform this operation, you
 must first detach the policy from all organizational units (OUs), roots, and accounts.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy that you want to delete. You can get
-  the ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
+- `policy_id`: ID for the policy that you want to delete. You can get the ID from the
+  `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -1024,7 +1035,7 @@ end
 
 Deletes the resource policy from your organization.
 
-You can only call this operation from the organization's management account.
+You can only call this operation from the management account.
 """
 function delete_resource_policy end
 
@@ -1060,7 +1071,7 @@ a current list of services that support it, see the column *Supports Delegated
 Administrator* in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html)
 in the *Organizations User Guide.*
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
@@ -1116,8 +1127,8 @@ end
 
 Retrieves Organizations-related information about the specified account.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -1160,8 +1171,8 @@ end
 
 Retrieves the current status of an asynchronous request to create an account.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -1212,21 +1223,30 @@ Returns the contents of the effective policy for specified policy type and accou
 effective policy is the aggregation of any policies of the specified type that the account
 inherits, plus any policy of that type that is directly attached to the account.
 
-This operation applies only to policy types *other* than service control policies (SCPs).
+This operation applies only to management policies. It does not apply to authorization
+policies: service control policies (SCPs) and resource control policies (RCPs).
 
 For more information about policy inheritance, see [Understanding management policy inheritance](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html)
 in the *Organizations User Guide*.
 
-This operation can be called from any account in the organization.
+You can call this operation from any account in a organization.
 
 # Arguments
 
 - `policy_type`: The type of policy that you want information about. You can specify one of
   the following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
   - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
 # Optional Parameters
 
@@ -1268,20 +1288,17 @@ end
     describe_handshake(handshake_id)
     describe_handshake(handshake_id, params::Dict{String,<:Any})
 
-Retrieves information about a previously requested handshake. The handshake ID comes from
-the response to the original [`invite_account_to_organization`](@ref) operation that
-generated the handshake.
+Returns details for a handshake. A handshake is the secure exchange of information between
+two Amazon Web Services accounts: a sender and a recipient.
 
-You can access handshakes that are `ACCEPTED`, `DECLINED`, or `CANCELED` for only 30 days
-after they change to that state. They're then deleted and no longer accessible.
+You can view `ACCEPTED`, `DECLINED`, or `CANCELED` handshakes in API Responses for 30 days
+before they are deleted.
 
-This operation can be called from any account in the organization.
+You can call this operation from any account in a organization.
 
 # Arguments
 
-- `handshake_id`: The unique identifier (ID) of the handshake that you want information
-  about. You can get the ID from the original call to `InviteAccountToOrganization`, or from
-  a call to `ListHandshakesForAccount` or `ListHandshakesForOrganization`.
+- `handshake_id`: ID for the handshake that you want information about.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-"
   followed by from 8 to 32 lowercase letters or digits.
@@ -1318,7 +1335,7 @@ end
 
 Retrieves information about the organization that the user's account belongs to.
 
-This operation can be called from any account in the organization.
+You can call this operation from any account in a organization.
 
 !!! note
     Even if a policy type is shown as available in the organization, you can disable it
@@ -1347,14 +1364,13 @@ end
 
 Retrieves information about an organizational unit (OU).
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
-  want details about. You can get the ID from the `ListOrganizationalUnitsForParent`
-  operation.
+- `organizational_unit_id`: ID for the organizational unit that you want details about. You
+  can get the ID from the `ListOrganizationalUnitsForParent` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
   requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root
@@ -1399,13 +1415,13 @@ end
 
 Retrieves information about a policy.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy that you want details about. You can
-  get the ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
+- `policy_id`: ID for the policy that you want details about. You can get the ID from the
+  `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -1443,8 +1459,8 @@ end
 
 Retrieves information about a resource policy.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 """
 function describe_resource_policy end
 
@@ -1459,6 +1475,42 @@ function describe_resource_policy(
 )
     return organizations(
         "DescribeResourcePolicy", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_responsibility_transfer(id)
+    describe_responsibility_transfer(id, params::Dict{String,<:Any})
+
+Returns details for a transfer. A *transfer* is an arrangement between two management
+accounts where one account designates the other with specified responsibilities for their
+organization.
+
+# Arguments
+
+- `id`: ID for the transfer.
+"""
+function describe_responsibility_transfer end
+
+function describe_responsibility_transfer(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "DescribeResponsibilityTransfer",
+        Dict{String,Any}("Id" => Id);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_responsibility_transfer(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "DescribeResponsibilityTransfer",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1482,21 +1534,21 @@ specify `"Effect": "Deny"` in the second SCP to override the `"Effect": "Allow"`
 `FullAWSAccess` policy (or any other attached SCP), you're using the authorization strategy
 of a "[deny list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist)".
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy you want to detach. You can get the
-  ID from the `ListPolicies` or `ListPoliciesForTarget` operations.
+- `policy_id`: ID for the policy you want to detach. You can get the ID from the
+  `ListPolicies` or `ListPoliciesForTarget` operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
   character (_).
 
-- `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
-  detach the policy from. You can get the ID from the `ListRoots`,
-  `ListOrganizationalUnitsForParent`, or `ListAccounts` operations.
+- `target_id`: ID for the root, OU, or account that you want to detach the policy from. You
+  can get the ID from the `ListRoots`, `ListOrganizationalUnitsForParent`, or `ListAccounts`
+  operations.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one
   of the following:
@@ -1593,7 +1645,7 @@ For more information about integrating other services with Organizations, includ
 of services that work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
 in the *Organizations User Guide*.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
@@ -1646,23 +1698,32 @@ disable a policy type for a root, it still appears enabled for the organization 
 are enabled for the organization. Amazon Web Services recommends that you first use [`list_roots`](@ref)
 to see the status of policy types for a specified root, and then use this operation.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
-To view the status of available policy types in the organization, use [`describe_organization`](@ref).
+To view the status of available policy types in the organization, use [`list_roots`](@ref).
 
 # Arguments
 
 - `policy_type`: The policy type that you want to disable in this root. You can specify one
   of the following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+  - [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
-- `root_id`: The unique identifier (ID) of the root in which you want to disable a policy
-  type. You can get the ID from the `ListRoots` operation.
+- `root_id`: ID for the root in which you want to disable a policy type. You can get the ID
+  from the `ListRoots` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-"
   followed by from 4 to 32 lowercase letters or digits.
@@ -1732,7 +1793,7 @@ users and even administrators in those accounts can do. The management account c
 policies that prevent accounts from leaving the organization. Ensure that your account
 administrators are aware of this.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 """
 function enable_all_features end
 
@@ -1752,11 +1813,11 @@ end
     enable_awsservice_access(service_principal)
     enable_awsservice_access(service_principal, params::Dict{String,<:Any})
 
-Enables the integration of an Amazon Web Services service (the service that is specified by
-`ServicePrincipal`) with Organizations. When you enable integration, you allow the specified
-service to create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html)
-in all the accounts in your organization. This allows the service to perform operations on
-your behalf in your organization and its accounts.
+Provides an Amazon Web Services service (the service that is specified by
+`ServicePrincipal`) with permissions to view the structure of an organization, create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html)
+in all the accounts in the organization, and allow the service to perform operations on
+behalf of the organization and its accounts. Establishing these permissions can be a first
+step in enabling the integration of an Amazon Web Services service with Organizations.
 
 !!! important
     We recommend that you enable integration between Organizations and the specified Amazon
@@ -1769,8 +1830,7 @@ your behalf in your organization and its accounts.
 For more information about enabling services to integrate with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
 in the *Organizations User Guide*.
 
-You can only call this operation from the organization's management account and only if the
-organization has [enabled all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html).
+You can only call this operation from the management account.
 
 # Arguments
 
@@ -1820,24 +1880,33 @@ This is an asynchronous request that Amazon Web Services performs in the backgro
 Web Services recommends that you first use [`list_roots`](@ref) to see the status of policy
 types for a specified root, and then use this operation.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 You can enable a policy type in a root only if that policy type is available in the
-organization. To view the status of available policy types in the organization, use [`describe_organization`](@ref).
+organization. To view the status of available policy types in the organization, use [`list_roots`](@ref).
 
 # Arguments
 
 - `policy_type`: The policy type that you want to enable. You can specify one of the
   following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+  - [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
-- `root_id`: The unique identifier (ID) of the root in which you want to enable a policy
-  type. You can get the ID from the `ListRoots` operation.
+- `root_id`: ID for the root in which you want to enable a policy type. You can get the ID
+  from the `ListRoots` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-"
   followed by from 4 to 32 lowercase letters or digits.
@@ -1885,21 +1954,15 @@ other account's owner. The invitation is implemented as a `Handshake` whose deta
 the response.
 
 !!! important
-    - You can invite Amazon Web Services accounts only from the same seller as the
-      management account. For example, if your organization's management account was created
-      by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India,
-      you can invite only other AISPL accounts to your organization. You can't combine
-      accounts from AISPL and Amazon Web Services or from any other Amazon Web Services
-      seller. For more information, see [Consolidated billing in India](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-India.html).
-    - If you receive an exception that indicates that you exceeded your account limits for
-      the organization or that the operation failed because your organization is still
-      initializing, wait one hour and then try again. If the error persists after an hour,
-      contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+    If you receive an exception that indicates that you exceeded your account limits for the
+    organization or that the operation failed because your organization is still
+    initializing, wait one hour and then try again. If the error persists after an hour,
+    contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
 
 If the request includes tags, then the requester must have the `organizations:TagResource`
 permission.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
@@ -1969,6 +2032,98 @@ function invite_account_to_organization(
 end
 
 """
+    invite_organization_to_transfer_responsibility(source_name, start_timestamp, target, type)
+    invite_organization_to_transfer_responsibility(source_name, start_timestamp, target, type, params::Dict{String,<:Any})
+
+Sends an invitation to another organization's management account to designate your account
+with the specified responsibilities for their organization. The invitation is implemented as
+a `Handshake` whose details are in the response.
+
+You can only call this operation from the management account.
+
+# Arguments
+
+- `source_name`: Name you want to assign to the transfer.
+- `start_timestamp`: Timestamp when the recipient will begin managing the specified
+  responsibilities.
+- `target`: A `HandshakeParty` object. Contains details for the account you want to invite.
+  Currently, only `ACCOUNT` and `EMAIL` are supported.
+- `type`: The type of responsibility you want to designate to your organization. Currently,
+  only `BILLING` is supported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Notes"`: Additional information that you want to include in the invitation.
+
+- `"Tags"`: A list of tags that you want to attach to the transfer. For each tag in the
+  list, you must specify both a tag key and a value. You can set the value to an empty
+  string, but you can't set it to `null`. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
+  in the Organizations User Guide.
+
+  !!! important
+      Any tags in the request are checked for compliance with any applicable tag policies
+      when the request is made. The request is rejected if the tags in the request don't
+      match the requirements of the policy at that time. Tag policy compliance is ***not***
+      checked again when the invitation is accepted and the tags are actually attached to
+      the transfer. That means that if the tag policy changes between the invitation and the
+      acceptance, then that tags could potentially be non-compliant.
+
+  !!! note
+      If any one of the tags is not valid or if you exceed the allowed number of tags for a
+      transfer, then the entire request fails and invitations are not sent.
+"""
+function invite_organization_to_transfer_responsibility end
+
+function invite_organization_to_transfer_responsibility(
+    SourceName,
+    StartTimestamp,
+    Target,
+    Type;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return organizations(
+        "InviteOrganizationToTransferResponsibility",
+        Dict{String,Any}(
+            "SourceName" => SourceName,
+            "StartTimestamp" => StartTimestamp,
+            "Target" => Target,
+            "Type" => Type,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function invite_organization_to_transfer_responsibility(
+    SourceName,
+    StartTimestamp,
+    Target,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return organizations(
+        "InviteOrganizationToTransferResponsibility",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceName" => SourceName,
+                    "StartTimestamp" => StartTimestamp,
+                    "Target" => Target,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     leave_organization()
     leave_organization(params::Dict{String,<:Any})
 
@@ -1976,7 +2131,7 @@ Removes a member account from its parent organization. This version of the opera
 performed by the account that wants to leave. To remove a member account as a user in the
 management account, use [`remove_account_from_organization`](@ref) instead.
 
-This operation can be called only from a member account in the organization.
+You can only call from operation from a member account.
 
 !!! important
     - The management account in an organization with all features enabled can set service
@@ -2000,15 +2155,12 @@ This operation can be called only from a member account in the organization.
       any Amazon Web Services service enabled for your organization. If the account is a
       delegated administrator, you must first change the delegated administrator account to
       another account that is remaining in the organization.
-    - You can leave an organization only after you enable IAM user access to billing in your
-      account. For more information, see [About IAM access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate)
-      in the *Amazon Web Services Billing and Cost Management User Guide*.
     - After the account leaves the organization, all tags that were attached to the account
       object in the organization are deleted. Amazon Web Services accounts outside of an
       organization do not support tags.
     - A newly created account has a waiting period before it can be removed from its
-      organization. If you get an error that indicates that a wait period is required, then
-      try again in a few days.
+      organization. You must wait until at least four days after the account was created.
+      Invited accounts aren't subject to this waiting period.
     - If you are using an organization principal to call `LeaveOrganization` across multiple
       accounts, you can only do this up to 5 accounts per second in a single organization.
 """
@@ -2034,27 +2186,22 @@ Lists all the accounts in the organization. To request only the accounts in a sp
 or organizational unit (OU), use the [`list_accounts_for_parent`](@ref) operation instead.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2085,13 +2232,14 @@ and not in any child OUs. To get a list of all accounts in the organization, use
 operation.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -2102,15 +2250,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2145,6 +2287,75 @@ function list_accounts_for_parent(
 end
 
 """
+    list_accounts_with_invalid_effective_policy(policy_type)
+    list_accounts_with_invalid_effective_policy(policy_type, params::Dict{String,<:Any})
+
+Lists all the accounts in an organization that have invalid effective policies. An *invalid
+effective policy* is an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html)
+that fails validation checks, resulting in the effective policy not being fully enforced on
+all the intended accounts within an organization.
+
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
+
+# Arguments
+
+- `policy_type`: The type of policy that you want information about. You can specify one of
+  the following values:
+
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+  - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from.
+"""
+function list_accounts_with_invalid_effective_policy end
+
+function list_accounts_with_invalid_effective_policy(
+    PolicyType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListAccountsWithInvalidEffectivePolicy",
+        Dict{String,Any}("PolicyType" => PolicyType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_accounts_with_invalid_effective_policy(
+    PolicyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return organizations(
+        "ListAccountsWithInvalidEffectivePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyType" => PolicyType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_awsservice_access_for_organization()
     list_awsservice_access_for_organization(params::Dict{String,<:Any})
 
@@ -2156,22 +2367,16 @@ For more information about integrating other services with Organizations, includ
 of services that currently work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
 in the *Organizations User Guide*.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2207,13 +2412,14 @@ parent OU or root. This operation, along with [`list_parents`](@ref) enables you
 the tree structure that makes up this root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -2235,15 +2441,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2290,32 +2490,26 @@ Lists the account creation requests that match the specified status that is curr
 tracked for the organization.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
   indicate where the output should continue from.
-
 - `"States"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
@@ -2342,21 +2536,16 @@ end
 Lists the Amazon Web Services accounts that are designated as delegated administrators in
 this organization.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
@@ -2392,8 +2581,8 @@ end
 List the Amazon Web Services services for which the specified account is a delegated
 administrator.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -2404,15 +2593,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2447,43 +2630,107 @@ function list_delegated_services_for_account(
 end
 
 """
-    list_handshakes_for_account()
-    list_handshakes_for_account(params::Dict{String,<:Any})
+    list_effective_policy_validation_errors(account_id, policy_type)
+    list_effective_policy_validation_errors(account_id, policy_type, params::Dict{String,<:Any})
 
-Lists the current handshakes that are associated with the account of the requesting user.
+Lists all the validation errors on an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html)
+for a specified account and policy type.
 
-Handshakes that are `ACCEPTED`, `DECLINED`, `CANCELED`, or `EXPIRED` appear in the results
-of this API for only 30 days after changing to that state. After that, they're deleted and
-no longer accessible.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
-!!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+# Arguments
 
-This operation can be called from any account in the organization.
+- `account_id`: The ID of the account that you want details about. Specifying an
+  organization root or organizational unit (OU) as the target is not supported.
+
+- `policy_type`: The type of policy that you want information about. You can specify one of
+  the following values:
+
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+  - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filter"`: Filters the handshakes that you want included in the response. The default is
-  all types. Use the `ActionType` element to limit the output to only a specified type, such
-  as `INVITE`, `ENABLE_ALL_FEATURES`, or `APPROVE_ALL_FEATURES`. Alternatively, for the
-  `ENABLE_ALL_FEATURES` handshake that generates a separate child handshake for each member
-  account, you can specify `ParentHandshakeId` to see only the handshakes that were
-  generated by that parent request.
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from.
+"""
+function list_effective_policy_validation_errors end
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+function list_effective_policy_validation_errors(
+    AccountId, PolicyType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListEffectivePolicyValidationErrors",
+        Dict{String,Any}("AccountId" => AccountId, "PolicyType" => PolicyType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 
+function list_effective_policy_validation_errors(
+    AccountId,
+    PolicyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return organizations(
+        "ListEffectivePolicyValidationErrors",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "PolicyType" => PolicyType),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_handshakes_for_account()
+    list_handshakes_for_account(params::Dict{String,<:Any})
+
+Lists the recent handshakes that you have received.
+
+You can view `CANCELED`, `ACCEPTED`, `DECLINED`, or `EXPIRED` handshakes in API responses
+for 30 days before they are deleted.
+
+You can call this operation from any account in a organization.
+
+!!! note
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: A `HandshakeFilter` object. Contains the filer used to select the handshakes
+  for an operation.
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2509,43 +2756,30 @@ end
     list_handshakes_for_organization()
     list_handshakes_for_organization(params::Dict{String,<:Any})
 
-Lists the handshakes that are associated with the organization that the requesting user is
-part of. The [`list_handshakes_for_organization`](@ref) operation returns a list of
-handshake structures. Each structure contains details and status about a handshake.
+Lists the recent handshakes that you have sent.
 
-Handshakes that are `ACCEPTED`, `DECLINED`, `CANCELED`, or `EXPIRED` appear in the results
-of this API for only 30 days after changing to that state. After that, they're deleted and
-no longer accessible.
+You can view `CANCELED`, `ACCEPTED`, `DECLINED`, or `EXPIRED` handshakes in API responses
+for 30 days before they are deleted.
+
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
-
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filter"`: A filter of the handshakes that you want included in the response. The default
-  is all types. Use the `ActionType` element to limit the output to only a specified type,
-  such as `INVITE`, `ENABLE-ALL-FEATURES`, or `APPROVE-ALL-FEATURES`. Alternatively, for the
-  `ENABLE-ALL-FEATURES` handshake that generates a separate child handshake for each member
-  account, you can specify the `ParentHandshakeId` to see only the handshakes that were
-  generated by that parent request.
-
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"Filter"`: A `HandshakeFilter` object. Contains the filer used to select the handshakes
+  for an operation.
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2570,24 +2804,79 @@ function list_handshakes_for_organization(
 end
 
 """
+    list_inbound_responsibility_transfers(type)
+    list_inbound_responsibility_transfers(type, params::Dict{String,<:Any})
+
+Lists transfers that allow you to manage the specified responsibilities for another
+organization. This operation returns both transfer invitations and transfers.
+
+!!! note
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
+
+# Arguments
+
+- `type`: The type of responsibility. Currently, only `BILLING` is supported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Id"`: ID for the transfer.
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from.
+"""
+function list_inbound_responsibility_transfers end
+
+function list_inbound_responsibility_transfers(
+    Type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListInboundResponsibilityTransfers",
+        Dict{String,Any}("Type" => Type);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_inbound_responsibility_transfers(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListInboundResponsibilityTransfers",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_organizational_units_for_parent(parent_id)
     list_organizational_units_for_parent(parent_id, params::Dict{String,<:Any})
 
 Lists the organizational units (OUs) in a parent organizational unit or root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `parent_id`: The unique identifier (ID) of the root or OU whose child OUs you want to
-  list.
+- `parent_id`: ID for the root or OU whose child OUs you want to list.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one
   of the following:
@@ -2602,15 +2891,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2645,6 +2928,61 @@ function list_organizational_units_for_parent(
 end
 
 """
+    list_outbound_responsibility_transfers(type)
+    list_outbound_responsibility_transfers(type, params::Dict{String,<:Any})
+
+Lists transfers that allow an account outside your organization to manage the specified
+responsibilities for your organization. This operation returns both transfer invitations and
+transfers.
+
+!!! note
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
+
+# Arguments
+
+- `type`: The type of responsibility. Currently, only `BILLING` is supported.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
+  response in a previous request. A `NextToken` response indicates that more output is
+  available. Set this parameter to the value of the previous call's `NextToken` response to
+  indicate where the output should continue from.
+"""
+function list_outbound_responsibility_transfers end
+
+function list_outbound_responsibility_transfers(
+    Type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListOutboundResponsibilityTransfers",
+        Dict{String,Any}("Type" => Type);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_outbound_responsibility_transfers(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "ListOutboundResponsibilityTransfers",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_parents(child_id)
     list_parents(child_id, params::Dict{String,<:Any})
 
@@ -2653,21 +2991,22 @@ specified child OU or account. This operation, along with [`list_children`](@ref
 you to traverse the tree structure that makes up this root.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 !!! note
     In the current release, a child can have only a single parent.
 
 # Arguments
 
-- `child_id`: The unique identifier (ID) of the OU or account whose parent containers you
-  want to list. Don't specify a root.
+- `child_id`: ID for the OU or account whose parent containers you want to list. Don't
+  specify a root.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a child ID string requires one of
   the following:
@@ -2681,15 +3020,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2726,37 +3059,41 @@ end
 Retrieves the list of all policies in an organization of a specified type.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
 - `filter`: Specifies the type of policy that you want to include in the response. You must
   specify one of the following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+  - [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2793,26 +3130,36 @@ unit (OU), or account. You must specify the policy type that you want included i
 returned list.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
 - `filter`: The type of policy that you want to include in the returned list. You must
   specify one of the following values:
 
-  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
-  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+  - [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+  - [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+  - [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
   - [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+  - [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+  - [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+  - [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+  - [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+  - [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+  - [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+  - [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+  - [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
 
-- `target_id`: The unique identifier (ID) of the root, organizational unit, or account whose
-  policies you want to list.
+- `target_id`: ID for the root, organizational unit, or account whose policies you want to
+  list.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one
   of the following:
@@ -2828,15 +3175,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2880,13 +3221,14 @@ end
 Lists the roots that are defined in the current organization.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 !!! note
     Policy types can be enabled and disabled in roots. This is distinct from whether they're
@@ -2898,15 +3240,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -2937,8 +3273,8 @@ You can attach tags to the following resources in Organizations.
 - Organizational unit (OU)
 - Policy (any type)
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -2998,17 +3334,18 @@ Lists all the roots, organizational units (OUs), and accounts that the specified
 attached to.
 
 !!! note
-    Always check the `NextToken` response parameter for a `null` value when calling a
-    `List*` operation. These operations can occasionally return an empty set of results even
-    when there are more results available. The `NextToken` response parameter value is
-    `null` *only* when there are no more results to display.
+    When calling List* operations, always check the `NextToken` response parameter value,
+    even if you receive an empty result set. These operations can occasionally return an
+    empty set of results even when more results are available. Continue making requests
+    until `NextToken` returns null. A null `NextToken` value indicates that you have
+    retrieved all available results.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy whose attachments you want to know.
+- `policy_id`: ID for the policy whose attachments you want to know.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -3018,15 +3355,9 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the `NextToken`
-  response element is present and has a value (is not null). Include that value as the
-  `next_token` request parameter in the next call to the operation to get the next part of
-  the results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
-
+- `"MaxResults"`: The maximum number of items to return in the response. If more results
+  exist than the specified `MaxResults` value, a token is included in the response so that
+  you can retrieve the remaining results.
 - `"NextToken"`: The parameter for receiving additional results if you receive a `NextToken`
   response in a previous request. A `NextToken` response indicates that more output is
   available. Set this parameter to the value of the previous call's `NextToken` response to
@@ -3067,17 +3398,17 @@ end
 Moves an account from its current source parent root or organizational unit (OU) to the
 specified destination parent root or OU.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
-- `account_id`: The unique identifier (ID) of the account that you want to move.
+- `account_id`: ID for the account that you want to move.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires
   exactly 12 digits.
 
-- `destination_parent_id`: The unique identifier (ID) of the root or organizational unit
-  that you want to move the account to.
+- `destination_parent_id`: ID for the root or organizational unit that you want to move the
+  account to.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one
   of the following:
@@ -3088,8 +3419,8 @@ This operation can be called only from the organization's management account.
     lowercase letters or digits (the ID of the root that the OU is in). This string is
     followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
 
-- `source_parent_id`: The unique identifier (ID) of the root or organizational unit that you
-  want to move the account from.
+- `source_parent_id`: ID for the root or organizational unit that you want to move the
+  account from.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one
   of the following:
@@ -3151,7 +3482,7 @@ end
 
 Creates or updates a resource policy.
 
-You can only call this operation from the organization's management account.
+You can only call this operation from the management account..
 
 # Arguments
 
@@ -3214,7 +3545,7 @@ a current list of services that support it, see the column *Supports Delegated
 Administrator* in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html)
 in the *Organizations User Guide.*
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
@@ -3269,8 +3600,8 @@ It's no longer subject to any policies and is responsible for its own bill payme
 organization's management account is no longer charged for any expenses accrued by the
 member account after it's removed from the organization.
 
-This operation can be called only from the organization's management account. Member
-accounts can remove themselves with [`leave_organization`](@ref) instead.
+You can only call this operation from the management account. Member accounts can remove
+themselves with [`leave_organization`](@ref) instead.
 
 !!! important
     - You can remove an account from your organization only if the account is configured
@@ -3289,8 +3620,7 @@ accounts can remove themselves with [`leave_organization`](@ref) instead.
 
 # Arguments
 
-- `account_id`: The unique identifier (ID) of the member account that you want to remove
-  from the organization.
+- `account_id`: ID for the member account that you want to remove from the organization.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires
   exactly 12 digits.
@@ -3336,8 +3666,8 @@ Currently, you can attach tags to the following resources in Organizations.
 - Organizational unit (OU)
 - Policy (any type)
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -3391,6 +3721,47 @@ function tag_resource(
 end
 
 """
+    terminate_responsibility_transfer(id)
+    terminate_responsibility_transfer(id, params::Dict{String,<:Any})
+
+Ends a transfer. A *transfer* is an arrangement between two management accounts where one
+account designates the other with specified responsibilities for their organization.
+
+# Arguments
+
+- `id`: ID for the transfer.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EndTimestamp"`: Timestamp when the responsibility transfer is to end.
+"""
+function terminate_responsibility_transfer end
+
+function terminate_responsibility_transfer(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "TerminateResponsibilityTransfer",
+        Dict{String,Any}("Id" => Id);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function terminate_responsibility_transfer(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "TerminateResponsibilityTransfer",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     untag_resource(resource_id, tag_keys)
     untag_resource(resource_id, tag_keys, params::Dict{String,<:Any})
 
@@ -3403,8 +3774,8 @@ You can attach tags to the following resources in Organizations.
 - Organizational unit (OU)
 - Policy (any type)
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
@@ -3461,12 +3832,12 @@ end
 Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs
 and accounts remain in place, and any attached policies of the OU remain attached.
 
-This operation can be called only from the organization's management account.
+You can only call this operation from the management account.
 
 # Arguments
 
-- `organizational_unit_id`: The unique identifier (ID) of the OU that you want to rename.
-  You can get the ID from the `ListOrganizationalUnitsForParent` operation.
+- `organizational_unit_id`: ID for the OU that you want to rename. You can get the ID from
+  the `ListOrganizationalUnitsForParent` operation.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string
   requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root
@@ -3521,12 +3892,12 @@ end
 Updates an existing policy with a new name, description, or content. If you don't supply any
 parameter, that value remains unchanged. You can't change a policy's type.
 
-This operation can be called only from the organization's management account or by a member
-account that is a delegated administrator for an Amazon Web Services service.
+You can only call this operation from the management account or a member account that is a
+delegated administrator.
 
 # Arguments
 
-- `policy_id`: The unique identifier (ID) of the policy that you want to update.
+- `policy_id`: ID for the policy that you want to update.
 
   The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-"
   followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore
@@ -3572,6 +3943,49 @@ function update_policy(
         "UpdatePolicy",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("PolicyId" => PolicyId), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_responsibility_transfer(id, name)
+    update_responsibility_transfer(id, name, params::Dict{String,<:Any})
+
+Updates a transfer. A *transfer* is the arrangement between two management accounts where
+one account designates the other with specified responsibilities for their organization.
+
+You can update the name assigned to a transfer.
+
+# Arguments
+
+- `id`: ID for the transfer.
+- `name`: New name you want to assign to the transfer.
+"""
+function update_responsibility_transfer end
+
+function update_responsibility_transfer(
+    Id, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return organizations(
+        "UpdateResponsibilityTransfer",
+        Dict{String,Any}("Id" => Id, "Name" => Name);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_responsibility_transfer(
+    Id,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return organizations(
+        "UpdateResponsibilityTransfer",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "Name" => Name), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

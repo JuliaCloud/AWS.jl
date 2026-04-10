@@ -198,6 +198,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"defaultJobTimeoutMinutes"`: Sets the execution timeout value (in minutes) for a project.
   All test runs in this project use the specified execution timeout value unless overridden
   when scheduling a run.
+
+- `"environmentVariables"`: A set of environment variables which are used by default for all
+  runs in the project. These environment variables are applied to the test run during the
+  execution of a test spec file.
+
+  For more information about using test spec files, please see [Custom test environments](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html)
+  in *AWS Device Farm.*
+
+- `"executionRoleArn"`: An IAM role to be assumed by the test host for all runs in the
+  project.
+
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function create_project end
@@ -238,51 +249,22 @@ Specifies and starts a remote access session.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"clientId"`: Unique identifier for the client. If you want access to multiple devices on
-  the same client, you should pass the same `clientId` value in each call to
-  `CreateRemoteAccessSession`. This identifier is required only if `remoteDebugEnabled` is
-  set to `true`.
-
-  Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
+- `"appArn"`: The Amazon Resource Name (ARN) of the app to create the remote access session.
 
 - `"configuration"`: The configuration information for the remote access session request.
 
 - `"instanceArn"`: The Amazon Resource Name (ARN) of the device instance for which you want
   to create a remote access session.
 
-- `"interactionMode"`: The interaction mode of the remote access session. Valid values are:
-
-  - INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the
-    screen. You cannot run XCUITest framework-based tests in this mode.
-  - NO_VIDEO: You are connected to the device, but cannot interact with it or view the
-    screen. This mode has the fastest test execution speed. You can run XCUITest framework-
-    based tests in this mode.
-  - VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest
-    framework-based tests and watch the screen in this mode.
+- `"interactionMode"`: The interaction mode of the remote access session. Changing the
+  interactive mode of remote access sessions is no longer available.
 
 - `"name"`: The name of the remote access session to create.
-
-- `"remoteDebugEnabled"`: Set to `true` if you want to access devices remotely for debugging
-  in your remote access session.
-
-  Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-
-- `"remoteRecordAppArn"`: The Amazon Resource Name (ARN) for the app to be recorded in the
-  remote access session.
-
-- `"remoteRecordEnabled"`: Set to `true` to enable remote recording for the remote access
-  session.
 
 - `"skipAppResign"`: When set to `true`, for private devices, Device Farm does not sign your
   app again. For public devices, Device Farm always signs your apps again.
 
   For more information on how Device Farm modifies your uploads during tests, see [Do you modify my app?](http://aws.amazon.com/device-farm/faqs/)
-
-- `"sshPublicKey"`: Ignored. The public key of the `ssh` key pair you want to use for
-  connecting to remote devices in your remote debugging session. This key is required only
-  if `remoteDebugEnabled` is set to `true`.
-
-  Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
 """
 function create_remote_access_session end
 
@@ -439,10 +421,7 @@ Uploads an app or test scripts.
   - APPIUM_WEB_PYTHON_TEST_PACKAGE
   - APPIUM_WEB_NODE_TEST_PACKAGE
   - APPIUM_WEB_RUBY_TEST_PACKAGE
-  - CALABASH_TEST_PACKAGE
   - INSTRUMENTATION_TEST_PACKAGE
-  - UIAUTOMATION_TEST_PACKAGE
-  - UIAUTOMATOR_TEST_PACKAGE
   - XCTEST_TEST_PACKAGE
   - XCTEST_UI_TEST_PACKAGE
   - APPIUM_JAVA_JUNIT_TEST_SPEC
@@ -673,9 +652,11 @@ end
     delete_project(arn)
     delete_project(arn, params::Dict{String,<:Any})
 
-Deletes an AWS Device Farm project, given the project ARN.
+Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it
+has an active run or session.
 
-Deleting this resource does not stop an in-progress run.
+!!! important
+    You cannot undo this operation.
 
 # Arguments
 
@@ -707,7 +688,11 @@ end
     delete_remote_access_session(arn)
     delete_remote_access_session(arn, params::Dict{String,<:Any})
 
-Deletes a completed remote access session and its results.
+Deletes a completed remote access session and its results. You cannot delete a remote access
+session if it is still active.
+
+!!! important
+    You cannot undo this operation.
 
 # Arguments
 
@@ -742,9 +727,10 @@ end
     delete_run(arn)
     delete_run(arn, params::Dict{String,<:Any})
 
-Deletes the run, given the run ARN.
+Deletes the run, given the run ARN. You cannot delete a run if it is still active.
 
-Deleting this resource does not stop an in-progress run.
+!!! important
+    You cannot undo this operation.
 
 # Arguments
 
@@ -776,13 +762,11 @@ end
     delete_test_grid_project(project_arn)
     delete_test_grid_project(project_arn, params::Dict{String,<:Any})
 
-Deletes a Selenium testing project and all content generated under it.
+Deletes a Selenium testing project and all content generated under it. You cannot delete a
+project if it has active sessions.
 
 !!! important
     You cannot undo this operation.
-
-!!! note
-    You cannot delete a project if it has active sessions.
 
 # Arguments
 
@@ -1017,6 +1001,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"configuration"`: An object that contains information about the settings for a run.
 
+- `"projectArn"`: The ARN of the project for which you want to check device pool
+  compatibility.
+
 - `"test"`: Information about the uploaded test to be run against the device pool.
 
 - `"testType"`: The test type for the specified device pool.
@@ -1024,8 +1011,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Allowed values include the following:
 
   - BUILTIN_FUZZ.
-  - BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android app,
-    interacting with it and capturing screenshots at the same time.
   - APPIUM_JAVA_JUNIT.
   - APPIUM_JAVA_TESTNG.
   - APPIUM_PYTHON.
@@ -1036,10 +1021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - APPIUM_WEB_PYTHON.
   - APPIUM_WEB_NODE.
   - APPIUM_WEB_RUBY.
-  - CALABASH.
   - INSTRUMENTATION.
-  - UIAUTOMATION.
-  - UIAUTOMATOR.
   - XCTEST.
   - XCTEST_UI.
 """
@@ -2137,8 +2119,8 @@ List the tags for an AWS Device Farm resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources for which to
   list tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
-  `DEVICE`, and `VPCE_CONFIGURATION`.
+  `TESTGRID_PROJECT`, `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`,
+  `SESSION`, `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
 """
 function list_tags_for_resource end
 
@@ -2454,10 +2436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - APPIUM_WEB_PYTHON_TEST_PACKAGE
   - APPIUM_WEB_NODE_TEST_PACKAGE
   - APPIUM_WEB_RUBY_TEST_PACKAGE
-  - CALABASH_TEST_PACKAGE
   - INSTRUMENTATION_TEST_PACKAGE
-  - UIAUTOMATION_TEST_PACKAGE
-  - UIAUTOMATOR_TEST_PACKAGE
   - XCTEST_TEST_PACKAGE
   - XCTEST_UI_TEST_PACKAGE
   - APPIUM_JAVA_JUNIT_TEST_SPEC
@@ -2803,8 +2782,8 @@ resource is deleted, the tags associated with that resource are also deleted.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources to which to
   add tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
-  `DEVICE`, and `VPCE_CONFIGURATION`.
+  `TESTGRID_PROJECT`, `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`,
+  `SESSION`, `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys
   can have a maximum character length of 128 characters. Tag values can have a maximum
   length of 256 characters.
@@ -2850,8 +2829,8 @@ Deletes the specified tags from a resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource or resources from which to
   delete tags. You can associate tags with the following Device Farm resources: `PROJECT`,
-  `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`, `SESSION`, `DEVICE_POOL`,
-  `DEVICE`, and `VPCE_CONFIGURATION`.
+  `TESTGRID_PROJECT`, `RUN`, `NETWORK_PROFILE`, `INSTANCE_PROFILE`, `DEVICE_INSTANCE`,
+  `SESSION`, `DEVICE_POOL`, `DEVICE`, and `VPCE_CONFIGURATION`.
 - `tag_keys`: The keys of the tags to be removed.
 """
 function untag_resource end
@@ -3118,7 +3097,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"defaultJobTimeoutMinutes"`: The number of minutes a test run in the project executes
   before it times out.
+
+- `"environmentVariables"`: A set of environment variables which are used by default for all
+  runs in the project. These environment variables are applied to the test run during the
+  execution of a test spec file.
+
+  For more information about using test spec files, please see [Custom test environments](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html)
+  in *AWS Device Farm.*
+
+- `"executionRoleArn"`: An IAM role to be assumed by the test host for all runs in the
+  project.
+
 - `"name"`: A string that represents the new name of the project that you are updating.
+
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function update_project end

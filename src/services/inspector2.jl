@@ -47,6 +47,106 @@ function associate_member(
 end
 
 """
+    batch_associate_code_security_scan_configuration(associate_configuration_requests)
+    batch_associate_code_security_scan_configuration(associate_configuration_requests, params::Dict{String,<:Any})
+
+Associates multiple code repositories with an Amazon Inspector code security scan
+configuration.
+
+# Arguments
+
+- `associate_configuration_requests`: A list of code repositories to associate with the
+  specified scan configuration.
+"""
+function batch_associate_code_security_scan_configuration end
+
+function batch_associate_code_security_scan_configuration(
+    associateConfigurationRequests; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/batch/associate",
+        Dict{String,Any}(
+            "associateConfigurationRequests" => associateConfigurationRequests
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_associate_code_security_scan_configuration(
+    associateConfigurationRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/batch/associate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "associateConfigurationRequests" => associateConfigurationRequests
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_disassociate_code_security_scan_configuration(disassociate_configuration_requests)
+    batch_disassociate_code_security_scan_configuration(disassociate_configuration_requests, params::Dict{String,<:Any})
+
+Disassociates multiple code repositories from an Amazon Inspector code security scan
+configuration.
+
+# Arguments
+
+- `disassociate_configuration_requests`: A list of code repositories to disassociate from
+  the specified scan configuration.
+"""
+function batch_disassociate_code_security_scan_configuration end
+
+function batch_disassociate_code_security_scan_configuration(
+    disassociateConfigurationRequests; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/batch/disassociate",
+        Dict{String,Any}(
+            "disassociateConfigurationRequests" => disassociateConfigurationRequests
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_disassociate_code_security_scan_configuration(
+    disassociateConfigurationRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/batch/disassociate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "disassociateConfigurationRequests" => disassociateConfigurationRequests
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_account_status()
     batch_get_account_status(params::Dict{String,<:Any})
 
@@ -431,6 +531,125 @@ function create_cis_scan_configuration(
 end
 
 """
+    create_code_security_integration(name, type)
+    create_code_security_integration(name, type, params::Dict{String,<:Any})
+
+Creates a code security integration with a source code repository provider.
+
+After calling the [`create_code_security_integration`](@ref) operation, you complete
+authentication and authorization with your provider. Next you call the [`update_code_security_integration`](@ref)
+operation to provide the `details` to complete the integration setup
+
+# Arguments
+
+- `name`: The name of the code security integration.
+- `type`: The type of repository provider for the integration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"details"`: The integration details specific to the repository provider type.
+- `"tags"`: The tags to apply to the code security integration.
+"""
+function create_code_security_integration end
+
+function create_code_security_integration(
+    name, type; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/create",
+        Dict{String,Any}("name" => name, "type" => type);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_code_security_integration(
+    name,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/create",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "type" => type), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_code_security_scan_configuration(configuration, level, name)
+    create_code_security_scan_configuration(configuration, level, name, params::Dict{String,<:Any})
+
+Creates a scan configuration for code security scanning.
+
+# Arguments
+
+- `configuration`: The configuration settings for the code security scan.
+- `level`: The security level for the scan configuration.
+- `name`: The name of the scan configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"scopeSettings"`: The scope settings that define which repositories will be scanned.
+  Include this parameter to create a default scan configuration. Otherwise Amazon Inspector
+  creates a general scan configuration.
+
+  A default scan configuration automatically applies to all existing and future projects
+  imported into Amazon Inspector. Use the `BatchAssociateCodeSecurityScanConfiguration`
+  operation to associate a general scan configuration with projects.
+
+- `"tags"`: The tags to apply to the scan configuration.
+"""
+function create_code_security_scan_configuration end
+
+function create_code_security_scan_configuration(
+    configuration, level, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/create",
+        Dict{String,Any}(
+            "configuration" => configuration, "level" => level, "name" => name
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_code_security_scan_configuration(
+    configuration,
+    level,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration, "level" => level, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_filter(action, filter_criteria, name)
     create_filter(action, filter_criteria, name, params::Dict{String,<:Any})
 
@@ -558,7 +777,8 @@ Creates a software bill of materials (SBOM) report.
 # Arguments
 
 - `report_format`: The output format for the software bill of materials (SBOM) report.
-- `s3_destination`:
+- `s3_destination`: Contains details of the Amazon S3 bucket and KMS key used to export
+  findings.
 
 # Optional Parameters
 
@@ -636,6 +856,92 @@ function delete_cis_scan_configuration(
     return inspector2(
         "POST",
         "/cis/scan-configuration/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_code_security_integration(integration_arn)
+    delete_code_security_integration(integration_arn, params::Dict{String,<:Any})
+
+Deletes a code security integration.
+
+# Arguments
+
+- `integration_arn`: The Amazon Resource Name (ARN) of the code security integration to
+  delete.
+"""
+function delete_code_security_integration end
+
+function delete_code_security_integration(
+    integrationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/delete",
+        Dict{String,Any}("integrationArn" => integrationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_code_security_integration(
+    integrationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("integrationArn" => integrationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_code_security_scan_configuration(scan_configuration_arn)
+    delete_code_security_scan_configuration(scan_configuration_arn, params::Dict{String,<:Any})
+
+Deletes a code security scan configuration.
+
+# Arguments
+
+- `scan_configuration_arn`: The Amazon Resource Name (ARN) of the scan configuration to
+  delete.
+"""
+function delete_code_security_scan_configuration end
+
+function delete_code_security_scan_configuration(
+    scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/delete",
+        Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_code_security_scan_configuration(
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/delete",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -1047,6 +1353,184 @@ function get_cis_scan_result_details(
 end
 
 """
+    get_clusters_for_image(filter)
+    get_clusters_for_image(filter, params::Dict{String,<:Any})
+
+Returns a list of clusters and metadata associated with an image.
+
+# Arguments
+
+- `filter`: The resource Id for the Amazon ECR image.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to be returned in a single page of results.
+- `"nextToken"`: The pagination token from a previous request used to retrieve the next page
+  of results.
+"""
+function get_clusters_for_image end
+
+function get_clusters_for_image(filter; aws_config::AbstractAWSConfig=current_aws_config())
+    return inspector2(
+        "POST",
+        "/cluster/get",
+        Dict{String,Any}("filter" => filter);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_clusters_for_image(
+    filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cluster/get",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filter" => filter), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_code_security_integration(integration_arn)
+    get_code_security_integration(integration_arn, params::Dict{String,<:Any})
+
+Retrieves information about a code security integration.
+
+# Arguments
+
+- `integration_arn`: The Amazon Resource Name (ARN) of the code security integration to
+  retrieve.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"tags"`: The tags associated with the code security integration.
+"""
+function get_code_security_integration end
+
+function get_code_security_integration(
+    integrationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/get",
+        Dict{String,Any}("integrationArn" => integrationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_code_security_integration(
+    integrationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/get",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("integrationArn" => integrationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_code_security_scan(resource, scan_id)
+    get_code_security_scan(resource, scan_id, params::Dict{String,<:Any})
+
+Retrieves information about a specific code security scan.
+
+# Arguments
+
+- `resource`: The resource identifier for the code repository that was scanned.
+- `scan_id`: The unique identifier of the scan to retrieve.
+"""
+function get_code_security_scan end
+
+function get_code_security_scan(
+    resource, scanId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan/get",
+        Dict{String,Any}("resource" => resource, "scanId" => scanId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_code_security_scan(
+    resource,
+    scanId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resource" => resource, "scanId" => scanId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_code_security_scan_configuration(scan_configuration_arn)
+    get_code_security_scan_configuration(scan_configuration_arn, params::Dict{String,<:Any})
+
+Retrieves information about a code security scan configuration.
+
+# Arguments
+
+- `scan_configuration_arn`: The Amazon Resource Name (ARN) of the scan configuration to
+  retrieve.
+"""
+function get_code_security_scan_configuration end
+
+function get_code_security_scan_configuration(
+    scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/get",
+        Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_code_security_scan_configuration(
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_configuration()
     get_configuration(params::Dict{String,<:Any})
 
@@ -1282,7 +1766,9 @@ end
     list_account_permissions()
     list_account_permissions(params::Dict{String,<:Any})
 
-Lists the permissions an account has to configure Amazon Inspector.
+Lists the permissions an account has to configure Amazon Inspector. If the account is a
+member account or standalone account with resources managed by an Organizations policy, the
+operation returns fewer permissions.
 
 # Optional Parameters
 
@@ -1491,10 +1977,150 @@ function list_cis_scans(
 end
 
 """
+    list_code_security_integrations()
+    list_code_security_integrations(params::Dict{String,<:Any})
+
+Lists all code security integrations in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: A token to use for paginating results that are returned in the response.
+  Set the value of this parameter to null for the first request. For subsequent calls, use
+  the NextToken value returned from the previous request to continue listing results after
+  the first page.
+"""
+function list_code_security_integrations end
+
+function list_code_security_integrations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/list";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_code_security_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_code_security_scan_configuration_associations(scan_configuration_arn)
+    list_code_security_scan_configuration_associations(scan_configuration_arn, params::Dict{String,<:Any})
+
+Lists the associations between code repositories and Amazon Inspector code security scan
+configurations.
+
+# Arguments
+
+- `scan_configuration_arn`: The Amazon Resource Name (ARN) of the scan configuration to list
+  associations for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If your request
+  would return more than the maximum the response will return a `nextToken` value, use this
+  value when you call the action again to get the remaining results.
+- `"nextToken"`: A token to use for paginating results that are returned in the response.
+  Set the value of this parameter to null for the first request to a list action. For
+  subsequent calls, use the `NextToken` value returned from the previous request to continue
+  listing results after the first page.
+"""
+function list_code_security_scan_configuration_associations end
+
+function list_code_security_scan_configuration_associations(
+    scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/associations/list",
+        Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_code_security_scan_configuration_associations(
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/associations/list",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_code_security_scan_configurations()
+    list_code_security_scan_configurations(params::Dict{String,<:Any})
+
+Lists all code security scan configurations in your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single call.
+- `"nextToken"`: A token to use for paginating results that are returned in the response.
+  Set the value of this parameter to null for the first request. For subsequent calls, use
+  the NextToken value returned from the previous request to continue listing results after
+  the first page.
+"""
+function list_code_security_scan_configurations end
+
+function list_code_security_scan_configurations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/list";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_code_security_scan_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_coverage()
     list_coverage(params::Dict{String,<:Any})
 
-Lists coverage details for you environment.
+Lists coverage details for your environment.
 
 # Optional Parameters
 
@@ -2096,11 +2722,62 @@ function start_cis_session(
 end
 
 """
+    start_code_security_scan(resource)
+    start_code_security_scan(resource, params::Dict{String,<:Any})
+
+Initiates a code security scan on a specified repository.
+
+# Arguments
+
+- `resource`: The resource identifier for the code repository to scan.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+"""
+function start_code_security_scan end
+
+function start_code_security_scan(
+    resource; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan/start",
+        Dict{String,Any}("resource" => resource, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_code_security_scan(
+    resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resource" => resource, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_cis_session(message, scan_job_id, session_token)
     stop_cis_session(message, scan_job_id, session_token, params::Dict{String,<:Any})
 
 Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with
-the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS
+the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS
 scan session for the scan ID supplied by the service.
 
 # Arguments
@@ -2275,6 +2952,109 @@ function update_cis_scan_configuration(
             mergewith(
                 _merge,
                 Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_code_security_integration(details, integration_arn)
+    update_code_security_integration(details, integration_arn, params::Dict{String,<:Any})
+
+Updates an existing code security integration.
+
+After calling the [`create_code_security_integration`](@ref) operation, you complete
+authentication and authorization with your provider. Next you call the [`update_code_security_integration`](@ref)
+operation to provide the `details` to complete the integration setup
+
+# Arguments
+
+- `details`: The updated integration details specific to the repository provider type.
+- `integration_arn`: The Amazon Resource Name (ARN) of the code security integration to
+  update.
+"""
+function update_code_security_integration end
+
+function update_code_security_integration(
+    details, integrationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/update",
+        Dict{String,Any}("details" => details, "integrationArn" => integrationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_code_security_integration(
+    details,
+    integrationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/integration/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("details" => details, "integrationArn" => integrationArn),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_code_security_scan_configuration(configuration, scan_configuration_arn)
+    update_code_security_scan_configuration(configuration, scan_configuration_arn, params::Dict{String,<:Any})
+
+Updates an existing code security scan configuration.
+
+# Arguments
+
+- `configuration`: The updated configuration settings for the code security scan.
+- `scan_configuration_arn`: The Amazon Resource Name (ARN) of the scan configuration to
+  update.
+"""
+function update_code_security_scan_configuration end
+
+function update_code_security_scan_configuration(
+    configuration, scanConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/update",
+        Dict{String,Any}(
+            "configuration" => configuration, "scanConfigurationArn" => scanConfigurationArn
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_code_security_scan_configuration(
+    configuration,
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesecurity/scan-configuration/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration,
+                    "scanConfigurationArn" => scanConfigurationArn,
+                ),
                 params,
             ),
         );

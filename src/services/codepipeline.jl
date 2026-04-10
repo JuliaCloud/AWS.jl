@@ -537,6 +537,7 @@ supported integration model.
   - `Deploy`
   - `Approval`
   - `Invoke`
+  - `Compute`
 
 - `owner`: The creator of an action type that was created with any supported integration
   model. There are two valid values: `AWS` and `ThirdParty`.
@@ -891,6 +892,57 @@ function list_action_types(
 end
 
 """
+    list_deploy_action_execution_targets(action_execution_id)
+    list_deploy_action_execution_targets(action_execution_id, params::Dict{String,<:Any})
+
+Lists the targets for the deploy action.
+
+# Arguments
+
+- `action_execution_id`: The execution ID for the deploy action.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filters"`: Filters the targets for a specified deploy action.
+- `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
+- `"nextToken"`: An identifier that was returned from the previous list action types call,
+  which can be used to return the next set of action types in the list.
+- `"pipelineName"`: The name of the pipeline with the deploy action.
+"""
+function list_deploy_action_execution_targets end
+
+function list_deploy_action_execution_targets(
+    actionExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codepipeline(
+        "ListDeployActionExecutionTargets",
+        Dict{String,Any}("actionExecutionId" => actionExecutionId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_deploy_action_execution_targets(
+    actionExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codepipeline(
+        "ListDeployActionExecutionTargets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("actionExecutionId" => actionExecutionId), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_pipeline_executions(pipeline_name)
     list_pipeline_executions(pipeline_name, params::Dict{String,<:Any})
 
@@ -977,6 +1029,87 @@ function list_pipelines(
 end
 
 """
+    list_rule_executions(pipeline_name)
+    list_rule_executions(pipeline_name, params::Dict{String,<:Any})
+
+Lists the rule executions that have occurred in a pipeline configured for conditions with
+rules.
+
+# Arguments
+
+- `pipeline_name`: The name of the pipeline for which you want to get execution summary
+  information.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filter"`: Input information used to filter rule execution history.
+- `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value. Pipeline history
+  is limited to the most recent 12 months, based on pipeline execution start times. Default
+  value is 100.
+- `"nextToken"`: The token that was returned from the previous `ListRuleExecutions` call,
+  which can be used to return the next set of rule executions in the list.
+"""
+function list_rule_executions end
+
+function list_rule_executions(
+    pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codepipeline(
+        "ListRuleExecutions",
+        Dict{String,Any}("pipelineName" => pipelineName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_rule_executions(
+    pipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codepipeline(
+        "ListRuleExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineName" => pipelineName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rule_types()
+    list_rule_types(params::Dict{String,<:Any})
+
+Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html)
+and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).For
+more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"regionFilter"`: The rule Region to filter on.
+- `"ruleOwnerFilter"`: The rule owner to filter on.
+"""
+function list_rule_types end
+
+function list_rule_types(; aws_config::AbstractAWSConfig=current_aws_config())
+    return codepipeline("ListRuleTypes"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function list_rule_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return codepipeline(
+        "ListRuleTypes", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1031,6 +1164,9 @@ Gets a listing of all the webhooks in this Amazon Web Services Region for this a
 output lists all webhooks and includes the webhook URL and ARN and the configuration for
 each webhook.
 
+!!! note
+    If a secret token was provided, it will be redacted in the response.
+
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1050,6 +1186,70 @@ function list_webhooks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codepipeline("ListWebhooks", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
+    override_stage_condition(condition_type, pipeline_execution_id, pipeline_name, stage_name)
+    override_stage_condition(condition_type, pipeline_execution_id, pipeline_name, stage_name, params::Dict{String,<:Any})
+
+Used to override a stage condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html)
+and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
+
+# Arguments
+
+- `condition_type`: The type of condition to override for the stage, such as entry
+  conditions, failure conditions, or success conditions.
+- `pipeline_execution_id`: The ID of the pipeline execution for the override.
+- `pipeline_name`: The name of the pipeline with the stage that will override the condition.
+- `stage_name`: The name of the stage for the override.
+"""
+function override_stage_condition end
+
+function override_stage_condition(
+    conditionType,
+    pipelineExecutionId,
+    pipelineName,
+    stageName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codepipeline(
+        "OverrideStageCondition",
+        Dict{String,Any}(
+            "conditionType" => conditionType,
+            "pipelineExecutionId" => pipelineExecutionId,
+            "pipelineName" => pipelineName,
+            "stageName" => stageName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function override_stage_condition(
+    conditionType,
+    pipelineExecutionId,
+    pipelineName,
+    stageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return codepipeline(
+        "OverrideStageCondition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "conditionType" => conditionType,
+                    "pipelineExecutionId" => pipelineExecutionId,
+                    "pipelineName" => pipelineName,
+                    "stageName" => stageName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
 end
 
 """
@@ -1229,12 +1429,22 @@ Approved and Rejected.
 # Arguments
 
 - `action_name`: The name of the action for which approval is requested.
+
 - `pipeline_name`: The name of the pipeline that contains the action.
+
 - `result`: Represents information about the result of the approval request.
+
 - `stage_name`: The name of the stage that contains the action.
+
 - `token`: The system-generated token used to identify a unique approval request. The token
   for each open approval request can be obtained using the `GetPipelineState` action. It is
   used to validate that the approval request corresponding to this token is still valid.
+
+  !!! important
+      For a pipeline where the execution mode is set to PARALLEL, the token required to
+      approve/reject an approval request as detailed above is not available. Instead, use
+      the `externalExecutionId` in the response output from the `ListActionExecutions`
+      action as the token in the approval request.
 """
 function put_approval_result end
 
@@ -1519,6 +1729,18 @@ webhook is started as long as the POST request satisfied the authentication and 
 requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and
 DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third
 parties to call the generated webhook URL.
+
+!!! important
+    When creating CodePipeline webhooks, do not use your own credentials or reuse the same
+    secret token across multiple webhooks. For optimal security, generate a unique secret
+    token for each webhook you create. The secret token is an arbitrary string that you
+    provide, which GitHub uses to compute and sign the webhook payloads sent to
+    CodePipeline, for protecting the integrity and authenticity of the webhook payloads.
+    Using your own credentials or reusing the same token across multiple webhooks can lead
+    to security vulnerabilities.
+
+!!! note
+    If a secret token was provided, it will be redacted in the response.
 
 # Arguments
 

@@ -94,6 +94,8 @@ set to an email, all of the rules in that configuration set are applied to the e
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"ArchivingOptions"`: An object that defines the MailManager archiving options for emails
+  that you send using the configuration set.
 - `"DeliveryOptions"`: An object that defines the dedicated IP pool that is used to send
   emails that you send using the configuration set.
 - `"ReputationOptions"`: An object that defines whether or not Amazon SES collects
@@ -333,6 +335,13 @@ You can execute this operation no more than once per second.
   in the *Amazon SES Developer Guide*.
 - `template_name`: The name of the custom verification email template.
 - `template_subject`: The subject line of the custom verification email.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  custom verification email template.
 """
 function create_custom_verification_email_template end
 
@@ -669,6 +678,13 @@ You can execute this operation no more than once per second.
 - `template_content`: The content of the email template, composed of a subject line, an HTML
   part, and a text-only part.
 - `template_name`: The name of the template.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  email template.
 """
 function create_email_template end
 
@@ -805,6 +821,170 @@ function create_import_job(
                     "ImportDataSource" => ImportDataSource,
                     "ImportDestination" => ImportDestination,
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_multi_region_endpoint(details, endpoint_name)
+    create_multi_region_endpoint(details, endpoint_name, params::Dict{String,<:Any})
+
+Creates a multi-region endpoint (global-endpoint).
+
+The primary region is going to be the AWS-Region where the operation is executed. The
+secondary region has to be provided in request's parameters. From the data flow standpoint
+there is no difference between primary and secondary regions - sending traffic will be split
+equally between the two. The primary region is the region where the resource has been
+created and where it can be managed.
+
+# Arguments
+
+- `details`: Contains details of a multi-region endpoint (global-endpoint) being created.
+- `endpoint_name`: The name of the multi-region endpoint (global-endpoint).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  multi-region endpoint (global-endpoint).
+"""
+function create_multi_region_endpoint end
+
+function create_multi_region_endpoint(
+    Details, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/multi-region-endpoints",
+        Dict{String,Any}("Details" => Details, "EndpointName" => EndpointName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_multi_region_endpoint(
+    Details,
+    EndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/multi-region-endpoints",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Details" => Details, "EndpointName" => EndpointName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_tenant(tenant_name)
+    create_tenant(tenant_name, params::Dict{String,<:Any})
+
+Create a tenant.
+
+*Tenants* are logical containers that group related SES resources together. Each tenant can
+have its own set of resources like email identities, configuration sets, and templates,
+along with reputation metrics and sending status. This helps isolate and manage email
+sending for different customers or business units within your Amazon SES API v2 account.
+
+# Arguments
+
+- `tenant_name`: The name of the tenant to create. The name can contain up to 64
+  alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Tags"`: An array of objects that define the tags (keys and values) to associate with the
+  tenant
+"""
+function create_tenant end
+
+function create_tenant(TenantName; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/tenants",
+        Dict{String,Any}("TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_tenant(
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TenantName" => TenantName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_tenant_resource_association(resource_arn, tenant_name)
+    create_tenant_resource_association(resource_arn, tenant_name, params::Dict{String,<:Any})
+
+Associate a resource with a tenant.
+
+*Resources* can be email identities, configuration sets, or email templates. When you
+associate a resource with a tenant, you can use that resource when sending emails on behalf
+of that tenant.
+
+A single resource can be associated with multiple tenants, allowing for resource sharing
+across different tenants while maintaining isolation in email sending operations.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to associate with the
+  tenant.
+- `tenant_name`: The name of the tenant to associate the resource with.
+"""
+function create_tenant_resource_association end
+
+function create_tenant_resource_association(
+    ResourceArn, TenantName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_tenant_resource_association(
+    ResourceArn,
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TenantName" => TenantName),
                 params,
             ),
         );
@@ -1190,6 +1370,46 @@ function delete_email_template(
 end
 
 """
+    delete_multi_region_endpoint(endpoint_name)
+    delete_multi_region_endpoint(endpoint_name, params::Dict{String,<:Any})
+
+Deletes a multi-region endpoint (global-endpoint).
+
+Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where
+operation is executed can be deleted.
+
+# Arguments
+
+- `endpoint_name`: The name of the multi-region endpoint (global-endpoint) to be deleted.
+"""
+function delete_multi_region_endpoint end
+
+function delete_multi_region_endpoint(
+    EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "DELETE",
+        "/v2/email/multi-region-endpoints/$(EndpointName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_multi_region_endpoint(
+    EndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "DELETE",
+        "/v2/email/multi-region-endpoints/$(EndpointName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_suppressed_destination(email_address)
     delete_suppressed_destination(email_address, params::Dict{String,<:Any})
 
@@ -1222,6 +1442,98 @@ function delete_suppressed_destination(
         "DELETE",
         "/v2/email/suppression/addresses/$(EmailAddress)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_tenant(tenant_name)
+    delete_tenant(tenant_name, params::Dict{String,<:Any})
+
+Delete an existing tenant.
+
+When you delete a tenant, its associations with resources are removed, but the resources
+themselves are not deleted.
+
+# Arguments
+
+- `tenant_name`: The name of the tenant to delete.
+"""
+function delete_tenant end
+
+function delete_tenant(TenantName; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/delete",
+        Dict{String,Any}("TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_tenant(
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TenantName" => TenantName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_tenant_resource_association(resource_arn, tenant_name)
+    delete_tenant_resource_association(resource_arn, tenant_name, params::Dict{String,<:Any})
+
+Delete an association between a tenant and a resource.
+
+When you delete a tenant-resource association, the resource itself is not deleted, only its
+association with the specific tenant is removed. After removal, the resource will no longer
+be available for use with that tenant's email sending operations.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove from the tenant
+  association.
+- `tenant_name`: The name of the tenant to remove the resource association from.
+"""
+function delete_tenant_resource_association end
+
+function delete_tenant_resource_association(
+    ResourceArn, TenantName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources/delete",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_tenant_resource_association(
+    ResourceArn,
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TenantName" => TenantName),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1772,6 +2084,47 @@ function get_domain_statistics_report(
 end
 
 """
+    get_email_address_insights(email_address)
+    get_email_address_insights(email_address, params::Dict{String,<:Any})
+
+Provides validation insights about a specific email address, including syntax validation,
+DNS record checks, mailbox existence, and other deliverability factors.
+
+# Arguments
+
+- `email_address`: The email address to analyze for validation insights.
+"""
+function get_email_address_insights end
+
+function get_email_address_insights(
+    EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/email-address-insights",
+        Dict{String,Any}("EmailAddress" => EmailAddress);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_email_address_insights(
+    EmailAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/email-address-insights",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EmailAddress" => EmailAddress), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_email_identity(email_identity)
     get_email_identity(email_identity, params::Dict{String,<:Any})
 
@@ -1998,6 +2351,96 @@ function get_message_insights(
 end
 
 """
+    get_multi_region_endpoint(endpoint_name)
+    get_multi_region_endpoint(endpoint_name, params::Dict{String,<:Any})
+
+Displays the multi-region endpoint (global-endpoint) configuration.
+
+Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where
+operation is executed can be displayed.
+
+# Arguments
+
+- `endpoint_name`: The name of the multi-region endpoint (global-endpoint).
+"""
+function get_multi_region_endpoint end
+
+function get_multi_region_endpoint(
+    EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "GET",
+        "/v2/email/multi-region-endpoints/$(EndpointName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_multi_region_endpoint(
+    EndpointName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "GET",
+        "/v2/email/multi-region-endpoints/$(EndpointName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_reputation_entity(reputation_entity_reference, reputation_entity_type)
+    get_reputation_entity(reputation_entity_reference, reputation_entity_type, params::Dict{String,<:Any})
+
+Retrieve information about a specific reputation entity, including its reputation management
+policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and
+aggregate sending status.
+
+*Reputation entities* represent resources in your Amazon SES account that have reputation
+tracking and management capabilities. The reputation impact reflects the highest impact
+reputation finding for the entity. Reputation findings can be retrieved using the [`list_recommendations`](@ref)
+operation.
+
+# Arguments
+
+- `reputation_entity_reference`: The unique identifier for the reputation entity. For
+  resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+- `reputation_entity_type`: The type of reputation entity. Currently, only `RESOURCE` type
+  entities are supported.
+"""
+function get_reputation_entity end
+
+function get_reputation_entity(
+    ReputationEntityReference,
+    ReputationEntityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "GET",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_reputation_entity(
+    ReputationEntityReference,
+    ReputationEntityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "GET",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_suppressed_destination(email_address)
     get_suppressed_destination(email_address, params::Dict{String,<:Any})
 
@@ -2030,6 +2473,45 @@ function get_suppressed_destination(
         "GET",
         "/v2/email/suppression/addresses/$(EmailAddress)",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_tenant(tenant_name)
+    get_tenant(tenant_name, params::Dict{String,<:Any})
+
+Get information about a specific tenant, including the tenant's name, ID, ARN, creation
+timestamp, tags, and sending status.
+
+# Arguments
+
+- `tenant_name`: The name of the tenant to retrieve information about.
+"""
+function get_tenant end
+
+function get_tenant(TenantName; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/get",
+        Dict{String,Any}("TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_tenant(
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/get",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TenantName" => TenantName), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2082,6 +2564,9 @@ end
     list_contact_lists(params::Dict{String,<:Any})
 
 Lists all of the contact lists available.
+
+If your output includes a "NextToken" field with a string value, this indicates there may be
+additional contacts on the filtered list - regardless of the number of contacts returned.
 
 # Optional Parameters
 
@@ -2519,6 +3004,49 @@ function list_import_jobs(
 end
 
 """
+    list_multi_region_endpoints()
+    list_multi_region_endpoints(params::Dict{String,<:Any})
+
+List the multi-region endpoints (global-endpoints).
+
+Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where
+operation is executed will be listed.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: A token returned from a previous call to `ListMultiRegionEndpoints` to
+  indicate the position in the list of multi-region endpoints (global-endpoints).
+- `"PageSize"`: The number of results to show in a single call to
+  `ListMultiRegionEndpoints`. If the number of results is larger than the number you
+  specified in this parameter, the response includes a `NextToken` element that you can use
+  to retrieve the next page of results.
+"""
+function list_multi_region_endpoints end
+
+function list_multi_region_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "GET",
+        "/v2/email/multi-region-endpoints";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_multi_region_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "GET",
+        "/v2/email/multi-region-endpoints",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_recommendations()
     list_recommendations(params::Dict{String,<:Any})
 
@@ -2558,6 +3086,106 @@ function list_recommendations(
         "POST",
         "/v2/email/vdm/recommendations",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_reputation_entities()
+    list_reputation_entities(params::Dict{String,<:Any})
+
+List reputation entities in your Amazon SES account in the current Amazon Web Services
+Region. You can filter the results by entity type, reputation impact, sending status, or
+entity reference prefix.
+
+*Reputation entities* represent resources in your account that have reputation tracking and
+management capabilities. Use this operation to get an overview of all entities and their
+current reputation status.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: An object that contains filters to apply when listing reputation entities. You
+  can filter by entity type, reputation impact, sending status, or entity reference prefix.
+- `"NextToken"`: A token returned from a previous call to `ListReputationEntities` to
+  indicate the position in the list of reputation entities.
+- `"PageSize"`: The number of results to show in a single call to `ListReputationEntities`.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
+"""
+function list_reputation_entities end
+
+function list_reputation_entities(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "POST", "/v2/email/reputation/entities"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_reputation_entities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/reputation/entities",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_tenants(resource_arn)
+    list_resource_tenants(resource_arn, params::Dict{String,<:Any})
+
+List all tenants associated with a specific resource.
+
+This operation returns a list of tenants that are associated with the specified resource.
+This is useful for understanding which tenants are currently using a particular resource
+such as an email identity, configuration set, or email template.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to list associated tenants
+  for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: A token returned from a previous call to `ListResourceTenants` to indicate
+  the position in the list of resource tenants.
+- `"PageSize"`: The number of results to show in a single call to `ListResourceTenants`. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
+"""
+function list_resource_tenants end
+
+function list_resource_tenants(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/resources/tenants/list",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_resource_tenants(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/resources/tenants/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2654,6 +3282,101 @@ function list_tags_for_resource(
 end
 
 """
+    list_tenant_resources(tenant_name)
+    list_tenant_resources(tenant_name, params::Dict{String,<:Any})
+
+List all resources associated with a specific tenant.
+
+This operation returns a list of resources (email identities, configuration sets, or email
+templates) that are associated with the specified tenant. You can optionally filter the
+results by resource type.
+
+# Arguments
+
+- `tenant_name`: The name of the tenant to list resources for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Filter"`: A map of filter keys and values for filtering the list of tenant resources.
+  Currently, the only supported filter key is `RESOURCE_TYPE`.
+- `"NextToken"`: A token returned from a previous call to `ListTenantResources` to indicate
+  the position in the list of tenant resources.
+- `"PageSize"`: The number of results to show in a single call to `ListTenantResources`. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
+"""
+function list_tenant_resources end
+
+function list_tenant_resources(
+    TenantName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources/list",
+        Dict{String,Any}("TenantName" => TenantName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_tenant_resources(
+    TenantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/resources/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TenantName" => TenantName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tenants()
+    list_tenants(params::Dict{String,<:Any})
+
+List all tenants associated with your account in the current Amazon Web Services Region.
+
+This operation returns basic information about each tenant, such as tenant name, ID, ARN,
+and creation timestamp.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"NextToken"`: A token returned from a previous call to `ListTenants` to indicate the
+  position in the list of tenants.
+- `"PageSize"`: The number of results to show in a single call to `ListTenants`. If the
+  number of results is larger than the number you specified in this parameter, then the
+  response includes a `NextToken` element, which you can use to obtain additional results.
+"""
+function list_tenants end
+
+function list_tenants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sesv2(
+        "POST", "/v2/email/tenants/list"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tenants(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/tenants/list",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_account_dedicated_ip_warmup_attributes()
     put_account_dedicated_ip_warmup_attributes(params::Dict{String,<:Any})
 
@@ -2694,15 +3417,14 @@ function put_account_dedicated_ip_warmup_attributes(
 end
 
 """
-    put_account_details(mail_type, use_case_description, website_url)
-    put_account_details(mail_type, use_case_description, website_url, params::Dict{String,<:Any})
+    put_account_details(mail_type, website_url)
+    put_account_details(mail_type, website_url, params::Dict{String,<:Any})
 
 Update your Amazon SES account details.
 
 # Arguments
 
 - `mail_type`: The type of email your account will send.
-- `use_case_description`: A description of the types of email that you plan to send.
 - `website_url`: The URL of your website. This information helps us better understand the
   type of content that you plan to send.
 
@@ -2724,23 +3446,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the value is `true`, then your account has production access. When your account has
   production access, you can send email to any address. The sending quota and maximum
   sending rate for your account vary based on your specific use case.
+
+- `"UseCaseDescription"`: A description of the types of email that you plan to send.
 """
 function put_account_details end
 
 function put_account_details(
-    MailType,
-    UseCaseDescription,
-    WebsiteURL;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    MailType, WebsiteURL; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sesv2(
         "POST",
         "/v2/email/account/details",
-        Dict{String,Any}(
-            "MailType" => MailType,
-            "UseCaseDescription" => UseCaseDescription,
-            "WebsiteURL" => WebsiteURL,
-        );
+        Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2748,7 +3465,6 @@ end
 
 function put_account_details(
     MailType,
-    UseCaseDescription,
     WebsiteURL,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2759,11 +3475,7 @@ function put_account_details(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "MailType" => MailType,
-                    "UseCaseDescription" => UseCaseDescription,
-                    "WebsiteURL" => WebsiteURL,
-                ),
+                Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL),
                 params,
             ),
         );
@@ -2829,6 +3541,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     when a message sent to that address results in a complaint.
   - `BOUNCE` – Amazon SES adds an email address to the suppression list for your account
     when a message sent to that address results in a hard bounce.
+
+- `"ValidationAttributes"`: An object that contains additional suppression attributes for
+  your account.
 """
 function put_account_suppression_attributes end
 
@@ -2895,6 +3610,53 @@ function put_account_vdm_attributes(
 end
 
 """
+    put_configuration_set_archiving_options(configuration_set_name)
+    put_configuration_set_archiving_options(configuration_set_name, params::Dict{String,<:Any})
+
+Associate the configuration set with a MailManager archive. When you send email using the
+`SendEmail` or [`send_bulk_email`](@ref) operations the message as it will be given to the
+receiving SMTP server will be archived, along with the recipient information.
+
+# Arguments
+
+- `configuration_set_name`: The name of the configuration set to associate with a
+  MailManager archive.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ArchiveArn"`: The Amazon Resource Name (ARN) of the MailManager archive that the Amazon
+  SES API v2 sends email to.
+"""
+function put_configuration_set_archiving_options end
+
+function put_configuration_set_archiving_options(
+    ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/configuration-sets/$(ConfigurationSetName)/archiving-options";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_configuration_set_archiving_options(
+    ConfigurationSetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/configuration-sets/$(ConfigurationSetName)/archiving-options",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_configuration_set_delivery_options(configuration_set_name)
     put_configuration_set_delivery_options(configuration_set_name, params::Dict{String,<:Any})
 
@@ -2910,6 +3672,9 @@ create groups of dedicated IP addresses for sending specific types of email.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"MaxDeliverySeconds"`: The maximum amount of time, in seconds, that Amazon SES API v2
+  will attempt delivery of email. If specified, the value must greater than or equal to 300
+  seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
 - `"SendingPoolName"`: The name of the dedicated IP pool to associate with the configuration
   set.
 - `"TlsPolicy"`: Specifies whether messages that use the configuration set are required to
@@ -3059,6 +3824,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     when a message sent to that address results in a complaint.
   - `BOUNCE` – Amazon SES adds an email address to the suppression list for your account
     when a message sent to that address results in a hard bounce.
+
+- `"ValidationOptions"`: An object that contains information about the email address
+  suppression preferences for the configuration set in the current Amazon Web Services
+  Region.
 """
 function put_configuration_set_suppression_options end
 
@@ -3102,6 +3871,7 @@ Specify a custom domain to use for open and click tracking elements in email tha
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CustomRedirectDomain"`: The domain to use to track open and click events.
+- `"HttpsPolicy"`:
 """
 function put_configuration_set_tracking_options end
 
@@ -3512,7 +4282,7 @@ function put_email_identity_dkim_signing_attributes(
 )
     return sesv2(
         "PUT",
-        "/v1/email/identities/$(EmailIdentity)/dkim/signing",
+        "/v2/email/identities/$(EmailIdentity)/dkim/signing",
         Dict{String,Any}("SigningAttributesOrigin" => SigningAttributesOrigin);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3527,7 +4297,7 @@ function put_email_identity_dkim_signing_attributes(
 )
     return sesv2(
         "PUT",
-        "/v1/email/identities/$(EmailIdentity)/dkim/signing",
+        "/v2/email/identities/$(EmailIdentity)/dkim/signing",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -3731,6 +4501,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   email that you send using the `SendEmail` operation. Tags correspond to characteristics of
   the email that you define, so that you can publish email sending events.
 
+- `"EndpointId"`: The ID of the multi-region endpoint (global-endpoint).
+
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.
 
@@ -3764,6 +4536,12 @@ sender@example.com.
 
 - `"ReplyToAddresses"`: The "Reply-to" email addresses for the message. When the recipient
   replies to the message, each Reply-to address receives the reply.
+
+- `"TenantName"`: The name of the tenant through which this bulk email will be sent.
+
+  !!! note
+      The email sending operation will only succeed if all referenced resources (identities,
+      configuration sets, and templates) are associated with this tenant.
 """
 function send_bulk_email end
 
@@ -3903,6 +4681,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you send using the `SendEmail` operation. Tags correspond to characteristics of the email
   that you define, so that you can publish email sending events.
 
+- `"EndpointId"`: The ID of the multi-region endpoint (global-endpoint).
+
 - `"FeedbackForwardingEmailAddress"`: The address that you want bounce and complaint
   notifications to be sent to.
 
@@ -3942,6 +4722,12 @@ sender@example.com.
 
 - `"ReplyToAddresses"`: The "Reply-to" email addresses for the message. When the recipient
   replies to the message, each Reply-to address receives the reply.
+
+- `"TenantName"`: The name of the tenant through which this email will be sent.
+
+  !!! note
+      The email sending operation will only succeed if all referenced resources (identities,
+      configuration sets, and templates) are associated with this tenant.
 """
 function send_email end
 
@@ -4461,6 +5247,131 @@ function update_email_template(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("TemplateContent" => TemplateContent), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_reputation_entity_customer_managed_status(reputation_entity_reference, reputation_entity_type, sending_status)
+    update_reputation_entity_customer_managed_status(reputation_entity_reference, reputation_entity_type, sending_status, params::Dict{String,<:Any})
+
+Update the customer-managed sending status for a reputation entity. This allows you to
+enable, disable, or reinstate sending for the entity.
+
+The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-
+managed status to determine the overall sending capability. When you update the customer-
+managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If
+Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send
+regardless of the customer-managed status setting. When you reinstate an entity through the
+customer-managed status, it can continue sending only if the Amazon Web Services Amazon SES-
+managed status also permits sending, even if there are active reputation findings, until the
+findings are resolved or new violations occur.
+
+# Arguments
+
+- `reputation_entity_reference`: The unique identifier for the reputation entity. For
+  resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+
+- `reputation_entity_type`: The type of reputation entity. Currently, only `RESOURCE` type
+  entities are supported.
+
+- `sending_status`: The new customer-managed sending status for the reputation entity. This
+  can be one of the following:
+
+  - `ENABLED` – Allow sending for this entity.
+  - `DISABLED` – Prevent sending for this entity.
+  - `REINSTATED` – Allow sending even if there are active reputation findings.
+"""
+function update_reputation_entity_customer_managed_status end
+
+function update_reputation_entity_customer_managed_status(
+    ReputationEntityReference,
+    ReputationEntityType,
+    SendingStatus;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)/customer-managed-status",
+        Dict{String,Any}("SendingStatus" => SendingStatus);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_reputation_entity_customer_managed_status(
+    ReputationEntityReference,
+    ReputationEntityType,
+    SendingStatus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)/customer-managed-status",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SendingStatus" => SendingStatus), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_reputation_entity_policy(reputation_entity_policy, reputation_entity_reference, reputation_entity_type)
+    update_reputation_entity_policy(reputation_entity_policy, reputation_entity_reference, reputation_entity_type, params::Dict{String,<:Any})
+
+Update the reputation management policy for a reputation entity. The policy determines how
+the entity responds to reputation findings, such as automatically pausing sending when
+certain thresholds are exceeded.
+
+Reputation management policies are Amazon Web Services Amazon SES-managed (predefined
+policies). You can select from none, standard, and strict policies.
+
+# Arguments
+
+- `reputation_entity_policy`: The Amazon Resource Name (ARN) of the reputation management
+  policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy.
+- `reputation_entity_reference`: The unique identifier for the reputation entity. For
+  resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+- `reputation_entity_type`: The type of reputation entity. Currently, only `RESOURCE` type
+  entities are supported.
+"""
+function update_reputation_entity_policy end
+
+function update_reputation_entity_policy(
+    ReputationEntityPolicy,
+    ReputationEntityReference,
+    ReputationEntityType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)/policy",
+        Dict{String,Any}("ReputationEntityPolicy" => ReputationEntityPolicy);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_reputation_entity_policy(
+    ReputationEntityPolicy,
+    ReputationEntityReference,
+    ReputationEntityType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/reputation/entities/$(ReputationEntityType)/$(ReputationEntityReference)/policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReputationEntityPolicy" => ReputationEntityPolicy),
+                params,
             ),
         );
         aws_config,

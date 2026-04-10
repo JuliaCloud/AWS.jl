@@ -5,6 +5,81 @@ using AWS.AWSServices: docdb_elastic
 using AWS.UUIDs: uuid4
 
 """
+    apply_pending_maintenance_action(apply_action, opt_in_type, resource_arn)
+    apply_pending_maintenance_action(apply_action, opt_in_type, resource_arn, params::Dict{String,<:Any})
+
+The type of pending maintenance action to be applied to the resource.
+
+# Arguments
+
+- `apply_action`: The pending maintenance action to apply to the resource.
+
+  Valid actions are:
+
+  - `ENGINE_UPDATE<i/>`
+  - `ENGINE_UPGRADE`
+  - `SECURITY_UPDATE`
+  - `OS_UPDATE`
+  - `MASTER_USER_PASSWORD_UPDATE`
+
+- `opt_in_type`: A value that specifies the type of opt-in request, or undoes an opt-in
+  request. An opt-in request of type `IMMEDIATE` can't be undone.
+
+- `resource_arn`: The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which
+  the pending maintenance action applies.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"applyOn"`: A specific date to apply the pending maintenance action. Required if opt-in-
+  type is `APPLY_ON`. Format: `yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm`
+"""
+function apply_pending_maintenance_action end
+
+function apply_pending_maintenance_action(
+    applyAction, optInType, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
+        "POST",
+        "/pending-action",
+        Dict{String,Any}(
+            "applyAction" => applyAction,
+            "optInType" => optInType,
+            "resourceArn" => resourceArn,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function apply_pending_maintenance_action(
+    applyAction,
+    optInType,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return docdb_elastic(
+        "POST",
+        "/pending-action",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applyAction" => applyAction,
+                    "optInType" => optInType,
+                    "resourceArn" => resourceArn,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     copy_cluster_snapshot(snapshot_arn, target_snapshot_name)
     copy_cluster_snapshot(snapshot_arn, target_snapshot_name, params::Dict{String,<:Any})
 
@@ -427,6 +502,41 @@ function get_cluster_snapshot(
 end
 
 """
+    get_pending_maintenance_action(resource_arn)
+    get_pending_maintenance_action(resource_arn, params::Dict{String,<:Any})
+
+Retrieves all maintenance actions that are pending.
+
+# Arguments
+
+- `resource_arn`: Retrieves pending maintenance actions for a specific Amazon Resource Name
+  (ARN).
+"""
+function get_pending_maintenance_action end
+
+function get_pending_maintenance_action(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
+        "GET", "/pending-action/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function get_pending_maintenance_action(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return docdb_elastic(
+        "GET",
+        "/pending-action/$(resourceArn)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_cluster_snapshots()
     list_cluster_snapshots(params::Dict{String,<:Any})
 
@@ -501,6 +611,41 @@ function list_clusters(
 )
     return docdb_elastic(
         "GET", "/clusters", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_pending_maintenance_actions()
+    list_pending_maintenance_actions(params::Dict{String,<:Any})
+
+Retrieves a list of all maintenance actions that are pending.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to include in the response. If more records
+  exist than the specified `maxResults` value, a pagination token (marker) is included in
+  the response so that the remaining results can be retrieved.
+- `"nextToken"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by `maxResults`.
+"""
+function list_pending_maintenance_actions end
+
+function list_pending_maintenance_actions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
+        "GET", "/pending-actions"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_pending_maintenance_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
+        "GET", "/pending-actions", params; aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

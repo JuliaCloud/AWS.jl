@@ -24,6 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters. To make an
   idempotent API request with an action, specify a client token in the request.
+- `"NetworkType"`: The network type of the cluster. NetworkType can be one of the following:
+  IPV4, DUALSTACK.
 - `"Tags"`: The tags associated with the cluster.
 """
 function create_cluster end
@@ -874,6 +876,53 @@ function untag_resource(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKeys" => TagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cluster(cluster_arn, network_type)
+    update_cluster(cluster_arn, network_type, params::Dict{String,<:Any})
+
+Updates an existing cluster. You can only update the network type of a cluster.
+
+# Arguments
+
+- `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
+- `network_type`: The network type of the cluster. NetworkType can be one of the following:
+  IPV4, DUALSTACK.
+"""
+function update_cluster end
+
+function update_cluster(
+    ClusterArn, NetworkType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/cluster",
+        Dict{String,Any}("ClusterArn" => ClusterArn, "NetworkType" => NetworkType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_cluster(
+    ClusterArn,
+    NetworkType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/cluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterArn" => ClusterArn, "NetworkType" => NetworkType),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -313,6 +313,8 @@ attachment uses an existing VPC attachment as the underlying transport mechanism
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The client token associated with the request.
+- `"RoutingPolicyLabel"`: The routing policy label to apply to the Connect attachment for
+  traffic routing decisions.
 - `"Tags"`: The list of key-value tags associated with the request.
 """
 function create_connect_attachment end
@@ -566,6 +568,74 @@ function create_core_network(
 end
 
 """
+    create_core_network_prefix_list_association(core_network_id, prefix_list_alias, prefix_list_arn)
+    create_core_network_prefix_list_association(core_network_id, prefix_list_alias, prefix_list_arn, params::Dict{String,<:Any})
+
+Creates an association between a core network and a prefix list for routing control.
+
+# Arguments
+
+- `core_network_id`: The ID of the core network to associate with the prefix list.
+- `prefix_list_alias`: An optional alias for the prefix list association.
+- `prefix_list_arn`: The ARN of the prefix list to associate with the core network.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+"""
+function create_core_network_prefix_list_association end
+
+function create_core_network_prefix_list_association(
+    CoreNetworkId,
+    PrefixListAlias,
+    PrefixListArn;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/prefix-list",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "PrefixListAlias" => PrefixListAlias,
+            "PrefixListArn" => PrefixListArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_core_network_prefix_list_association(
+    CoreNetworkId,
+    PrefixListAlias,
+    PrefixListArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/prefix-list",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "PrefixListAlias" => PrefixListAlias,
+                    "PrefixListArn" => PrefixListArn,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_device(global_network_id)
     create_device(global_network_id, params::Dict{String,<:Any})
 
@@ -627,6 +697,79 @@ function create_device(
         "POST",
         "/global-networks/$(GlobalNetworkId)/devices",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_direct_connect_gateway_attachment(core_network_id, direct_connect_gateway_arn, edge_locations)
+    create_direct_connect_gateway_attachment(core_network_id, direct_connect_gateway_arn, edge_locations, params::Dict{String,<:Any})
+
+Creates an Amazon Web Services Direct Connect gateway attachment
+
+# Arguments
+
+- `core_network_id`: The ID of the Cloud WAN core network that the Direct Connect gateway
+  attachment should be attached to.
+- `direct_connect_gateway_arn`: The ARN of the Direct Connect gateway attachment.
+- `edge_locations`: One or more core network edge locations that the Direct Connect gateway
+  attachment is associated with.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: client token
+- `"RoutingPolicyLabel"`: The routing policy label to apply to the Direct Connect Gateway
+  attachment for traffic routing decisions.
+- `"Tags"`: The key value tags to apply to the Direct Connect gateway attachment during
+  creation.
+"""
+function create_direct_connect_gateway_attachment end
+
+function create_direct_connect_gateway_attachment(
+    CoreNetworkId,
+    DirectConnectGatewayArn,
+    EdgeLocations;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/direct-connect-gateway-attachments",
+        Dict{String,Any}(
+            "CoreNetworkId" => CoreNetworkId,
+            "DirectConnectGatewayArn" => DirectConnectGatewayArn,
+            "EdgeLocations" => EdgeLocations,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_direct_connect_gateway_attachment(
+    CoreNetworkId,
+    DirectConnectGatewayArn,
+    EdgeLocations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/direct-connect-gateway-attachments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CoreNetworkId" => CoreNetworkId,
+                    "DirectConnectGatewayArn" => DirectConnectGatewayArn,
+                    "EdgeLocations" => EdgeLocations,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -803,6 +946,8 @@ network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The client token associated with the request.
+- `"RoutingPolicyLabel"`: The routing policy label to apply to the Site-to-Site VPN
+  attachment for traffic routing decisions.
 - `"Tags"`: The tags associated with the request.
 """
 function create_site_to_site_vpn_attachment end
@@ -927,6 +1072,8 @@ Creates a transit gateway route table attachment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: The client token associated with the request.
+- `"RoutingPolicyLabel"`: The routing policy label to apply to the Transit Gateway route
+  table attachment for traffic routing decisions.
 - `"Tags"`: The list of key-value tags associated with the request.
 """
 function create_transit_gateway_route_table_attachment end
@@ -992,6 +1139,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: The client token associated with the request.
 - `"Options"`: Options for the VPC attachment.
+- `"RoutingPolicyLabel"`: The routing policy label to apply to the VPC attachment for
+  traffic routing decisions.
 - `"Tags"`: The key-value tags associated with the request.
 """
 function create_vpc_attachment end
@@ -1222,6 +1371,46 @@ function delete_core_network_policy_version(
     return networkmanager(
         "DELETE",
         "/core-networks/$(CoreNetworkId)/core-network-policy-versions/$(PolicyVersionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_core_network_prefix_list_association(core_network_id, prefix_list_arn)
+    delete_core_network_prefix_list_association(core_network_id, prefix_list_arn, params::Dict{String,<:Any})
+
+Deletes an association between a core network and a prefix list.
+
+# Arguments
+
+- `core_network_id`: The ID of the core network from which to delete the prefix list
+  association.
+- `prefix_list_arn`: The ARN of the prefix list to disassociate from the core network.
+"""
+function delete_core_network_prefix_list_association end
+
+function delete_core_network_prefix_list_association(
+    CoreNetworkId, PrefixListArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/prefix-list/$(PrefixListArn)/core-network/$(CoreNetworkId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_core_network_prefix_list_association(
+    CoreNetworkId,
+    PrefixListArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/prefix-list/$(PrefixListArn)/core-network/$(CoreNetworkId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2162,6 +2351,44 @@ function get_devices(
 end
 
 """
+    get_direct_connect_gateway_attachment(attachment_id)
+    get_direct_connect_gateway_attachment(attachment_id, params::Dict{String,<:Any})
+
+Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
+
+# Arguments
+
+- `attachment_id`: The ID of the Direct Connect gateway attachment that you want to see
+  details about.
+"""
+function get_direct_connect_gateway_attachment end
+
+function get_direct_connect_gateway_attachment(
+    AttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/direct-connect-gateway-attachments/$(AttachmentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_direct_connect_gateway_attachment(
+    AttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/direct-connect-gateway-attachments/$(AttachmentId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_link_associations(global_network_id)
     get_link_associations(global_network_id, params::Dict{String,<:Any})
 
@@ -2985,6 +3212,53 @@ function get_vpc_attachment(
 end
 
 """
+    list_attachment_routing_policy_associations(core_network_id)
+    list_attachment_routing_policy_associations(core_network_id, params::Dict{String,<:Any})
+
+Lists the routing policy associations for attachments in a core network.
+
+# Arguments
+
+- `core_network_id`: The ID of the core network to list attachment routing policy
+  associations for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"attachmentId"`: The ID of a specific attachment to filter the routing policy
+  associations.
+- `"maxResults"`: The maximum number of results to return in a single page.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_attachment_routing_policy_associations end
+
+function list_attachment_routing_policy_associations(
+    CoreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/routing-policy-label/core-network/$(CoreNetworkId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_attachment_routing_policy_associations(
+    CoreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/routing-policy-label/core-network/$(CoreNetworkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_attachments()
     list_attachments(params::Dict{String,<:Any})
 
@@ -3087,6 +3361,119 @@ function list_core_network_policy_versions(
         "GET",
         "/core-networks/$(CoreNetworkId)/core-network-policy-versions",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_core_network_prefix_list_associations(core_network_id)
+    list_core_network_prefix_list_associations(core_network_id, params::Dict{String,<:Any})
+
+Lists the prefix list associations for a core network.
+
+# Arguments
+
+- `core_network_id`: The ID of the core network to list prefix list associations for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in a single page.
+- `"nextToken"`: The token for the next page of results.
+- `"prefixListArn"`: The ARN of a specific prefix list to filter the associations.
+"""
+function list_core_network_prefix_list_associations end
+
+function list_core_network_prefix_list_associations(
+    CoreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "GET",
+        "/prefix-list/core-network/$(CoreNetworkId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_core_network_prefix_list_associations(
+    CoreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "GET",
+        "/prefix-list/core-network/$(CoreNetworkId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_core_network_routing_information(core_network_id, edge_location, segment_name)
+    list_core_network_routing_information(core_network_id, edge_location, segment_name, params::Dict{String,<:Any})
+
+Lists routing information for a core network, including routes and their attributes.
+
+# Arguments
+
+- `core_network_id`: The ID of the core network to retrieve routing information for.
+- `edge_location`: The edge location to filter routing information by.
+- `segment_name`: The name of the segment to filter routing information by.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CommunityMatches"`: BGP community values to match when filtering routing information.
+- `"ExactAsPathMatches"`: Exact AS path values to match when filtering routing information.
+- `"LocalPreferenceMatches"`: Local preference values to match when filtering routing
+  information.
+- `"MedMatches"`: Multi-Exit Discriminator (MED) values to match when filtering routing
+  information.
+- `"NextHopFilters"`: Filters to apply based on next hop information.
+- `"maxResults"`: The maximum number of routing information entries to return in a single
+  page.
+- `"nextToken"`: The token for the next page of results.
+"""
+function list_core_network_routing_information end
+
+function list_core_network_routing_information(
+    CoreNetworkId,
+    EdgeLocation,
+    SegmentName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(CoreNetworkId)/core-network-routing-information",
+        Dict{String,Any}("EdgeLocation" => EdgeLocation, "SegmentName" => SegmentName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_core_network_routing_information(
+    CoreNetworkId,
+    EdgeLocation,
+    SegmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/core-networks/$(CoreNetworkId)/core-network-routing-information",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EdgeLocation" => EdgeLocation, "SegmentName" => SegmentName
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3215,6 +3602,74 @@ function list_tags_for_resource(
 )
     return networkmanager(
         "GET", "/tags/$(ResourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    put_attachment_routing_policy_label(attachment_id, core_network_id, routing_policy_label)
+    put_attachment_routing_policy_label(attachment_id, core_network_id, routing_policy_label, params::Dict{String,<:Any})
+
+Applies a routing policy label to an attachment for traffic routing decisions.
+
+# Arguments
+
+- `attachment_id`: The ID of the attachment to apply the routing policy label to.
+- `core_network_id`: The ID of the core network containing the attachment.
+- `routing_policy_label`: The routing policy label to apply to the attachment.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+"""
+function put_attachment_routing_policy_label end
+
+function put_attachment_routing_policy_label(
+    AttachmentId,
+    CoreNetworkId,
+    RoutingPolicyLabel;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/routing-policy-label",
+        Dict{String,Any}(
+            "AttachmentId" => AttachmentId,
+            "CoreNetworkId" => CoreNetworkId,
+            "RoutingPolicyLabel" => RoutingPolicyLabel,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_attachment_routing_policy_label(
+    AttachmentId,
+    CoreNetworkId,
+    RoutingPolicyLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "POST",
+        "/routing-policy-label",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AttachmentId" => AttachmentId,
+                    "CoreNetworkId" => CoreNetworkId,
+                    "RoutingPolicyLabel" => RoutingPolicyLabel,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3397,6 +3852,45 @@ function reject_attachment(
     return networkmanager(
         "POST",
         "/attachments/$(AttachmentId)/reject",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_attachment_routing_policy_label(attachment_id, core_network_id)
+    remove_attachment_routing_policy_label(attachment_id, core_network_id, params::Dict{String,<:Any})
+
+Removes a routing policy label from an attachment.
+
+# Arguments
+
+- `attachment_id`: The ID of the attachment to remove the routing policy label from.
+- `core_network_id`: The ID of the core network containing the attachment.
+"""
+function remove_attachment_routing_policy_label end
+
+function remove_attachment_routing_policy_label(
+    AttachmentId, CoreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "DELETE",
+        "/routing-policy-label/core-network/$(CoreNetworkId)/attachment/$(AttachmentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_attachment_routing_policy_label(
+    AttachmentId,
+    CoreNetworkId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "DELETE",
+        "/routing-policy-label/core-network/$(CoreNetworkId)/attachment/$(AttachmentId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3776,6 +4270,53 @@ function update_device(
     return networkmanager(
         "PATCH",
         "/global-networks/$(GlobalNetworkId)/devices/$(DeviceId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_direct_connect_gateway_attachment(attachment_id)
+    update_direct_connect_gateway_attachment(attachment_id, params::Dict{String,<:Any})
+
+Updates the edge locations associated with an Amazon Web Services Direct Connect gateway
+attachment.
+
+# Arguments
+
+- `attachment_id`: The ID of the Direct Connect gateway attachment for the updated edge
+  locations.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EdgeLocations"`: One or more edge locations to update for the Direct Connect gateway
+  attachment. The updated array of edge locations overwrites the previous array of
+  locations. `EdgeLocations` is only used for Direct Connect gateway attachments.
+"""
+function update_direct_connect_gateway_attachment end
+
+function update_direct_connect_gateway_attachment(
+    AttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return networkmanager(
+        "PATCH",
+        "/direct-connect-gateway-attachments/$(AttachmentId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_direct_connect_gateway_attachment(
+    AttachmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return networkmanager(
+        "PATCH",
+        "/direct-connect-gateway-attachments/$(AttachmentId)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -9,15 +9,21 @@ using AWS.UUIDs: uuid4
     create_identity_pool(allow_unauthenticated_identities, identity_pool_name, params::Dict{String,<:Any})
 
 Creates a new identity pool. The identity pool is a store of user identity information that
-is specific to your AWS account. The keys for `SupportedLoginProviders` are as follows:
+is specific to your Amazon Web Services account. The keys for `SupportedLoginProviders` are
+as follows:
 
 - Facebook: `graph.facebook.com`
 - Google: `accounts.google.com`
+- Sign in With Apple: `appleid.apple.com`
 - Amazon: `www.amazon.com`
 - Twitter: `api.twitter.com`
 - Digits: `www.digits.com`
 
-You must use AWS Developer credentials to call this API.
+!!! important
+    If you don't provide a value for a parameter, Amazon Cognito sets it to its default
+    value.
+
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -104,7 +110,7 @@ end
 Deletes identities from an identity pool. You can specify a list of 1-60 identities that you
 want to delete.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -149,7 +155,7 @@ end
 Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate
 with the pool.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -190,7 +196,7 @@ end
 Returns metadata related to the given identity, including when the identity was created and
 any associated linked logins.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -229,7 +235,7 @@ end
 Gets details about a particular identity pool, including the pool name, ID description,
 creation date, and current number of users.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -268,9 +274,8 @@ end
     get_credentials_for_identity(identity_id, params::Dict{String,<:Any})
 
 Returns credentials for the provided identity ID. Any provided logins will be validated
-against supported login providers. If the token is for cognito-identity.amazonaws.com, it
-will be passed through to AWS Security Token Service with the appropriate role for the
-token.
+against supported login providers. If the token is for `cognito-identity.amazonaws.com`, it
+will be passed through to Security Token Service with the appropriate role for the token.
 
 This is a public API. You do not need any credentials to call this API.
 
@@ -329,7 +334,7 @@ end
     get_id(identity_pool_id)
     get_id(identity_pool_id, params::Dict{String,<:Any})
 
-Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit
+Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit
 linked account.
 
 This is a public API. You do not need any credentials to call this API.
@@ -342,7 +347,7 @@ This is a public API. You do not need any credentials to call this API.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountId"`: A standard AWS account ID (9+ digits).
+- `"AccountId"`: A standard Amazon Web Services account ID (9+ digits).
 
 - `"Logins"`: A set of optional name-value pairs that map provider names to provider tokens.
   The available provider names for `Logins` are as follows:
@@ -387,7 +392,7 @@ end
 
 Gets the roles for an identity pool.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -489,7 +494,7 @@ When you want to associate a new login with an existing authenticated/unauthenti
 identity, you can do so by providing the existing `IdentityId`. This API will create the
 identity in the specified `IdentityPoolId`.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -516,10 +521,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TokenDuration"`: The expiration time of the token, in seconds. You can specify a custom
   expiration time for the token so that you can cache it. If you don't provide an expiration
   time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for
-  temporary AWS credentials, which are valid for a maximum of one hour. The maximum token
-  duration you can set is 24 hours. You should take care in setting the expiration time for
-  a token, as there are significant security implications: an attacker could use a leaked
-  token to access your AWS resources for the token's duration.
+  temporary Amazon Web Services credentials, which are valid for a maximum of one hour. The
+  maximum token duration you can set is 24 hours. You should take care in setting the
+  expiration time for a token, as there are significant security implications: an attacker
+  could use a leaked token to access your Amazon Web Services resources for the token's
+  duration.
 
   !!! note
       Please provide for a small grace period, usually no more than 5 minutes, to account
@@ -616,7 +622,7 @@ end
 
 Lists the identities in an identity pool.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -673,7 +679,7 @@ end
 
 Lists all of the Cognito identity pools registered for your account.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -765,7 +771,7 @@ Either `IdentityID` or `DeveloperUserIdentifier` must not be null. If you supply
 these values, the other value will be searched in the database and returned as a part of the
 response. If you supply both, `DeveloperUserIdentifier` will be matched against
 `IdentityID`. If the values are verified against the database, the response returns both
-values and is the same as the request. Otherwise a `ResourceConflictException` is thrown.
+values and is the same as the request. Otherwise, a `ResourceConflictException` is thrown.
 
 `LookupDeveloperIdentity` is intended for low-throughput control plane operations: for
 example, to enable customer service to locate an identity ID by username. If you are using
@@ -773,7 +779,7 @@ it for higher-volume operations such as user authentication, your requests are l
 throttled. [`get_open_id_token_for_developer_identity`](@ref) is a better option for higher-
 volume operations for user authentication.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -841,7 +847,7 @@ The number of linked logins is limited to 20. So, the number of linked logins fo
 user, `SourceUserIdentifier`, and the destination user, `DestinationUserIdentifier`,
 together should not be larger than 20. Otherwise, an exception will be thrown.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -915,7 +921,7 @@ end
 Sets the roles for an identity pool. These roles are used when making calls to [`get_credentials_for_identity`](@ref)
 action.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -929,8 +935,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"RoleMappings"`: How users for a specific identity provider are to mapped to roles. This
   is a string to `RoleMapping` object map. The string identifies the identity provider, for
-  example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-
-  1_abcdefghi:app_client_id".
+  example, `graph.facebook.com` or
+  `cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id`.
 
   Up to 25 rules can be specified per identity provider.
 """
@@ -1093,7 +1099,7 @@ be considered new identities next time they are seen. If, for a given Cognito id
 remove all federated identities as well as the developer user identifier, the Cognito
 identity becomes inaccessible.
 
-You must use AWS Developer credentials to call this API.
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 
@@ -1259,9 +1265,13 @@ end
     update_identity_pool(allow_unauthenticated_identities, identity_pool_id, identity_pool_name)
     update_identity_pool(allow_unauthenticated_identities, identity_pool_id, identity_pool_name, params::Dict{String,<:Any})
 
-Updates an identity pool.
+Updates the configuration of an identity pool.
 
-You must use AWS Developer credentials to call this API.
+!!! important
+    If you don't provide a value for a parameter, Amazon Cognito sets it to its default
+    value.
+
+You must use Amazon Web Services developer credentials to call this operation.
 
 # Arguments
 

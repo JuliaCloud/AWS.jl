@@ -77,14 +77,13 @@ function cancel_order(
 end
 
 """
-    create_order(line_items, outpost_identifier, payment_option)
-    create_order(line_items, outpost_identifier, payment_option, params::Dict{String,<:Any})
+    create_order(outpost_identifier, payment_option)
+    create_order(outpost_identifier, payment_option, params::Dict{String,<:Any})
 
 Creates an order for an Outpost.
 
 # Arguments
 
-- `line_items`: The line items that make up the order.
 - `outpost_identifier`: The ID or the Amazon Resource Name (ARN) of the Outpost.
 - `payment_option`: The payment option.
 
@@ -92,23 +91,19 @@ Creates an order for an Outpost.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"LineItems"`: The line items that make up the order.
 - `"PaymentTerm"`: The payment terms.
 """
 function create_order end
 
 function create_order(
-    LineItems,
-    OutpostIdentifier,
-    PaymentOption;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    OutpostIdentifier, PaymentOption; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "POST",
         "/orders",
         Dict{String,Any}(
-            "LineItems" => LineItems,
-            "OutpostIdentifier" => OutpostIdentifier,
-            "PaymentOption" => PaymentOption,
+            "OutpostIdentifier" => OutpostIdentifier, "PaymentOption" => PaymentOption
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -116,7 +111,6 @@ function create_order(
 end
 
 function create_order(
-    LineItems,
     OutpostIdentifier,
     PaymentOption,
     params::AbstractDict{String};
@@ -129,7 +123,6 @@ function create_order(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "LineItems" => LineItems,
                     "OutpostIdentifier" => OutpostIdentifier,
                     "PaymentOption" => PaymentOption,
                 ),
@@ -471,6 +464,50 @@ function get_outpost(
 end
 
 """
+    get_outpost_billing_information(outpost_identifier)
+    get_outpost_billing_information(outpost_identifier, params::Dict{String,<:Any})
+
+Gets current and historical billing information about the specified Outpost.
+
+# Arguments
+
+- `outpost_identifier`: The ID or ARN of the Outpost.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function get_outpost_billing_information end
+
+function get_outpost_billing_information(
+    OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return outposts(
+        "GET",
+        "/outpost/$(OutpostIdentifier)/billing-information";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_outpost_billing_information(
+    OutpostIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return outposts(
+        "GET",
+        "/outpost/$(OutpostIdentifier)/billing-information",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_outpost_instance_types(outpost_id)
     get_outpost_instance_types(outpost_id, params::Dict{String,<:Any})
 
@@ -515,8 +552,8 @@ function get_outpost_instance_types(
 end
 
 """
-    get_outpost_supported_instance_types(order_id, outpost_identifier)
-    get_outpost_supported_instance_types(order_id, outpost_identifier, params::Dict{String,<:Any})
+    get_outpost_supported_instance_types(outpost_identifier)
+    get_outpost_supported_instance_types(outpost_identifier, params::Dict{String,<:Any})
 
 Gets the instance types that an Outpost can support in `InstanceTypeCapacity`. This will
 generally include instance types that are not currently configured and therefore cannot be
@@ -524,32 +561,32 @@ launched with the current Outpost capacity configuration.
 
 # Arguments
 
-- `order_id`: The ID for the Amazon Web Services Outposts order.
 - `outpost_identifier`: The ID or ARN of the Outpost.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AssetId"`: The ID of the Outpost asset. An Outpost asset can be a single server within
+  an Outposts rack or an Outposts server configuration.
 - `"MaxResults"`:
 - `"NextToken"`:
+- `"OrderId"`: The ID for the Amazon Web Services Outposts order.
 """
 function get_outpost_supported_instance_types end
 
 function get_outpost_supported_instance_types(
-    OrderId, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+    OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "GET",
-        "/outposts/$(OutpostIdentifier)/supportedInstanceTypes",
-        Dict{String,Any}("OrderId" => OrderId);
+        "/outposts/$(OutpostIdentifier)/supportedInstanceTypes";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function get_outpost_supported_instance_types(
-    OrderId,
     OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -557,7 +594,7 @@ function get_outpost_supported_instance_types(
     return outposts(
         "GET",
         "/outposts/$(OutpostIdentifier)/supportedInstanceTypes",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("OrderId" => OrderId), params));
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -630,6 +667,55 @@ function get_site_address(
 end
 
 """
+    list_asset_instances(outpost_identifier)
+    list_asset_instances(outpost_identifier, params::Dict{String,<:Any})
+
+A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost.
+Does not include Amazon EBS or Amazon S3 instances.
+
+# Arguments
+
+- `outpost_identifier`: The ID of the Outpost.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AccountIdFilter"`: Filters the results by account ID.
+- `"AssetIdFilter"`: Filters the results by asset ID.
+- `"AwsServiceFilter"`: Filters the results by Amazon Web Services service.
+- `"InstanceTypeFilter"`: Filters the results by instance ID.
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function list_asset_instances end
+
+function list_asset_instances(
+    OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostIdentifier)/assetInstances";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_asset_instances(
+    OutpostIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostIdentifier)/assetInstances",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_assets(outpost_identifier)
     list_assets(outpost_identifier, params::Dict{String,<:Any})
 
@@ -648,9 +734,20 @@ specify for the filter.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AssetTypeFilter"`: Filters the results by asset type.
+
+  - COMPUTE - Server asset used for customer compute
+  - STORAGE - Server asset used by storage services
+  - POWERSHELF - Powershelf assets
+  - SWITCH - Switch assets
+  - NETWORKING - Asset managed by Amazon Web Services for networking purposes
+
 - `"HostIdFilter"`: Filters the results by the host ID of a Dedicated Host.
+
 - `"MaxResults"`:
+
 - `"NextToken"`:
+
 - `"StatusFilter"`: Filters the results by state.
 """
 function list_assets end
@@ -672,6 +769,55 @@ function list_assets(
     return outposts(
         "GET",
         "/outposts/$(OutpostIdentifier)/assets",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_blocking_instances_for_capacity_task(capacity_task_id, outpost_identifier)
+    list_blocking_instances_for_capacity_task(capacity_task_id, outpost_identifier, params::Dict{String,<:Any})
+
+A list of Amazon EC2 instances running on the Outpost and belonging to the account that
+initiated the capacity task. Use this list to specify the instances you cannot stop to free
+up capacity to run the capacity task.
+
+# Arguments
+
+- `capacity_task_id`: The ID of the capacity task.
+- `outpost_identifier`: The ID or ARN of the Outpost associated with the specified capacity
+  task.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function list_blocking_instances_for_capacity_task end
+
+function list_blocking_instances_for_capacity_task(
+    CapacityTaskId, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)/blockingInstances";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_blocking_instances_for_capacity_task(
+    CapacityTaskId,
+    OutpostIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostIdentifier)/capacity/$(CapacityTaskId)/blockingInstances",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -875,16 +1021,15 @@ function list_tags_for_resource(
 end
 
 """
-    start_capacity_task(instance_pools, order_id, outpost_identifier)
-    start_capacity_task(instance_pools, order_id, outpost_identifier, params::Dict{String,<:Any})
+    start_capacity_task(instance_pools, outpost_identifier)
+    start_capacity_task(instance_pools, outpost_identifier, params::Dict{String,<:Any})
 
-Starts the specified capacity task. You can have one active capacity task for an order.
+Starts the specified capacity task. You can have one active capacity task for each order and
+each Outpost.
 
 # Arguments
 
 - `instance_pools`: The instance pools specified in the capacity task.
-- `order_id`: The ID of the Amazon Web Services Outposts order associated with the specified
-  capacity task.
 - `outpost_identifier`: The ID or ARN of the Outposts associated with the specified capacity
   task.
 
@@ -892,22 +1037,35 @@ Starts the specified capacity task. You can have one active capacity task for an
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"AssetId"`: The ID of the Outpost asset. An Outpost asset can be a single server within
+  an Outposts rack or an Outposts server configuration.
+
 - `"DryRun"`: You can request a dry run to determine if the instance type and instance size
   changes is above or below available instance capacity. Requesting a dry run does not make
   any changes to your plan.
+
+- `"InstancesToExclude"`: List of user-specified running instances that must not be stopped
+  in order to free up the capacity needed to run the capacity task.
+
+- `"OrderId"`: The ID of the Amazon Web Services Outposts order associated with the
+  specified capacity task.
+
+- `"TaskActionOnBlockingInstances"`: Specify one of the following options in case an
+  instance is blocking the capacity task from running.
+
+  - `WAIT_FOR_EVACUATION` - Checks every 10 minutes over 48 hours to determine if instances
+    have stopped and capacity is available to complete the task.
+  - `FAIL_TASK` - The capacity task fails.
 """
 function start_capacity_task end
 
 function start_capacity_task(
-    InstancePools,
-    OrderId,
-    OutpostIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
+    InstancePools, OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return outposts(
         "POST",
         "/outposts/$(OutpostIdentifier)/capacity",
-        Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId);
+        Dict{String,Any}("InstancePools" => InstancePools);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -915,7 +1073,6 @@ end
 
 function start_capacity_task(
     InstancePools,
-    OrderId,
     OutpostIdentifier,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -924,11 +1081,7 @@ function start_capacity_task(
         "POST",
         "/outposts/$(OutpostIdentifier)/capacity",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("InstancePools" => InstancePools), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1004,6 +1157,49 @@ function start_connection(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_outpost_decommission(outpost_identifier)
+    start_outpost_decommission(outpost_identifier, params::Dict{String,<:Any})
+
+Starts the decommission process to return the Outposts racks or servers.
+
+# Arguments
+
+- `outpost_identifier`: The ID or ARN of the Outpost that you want to decommission.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ValidateOnly"`: Validates the request without starting the decommission process.
+"""
+function start_outpost_decommission end
+
+function start_outpost_decommission(
+    OutpostIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostIdentifier)/decommission";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_outpost_decommission(
+    OutpostIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostIdentifier)/decommission",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1269,6 +1465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Three-phase AC feed
     - **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
     - **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
+    - **CS8365C** – (common in US); 3P+E, 50A; three phase
 
 - `"PowerDrawKva"`: The power draw, in kVA, available at the hardware placement position for
   the rack.

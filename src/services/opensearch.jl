@@ -97,16 +97,85 @@ function add_data_source(
 end
 
 """
-    add_tags(arn, tag_list)
-    add_tags(arn, tag_list, params::Dict{String,<:Any})
+    add_direct_query_data_source(data_source_name, data_source_type)
+    add_direct_query_data_source(data_source_name, data_source_type, params::Dict{String,<:Any})
 
-Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-
-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries
+on external data.
 
 # Arguments
 
-- `arn`: Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to
-  attach resource tags.
+- `data_source_name`: A unique, user-defined label to identify the data source within your
+  OpenSearch Service environment.
+- `data_source_type`: The supported Amazon Web Services service that you want to use as the
+  source for direct queries in OpenSearch Service.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataSourceAccessPolicy"`: An optional IAM access policy document that defines the
+  permissions for accessing the data source. The policy document must be in valid JSON
+  format and follow IAM policy syntax.
+- `"Description"`: An optional text field for providing additional context and details about
+  the data source.
+- `"OpenSearchArns"`: An optional list of Amazon Resource Names (ARNs) for the OpenSearch
+  collections that are associated with the direct query data source. This field is required
+  for CloudWatchLogs and SecurityLake datasource types.
+- `"TagList"`:
+"""
+function add_direct_query_data_source end
+
+function add_direct_query_data_source(
+    DataSourceName, DataSourceType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/directQueryDataSource",
+        Dict{String,Any}(
+            "DataSourceName" => DataSourceName, "DataSourceType" => DataSourceType
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function add_direct_query_data_source(
+    DataSourceName,
+    DataSourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/directQueryDataSource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSourceName" => DataSourceName, "DataSourceType" => DataSourceType
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    add_tags(arn, tag_list)
+    add_tags(arn, tag_list, params::Dict{String,<:Any})
+
+Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application.
+
+Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can
+have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+
+# Arguments
+
+- `arn`: Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or
+  application to which you want to attach resource tags.
 - `tag_list`: List of resource tags.
 """
 function add_tags end
@@ -149,6 +218,15 @@ Associates a package with an Amazon OpenSearch Service domain. For more informat
 - `domain_name`: Name of the domain to associate the package with.
 - `package_id`: Internal ID of the package to associate with a domain. Use
   `DescribePackages` to find this value.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AssociationConfiguration"`: The configuration for associating a package with an Amazon
+  OpenSearch Service domain.
+- `"PrerequisitePackageIDList"`: A list of package IDs that must be associated with the
+  domain before the package specified in the request can be associated.
 """
 function associate_package end
 
@@ -179,33 +257,84 @@ function associate_package(
 end
 
 """
-    authorize_vpc_endpoint_access(account, domain_name)
-    authorize_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+    associate_packages(domain_name, package_list)
+    associate_packages(domain_name, package_list, params::Dict{String,<:Any})
+
+Operation in the Amazon OpenSearch Service API for associating multiple packages with a
+domain simultaneously.
+
+# Arguments
+
+- `domain_name`:
+- `package_list`: A list of packages and their prerequisites to be associated with a domain.
+"""
+function associate_packages end
+
+function associate_packages(
+    DomainName, PackageList; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/associateMultiple",
+        Dict{String,Any}("DomainName" => DomainName, "PackageList" => PackageList);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_packages(
+    DomainName,
+    PackageList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/associateMultiple",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "PackageList" => PackageList),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    authorize_vpc_endpoint_access(domain_name)
+    authorize_vpc_endpoint_access(domain_name, params::Dict{String,<:Any})
 
 Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC
 endpoint.
 
 # Arguments
 
-- `account`: The Amazon Web Services account ID to grant access to.
 - `domain_name`: The name of the OpenSearch Service domain to provide access to.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Account"`: The Amazon Web Services account ID to grant access to.
+- `"Service"`: The Amazon Web Services service SP to grant access to.
 """
 function authorize_vpc_endpoint_access end
 
 function authorize_vpc_endpoint_access(
-    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
-        "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
-        Dict{String,Any}("Account" => Account);
+        "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function authorize_vpc_endpoint_access(
-    Account,
     DomainName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -213,7 +342,7 @@ function authorize_vpc_endpoint_access(
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain/$(DomainName)/authorizeVpcEndpointAccess",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -307,6 +436,63 @@ function cancel_service_software_update(
 end
 
 """
+    create_application(name)
+    create_application(name, params::Dict{String,<:Any})
+
+Creates an OpenSearch UI application. For more information, see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
+
+# Arguments
+
+- `name`: The unique name of the OpenSearch application. Names must be unique within an
+  Amazon Web Services Region for each account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"appConfigs"`: Configuration settings for the OpenSearch application, including
+  administrative options.
+- `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
+- `"dataSources"`: The data sources to link to the OpenSearch application.
+- `"iamIdentityCenterOptions"`: Configuration settings for integrating Amazon Web Services
+  IAM Identity Center with the OpenSearch application.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+  application's data at rest. If provided, the application uses your customer-managed key
+  for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be
+  in the same region as the application.
+- `"tagList"`:
+"""
+function create_application end
+
+function create_application(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/application",
+        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_application(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/application",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_domain(domain_name)
     create_domain(domain_name, params::Dict{String,<:Any})
 
@@ -320,6 +506,8 @@ Creates an Amazon OpenSearch Service domain. For more information, see [Creating
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
 
 - `"AccessPolicies"`: Identity and Access Management (IAM) policy document specifying the
   access policies for the new domain.
@@ -354,6 +542,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication. For more
   information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
 
+- `"DeploymentStrategyOptions"`: Specifies the deployment strategy options for the domain.
+
 - `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
   require HTTPS for all traffic.
 
@@ -370,6 +560,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allows you to share domain resources across IPv4 and IPv6 address types, and is the
   recommended option. If you set your IP address type to dual stack, you can't change your
   address type later.
+
+- `"IdentityCenterOptions"`: Configuration options for enabling and managing IAM Identity
+  Center integration within a domain.
 
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 
@@ -414,6 +607,62 @@ function create_domain(
         "/2021-01-01/opensearch/domain",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DomainName" => DomainName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_index(domain_name, index_name, index_schema)
+    create_index(domain_name, index_name, index_schema, params::Dict{String,<:Any})
+
+Creates an OpenSearch index with optional automatic semantic enrichment for specified text
+fields. Automatic semantic enrichment enables semantic search capabilities without requiring
+machine learning expertise, improving search relevance by up to 20% by understanding search
+intent and contextual meaning beyond keyword matching. The semantic enrichment process has
+zero impact on search latency as sparse encodings are stored directly within the index
+during indexing. For more information, see [Automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-semantic-enrichment.html).
+
+# Arguments
+
+- `domain_name`:
+- `index_name`: The name of the index to create. Must be between 1 and 255 characters and
+  follow OpenSearch naming conventions.
+- `index_schema`: The JSON schema defining index mappings, settings, and semantic enrichment
+  configuration. The schema specifies which text fields should be automatically enriched for
+  semantic search capabilities and includes OpenSearch index configuration parameters.
+"""
+function create_index end
+
+function create_index(
+    DomainName, IndexName, IndexSchema; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index",
+        Dict{String,Any}("IndexName" => IndexName, "IndexSchema" => IndexSchema);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_index(
+    DomainName,
+    IndexName,
+    IndexSchema,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IndexName" => IndexName, "IndexSchema" => IndexSchema),
+                params,
+            ),
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -503,7 +752,13 @@ Creates a package for use with Amazon OpenSearch Service domains. For more infor
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"EngineVersion"`: The version of the Amazon OpenSearch Service engine for which is
+  compatible with the package. This can only be specified for package type `ZIP-PLUGIN`
+- `"PackageConfiguration"`: The configuration parameters for the package being created.
 - `"PackageDescription"`: Description of the package.
+- `"PackageEncryptionOptions"`: The encryption parameters for the package being created.
+- `"PackageVendingOptions"`: The vending options for the package being created. They
+  determine if the package can be vended to other users.
 """
 function create_package end
 
@@ -605,6 +860,39 @@ function create_vpc_endpoint(
 end
 
 """
+    delete_application(id)
+    delete_application(id, params::Dict{String,<:Any})
+
+Deletes a specified OpenSearch application.
+
+# Arguments
+
+- `id`: The unique identifier of the OpenSearch application to delete.
+"""
+function delete_application end
+
+function delete_application(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/application/$(id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_application(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/application/$(id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_data_source(domain_name, name)
     delete_data_source(domain_name, name, params::Dict{String,<:Any})
 
@@ -637,6 +925,44 @@ function delete_data_source(
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(Name)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_direct_query_data_source(data_source_name)
+    delete_direct_query_data_source(data_source_name, params::Dict{String,<:Any})
+
+Deletes a previously configured direct query data source from Amazon OpenSearch Service.
+
+# Arguments
+
+- `data_source_name`: A unique, user-defined label to identify the data source within your
+  OpenSearch Service environment.
+"""
+function delete_direct_query_data_source end
+
+function delete_direct_query_data_source(
+    DataSourceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_direct_query_data_source(
+    DataSourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -711,6 +1037,46 @@ function delete_inbound_connection(
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_index(domain_name, index_name)
+    delete_index(domain_name, index_name, params::Dict{String,<:Any})
+
+Deletes an OpenSearch index. This operation permanently removes the index and cannot be
+undone.
+
+# Arguments
+
+- `domain_name`:
+- `index_name`: The name of the index to delete.
+"""
+function delete_index end
+
+function delete_index(
+    DomainName, IndexName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_index(
+    DomainName,
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -829,6 +1195,47 @@ function delete_vpc_endpoint(
 end
 
 """
+    deregister_capability(application_id, capability_name)
+    deregister_capability(application_id, capability_name, params::Dict{String,<:Any})
+
+Deregisters a capability from an OpenSearch UI application. This operation removes the
+capability and its associated configuration.
+
+# Arguments
+
+- `application_id`: The unique identifier of the OpenSearch UI application to deregister the
+  capability from.
+- `capability_name`: The name of the capability to deregister.
+"""
+function deregister_capability end
+
+function deregister_capability(
+    applicationId, capabilityName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/deregister/$(capabilityName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function deregister_capability(
+    applicationId,
+    capabilityName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/deregister/$(capabilityName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_domain(domain_name)
     describe_domain(domain_name, params::Dict{String,<:Any})
 
@@ -879,9 +1286,9 @@ domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](http
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results.
-- `"NextToken"`: If your initial `DescribeDomainAutoTunes` operation returns a `nextToken`,
+- `"nextToken"`: If your initial `DescribeDomainAutoTunes` operation returns a `nextToken`,
   you can include the returned `nextToken` in subsequent `DescribeDomainAutoTunes`
   operations, which returns results in the next page.
 """
@@ -1200,6 +1607,62 @@ function describe_inbound_connections(
 end
 
 """
+    describe_insight_details(entity, insight_id)
+    describe_insight_details(entity, insight_id, params::Dict{String,<:Any})
+
+Describes the details of an existing insight for an Amazon OpenSearch Service domain.
+Returns detailed fields associated with the specified insight, such as text descriptions and
+metric data.
+
+# Arguments
+
+- `entity`: The entity for which to retrieve insight details. Specifies the type and value
+  of the entity, such as a domain name or Amazon Web Services account ID.
+- `insight_id`: The unique identifier of the insight to describe.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ShowHtmlContent"`: Specifies whether to show response with HTML content in response or
+  not.
+"""
+function describe_insight_details end
+
+function describe_insight_details(
+    Entity, InsightId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/insight-details",
+        Dict{String,Any}("Entity" => Entity, "InsightId" => InsightId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_insight_details(
+    Entity,
+    InsightId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/insight-details",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Entity" => Entity, "InsightId" => InsightId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_instance_type_limits(engine_version, instance_type)
     describe_instance_type_limits(engine_version, instance_type, params::Dict{String,<:Any})
 
@@ -1495,6 +1958,125 @@ function dissociate_package(
 end
 
 """
+    dissociate_packages(domain_name, package_list)
+    dissociate_packages(domain_name, package_list, params::Dict{String,<:Any})
+
+Dissociates multiple packages from a domain simultaneously.
+
+# Arguments
+
+- `domain_name`:
+- `package_list`: A list of package IDs to be dissociated from a domain.
+"""
+function dissociate_packages end
+
+function dissociate_packages(
+    DomainName, PackageList; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/dissociateMultiple",
+        Dict{String,Any}("DomainName" => DomainName, "PackageList" => PackageList);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function dissociate_packages(
+    DomainName,
+    PackageList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/dissociateMultiple",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DomainName" => DomainName, "PackageList" => PackageList),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_application(id)
+    get_application(id, params::Dict{String,<:Any})
+
+Retrieves the configuration and status of an existing OpenSearch application.
+
+# Arguments
+
+- `id`: The unique identifier of the OpenSearch application to retrieve.
+"""
+function get_application end
+
+function get_application(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/application/$(id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_application(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/application/$(id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_capability(application_id, capability_name)
+    get_capability(application_id, capability_name, params::Dict{String,<:Any})
+
+Retrieves information about a registered capability for an OpenSearch UI application,
+including its configuration and current status.
+
+# Arguments
+
+- `application_id`: The unique identifier of the OpenSearch UI application.
+- `capability_name`: The name of the capability to retrieve information about.
+"""
+function get_capability end
+
+function get_capability(
+    applicationId, capabilityName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/$(capabilityName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_capability(
+    applicationId,
+    capabilityName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/$(capabilityName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_compatible_versions()
     get_compatible_versions(params::Dict{String,<:Any})
 
@@ -1571,6 +2153,78 @@ function get_data_source(
 end
 
 """
+    get_default_application_setting()
+    get_default_application_setting(params::Dict{String,<:Any})
+
+Gets the ARN of the current default application.
+
+If the default application isn't set, the operation returns a resource not found error.
+"""
+function get_default_application_setting end
+
+function get_default_application_setting(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/defaultApplicationSetting";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_default_application_setting(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/defaultApplicationSetting",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_direct_query_data_source(data_source_name)
+    get_direct_query_data_source(data_source_name, params::Dict{String,<:Any})
+
+Returns detailed configuration information for a specific direct query data source in Amazon
+OpenSearch Service.
+
+# Arguments
+
+- `data_source_name`: A unique, user-defined label that identifies the data source within
+  your OpenSearch Service environment.
+"""
+function get_direct_query_data_source end
+
+function get_direct_query_data_source(
+    DataSourceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_direct_query_data_source(
+    DataSourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_domain_maintenance_status(domain_name, maintenance_id)
     get_domain_maintenance_status(domain_name, maintenance_id, params::Dict{String,<:Any})
 
@@ -1607,6 +2261,47 @@ function get_domain_maintenance_status(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("maintenanceId" => maintenanceId), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_index(domain_name, index_name)
+    get_index(domain_name, index_name, params::Dict{String,<:Any})
+
+Retrieves information about an OpenSearch index including its schema and semantic enrichment
+configuration. Use this operation to view the current index structure and semantic search
+settings.
+
+# Arguments
+
+- `domain_name`:
+- `index_name`: The name of the index to retrieve information about.
+"""
+function get_index end
+
+function get_index(
+    DomainName, IndexName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_index(
+    DomainName,
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1744,6 +2439,44 @@ function get_upgrade_status(
 end
 
 """
+    list_applications()
+    list_applications(params::Dict{String,<:Any})
+
+Lists all OpenSearch applications under your account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`:
+- `"nextToken"`:
+- `"statuses"`: Filters the list of OpenSearch applications by status. Possible values:
+  `CREATING`, `UPDATING`, `DELETING`, `FAILED`, `ACTIVE`, and `DELETED`.
+"""
+function list_applications end
+
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/list-applications";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/list-applications",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_data_sources(domain_name)
     list_data_sources(domain_name, params::Dict{String,<:Any})
 
@@ -1773,6 +2506,44 @@ function list_data_sources(
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_direct_query_data_sources()
+    list_direct_query_data_sources(params::Dict{String,<:Any})
+
+Lists an inventory of all the direct query data sources that you have configured within
+Amazon OpenSearch Service.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"nexttoken"`:
+"""
+function list_direct_query_data_sources end
+
+function list_direct_query_data_sources(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/directQueryDataSource";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_direct_query_data_sources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/directQueryDataSource",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1900,6 +2671,58 @@ function list_domains_for_package(
         "GET",
         "/2021-01-01/packages/$(PackageID)/domains",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_insights(entity)
+    list_insights(entity, params::Dict{String,<:Any})
+
+Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account.
+Returns a paginated list of insights based on the specified entity, filters, time range, and
+sort order.
+
+# Arguments
+
+- `entity`: The entity for which to list insights. Specifies the type and value of the
+  entity, such as a domain name or Amazon Web Services account ID.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use `NextToken` to get the next page of results. Valid values are 1 to
+  500.
+- `"NextToken"`: If your initial `ListInsights` operation returns a `NextToken`, include the
+  returned `NextToken` in subsequent `ListInsights` operations to retrieve the next page of
+  results.
+- `"SortOrder"`: The sort order for the results. Possible values are `ASC` (ascending) and
+  `DESC` (descending).
+- `"TimeRange"`: The time range for filtering insights, specified as epoch millisecond
+  timestamps.
+"""
+function list_insights end
+
+function list_insights(Entity; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/insights",
+        Dict{String,Any}("Entity" => Entity);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_insights(
+    Entity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/insights",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entity" => Entity), params));
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2059,11 +2882,13 @@ end
     list_tags(arn)
     list_tags(arn, params::Dict{String,<:Any})
 
-Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
+application. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
 
 # Arguments
 
-- `arn`: Amazon Resource Name (ARN) for the domain to view tags for.
+- `arn`: Amazon Resource Name (ARN) for the domain, data source, or application to view tags
+  for.
 """
 function list_tags end
 
@@ -2320,6 +3145,125 @@ function purchase_reserved_instance_offering(
 end
 
 """
+    put_default_application_setting(application_arn, set_as_default)
+    put_default_application_setting(application_arn, set_as_default, params::Dict{String,<:Any})
+
+Sets the default application to the application with the specified ARN.
+
+To remove the default application, use the [`get_default_application_setting`](@ref)
+operation to get the current default and then call the `PutDefaultApplicationSetting` with
+the current applications ARN and the `setAsDefault` parameter set to `false`.
+
+# Arguments
+
+- `application_arn`:
+- `set_as_default`: Set to true to set the specified ARN as the default application. Set to
+  false to clear the default application.
+"""
+function put_default_application_setting end
+
+function put_default_application_setting(
+    applicationArn, setAsDefault; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/defaultApplicationSetting",
+        Dict{String,Any}(
+            "applicationArn" => applicationArn, "setAsDefault" => setAsDefault
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_default_application_setting(
+    applicationArn,
+    setAsDefault,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/defaultApplicationSetting",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "applicationArn" => applicationArn, "setAsDefault" => setAsDefault
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    register_capability(application_id, capability_config, capability_name)
+    register_capability(application_id, capability_config, capability_name, params::Dict{String,<:Any})
+
+Registers a capability for an OpenSearch UI application. Use this operation to enable
+specific capabilities, such as AI features, for a given application. The capability
+configuration defines the type and settings of the capability to register. For more
+information about the AI features, see [Agentic AI for OpenSearch UI](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application-ai-assistant.html).
+
+# Arguments
+
+- `application_id`: The unique identifier of the OpenSearch UI application to register the
+  capability for.
+- `capability_config`: The configuration settings for the capability being registered. This
+  includes capability-specific settings such as AI configuration.
+- `capability_name`: The name of the capability to register. Must be between 3 and 30
+  characters and contain only alphanumeric characters and hyphens. This identifies the type
+  of capability being enabled for the application. For registering AI Assistant capability,
+  use `ai-capability`
+"""
+function register_capability end
+
+function register_capability(
+    applicationId,
+    capabilityConfig,
+    capabilityName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/register",
+        Dict{String,Any}(
+            "capabilityConfig" => capabilityConfig, "capabilityName" => capabilityName
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function register_capability(
+    applicationId,
+    capabilityConfig,
+    capabilityName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/application/$(applicationId)/capability/register",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "capabilityConfig" => capabilityConfig,
+                    "capabilityName" => capabilityName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reject_inbound_connection(connection_id)
     reject_inbound_connection(connection_id, params::Dict{String,<:Any})
 
@@ -2361,14 +3305,14 @@ end
     remove_tags(arn, tag_keys)
     remove_tags(arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified set of tags from an Amazon OpenSearch Service domain. For more
-information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
+Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or
+application. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
 
 # Arguments
 
-- `arn`: The Amazon Resource Name (ARN) of the domain from which you want to delete the
-  specified tags.
-- `tag_keys`: The list of tag keys to remove from the domain.
+- `arn`: The Amazon Resource Name (ARN) of the domain, data source, or application from
+  which you want to delete the specified tags.
+- `tag_keys`: The list of tag keys to remove from the domain, data source, or application.
 """
 function remove_tags end
 
@@ -2400,33 +3344,37 @@ function remove_tags(
 end
 
 """
-    revoke_vpc_endpoint_access(account, domain_name)
-    revoke_vpc_endpoint_access(account, domain_name, params::Dict{String,<:Any})
+    revoke_vpc_endpoint_access(domain_name)
+    revoke_vpc_endpoint_access(domain_name, params::Dict{String,<:Any})
 
 Revokes access to an Amazon OpenSearch Service domain that was provided through an interface
 VPC endpoint.
 
 # Arguments
 
-- `account`: The account ID to revoke access from.
 - `domain_name`: The name of the OpenSearch Service domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Account"`: The account ID to revoke access from.
+- `"Service"`: The service SP to revoke access from.
 """
 function revoke_vpc_endpoint_access end
 
 function revoke_vpc_endpoint_access(
-    Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return opensearch(
         "POST",
-        "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
-        Dict{String,Any}("Account" => Account);
+        "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess";
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 function revoke_vpc_endpoint_access(
-    Account,
     DomainName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -2434,7 +3382,7 @@ function revoke_vpc_endpoint_access(
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain/$(DomainName)/revokeVpcEndpointAccess",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Account" => Account), params));
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2550,6 +3498,46 @@ function start_service_software_update(
 end
 
 """
+    update_application(id)
+    update_application(id, params::Dict{String,<:Any})
+
+Updates the configuration and settings of an existing OpenSearch application.
+
+# Arguments
+
+- `id`: The unique identifier for the OpenSearch application to be updated.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"appConfigs"`: The configuration settings to modify for the OpenSearch application.
+- `"dataSources"`: The data sources to associate with the OpenSearch application.
+"""
+function update_application end
+
+function update_application(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/application/$(id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_application(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/application/$(id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_data_source(data_source_type, domain_name, name)
     update_data_source(data_source_type, domain_name, name, params::Dict{String,<:Any})
 
@@ -2566,7 +3554,7 @@ Updates a direct-query data source. For more information, see [Working with Amaz
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: A new description of the data source.
-- `"Status"`: The status of the data source update request.
+- `"Status"`: The status of the data source update.
 """
 function update_data_source end
 
@@ -2601,6 +3589,65 @@ function update_data_source(
 end
 
 """
+    update_direct_query_data_source(data_source_name, data_source_type)
+    update_direct_query_data_source(data_source_name, data_source_type, params::Dict{String,<:Any})
+
+Updates the configuration or properties of an existing direct query data source in Amazon
+OpenSearch Service.
+
+# Arguments
+
+- `data_source_name`: A unique, user-defined label to identify the data source within your
+  OpenSearch Service environment.
+- `data_source_type`: The supported Amazon Web Services service that you want to use as the
+  source for direct queries in OpenSearch Service.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataSourceAccessPolicy"`: An optional IAM access policy document that defines the
+  updated permissions for accessing the direct query data source. The policy document must
+  be in valid JSON format and follow IAM policy syntax. If not specified, the existing
+  access policy if present remains unchanged.
+- `"Description"`: An optional text field for providing additional context and details about
+  the data source.
+- `"OpenSearchArns"`: An optional list of Amazon Resource Names (ARNs) for the OpenSearch
+  collections that are associated with the direct query data source. This field is required
+  for CloudWatchLogs and SecurityLake datasource types.
+"""
+function update_direct_query_data_source end
+
+function update_direct_query_data_source(
+    DataSourceName, DataSourceType; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)",
+        Dict{String,Any}("DataSourceType" => DataSourceType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_direct_query_data_source(
+    DataSourceName,
+    DataSourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/directQueryDataSource/$(DataSourceName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataSourceType" => DataSourceType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_domain_config(domain_name)
     update_domain_config(domain_name, params::Dict{String,<:Any})
 
@@ -2613,6 +3660,8 @@ Modifies the cluster configuration of the specified Amazon OpenSearch Service do
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"AIMLOptions"`: Options for all machine learning features for the specified domain.
 
 - `"AccessPolicies"`: Identity and Access Management (IAM) access policy as a JSON-formatted
   string.
@@ -2644,6 +3693,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CognitoOptions"`: Key-value pairs to configure Amazon Cognito authentication for
   OpenSearch Dashboards.
 
+- `"DeploymentStrategyOptions"`: Specifies the deployment strategy options for the domain.
+
 - `"DomainEndpointOptions"`: Additional options for the domain endpoint, such as whether to
   require HTTPS for all traffic.
 
@@ -2666,6 +3717,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allows you to share domain resources across IPv4 and IPv6 address types, and is the
   recommended option. If your IP address type is currently set to dual stack, you can't
   change it.
+
+- `"IdentityCenterOptions"`:
 
 - `"LogPublishingOptions"`: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
 
@@ -2709,6 +3762,53 @@ function update_domain_config(
 end
 
 """
+    update_index(domain_name, index_name, index_schema)
+    update_index(domain_name, index_name, index_schema, params::Dict{String,<:Any})
+
+Updates an existing OpenSearch index schema and semantic enrichment configuration. This
+operation allows modification of field mappings and semantic search settings for text
+fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+
+# Arguments
+
+- `domain_name`:
+- `index_name`: The name of the index to update.
+- `index_schema`: The updated JSON schema for the index including any changes to mappings,
+  settings, and semantic enrichment configuration.
+"""
+function update_index end
+
+function update_index(
+    DomainName, IndexName, IndexSchema; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)",
+        Dict{String,Any}("IndexSchema" => IndexSchema);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_index(
+    DomainName,
+    IndexName,
+    IndexSchema,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/index/$(IndexName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("IndexSchema" => IndexSchema), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_package(package_id, package_source)
     update_package(package_id, package_source, params::Dict{String,<:Any})
 
@@ -2725,7 +3825,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CommitMessage"`: Commit message for the updated file, which is shown as part of
   `GetPackageVersionHistoryResponse`.
+- `"PackageConfiguration"`: The updated configuration details for a package.
 - `"PackageDescription"`: A new description of the package.
+- `"PackageEncryptionOptions"`: Encryption options for a package.
 """
 function update_package end
 
@@ -2755,6 +3857,67 @@ function update_package(
                 _merge,
                 Dict{String,Any}(
                     "PackageID" => PackageID, "PackageSource" => PackageSource
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_package_scope(operation, package_id, package_user_list)
+    update_package_scope(operation, package_id, package_user_list, params::Dict{String,<:Any})
+
+Updates the scope of a package. Scope of the package defines users who can view and
+associate a package.
+
+# Arguments
+
+- `operation`: The operation to perform on the package scope (e.g., add/remove/override
+  users).
+- `package_id`: ID of the package whose scope is being updated.
+- `package_user_list`: List of users to be added or removed from the package scope.
+"""
+function update_package_scope end
+
+function update_package_scope(
+    Operation,
+    PackageID,
+    PackageUserList;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/updateScope",
+        Dict{String,Any}(
+            "Operation" => Operation,
+            "PackageID" => PackageID,
+            "PackageUserList" => PackageUserList,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_package_scope(
+    Operation,
+    PackageID,
+    PackageUserList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/packages/updateScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Operation" => Operation,
+                    "PackageID" => PackageID,
+                    "PackageUserList" => PackageUserList,
                 ),
                 params,
             ),

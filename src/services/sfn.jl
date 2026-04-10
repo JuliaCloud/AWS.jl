@@ -38,7 +38,9 @@ for use in a state machine and when polling from the activity.
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
 - control characters (`U+0000-001F`,
-    `U+007F-009F`)
+    `U+007F-009F`, `U+FFFE-FFFF`)
+  - surrogates (`U+D800-DFFF`)
+  - invalid characters (`U+10FFFF`)
 
   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
   _.
@@ -46,6 +48,8 @@ for use in a state machine and when polling from the activity.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"tags"`: The list of tags to add to a resource.
 
@@ -90,6 +94,11 @@ in the Step Functions User Guide.
 If you set the `publish` parameter of this API action to `true`, it publishes version `1` as
 the first revision of the state machine.
 
+For additional control over security, you can encrypt your data using a **customer-managed
+key** for Step Functions state machines. You can configure a symmetric KMS key and data key
+reuse period when creating or updating a **State Machine**. The execution history and state
+machine definition will be encrypted with the key applied to the State Machine.
+
 !!! note
     This operation is eventually consistent. The results are best effort and may not reflect
     very recent updates and changes.
@@ -97,12 +106,12 @@ the first revision of the state machine.
 !!! note
     `CreateStateMachine` is an idempotent API. Subsequent requests won’t create a duplicate
     resource if it was already created. `CreateStateMachine`'s idempotency check is based on
-    the state machine `name`, `definition`, `type`, `LoggingConfiguration`, and
-    `TracingConfiguration`. The check is also based on the `publish` and
-    `versionDescription` parameters. If a following request has a different `roleArn` or
-    `tags`, Step Functions will ignore these differences and treat it as an idempotent
-    request of the previous. In this case, `roleArn` and `tags` will not be updated, even if
-    they are different.
+    the state machine `name`, `definition`, `type`, `LoggingConfiguration`,
+    `TracingConfiguration`, and `EncryptionConfiguration` The check is also based on the
+    `publish` and `versionDescription` parameters. If a following request has a different
+    `roleArn` or `tags`, Step Functions will ignore these differences and treat it as an
+    idempotent request of the previous. In this case, `roleArn` and `tags` will not be
+    updated, even if they are different.
 
 # Arguments
 
@@ -117,7 +126,9 @@ the first revision of the state machine.
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
 - control characters (`U+0000-001F`,
-    `U+007F-009F`)
+    `U+007F-009F`, `U+FFFE-FFFF`)
+  - surrogates (`U+D800-DFFF`)
+  - invalid characters (`U+10FFFF`)
 
   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
   _.
@@ -127,6 +138,8 @@ the first revision of the state machine.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"loggingConfiguration"`: Defines what execution history events are logged and where they
   are logged.
@@ -560,6 +573,15 @@ Map Run dispatched them.
 # Arguments
 
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  DescribeStateMachine API with `includedData = METADATA_ONLY` to get a successful response
+  without the encrypted definition.
 """
 function describe_execution end
 
@@ -677,6 +699,21 @@ specify is a state machine version ARN.
   If you specify a state machine version ARN, this API returns details about that version.
   The version ARN is a combination of state machine ARN and the version number separated by
   a colon (:). For example, `stateMachineARN:1`.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
+
+  !!! note
+      When calling a labelled ARN for an encrypted state machine, the
+      `includedData = METADATA_ONLY` parameter will not apply because Step Functions needs
+      to decrypt the entire state machine definition to get the Distributed Map state’s
+      definition. In this case, the API caller needs to have `kms:Decrypt` permission.
 """
 function describe_state_machine end
 
@@ -776,6 +813,15 @@ This API action is not supported by `EXPRESS` state machines.
 
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution you want state machine
   information for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
 """
 function describe_state_machine_for_execution end
 
@@ -1053,6 +1099,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"statusFilter"`: If specified, only list the executions whose current execution status
   matches the given filter.
+
+  If you provide a `PENDING_REDRIVE` statusFilter, you must specify `mapRunArn`. For more
+  information, see [Child workflow execution redrive behaviour](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html#redrive-child-workflow-behavior)
+  in the *Step Functions Developer Guide*.
+
+  If you provide a stateMachineArn and a `PENDING_REDRIVE` statusFilter, the API returns a
+  validation exception.
 """
 function list_executions end
 
@@ -1534,6 +1587,13 @@ Used by activity workers, Task states using the [callback](https://docs.aws.amaz
 pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync)
 pattern to report that the task identified by the `taskToken` failed.
 
+For an execution with encryption enabled, Step Functions will encrypt the error and cause
+fields using the KMS key for the execution role.
+
+A caller can mark a task as fail without using any KMS permissions in the execution role if
+the caller provides a null value for both `error` and `cause` fields because no data needs
+to be encrypted.
+
 # Arguments
 
 - `task_token`: The token that represents this task. Task tokens are generated by Step
@@ -1762,11 +1822,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"input"`: The string that contains the JSON input data for the execution, for example:
 
-  `"input": "{\\"first_name\\" : \\"test\\"}"`
+  `"{\\"first_name\\" : \\"Alejandro\\"}"`
 
   !!! note
       If you don't include any JSON input data, you still must include the two braces, for
-      example: `"input": "{}"`
+      example: `"{}"`
 
   Length constraints apply to the payload size, and are expressed as bytes in UTF-8
   encoding.
@@ -1785,13 +1845,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - wildcard characters `? *`
   - special characters `" # % \\ ^ | ~ ` \$ & , ; : /`
 - control characters (`U+0000-001F`,
-    `U+007F-009F`)
+    `U+007F-009F`, `U+FFFE-FFFF`)
+  - surrogates (`U+D800-DFFF`)
+  - invalid characters (`U+10FFFF`)
 
   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and
   _.
 
 - `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in the
   request payload.
+
+  !!! note
+      For X-Ray traces, all Amazon Web Services services use the `X-Amzn-Trace-Id` header
+      from the HTTP request. Using the header is the preferred mechanism to identify a
+      trace. `StartExecution` and `StartSyncExecution` API operations can also use
+      `traceHeader` from the body of the request payload. If **both** sources are provided,
+      Step Functions will use the **header value** (preferred) over the value in the request
+      body.
 """
 function start_execution end
 
@@ -1847,13 +1917,18 @@ for `STANDARD` workflows.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have `kms:Decrypt` permission to decrypt the definition. Alternatively, you can call
+  the API with `includedData = METADATA_ONLY` to get a successful response without the
+  encrypted definition.
+
 - `"input"`: The string that contains the JSON input data for the execution, for example:
 
-  `"input": "{\\"first_name\\" : \\"test\\"}"`
+  `"{\\"first_name\\" : \\"Alejandro\\"}"`
 
   !!! note
       If you don't include any JSON input data, you still must include the two braces, for
-      example: `"input": "{}"`
+      example: `"{}"`
 
   Length constraints apply to the payload size, and are expressed as bytes in UTF-8
   encoding.
@@ -1862,6 +1937,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"traceHeader"`: Passes the X-Ray trace header. The trace header can also be passed in the
   request payload.
+
+  !!! note
+      For X-Ray traces, all Amazon Web Services services use the `X-Amzn-Trace-Id` header
+      from the HTTP request. Using the header is the preferred mechanism to identify a
+      trace. `StartExecution` and `StartSyncExecution` API operations can also use
+      `traceHeader` from the body of the request payload. If **both** sources are provided,
+      Step Functions will use the **header value** (preferred) over the value in the request
+      body.
 """
 function start_sync_execution end
 
@@ -1900,6 +1983,13 @@ end
 Stops an execution.
 
 This API action is not supported by `EXPRESS` state machines.
+
+For an execution with encryption enabled, Step Functions will encrypt the error and cause
+fields using the KMS key for the execution role.
+
+A caller can stop an execution without using any KMS permissions in the execution role if
+the caller provides a null value for both `error` and `cause` fields because no data needs
+to be encrypted.
 
 # Arguments
 
@@ -1992,8 +2082,8 @@ function tag_resource(
 end
 
 """
-    test_state(definition, role_arn)
-    test_state(definition, role_arn, params::Dict{String,<:Any})
+    test_state(definition)
+    test_state(definition, params::Dict{String,<:Any})
 
 Accepts the definition of a single state and executes it. You can test a state without
 creating a state machine or updating an existing state machine. Using this API, you can test
@@ -2003,7 +2093,7 @@ the following:
   data flow
 - An [Amazon Web Services service integration](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-services.html)
   request and response
-- An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/connect-third-party-apis.html)
+- An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html)
   request and response
 
 You can call this API on only one state at a time. The states that you can test include the
@@ -2024,7 +2114,7 @@ need, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-fun
 The `TestState` API can run for up to five minutes. If the execution of a state exceeds this
 duration, it fails with the `States.Timeout` error.
 
-`TestState` doesn't support [Activity tasks](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html),
+`TestState` only supports the following when a mock is specified: [Activity tasks](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html),
 `.sync` or `.waitForTaskToken` [service integration patterns](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html), [Parallel](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html),
 or [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html)
 states.
@@ -2032,13 +2122,14 @@ states.
 # Arguments
 
 - `definition`: The [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
-  (ASL) definition of the state.
-- `role_arn`: The Amazon Resource Name (ARN) of the execution role with the required IAM
-  permissions for the state.
+  (ASL) definition of the state or state machine.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"context"`: A JSON string representing a valid Context object for the state under test.
+  This field may only be specified if a mock is specified in the same request.
 
 - `"input"`: A string that contains the JSON input data for the state.
 
@@ -2055,6 +2146,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Each of these levels also provide information about the status of the state execution and
   the next state to transition to.
 
+- `"mock"`: Defines a mocked result or error for the state under test.
+
+  A mock can only be specified for Task, Map, or Parallel states. If it is specified for
+  another state type, an exception will be thrown.
+
 - `"revealSecrets"`: Specifies whether or not to include secret information in the test
   result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to
   modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit
@@ -2066,13 +2162,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Without this permission, Step Functions throws an access denied error.
 
   By default, `revealSecrets` is set to `false`.
+
+- `"roleArn"`: The Amazon Resource Name (ARN) of the execution role with the required IAM
+  permissions for the state.
+
+- `"stateConfiguration"`: Contains configurations for the state under test.
+
+- `"stateName"`: Denotes the particular state within a state machine definition to be
+  tested. If this field is specified, the `definition` must contain a fully-formed state
+  machine definition.
+
+- `"variables"`: JSON object literal that sets variables used in the state under test.
+  Object keys are the variable names and values are the variable values.
 """
 function test_state end
 
-function test_state(definition, roleArn; aws_config::AbstractAWSConfig=current_aws_config())
+function test_state(definition; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn(
         "TestState",
-        Dict{String,Any}("definition" => definition, "roleArn" => roleArn);
+        Dict{String,Any}("definition" => definition);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2080,18 +2188,13 @@ end
 
 function test_state(
     definition,
-    roleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sfn(
         "TestState",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("definition" => definition, "roleArn" => roleArn),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("definition" => definition), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2194,10 +2297,10 @@ end
     update_state_machine(state_machine_arn)
     update_state_machine(state_machine_arn, params::Dict{String,<:Any})
 
-Updates an existing state machine by modifying its `definition`, `roleArn`, or
-`loggingConfiguration`. Running executions will continue to use the previous `definition`
-and `roleArn`. You must include at least one of `definition` or `roleArn` or you will
-receive a `MissingRequiredParameter` error.
+Updates an existing state machine by modifying its `definition`, `roleArn`,
+`loggingConfiguration`, or `EncryptionConfiguration`. Running executions will continue to
+use the previous `definition` and `roleArn`. You must include at least one of `definition`
+or `roleArn` or you will receive a `MissingRequiredParameter` error.
 
 A qualified state machine ARN refers to a *Distributed Map state* defined within a state
 machine. For example, the qualified state machine ARN
@@ -2254,6 +2357,8 @@ This way, you can opt-in to strict versioning of your state machine.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"definition"`: The Amazon States Language definition of the state machine. See [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html).
+
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 
 - `"loggingConfiguration"`: Use the `LoggingConfiguration` data type to set CloudWatch Logs
   options.
@@ -2377,24 +2482,35 @@ end
     validate_state_machine_definition(definition)
     validate_state_machine_definition(definition, params::Dict{String,<:Any})
 
-Validates the syntax of a state machine definition.
+Validates the syntax of a state machine definition specified in [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
+(ASL), a JSON-based, structured language.
 
 You can validate that a state machine definition is correct without creating a state machine
-resource. Step Functions will implicitly perform the same syntax check when you invoke
-`CreateStateMachine` and `UpdateStateMachine`. State machine definitions are specified using
-a JSON-based, structured language. For more information on Amazon States Language see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)
-(ASL).
+resource.
 
 Suggested uses for `ValidateStateMachineDefinition`:
 
 - Integrate automated checks into your code review or Continuous Integration (CI) process to
-  validate state machine definitions before starting deployments.
-- Run the validation from a Git pre-commit hook to check your state machine definitions
-  before committing them to your source repository.
+  check state machine definitions before starting deployments.
+- Run validation from a Git pre-commit hook to verify the definition before committing to
+  your source repository.
+
+Validation will look for problems in your state machine definition and return a **result**
+and a list of **diagnostic elements**.
+
+The **result** value will be `OK` when your workflow definition can be successfully created
+or updated. Note the result can be `OK` even when diagnostic warnings are present in the
+response. The **result** value will be `FAIL` when the workflow definition contains errors
+that would prevent you from creating or updating your state machine.
+
+The list of [ValidateStateMachineDefinitionDiagnostic](https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinitionDiagnostic.html)
+data elements can contain zero or more **WARNING** and/or **ERROR** elements.
 
 !!! note
-    Errors found in the state machine definition will be returned in the response as a list
-    of **diagnostic elements**, rather than raise an exception.
+    The **ValidateStateMachineDefinition API** might add new diagnostics in the future,
+    adjust diagnostic codes, or change the message wording. Your automated processes should
+    only rely on the value of the **result** field value (OK, FAIL). Do **not** rely on the
+    exact order, count, or wording of diagnostic messages.
 
 # Arguments
 
@@ -2405,6 +2521,16 @@ Suggested uses for `ValidateStateMachineDefinition`:
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of diagnostics that are returned per call. The default
+  and maximum value is 100. Setting the value to 0 will also use the default of 100.
+
+  If the number of diagnostics returned in the response exceeds `maxResults`, the value of
+  the `truncated` field in the response will be set to `true`.
+
+- `"severity"`: Minimum level of diagnostics to return. `ERROR` returns only `ERROR`
+  diagnostics, whereas `WARNING` returns both `WARNING` and `ERROR` diagnostics. The default
+  is `ERROR`.
 
 - `"type"`: The target type of state machine for this definition. The default is `STANDARD`.
 """

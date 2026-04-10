@@ -74,14 +74,25 @@ end
     delete_certificate(certificate_arn, params::Dict{String,<:Any})
 
 Deletes a certificate and its associated private key. If this action succeeds, the
+certificate is not available for use by Amazon Web Services services integrated with ACM.
+Deleting a certificate is eventually consistent. The may be a short delay before the
 certificate no longer appears in the list that can be displayed by calling the [`list_certificates`](@ref)
-action or be retrieved by calling the [`get_certificate`](@ref) action. The certificate will
-not be available for use by Amazon Web Services services integrated with ACM.
+action or be retrieved by calling the [`get_certificate`](@ref) action.
 
 !!! note
     You cannot delete an ACM certificate that is being used by another Amazon Web Services
-    service. To delete a certificate that is in use, the certificate association must first
-    be removed.
+    service. To delete a certificate that is in use, you must first remove the certificate
+    association using the console or the CLI for the associated service.
+
+    Deleting a certificate issued by a private certificate authority (CA) has no effect on
+    the CA. You will continue to be charged for the CA until it is deleted. For more
+    information, see [Deleting Your Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html)
+    in the *Private Certificate Authority User Guide*.
+
+Deleting a certificate issued by a private certificate authority (CA) has no effect on the
+CA. You will continue to be charged for the CA until it is deleted. For more information,
+see [Deleting your private CA](https://docs.aws.amazon.com/privateca/latest/userguide/PCADeleteCA.html)
+in the *Amazon Web Services Private Certificate Authority User Guide*.
 
 # Arguments
 
@@ -170,14 +181,18 @@ end
     export_certificate(certificate_arn, passphrase)
     export_certificate(certificate_arn, passphrase, params::Dict{String,<:Any})
 
-Exports a private certificate issued by a private certificate authority (CA) for use
-anywhere. The exported file contains the certificate, the certificate chain, and the
-encrypted private 2048-bit RSA key associated with the public key that is embedded in the
+Exports a private certificate issued by a private certificate authority (CA) or a public
+certificate for use anywhere. The exported file contains the certificate, the certificate
+chain, and the encrypted private key associated with the public key that is embedded in the
 certificate. For security, you must assign a passphrase for the private key when exporting
 it.
 
 For information about exporting and formatting a certificate using the ACM console or CLI,
-see [Export a Private Certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-export-private.html).
+see [Export a private certificate](https://docs.aws.amazon.com/acm/latest/userguide/export-private.html)
+and [Export a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/export-public-certificate).
+
+!!! note
+    ACM public certificates created prior to June 17, 2025 cannot be exported.
 
 # Arguments
 
@@ -256,7 +271,9 @@ end
     get_certificate(certificate_arn)
     get_certificate(certificate_arn, params::Dict{String,<:Any})
 
-Retrieves an Amazon-issued certificate and its certificate chain. The chain consists of the
+Retrieves a certificate and its certificate chain. The certificate may be either a public or
+private certificate issued using the ACM `RequestCertificate` action, or a certificate
+imported into ACM using the `ImportCertificate` action. The chain consists of the
 certificate of the issuing CA and the intermediate certificates of any other subordinate
 CAs. All of the certificates are base64 encoded. You can use [OpenSSL](https://wiki.openssl.org/index.php/Command_Line_Utilities)
 to decode the certificates and inspect individual fields.
@@ -317,10 +334,6 @@ Note the following guidelines when importing third party certificates:
 - The private key must be unencrypted. You cannot import a private key that is protected by
   a password or a passphrase.
 - The private key must be no larger than 5 KB (5,120 bytes).
-- If the certificate you are importing is not self-signed, you must enter its certificate
-  chain.
-- If a certificate chain is included, the issuer must be the subject of one of the
-  certificates in the chain.
 - The certificate, private key, and certificate chain must be PEM-encoded.
 - The current time must be between the `Not Before` and `Not After` certificate fields.
 - The `Issuer` field must not be empty.
@@ -594,10 +607,9 @@ end
     renew_certificate(certificate_arn)
     renew_certificate(certificate_arn, params::Dict{String,<:Any})
 
-Renews an eligible ACM certificate. At this time, only exported private certificates can be
-renewed with this operation. In order to renew your Amazon Web Services Private CA
-certificates with ACM, you must first [grant the ACM service principal permission to do so](https://docs.aws.amazon.com/privateca/latest/userguide/PcaPermissions.html).
-For more information, see [Testing Managed Renewal](https://docs.aws.amazon.com/acm/latest/userguide/manual-renewal.html)
+Renews an [eligible ACM certificate](https://docs.aws.amazon.com/acm/latest/userguide/managed-renewal.html).
+In order to renew your Amazon Web Services Private CA certificates with ACM, you must first [grant the ACM service principal permission to do so](https://docs.aws.amazon.com/privateca/latest/userguide/assign-permissions.html#PcaPermissions).
+For more information, see [Testing Managed Renewal](https://docs.aws.amazon.com/acm/latest/userguide/managed-renewal.html)
 in the ACM User Guide.
 
 # Arguments
@@ -649,8 +661,7 @@ If you are requesting a private certificate, domain validation is not required. 
 requesting a public certificate, each domain name that you specify must be validated to
 verify that you own or control the domain. You can use [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html)
 or [email validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html).
-We recommend that you use DNS validation. ACM issues public certificates after receiving
-approval from the domain owner.
+We recommend that you use DNS validation.
 
 !!! note
     ACM behavior differs from the [RFC 6125](https://datatracker.ietf.org/doc/html/rfc6125#appendix-B.2)
@@ -698,18 +709,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates.
   Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security
   comparable to RSA keys but with greater computing efficiency. However, ECDSA is not
-  supported by all network clients. Some AWS services may require RSA keys, or only support
-  ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys
-  to ensure that compatibility is not broken. Check the requirements for the AWS service
-  where you plan to deploy your certificate.
+  supported by all network clients. Some Amazon Web Services services may require RSA keys,
+  or only support ECDSA keys of a particular size, while others allow the use of either RSA
+  and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the
+  Amazon Web Services service where you plan to deploy your certificate. For more
+  information about selecting an algorithm, see [Key algorithms](https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate-characteristics.html#algorithms-term).
+
+  !!! note
+      Algorithms supported for an ACM certificate request include:
+
+      - `RSA_2048`
+      - `EC_prime256v1`
+      - `EC_secp384r1`
+
+      Other listed algorithms are for imported certificates only.
+
+  !!! note
+      When you request a private PKI certificate signed by a CA from Amazon Web Services
+      Private CA, the specified signing algorithm family (RSA or ECDSA) must match the
+      algorithm family of the CA's secret key.
 
   Default: RSA_2048
 
-- `"Options"`: Currently, you can use this parameter to specify whether to add the
-  certificate to a certificate transparency log. Certificate transparency makes it possible
-  to detect SSL/TLS certificates that have been mistakenly or maliciously issued.
-  Certificates that have not been logged typically produce an error message in a browser.
-  For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
+- `"ManagedBy"`: Identifies the Amazon Web Services service that manages the certificate
+  issued by ACM.
+
+- `"Options"`: You can use this parameter to specify whether to add the certificate to a
+  certificate transparency log and export your certificate.
+
+  Certificate transparency makes it possible to detect SSL/TLS certificates that have been
+  mistakenly or maliciously issued. Certificates that have not been logged typically produce
+  an error message in a browser. For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
+
+  You can export public ACM certificates to use with Amazon Web Services services as well as
+  outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
 
 - `"SubjectAlternativeNames"`: Additional FQDNs to be included in the Subject Alternative
   Name extension of the ACM certificate. For example, add the name www.example.net to a
@@ -792,8 +825,7 @@ your contact email addresses, see [Configure Email for your Domain](https://docs
   addresses that are used to send the emails. This must be the same as the `Domain` value or
   a superdomain of the `Domain` value. For example, if you requested a certificate for
   `site.subdomain.example.com` and specify a **ValidationDomain** of
-  `subdomain.example.com`, ACM sends email to the domain registrant, technical contact, and
-  administrative contact in WHOIS and the following five addresses:
+  `subdomain.example.com`, ACM sends email to the the following five addresses:
 
   - admin@subdomain.example.com
   - administrator@subdomain.example.com
@@ -847,12 +879,109 @@ function resend_validation_email(
 end
 
 """
+    revoke_certificate(certificate_arn, revocation_reason)
+    revoke_certificate(certificate_arn, revocation_reason, params::Dict{String,<:Any})
+
+Revokes a public ACM certificate. You can only revoke certificates that have been previously
+exported.
+
+!!! important
+    Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate
+    is permanent.
+
+# Arguments
+
+- `certificate_arn`: The Amazon Resource Name (ARN) of the public or private certificate
+  that will be revoked. The ARN must have the following form:
+
+  `arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012`
+
+- `revocation_reason`: Specifies why you revoked the certificate.
+"""
+function revoke_certificate end
+
+function revoke_certificate(
+    CertificateArn, RevocationReason; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return acm(
+        "RevokeCertificate",
+        Dict{String,Any}(
+            "CertificateArn" => CertificateArn, "RevocationReason" => RevocationReason
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function revoke_certificate(
+    CertificateArn,
+    RevocationReason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return acm(
+        "RevokeCertificate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CertificateArn" => CertificateArn,
+                    "RevocationReason" => RevocationReason,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_certificates()
+    search_certificates(params::Dict{String,<:Any})
+
+Retrieves a list of certificates matching search criteria. You can filter certificates by
+X.509 attributes and ACM specific properties like certificate status, type and renewal
+eligibility. This operation provides more flexible filtering than [`list_certificates`](@ref)
+by supporting complex filter statements.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"FilterStatement"`: A filter statement that defines the search criteria. You can combine
+  multiple filters using AND, OR, and NOT logical operators to create complex queries.
+- `"MaxResults"`: The maximum number of results to return in the response. Default is 100.
+- `"NextToken"`: Use this parameter only when paginating results and only in a subsequent
+  request after you receive a response with truncated results. Set it to the value of
+  `NextToken` from the response you just received.
+- `"SortBy"`: Specifies the field to sort results by. Valid values are CREATED_AT,
+  NOT_AFTER, STATUS, RENEWAL_STATUS, EXPORTED, IN_USE, NOT_BEFORE, KEY_ALGORITHM, TYPE,
+  CERTIFICATE_ARN, COMMON_NAME, REVOKED_AT, RENEWAL_ELIGIBILITY, ISSUED_AT, MANAGED_BY,
+  EXPORT_OPTION, VALIDATION_METHOD, and IMPORTED_AT.
+- `"SortOrder"`: Specifies the order of sorted results. Valid values are ASCENDING or
+  DESCENDING.
+"""
+function search_certificates end
+
+function search_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return acm("SearchCertificates"; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+function search_certificates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return acm("SearchCertificates", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     update_certificate_options(certificate_arn, options)
     update_certificate_options(certificate_arn, options, params::Dict{String,<:Any})
 
-Updates a certificate. Currently, you can use this function to specify whether to opt in to
-or out of recording your certificate in a certificate transparency log. For more
-information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
+Updates a certificate. You can use this function to specify whether to opt in to or out of
+recording your certificate in a certificate transparency log and exporting. For more
+information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency)
+and [Certificate Manager Exportable Managed Certificates](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
 
 # Arguments
 
@@ -861,9 +990,10 @@ information, see [Opting Out of Certificate Transparency Logging](https://docs.a
   `arn:aws:acm:us-east-1:*account*:certificate/*12345678-1234-1234-1234-123456789012*`
 
 - `options`: Use to update the options for your certificate. Currently, you can specify
-  whether to add your certificate to a transparency log. Certificate transparency makes it
-  possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued.
-  Certificates that have not been logged typically produce an error message in a browser.
+  whether to add your certificate to a transparency log or export your certificate.
+  Certificate transparency makes it possible to detect SSL/TLS certificates that have been
+  mistakenly or maliciously issued. Certificates that have not been logged typically produce
+  an error message in a browser.
 """
 function update_certificate_options end
 

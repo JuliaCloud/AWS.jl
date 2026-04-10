@@ -158,13 +158,14 @@ Creates an application with the given name and description.
 
 # Arguments
 
-- `name`: Name of the application to be created.
+- `name`: The name of the application to be created.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`: Description of the application to be created.
+- `"description"`: The description of the application to be created.
+- `"wave"`: The name of the migration wave of the application to be created.
 """
 function create_application end
 
@@ -1256,6 +1257,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: New description of the application to be updated.
 - `"name"`: New name of the application to be updated.
+- `"wave"`: The new migration wave of the application that you want to update.
 """
 function update_application end
 

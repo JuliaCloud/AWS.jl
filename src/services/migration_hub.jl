@@ -146,6 +146,80 @@ function associate_discovered_resource(
 end
 
 """
+    associate_source_resource(migration_task_name, progress_update_stream, source_resource)
+    associate_source_resource(migration_task_name, progress_update_stream, source_resource, params::Dict{String,<:Any})
+
+Associates a source resource with a migration task. For example, the source resource can be
+a source server, an application, or a migration wave.
+
+# Arguments
+
+- `migration_task_name`: A unique identifier that references the migration task. *Do not
+  include sensitive data in this field.*
+
+- `progress_update_stream`: The name of the progress-update stream, which is used for access
+  control as well as a namespace for migration-task names that is implicitly linked to your
+  AWS account. The progress-update stream must uniquely identify the migration tool as it is
+  used for all updates made by the tool; however, it does not need to be unique for each AWS
+  account because it is scoped to the AWS account.
+
+- `source_resource`: The source resource that you want to associate.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DryRun"`: This is an optional parameter that you can use to test whether the call will
+  succeed. Set this parameter to `true` to verify that you have the permissions that are
+  required to make the call, and that you have specified the other parameters in the call
+  correctly.
+"""
+function associate_source_resource end
+
+function associate_source_resource(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    SourceResource;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "AssociateSourceResource",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+            "SourceResource" => SourceResource,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function associate_source_resource(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    SourceResource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "AssociateSourceResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationTaskName" => MigrationTaskName,
+                    "ProgressUpdateStream" => ProgressUpdateStream,
+                    "SourceResource" => SourceResource,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_progress_update_stream(progress_update_stream_name)
     create_progress_update_stream(progress_update_stream_name, params::Dict{String,<:Any})
 
@@ -495,6 +569,79 @@ function disassociate_discovered_resource(
 end
 
 """
+    disassociate_source_resource(migration_task_name, progress_update_stream, source_resource_name)
+    disassociate_source_resource(migration_task_name, progress_update_stream, source_resource_name, params::Dict{String,<:Any})
+
+Removes the association between a source resource and a migration task.
+
+# Arguments
+
+- `migration_task_name`: A unique identifier that references the migration task. *Do not
+  include sensitive data in this field.*
+
+- `progress_update_stream`: The name of the progress-update stream, which is used for access
+  control as well as a namespace for migration-task names that is implicitly linked to your
+  AWS account. The progress-update stream must uniquely identify the migration tool as it is
+  used for all updates made by the tool; however, it does not need to be unique for each AWS
+  account because it is scoped to the AWS account.
+
+- `source_resource_name`: The name that was specified for the source resource.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DryRun"`: This is an optional parameter that you can use to test whether the call will
+  succeed. Set this parameter to `true` to verify that you have the permissions that are
+  required to make the call, and that you have specified the other parameters in the call
+  correctly.
+"""
+function disassociate_source_resource end
+
+function disassociate_source_resource(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    SourceResourceName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "DisassociateSourceResource",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+            "SourceResourceName" => SourceResourceName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function disassociate_source_resource(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    SourceResourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "DisassociateSourceResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationTaskName" => MigrationTaskName,
+                    "ProgressUpdateStream" => ProgressUpdateStream,
+                    "SourceResourceName" => SourceResourceName,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_migration_task(migration_task_name, progress_update_stream)
     import_migration_task(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
 
@@ -724,6 +871,79 @@ function list_discovered_resources(
 end
 
 """
+    list_migration_task_updates(migration_task_name, progress_update_stream)
+    list_migration_task_updates(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+
+This is a paginated API that returns all the migration-task states for the specified
+`MigrationTaskName` and `ProgressUpdateStream`.
+
+# Arguments
+
+- `migration_task_name`: A unique identifier that references the migration task. *Do not
+  include sensitive data in this field.*
+
+- `progress_update_stream`: The name of the progress-update stream, which is used for access
+  control as well as a namespace for migration-task names that is implicitly linked to your
+  AWS account. The progress-update stream must uniquely identify the migration tool as it is
+  used for all updates made by the tool; however, it does not need to be unique for each AWS
+  account because it is scoped to the AWS account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to include in the response. If more results
+  exist than the value that you specify here for `MaxResults`, the response will include a
+  token that you can use to retrieve the next set of results.
+
+- `"NextToken"`: If `NextToken` was returned by a previous call, there are more results
+  available. The value of `NextToken` is a unique pagination token for each page. To
+  retrieve the next page of results, specify the `NextToken` value that the previous call
+  returned. Keep all other arguments unchanged. Each pagination token expires after 24
+  hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+"""
+function list_migration_task_updates end
+
+function list_migration_task_updates(
+    MigrationTaskName,
+    ProgressUpdateStream;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "ListMigrationTaskUpdates",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_migration_task_updates(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "ListMigrationTaskUpdates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationTaskName" => MigrationTaskName,
+                    "ProgressUpdateStream" => ProgressUpdateStream,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_migration_tasks()
     list_migration_tasks(params::Dict{String,<:Any})
 
@@ -786,6 +1006,79 @@ function list_progress_update_streams(
 )
     return migration_hub(
         "ListProgressUpdateStreams", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_source_resources(migration_task_name, progress_update_stream)
+    list_source_resources(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+
+Lists all the source resource that are associated with the specified `MigrationTaskName` and
+`ProgressUpdateStream`.
+
+# Arguments
+
+- `migration_task_name`: A unique identifier that references the migration task. *Do not
+  store confidential data in this field.*
+
+- `progress_update_stream`: The name of the progress-update stream, which is used for access
+  control as well as a namespace for migration-task names that is implicitly linked to your
+  AWS account. The progress-update stream must uniquely identify the migration tool as it is
+  used for all updates made by the tool; however, it does not need to be unique for each AWS
+  account because it is scoped to the AWS account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to include in the response. If more results
+  exist than the value that you specify here for `MaxResults`, the response will include a
+  token that you can use to retrieve the next set of results.
+
+- `"NextToken"`: If `NextToken` was returned by a previous call, there are more results
+  available. The value of `NextToken` is a unique pagination token for each page. To
+  retrieve the next page of results, specify the `NextToken` value that the previous call
+  returned. Keep all other arguments unchanged. Each pagination token expires after 24
+  hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+"""
+function list_source_resources end
+
+function list_source_resources(
+    MigrationTaskName,
+    ProgressUpdateStream;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "ListSourceResources",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_source_resources(
+    MigrationTaskName,
+    ProgressUpdateStream,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return migration_hub(
+        "ListSourceResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationTaskName" => MigrationTaskName,
+                    "ProgressUpdateStream" => ProgressUpdateStream,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

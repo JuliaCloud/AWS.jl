@@ -74,6 +74,102 @@ function add_profile_key(
 end
 
 """
+    batch_get_calculated_attribute_for_profile(calculated_attribute_name, domain_name, profile_ids)
+    batch_get_calculated_attribute_for_profile(calculated_attribute_name, domain_name, profile_ids, params::Dict{String,<:Any})
+
+Fetch the possible attribute values given the attribute name.
+
+# Arguments
+
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+- `profile_ids`: List of unique identifiers for customer profiles to retrieve.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ConditionOverrides"`: Overrides the condition block within the original calculated
+  attribute definition.
+"""
+function batch_get_calculated_attribute_for_profile end
+
+function batch_get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileIds;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)/batch-get-for-profiles",
+        Dict{String,Any}("ProfileIds" => ProfileIds);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)/batch-get-for-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileIds" => ProfileIds), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_profile(domain_name, profile_ids)
+    batch_get_profile(domain_name, profile_ids, params::Dict{String,<:Any})
+
+Get a batch of profiles.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `profile_ids`: List of unique identifiers for customer profiles to retrieve.
+"""
+function batch_get_profile end
+
+function batch_get_profile(
+    DomainName, ProfileIds; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/batch-get-profiles",
+        Dict{String,Any}("ProfileIds" => ProfileIds);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function batch_get_profile(
+    DomainName,
+    ProfileIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/batch-get-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileIds" => ProfileIds), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic)
     create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic, params::Dict{String,<:Any})
 
@@ -100,7 +196,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calculated attribute.
 - `"Description"`: The description of the calculated attribute.
 - `"DisplayName"`: The display name of the calculated attribute.
+- `"Filter"`: Defines how to filter incoming objects to include part of the Calculated
+  Attribute.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
+- `"UseHistoricalData"`: Whether historical data ingested before the Calculated Attribute
+  was created should be included in calculations.
 """
 function create_calculated_attribute_definition end
 
@@ -163,6 +263,15 @@ set `Matching` to true.
 To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html)
 for sample policies that you should apply.
 
+!!! note
+    It is not possible to associate a Customer Profiles domain with an Amazon Connect
+    Instance directly from the API. If you would like to create a domain and associate a
+    Customer Profiles domain, use the Amazon Connect admin website. For more information,
+    see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1).
+
+    Each Amazon Connect instance can be associated with only one domain. Multiple Amazon
+    Connect instances can be associated with one domain.
+
 # Arguments
 
 - `default_expiration_days`: The default number of days until the data within the domain
@@ -172,6 +281,8 @@ for sample policies that you should apply.
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataStore"`: Set to true to enabled data store for this domain.
 
 - `"DeadLetterQueueUrl"`: The URL of the SQS dead letter queue, which is used for reporting
   errors associated with ingesting data from third party applications. You must set up a
@@ -236,6 +347,88 @@ function create_domain(
 end
 
 """
+    create_domain_layout(description, display_name, domain_name, layout, layout_definition_name, layout_type)
+    create_domain_layout(description, display_name, domain_name, layout, layout_definition_name, layout_type, params::Dict{String,<:Any})
+
+Creates the layout to view data for a specific domain. This API can only be invoked from the
+Amazon Connect admin website.
+
+# Arguments
+
+- `description`: The description of the layout
+- `display_name`: The display name of the layout
+- `domain_name`: The unique name of the domain.
+- `layout`: A customizable layout that can be used to view data under a Customer Profiles
+  domain.
+- `layout_definition_name`: The unique name of the layout.
+- `layout_type`: The type of layout that can be used to view data under a Customer Profiles
+  domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"IsDefault"`: If set to true for a layout, this layout will be used by default to view
+  data. If set to false, then the layout will not be used by default, but it can be used to
+  view data by explicitly selecting it in the console.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_domain_layout end
+
+function create_domain_layout(
+    Description,
+    DisplayName,
+    DomainName,
+    Layout,
+    LayoutDefinitionName,
+    LayoutType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)",
+        Dict{String,Any}(
+            "Description" => Description,
+            "DisplayName" => DisplayName,
+            "Layout" => Layout,
+            "LayoutType" => LayoutType,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_domain_layout(
+    Description,
+    DisplayName,
+    DomainName,
+    Layout,
+    LayoutDefinitionName,
+    LayoutType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Description" => Description,
+                    "DisplayName" => DisplayName,
+                    "Layout" => Layout,
+                    "LayoutType" => LayoutType,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_event_stream(domain_name, event_stream_name, uri)
     create_event_stream(domain_name, event_stream_name, uri, params::Dict{String,<:Any})
 
@@ -283,6 +476,83 @@ function create_event_stream(
         "POST",
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_event_trigger(domain_name, event_trigger_conditions, event_trigger_name, object_type_name)
+    create_event_trigger(domain_name, event_trigger_conditions, event_trigger_name, object_type_name, params::Dict{String,<:Any})
+
+Creates an event trigger, which specifies the rules when to perform action based on
+customer's ingested data.
+
+Each event stream can be associated with only one integration in the same region and AWS
+account as the event stream.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `event_trigger_conditions`: A list of conditions that determine when an event should
+  trigger the destination.
+- `event_trigger_name`: The unique name of the event trigger.
+- `object_type_name`: The unique name of the object type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the event trigger.
+- `"EventTriggerLimits"`: Defines limits controlling whether an event triggers the
+  destination, based on ingestion latency and the number of invocations per profile over
+  specific time periods.
+- `"SegmentFilter"`: The destination is triggered only for profiles that meet the criteria
+  of a segment definition.
+- `"Tags"`: An array of key-value pairs to apply to this resource.
+"""
+function create_event_trigger end
+
+function create_event_trigger(
+    DomainName,
+    EventTriggerConditions,
+    EventTriggerName,
+    ObjectTypeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)",
+        Dict{String,Any}(
+            "EventTriggerConditions" => EventTriggerConditions,
+            "ObjectTypeName" => ObjectTypeName,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_event_trigger(
+    DomainName,
+    EventTriggerConditions,
+    EventTriggerName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventTriggerConditions" => EventTriggerConditions,
+                    "ObjectTypeName" => ObjectTypeName,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -380,7 +650,7 @@ A standard profile represents the following attributes for a customer profile in
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountNumber"`: A unique account number that you have given to the customer.
+- `"AccountNumber"`: An account number that you have assigned to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
 - `"Address"`: A generic address associated with the customer that is not mailing, shipping,
   or billing.
@@ -392,6 +662,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
 - `"EmailAddress"`: The customer’s email address, which has not been specified as a personal
   or business address.
+- `"EngagementPreferences"`: Object that defines the preferred methods of engagement, per
+  channel.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
 - `"GenderString"`: An alternative to `Gender` which accepts any string as input.
@@ -405,6 +677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PersonalEmailAddress"`: The customer’s personal email address.
 - `"PhoneNumber"`: The customer’s phone number, which has not been specified as a mobile,
   home, or business number.
+- `"ProfileType"`: The type of the profile.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
 function create_profile end
@@ -427,6 +700,360 @@ function create_profile(
         "POST",
         "/domains/$(DomainName)/profiles",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_recommender(domain_name, recommender_name, recommender_recipe_name)
+    create_recommender(domain_name, recommender_name, recommender_recipe_name, params::Dict{String,<:Any})
+
+Creates a recommender
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The name of the recommender.
+- `recommender_recipe_name`: The name of the recommeder recipe.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the domain object type.
+- `"RecommenderConfig"`: The recommender configuration.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_recommender end
+
+function create_recommender(
+    DomainName,
+    RecommenderName,
+    RecommenderRecipeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)",
+        Dict{String,Any}("RecommenderRecipeName" => RecommenderRecipeName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_recommender(
+    DomainName,
+    RecommenderName,
+    RecommenderRecipeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RecommenderRecipeName" => RecommenderRecipeName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_recommender_filter(domain_name, recommender_filter_expression, recommender_filter_name)
+    create_recommender_filter(domain_name, recommender_filter_expression, recommender_filter_name, params::Dict{String,<:Any})
+
+Creates a recommender filter. A recommender filter specifies which items to include or
+exclude from recommendations.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_filter_expression`: The filter expression that defines which items to include
+  or exclude from recommendations.
+- `recommender_filter_name`: The name of the recommender filter. The name must be unique
+  within the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: A description of the recommender filter.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_recommender_filter end
+
+function create_recommender_filter(
+    DomainName,
+    RecommenderFilterExpression,
+    RecommenderFilterName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)",
+        Dict{String,Any}("RecommenderFilterExpression" => RecommenderFilterExpression);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_recommender_filter(
+    DomainName,
+    RecommenderFilterExpression,
+    RecommenderFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RecommenderFilterExpression" => RecommenderFilterExpression
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_segment_definition(display_name, domain_name, segment_definition_name)
+    create_segment_definition(display_name, domain_name, segment_definition_name, params::Dict{String,<:Any})
+
+Creates a segment definition associated to the given domain.
+
+# Arguments
+
+- `display_name`: The display name of the segment definition.
+- `domain_name`: The unique name of the domain.
+- `segment_definition_name`: The unique name of the segment definition.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the segment definition.
+- `"SegmentGroups"`: Specifies the base segments and dimensions for a segment definition
+  along with their respective relationship.
+- `"SegmentSqlQuery"`: The segment SQL query.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_segment_definition end
+
+function create_segment_definition(
+    DisplayName,
+    DomainName,
+    SegmentDefinitionName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)",
+        Dict{String,Any}("DisplayName" => DisplayName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_segment_definition(
+    DisplayName,
+    DomainName,
+    SegmentDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DisplayName" => DisplayName), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_segment_estimate(domain_name)
+    create_segment_estimate(domain_name, params::Dict{String,<:Any})
+
+Creates a segment estimate query.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"SegmentQuery"`: The segment query for calculating a segment estimate.
+- `"SegmentSqlQuery"`: The segment SQL query.
+"""
+function create_segment_estimate end
+
+function create_segment_estimate(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segment-estimates";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_segment_estimate(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segment-estimates",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_segment_snapshot(data_format, domain_name, segment_definition_name)
+    create_segment_snapshot(data_format, domain_name, segment_definition_name, params::Dict{String,<:Any})
+
+Triggers a job to export a segment to a specified destination.
+
+# Arguments
+
+- `data_format`: The format in which the segment will be exported.
+- `domain_name`: The unique name of the domain.
+- `segment_definition_name`: The name of the segment definition used in this snapshot
+  request.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DestinationUri"`: The destination to which the segment will be exported. This field must
+  be provided if the request is not submitted from the Amazon Connect Admin Website.
+- `"EncryptionKey"`: The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+  exported segment.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles
+  service principal to assume the role for conducting KMS and S3 operations.
+"""
+function create_segment_snapshot end
+
+function create_segment_snapshot(
+    DataFormat,
+    DomainName,
+    SegmentDefinitionName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/snapshots",
+        Dict{String,Any}("DataFormat" => DataFormat);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_segment_snapshot(
+    DataFormat,
+    DomainName,
+    SegmentDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/snapshots",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataFormat" => DataFormat), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_upload_job(display_name, domain_name, fields, unique_key)
+    create_upload_job(display_name, domain_name, fields, unique_key, params::Dict{String,<:Any})
+
+Creates an Upload job to ingest data for segment imports. The metadata is created for the
+job with the provided field mapping and unique key.
+
+# Arguments
+
+- `display_name`: The unique name of the upload job. Could be a file name to identify the
+  upload job.
+- `domain_name`: The unique name of the domain. Domain should be exists for the upload job
+  to be created.
+- `fields`: The mapping between CSV Columns and Profile Object attributes. A map of the name
+  and ObjectType field.
+- `unique_key`: The unique key columns for de-duping the profiles used to map data to the
+  profile.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"DataExpiry"`: The expiry duration for the profiles ingested with the job. If not
+  provided, the system default of 2 weeks is used.
+"""
+function create_upload_job end
+
+function create_upload_job(
+    DisplayName,
+    DomainName,
+    Fields,
+    UniqueKey;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/upload-jobs",
+        Dict{String,Any}(
+            "DisplayName" => DisplayName, "Fields" => Fields, "UniqueKey" => UniqueKey
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_upload_job(
+    DisplayName,
+    DomainName,
+    Fields,
+    UniqueKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/upload-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DisplayName" => DisplayName,
+                    "Fields" => Fields,
+                    "UniqueKey" => UniqueKey,
+                ),
+                params,
+            ),
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -508,6 +1135,85 @@ function delete_domain(
 end
 
 """
+    delete_domain_layout(domain_name, layout_definition_name)
+    delete_domain_layout(domain_name, layout_definition_name, params::Dict{String,<:Any})
+
+Deletes the layout used to view data for a specific domain. This API can only be invoked
+from the Amazon Connect admin website.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `layout_definition_name`: The unique name of the layout.
+"""
+function delete_domain_layout end
+
+function delete_domain_layout(
+    DomainName, LayoutDefinitionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_domain_layout(
+    DomainName,
+    LayoutDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_domain_object_type(domain_name, object_type_name)
+    delete_domain_object_type(domain_name, object_type_name, params::Dict{String,<:Any})
+
+Delete a DomainObjectType for the given Domain and ObjectType name.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `object_type_name`: The unique name of the domain object type.
+"""
+function delete_domain_object_type end
+
+function delete_domain_object_type(
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_domain_object_type(
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_event_stream(domain_name, event_stream_name)
     delete_event_stream(domain_name, event_stream_name, params::Dict{String,<:Any})
 
@@ -540,6 +1246,48 @@ function delete_event_stream(
     return customer_profiles(
         "DELETE",
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_event_trigger(domain_name, event_trigger_name)
+    delete_event_trigger(domain_name, event_trigger_name, params::Dict{String,<:Any})
+
+Disable and deletes the Event Trigger.
+
+!!! note
+    You cannot delete an Event Trigger with an active Integration associated.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `event_trigger_name`: The unique name of the event trigger.
+"""
+function delete_event_trigger end
+
+function delete_event_trigger(
+    DomainName, EventTriggerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_event_trigger(
+    DomainName,
+    EventTriggerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -785,6 +1533,123 @@ function delete_profile_object_type(
     return customer_profiles(
         "DELETE",
         "/domains/$(DomainName)/object-types/$(ObjectTypeName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_recommender(domain_name, recommender_name)
+    delete_recommender(domain_name, recommender_name, params::Dict{String,<:Any})
+
+Deletes a recommender.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The recommender name.
+"""
+function delete_recommender end
+
+function delete_recommender(
+    DomainName, RecommenderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_recommender(
+    DomainName,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_recommender_filter(domain_name, recommender_filter_name)
+    delete_recommender_filter(domain_name, recommender_filter_name, params::Dict{String,<:Any})
+
+Deletes a recommender filter from a domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_filter_name`: The name of the recommender filter to delete.
+"""
+function delete_recommender_filter end
+
+function delete_recommender_filter(
+    DomainName, RecommenderFilterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_recommender_filter(
+    DomainName,
+    RecommenderFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_segment_definition(domain_name, segment_definition_name)
+    delete_segment_definition(domain_name, segment_definition_name, params::Dict{String,<:Any})
+
+Deletes a segment definition from the domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `segment_definition_name`: The unique name of the segment definition.
+"""
+function delete_segment_definition end
+
+function delete_segment_definition(
+    DomainName, SegmentDefinitionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_segment_definition(
+    DomainName,
+    SegmentDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1060,6 +1925,85 @@ function get_domain(
 end
 
 """
+    get_domain_layout(domain_name, layout_definition_name)
+    get_domain_layout(domain_name, layout_definition_name, params::Dict{String,<:Any})
+
+Gets the layout to view data for a specific domain. This API can only be invoked from the
+Amazon Connect admin website.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `layout_definition_name`: The unique name of the layout.
+"""
+function get_domain_layout end
+
+function get_domain_layout(
+    DomainName, LayoutDefinitionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_domain_layout(
+    DomainName,
+    LayoutDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_domain_object_type(domain_name, object_type_name)
+    get_domain_object_type(domain_name, object_type_name, params::Dict{String,<:Any})
+
+Return a DomainObjectType for the input Domain and ObjectType names.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `object_type_name`: The unique name of the domain object type.
+"""
+function get_domain_object_type end
+
+function get_domain_object_type(
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_domain_object_type(
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_event_stream(domain_name, event_stream_name)
     get_event_stream(domain_name, event_stream_name, params::Dict{String,<:Any})
 
@@ -1092,6 +2036,45 @@ function get_event_stream(
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_trigger(domain_name, event_trigger_name)
+    get_event_trigger(domain_name, event_trigger_name, params::Dict{String,<:Any})
+
+Get a specific Event Trigger from the domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `event_trigger_name`: The unique name of the event trigger.
+"""
+function get_event_trigger end
+
+function get_event_trigger(
+    DomainName, EventTriggerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_event_trigger(
+    DomainName,
+    EventTriggerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1253,6 +2236,104 @@ function get_matches(
 end
 
 """
+    get_object_type_attribute_statistics(attribute_name, domain_name, object_type_name)
+    get_object_type_attribute_statistics(attribute_name, domain_name, object_type_name, params::Dict{String,<:Any})
+
+The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a
+specific object type, but is exclusively available for domains with data store enabled. This
+API performs daily calculations to provide statistical information about your attribute
+values, helping you understand patterns and trends in your data. The statistical
+calculations are performed once per day, providing a consistent snapshot of your attribute
+data characteristics.
+
+!!! note
+    You'll receive null values in two scenarios:
+
+    During the first period after enabling data vault (unless a calculation cycle occurs,
+    which happens once daily).
+
+    For attributes that don't contain numeric values.
+
+# Arguments
+
+- `attribute_name`: The attribute name.
+- `domain_name`: The unique name of the domain.
+- `object_type_name`: The unique name of the domain object type.
+"""
+function get_object_type_attribute_statistics end
+
+function get_object_type_attribute_statistics(
+    AttributeName,
+    DomainName,
+    ObjectTypeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes/$(AttributeName)/statistics";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_object_type_attribute_statistics(
+    AttributeName,
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes/$(AttributeName)/statistics",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_profile_history_record(domain_name, id, profile_id)
+    get_profile_history_record(domain_name, id, profile_id, params::Dict{String,<:Any})
+
+Returns a history record for a specific profile, for a specific domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain for which to return a profile history record.
+- `id`: The unique identifier of the profile history record to return.
+- `profile_id`: The unique identifier of the profile for which to return a history record.
+"""
+function get_profile_history_record end
+
+function get_profile_history_record(
+    DomainName, Id, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/$(ProfileId)/history-records/$(Id)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_profile_history_record(
+    DomainName,
+    Id,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/$(ProfileId)/history-records/$(Id)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_profile_object_type(domain_name, object_type_name)
     get_profile_object_type(domain_name, object_type_name, params::Dict{String,<:Any})
 
@@ -1330,6 +2411,330 @@ function get_profile_object_type_template(
 end
 
 """
+    get_profile_recommendations(domain_name, profile_id, recommender_name)
+    get_profile_recommendations(domain_name, profile_id, recommender_name, params::Dict{String,<:Any})
+
+Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all
+the profile recommendations
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `profile_id`: The unique identifier of the profile for which to retrieve recommendations.
+- `recommender_name`: The unique name of the recommender.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"CandidateIds"`: A list of item IDs to rank for the user. Use this when you want to re-
+  rank a specific set of items rather than getting recommendations from the full item
+  catalog. Required for personalized-ranking use cases.
+- `"Context"`: The contextual metadata used to provide dynamic runtime information to tailor
+  recommendations.
+- `"MaxResults"`: The maximum number of recommendations to return. The default value is 10.
+- `"MetadataConfig"`: Configuration for including item metadata in the recommendation
+  response. Use this to specify which metadata columns to return alongside recommended
+  items.
+- `"RecommenderFilters"`: A list of filters to apply to the returned recommendations.
+  Filters define criteria for including or excluding items from the recommendation results.
+- `"RecommenderPromotionalFilters"`: A list of promotional filters to apply to the
+  recommendations. Promotional filters allow you to promote specific items within a
+  configurable subset of recommendation results.
+"""
+function get_profile_recommendations end
+
+function get_profile_recommendations(
+    DomainName,
+    ProfileId,
+    RecommenderName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/$(ProfileId)/recommendations",
+        Dict{String,Any}("RecommenderName" => RecommenderName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_profile_recommendations(
+    DomainName,
+    ProfileId,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/$(ProfileId)/recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RecommenderName" => RecommenderName), params
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_recommender(domain_name, recommender_name)
+    get_recommender(domain_name, recommender_name, params::Dict{String,<:Any})
+
+Retrieves a recommender.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The name of the recommender.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"training-metrics-count"`: The number of training metrics to retrieve for the
+  recommender.
+"""
+function get_recommender end
+
+function get_recommender(
+    DomainName, RecommenderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_recommender(
+    DomainName,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_recommender_filter(domain_name, recommender_filter_name)
+    get_recommender_filter(domain_name, recommender_filter_name, params::Dict{String,<:Any})
+
+Retrieves information about a specific recommender filter in a domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_filter_name`: The name of the recommender filter to retrieve.
+"""
+function get_recommender_filter end
+
+function get_recommender_filter(
+    DomainName, RecommenderFilterName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_recommender_filter(
+    DomainName,
+    RecommenderFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommender-filters/$(RecommenderFilterName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_segment_definition(domain_name, segment_definition_name)
+    get_segment_definition(domain_name, segment_definition_name, params::Dict{String,<:Any})
+
+Gets a segment definition from the domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `segment_definition_name`: The unique name of the segment definition.
+"""
+function get_segment_definition end
+
+function get_segment_definition(
+    DomainName, SegmentDefinitionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_segment_definition(
+    DomainName,
+    SegmentDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-definitions/$(SegmentDefinitionName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_segment_estimate(domain_name, estimate_id)
+    get_segment_estimate(domain_name, estimate_id, params::Dict{String,<:Any})
+
+Gets the result of a segment estimate query.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `estimate_id`: The query Id passed by a previous `CreateSegmentEstimate` operation.
+"""
+function get_segment_estimate end
+
+function get_segment_estimate(
+    DomainName, EstimateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-estimates/$(EstimateId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_segment_estimate(
+    DomainName,
+    EstimateId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-estimates/$(EstimateId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_segment_membership(domain_name, profile_ids, segment_definition_name)
+    get_segment_membership(domain_name, profile_ids, segment_definition_name, params::Dict{String,<:Any})
+
+Determines if the given profiles are within a segment.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `profile_ids`: The list of profile IDs to query for.
+- `segment_definition_name`: The Id of the wanted segment. Needs to be a valid, and existing
+  segment Id.
+"""
+function get_segment_membership end
+
+function get_segment_membership(
+    DomainName,
+    ProfileIds,
+    SegmentDefinitionName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/membership",
+        Dict{String,Any}("ProfileIds" => ProfileIds);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_segment_membership(
+    DomainName,
+    ProfileIds,
+    SegmentDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/membership",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileIds" => ProfileIds), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_segment_snapshot(domain_name, segment_definition_name, snapshot_id)
+    get_segment_snapshot(domain_name, segment_definition_name, snapshot_id, params::Dict{String,<:Any})
+
+Retrieve the latest status of a segment snapshot.
+
+# Arguments
+
+- `domain_name`: The unique identifier of the domain.
+- `segment_definition_name`: The unique name of the segment definition.
+- `snapshot_id`: The unique identifier of the segment snapshot.
+"""
+function get_segment_snapshot end
+
+function get_segment_snapshot(
+    DomainName,
+    SegmentDefinitionName,
+    SnapshotId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/snapshots/$(SnapshotId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_segment_snapshot(
+    DomainName,
+    SegmentDefinitionName,
+    SnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segments/$(SegmentDefinitionName)/snapshots/$(SnapshotId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_similar_profiles(domain_name, match_type, search_key, search_value)
     get_similar_profiles(domain_name, match_type, search_key, search_value, params::Dict{String,<:Any})
 
@@ -1393,6 +2798,86 @@ function get_similar_profiles(
                 params,
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_upload_job(domain_name, job_id)
+    get_upload_job(domain_name, job_id, params::Dict{String,<:Any})
+
+This API retrieves the details of a specific upload job.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain containing the upload job.
+- `job_id`: The unique identifier of the upload job to retrieve.
+"""
+function get_upload_job end
+
+function get_upload_job(
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_upload_job(
+    DomainName,
+    JobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_upload_job_path(domain_name, job_id)
+    get_upload_job_path(domain_name, job_id, params::Dict{String,<:Any})
+
+This API retrieves the pre-signed URL and client token for uploading the file associated
+with the upload job.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain containing the upload job.
+- `job_id`: The unique identifier of the upload job to retrieve the upload path for. This is
+  generated from the CreateUploadJob API.
+"""
+function get_upload_job_path end
+
+function get_upload_job_path(
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)/path";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_upload_job_path(
+    DomainName,
+    JobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)/path",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1620,6 +3105,90 @@ function list_calculated_attributes_for_profile(
 end
 
 """
+    list_domain_layouts(domain_name)
+    list_domain_layouts(domain_name, params::Dict{String,<:Any})
+
+Lists the existing layouts that can be used to view data for a specific domain. This API can
+only be invoked from the Amazon Connect admin website.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of objects returned per page.
+- `"next-token"`: Identifies the next page of results to return.
+"""
+function list_domain_layouts end
+
+function list_domain_layouts(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return customer_profiles(
+        "GET", "/domains/$(DomainName)/layouts"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_domain_layouts(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/layouts",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_domain_object_types(domain_name)
+    list_domain_object_types(domain_name, params::Dict{String,<:Any})
+
+List all DomainObjectType(s) in a Customer Profiles domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of domain object types returned per page.
+- `"next-token"`: The pagination token from the previous call to ListDomainObjectTypes.
+"""
+function list_domain_object_types end
+
+function list_domain_object_types(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/domain-object-types";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_domain_object_types(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/domain-object-types",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
@@ -1682,6 +3251,48 @@ function list_event_streams(
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)/event-streams",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_event_triggers(domain_name)
+    list_event_triggers(domain_name, params::Dict{String,<:Any})
+
+List all Event Triggers under a domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of results to return per page.
+- `"next-token"`: The pagination token to use with ListEventTriggers.
+"""
+function list_event_triggers end
+
+function list_event_triggers(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-triggers";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_event_triggers(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-triggers",
         params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1773,6 +3384,204 @@ function list_integrations(
         "GET",
         "/domains/$(DomainName)/integrations",
         params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_object_type_attribute_values(attribute_name, domain_name, object_type_name)
+    list_object_type_attribute_values(attribute_name, domain_name, object_type_name, params::Dict{String,<:Any})
+
+The ListObjectTypeAttributeValues API provides access to the most recent distinct values for
+any specified attribute, making it valuable for real-time data validation and consistency
+checks within your object types. This API works across domain, supporting both custom and
+standard object types. The API accepts the object type name, attribute name, and domain name
+as input parameters and returns values up to the storage limit of approximately 350KB.
+
+# Arguments
+
+- `attribute_name`: The attribute name.
+- `domain_name`: The unique name of the domain.
+- `object_type_name`: The unique name of the domain object type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of objects returned per page. Valid Range: Minimum
+  value of 1. Maximum value of 100. If not provided default as 100.
+- `"next-token"`: The pagination token from the previous call.
+"""
+function list_object_type_attribute_values end
+
+function list_object_type_attribute_values(
+    AttributeName,
+    DomainName,
+    ObjectTypeName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes/$(AttributeName)/values";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_object_type_attribute_values(
+    AttributeName,
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes/$(AttributeName)/values",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_object_type_attributes(domain_name, object_type_name)
+    list_object_type_attributes(domain_name, object_type_name, params::Dict{String,<:Any})
+
+Fetch the possible attribute values given the attribute name.
+
+# Arguments
+
+- `domain_name`: The unique identifier of the domain.
+- `object_type_name`: The name of the profile object type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of objects returned per page.
+- `"next-token"`: The pagination token from the previous call.
+"""
+function list_object_type_attributes end
+
+function list_object_type_attributes(
+    DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_object_type_attributes(
+    DomainName,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/object-types/$(ObjectTypeName)/attributes",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_profile_attribute_values(attribute_name, domain_name)
+    list_profile_attribute_values(attribute_name, domain_name, params::Dict{String,<:Any})
+
+Fetch the possible attribute values given the attribute name.
+
+# Arguments
+
+- `attribute_name`: The attribute name.
+- `domain_name`: The unique identifier of the domain.
+"""
+function list_profile_attribute_values end
+
+function list_profile_attribute_values(
+    AttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile-attributes/$(AttributeName)/values";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_profile_attribute_values(
+    AttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile-attributes/$(AttributeName)/values",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_profile_history_records(domain_name, profile_id)
+    list_profile_history_records(domain_name, profile_id, params::Dict{String,<:Any})
+
+Returns a list of history records for a specific profile, for a specific domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain for which to return profile history records.
+- `profile_id`: The identifier of the profile to be taken.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ActionType"`: Applies a filter to include profile history records only with the
+  specified `ActionType` value in the response.
+- `"ObjectTypeName"`: Applies a filter to include profile history records only with the
+  specified `ObjectTypeName` value in the response.
+- `"PerformedBy"`: Applies a filter to include profile history records only with the
+  specified `PerformedBy` value in the response. The `PerformedBy` value can be the Amazon
+  Resource Name (ARN) of the person or service principal who performed the action.
+- `"max-results"`: The maximum number of results to return per page.
+- `"next-token"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_profile_history_records end
+
+function list_profile_history_records(
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/history-records",
+        Dict{String,Any}("ProfileId" => ProfileId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_profile_history_records(
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/profiles/history-records",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1916,6 +3725,127 @@ function list_profile_objects(
 end
 
 """
+    list_recommender_filters(domain_name)
+    list_recommender_filters(domain_name, params::Dict{String,<:Any})
+
+Returns a list of recommender filters in the specified domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of recommender filters to return in the response. The
+  default value is 100.
+- `"next-token"`: A token received from a previous ListRecommenderFilters call to retrieve
+  the next page of results.
+"""
+function list_recommender_filters end
+
+function list_recommender_filters(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommender-filters";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_recommender_filters(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommender-filters",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_recommender_recipes()
+    list_recommender_recipes(params::Dict{String,<:Any})
+
+Returns a list of available recommender recipes that can be used to create recommenders.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of recommender recipes to return in the response. The
+  default value is 100.
+- `"next-token"`: A token received from a previous ListRecommenderRecipes call to retrieve
+  the next page of results.
+"""
+function list_recommender_recipes end
+
+function list_recommender_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return customer_profiles(
+        "GET", "/recommender-recipes"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_recommender_recipes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET", "/recommender-recipes", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_recommenders(domain_name)
+    list_recommenders(domain_name, params::Dict{String,<:Any})
+
+Returns a list of recommenders in the specified domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of recommenders to return in the response. The default
+  value is 100.
+- `"next-token"`: A token received from a previous ListRecommenders call to retrieve the
+  next page of results.
+"""
+function list_recommenders end
+
+function list_recommenders(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommenders";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_recommenders(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/recommenders",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_rule_based_matches(domain_name)
     list_rule_based_matches(domain_name, params::Dict{String,<:Any})
 
@@ -1960,6 +3890,50 @@ function list_rule_based_matches(
 end
 
 """
+    list_segment_definitions(domain_name)
+    list_segment_definitions(domain_name, params::Dict{String,<:Any})
+
+Lists all segment definitions under a domain.
+
+# Arguments
+
+- `domain_name`: The unique identifier of the domain.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of objects returned per page.
+- `"next-token"`: The pagination token from the previous call.
+"""
+function list_segment_definitions end
+
+function list_segment_definitions(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-definitions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_segment_definitions(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/segment-definitions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1987,6 +3961,49 @@ function list_tags_for_resource(
 )
     return customer_profiles(
         "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_upload_jobs(domain_name)
+    list_upload_jobs(domain_name, params::Dict{String,<:Any})
+
+This API retrieves a list of upload jobs for the specified domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain to list upload jobs for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"max-results"`: The maximum number of upload jobs to return per page.
+- `"next-token"`: The pagination token from the previous call to retrieve the next page of
+  results.
+"""
+function list_upload_jobs end
+
+function list_upload_jobs(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_upload_jobs(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/upload-jobs",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2118,6 +4135,59 @@ function merge_profiles(
 end
 
 """
+    put_domain_object_type(domain_name, fields, object_type_name)
+    put_domain_object_type(domain_name, fields, object_type_name, params::Dict{String,<:Any})
+
+Create/Update a DomainObjectType in a Customer Profiles domain. To create a new
+DomainObjectType, Data Store needs to be enabled on the Domain.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `fields`: A map of field names to their corresponding domain object type field
+  definitions.
+- `object_type_name`: The unique name of the domain object type.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the domain object type.
+- `"EncryptionKey"`: The customer provided KMS key used to encrypt this type of domain
+  object.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function put_domain_object_type end
+
+function put_domain_object_type(
+    DomainName, Fields, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)",
+        Dict{String,Any}("Fields" => Fields);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_domain_object_type(
+    DomainName,
+    Fields,
+    ObjectTypeName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/domain-object-types/$(ObjectTypeName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Fields" => Fields), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_integration(domain_name)
     put_integration(domain_name, params::Dict{String,<:Any})
 
@@ -2136,6 +4206,9 @@ To add or remove tags on an existing Integration, see [TagResource](https://docs
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"EventTriggerNames"`: A list of unique names for active event triggers associated with
+  the integration.
+
 - `"FlowDefinition"`: The configuration that controls how Customer Profiles retrieves data
   from the source.
 
@@ -2146,6 +4219,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ingest the event. It supports the following event types: `SegmentIdentify`,
   `ShopifyCreateCustomers`, `ShopifyUpdateCustomers`, `ShopifyCreateDraftOrders`,
   `ShopifyUpdateDraftOrders`, `ShopifyCreateOrders`, and `ShopifyUpdatedOrders`.
+
+- `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role. The Integration uses this
+  role to make Customer Profiles requests on your behalf.
+
+- `"Scope"`: Specifies whether the integration applies to profile level data (associated
+  with profiles) or domain level data (not associated with any specific profile). The
+  default value is PROFILE.
 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 
@@ -2268,8 +4348,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Keys"`: A list of unique keys that can be used to map data to the profile.
 
+- `"MaxProfileObjectCount"`: The amount of profile object max count assigned to the object
+  type
+
 - `"SourceLastUpdatedTimestampFormat"`: The format of your `sourceLastUpdatedTimestamp` that
   was previously set up.
+
+- `"SourcePriority"`: An integer that determines the priority of this object type when data
+  from multiple sources is ingested. Lower values take priority. Object types without a
+  specified source priority default to the lowest priority.
 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 
@@ -2398,6 +4485,164 @@ function search_profiles(
                 _merge, Dict{String,Any}("KeyName" => KeyName, "Values" => Values), params
             ),
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_recommender(domain_name, recommender_name)
+    start_recommender(domain_name, recommender_name, params::Dict{String,<:Any})
+
+Starts a recommender that was previously stopped. Starting a recommender resumes its ability
+to generate recommendations.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The name of the recommender to start.
+"""
+function start_recommender end
+
+function start_recommender(
+    DomainName, RecommenderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)/start";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_recommender(
+    DomainName,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)/start",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_upload_job(domain_name, job_id)
+    start_upload_job(domain_name, job_id, params::Dict{String,<:Any})
+
+This API starts the processing of an upload job to ingest profile data.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain containing the upload job to start.
+- `job_id`: The unique identifier of the upload job to start.
+"""
+function start_upload_job end
+
+function start_upload_job(
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_upload_job(
+    DomainName,
+    JobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_recommender(domain_name, recommender_name)
+    stop_recommender(domain_name, recommender_name, params::Dict{String,<:Any})
+
+Stops a recommender, suspending its ability to generate recommendations. The recommender can
+be restarted later using StartRecommender.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The name of the recommender to stop.
+"""
+function stop_recommender end
+
+function stop_recommender(
+    DomainName, RecommenderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_recommender(
+    DomainName,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)/stop",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_upload_job(domain_name, job_id)
+    stop_upload_job(domain_name, job_id, params::Dict{String,<:Any})
+
+This API stops the processing of an upload job.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain containing the upload job to stop.
+- `job_id`: The unique identifier of the upload job to stop.
+"""
+function stop_upload_job end
+
+function stop_upload_job(
+    DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_upload_job(
+    DomainName,
+    JobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/upload-jobs/$(JobId)/stop",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2572,6 +4817,8 @@ To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"DataStore"`: Set to true to enabled data store for this domain.
+
 - `"DeadLetterQueueUrl"`: The URL of the SQS dead letter queue, which is used for reporting
   errors associated with ingesting data from third party applications. If specified as an
   empty string, it will clear any existing value. You must set up a policy on the
@@ -2623,6 +4870,113 @@ function update_domain(
 end
 
 """
+    update_domain_layout(domain_name, layout_definition_name)
+    update_domain_layout(domain_name, layout_definition_name, params::Dict{String,<:Any})
+
+Updates the layout used to view data for a specific domain. This API can only be invoked
+from the Amazon Connect admin website.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `layout_definition_name`: The unique name of the layout.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the layout
+- `"DisplayName"`: The display name of the layout
+- `"IsDefault"`: If set to true for a layout, this layout will be used by default to view
+  data. If set to false, then the layout will not be used by default, but it can be used to
+  view data by explicitly selecting it in the console.
+- `"Layout"`: A customizable layout that can be used to view data under a Customer Profiles
+  domain.
+- `"LayoutType"`: The type of layout that can be used to view data under a Customer Profiles
+  domain.
+"""
+function update_domain_layout end
+
+function update_domain_layout(
+    DomainName, LayoutDefinitionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_domain_layout(
+    DomainName,
+    LayoutDefinitionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/layouts/$(LayoutDefinitionName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_trigger(domain_name, event_trigger_name)
+    update_event_trigger(domain_name, event_trigger_name, params::Dict{String,<:Any})
+
+Update the properties of an Event Trigger.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `event_trigger_name`: The unique name of the event trigger.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The description of the event trigger.
+- `"EventTriggerConditions"`: A list of conditions that determine when an event should
+  trigger the destination.
+- `"EventTriggerLimits"`: Defines limits controlling whether an event triggers the
+  destination, based on ingestion latency and the number of invocations per profile over
+  specific time periods.
+- `"ObjectTypeName"`: The unique name of the object type.
+- `"SegmentFilter"`: The destination is triggered only for profiles that meet the criteria
+  of a segment definition.
+"""
+function update_event_trigger end
+
+function update_event_trigger(
+    DomainName, EventTriggerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_event_trigger(
+    DomainName,
+    EventTriggerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/event-triggers/$(EventTriggerName)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_profile(domain_name, profile_id)
     update_profile(domain_name, profile_id, params::Dict{String,<:Any})
 
@@ -2642,7 +4996,7 @@ be kept.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AccountNumber"`: A unique account number that you have given to the customer.
+- `"AccountNumber"`: An account number that you have assigned to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s profile.
 - `"Address"`: A generic address associated with the customer that is not mailing, shipping,
   or billing.
@@ -2654,6 +5008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
 - `"EmailAddress"`: The customer’s email address, which has not been specified as a personal
   or business address.
+- `"EngagementPreferences"`: Object that defines users preferred methods of engagement.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
 - `"GenderString"`: An alternative to `Gender` which accepts any string as input.
@@ -2667,6 +5022,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PersonalEmailAddress"`: The customer’s personal email address.
 - `"PhoneNumber"`: The customer’s phone number, which has not been specified as a mobile,
   home, or business number.
+- `"ProfileType"`: Determines the type of the profile.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
 function update_profile end
@@ -2695,6 +5051,54 @@ function update_profile(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
         );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_recommender(domain_name, recommender_name)
+    update_recommender(domain_name, recommender_name, params::Dict{String,<:Any})
+
+Updates the properties of an existing recommender, allowing you to modify its configuration
+and description.
+
+# Arguments
+
+- `domain_name`: The unique name of the domain.
+- `recommender_name`: The name of the recommender to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Description"`: The new description to assign to the recommender.
+- `"RecommenderConfig"`: The new configuration settings to apply to the recommender,
+  including updated parameters and settings that define its behavior.
+"""
+function update_recommender end
+
+function update_recommender(
+    DomainName, RecommenderName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return customer_profiles(
+        "PATCH",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_recommender(
+    DomainName,
+    RecommenderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return customer_profiles(
+        "PATCH",
+        "/domains/$(DomainName)/recommenders/$(RecommenderName)",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

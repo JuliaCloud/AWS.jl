@@ -189,7 +189,7 @@ but not yet deleted from the queue). If you reach this limit, Amazon SQS returns
 queue after they're processed. You can also increase the number of queues you use to process
 your messages. To request a limit increase, [file a support request](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sqs).
 
-For FIFO queues, there can be a maximum of 20,000 in flight messages (received from a queue
+For FIFO queues, there can be a maximum of 120,000 in flight messages (received from a queue
 by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS
 returns no error messages.
 
@@ -330,7 +330,7 @@ Keep the following in mind:
       You can't change the queue type after you create it and you can't convert an existing
       standard queue into a FIFO queue. You must either create a new FIFO queue for your
       application or delete your existing standard queue and recreate it as a FIFO queue.
-      For more information, see [Moving From a Standard Queue to a FIFO Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-moving)
+      For more information, see [Moving From a standard queue to a FIFO queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-moving)
       in the *Amazon SQS Developer Guide*.
 
 - If you don't provide a value for an attribute, the queue is created with the default value
@@ -345,13 +345,18 @@ and is unique within the scope of your queues.
     After you create a queue, you must wait at least one second after the queue is created
     to be able to use the queue.
 
-To get the queue URL, use the `[`get_queue_url`](@ref)` action. `[`get_queue_url`](@ref)`
-requires only the `QueueName` parameter. be aware of existing queue names:
+To retrieve the URL of a queue, use the [`GetQueueUrl`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_GetQueueUrl.html)
+action. This action only requires the [`QueueName`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html#API_CreateQueue_RequestSyntax)
+parameter.
 
-- If you provide the name of an existing queue along with the exact names and values of all
-  the queue's attributes, `CreateQueue` returns the queue URL for the existing queue.
-- If the queue name, attribute names, or attribute values don't match an existing queue,
-  `CreateQueue` returns an error.
+When creating queues, keep the following points in mind:
+
+- If you specify the name of an existing queue and provide the exact same names and values
+  for all its attributes, the [`CreateQueue`](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html)
+  action will return the URL of the existing queue instead of creating a new one.
+- If you attempt to create a queue with a name that already exists but with different
+  attribute names or values, the `CreateQueue` action will return an error. This ensures
+  that existing queues are not inadvertently altered.
 
 !!! note
     Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name)
@@ -380,8 +385,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes).
     Default: 0.
   - `MaximumMessageSize` – The limit of how many bytes a message can contain before Amazon
-    SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256
-    KiB). Default: 262,144 (256 KiB).
+    SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 1,048,576 bytes (1
+    MiB). Default: 1,048,576 bytes (1 MiB).
   - `MessageRetentionPeriod` – The length of time, in seconds, for which Amazon SQS retains
     a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14
     days). Default: 345,600 (4 days). When you change a queue's attributes, the change can
@@ -557,11 +562,12 @@ setting causes the message to be locked by another consumer. Amazon SQS automati
 deletes messages left in a queue longer than the retention period configured for the queue.
 
 !!! note
-    The `ReceiptHandle` is associated with a *specific instance* of receiving a message. If
-    you receive a message more than once, the `ReceiptHandle` is different each time you
-    receive a message. When you use the `DeleteMessage` action, you must provide the most
-    recently received `ReceiptHandle` for the message (otherwise, the request succeeds, but
-    the message will not be deleted).
+    Each time you receive a message, meaning when a consumer retrieves a message from the
+    queue, it comes with a unique `ReceiptHandle`. If you receive the same message more than
+    once, you will get a different `ReceiptHandle` each time. When you want to delete a
+    message using the `DeleteMessage` action, you must use the `ReceiptHandle` from the most
+    recent time you received the message. If you use an old `ReceiptHandle`, the request
+    will succeed, but the message might not be deleted.
 
     For standard queues, it is possible to receive a message even after you delete it. This
     might happen on rare occasions if one of the servers which stores a copy of the message
@@ -895,27 +901,28 @@ end
     get_queue_url(queue_name)
     get_queue_url(queue_name, params::Dict{String,<:Any})
 
-Returns the URL of an existing Amazon SQS queue.
+The `GetQueueUrl` API returns the URL of an existing Amazon SQS queue. This is useful when
+you know the queue's name but need to retrieve its URL for further operations.
 
-To access a queue that belongs to another AWS account, use the `QueueOwnerAWSAccountId`
-parameter to specify the account ID of the queue's owner. The queue's owner must grant you
-permission to access the queue. For more information about shared queue access, see
-`[`add_permission`](@ref)` or see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue)
+To access a queue owned by another Amazon Web Services account, use the
+`QueueOwnerAWSAccountId` parameter to specify the account ID of the queue's owner. Note that
+the queue owner must grant you the necessary permissions to access the queue. For more
+information about accessing shared queues, see the `[`add_permission`](@ref)` API or [Allow developers to write messages to a shared queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue)
 in the *Amazon SQS Developer Guide*.
 
 # Arguments
 
-- `queue_name`: The name of the queue whose URL must be fetched. Maximum 80 characters.
-  Valid values: alphanumeric characters, hyphens (`-`), and underscores (`_`).
-
-  Queue URLs and names are case-sensitive.
+- `queue_name`: (Required) The name of the queue for which you want to fetch the URL. The
+  name can be up to 80 characters long and can include alphanumeric characters, hyphens (-),
+  and underscores (_). Queue URLs and names are case-sensitive.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"QueueOwnerAWSAccountId"`: The Amazon Web Services account ID of the account that created
-  the queue.
+- `"QueueOwnerAWSAccountId"`: (Optional) The Amazon Web Services account ID of the account
+  that created the queue. This is only required when you are attempting to access a queue
+  owned by another Amazon Web Services account.
 """
 function get_queue_url end
 
@@ -1201,8 +1208,8 @@ Retrieves one or more messages (up to 10), from the specified queue. Using the
 in the *Amazon SQS Developer Guide*.
 
 Short poll is the default behavior where a weighted random set of machines is sampled on a
-`ReceiveMessage` call. Thus, only the messages on the sampled machines are returned. If the
-number of messages in the queue is small (fewer than 1,000), you most likely get fewer
+`ReceiveMessage` call. Therefore, only the messages on the sampled machines are returned. If
+the number of messages in the queue is small (fewer than 1,000), you most likely get fewer
 messages than you requested per `ReceiveMessage` call. If the number of messages in the
 queue is extremely small, you might not receive any messages in a particular
 `ReceiveMessage` response. If this happens, repeat the request.
@@ -1222,13 +1229,8 @@ in the *Amazon SQS Developer Guide*.
 
 You can provide the `VisibilityTimeout` parameter in your request. The parameter is applied
 to the messages that Amazon SQS returns in the response. If you don't include the parameter,
-the overall visibility timeout for the queue is used for the returned messages. For more
-information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
-in the *Amazon SQS Developer Guide*.
-
-A message that isn't deleted or a message whose visibility isn't extended before the
-visibility timeout expires counts as a failed receive. Depending on the configuration of the
-queue, the message might be sent to the dead-letter queue.
+the overall visibility timeout for the queue is used for the returned messages. The default
+visibility timeout for a queue is 30 seconds.
 
 !!! note
     In the future, new attributes might be added. If you write code that calls this action,
@@ -1246,7 +1248,7 @@ queue, the message might be sent to the dead-letter queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AttributeNames"`: !!! important
-      This parameter has been deprecated but will be supported for backward compatibility.
+      This parameter has been discontinued but will be supported for backward compatibility.
       To provide attribute names, you are encouraged to use `MessageSystemAttributeNames`.
 
   A list of attributes that need to be returned along with each message. These attributes
@@ -1270,8 +1272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `MessageDeduplicationId` – Returns the value provided by the producer that calls the
     ``SendMessage`` action.
   - `MessageGroupId` – Returns the value provided by the producer that calls the
-    ``SendMessage`` action. Messages with the same `MessageGroupId` are returned in
-    sequence.
+    ``SendMessage`` action.
   - `SequenceNumber` – Returns the value provided by Amazon SQS.
 
 - `"MaxNumberOfMessages"`: The maximum number of messages to return. Amazon SQS never
@@ -1314,8 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - `MessageDeduplicationId` – Returns the value provided by the producer that calls the
     ``SendMessage`` action.
   - `MessageGroupId` – Returns the value provided by the producer that calls the
-    ``SendMessage`` action. Messages with the same `MessageGroupId` are returned in
-    sequence.
+    ``SendMessage`` action.
   - `SequenceNumber` – Returns the value provided by Amazon SQS.
 
 - `"ReceiveRequestAttemptId"`: This parameter applies only to FIFO (first-in-first-out)
@@ -1351,8 +1351,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   - While messages with a particular `MessageGroupId` are invisible, no more messages
     belonging to the same `MessageGroupId` are returned until the visibility timeout
-    expires. You can still receive messages with another `MessageGroupId` as long as it is
-    also visible.
+    expires. You can still receive messages with another `MessageGroupId` from your FIFO
+    queue as long as they are visible.
   - If a caller of `ReceiveMessage` can't track the `ReceiveRequestAttemptId`, no retries
     work until the original visibility timeout expires. As a result, delays might occur but
     the messages in the queue remain in a strict order.
@@ -1366,12 +1366,34 @@ For best practices of using
   in the *Amazon SQS Developer Guide*.
 
 - `"VisibilityTimeout"`: The duration (in seconds) that the received messages are hidden
-  from subsequent retrieve requests after being retrieved by a `ReceiveMessage` request.
+  from subsequent retrieve requests after being retrieved by a `ReceiveMessage` request. If
+  not specified, the default visibility timeout for the queue is used, which is 30 seconds.
+
+  Understanding `VisibilityTimeout`:
+
+  - When a message is received from a queue, it becomes temporarily invisible to other
+    consumers for the duration of the visibility timeout. This prevents multiple consumers
+    from processing the same message simultaneously. If the message is not deleted or its
+    visibility timeout is not extended before the timeout expires, it becomes visible again
+    and can be retrieved by other consumers.
+  - Setting an appropriate visibility timeout is crucial. If it's too short, the message
+    might become visible again before processing is complete, leading to duplicate
+    processing. If it's too long, it delays the reprocessing of messages if the initial
+    processing fails.
+  - You can adjust the visibility timeout using the `--visibility-timeout` parameter in the
+    `receive-message` command to match the processing time required by your application.
+  - A message that isn't deleted or a message whose visibility isn't extended before the
+    visibility timeout expires counts as a failed receive. Depending on the configuration of
+    the queue, the message might be sent to the dead-letter queue.
+
+  For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
+  in the *Amazon SQS Developer Guide*.
 
 - `"WaitTimeSeconds"`: The duration (in seconds) for which the call waits for a message to
   arrive in the queue before returning. If a message is available, the call returns sooner
   than `WaitTimeSeconds`. If no messages are available and the wait time expires, the call
-  does not return a message list.
+  does not return a message list. If you are using the Java SDK, it returns a
+  `ReceiveMessageResponse` object, which has a empty list instead of a Null object.
 
   !!! important
       To avoid HTTP errors, ensure that the HTTP response timeout for `ReceiveMessage`
@@ -1473,15 +1495,14 @@ Delivers a message to the specified queue.
     `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to
     `#x10FFFF`
 
-    Amazon SQS does not throw an exception or completely reject the message if it contains
-    invalid characters. Instead, it replaces those invalid characters with `U+FFFD` before
-    storing the message in the queue, as long as the message body contains at least one
-    valid character.
+    If a message contains characters outside the allowed set, Amazon SQS rejects the message
+    and returns an InvalidMessageContents error. Ensure that your message body includes only
+    valid characters to avoid this exception.
 
 # Arguments
 
 - `message_body`: The message to send. The minimum size is one character. The maximum size
-  is 256 KiB.
+  is 1 MiB or 1,048,576 bytes
 
   !!! important
       A message can include only XML, JSON, and unformatted text. The following Unicode
@@ -1490,10 +1511,9 @@ Delivers a message to the specified queue.
       `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to
       `#x10FFFF`
 
-      Amazon SQS does not throw an exception or completely reject the message if it contains
-      invalid characters. Instead, it replaces those invalid characters with `U+FFFD` before
-      storing the message in the queue, as long as the message body contains at least one
-      valid character.
+      If a message contains characters outside the allowed set, Amazon SQS rejects the
+      message and returns an InvalidMessageContents error. Ensure that your message body
+      includes only valid characters to avoid this exception.
 
 - `queue_url`: The URL of the Amazon SQS queue to which a message is sent.
 
@@ -1562,31 +1582,44 @@ For best practices of using
   `MessageDeduplicationId`, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html)
   in the *Amazon SQS Developer Guide*.
 
-- `"MessageGroupId"`: This parameter applies only to FIFO (first-in-first-out) queues.
+- `"MessageGroupId"`: `MessageGroupId` is an attribute used in Amazon SQS FIFO (First-In-
+  First-Out) and standard queues. In FIFO queues, `MessageGroupId` organizes messages into
+  distinct groups. Messages within the same message group are always processed one at a
+  time, in strict order, ensuring that no two messages from the same group are processed
+  simultaneously. In standard queues, using `MessageGroupId` enables fair queues. It is used
+  to identify the tenant a message belongs to, helping maintain consistent message dwell
+  time across all tenants during noisy neighbor events. Unlike FIFO queues, messages with
+  the same `MessageGroupId` can be processed in parallel, maintaining the high throughput of
+  standard queues.
 
-  The tag that specifies that a message belongs to a specific message group. Messages that
-  belong to the same message group are processed in a FIFO manner (however, messages in
-  different message groups might be processed out of order). To interleave multiple ordered
-  streams within a single queue, use `MessageGroupId` values (for example, session data for
-  multiple users). In this scenario, multiple consumers can process the queue, but the
-  session data of each user is processed in a FIFO fashion.
+  - **FIFO queues:** `MessageGroupId` acts as the tag that specifies that a message belongs
+    to a specific message group. Messages that belong to the same message group are
+    processed in a FIFO manner (however, messages in different message groups might be
+    processed out of order). To interleave multiple ordered streams within a single queue,
+    use `MessageGroupId` values (for example, session data for multiple users). In this
+    scenario, multiple consumers can process the queue, but the session data of each user is
+    processed in a FIFO fashion.
 
-  - You must associate a non-empty `MessageGroupId` with a message. If you don't provide a
-    `MessageGroupId`, the action fails.
-  - `ReceiveMessage` might return messages with multiple `MessageGroupId` values. For each
-    `MessageGroupId`, the messages are sorted by time sent. The caller can't specify a
-    `MessageGroupId`.
+  If you do not provide a `MessageGroupId` when sending a message to a FIFO queue, the
+  action fails.
 
-  The maximum length of `MessageGroupId` is 128 characters. Valid values: alphanumeric
-  characters and punctuation
-  `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
+  `ReceiveMessage` might return messages with multiple `MessageGroupId` values. For each
+  `MessageGroupId`, the messages are sorted by time sent.
+  - **Standard queues:**Use `MessageGroupId` in standard queues to enable fair queues. The
+    `MessageGroupId` identifies the tenant a message belongs to. A tenant can be any entity
+    that shares a queue with others, such as your customer, a client application, or a
+    request type. When one tenant sends a disproportionately large volume of messages or has
+    messages that require longer processing time, fair queues ensure other tenants' messages
+    maintain low dwell time. This preserves quality of service for all tenants while
+    maintaining the scalability and throughput of standard queues. We recommend that you
+    include a `MessageGroupId` in all messages when using fair queues.
+
+  The length of `MessageGroupId` is 128 characters. Valid values: alphanumeric characters
+  and punctuation `(!"#\$%&'()*+,-./:;<=>?@[\\]^_`{|}~)`.
 
 For best practices of using
   `MessageGroupId`, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html)
   in the *Amazon SQS Developer Guide*.
-
-  !!! important
-      `MessageGroupId` is required for FIFO queues. You can't use it for Standard queues.
 
 - `"MessageSystemAttributes"`: The message system attribute to send. Each message system
   attribute consists of a `Name`, `Type`, and `Value`.
@@ -1645,7 +1678,7 @@ batch request can result in a combination of successful and unsuccessful actions
 check for batch errors even when the call returns an HTTP status code of `200`.
 
 The maximum allowed individual message size and the maximum total payload size (the sum of
-the individual lengths of all of the batched messages) are both 256 KiB (262,144 bytes).
+the individual lengths of all of the batched messages) are both 1 MiB 1,048,576 bytes.
 
 !!! important
     A message can include only XML, JSON, and unformatted text. The following Unicode
@@ -1654,10 +1687,9 @@ the individual lengths of all of the batched messages) are both 256 KiB (262,144
     `#x9` | `#xA` | `#xD` | `#x20` to `#xD7FF` | `#xE000` to `#xFFFD` | `#x10000` to
     `#x10FFFF`
 
-    Amazon SQS does not throw an exception or completely reject the message if it contains
-    invalid characters. Instead, it replaces those invalid characters with `U+FFFD` before
-    storing the message in the queue, as long as the message body contains at least one
-    valid character.
+    If a message contains characters outside the allowed set, Amazon SQS rejects the message
+    and returns an InvalidMessageContents error. Ensure that your message body includes only
+    valid characters to avoid this exception.
 
 If you don't specify the `DelaySeconds` parameter for an entry, Amazon SQS uses the default
 value for the queue.
@@ -1735,8 +1767,8 @@ existing messages.
     in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). Default:
     0.
   - `MaximumMessageSize` – The limit of how many bytes a message can contain before Amazon
-    SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes
-    (256 KiB). Default: 262,144 (256 KiB).
+    SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 1,048,576 bytes
+    (1 MiB). Default: 1,048,576 bytes (1 MiB).
   - `MessageRetentionPeriod` – The length of time, in seconds, for which Amazon SQS retains
     a message. Valid values: An integer representing seconds, from 60 (1 minute) to
     1,209,600 (14 days). Default: 345,600 (4 days). When you change a queue's attributes,

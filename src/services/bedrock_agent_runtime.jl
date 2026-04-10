@@ -5,11 +5,549 @@ using AWS.AWSServices: bedrock_agent_runtime
 using AWS.UUIDs: uuid4
 
 """
+    create_invocation(session_identifier)
+    create_invocation(session_identifier, params::Dict{String,<:Any})
+
+Creates a new invocation within a session. An invocation groups the related invocation steps
+that store the content from a conversation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+Related APIs
+
+- [ListInvocations](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListInvocations.html)
+- [ListSessions](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListSessions.html)
+- [GetSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_GetSession.html)
+
+# Arguments
+
+- `session_identifier`: The unique identifier for the associated session for the invocation.
+  You can specify either the session's `sessionId` or its Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A description for the interactions in the invocation. For example, "User
+  asking about weather in Seattle".
+- `"invocationId"`: A unique identifier for the invocation in UUID format.
+"""
+function create_invocation end
+
+function create_invocation(
+    sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/invocations/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_invocation(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/invocations/",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_session()
+    create_session(params::Dict{String,<:Any})
+
+Creates a session to temporarily store conversations for generative AI (GenAI) applications
+built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to
+save the state of conversations at checkpoints, with the added security and infrastructure
+of Amazon Web Services. For more information, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption,
+including session metadata, or you can use your own KMS key. For more information, see [Amazon Bedrock session encryption](https://docs.aws.amazon.com/bedrock/latest/userguide/session-encryption.html).
+
+!!! note
+    You use a session to store state and conversation history for generative AI applications
+    built with open-source frameworks. For Amazon Bedrock Agents, the service automatically
+    manages conversation context and associates them with the agent-specific sessionId you
+    specify in the [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+    API operation.
+
+Related APIs:
+
+- [ListSessions](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListSessions.html)
+- [GetSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_GetSession.html)
+- [EndSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_EndSession.html)
+- [DeleteSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_DeleteSession.html)
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"encryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to use to encrypt the
+  session data. The user or role creating the session must have permission to use the key.
+  For more information, see [Amazon Bedrock session encryption](https://docs.aws.amazon.com/bedrock/latest/userguide/session-encryption.html).
+- `"sessionMetadata"`: A map of key-value pairs containing attributes to be persisted across
+  the session. For example, the user's ID, their language preference, and the type of device
+  they are using.
+- `"tags"`: Specify the key-value pairs for the tags that you want to attach to the session.
+"""
+function create_session end
+
+function create_session(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
+        "PUT", "/sessions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function create_session(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "PUT", "/sessions/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_agent_memory(agent_alias_id, agent_id)
+    delete_agent_memory(agent_alias_id, agent_id, params::Dict{String,<:Any})
+
+Deletes memory from the specified memory identifier.
+
+# Arguments
+
+- `agent_alias_id`: The unique identifier of an alias of an agent.
+- `agent_id`: The unique identifier of the agent to which the alias belongs.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"memoryId"`: The unique identifier of the memory.
+- `"sessionId"`: The unique session identifier of the memory.
+"""
+function delete_agent_memory end
+
+function delete_agent_memory(
+    agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_agent_memory(
+    agentAliasId,
+    agentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_session(session_identifier)
+    delete_session(session_identifier, params::Dict{String,<:Any})
+
+Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To
+delete an active session, you must first end it with the [EndSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_EndSession.html)
+API operation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: The unique identifier for the session to be deleted. You can specify
+  either the session's `sessionId` or its Amazon Resource Name (ARN).
+"""
+function delete_session end
+
+function delete_session(
+    sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/sessions/$(sessionIdentifier)/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_session(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/sessions/$(sessionIdentifier)/",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    end_session(session_identifier)
+    end_session(session_identifier, params::Dict{String,<:Any})
+
+Ends the session. After you end a session, you can still access its content but you can’t
+add to it. To delete the session and it's content, you use the DeleteSession API operation.
+For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: The unique identifier for the session to end. You can specify either
+  the session's `sessionId` or its Amazon Resource Name (ARN).
+"""
+function end_session end
+
+function end_session(sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
+        "PATCH",
+        "/sessions/$(sessionIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function end_session(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "PATCH",
+        "/sessions/$(sessionIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    generate_query(query_generation_input, transformation_configuration)
+    generate_query(query_generation_input, transformation_configuration, params::Dict{String,<:Any})
+
+Generates an SQL query from a natural language query. For more information, see [Generate a query for structured data](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-generate-query.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `query_generation_input`: Specifies information about a natural language query to
+  transform into SQL.
+- `transformation_configuration`: Specifies configurations for transforming the natural
+  language query into SQL.
+"""
+function generate_query end
+
+function generate_query(
+    queryGenerationInput,
+    transformationConfiguration;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/generateQuery",
+        Dict{String,Any}(
+            "queryGenerationInput" => queryGenerationInput,
+            "transformationConfiguration" => transformationConfiguration,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function generate_query(
+    queryGenerationInput,
+    transformationConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/generateQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "queryGenerationInput" => queryGenerationInput,
+                    "transformationConfiguration" => transformationConfiguration,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_agent_memory(agent_alias_id, agent_id, memory_id, memory_type)
+    get_agent_memory(agent_alias_id, agent_id, memory_id, memory_type, params::Dict{String,<:Any})
+
+Gets the sessions stored in the memory of the agent.
+
+# Arguments
+
+- `agent_alias_id`: The unique identifier of an alias of an agent.
+- `agent_id`: The unique identifier of the agent to which the alias belongs.
+- `memory_id`: The unique identifier of the memory.
+- `memory_type`: The type of memory.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxItems"`: The maximum number of items to return in the response. If the total number
+  of results is greater than this value, use the token returned in the response in the
+  `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the maxItems value provided
+  in the request, enter the token returned in the `nextToken` field in the response in this
+  field to return the next batch of results.
+"""
+function get_agent_memory end
+
+function get_agent_memory(
+    agentAliasId,
+    agentId,
+    memoryId,
+    memoryType;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_agent_memory(
+    agentAliasId,
+    agentId,
+    memoryId,
+    memoryType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_execution_flow_snapshot(execution_identifier, flow_alias_identifier, flow_identifier)
+    get_execution_flow_snapshot(execution_identifier, flow_alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Retrieves the flow definition snapshot used for a flow execution. The snapshot represents
+the flow metadata and definition as it existed at the time the execution was started. Note
+that even if the flow is edited after an execution starts, the snapshot connected to the
+execution remains unchanged.
+
+!!! note
+    Flow executions is in preview release for Amazon Bedrock and is subject to change.
+
+# Arguments
+
+- `execution_identifier`: The unique identifier of the flow execution.
+- `flow_alias_identifier`: The unique identifier of the flow alias used for the flow
+  execution.
+- `flow_identifier`: The unique identifier of the flow.
+"""
+function get_execution_flow_snapshot end
+
+function get_execution_flow_snapshot(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/flowsnapshot";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_execution_flow_snapshot(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/flowsnapshot",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_flow_execution(execution_identifier, flow_alias_identifier, flow_identifier)
+    get_flow_execution(execution_identifier, flow_alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Retrieves details about a specific flow execution, including its status, start and end
+times, and any errors that occurred during execution.
+
+# Arguments
+
+- `execution_identifier`: The unique identifier of the flow execution to retrieve.
+- `flow_alias_identifier`: The unique identifier of the flow alias used for the execution.
+- `flow_identifier`: The unique identifier of the flow.
+"""
+function get_flow_execution end
+
+function get_flow_execution(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_flow_execution(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_invocation_step(invocation_identifier, invocation_step_id, session_identifier)
+    get_invocation_step(invocation_identifier, invocation_step_id, session_identifier, params::Dict{String,<:Any})
+
+Retrieves the details of a specific invocation step within an invocation in a session. For
+more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `invocation_identifier`: The unique identifier for the invocation in UUID format.
+- `invocation_step_id`: The unique identifier (in UUID format) for the specific invocation
+  step to retrieve.
+- `session_identifier`: The unique identifier for the invocation step's associated session.
+  You can specify either the session's `sessionId` or its Amazon Resource Name (ARN).
+"""
+function get_invocation_step end
+
+function get_invocation_step(
+    invocationIdentifier,
+    invocationStepId,
+    sessionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocationSteps/$(invocationStepId)",
+        Dict{String,Any}("invocationIdentifier" => invocationIdentifier);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_invocation_step(
+    invocationIdentifier,
+    invocationStepId,
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocationSteps/$(invocationStepId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("invocationIdentifier" => invocationIdentifier),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_session(session_identifier)
+    get_session(session_identifier, params::Dict{String,<:Any})
+
+Retrieves details about a specific session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: A unique identifier for the session to retrieve. You can specify
+  either the session's `sessionId` or its Amazon Resource Name (ARN).
+"""
+function get_session end
+
+function get_session(sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
+        "GET",
+        "/sessions/$(sessionIdentifier)/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_session(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/sessions/$(sessionIdentifier)/",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     invoke_agent(agent_alias_id, agent_id, session_id)
     invoke_agent(agent_alias_id, agent_id, session_id, params::Dict{String,<:Any})
 
 !!! note
-    The CLI doesn't support `InvokeAgent`.
 
 Sends a prompt for the agent to process and respond to. Note the following fields for the
 request:
@@ -24,7 +562,10 @@ request:
   you configured an action group to return control, results from invocation of the action
   group.
 
-The response is returned in the `bytes` field of the `chunk` object.
+The response contains both **chunk** and **trace** attributes.
+
+The final response is returned in the `bytes` field of the `chunk` object. The `InvokeAgent`
+returns one chunk for the entire interaction.
 
 - The `attribution` object contains citations for parts of the response.
 - If you set `enableTrace` to `true` in the request, you can trace the agent's steps and
@@ -44,6 +585,8 @@ The response is returned in the `bytes` field of the `chunk` object.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"bedrockModelConfigurations"`: Model performance settings for the request.
+
 - `"enableTrace"`: Specifies whether to turn on the trace or not to track the agent's
   reasoning process. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
 
@@ -55,12 +598,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       If you include `returnControlInvocationResults` in the `sessionState` field, the
       `inputText` field will be ignored.
 
+- `"memoryId"`: The unique identifier of the agent memory.
+
+- `"promptCreationConfigurations"`: Specifies parameters that control how the service
+  populates the agent prompt for an `InvokeAgent` request. You can control which aspects of
+  previous invocations in the same agent session the service uses to populate the agent
+  prompt. This gives you more granular control over the contextual history that is used to
+  process the current request.
+
 - `"sessionState"`: Contains parameters that specify various attributes of the session. For
   more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
 
   !!! note
       If you include `returnControlInvocationResults` in the `sessionState` field, the
       `inputText` field will be ignored.
+
+- `"streamingConfigurations"`: Specifies the configurations for streaming.
+
+  !!! note
+      To use agent streaming, you need permissions to perform the
+      `bedrock:InvokeModelWithResponseStream` action.
+
+- `"x-amz-source-arn"`: The ARN of the resource making the request.
 """
 function invoke_agent end
 
@@ -92,6 +651,696 @@ function invoke_agent(
 end
 
 """
+    invoke_flow(flow_alias_identifier, flow_identifier, inputs)
+    invoke_flow(flow_alias_identifier, flow_identifier, inputs, params::Dict{String,<:Any})
+
+Invokes an alias of a flow to run the inputs that you specify and return the output of each
+node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+!!! note
+    The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
+
+# Arguments
+
+- `flow_alias_identifier`: The unique identifier of the flow alias.
+- `flow_identifier`: The unique identifier of the flow.
+- `inputs`: A list of objects, each containing information about an input into the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"enableTrace"`: Specifies whether to return the trace for the flow or not. Traces track
+  inputs and outputs for nodes in the flow. For more information, see [Track each step in your prompt flow by viewing its trace in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html).
+- `"executionId"`: The unique identifier for the current flow execution. If you don't
+  provide a value, Amazon Bedrock creates the identifier for you.
+- `"modelPerformanceConfiguration"`: Model performance settings for the request.
+"""
+function invoke_flow end
+
+function invoke_flow(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
+        Dict{String,Any}("inputs" => inputs);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function invoke_flow(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("inputs" => inputs), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    invoke_inline_agent(foundation_model, instruction, session_id)
+    invoke_inline_agent(foundation_model, instruction, session_id, params::Dict{String,<:Any})
+
+Invokes an inline Amazon Bedrock agent using the configurations you provide with the
+request.
+
+- Specify the following fields for security purposes.
+  - (Optional) `customerEncryptionKeyArn` – The Amazon Resource Name (ARN) of a KMS key to
+    encrypt the creation of the agent.
+  - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the agent
+    should maintain session information. After this time expires, the subsequent
+    `InvokeInlineAgent` request begins a new session.
+- To override the default prompt behavior for agent orchestration and to use advanced
+  prompts, include a `promptOverrideConfiguration` object. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+- The agent instructions will not be honored if your agent has only one knowledge base, uses
+  default prompts, has no action group, and user input is disabled.
+
+!!! note
+
+# Arguments
+
+- `foundation_model`: The [model identifier (ID)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)
+  of the model to use for orchestration by the inline agent. For example,
+  `meta.llama3-1-70b-instruct-v1:0`.
+- `instruction`: The instructions that tell the inline agent what it should do and how it
+  should interact with users.
+- `session_id`: The unique identifier of the session. Use the same value across requests to
+  continue the same conversation.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"actionGroups"`: A list of action groups with each action group defining the action the
+  inline agent needs to carry out.
+
+- `"agentCollaboration"`: Defines how the inline collaborator agent handles information
+  across multiple collaborator agents to coordinate a final response. The inline
+  collaborator agent can also be the supervisor.
+
+- `"agentName"`: The name for the agent.
+
+- `"bedrockModelConfigurations"`: Model settings for the request.
+
+- `"collaboratorConfigurations"`: Settings for an inline agent collaborator called with [InvokeInlineAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeInlineAgent.html).
+
+- `"collaborators"`: List of collaborator inline agents.
+
+- `"customOrchestration"`: Contains details of the custom orchestration configured for the
+  agent.
+
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services
+  KMS key to use to encrypt your inline agent.
+
+- `"enableTrace"`: Specifies whether to turn on the trace or not to track the agent's
+  reasoning process. For more information, see [Using trace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
+
+- `"endSession"`: Specifies whether to end the session with the inline agent or not.
+
+- `"guardrailConfiguration"`: The [guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
+  to assign to the inline agent.
+
+- `"idleSessionTTLInSeconds"`: The number of seconds for which the inline agent should
+  maintain session information. After this time expires, the subsequent `InvokeInlineAgent`
+  request begins a new session.
+
+  A user interaction remains active for the amount of time specified. If no conversation
+  occurs during this time, the session expires and the data provided before the timeout is
+  deleted.
+
+- `"inlineSessionState"`: Parameters that specify the various attributes of a sessions. You
+  can include attributes for the session or prompt or, if you configured an action group to
+  return control, results from invocation of the action group. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
+
+  !!! note
+      If you include `returnControlInvocationResults` in the `sessionState` field, the
+      `inputText` field will be ignored.
+
+- `"inputText"`: The prompt text to send to the agent.
+
+  !!! note
+      If you include `returnControlInvocationResults` in the `sessionState` field, the
+      `inputText` field will be ignored.
+
+- `"knowledgeBases"`: Contains information of the knowledge bases to associate with.
+
+- `"orchestrationType"`: Specifies the type of orchestration strategy for the agent. This is
+  set to DEFAULT orchestration type, by default.
+
+- `"promptCreationConfigurations"`: Specifies parameters that control how the service
+  populates the agent prompt for an `InvokeInlineAgent` request. You can control which
+  aspects of previous invocations in the same agent session the service uses to populate the
+  agent prompt. This gives you more granular control over the contextual history that is
+  used to process the current request.
+
+- `"promptOverrideConfiguration"`: Configurations for advanced prompts used to override the
+  default prompts to enhance the accuracy of the inline agent.
+
+- `"streamingConfigurations"`: Specifies the configurations for streaming.
+
+  !!! note
+      To use agent streaming, you need permissions to perform the
+      `bedrock:InvokeModelWithResponseStream` action.
+"""
+function invoke_inline_agent end
+
+function invoke_inline_agent(
+    foundationModel,
+    instruction,
+    sessionId;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/agents/$(sessionId)",
+        Dict{String,Any}(
+            "foundationModel" => foundationModel, "instruction" => instruction
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function invoke_inline_agent(
+    foundationModel,
+    instruction,
+    sessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/agents/$(sessionId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "foundationModel" => foundationModel, "instruction" => instruction
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_flow_execution_events(event_type, execution_identifier, flow_alias_identifier, flow_identifier)
+    list_flow_execution_events(event_type, execution_identifier, flow_alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Lists events that occurred during a flow execution. Events provide detailed information
+about the execution progress, including node inputs and outputs, flow inputs and outputs,
+condition results, and failure events.
+
+!!! note
+    Flow executions is in preview release for Amazon Bedrock and is subject to change.
+
+# Arguments
+
+- `event_type`: The type of events to retrieve. Specify `Node` for node-level events or
+  `Flow` for flow-level events.
+- `execution_identifier`: The unique identifier of the flow execution.
+- `flow_alias_identifier`: The unique identifier of the flow alias used for the execution.
+- `flow_identifier`: The unique identifier of the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of events to return in a single response. If more
+  events exist than the specified maxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"nextToken"`: A token to retrieve the next set of results. This value is returned in the
+  response if more results are available.
+"""
+function list_flow_execution_events end
+
+function list_flow_execution_events(
+    eventType,
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/events",
+        Dict{String,Any}("eventType" => eventType);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_flow_execution_events(
+    eventType,
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/events",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventType" => eventType), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_flow_executions(flow_identifier)
+    list_flow_executions(flow_identifier, params::Dict{String,<:Any})
+
+Lists all executions of a flow. Results can be paginated and include summary information
+about each execution, such as status, start and end times, and the execution's Amazon
+Resource Name (ARN).
+
+!!! note
+    Flow executions is in preview release for Amazon Bedrock and is subject to change.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow to list executions for.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"flowAliasIdentifier"`: The unique identifier of the flow alias to list executions for.
+- `"maxResults"`: The maximum number of flow executions to return in a single response. If
+  more executions exist than the specified `maxResults` value, a token is included in the
+  response so that the remaining results can be retrieved.
+- `"nextToken"`: A token to retrieve the next set of results. This value is returned in the
+  response if more results are available.
+"""
+function list_flow_executions end
+
+function list_flow_executions(
+    flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/executions";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_flow_executions(
+    flowIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET",
+        "/flows/$(flowIdentifier)/executions",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_invocation_steps(session_identifier)
+    list_invocation_steps(session_identifier, params::Dict{String,<:Any})
+
+Lists all invocation steps associated with a session and optionally, an invocation within
+the session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: The unique identifier for the session associated with the invocation
+  steps. You can specify either the session's `sessionId` or its Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"invocationIdentifier"`: The unique identifier (in UUID format) for the invocation to
+  list invocation steps for.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+"""
+function list_invocation_steps end
+
+function list_invocation_steps(
+    sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocationSteps/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_invocation_steps(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocationSteps/",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_invocations(session_identifier)
+    list_invocations(session_identifier, params::Dict{String,<:Any})
+
+Lists all invocations associated with a specific session. For more information about
+sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: The unique identifier for the session to list invocations for. You
+  can specify either the session's `sessionId` or its Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+"""
+function list_invocations end
+
+function list_invocations(
+    sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocations/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_invocations(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/sessions/$(sessionIdentifier)/invocations/",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_sessions()
+    list_sessions(params::Dict{String,<:Any})
+
+Lists all sessions in your Amazon Web Services account. For more information about sessions,
+see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the response
+  in this field to return the next batch of results.
+"""
+function list_sessions end
+
+function list_sessions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
+        "POST", "/sessions/"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_sessions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST", "/sessions/", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+List all the tags for the resource you specify.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list tags.
+"""
+function list_tags_for_resource end
+
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "GET", "/tags/$(resourceArn)"; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "GET", "/tags/$(resourceArn)", params; aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    optimize_prompt(input, target_model_id)
+    optimize_prompt(input, target_model_id, params::Dict{String,<:Any})
+
+Optimizes a prompt for the task that you specify. For more information, see [Optimize a prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-optimize.html)
+in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+
+# Arguments
+
+- `input`: Contains the prompt to optimize.
+- `target_model_id`: The unique identifier of the model that you want to optimize the prompt
+  for.
+"""
+function optimize_prompt end
+
+function optimize_prompt(
+    input, targetModelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/optimize-prompt",
+        Dict{String,Any}("input" => input, "targetModelId" => targetModelId);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function optimize_prompt(
+    input,
+    targetModelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/optimize-prompt",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("input" => input, "targetModelId" => targetModelId),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_invocation_step(invocation_identifier, invocation_step_time, payload, session_identifier)
+    put_invocation_step(invocation_identifier, invocation_step_time, payload, session_identifier, params::Dict{String,<:Any})
+
+Add an invocation step to an invocation in a session. An invocation step stores fine-grained
+state checkpoints, including text and images, for each interaction. For more information
+about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+Related APIs:
+
+- [GetInvocationStep](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_GetInvocationStep.html)
+- [ListInvocationSteps](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListInvocationSteps.html)
+- [ListInvocations](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListInvocations.html)
+- [ListSessions](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListInvocations.html)
+
+# Arguments
+
+- `invocation_identifier`: The unique identifier (in UUID format) of the invocation to add
+  the invocation step to.
+- `invocation_step_time`: The timestamp for when the invocation step occurred.
+- `payload`: The payload for the invocation step, including text and images for the
+  interaction.
+- `session_identifier`: The unique identifier for the session to add the invocation step to.
+  You can specify either the session's `sessionId` or its Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"invocationStepId"`: The unique identifier of the invocation step in UUID format.
+"""
+function put_invocation_step end
+
+function put_invocation_step(
+    invocationIdentifier,
+    invocationStepTime,
+    payload,
+    sessionIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/invocationSteps/",
+        Dict{String,Any}(
+            "invocationIdentifier" => invocationIdentifier,
+            "invocationStepTime" => invocationStepTime,
+            "payload" => payload,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_invocation_step(
+    invocationIdentifier,
+    invocationStepTime,
+    payload,
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/invocationSteps/",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "invocationIdentifier" => invocationIdentifier,
+                    "invocationStepTime" => invocationStepTime,
+                    "payload" => payload,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    rerank(queries, reranking_configuration, sources)
+    rerank(queries, reranking_configuration, sources, params::Dict{String,<:Any})
+
+Reranks the relevance of sources based on queries. For more information, see [Improve the relevance of query responses with a reranker model](https://docs.aws.amazon.com/bedrock/latest/userguide/rerank.html).
+
+# Arguments
+
+- `queries`: An array of objects, each of which contains information about a query to submit
+  to the reranker model.
+- `reranking_configuration`: Contains configurations for reranking.
+- `sources`: An array of objects, each of which contains information about the sources to
+  rerank.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"nextToken"`: If the total number of results was greater than could fit in a response, a
+  token is returned in the `nextToken` field. You can enter that token in this field to
+  return the next batch of results.
+"""
+function rerank end
+
+function rerank(
+    queries,
+    rerankingConfiguration,
+    sources;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/rerank",
+        Dict{String,Any}(
+            "queries" => queries,
+            "rerankingConfiguration" => rerankingConfiguration,
+            "sources" => sources,
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function rerank(
+    queries,
+    rerankingConfiguration,
+    sources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/rerank",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "queries" => queries,
+                    "rerankingConfiguration" => rerankingConfiguration,
+                    "sources" => sources,
+                ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     retrieve(knowledge_base_id, retrieval_query)
     retrieve(knowledge_base_id, retrieval_query, params::Dict{String,<:Any})
 
@@ -106,6 +1355,7 @@ Queries a knowledge base and retrieves information from it.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
+- `"guardrailConfiguration"`: Guardrail settings.
 - `"nextToken"`: If there are more results than can fit in the response, the response
   returns a `nextToken`. Use this token in the `nextToken` field of another request to
   retrieve the next batch of results.
@@ -147,8 +1397,9 @@ end
     retrieve_and_generate(input)
     retrieve_and_generate(input, params::Dict{String,<:Any})
 
-Queries a knowledge base and generates responses based on the retrieved results. The
-response only cites sources that are relevant to the query.
+Queries a knowledge base and generates responses based on the retrieved results and using
+the specified foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+The response only cites sources that are relevant to the query.
 
 # Arguments
 
@@ -160,9 +1411,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base query
   and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
+
 - `"sessionConfiguration"`: Contains details about the session with the knowledge base.
-- `"sessionId"`: The unique identifier of the session. Reuse the same value to continue the
-  same session with the knowledge base.
+
+- `"sessionId"`: The unique identifier of the session. When you first make a
+  `RetrieveAndGenerate` request, Amazon Bedrock automatically generates this value. You must
+  reuse this value for all subsequent requests in the same conversational session. This
+  value allows Amazon Bedrock to maintain context and knowledge from previous interactions.
+  You can't explicitly set the `sessionId` yourself.
 """
 function retrieve_and_generate end
 
@@ -183,6 +1439,301 @@ function retrieve_and_generate(
         "POST",
         "/retrieveAndGenerate",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("input" => input), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    retrieve_and_generate_stream(input)
+    retrieve_and_generate_stream(input, params::Dict{String,<:Any})
+
+Queries a knowledge base and generates responses based on the retrieved results, with output
+in streaming format.
+
+!!! note
+    The CLI doesn't support streaming operations in Amazon Bedrock, including
+    `InvokeModelWithResponseStream`.
+
+This operation requires permission for the `bedrock:RetrieveAndGenerate` action.
+
+# Arguments
+
+- `input`: Contains the query to be made to the knowledge base.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base query
+  and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
+
+- `"sessionConfiguration"`: Contains details about the session with the knowledge base.
+
+- `"sessionId"`: The unique identifier of the session. When you first make a
+  `RetrieveAndGenerate` request, Amazon Bedrock automatically generates this value. You must
+  reuse this value for all subsequent requests in the same conversational session. This
+  value allows Amazon Bedrock to maintain context and knowledge from previous interactions.
+  You can't explicitly set the `sessionId` yourself.
+"""
+function retrieve_and_generate_stream end
+
+function retrieve_and_generate_stream(
+    input; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/retrieveAndGenerateStream",
+        Dict{String,Any}("input" => input);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function retrieve_and_generate_stream(
+    input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/retrieveAndGenerateStream",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("input" => input), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_flow_execution(flow_alias_identifier, flow_identifier, inputs)
+    start_flow_execution(flow_alias_identifier, flow_identifier, inputs, params::Dict{String,<:Any})
+
+Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or
+time out after five minutes, flow executions let you run flows asynchronously for longer
+durations. Flow executions also yield control so that your application can perform other
+tasks.
+
+This operation returns an Amazon Resource Name (ARN) that you can use to track and manage
+your flow execution.
+
+!!! note
+    Flow executions is in preview release for Amazon Bedrock and is subject to change.
+
+# Arguments
+
+- `flow_alias_identifier`: The unique identifier of the flow alias to use for the flow
+  execution.
+- `flow_identifier`: The unique identifier of the flow to execute.
+- `inputs`: The input data required for the flow execution. This must match the input schema
+  defined in the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"flowExecutionName"`: The unique name for the flow execution. If you don't provide one, a
+  system-generated name is used.
+- `"modelPerformanceConfiguration"`: The performance settings for the foundation model used
+  in the flow execution.
+"""
+function start_flow_execution end
+
+function start_flow_execution(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions",
+        Dict{String,Any}("inputs" => inputs);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_flow_execution(
+    flowAliasIdentifier,
+    flowIdentifier,
+    inputs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("inputs" => inputs), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_flow_execution(execution_identifier, flow_alias_identifier, flow_identifier)
+    stop_flow_execution(execution_identifier, flow_alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the
+flow and changes the execution status to `Aborted`.
+
+# Arguments
+
+- `execution_identifier`: The unique identifier of the flow execution to stop.
+- `flow_alias_identifier`: The unique identifier of the flow alias used for the execution.
+- `flow_identifier`: The unique identifier of the flow.
+"""
+function stop_flow_execution end
+
+function stop_flow_execution(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/stop";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function stop_flow_execution(
+    executionIdentifier,
+    flowAliasIdentifier,
+    flowIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)/executions/$(executionIdentifier)/stop",
+        params;
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
+- `tags`: An object containing key-value pairs that define the tags to attach to the
+  resource.
+"""
+function tag_resource end
+
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Remove tags from a resource.
+
+# Arguments
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to remove tags.
+- `tag_keys`: A list of keys of the tags to remove from the resource.
+"""
+function untag_resource end
+
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_session(session_identifier)
+    update_session(session_identifier, params::Dict{String,<:Any})
+
+Updates the metadata or encryption settings of a session. For more information about
+sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+
+# Arguments
+
+- `session_identifier`: The unique identifier of the session to modify. You can specify
+  either the session's `sessionId` or its Amazon Resource Name (ARN).
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"sessionMetadata"`: A map of key-value pairs containing attributes to be persisted across
+  the session. For example the user's ID, their language preference, and the type of device
+  they are using.
+"""
+function update_session end
+
+function update_session(
+    sessionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/";
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_session(
+    sessionIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return bedrock_agent_runtime(
+        "PUT",
+        "/sessions/$(sessionIdentifier)/",
+        params;
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

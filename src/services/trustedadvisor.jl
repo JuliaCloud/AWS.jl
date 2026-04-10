@@ -8,7 +8,12 @@ using AWS.UUIDs: uuid4
     batch_update_recommendation_resource_exclusion(recommendation_resource_exclusions)
     batch_update_recommendation_resource_exclusion(recommendation_resource_exclusions, params::Dict{String,<:Any})
 
-Update one or more exclusion status for a list of recommendation resources
+Update one or more exclusion statuses for a list of recommendation resources. This API
+supports up to 25 unique recommendation resource ARNs per request. This API currently
+doesn't support prioritized recommendation resources. This API updates global
+recommendations, eliminating the need to call the API in each AWS Region. After submitting
+an exclusion update, note that it might take a few minutes for the changes to be reflected
+in the system.
 
 # Arguments
 
@@ -58,7 +63,8 @@ end
     get_organization_recommendation(organization_recommendation_identifier, params::Dict{String,<:Any})
 
 Get a specific recommendation within an AWS Organizations organization. This API supports
-only prioritized recommendations.
+only prioritized recommendations and provides global priority recommendations, eliminating
+the need to call the API in each AWS Region.
 
 # Arguments
 
@@ -95,11 +101,19 @@ end
     get_recommendation(recommendation_identifier)
     get_recommendation(recommendation_identifier, params::Dict{String,<:Any})
 
-Get a specific Recommendation
+Get a specific Recommendation. This API provides global recommendations, eliminating the
+need to call the API in each AWS Region.
 
 # Arguments
 
 - `recommendation_identifier`: The Recommendation identifier
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"language"`: The ISO 639-1 code for the language that you want your recommendations to
+  appear in.
 """
 function get_recommendation end
 
@@ -132,7 +146,8 @@ end
     list_checks()
     list_checks(params::Dict{String,<:Any})
 
-List a filterable set of Checks
+List a filterable set of Checks. This API provides global recommendations, eliminating the
+need to call the API in each AWS Region.
 
 # Optional Parameters
 
@@ -165,7 +180,8 @@ end
     list_organization_recommendation_accounts(organization_recommendation_identifier, params::Dict{String,<:Any})
 
 Lists the accounts that own the resources for an organization aggregate recommendation. This
-API only supports prioritized recommendations.
+API only supports prioritized recommendations and provides global priority recommendations,
+eliminating the need to call the API in each AWS Region.
 
 # Arguments
 
@@ -212,7 +228,8 @@ end
     list_organization_recommendation_resources(organization_recommendation_identifier, params::Dict{String,<:Any})
 
 List Resources of a Recommendation within an Organization. This API only supports
-prioritized recommendations.
+prioritized recommendations and provides global priority recommendations, eliminating the
+need to call the API in each AWS Region.
 
 # Arguments
 
@@ -263,7 +280,8 @@ end
     list_organization_recommendations(params::Dict{String,<:Any})
 
 List a filterable set of Recommendations within an Organization. This API only supports
-prioritized recommendations.
+prioritized recommendations and provides global priority recommendations, eliminating the
+need to call the API in each AWS Region.
 
 # Optional Parameters
 
@@ -310,7 +328,8 @@ end
     list_recommendation_resources(recommendation_identifier)
     list_recommendation_resources(recommendation_identifier, params::Dict{String,<:Any})
 
-List Resources of a Recommendation
+List Resources of a Recommendation. This API provides global recommendations, eliminating
+the need to call the API in each AWS Region.
 
 # Arguments
 
@@ -321,6 +340,8 @@ List Resources of a Recommendation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"exclusionStatus"`: The exclusion status of the resource
+- `"language"`: The ISO 639-1 code for the language that you want your recommendations to
+  appear in.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -358,7 +379,8 @@ end
     list_recommendations()
     list_recommendations(params::Dict{String,<:Any})
 
-List a filterable set of Recommendations
+List a filterable set of Recommendations. This API provides global recommendations,
+eliminating the need to call the API in each AWS Region.
 
 # Optional Parameters
 
@@ -368,6 +390,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
 - `"checkIdentifier"`: The check identifier of the Recommendation
+- `"language"`: The ISO 639-1 code for the language that you want your recommendations to
+  appear in.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -397,7 +421,8 @@ end
     update_organization_recommendation_lifecycle(lifecycle_stage, organization_recommendation_identifier, params::Dict{String,<:Any})
 
 Update the lifecycle of a Recommendation within an Organization. This API only supports
-prioritized recommendations.
+prioritized recommendations and updates global priority recommendations, eliminating the
+need to call the API in each AWS Region.
 
 # Arguments
 
@@ -449,7 +474,9 @@ end
     update_recommendation_lifecycle(lifecycle_stage, recommendation_identifier)
     update_recommendation_lifecycle(lifecycle_stage, recommendation_identifier, params::Dict{String,<:Any})
 
-Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
+Update the lifecyle of a Recommendation. This API only supports prioritized recommendations
+and updates global priority recommendations, eliminating the need to call the API in each
+AWS Region.
 
 # Arguments
 

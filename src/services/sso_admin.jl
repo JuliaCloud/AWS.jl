@@ -5,6 +5,64 @@ using AWS.AWSServices: sso_admin
 using AWS.UUIDs: uuid4
 
 """
+    add_region(instance_arn, region_name)
+    add_region(instance_arn, region_name, params::Dict{String,<:Any})
+
+Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous
+workflow to replicate the IAM Identity Center instance to the target Region. The Region
+status is set to ADDING at first and changes to ACTIVE when the workflow completes.
+
+To use this operation, your IAM Identity Center instance and the target Region must meet the
+requirements described in the [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/multi-region-iam-identity-center.html#multi-region-prerequisites).
+
+The following actions are related to `AddRegion`:
+
+- [RemoveRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html)
+- [DescribeRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html)
+- [ListRegions](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html)
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center instance to
+  replicate to the target Region.
+- `region_name`: The name of the Amazon Web Services Region to add to the IAM Identity
+  Center instance. The Region name must be 1-32 characters long and follow the pattern of
+  Amazon Web Services Region names (for example, us-east-1).
+"""
+function add_region end
+
+function add_region(
+    InstanceArn, RegionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "AddRegion",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function add_region(
+    InstanceArn,
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "AddRegion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     attach_customer_managed_policy_reference_to_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -230,7 +288,15 @@ end
     create_application(application_provider_arn, instance_arn, name)
     create_application(application_provider_arn, instance_arn, name, params::Dict{String,<:Any})
 
-Creates an application in IAM Identity Center for the given application provider.
+Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given
+application provider.
+
+!!! note
+    This API does not support creating SAML 2.0 customer managed applications or Amazon Web
+    Services managed applications. To learn how to create an Amazon Web Services managed
+    application, see the application user guide. You can create a SAML 2.0 customer managed
+    application in the Amazon Web Services Management Console only. See [Setting up customer managed SAML 2.0 applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-setup.html).
+    For more information on these application types, see [Amazon Web Services managed applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/awsapps.html).
 
 # Arguments
 
@@ -320,7 +386,7 @@ Grant application access to a user or group.
 
 # Arguments
 
-- `application_arn`: The ARN of the application provider under which the operation will run.
+- `application_arn`: The ARN of the application for which the assignment is created.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For
   more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
@@ -1706,6 +1772,61 @@ function describe_permission_set_provisioning_status(
 end
 
 """
+    describe_region(instance_arn, region_name)
+    describe_region(instance_arn, region_name, params::Dict{String,<:Any})
+
+Retrieves details about a specific Region enabled in an IAM Identity Center instance.
+Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when
+the Region was added, and whether it is the primary Region. The request must be made from
+one of the enabled Regions of the IAM Identity Center instance.
+
+The following actions are related to `DescribeRegion`:
+
+- [AddRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html)
+- [RemoveRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html)
+- [ListRegions](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html)
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+- `region_name`: The name of the Amazon Web Services Region to retrieve information about.
+  The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services
+  Region names (for example, us-east-1).
+"""
+function describe_region end
+
+function describe_region(
+    InstanceArn, RegionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "DescribeRegion",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_region(
+    InstanceArn,
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "DescribeRegion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_trusted_token_issuer(trusted_token_issuer_arn)
     describe_trusted_token_issuer(trusted_token_issuer_arn, params::Dict{String,<:Any})
 
@@ -2058,6 +2179,50 @@ function get_application_grant(
 end
 
 """
+    get_application_session_configuration(application_arn)
+    get_application_session_configuration(application_arn, params::Dict{String,<:Any})
+
+Retrieves the session configuration for an application in IAM Identity Center.
+
+The session configuration determines how users can access an application. This includes
+whether user background sessions are enabled. User background sessions allow users to start
+a job on a supported Amazon Web Services managed application without having to remain signed
+in to an active session while the job runs.
+
+# Arguments
+
+- `application_arn`: The Amazon Resource Name (ARN) of the application for which to retrieve
+  the session configuration.
+"""
+function get_application_session_configuration end
+
+function get_application_session_configuration(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "GetApplicationSessionConfiguration",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_application_session_configuration(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationSessionConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -2330,7 +2495,9 @@ end
     list_account_assignments_for_principal(instance_arn, principal_id, principal_type, params::Dict{String,<:Any})
 
 Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the
-principal has access to.
+principal has access to. This action must be called from the management account containing
+your organization instance of IAM Identity Center. This action is not valid for account
+instances of IAM Identity Center.
 
 # Arguments
 
@@ -2581,7 +2748,11 @@ end
     list_application_assignments_for_principal(instance_arn, principal_id, principal_type)
     list_application_assignments_for_principal(instance_arn, principal_id, principal_type, params::Dict{String,<:Any})
 
-Lists the applications to which a specified principal is assigned.
+Lists the applications to which a specified principal is assigned. You must provide a filter
+when calling this action from a member account against your organization instance of IAM
+Identity Center. A filter is not required when called from the management account against an
+organization instance of IAM Identity Center, or from a member account against an account
+instance of IAM Identity Center in the same account.
 
 # Arguments
 
@@ -2796,9 +2967,10 @@ end
     list_applications(instance_arn, params::Dict{String,<:Any})
 
 Lists all applications associated with the instance of IAM Identity Center. When listing
-applications for an instance in the management account, member accounts must use the
-`applicationAccount` parameter to filter the list to only applications created from that
-account.
+applications for an organization instance in the management account, member accounts must
+use the `applicationAccount` parameter to filter the list to only applications created from
+that account. When listing applications for an account instance in the same member account,
+a filter is not required.
 
 # Arguments
 
@@ -3143,6 +3315,57 @@ function list_permission_sets_provisioned_to_account(
                 Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_regions(instance_arn)
+    list_regions(instance_arn, params::Dict{String,<:Any})
+
+Lists all enabled Regions of an IAM Identity Center instance, including those that are being
+added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status.
+
+The following actions are related to `ListRegions`:
+
+- [AddRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html)
+- [RemoveRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html)
+- [DescribeRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html)
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"MaxResults"`: The maximum number of results to return in a single call. Default is 100.
+- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use the
+  output of previous API calls to make subsequent calls.
+"""
+function list_regions end
+
+function list_regions(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sso_admin(
+        "ListRegions",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_regions(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "ListRegions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3495,7 +3718,42 @@ end
     put_application_grant(application_arn, grant, grant_type)
     put_application_grant(application_arn, grant, grant_type, params::Dict{String,<:Any})
 
-Adds a grant to an application.
+Creates a configuration for an application to use grants. Conceptually grants are
+authorization to request actions related to tokens. This configuration will be used when
+parties are requesting and receiving tokens during the trusted identity propagation process.
+For more information on the IAM Identity Center supported grant workflows, see [SAML 2.0 and OAuth 2.0](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-oauth2.html).
+
+A grant is created between your applications and Identity Center instance which enables an
+application to use specified mechanisms to obtain tokens. These tokens are used by your
+applications to gain access to Amazon Web Services resources on behalf of users. The
+following elements are within these exchanges:
+
+- **Requester** - The application requesting access to Amazon Web Services resources.
+- **Subject** - Typically the user that is requesting access to Amazon Web Services
+  resources.
+- **Grant** - Conceptually, a grant is authorization to access Amazon Web Services
+  resources. These grants authorize token generation for authenticating access to the
+  requester and for the request to make requests on behalf of the subjects. There are four
+  types of grants:
+  - **AuthorizationCode** - Allows an application to request authorization through a series
+    of user-agent redirects.
+  - **JWT bearer** - Authorizes an application to exchange a JSON Web Token that came from
+    an external identity provider. To learn more, see [RFC 6479](https://datatracker.ietf.org/doc/html/rfc6749).
+  - **Refresh token** - Enables application to request new access tokens to replace expiring
+    or expired access tokens.
+  - **Exchange token** - A grant that requests tokens from the authorization server by
+    providing a ‘subject’ token with access scope authorizing trusted identity propagation
+    to this application. To learn more, see [RFC 8693](https://datatracker.ietf.org/doc/html/rfc8693).
+- **Authorization server** - IAM Identity Center requests tokens.
+
+User credentials are never shared directly within these exchanges. Instead, applications use
+grants to request access tokens from IAM Identity Center. For more information, see [RFC 6479](https://datatracker.ietf.org/doc/html/rfc6749).
+
+## Use cases
+
+- Connecting to custom applications.
+- Configuring an Amazon Web Services service to make calls to another Amazon Web Services
+  services using JWT tokens.
 
 # Arguments
 
@@ -3537,6 +3795,57 @@ function put_application_grant(
                 ),
                 params,
             ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_application_session_configuration(application_arn)
+    put_application_session_configuration(application_arn, params::Dict{String,<:Any})
+
+Updates the session configuration for an application in IAM Identity Center.
+
+The session configuration determines how users can access an application. This includes
+whether user background sessions are enabled. User background sessions allow users to start
+a job on a supported Amazon Web Services managed application without having to remain signed
+in to an active session while the job runs.
+
+# Arguments
+
+- `application_arn`: The Amazon Resource Name (ARN) of the application for which to update
+  the session configuration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"UserBackgroundSessionApplicationStatus"`: The status of user background sessions for the
+  application.
+"""
+function put_application_session_configuration end
+
+function put_application_session_configuration(
+    ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "PutApplicationSessionConfiguration",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function put_application_session_configuration(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationSessionConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3659,6 +3968,64 @@ function put_permissions_boundary_to_permission_set(
                     "PermissionSetArn" => PermissionSetArn,
                     "PermissionsBoundary" => PermissionsBoundary,
                 ),
+                params,
+            ),
+        );
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    remove_region(instance_arn, region_name)
+    remove_region(instance_arn, region_name, params::Dict{String,<:Any})
+
+Removes an additional Region from an IAM Identity Center instance. This operation initiates
+an asynchronous workflow to clean up IAM Identity Center resources in the specified
+additional Region. The Region status is set to REMOVING and the Region record is deleted
+when the workflow completes. The request must be made from the primary Region. The target
+Region cannot be the primary Region, and no other add or remove Region workflows can be in
+progress.
+
+The following actions are related to `RemoveRegion`:
+
+- [AddRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html)
+- [DescribeRegion](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html)
+- [ListRegions](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html)
+
+# Arguments
+
+- `instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+- `region_name`: The name of the Amazon Web Services Region to remove from the IAM Identity
+  Center instance. The Region name must be 1-32 characters long and follow the pattern of
+  Amazon Web Services Region names (for example, us-east-1). The primary Region cannot be
+  removed.
+"""
+function remove_region end
+
+function remove_region(
+    InstanceArn, RegionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sso_admin(
+        "RemoveRegion",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName);
+        aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function remove_region(
+    InstanceArn,
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return sso_admin(
+        "RemoveRegion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "RegionName" => RegionName),
                 params,
             ),
         );
@@ -3820,8 +4187,8 @@ function update_application(
 end
 
 """
-    update_instance(instance_arn, name)
-    update_instance(instance_arn, name, params::Dict{String,<:Any})
+    update_instance(instance_arn)
+    update_instance(instance_arn, params::Dict{String,<:Any})
 
 Update the details for the instance of IAM Identity Center that is owned by the Amazon Web
 Services account.
@@ -3831,16 +4198,22 @@ Services account.
 - `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
   will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
-- `name`: Updates the instance name.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"EncryptionConfiguration"`: Specifies the encryption configuration for your IAM Identity
+  Center instance. You can use this to configure customer managed KMS keys or Amazon Web
+  Services owned KMS keys for encrypting your instance data.
+- `"Name"`: Updates the instance name.
 """
 function update_instance end
 
-function update_instance(
-    InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
-)
+function update_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "UpdateInstance",
-        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+        Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3848,18 +4221,13 @@ end
 
 function update_instance(
     InstanceArn,
-    Name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_admin(
         "UpdateInstance",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config,
         feature_set=SERVICE_FEATURE_SET,
