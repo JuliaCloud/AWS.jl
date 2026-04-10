@@ -32,7 +32,6 @@ using HTTP
 using IniFile: Inifile, sections
 using JSON: JSON
 using OrderedCollections: LittleDict, OrderedDict
-using MD5: md5
 using Mocking
 using Pkg
 using Random
