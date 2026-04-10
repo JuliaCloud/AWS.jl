@@ -87,6 +87,26 @@ function _throttling_patch(retries::Ref{Int})
     return p
 end
 
+function _time_too_skewed_patch(retries)
+    status = 403
+    body = """
+        <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n
+        <Error>
+          <Code>RequestTimeTooSkewed</Code>
+          <Message>The difference between the request time and the current time is too large.</Message>
+          <RequestId>4442587FB7D0A2F9</RequestId>
+        </Error>
+        """
+
+    p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
+        retries[] += 1
+        resp = _response(; status=status, body=body).response
+        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        throw(AWS.AWSException(err, body))
+    end
+    return p
+end
+
 _cred_file_patch = @patch function dot_aws_credentials_file()
     return ""
 end
