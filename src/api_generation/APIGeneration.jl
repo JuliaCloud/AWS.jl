@@ -2,7 +2,6 @@ module APIGeneration
 
 using Base64
 using ..AWSExceptions
-using GitHub
 using HTTP
 using JSON: JSON
 using Mocking
@@ -28,7 +27,7 @@ high-level API wrappers are each defined separate files within the directory
 `$(relpath(HIGH_LEVEL_SERVICES_DIR, PKG_DIR))`.
 """
 function parse_aws_metadata()
-    auth = GitHub.authenticate(ENV["GITHUB_AUTH"])
+    auth = get(ENV, "GITHUB_AUTH", nothing)
 
     service_files = _get_service_files(auth)
 

@@ -46,11 +46,23 @@ end
 
 function response_route(method, path, response::HTTP.Response)
     handler = function (req::HTTP.Request)
-        return HTTP.Response(
-            response.version, response.status, response.headers, response.body, req
-        )
+        return HTTP.Response(response.status, response.headers; body=response.body, request=req)
     end
     return Route(method, path, handler)
+end
+
+# A read timeout (e.g. an IMDSv2 hop-limit rejection) surfaces differently across
+# HTTP.jl versions: 1.x wraps the underlying `IOError` in a `RequestError`, whereas
+# 2.x (with `retry=false`) lets the `IOError` propagate directly.
+const _ETIMEDOUT = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+@static if isdefined(HTTP, :Exceptions)  # HTTP.jl 1.x
+    function _ttl_expired_exception()
+        return HTTP.RequestError(
+            HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody), _ETIMEDOUT
+        )
+    end
+else  # HTTP.jl 2.x
+    _ttl_expired_exception() = _ETIMEDOUT
 end
 
 # Use Mocking to re-route requests to 169.254.169.254 without having to actually start an
@@ -90,32 +102,24 @@ function _imds_patch(
             elseif listening && !enabled
                 HTTP.Response(403)
             else
-                connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
-                throw(HTTP.Exceptions.ConnectError(string(uri), connect_timeout))
+                throw(HTTP.ConnectError(string(uri), _ETIMEDOUT))
             end
 
             # When `status_exception=false` retries do not occur as an exception needs to
             # be raised for them to work. This replicates how `HTTP.request` works.
             if status_exception && resp.status >= 300
-                ex = HTTP.Exceptions.StatusError(resp.status, req.method, req.target, resp)
-                throw(ex)
+                throw(AWS._statuserror(resp.status, req.method, req.target, resp))
             end
             return resp
         end
 
+        # The only retry behaviour IMDS relies on is the caller-supplied `retry_check`
+        # (used to refresh an expired IMDSv2 token on a 401 and retry once). This avoids
+        # depending on HTTP.jl's private retry internals, which differ between 1.x and 2.x.
         retry_request = Base.retry(
             handler;
             delays=retry_delays,
-            check=(s, ex) -> begin
-                resp_body = get(req.context, :response_body, nothing)
-                resp = !isnothing(resp_body) ? req.response : nothing
-                retry = (
-                    (HTTP.RetryRequest.isrecoverable(ex) && HTTP.retryable(req)) || (
-                        HTTP.retryablebody(req) && retry_check(s, ex, req, resp, resp_body)
-                    )
-                )
-                return retry
-            end,
+            check=(s, ex) -> retry_check(s, ex, req, nothing, nothing),
         )
 
         return retry_request(req)
@@ -125,14 +129,11 @@ end
 @testset "IMDS" begin
     @testset "is_connection_exception / is_ttl_expired_exception" begin
         url = "http://169.254.169.254/latest/api/token"
-        connect_timeout = HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", 80)
-        e = HTTP.Exceptions.ConnectError(url, connect_timeout)
+        e = HTTP.ConnectError(url, _ETIMEDOUT)
         @test IMDS.is_connection_exception(e)
         @test !IMDS.is_ttl_expired_exception(e)
 
-        request = HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody)
-        io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-        e = HTTP.Exceptions.RequestError(request, io_error)
+        e = _ttl_expired_exception()
         @test !IMDS.is_connection_exception(e)
         @test IMDS.is_ttl_expired_exception(e)
 
@@ -162,7 +163,7 @@ end
         router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(500))])
         apply(_imds_patch(router)) do
             session = IMDS.Session()
-            @test_throws HTTP.Exceptions.StatusError IMDS.refresh_token!(session)
+            @test_throws HTTP.StatusError IMDS.refresh_token!(session)
         end
 
         # IMDSv1 is available
@@ -192,8 +193,7 @@ end
         @testset "invalidate session token" begin
             # IMDSv2 hop limit is too low such that the TTL has expired
             connection_timeout = function (req::HTTP.Request)
-                io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-                throw(HTTP.Exceptions.RequestError(request, io_error))
+                throw(_ttl_expired_exception())
             end
             router = Router([Route("PUT", "/latest/api/token", connection_timeout)])
             apply(_imds_patch(router)) do
@@ -246,7 +246,7 @@ end
         router = Router([response_route("GET", path, HTTP.Response(500))])
         apply(_imds_patch(router; num_requests)) do
             session = IMDS.Session()
-            @test_throws HTTP.Exceptions.StatusError IMDS.request(session, "GET", path)
+            @test_throws HTTP.StatusError IMDS.request(session, "GET", path)
             @test num_requests[] == 2
         end
 
@@ -318,8 +318,7 @@ end
         # https://github.com/JuliaCloud/AWS.jl/issues/654
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
         connection_timeout = function (req::HTTP.Request)
-            io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-            throw(HTTP.Exceptions.RequestError(request, io_error))
+            throw(_ttl_expired_exception())
         end
         router = Router([
             Route("PUT", "/latest/api/token", connection_timeout),

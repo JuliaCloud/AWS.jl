@@ -28,6 +28,7 @@ export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
 const DEFAULT_REGION = "us-east-1"
 
+include(joinpath("utilities", "http_compat.jl"))
 include(joinpath("utilities", "utilities.jl"))
 
 include("AWSExceptions.jl")

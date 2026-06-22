@@ -1,6 +1,7 @@
 module AWSExceptions
 
 using HTTP
+using ..AWS: _response_body_inline
 using JSON: JSON
 using XMLDict
 using XMLDict: XMLDictElement
@@ -135,7 +136,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
         message = get(info, "message", message)
     end
 
-    streamed_body = !HTTP.isbytes(e.response.body) ? body : nothing
+    streamed_body = !_response_body_inline(e.response.body) ? body : nothing
 
     return AWSException(code, message, info, e, streamed_body)
 end

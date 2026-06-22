@@ -11,9 +11,10 @@ security reasons).
 module IMDS
 
 using ..AWSExceptions: IMDSUnavailable
+using ..AWS: _HTTP_V2, _statuserror
 
 using HTTP: HTTP
-using HTTP.Exceptions: ConnectError, StatusError
+using HTTP: ConnectError, StatusError
 using Mocking
 using URIs: URI
 
@@ -93,7 +94,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     else
         # Could also populate the `StatusError` via `r.request.method` and
         # `r.request.target` however `r.request` may not be populated under test scenarios.
-        throw(StatusError(r.status, "PUT", uri.path, r))
+        throw(_statuserror(r.status, "PUT", uri.path, r))
     end
 
     return session
@@ -112,7 +113,7 @@ function request(
         refresh_token!(session)
         allow_refresh = false
     end
-    headers = HTTP.Header[]
+    headers = HTTP.Headers()
     if !isempty(session.token)
         HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
     end
@@ -174,12 +175,24 @@ function _http_request(args...; status_exception=true, kwargs...)
 end
 
 is_connection_exception(e::ConnectError) = true
+@static if _HTTP_V2
+    # On HTTP.jl 2.x a connection timeout surfaces as a `TimeoutError`.
+    is_connection_exception(e::HTTP.TimeoutError) = true
+end
 is_connection_exception(e::Exception) = false
 
 # https://github.com/JuliaCloud/AWS.jl/issues/654
 # https://github.com/JuliaCloud/AWS.jl/issues/649
-function is_ttl_expired_exception(e::HTTP.Exceptions.RequestError)
-    return e.error == Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+#
+# A hop-limit rejection manifests as a read timeout. On HTTP.jl 1.x this surfaces
+# as a `RequestError` wrapping the underlying `IOError`; on 2.x (with `retry=false`)
+# the underlying `IOError` propagates directly.
+const _ETIMEDOUT_IOERROR = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+
+@static if _HTTP_V2
+    is_ttl_expired_exception(e::Base.IOError) = e == _ETIMEDOUT_IOERROR
+else
+    is_ttl_expired_exception(e::HTTP.RequestError) = e.error == _ETIMEDOUT_IOERROR
 end
 is_ttl_expired_exception(e::Exception) = false
 

@@ -1,3 +1,11 @@
+# An "empty" response body placeholder: HTTP.jl 1.x exposes a streamed body as an I/O
+# object, whereas 2.x always uses a (here empty) byte vector.
+@static if isdefined(HTTP, :Exceptions)
+    _empty_http_body() = IOBuffer()
+else
+    _empty_http_body() = UInt8[]
+end
+
 @testset "AWSException" begin
     function _test_exception(ex::AWSException, expected::AbstractDict, msg::String)
         @test ex.code == expected["code"]
@@ -24,7 +32,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = _empty_http_body()
         expected["streamed_body"] = """
             <?xml version="1.0" encoding="UTF-8"?>
             <$err>
@@ -50,7 +58,7 @@
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => IOBuffer(),
+            "body" => _empty_http_body(),
             "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
@@ -74,7 +82,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = _empty_http_body()
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",
@@ -102,7 +110,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = _empty_http_body()
         expected["streamed_body"] = "\"foo\""
 
         # This does not actually send a request, just creates the object to test with

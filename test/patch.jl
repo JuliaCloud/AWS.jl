@@ -4,18 +4,28 @@ using AWS
 using Dates
 using Downloads: Downloads
 using HTTP
-using GitHub
 using Mocking
 using OrderedCollections: LittleDict
 using ...Main: http_header
 
+# An "empty" response body representing content that was streamed elsewhere. HTTP.jl 1.x
+# models this as an I/O object (a non-bytes body), whereas 2.x uses an empty byte vector.
+@static if isdefined(HTTP, :Exceptions)
+    _empty_streamed_body() = IOBuffer()
+else
+    _empty_streamed_body() = UInt8[]
+end
+
 version = v"1.1.0"
 status = 200
+# Header names use canonical casing: HTTP.jl 2.x canonicalizes header names when a
+# response is constructed, whereas 1.x preserves them verbatim. Using canonical names
+# here makes the round-trip comparison hold on both versions.
 headers = Pair[
-    "x-amz-id-2" => "x-amz-id-2",
-    "x-amz-request-id" => "x-amz-request-id",
+    "X-Amz-Id-2" => "x-amz-id-2",
+    "X-Amz-Request-Id" => "x-amz-request-id",
     "Date" => "Tue, 16 Jun 2020 21:29:18 GMT",
-    "x-amz-bucket-region" => "us-east-1",
+    "X-Amz-Bucket-Region" => "us-east-1",
     "Content-Type" => "application/xml",
     "Transfer-Encoding" => "chunked",
     "Server" => "AmazonS3",
@@ -49,12 +59,9 @@ function _response(;
     headers::Array=headers,
     body::String=body,
 )
-    response = HTTP.Messages.Response()
-
-    response.version = version
-    response.status = status
-    response.headers = headers
-    response.body = b"[Message Body was streamed]"
+    # Build via the constructor so this works on both HTTP.jl 1.x and 2.x (2.x dropped
+    # the `HTTP.Messages` submodule and the settable `version` field).
+    response = HTTP.Response(status, headers; body=b"[Message Body was streamed]")
 
     b = IOBuffer(body)
 
@@ -81,7 +88,7 @@ function _throttling_patch(retries::Ref{Int})
     p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
         retries[] += 1
         resp = _response(; status=status, body=body).response
-        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        err = AWS._statuserror(status, request.request_method, request.resource, resp)
         throw(AWS.AWSException(err, body))
     end
     return p
@@ -101,7 +108,7 @@ function _time_too_skewed_patch(retries)
     p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
         retries[] += 1
         resp = _response(; status=status, body=body).response
-        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        err = AWS._statuserror(status, request.request_method, request.resource, resp)
         throw(AWS.AWSException(err, body))
     end
     return p
@@ -157,10 +164,9 @@ _getpass_patch = function (; secret="the_secret")
     end
 end
 
-_github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
-    if tree_obj == "master"
+_github_tree_patch = @patch function AWS.APIGeneration._gh_tree(repo, sha; kwargs...)
+    if sha == "master"
         tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
-        return Tree("test-sha", HTTP.URI(), tree, false)
     else
         tree = [
             Dict(
@@ -169,8 +175,8 @@ _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
                 "type" => "blob",
             ),
         ]
-        return Tree("test-sha", HTTP.URI(), tree, false)
     end
+    return Dict("sha" => "test-sha", "tree" => tree, "truncated" => false)
 end
 
 # This patch causes `HTTP.request` to return all of its keyword arguments
@@ -213,7 +219,7 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = IOBuffer()
+                body = _empty_streamed_body()  # the body has been streamed; response carries none
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)

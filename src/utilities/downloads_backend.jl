@@ -121,11 +121,12 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 end
 
 function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
-    response = HTTP.Response(res.status, res.headers; body=IOBuffer(), request=nothing)
+    response = HTTP.Response(res.status, res.headers; body=UInt8[], request=nothing)
 
-    if throw && HTTP.iserror(response)
-        target = HTTP.resource(HTTP.URI(req.url))
-        e = HTTP.StatusError(res.status, req.request_method, target, response)
+    if throw && _http_iserror(response)
+        uri = URIs.URI(req.url)
+        target = isempty(uri.query) ? uri.path : string(uri.path, "?", uri.query)
+        e = _statuserror(res.status, req.request_method, target, response)
         Base.throw(e)
     end
 

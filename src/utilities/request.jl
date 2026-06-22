@@ -26,7 +26,12 @@ struct HTTPBackend <: AbstractBackend
 end
 
 function statuserror(status, resp)
-    return HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
+    # `resp.request` may be unset (e.g. a synthesized redirect response), so avoid
+    # dereferencing it unconditionally. On HTTP.jl 2.x the method/target are unused.
+    req = resp.request
+    method = req === nothing ? "" : req.method
+    target = req === nothing ? "" : req.target
+    return _statuserror(status, method, target, resp)
 end
 
 function HTTPBackend(; kwargs...)
@@ -244,7 +249,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
 
     check = function (s, e)
         return isa(e, HTTP.ConnectError) ||
-               isa(e, HTTP.RequestError) ||
+               _is_recoverable_request_error(e) ||
                (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
     end
 

@@ -1659,7 +1659,9 @@ end
     @testset "Credentials Not Found" begin
         patches = [
             @patch function HTTP.request(method::String, url, args...; kwargs...)
-                throw(HTTP.Exceptions.ConnectError(string(url), "host is unreachable"))
+                throw(
+                    HTTP.ConnectError(string(url), ErrorException("host is unreachable"))
+                )
             end
             Patches._cred_file_patch
             Patches._config_file_patch
