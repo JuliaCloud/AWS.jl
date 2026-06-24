@@ -2,7 +2,7 @@
 Generate the `src/services/{service}.jl` file.
 """
 function _generate_high_level_wrapper(
-    service_files::AbstractArray{ServiceFile}, auth::GitHubAuth
+    service_files::AbstractArray{ServiceFile}, auth::GitHub.OAuth2
 )
     # Remove old service files to ensure services that no longer exist are removed.
     for file in readdir(HIGH_LEVEL_SERVICES_DIR)

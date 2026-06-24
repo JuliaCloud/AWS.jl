@@ -4,6 +4,7 @@ using AWS
 using Dates
 using Downloads: Downloads
 using HTTP
+using GitHub
 using Mocking
 using OrderedCollections: LittleDict
 using ...Main: http_header
@@ -164,9 +165,10 @@ _getpass_patch = function (; secret="the_secret")
     end
 end
 
-_github_tree_patch = @patch function AWS.APIGeneration._gh_tree(repo, sha; kwargs...)
-    if sha == "master"
+_github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
+    if tree_obj == "master"
         tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
+        return Tree("test-sha", HTTP.URI(), tree, false)
     else
         tree = [
             Dict(
@@ -175,8 +177,8 @@ _github_tree_patch = @patch function AWS.APIGeneration._gh_tree(repo, sha; kwarg
                 "type" => "blob",
             ),
         ]
+        return Tree("test-sha", HTTP.URI(), tree, false)
     end
-    return Dict("sha" => "test-sha", "tree" => tree, "truncated" => false)
 end
 
 # This patch causes `HTTP.request` to return all of its keyword arguments

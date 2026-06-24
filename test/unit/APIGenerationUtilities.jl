@@ -8,7 +8,7 @@ end
 
 @testset "_get_service_files" begin
     apply(Patches._github_tree_patch) do
-        service_files = _get_service_files("foobar")
+        service_files = _get_service_files(GitHub.OAuth2("foobar"))
 
         @test length(service_files) == 1
         @test service_files[1] == ServiceFile(

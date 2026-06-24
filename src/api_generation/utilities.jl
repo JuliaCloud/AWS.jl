@@ -1,29 +1,3 @@
-# Minimal GitHub REST API access, replacing the GitHub.jl dependency (which has
-# not yet adopted HTTP.jl 2.0). Authentication is an optional personal-access
-# token; `nothing` performs unauthenticated (rate-limited) requests.
-const GitHubAuth = Union{Nothing,AbstractString}
-
-function _gh_headers(auth::GitHubAuth)
-    headers = ["Accept" => "application/vnd.github+json"]
-    auth === nothing || pushfirst!(headers, "Authorization" => "Bearer $auth")
-    return headers
-end
-
-# `GET /repos/{repo}/git/trees/{sha}` — `sha` may also be a branch name (e.g.
-# "master"), which GitHub resolves to that branch's tree.
-function _gh_tree(repo::AbstractString, sha::AbstractString; auth::GitHubAuth=nothing)
-    url = "https://api.github.com/repos/$repo/git/trees/$sha"
-    resp = HTTP.get(url; headers=_gh_headers(auth))
-    return JSON.parse(String(resp.body))
-end
-
-# `GET /repos/{repo}/git/blobs/{sha}` — returns the blob with base64 `content`.
-function _gh_blob(repo::AbstractString, sha::AbstractString; auth::GitHubAuth=nothing)
-    url = "https://api.github.com/repos/$repo/git/blobs/$sha"
-    resp = HTTP.get(url; headers=_gh_headers(auth))
-    return JSON.parse(String(resp.body))
-end
-
 mutable struct ServiceFile
     repo::String
     name::String
@@ -35,13 +9,13 @@ function ServiceFile(repo::String, blob::AbstractDict)
     return ServiceFile(repo, blob["path"], blob["sha"], nothing)
 end
 
-function service_definition(service_file::ServiceFile; auth::GitHubAuth=nothing)
+function service_definition(
+    service_file::ServiceFile; auth::GitHub.Authorization=GitHub.AnonymousAuth()
+)
     if service_file.definition === nothing
         # Retrieve the contents of the ${service}.normal.json file
-        service_blob = _gh_blob(service_file.repo, service_file.sha; auth=auth)
-        # GitHub base64-encodes blob content with embedded newlines.
-        content = replace(service_blob["content"], "\n" => "")
-        def = JSON.parse(String(base64decode(content)))
+        service_blob = blob(service_file.repo, service_file.sha; auth=auth)
+        def = JSON.parse(String(base64decode(service_blob.content)))
         service_file.definition = def
     end
 
@@ -60,12 +34,12 @@ end
 """
 Get a list of all AWS service API definition files from the `aws-sdk-js` GitHub repository.
 """
-function _get_service_files(auth::GitHubAuth)
+function _get_service_files(auth::GitHub.Authorization)
     github_repo = "aws/aws-sdk-js"  # Owner and repository name
-    master_tree = @mock _gh_tree(github_repo, "master"; auth=auth)
-    apis_sha = [t for t in master_tree["tree"] if t["path"] == "apis"][1]["sha"]
-    files = @mock _gh_tree(github_repo, apis_sha; auth=auth)
-    tree_items = files["tree"]
+    master_tree = @mock tree(github_repo, "master"; auth=auth)
+    apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
+    files = @mock tree(github_repo, apis_sha)
+    tree_items = files.tree
 
     service_file_blobs = filter!(tree_items) do t
         t["type"] == "blob" && endswith(t["path"], ".normal.json")
