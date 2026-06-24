@@ -1,6 +1,6 @@
 # An "empty" response body placeholder: HTTP.jl 1.x exposes a streamed body as an I/O
 # object, whereas 2.x always uses a (here empty) byte vector.
-@static if isdefined(HTTP, :Exceptions)
+@static if !AWS._HTTP_V2  # HTTP.jl 1.x
     _empty_http_body() = IOBuffer()
 else
     _empty_http_body() = UInt8[]

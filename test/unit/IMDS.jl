@@ -55,7 +55,7 @@ end
 # HTTP.jl versions: 1.x wraps the underlying `IOError` in a `RequestError`, whereas
 # 2.x (with `retry=false`) lets the `IOError` propagate directly.
 const _ETIMEDOUT = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-@static if isdefined(HTTP, :Exceptions)  # HTTP.jl 1.x
+@static if !AWS._HTTP_V2  # HTTP.jl 1.x
     function _ttl_expired_exception()
         return HTTP.RequestError(
             HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody), _ETIMEDOUT

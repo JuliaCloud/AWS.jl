@@ -11,7 +11,7 @@ using ...Main: http_header
 
 # An "empty" response body representing content that was streamed elsewhere. HTTP.jl 1.x
 # models this as an I/O object (a non-bytes body), whereas 2.x uses an empty byte vector.
-@static if isdefined(HTTP, :Exceptions)
+@static if !AWS._HTTP_V2  # HTTP.jl 1.x
     _empty_streamed_body() = IOBuffer()
 else
     _empty_streamed_body() = UInt8[]

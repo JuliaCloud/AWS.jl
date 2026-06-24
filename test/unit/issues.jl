@@ -1,7 +1,7 @@
 # A transient request-path failure surfaces differently across HTTP.jl versions: 1.x wraps
 # it in a `RequestError`, whereas 2.x lets the underlying transport error (e.g. `EOFError`)
 # propagate. Both are classified as recoverable by AWS.jl's retry logic.
-@static if isdefined(HTTP, :Exceptions)  # HTTP.jl 1.x
+@static if !AWS._HTTP_V2  # HTTP.jl 1.x
     _transient_request_error() = HTTP.RequestError(HTTP.Request(), EOFError())
     const _TransientRequestError = HTTP.RequestError
 else  # HTTP.jl 2.x
