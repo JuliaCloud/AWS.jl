@@ -186,11 +186,14 @@ is_connection_exception(e::Exception) = false
 #
 # A hop-limit rejection manifests as a read timeout. On HTTP.jl 1.x this surfaces
 # as a `RequestError` wrapping the underlying `IOError`; on 2.x (with `retry=false`)
-# the underlying `IOError` propagates directly.
+# the underlying `IOError` propagates directly, but a read-deadline timeout can
+# instead surface as an `HTTP.TimeoutError` (the same way connection timeouts do —
+# see `is_connection_exception` above), so we treat that as a hop-limit rejection too.
 const _ETIMEDOUT_IOERROR = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
 
 @static if _HTTP_V2
     is_ttl_expired_exception(e::Base.IOError) = e == _ETIMEDOUT_IOERROR
+    is_ttl_expired_exception(e::HTTP.TimeoutError) = true
 else
     is_ttl_expired_exception(e::HTTP.RequestError) = e.error == _ETIMEDOUT_IOERROR
 end
