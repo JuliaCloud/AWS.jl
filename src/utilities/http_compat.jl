@@ -1,8 +1,10 @@
 # Compatibility shims bridging HTTP.jl 1.x and 2.x.
 #
 # HTTP 2.0 is a breaking release which, among other changes relevant to AWS.jl:
-# - removed the `HTTP.Exceptions` submodule (`StatusError`/`ConnectError` remain
-#   available at the top level in both versions),
+# - deprecated the `HTTP.Exceptions` submodule (`StatusError`/`ConnectError` remain
+#   available at the top level in both versions; note 2.x later re-added
+#   `HTTP.Exceptions` as a deprecating compat shim — JuliaWeb/HTTP.jl#1315 — so it
+#   can no longer be used to tell the two versions apart),
 # - removed the `RequestError` type (transient request-path failures now surface
 #   as the underlying exception),
 # - removed the `iserror`, `isbytes`, and `resource` helpers,
@@ -12,9 +14,18 @@
 #   `response_stream` was supplied) and raises `TimeoutError` (not `ConnectError`)
 #   when a connection attempt times out.
 #
-# The `HTTP.Exceptions` submodule is present only on 1.x, so its absence is a
-# reliable feature flag for the 2.x line.
-const _HTTP_V2 = !isdefined(HTTP, :Exceptions)
+# Detect the HTTP 2.x line by package version (robust). Fall back to feature
+# detection only when `pkgversion` is unavailable (Julia < 1.9, or some
+# non-registry loads). Do NOT key off the `HTTP.Exceptions` submodule: 2.x
+# re-adds it as a deprecating compat shim (JuliaWeb/HTTP.jl#1315), so its presence
+# no longer distinguishes the versions. `HTTP.EmptyBody` is a genuine 2.x-only type.
+@static if VERSION >= v"1.9"
+    const _HTTP_V2 = let v = pkgversion(HTTP)
+        v === nothing ? isdefined(HTTP, :EmptyBody) : v >= v"2"
+    end
+else
+    const _HTTP_V2 = isdefined(HTTP, :EmptyBody)
+end
 
 @static if _HTTP_V2
     # `method`/`target` are accepted for call-site symmetry with 1.x; on 2.x they
