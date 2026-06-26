@@ -14,18 +14,13 @@
 #   `response_stream` was supplied) and raises `TimeoutError` (not `ConnectError`)
 #   when a connection attempt times out.
 #
-# Detect the HTTP 2.x line by package version (robust). Fall back to feature
-# detection only when `pkgversion` is unavailable (Julia < 1.9, or some
-# non-registry loads). Do NOT key off the `HTTP.Exceptions` submodule: 2.x
-# re-adds it as a deprecating compat shim (JuliaWeb/HTTP.jl#1315), so its presence
-# no longer distinguishes the versions. `HTTP.EmptyBody` is a genuine 2.x-only type.
-@static if VERSION >= v"1.9"
-    const _HTTP_V2 = let v = pkgversion(HTTP)
-        v === nothing ? isdefined(HTTP, :EmptyBody) : v >= v"2"
-    end
-else
-    const _HTTP_V2 = isdefined(HTTP, :EmptyBody)
-end
+# Select the API era by HTTP's major version. HTTP.jl only defines its own
+# `VERSION` constant in 2.x; in 1.x `HTTP.VERSION` is the binding re-exported from
+# `Base` (Julia's version), so check that `VERSION` is actually owned by the `HTTP`
+# module before trusting it — if it is not, we are on 1.x. (Don't key off the
+# `HTTP.Exceptions` submodule either: 2.x re-adds it as a deprecating compat shim,
+# JuliaWeb/HTTP.jl#1315, so its presence no longer distinguishes the versions.)
+const _HTTP_V2 = Base.binding_module(HTTP, :VERSION) === HTTP && v"2" <= HTTP.VERSION < v"3"
 
 @static if _HTTP_V2
     # `method`/`target` are accepted for call-site symmetry with 1.x; on 2.x they
