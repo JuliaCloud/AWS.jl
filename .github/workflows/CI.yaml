@@ -90,16 +90,18 @@ jobs:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v3
-      - uses: julia-actions/julia-buildpkg@v1
-      # Pin HTTP.jl to the matrix major so both the 1.x and 2.x code paths are
-      # exercised. Pinning survives the re-resolve that `Pkg.test` performs.
+      # Pin HTTP.jl to the matrix major before instantiation so both the 1.x and
+      # 2.x code paths are exercised. Pinning persists through the re-resolve that
+      # `Pkg.test` performs. Mirrors the approach used in Onda.jl to test against
+      # multiple Arrow.jl versions.
       - name: Pin HTTP.jl to v${{ matrix.http }}
         shell: julia --color=yes --project=. {0}
         run: |
           using Pkg
-          Pkg.add(PackageSpec(; name="HTTP", version="${{ matrix.http }}"))
+          Pkg.add(PackageSpec(; name="HTTP", uuid="cd3eb016-35fb-5094-929b-558a96fad6f3", version="${{ matrix.http }}"))
           Pkg.pin("HTTP")
           Pkg.status()
+      - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
 
   # Merge queues only wait for the required status checks to pass which are defined in the
