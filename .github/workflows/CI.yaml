@@ -94,7 +94,14 @@ jobs:
       # 2.x code paths are exercised. Pinning persists through the re-resolve that
       # `Pkg.test` performs. Mirrors the approach used in Onda.jl to test against
       # multiple Arrow.jl versions.
+      #
+      # Skip the pin on the "min" job: Julia 1.8 can only ever resolve HTTP 1.x
+      # anyway (HTTP 2 requires Julia >= 1.10), and a hard pin prevents the tiered
+      # resolver from satisfying the `Pkg.develop(TestPkg)` performed by the test
+      # suite there (stdlibs are fixed at v0.0.0 on Julia < 1.9, capping
+      # transitive dependencies such as ConcurrentUtilities).
       - name: Pin HTTP.jl to v${{ matrix.http }}
+        if: ${{ matrix.version != 'min' }}
         shell: julia --color=yes --project=. {0}
         run: |
           using Pkg
