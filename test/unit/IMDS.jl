@@ -77,16 +77,7 @@ function _imds_patch(
     num_requests[] = 0
 
     patch = @patch function HTTP.request(
-        method,
-        url,
-        headers=[],
-        body=HTTP.nobody;
-        status_exception=true,
-        retry::Bool=true,
-        retries::Int=4,
-        retry_delays=ExponentialBackOff(; n=retries, factor=3),
-        retry_check=(args...) -> false,
-        kwargs...,
+        method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...
     )
         uri = HTTP.URI(url)
         if uri.host != "169.254.169.254"
@@ -94,36 +85,23 @@ function _imds_patch(
         end
 
         req = HTTP.Request(method, uri.path, headers, body)
+        num_requests[] += 1
 
-        function handler(req::HTTP.Request)
-            num_requests[] += 1
-
-            resp = if listening && enabled
-                router(req)
-            elseif listening && !enabled
-                HTTP.Response(403)
-            else
-                throw(HTTP.ConnectError(string(uri), _ETIMEDOUT))
-            end
-
-            # When `status_exception=false` retries do not occur as an exception needs to
-            # be raised for them to work. This replicates how `HTTP.request` works.
-            if status_exception && resp.status >= 300
-                throw(AWS._statuserror(resp.status, req.method, req.target, resp))
-            end
-            return resp
+        resp = if listening && enabled
+            router(req)
+        elseif listening && !enabled
+            HTTP.Response(403)
+        else
+            throw(HTTP.ConnectError(string(uri), _ETIMEDOUT))
         end
 
-        # The only retry behaviour IMDS relies on is the caller-supplied `retry_check`
-        # (used to refresh an expired IMDSv2 token on a 401 and retry once). This avoids
-        # depending on HTTP.jl's private retry internals, which differ between 1.x and 2.x.
-        retry_request = Base.retry(
-            handler;
-            delays=retry_delays,
-            check=(s, ex) -> retry_check(s, ex, req, nothing, nothing),
-        )
-
-        return retry_request(req)
+        # Replicate how `HTTP.request` reports non-2xx statuses. IMDS always calls with
+        # `retry=false` and performs its own single 401-refresh retry, so the mock
+        # performs exactly one attempt per call — just like the real client.
+        if status_exception && resp.status >= 300
+            throw(AWS._statuserror(resp.status, req.method, req.target, resp))
+        end
+        return resp
     end
 end
 

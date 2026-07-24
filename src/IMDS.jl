@@ -124,23 +124,29 @@ function request(
     uri = URI(; scheme="http", host=IPv4_ADDRESS, path)
 
     # Refresh the token and immediately retry if we encounter "HTTP 401 Unauthorized".
+    # This retry loop must live here rather than being delegated to `HTTP.request` via
+    # `retry_check`/`retry_delays`: HTTP.jl 2.x accepts those keywords for compatibility
+    # but ignores them. We pass `retry=false` so both HTTP.jl majors perform exactly one
+    # attempt per call.
     #
     # > When token usage is set to `required` (IMDSv2), requests without a valid token or
     # > with an expired token receive a `401 - Unauthorized` HTTP error code.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-v2-how-it-works
-    retry_delays = [0]
-    function retry_check(s, e, request, response, response_body)
+    response = try
+        _http_request(method, uri, headers; retry=false, status_exception=true)
+    catch e
         if allow_refresh && e isa StatusError && e.status == 401 && !isempty(session.token)
             refresh_token!(session)
-            allow_refresh = false
-            HTTP.setheader(request.headers, "X-aws-ec2-metadata-token" => session.token)
-            return true
+            HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
+            _http_request(method, uri, headers; retry=false, status_exception)
+        elseif !status_exception && e isa StatusError
+            e.response
         else
-            return false
+            rethrow()
         end
     end
 
-    return _http_request(method, uri, headers; retry_delays, retry_check, status_exception)
+    return response
 end
 
 function _http_request(args...; status_exception=true, kwargs...)
