@@ -248,7 +248,10 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     end
 
     check = function (s, e)
-        return isa(e, HTTP.ConnectError) ||
+        # `_is_connection_failure` rather than `isa(e, HTTP.ConnectError)`: on
+        # HTTP.jl 2.x a connect timeout surfaces as a `TimeoutError`, which
+        # `HTTP.isrecoverable` does not cover.
+        return _is_connection_failure(e) ||
                _is_recoverable_request_error(e) ||
                (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
     end

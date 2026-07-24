@@ -9,14 +9,6 @@ using Mocking
 using OrderedCollections: LittleDict
 using ...Main: http_header
 
-# An "empty" response body representing content that was streamed elsewhere. HTTP.jl 1.x
-# models this as an I/O object (a non-bytes body), whereas 2.x uses an empty byte vector.
-@static if !AWS._HTTP_V2  # HTTP.jl 1.x
-    _empty_streamed_body() = IOBuffer()
-else
-    _empty_streamed_body() = UInt8[]
-end
-
 version = v"1.1.0"
 status = 200
 # Header names use canonical casing: HTTP.jl 2.x canonicalizes header names when a
@@ -221,7 +213,7 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = _empty_streamed_body()  # the body has been streamed; response carries none
+                body = AWS._streamed_body_placeholder()  # the body has been streamed
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)

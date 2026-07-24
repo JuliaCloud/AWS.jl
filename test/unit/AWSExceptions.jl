@@ -1,11 +1,3 @@
-# An "empty" response body placeholder: HTTP.jl 1.x exposes a streamed body as an I/O
-# object, whereas 2.x always uses a (here empty) byte vector.
-@static if !AWS._HTTP_V2  # HTTP.jl 1.x
-    _empty_http_body() = IOBuffer()
-else
-    _empty_http_body() = UInt8[]
-end
-
 @testset "AWSException" begin
     function _test_exception(ex::AWSException, expected::AbstractDict, msg::String)
         @test ex.code == expected["code"]
@@ -32,7 +24,7 @@ end
             "status_code" => 400,
         )
 
-        expected["body"] = _empty_http_body()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = """
             <?xml version="1.0" encoding="UTF-8"?>
             <$err>
@@ -58,7 +50,7 @@ end
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => _empty_http_body(),
+            "body" => AWS._streamed_body_placeholder(),
             "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
@@ -82,7 +74,7 @@ end
             "status_code" => 400,
         )
 
-        expected["body"] = _empty_http_body()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",
@@ -110,7 +102,7 @@ end
             "status_code" => 400,
         )
 
-        expected["body"] = _empty_http_body()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = "\"foo\""
 
         # This does not actually send a request, just creates the object to test with

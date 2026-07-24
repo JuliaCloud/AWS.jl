@@ -11,7 +11,7 @@ security reasons).
 module IMDS
 
 using ..AWSExceptions: IMDSUnavailable
-using ..AWS: _HTTP_V2, _statuserror
+using ..AWS: _HTTP_V2, _is_connection_failure, _statuserror
 
 using HTTP: HTTP
 using HTTP: ConnectError, StatusError
@@ -176,8 +176,12 @@ end
 
 is_connection_exception(e::ConnectError) = true
 @static if _HTTP_V2
-    # On HTTP.jl 2.x a connection timeout surfaces as a `TimeoutError`.
-    is_connection_exception(e::HTTP.TimeoutError) = true
+    # On HTTP.jl 2.x a connection-phase timeout surfaces as a `TimeoutError` with
+    # `operation` of "connect"/"tls_handshake". Read-phase timeouts mean the endpoint
+    # was reached and are classified by `is_ttl_expired_exception` below — the two
+    # predicates must stay disjoint since `_http_request` converts connection
+    # exceptions into `IMDSUnavailable` before `refresh_token!` can inspect them.
+    is_connection_exception(e::HTTP.TimeoutError) = _is_connection_failure(e)
 end
 is_connection_exception(e::Exception) = false
 
@@ -186,14 +190,15 @@ is_connection_exception(e::Exception) = false
 #
 # A hop-limit rejection manifests as a read timeout. On HTTP.jl 1.x this surfaces
 # as a `RequestError` wrapping the underlying `IOError`; on 2.x (with `retry=false`)
-# the underlying `IOError` propagates directly, but a read-deadline timeout can
-# instead surface as an `HTTP.TimeoutError` (the same way connection timeouts do —
-# see `is_connection_exception` above), so we treat that as a hop-limit rejection too.
+# the underlying `IOError` propagates directly, or — when a read-phase timeout such
+# as `request_timeout`/`read_idle_timeout` is configured — as an `HTTP.TimeoutError`
+# whose `operation` is not connection related (connect-phase timeouts are classified
+# by `is_connection_exception` above).
 const _ETIMEDOUT_IOERROR = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
 
 @static if _HTTP_V2
     is_ttl_expired_exception(e::Base.IOError) = e == _ETIMEDOUT_IOERROR
-    is_ttl_expired_exception(e::HTTP.TimeoutError) = true
+    is_ttl_expired_exception(e::HTTP.TimeoutError) = !_is_connection_failure(e)
 else
     is_ttl_expired_exception(e::HTTP.RequestError) = e.error == _ETIMEDOUT_IOERROR
 end

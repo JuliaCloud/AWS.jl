@@ -53,8 +53,9 @@ end
 
 # A read timeout (e.g. an IMDSv2 hop-limit rejection) surfaces differently across
 # HTTP.jl versions: 1.x wraps the underlying `IOError` in a `RequestError`, whereas
-# 2.x (with `retry=false`) lets the `IOError` propagate directly.
-const _ETIMEDOUT = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+# 2.x (with `retry=false`) lets the `IOError` propagate directly. Reference the
+# constant the implementation compares against so the two cannot drift apart.
+const _ETIMEDOUT = IMDS._ETIMEDOUT_IOERROR
 @static if !AWS._HTTP_V2  # HTTP.jl 1.x
     function _ttl_expired_exception()
         return HTTP.RequestError(
@@ -140,6 +141,19 @@ end
         e = ErrorException("non-connection error")
         @test !IMDS.is_connection_exception(e)
         @test !IMDS.is_ttl_expired_exception(e)
+
+        # On HTTP.jl 2.x timeouts carry the phase in `operation`: connect-phase timeouts
+        # mean the endpoint is unreachable, while read-phase timeouts indicate a
+        # hop-limit (TTL) rejection. The two classifications must stay disjoint.
+        @static if AWS._HTTP_V2
+            e = HTTP.TimeoutError("connect", 0, 0)
+            @test IMDS.is_connection_exception(e)
+            @test !IMDS.is_ttl_expired_exception(e)
+
+            e = HTTP.TimeoutError("response_header", 0, 0)
+            @test !IMDS.is_connection_exception(e)
+            @test IMDS.is_ttl_expired_exception(e)
+        end
     end
 
     @testset "refresh_token!" begin
