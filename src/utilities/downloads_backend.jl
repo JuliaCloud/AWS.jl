@@ -121,11 +121,15 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
 end
 
 function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
-    response = HTTP.Response(res.status, res.headers; body=IOBuffer(), request=nothing)
+    # The content is streamed into the caller's `response_stream`, so give the response
+    # the placeholder that marks its body as streamed (`IOBuffer` on 1.x, an empty byte
+    # vector on 2.x) — `AWSException` relies on this to retain the streamed error body.
+    body = _streamed_body_placeholder()
+    response = HTTP.Response(res.status, res.headers; body=body, request=nothing)
 
-    if throw && HTTP.iserror(response)
-        target = HTTP.resource(HTTP.URI(req.url))
-        e = HTTP.StatusError(res.status, req.request_method, target, response)
+    if throw && _http_iserror(response)
+        target = _resource(URIs.URI(req.url))
+        e = _statuserror(res.status, req.request_method, target, response)
         Base.throw(e)
     end
 
