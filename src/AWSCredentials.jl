@@ -359,7 +359,7 @@ function ecs_instance_credentials()
     response = try
         @mock HTTP.request("GET", endpoint, headers; retry=false, connect_timeout=5)
     catch e
-        e isa HTTP.Exceptions.ConnectError && return nothing
+        is_connection_exception(e) && return nothing
         rethrow()
     end
     new_creds = String(response.body)

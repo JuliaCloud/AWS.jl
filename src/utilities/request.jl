@@ -25,10 +25,6 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
-function statuserror(status, resp)
-    return HTTP.StatusError(status, resp.request.method, resp.request.target, resp)
-end
-
 function HTTPBackend(; kwargs...)
     return if isempty(kwargs)
         HTTPBackend(LittleDict{Symbol,Any}())
@@ -126,7 +122,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request)
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")
             else
-                e = statuserror(response.status, response)
+                e = HTTP.StatusError(response.status, response)
                 throw(AWSException(e, stream))
             end
         end
@@ -162,12 +158,12 @@ function submit_request(aws::AbstractAWSConfig, request::Request)
         # Throttle handling
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        if _http_status(e.cause) == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
+        if e.cause.status == TOO_MANY_REQUESTS || e.code in THROTTLING_ERROR_CODES
             return true
         end
 
         # Handle BadDigest error and CRC32 check sum failure
-        if _header(e.cause, "crc32body") == "x-amz-crc32" ||
+        if HTTP.header(e.cause.response, "crc32body") == "x-amz-crc32" ||
             e.code in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
             return true
         end
@@ -220,6 +216,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
             redirect=false,
             retry=false,
             response_stream=buffer,
+            status_exception=true,
             http_options...,
         )
 
@@ -229,9 +226,9 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     end
 
     check = function (s, e)
-        return isa(e, HTTP.ConnectError) ||
-               isa(e, HTTP.RequestError) ||
-               (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
+        return is_connection_exception(e) ||
+               HTTP.isrecoverable(e) ||
+               e isa HTTP.StatusError && e.status >= 500
     end
 
     delays = AWSExponentialBackoff(; max_attempts=4)
@@ -251,5 +248,14 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
     return @mock Response(response, response_stream)
 end
 
-_http_status(e::HTTP.StatusError) = e.status
-_header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
+# Lossy conversion of an `AWS.Request` into an `HTTP.Request`
+function _as_http_request(request::Request)
+    uri = HTTP.URI(request.url)
+    target = string(HTTP.URI(; uri.path, uri.query, uri.fragment))
+    return HTTP.Request(
+        request.request_method,
+        target;
+        headers=HTTP.mkheaders(request.headers),
+        host=uri.host,
+    )
+end

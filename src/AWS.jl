@@ -51,6 +51,7 @@ export AWSCredentials,
 const DEFAULT_REGION = "us-east-1"
 
 include(joinpath("utilities", "utilities.jl"))
+include(joinpath("utilities", "exception_classification.jl"))
 
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")

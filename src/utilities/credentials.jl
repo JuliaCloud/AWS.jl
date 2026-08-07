@@ -153,24 +153,6 @@ function _aws_get_profile(; default="default")
 end
 
 """
-Retrieve the EC2 meta data from the local AWS endpoint. Return the EC2 metadata request
-body, or `nothing` if not running on an EC2 instance.
-"""
-function _ec2_metadata(metadata_endpoint::String)
-    try
-        request = @mock HTTP.request(
-            "GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint"
-        )
-
-        return request === nothing ? nothing : String(request.body)
-    catch e
-        e isa HTTP.RequestError || e isa HTTP.StatusError && e.status == 404 || rethrow(e)
-    end
-
-    return nothing
-end
-
-"""
 Retrieve the existing SSO access token from AWS CLI cache using the SSO session name.
 """
 function _sso_cache_access_token(session_name::AbstractString)

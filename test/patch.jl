@@ -2,19 +2,21 @@ module Patches
 
 using AWS
 using Dates
-using Downloads: Downloads
 using HTTP
 using Mocking
+
+using AWS: _as_http_request
+using Downloads: Downloads
 using OrderedCollections: LittleDict
 using ...Main: http_header
 
 version = v"1.1.0"
 status = 200
 headers = Pair[
-    "x-amz-id-2" => "x-amz-id-2",
-    "x-amz-request-id" => "x-amz-request-id",
+    "X-Amz-Id-2" => "x-amz-id-2",
+    "X-Amz-Request-Id" => "x-amz-request-id",
     "Date" => "Tue, 16 Jun 2020 21:29:18 GMT",
-    "x-amz-bucket-region" => "us-east-1",
+    "X-Amz-Bucket-Region" => "us-east-1",
     "Content-Type" => "application/xml",
     "Transfer-Encoding" => "chunked",
     "Server" => "AmazonS3",
@@ -48,15 +50,8 @@ function _response(;
     headers::Array=headers,
     body::String=body,
 )
-    response = HTTP.Messages.Response()
-
-    response.version = version
-    response.status = status
-    response.headers = headers
-    response.body = b"[Message Body was streamed]"
-
+    response = HTTP.Response(status, headers; body=b"[Message Body was streamed]")
     b = IOBuffer(body)
-
     return AWS.Response(response, b)
 end
 
@@ -79,8 +74,9 @@ function _throttling_patch(retries::Ref{Int})
 
     p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
         retries[] += 1
-        resp = _response(; status=status, body=body).response
-        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        req = _as_http_request(request)
+        resp = HTTP.Response(status, body; request=req)
+        err = HTTP.StatusError(status, resp)
         throw(AWS.AWSException(err, body))
     end
     return p
@@ -99,8 +95,9 @@ function _time_too_skewed_patch(retries)
 
     p = @patch function AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO)
         retries[] += 1
-        resp = _response(; status=status, body=body).response
-        err = HTTP.StatusError(status, request.request_method, request.resource, resp)
+        req = _as_http_request(request)
+        resp = HTTP.Response(status, body; request=req)
+        err = HTTP.StatusError(status, resp)
         throw(AWS.AWSException(err, body))
     end
     return p
@@ -165,6 +162,7 @@ _http_options_patches = [
         delete!(options, :redirect)
         delete!(options, :retry)
         delete!(options, :response_stream)
+        delete!(options, :status_exception)
         return options
     end
     @patch AWS.Response(options, args...) = options
@@ -195,11 +193,11 @@ function gen_http_options_400_patches(message)
             if response_stream !== nothing
                 write(response_stream, body)
                 close(response_stream)  # Simulating current HTTP.jl 0.9.14 behaviour
-                body = IOBuffer()
+                body = nothing  # the body has been streamed, normalized to `HTTP.EmptyBody()`
             end
 
             response = HTTP.Response(400, headers; body=body, request=request)
-            exception = AWS.statuserror(400, response)
+            exception = HTTP.StatusError(400, response)
             return !status_exception ? response : throw(exception)
         end
         @patch function Downloads.request(args...; output=nothing, kwargs...)
