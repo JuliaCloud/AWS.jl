@@ -24,7 +24,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = """
             <?xml version="1.0" encoding="UTF-8"?>
             <$err>
@@ -50,7 +50,7 @@
 
     @testset "XMLRequest - Invalid XML" begin
         expected = Dict(
-            "body" => IOBuffer(),
+            "body" => AWS._streamed_body_placeholder(),
             "streamed_body" => """<?xml version="1.0" encoding="UTF-8"?>InvalidXML""",
             "headers" => ["Content-Type" => "application/xml"],
             "status_code" => 404,
@@ -74,7 +74,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = """
             {
             "__type": "$(expected["code"])",
@@ -102,7 +102,7 @@
             "status_code" => 400,
         )
 
-        expected["body"] = IOBuffer()
+        expected["body"] = AWS._streamed_body_placeholder()
         expected["streamed_body"] = "\"foo\""
 
         # This does not actually send a request, just creates the object to test with
