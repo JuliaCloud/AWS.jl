@@ -34,6 +34,13 @@ end
     end
 end
 
+@testset "_resolve_commit_sha" begin
+    apply(Patches._github_commit_patch) do
+        sha = _resolve_commit_sha(; auth=GitHub.OAuth2("foobar"), ref="main")
+        @test sha == "abc1234"
+    end
+end
+
 @testset "_shape_name" begin
     @test _shape_name("com.amazonaws.s3#BucketName") == "BucketName"
     @test _shape_name("smithy.api#Unit") == "Unit"

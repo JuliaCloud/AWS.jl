@@ -1,26 +1,39 @@
 struct ServiceFile
     file_name::String
     content::String
+    source::String
 end
 
-function ServiceFile(tree::AbstractDict; auth::GitHub.Authorization)
+function ServiceFile(tree::AbstractDict, source::AbstractString; auth::GitHub.Authorization)
     m = match(r"^\Qhttps://api.github.com/repos/\E(?<repo>[^/]+/[^/]+)", tree["url"])
     if isnothing(m)
         throw(ArgumentError("Unable to determine GitHub repo from: \"$(tree["url"])\""))
     end
     github_repo = m[:repo]
     blob = GitHub.blob(github_repo, tree["sha"]; auth)
-    return ServiceFile(tree["path"], String(blob))
+    return ServiceFile(tree["path"], String(blob), source)
 end
 
 # Avoid printing contents to the REPL as they can be quite large
 function Base.show(io::IO, sf::ServiceFile)
-    println(io, "ServiceFile($(repr(sf.file_name)), \"...\")")
+    print(io, "ServiceFile($(repr(sf.file_name)), \"...\", $(repr(sf.source)))")
     return nothing
 end
 
 """
-    _get_service_model_trees(; auth::GitHub.Authorization) -> Vector{Dict}
+    _resolve_commit_sha(; auth::GitHub.Authorization, ref::AbstractString) -> String
+
+Resolve `ref` (e.g. a branch name like `"main"`, a tag, or an already-resolved commit SHA) to
+the exact commit SHA of [`aws-sdk-js-v3`](https://github.com/aws/aws-sdk-js-v3) it currently
+points to.
+"""
+function _resolve_commit_sha(; auth::GitHub.Authorization, ref::AbstractString)
+    commit = @mock GitHub.commit(SERVICE_MODEL_REPO, ref; auth)
+    return commit.sha
+end
+
+"""
+    _get_service_model_trees(; auth::GitHub.Authorization, tree_sha::AbstractString) -> Vector{Dict}
 
 List of all of the tree blobs pertaining to AWS service API definition files. These can be
 loaded by `ServiceFile`.
@@ -28,7 +41,7 @@ loaded by `ServiceFile`.
 function _get_service_model_trees(; auth::GitHub.Authorization, tree_sha::AbstractString)
     # Navigating to: https://github.com/aws/aws-sdk-js-v3/tree/main/codegen/sdk-codegen/aws-models
     # via https://docs.github.com/en/rest/git/trees?apiVersion=2022-11-28#get-a-tree
-    github_repo = "aws/aws-sdk-js-v3"  # Owner and repository name
+    github_repo = SERVICE_MODEL_REPO
     subdir = "codegen/sdk-codegen/aws-models"
     tree = @mock GitHub.tree(github_repo, tree_sha; auth)
 
