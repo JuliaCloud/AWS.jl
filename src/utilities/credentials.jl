@@ -169,7 +169,9 @@ function _ec2_metadata(metadata_endpoint::String)
 
         return request === nothing ? nothing : String(request.body)
     catch e
-        e isa HTTP.RequestError || e isa HTTP.StatusError && e.status == 404 || rethrow(e)
+        _is_recoverable_request_error(e) ||
+            e isa HTTP.StatusError && e.status == 404 ||
+            rethrow(e)
     end
 
     return nothing

@@ -11,7 +11,7 @@ on:
     - cron: "0 2 * * *"  # Daily at 2 a.m. UTC
 jobs:
   test:
-    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
+    name: Julia ${{ matrix.version }} - HTTP ${{ matrix.http }} - ${{ matrix.os }} - ${{ matrix.arch }}
     # These permissions are needed to:
     # - Checking out the repository (`contents: read`)
     # - Interact with GitHub's OIDC Token endpoint: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
@@ -30,10 +30,18 @@ jobs:
           - "min"  # Oldest supported version
           - "lts"  # Long Term Stable
           - "1"    # Latest Release
+        http:
+          - "1"
+          - "2"
         os:
           - ubuntu-latest
         arch:
           - x64
+        exclude:
+          # HTTP.jl 2 requires Julia >= 1.10, which excludes the "min" (oldest
+          # supported) Julia version.
+          - version: "min"
+            http: "2"
     env:
       RUN_UNIT_TESTS: "true"
       # Integration tests require OIDC which will fail when running on a PR from a fork.
@@ -82,6 +90,24 @@ jobs:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v3
+      # Pin HTTP.jl to the matrix major before instantiation so both the 1.x and
+      # 2.x code paths are exercised. Pinning persists through the re-resolve that
+      # `Pkg.test` performs. Mirrors the approach used in Onda.jl to test against
+      # multiple Arrow.jl versions.
+      #
+      # Skip the pin on the "min" job: Julia 1.8 can only ever resolve HTTP 1.x
+      # anyway (HTTP 2 requires Julia >= 1.10), and a hard pin prevents the tiered
+      # resolver from satisfying the `Pkg.develop(TestPkg)` performed by the test
+      # suite there (stdlibs are fixed at v0.0.0 on Julia < 1.9, capping
+      # transitive dependencies such as ConcurrentUtilities).
+      - name: Pin HTTP.jl to v${{ matrix.http }}
+        if: ${{ matrix.version != 'min' }}
+        shell: julia --color=yes --project=. {0}
+        run: |
+          using Pkg
+          Pkg.add(PackageSpec(; name="HTTP", uuid="cd3eb016-35fb-5094-929b-558a96fad6f3", version="${{ matrix.http }}"))
+          Pkg.pin("HTTP")
+          Pkg.status()
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
 

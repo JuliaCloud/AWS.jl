@@ -11,9 +11,10 @@ security reasons).
 module IMDS
 
 using ..AWSExceptions: IMDSUnavailable
+using ..AWS: _HTTP_V2, _is_connection_failure, _statuserror
 
 using HTTP: HTTP
-using HTTP.Exceptions: ConnectError, StatusError
+using HTTP: ConnectError, StatusError
 using Mocking
 using URIs: URI
 
@@ -93,7 +94,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     else
         # Could also populate the `StatusError` via `r.request.method` and
         # `r.request.target` however `r.request` may not be populated under test scenarios.
-        throw(StatusError(r.status, "PUT", uri.path, r))
+        throw(_statuserror(r.status, "PUT", uri.path, r))
     end
 
     return session
@@ -112,7 +113,7 @@ function request(
         refresh_token!(session)
         allow_refresh = false
     end
-    headers = HTTP.Header[]
+    headers = HTTP.Headers()
     if !isempty(session.token)
         HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
     end
@@ -123,23 +124,29 @@ function request(
     uri = URI(; scheme="http", host=IPv4_ADDRESS, path)
 
     # Refresh the token and immediately retry if we encounter "HTTP 401 Unauthorized".
+    # This retry loop must live here rather than being delegated to `HTTP.request` via
+    # `retry_check`/`retry_delays`: HTTP.jl 2.x accepts those keywords for compatibility
+    # but ignores them. We pass `retry=false` so both HTTP.jl majors perform exactly one
+    # attempt per call.
     #
     # > When token usage is set to `required` (IMDSv2), requests without a valid token or
     # > with an expired token receive a `401 - Unauthorized` HTTP error code.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-v2-how-it-works
-    retry_delays = [0]
-    function retry_check(s, e, request, response, response_body)
+    response = try
+        _http_request(method, uri, headers; retry=false, status_exception=true)
+    catch e
         if allow_refresh && e isa StatusError && e.status == 401 && !isempty(session.token)
             refresh_token!(session)
-            allow_refresh = false
-            HTTP.setheader(request.headers, "X-aws-ec2-metadata-token" => session.token)
-            return true
+            HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
+            _http_request(method, uri, headers; retry=false, status_exception)
+        elseif !status_exception && e isa StatusError
+            e.response
         else
-            return false
+            rethrow()
         end
     end
 
-    return _http_request(method, uri, headers; retry_delays, retry_check, status_exception)
+    return response
 end
 
 function _http_request(args...; status_exception=true, kwargs...)
@@ -174,12 +181,32 @@ function _http_request(args...; status_exception=true, kwargs...)
 end
 
 is_connection_exception(e::ConnectError) = true
+@static if _HTTP_V2
+    # On HTTP.jl 2.x a connection-phase timeout surfaces as a `TimeoutError` with
+    # `operation` of "connect"/"tls_handshake". Read-phase timeouts mean the endpoint
+    # was reached and are classified by `is_ttl_expired_exception` below — the two
+    # predicates must stay disjoint since `_http_request` converts connection
+    # exceptions into `IMDSUnavailable` before `refresh_token!` can inspect them.
+    is_connection_exception(e::HTTP.TimeoutError) = _is_connection_failure(e)
+end
 is_connection_exception(e::Exception) = false
 
 # https://github.com/JuliaCloud/AWS.jl/issues/654
 # https://github.com/JuliaCloud/AWS.jl/issues/649
-function is_ttl_expired_exception(e::HTTP.Exceptions.RequestError)
-    return e.error == Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+#
+# A hop-limit rejection manifests as a read timeout. On HTTP.jl 1.x this surfaces
+# as a `RequestError` wrapping the underlying `IOError`; on 2.x (with `retry=false`)
+# the underlying `IOError` propagates directly, or — when a read-phase timeout such
+# as `request_timeout`/`read_idle_timeout` is configured — as an `HTTP.TimeoutError`
+# whose `operation` is not connection related (connect-phase timeouts are classified
+# by `is_connection_exception` above).
+const _ETIMEDOUT_IOERROR = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+
+@static if _HTTP_V2
+    is_ttl_expired_exception(e::Base.IOError) = e == _ETIMEDOUT_IOERROR
+    is_ttl_expired_exception(e::HTTP.TimeoutError) = !_is_connection_failure(e)
+else
+    is_ttl_expired_exception(e::HTTP.RequestError) = e.error == _ETIMEDOUT_IOERROR
 end
 is_ttl_expired_exception(e::Exception) = false
 
