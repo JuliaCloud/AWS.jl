@@ -179,7 +179,6 @@ end
     @testset "sign v4" begin
         @testset "basic" begin
             expected_x_amz_content_sha256 = bytes2hex(sha256(request.content))
-            expected_content_md5 = base64encode(md5(request.content))
             expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
             result = AWS.sign_aws4!(aws, request, time)
@@ -187,8 +186,11 @@ end
             headers = result.headers
 
             @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
-            @test headers["Content-MD5"] == expected_content_md5
             @test headers["x-amz-date"] == expected_x_amz_date
+
+            # Content-MD5 header is not included by default
+            # https://github.com/JuliaCloud/AWS.jl/issues/695
+            @test !haskey(headers, "Content-MD5")
 
             authorization_header = split(headers["Authorization"], ' ')
             @test length(authorization_header) == 4
@@ -196,9 +198,9 @@ end
             @test authorization_header[2] ==
                 "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
             @test authorization_header[3] ==
-                "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+                "SignedHeaders=content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
             @test authorization_header[4] ==
-                "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+                "Signature=917ab537b7045dcb0bc98ecd505e443f0e708eb81e290b35978ec347f71cc788"
         end
 
         @testset "duplicate query params" begin
