@@ -105,28 +105,46 @@ function _generate_high_level_definition(
     documentation::String,
 )
     """
-    Generate the `name=default` keyword-argument declaration for each optional parameter. The
-    keyword is exactly the shape's member key (e.g. `MaxKeys`) with no casing conversion — it's
-    already a valid Julia identifier, since Smithy shape member names can never contain a
-    hyphen, and leaving it as-is means it always matches AWS's own documentation verbatim.
+    Generate the `if k === :Member ... elseif ... else ... end` dispatch loop over the function's
+    `kwargs...` catch-all: each optional parameter (idempotent or not) is routed into `target`
+    (`"params"` or `"headers"`), and any unrecognized keyword raises a clear `ArgumentError`
+    naming the bad keyword and the function, rather than silently being dropped. Idempotent
+    parameters get a branch here too (so a caller-supplied value is honored), but still need a
+    separate fallback line for when they're absent — see `_idempotent_fallback_line`. Returns no
+    lines when `optional_params` is empty.
     """
-    function _optional_keyword_declarations(optional_params::AbstractDict)
-        return [
-            "$key=$(val["idempotent"] ? "string(uuid4())" : "nothing")" for
-            (key, val) in optional_params
-        ]
+    function _optional_dispatch_lines(
+        optional_params::AbstractDict; use_headers::Bool, function_name::AbstractString
+    )
+        isempty(optional_params) && return String[]
+
+        lines = ["for (k, v) in kwargs"]
+        for (i, (member_key, meta)) in enumerate(optional_params)
+            target = use_headers && meta["location"] == "header" ? "headers" : "params"
+            keyword = i == 1 ? "if" : "elseif"
+            push!(lines, "    $keyword k === :$member_key")
+            push!(lines, "        $target[$(repr(meta["locationName"]))] = v")
+        end
+        push!(lines, "    else")
+        push!(
+            lines,
+            "        throw(ArgumentError(\"unsupported keyword argument \$(repr(k)) for `$function_name`\"))",
+        )
+        push!(lines, "    end")
+        push!(lines, "end")
+
+        return lines
     end
 
     """
-    Generate the runtime line which, unless the keyword argument was left at its default
-    (`nothing`) value, inserts it into `params` (or `headers`, when `use_headers` is set and the
-    parameter is header-located).
+    Generate the fallback line for an idempotent optional parameter: when the caller didn't
+    supply one (via the dispatch loop above), insert a freshly generated token into `target`.
     """
-    function _optional_param_assignment(
-        member_key::String, meta::AbstractDict; use_headers::Bool
-    )
+    function _idempotent_fallback_line(member_key::String, meta::AbstractDict; use_headers::Bool)
         target = use_headers && meta["location"] == "header" ? "headers" : "params"
-        return "$member_key !== nothing && ($target[\"$(meta["locationName"])\"] = $member_key)"
+        key = repr(meta["locationName"])
+        sym = ":$member_key"
+        return "haskey(kwargs, $sym) || ($target[$key] = string(uuid4()))"
     end
 
     """
@@ -154,24 +172,28 @@ function _generate_high_level_definition(
         header_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in header_params]
 
         header_optional = filter(p -> (p[2]["location"] == "header"), optional_params)
+        idempotent_optional = filter(p -> (p[2]["idempotent"]), optional_params)
 
-        kwarg_decls = _optional_keyword_declarations(optional_params)
-        routing_lines = [
-            _optional_param_assignment(k, v; use_headers=true) for (k, v) in optional_params
-        ]
+        has_optional = !isempty(optional_params)
+        function_name = _format_name(operation_name)
+
+        routing_lines = vcat(
+            _optional_dispatch_lines(optional_params; use_headers=true, function_name),
+            [
+                _idempotent_fallback_line(k, v; use_headers=true) for
+                (k, v) in idempotent_optional
+            ],
+        )
 
         needs_headers = !isempty(header_kv) || !isempty(header_optional)
-        needs_params = needs_headers || !isempty(req_kv) || !isempty(optional_params)
-
-        function_name = _format_name(operation_name)
+        needs_params = needs_headers || !isempty(req_kv) || has_optional
 
         signature_args = String[]
         isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        kwargs_suffix = has_optional ? ", kwargs..." : ""
         push!(
             signature_args,
-            "; " * join(
-                vcat("aws_config::AbstractAWSConfig=current_aws_config()", kwarg_decls), ", "
-            ),
+            "; aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix",
         )
         signature = "$function_name($(join(signature_args, "")))"
 
@@ -179,14 +201,14 @@ function _generate_high_level_definition(
         call_args = ["\"$method\"", "\"$request_uri\""]
 
         if needs_params
-            push!(body_lines, "params = Dict{String, Any}($(join(req_kv, ", ")))")
             if needs_headers
                 push!(body_lines, "headers = Dict{String, Any}($(join(header_kv, ", ")))")
+                params_kv = vcat(["\"headers\" => headers"], req_kv)
+            else
+                params_kv = req_kv
             end
+            push!(body_lines, "params = Dict{String, Any}($(join(params_kv, ", ")))")
             append!(body_lines, routing_lines)
-            if needs_headers
-                push!(body_lines, "isempty(headers) || (params[\"headers\"] = headers)")
-            end
             push!(call_args, "params")
         end
 
@@ -214,22 +236,27 @@ function _generate_high_level_definition(
         req_keys = collect(keys(required_params))
         req_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in required_params]
 
-        kwarg_decls = _optional_keyword_declarations(optional_params)
-        routing_lines = [
-            _optional_param_assignment(k, v; use_headers=false) for (k, v) in optional_params
-        ]
+        idempotent_optional = filter(p -> (p[2]["idempotent"]), optional_params)
 
-        needs_params = !isempty(req_kv) || !isempty(optional_params)
-
+        has_optional = !isempty(optional_params)
         function_name = _format_name(operation_name)
+
+        routing_lines = vcat(
+            _optional_dispatch_lines(optional_params; use_headers=false, function_name),
+            [
+                _idempotent_fallback_line(k, v; use_headers=false) for
+                (k, v) in idempotent_optional
+            ],
+        )
+
+        needs_params = !isempty(req_kv) || has_optional
 
         signature_args = String[]
         isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        kwargs_suffix = has_optional ? ", kwargs..." : ""
         push!(
             signature_args,
-            "; " * join(
-                vcat("aws_config::AbstractAWSConfig=current_aws_config()", kwarg_decls), ", "
-            ),
+            "; aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix",
         )
         signature = "$function_name($(join(signature_args, "")))"
 
@@ -261,12 +288,11 @@ function _generate_high_level_definition(
         function_name, documentation, required_parameters, optional_parameters
     )
         args = join(keys(required_parameters), ", ")
-        kwarg_decls = _optional_keyword_declarations(optional_parameters)
 
         signatures = ["$function_name($(args))"]
-        if !isempty(kwarg_decls)
+        if !isempty(optional_parameters)
             prefix = isempty(args) ? "; " : "$args; "
-            push!(signatures, "$function_name($prefix$(join(kwarg_decls, ", ")))")
+            push!(signatures, "$function_name($(prefix)kwargs...)")
         end
 
         operation_definition = """

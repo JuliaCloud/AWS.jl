@@ -560,7 +560,7 @@ end
     expected_result = """
     \"\"\"
         sample_operation(RequiredParam1, RequiredParam2)
-        sample_operation(RequiredParam1, RequiredParam2; OptionalParam=nothing)
+        sample_operation(RequiredParam1, RequiredParam2; kwargs...)
 
     The documentation for this operation.
 
@@ -574,9 +574,15 @@ end
     \"\"\"
     function sample_operation end
 
-    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
         params = Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2)
-        OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+        for (k, v) in kwargs
+            if k === :OptionalParam
+                params["OptionalParam"] = v
+            else
+                throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `sample_operation`"))
+            end
+        end
         sample_service("POST", "/", params; aws_config, feature_set=SERVICE_FEATURE_SET)
     end
     """
@@ -620,7 +626,7 @@ end
             expected_result = """
             \"\"\"
                 function_name(RequiredParam)
-                function_name(RequiredParam; OptionalParam=nothing)
+                function_name(RequiredParam; kwargs...)
 
             Documentation for FunctionName.
 
@@ -633,9 +639,15 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
-                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                for (k, v) in kwargs
+                    if k === :OptionalParam
+                        params["OptionalParam"] = v
+                    else
+                        throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                    end
+                end
                 service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -662,7 +674,7 @@ end
             expected_result = """
             \"\"\"
                 function_name(RequiredParam)
-                function_name(RequiredParam; OptionalParam=nothing)
+                function_name(RequiredParam; kwargs...)
 
             Documentation for FunctionName.
 
@@ -675,9 +687,15 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
-                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                for (k, v) in kwargs
+                    if k === :OptionalParam
+                        params["OptionalParam"] = v
+                    else
+                        throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                    end
+                end
                 service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -722,7 +740,7 @@ end
             expected_result = """
             \"\"\"
                 function_name(RequiredParam)
-                function_name(RequiredParam; OptionalParam=string(uuid4()))
+                function_name(RequiredParam; kwargs...)
 
             Documentation for FunctionName.
 
@@ -735,11 +753,17 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=string(uuid4()))
-                params = Dict{String, Any}()
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 headers = Dict{String, Any}("RequiredParam" => RequiredParam)
-                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
-                isempty(headers) || (params["headers"] = headers)
+                params = Dict{String, Any}("headers" => headers)
+                for (k, v) in kwargs
+                    if k === :OptionalParam
+                        params["OptionalParam"] = v
+                    else
+                        throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                    end
+                end
+                haskey(kwargs, :OptionalParam) || (params["OptionalParam"] = string(uuid4()))
                 service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -765,7 +789,7 @@ end
             expected_result = """
             \"\"\"
                 function_name(RequiredParam)
-                function_name(RequiredParam; OptionalParam=string(uuid4()))
+                function_name(RequiredParam; kwargs...)
 
             Documentation for FunctionName.
 
@@ -778,9 +802,16 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=string(uuid4()))
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
-                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                for (k, v) in kwargs
+                    if k === :OptionalParam
+                        params["OptionalParam"] = v
+                    else
+                        throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                    end
+                end
+                haskey(kwargs, :OptionalParam) || (params["OptionalParam"] = string(uuid4()))
                 service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -836,7 +867,7 @@ end
         expected_result = """
         \"\"\"
             function_name(ContentType)
-            function_name(ContentType; MaxKeys=nothing, AccessToken=nothing)
+            function_name(ContentType; kwargs...)
 
         Documentation for FunctionName.
 
@@ -850,12 +881,85 @@ end
         \"\"\"
         function function_name end
 
-        function function_name(ContentType; aws_config::AbstractAWSConfig=current_aws_config(), MaxKeys=nothing, AccessToken=nothing)
-            params = Dict{String, Any}()
+        function function_name(ContentType; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
             headers = Dict{String, Any}("Content-Type" => ContentType)
-            MaxKeys !== nothing && (params["max-keys"] = MaxKeys)
-            AccessToken !== nothing && (headers["x-amz-sso_bearer_token"] = AccessToken)
-            isempty(headers) || (params["headers"] = headers)
+            params = Dict{String, Any}("headers" => headers)
+            for (k, v) in kwargs
+                if k === :MaxKeys
+                    params["max-keys"] = v
+                elseif k === :AccessToken
+                    headers["x-amz-sso_bearer_token"] = v
+                else
+                    throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                end
+            end
+            service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+        end
+        """
+
+        result = _generate_high_level_definition(
+            service_name,
+            protocol,
+            name,
+            method,
+            request_uri,
+            required_params,
+            optional_params,
+            documentation,
+        )
+
+        expected_result = _clean_high_level_definition(expected_result)
+        result = _clean_high_level_definition(result)
+
+        @test result == expected_result
+    end
+
+    @testset "multiple optional parameters in the dispatch loop" begin
+        # With more than one optional parameter, the dispatch loop grows an `elseif` branch per
+        # parameter (all sharing the same `for (k, v) in kwargs ... end` loop), rather than one
+        # separate loop per parameter.
+        protocol = "rest-xml"
+        required_params = LittleDict{String,Any}()
+        optional_params = LittleDict(
+            "Prefix" => Dict(
+                "location" => "querystring",
+                "locationName" => "prefix",
+                "idempotent" => false,
+                "documentation" => "Key prefix.",
+            ),
+            "MaxKeys" => Dict(
+                "location" => "querystring",
+                "locationName" => "max-keys",
+                "idempotent" => false,
+                "documentation" => "Max results.",
+            ),
+        )
+
+        expected_result = """
+        \"\"\"
+            function_name()
+            function_name(; kwargs...)
+
+        Documentation for FunctionName.
+
+        # Optional Parameters
+        The following optional keyword arguments can be provided:
+        - `Prefix`: Key prefix.
+        - `MaxKeys`: Max results.
+        \"\"\"
+        function function_name end
+
+        function function_name(; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            params = Dict{String, Any}()
+            for (k, v) in kwargs
+                if k === :Prefix
+                    params["prefix"] = v
+                elseif k === :MaxKeys
+                    params["max-keys"] = v
+                else
+                    throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                end
+            end
             service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
         end
         """
