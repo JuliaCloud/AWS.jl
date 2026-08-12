@@ -438,8 +438,11 @@ end
         required_params, optional_params = _get_function_parameters(input, shapes)
 
         @test required_params == Dict(
-            "RequiredParam" =>
-                LittleDict("location" => "", "documentation" => "Required param"),
+            "RequiredParam" => LittleDict(
+                "location" => "",
+                "locationName" => "RequiredParam",
+                "documentation" => "Required param",
+            ),
         )
         @test isempty(optional_params)
     end
@@ -451,10 +454,18 @@ end
 
         @test isempty(required_params)
         @test optional_params == Dict(
-            "OptionalParam1" =>
-                Dict("documentation" => "Optional param 1", "idempotent" => false),
-            "OptionalParam2" =>
-                Dict("documentation" => "Optional param 2", "idempotent" => false),
+            "OptionalParam1" => Dict(
+                "location" => "",
+                "locationName" => "OptionalParam1",
+                "documentation" => "Optional param 1",
+                "idempotent" => false,
+            ),
+            "OptionalParam2" => Dict(
+                "location" => "",
+                "locationName" => "OptionalParam2",
+                "documentation" => "Optional param 2",
+                "idempotent" => false,
+            ),
         )
     end
 
@@ -464,15 +475,25 @@ end
         required_params, optional_params = _get_function_parameters(input, shapes)
 
         @test required_params == Dict(
-            "RequiredParam1" =>
-                LittleDict("location" => "", "documentation" => "Required param 1"),
-            "RequiredParam2" =>
-                LittleDict("location" => "", "documentation" => "Required param 2"),
+            "RequiredParam1" => LittleDict(
+                "location" => "",
+                "locationName" => "RequiredParam1",
+                "documentation" => "Required param 1",
+            ),
+            "RequiredParam2" => LittleDict(
+                "location" => "",
+                "locationName" => "RequiredParam2",
+                "documentation" => "Required param 2",
+            ),
         )
 
         @test optional_params == Dict(
-            "OptionalParam" =>
-                Dict("documentation" => "Optional param", "idempotent" => false),
+            "OptionalParam" => Dict(
+                "location" => "",
+                "locationName" => "OptionalParam",
+                "documentation" => "Optional param",
+                "idempotent" => false,
+            ),
         )
     end
 
@@ -484,6 +505,50 @@ end
         @test isempty(required_params)
         @test isempty(optional_params)
     end
+
+    @testset "wire name diverges from member key" begin
+        # Member keys (used as the Julia-facing name) can never contain a hyphen, but the
+        # resolved wire/location name can — including services (like SSO) that mix hyphens and
+        # underscores in the same name. No translation between the two should ever be needed.
+        input = "WireNameParams"
+
+        required_params, optional_params = _get_function_parameters(input, shapes)
+
+        @test required_params == Dict(
+            "ContentType" => LittleDict(
+                "location" => "header",
+                "locationName" => "Content-Type",
+                "documentation" => "Content type header.",
+            ),
+        )
+
+        @test optional_params == Dict(
+            "MaxKeys" => Dict(
+                "location" => "querystring",
+                "locationName" => "max-keys",
+                "documentation" => "Max keys to return.",
+                "idempotent" => false,
+            ),
+            "AccessToken" => Dict(
+                "location" => "header",
+                "locationName" => "x-amz-sso_bearer_token",
+                "documentation" => "Bearer token.",
+                "idempotent" => false,
+            ),
+        )
+    end
+
+    @testset "required parameter order follows wire name, not member key" begin
+        # Positional argument order is part of the calling convention, so it must be preserved
+        # even though `required_params` is now keyed by member name: `Beta`'s wire name
+        # ("AAA-Beta") sorts before `Alpha`'s ("Alpha"), so `Beta` must come first despite
+        # `Alpha` < `Beta` alphabetically.
+        input = "OrderingParams"
+
+        required_params, optional_params = _get_function_parameters(input, shapes)
+
+        @test collect(keys(required_params)) == ["Beta", "Alpha"]
+    end
 end
 
 @testset "_generate_high_level_definitions" begin
@@ -494,27 +559,25 @@ end
 
     expected_result = """
     \"\"\"
-        sample_operation(required_param1, required_param2)
-        sample_operation(required_param1, required_param2, params::Dict{String,<:Any})
+        sample_operation(RequiredParam1, RequiredParam2)
+        sample_operation(RequiredParam1, RequiredParam2; OptionalParam=nothing)
 
     The documentation for this operation.
 
     # Arguments
-    - `required_param1`: Required param 1
-    - `required_param2`: Required param 2
+    - `RequiredParam1`: Required param 1
+    - `RequiredParam2`: Required param 2
 
     # Optional Parameters
-    Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-    - `"OptionalParam"`: Optional param
+    The following optional keyword arguments can be provided:
+    - `OptionalParam`: Optional param
     \"\"\"
     function sample_operation end
 
-    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config())
-        sample_service("POST", "/", Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2); aws_config, feature_set=SERVICE_FEATURE_SET)
-    end
-
-    function sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-        sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
+    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+        params = Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2)
+        OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+        sample_service("POST", "/", params; aws_config, feature_set=SERVICE_FEATURE_SET)
     end
     """
 
@@ -536,13 +599,19 @@ end
     documentation = "Documentation for $name."
 
     @testset "locationless and non-idempotent" begin
-        required_params = Dict(
-            "RequiredParam" =>
-                Dict("location" => "", "documentation" => "This parameter is required."),
+        required_params = LittleDict(
+            "RequiredParam" => Dict(
+                "location" => "",
+                "locationName" => "RequiredParam",
+                "documentation" => "This parameter is required.",
+            ),
         )
-        optional_params = Dict(
+        optional_params = LittleDict(
             "OptionalParam" => Dict(
-                "idempotent" => false, "documentation" => "This parameter is optional."
+                "location" => "",
+                "locationName" => "OptionalParam",
+                "idempotent" => false,
+                "documentation" => "This parameter is optional.",
             ),
         )
 
@@ -550,26 +619,24 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(RequiredParam)
+                function_name(RequiredParam; OptionalParam=nothing)
 
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter is required.
+            - `RequiredParam`: This parameter is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-            - `"OptionalParam"`: This parameter is optional.
+            The following optional keyword arguments can be provided:
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config, feature_set=SERVICE_FEATURE_SET)
-            end
-
-            function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 
@@ -594,26 +661,24 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(RequiredParam)
+                function_name(RequiredParam; OptionalParam=nothing)
 
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter is required.
+            - `RequiredParam`: This parameter is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-            - `"OptionalParam"`: This parameter is optional.
+            The following optional keyword arguments can be provided:
+            - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam); aws_config, feature_set=SERVICE_FEATURE_SET)
-            end
-
-            function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=nothing)
+                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 
@@ -636,14 +701,19 @@ end
     end
 
     @testset "header location and idempotent" begin
-        required_params = Dict(
+        required_params = LittleDict(
             "RequiredParam" => Dict(
-                "location" => "header", "documentation" => "This parameter is required."
+                "location" => "header",
+                "locationName" => "RequiredParam",
+                "documentation" => "This parameter   is required.",
             ),
         )
-        optional_params = Dict(
+        optional_params = LittleDict(
             "OptionalParam" => Dict(
-                "idempotent" => true, "documentation" => "This parameter is optional."
+                "location" => "",
+                "locationName" => "OptionalParam",
+                "idempotent" => true,
+                "documentation" => "This parameter i  s optional.",
             ),
         )
 
@@ -651,26 +721,26 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(RequiredParam)
+                function_name(RequiredParam; OptionalParam=string(uuid4()))
 
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter   is required.
+            - `RequiredParam`: This parameter   is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-            - `"OptionalParam"`: This parameter i  s optional.
+            The following optional keyword arguments can be provided:
+            - `OptionalParam`: This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)); aws_config, feature_set=SERVICE_FEATURE_SET)
-            end
-
-            function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam" => string(uuid4()), "headers" => Dict{String, Any}("RequiredParam" => RequiredParam)), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=string(uuid4()))
+                params = Dict{String, Any}()
+                headers = Dict{String, Any}("RequiredParam" => RequiredParam)
+                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                isempty(headers) || (params["headers"] = headers)
+                service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
             result = _generate_high_level_definition(
@@ -694,26 +764,24 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(RequiredParam)
+                function_name(RequiredParam; OptionalParam=string(uuid4()))
 
             Documentation for FunctionName.
 
             # Arguments
-            - `required_param`: This parameter   is required.
+            - `RequiredParam`: This parameter   is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-            - `"OptionalParam"`: This parameter i  s optional.
+            The following optional keyword arguments can be provided:
+            - `OptionalParam`: This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())); aws_config, feature_set=SERVICE_FEATURE_SET)
-            end
-
-            function function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam" => RequiredParam, "OptionalParam" => string(uuid4())), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), OptionalParam=string(uuid4()))
+                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+                OptionalParam !== nothing && (params["OptionalParam"] = OptionalParam)
+                service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
 
@@ -733,6 +801,80 @@ end
 
             @test result == expected_result
         end
+    end
+
+    @testset "wire name diverges from member key (rest protocol)" begin
+        # Mirrors real-world S3 (`MaxKeys` serialized as querystring `max-keys`) and SSO
+        # (`AccessToken` serialized as header `x-amz-sso_bearer_token`, mixing hyphens and
+        # underscores) parameters: the generated keyword name is always the exact member name
+        # from AWS's own docs, no hyphen/underscore translation or casing conversion is ever
+        # performed, and header-located optional parameters are automatically nested under
+        # `"headers"` without the caller having to know that.
+        protocol = "rest-xml"
+        required_params = LittleDict(
+            "ContentType" => Dict(
+                "location" => "header",
+                "locationName" => "Content-Type",
+                "documentation" => "Content type header.",
+            ),
+        )
+        optional_params = LittleDict(
+            "MaxKeys" => Dict(
+                "location" => "querystring",
+                "locationName" => "max-keys",
+                "idempotent" => false,
+                "documentation" => "Max results.",
+            ),
+            "AccessToken" => Dict(
+                "location" => "header",
+                "locationName" => "x-amz-sso_bearer_token",
+                "idempotent" => false,
+                "documentation" => "Bearer token.",
+            ),
+        )
+
+        expected_result = """
+        \"\"\"
+            function_name(ContentType)
+            function_name(ContentType; MaxKeys=nothing, AccessToken=nothing)
+
+        Documentation for FunctionName.
+
+        # Arguments
+        - `ContentType`: Content type header.
+
+        # Optional Parameters
+        The following optional keyword arguments can be provided:
+        - `MaxKeys`: Max results.
+        - `AccessToken`: Bearer token.
+        \"\"\"
+        function function_name end
+
+        function function_name(ContentType; aws_config::AbstractAWSConfig=current_aws_config(), MaxKeys=nothing, AccessToken=nothing)
+            params = Dict{String, Any}()
+            headers = Dict{String, Any}("Content-Type" => ContentType)
+            MaxKeys !== nothing && (params["max-keys"] = MaxKeys)
+            AccessToken !== nothing && (headers["x-amz-sso_bearer_token"] = AccessToken)
+            isempty(headers) || (params["headers"] = headers)
+            service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+        end
+        """
+
+        result = _generate_high_level_definition(
+            service_name,
+            protocol,
+            name,
+            method,
+            request_uri,
+            required_params,
+            optional_params,
+            documentation,
+        )
+
+        expected_result = _clean_high_level_definition(expected_result)
+        result = _clean_high_level_definition(result)
+
+        @test result == expected_result
     end
 end
 

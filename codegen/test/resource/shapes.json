@@ -40,6 +40,44 @@
   "NoParams": {
     "members": {}
   },
+  "WireNameParams": {
+    "required": ["ContentType"],
+    "members": {
+      "ContentType": {
+        "documentation": "Content type header.",
+        "shape": "String",
+        "location": "header",
+        "locationName": "Content-Type"
+      },
+      "MaxKeys": {
+        "documentation": "Max keys to return.",
+        "shape": "String",
+        "location": "querystring",
+        "locationName": "max-keys"
+      },
+      "AccessToken": {
+        "documentation": "Bearer token.",
+        "shape": "String",
+        "location": "header",
+        "locationName": "x-amz-sso_bearer_token"
+      }
+    }
+  },
+  "OrderingParams": {
+    "required": ["Alpha", "Beta"],
+    "members": {
+      "Alpha": {
+        "documentation": "Alpha param.",
+        "shape": "String"
+      },
+      "Beta": {
+        "documentation": "Beta param.",
+        "shape": "String",
+        "location": "header",
+        "locationName": "AAA-Beta"
+      }
+    }
+  },
   "String": {
     "type": "String"
   }

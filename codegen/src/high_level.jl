@@ -32,7 +32,7 @@ function _generate_high_level_wrapper(service_files::AbstractArray{ServiceFile})
                 """
              # $AUTO_GENERATED_SIGNATURE
              # Note: `SERVICE_FEATURE_SET` is embedded by `@service`
-             using AWS: AbstractAWSConfig, current_aws_config, _merge
+             using AWS: AbstractAWSConfig, current_aws_config
              using AWS.AWSServices: $service_name
              using AWS.UUIDs: uuid4
              """,
@@ -105,7 +105,33 @@ function _generate_high_level_definition(
     documentation::String,
 )
     """
-    Generate function definition for a service request given required, header and idempotent parameters.
+    Generate the `name=default` keyword-argument declaration for each optional parameter. The
+    keyword is exactly the shape's member key (e.g. `MaxKeys`) with no casing conversion — it's
+    already a valid Julia identifier, since Smithy shape member names can never contain a
+    hyphen, and leaving it as-is means it always matches AWS's own documentation verbatim.
+    """
+    function _optional_keyword_declarations(optional_params::AbstractDict)
+        return [
+            "$key=$(val["idempotent"] ? "string(uuid4())" : "nothing")" for
+            (key, val) in optional_params
+        ]
+    end
+
+    """
+    Generate the runtime line which, unless the keyword argument was left at its default
+    (`nothing`) value, inserts it into `params` (or `headers`, when `use_headers` is set and the
+    parameter is header-located).
+    """
+    function _optional_param_assignment(
+        member_key::String, meta::AbstractDict; use_headers::Bool
+    )
+        target = use_headers && meta["location"] == "header" ? "headers" : "params"
+        return "$member_key !== nothing && ($target[\"$(meta["locationName"])\"] = $member_key)"
+    end
+
+    """
+    Generate function definition for a service request given required, header and optional
+    parameters.
     """
     function _generate_rest_operation_defintion(
         required_params::AbstractDict,
@@ -119,86 +145,61 @@ function _generate_high_level_definition(
         request_uri = replace(request_uri, '}' => ')')  # Replace } with )
         request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
 
-        # Pre Julia-1.3 workaround
-        req_keys = [replace(key, "-" => "_") for key in collect(keys(required_params))]
+        req_keys = collect(keys(required_params))
 
-        required_params = filter(p -> (p[2]["location"] != "uri"), required_params)
+        body_params = filter(p -> !(p[2]["location"] in ("uri", "header")), required_params)
         header_params = filter(p -> (p[2]["location"] == "header"), required_params)
-        required_params = setdiff(required_params, header_params)
 
-        idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
+        req_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in body_params]
+        header_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in header_params]
 
-        req_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in required_params]
-        header_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in header_params]
-        idempotent_kv = ["\"$(p[1])\" => string(uuid4())" for p in idempotent_params]
+        header_optional = filter(p -> (p[2]["location"] == "header"), optional_params)
 
-        required_keys = !isempty(req_keys)
-        headers = !isempty(header_params)
-        idempotent = !isempty(idempotent_params)
+        kwarg_decls = _optional_keyword_declarations(optional_params)
+        routing_lines = [
+            _optional_param_assignment(k, v; use_headers=true) for (k, v) in optional_params
+        ]
 
-        req_str = !isempty(req_kv) ? "Dict{String, Any}($(join(req_kv, ", "))" : ""
-        params_str = if (!isempty(req_kv) || idempotent)
-            "$(join(vcat(req_kv, idempotent_kv), ", "))"
-        else
-            ""
-        end
-        headers_str =
-            headers ? "\"headers\" => Dict{String, Any}($(join(header_kv, ", ")))" : ""
-        params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
+        needs_headers = !isempty(header_kv) || !isempty(header_optional)
+        needs_params = needs_headers || !isempty(req_kv) || !isempty(optional_params)
 
         function_name = _format_name(operation_name)
 
-        if required_keys && (idempotent || headers)
-            return """
-                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
+        signature_args = String[]
+        isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        push!(
+            signature_args,
+            "; " * join(
+                vcat("aws_config::AbstractAWSConfig=current_aws_config()", kwarg_decls), ", "
+            ),
+        )
+        signature = "$function_name($(join(signature_args, "")))"
 
-                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        elseif !required_keys && (idempotent || headers)
-            return """
-                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
+        body_lines = String[]
+        call_args = ["\"$method\"", "\"$request_uri\""]
 
-                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        elseif required_keys && !isempty(req_kv)
-            return """
-                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", $req_str); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-
-                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        elseif required_keys
-            return """
-                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\"; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-
-                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        else
-            return """
-                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\"; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-
-                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$method\", \"$request_uri\", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
+        if needs_params
+            push!(body_lines, "params = Dict{String, Any}($(join(req_kv, ", ")))")
+            if needs_headers
+                push!(body_lines, "headers = Dict{String, Any}($(join(header_kv, ", ")))")
+            end
+            append!(body_lines, routing_lines)
+            if needs_headers
+                push!(body_lines, "isempty(headers) || (params[\"headers\"] = headers)")
+            end
+            push!(call_args, "params")
         end
+
+        push!(
+            body_lines,
+            "$service_name($(join(call_args, ", ")); aws_config, feature_set=SERVICE_FEATURE_SET)",
+        )
+
+        return """
+            function $signature
+                $(join(body_lines, "\n"))
+            end
+            """
     end
 
     """
@@ -210,59 +211,47 @@ function _generate_high_level_definition(
         operation_name::String,
         service_name::String,
     )
-        req_keys = [replace(key, '-' => '_') for key in collect(keys(required_params))]
+        req_keys = collect(keys(required_params))
+        req_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in required_params]
 
-        idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
+        kwarg_decls = _optional_keyword_declarations(optional_params)
+        routing_lines = [
+            _optional_param_assignment(k, v; use_headers=false) for (k, v) in optional_params
+        ]
 
-        req_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in required_params]
-        idempotent_kv = ["\"$(p[1])\" => string(uuid4())" for p in idempotent_params]
-
-        required = !isempty(req_kv)
-        idempotent = !isempty(idempotent_kv)
+        needs_params = !isempty(req_kv) || !isempty(optional_params)
 
         function_name = _format_name(operation_name)
 
-        if required && idempotent
-            return """
-                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
+        signature_args = String[]
+        isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        push!(
+            signature_args,
+            "; " * join(
+                vcat("aws_config::AbstractAWSConfig=current_aws_config()", kwarg_decls), ", "
+            ),
+        )
+        signature = "$function_name($(join(signature_args, "")))"
 
-                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        elseif required
-            return """
-                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
+        body_lines = String[]
+        call_args = ["\"$operation_name\""]
 
-                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        elseif idempotent
-            return """
-                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-
-                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
-        else
-            return """
-                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\"; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-
-                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$operation_name\", params; aws_config, feature_set=SERVICE_FEATURE_SET)
-                end
-                """
+        if needs_params
+            push!(body_lines, "params = Dict{String, Any}($(join(req_kv, ", ")))")
+            append!(body_lines, routing_lines)
+            push!(call_args, "params")
         end
+
+        push!(
+            body_lines,
+            "$service_name($(join(call_args, ", ")); aws_config, feature_set=SERVICE_FEATURE_SET)",
+        )
+
+        return """
+            function $signature
+                $(join(body_lines, "\n"))
+            end
+            """
     end
 
     """
@@ -271,12 +260,18 @@ function _generate_high_level_definition(
     function _generate_docstring(
         function_name, documentation, required_parameters, optional_parameters
     )
-        args = join((_format_name(key) for (key, val) in required_parameters), ", ")
-        maybejoin = isempty(args) ? "" : ", "
+        args = join(keys(required_parameters), ", ")
+        kwarg_decls = _optional_keyword_declarations(optional_parameters)
+
+        signatures = ["$function_name($(args))"]
+        if !isempty(kwarg_decls)
+            prefix = isempty(args) ? "; " : "$args; "
+            push!(signatures, "$function_name($prefix$(join(kwarg_decls, ", ")))")
+        end
+
         operation_definition = """
             $(repeat('"', 3))
-                $function_name($(args))
-                $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
+                $(join(signatures, "\n    "))
 
             $(_wraplines(documentation))
             """
@@ -295,11 +290,10 @@ function _generate_high_level_definition(
 
             argument_docstrings = String[]
             for (required_key, required_value) in required_parameters
-                key = _format_name(required_key)
                 push!(
                     argument_docstrings,
                     _wraplines(
-                        "- `$key`: $(required_value["documentation"])"; base_indent=2
+                        "- `$required_key`: $(required_value["documentation"])"; base_indent=2
                     ),
                 )
             end
@@ -322,7 +316,7 @@ function _generate_high_level_definition(
             operation_definition *= """
                 # Optional Parameters
 
-                Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+                The following optional keyword arguments can be provided:
 
                 """
 
@@ -331,8 +325,7 @@ function _generate_high_level_definition(
                 push!(
                     optional_docstrings,
                     _wraplines(
-                        "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                        base_indent=2,
+                        "- `$optional_key`: $(optional_value["documentation"])"; base_indent=2
                     ),
                 )
             end
