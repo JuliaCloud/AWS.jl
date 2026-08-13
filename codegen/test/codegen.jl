@@ -538,16 +538,15 @@ end
         )
     end
 
-    @testset "required parameter order follows wire name, not member key" begin
-        # Positional argument order is part of the calling convention, so it must be preserved
-        # even though `required_params` is now keyed by member name: `Beta`'s wire name
-        # ("AAA-Beta") sorts before `Alpha`'s ("Alpha"), so `Beta` must come first despite
-        # `Alpha` < `Beta` alphabetically.
+    @testset "required parameters are sorted alphabetically by member key" begin
+        # Required parameters are keyword arguments (like optional ones), so their relative
+        # order is not part of the calling convention: `Beta`'s wire name ("AAA-Beta") would
+        # sort before `Alpha`'s ("Alpha"), but member-key order (`Alpha` < `Beta`) is used.
         input = "OrderingParams"
 
         required_params, optional_params = _get_function_parameters(input, shapes)
 
-        @test collect(keys(required_params)) == ["Beta", "Alpha"]
+        @test collect(keys(required_params)) == ["Alpha", "Beta"]
     end
 end
 
@@ -559,8 +558,8 @@ end
 
     expected_result = """
     \"\"\"
-        sample_operation(RequiredParam1, RequiredParam2)
-        sample_operation(RequiredParam1, RequiredParam2; kwargs...)
+        sample_operation(; RequiredParam1, RequiredParam2)
+        sample_operation(; RequiredParam1, RequiredParam2, kwargs...)
 
     The documentation for this operation.
 
@@ -574,7 +573,7 @@ end
     \"\"\"
     function sample_operation end
 
-    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+    function sample_operation(; RequiredParam1, RequiredParam2, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
         params = Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2)
         for (k, v) in kwargs
             if k === :OptionalParam
@@ -625,8 +624,8 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(RequiredParam)
-                function_name(RequiredParam; kwargs...)
+                function_name(; RequiredParam)
+                function_name(; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
@@ -639,7 +638,7 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -673,8 +672,8 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(RequiredParam)
-                function_name(RequiredParam; kwargs...)
+                function_name(; RequiredParam)
+                function_name(; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
@@ -687,7 +686,7 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -739,8 +738,8 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(RequiredParam)
-                function_name(RequiredParam; kwargs...)
+                function_name(; RequiredParam)
+                function_name(; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
@@ -753,7 +752,7 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 headers = Dict{String, Any}("RequiredParam" => RequiredParam)
                 params = Dict{String, Any}("headers" => headers)
                 for (k, v) in kwargs
@@ -788,8 +787,8 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(RequiredParam)
-                function_name(RequiredParam; kwargs...)
+                function_name(; RequiredParam)
+                function_name(; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
@@ -802,7 +801,7 @@ end
             \"\"\"
             function function_name end
 
-            function function_name(RequiredParam; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -866,8 +865,8 @@ end
 
         expected_result = """
         \"\"\"
-            function_name(ContentType)
-            function_name(ContentType; kwargs...)
+            function_name(; ContentType)
+            function_name(; ContentType, kwargs...)
 
         Documentation for FunctionName.
 
@@ -881,7 +880,7 @@ end
         \"\"\"
         function function_name end
 
-        function function_name(ContentType; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+        function function_name(; ContentType, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
             headers = Dict{String, Any}("Content-Type" => ContentType)
             params = Dict{String, Any}("headers" => headers)
             for (k, v) in kwargs

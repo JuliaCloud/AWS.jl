@@ -767,17 +767,10 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     input_shape = get(shapes, input, Dict())
 
-    # Required parameters are positional, so their relative order is part of the function's
-    # calling convention. Sort by wire/location name (rather than the member key we now use as
-    # the dict key) to preserve that order even when a member key and its wire name would sort
-    # differently (primarily header parameters, e.g. member `ContentMD5` / wire `Content-MD5`).
-    required_keys = sort(
-        get(input_shape, "required", String[]);
-        by=parameter -> _get_parameter_name(parameter, input_shape),
-    )
-
+    # Required parameters are keyword arguments (like optional ones), so their relative order
+    # is not part of the function's calling convention — sort alphabetically by member key.
     required_parameters = LittleDict{String,Any}()
-    for parameter in required_keys
+    for parameter in sort(get(input_shape, "required", String[]))
         location = get(input_shape["members"][parameter], "location", "")
         location_name = _get_parameter_name(parameter, input_shape)
         documentation = _html_to_markdown(

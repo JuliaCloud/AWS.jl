@@ -188,14 +188,11 @@ function _generate_high_level_definition(
         needs_headers = !isempty(header_kv) || !isempty(header_optional)
         needs_params = needs_headers || !isempty(req_kv) || has_optional
 
-        signature_args = String[]
-        isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        # All parameters — required and optional alike — are keyword arguments (boto3-style);
+        # required ones simply have no default, so Julia raises `UndefKeywordError` if omitted.
+        required_kw = isempty(req_keys) ? "" : join(req_keys, ", ") * ", "
         kwargs_suffix = has_optional ? ", kwargs..." : ""
-        push!(
-            signature_args,
-            "; aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix",
-        )
-        signature = "$function_name($(join(signature_args, "")))"
+        signature = "$function_name(; $(required_kw)aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix)"
 
         body_lines = String[]
         call_args = ["\"$method\"", "\"$request_uri\""]
@@ -251,14 +248,11 @@ function _generate_high_level_definition(
 
         needs_params = !isempty(req_kv) || has_optional
 
-        signature_args = String[]
-        isempty(req_keys) || push!(signature_args, join(req_keys, ", "))
+        # All parameters — required and optional alike — are keyword arguments (boto3-style);
+        # required ones simply have no default, so Julia raises `UndefKeywordError` if omitted.
+        required_kw = isempty(req_keys) ? "" : join(req_keys, ", ") * ", "
         kwargs_suffix = has_optional ? ", kwargs..." : ""
-        push!(
-            signature_args,
-            "; aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix",
-        )
-        signature = "$function_name($(join(signature_args, "")))"
+        signature = "$function_name(; $(required_kw)aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix)"
 
         body_lines = String[]
         call_args = ["\"$operation_name\""]
@@ -287,11 +281,13 @@ function _generate_high_level_definition(
     function _generate_docstring(
         function_name, documentation, required_parameters, optional_parameters
     )
+        # All parameters are keyword arguments (boto3-style), so even the "required-only"
+        # signature needs a leading `;` once there's at least one required parameter.
         args = join(keys(required_parameters), ", ")
 
-        signatures = ["$function_name($(args))"]
+        signatures = [isempty(args) ? "$function_name()" : "$function_name(; $args)"]
         if !isempty(optional_parameters)
-            prefix = isempty(args) ? "; " : "$args; "
+            prefix = isempty(args) ? "; " : "; $args, "
             push!(signatures, "$function_name($(prefix)kwargs...)")
         end
 
@@ -312,7 +308,7 @@ function _generate_high_level_definition(
                 operation_definition *= "\n"
             end
 
-            operation_definition *= "# Arguments\n\n"
+            operation_definition *= "# Required Keywords\n\n"
 
             argument_docstrings = String[]
             for (required_key, required_value) in required_parameters
@@ -340,7 +336,7 @@ function _generate_high_level_definition(
             end
 
             operation_definition *= """
-                # Optional Parameters
+                # Optional Keywords
 
                 The following optional keyword arguments can be provided:
 
