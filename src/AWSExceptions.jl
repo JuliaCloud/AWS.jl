@@ -124,7 +124,15 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
         message = get(info, "message", message)
     end
 
-    streamed_body = !HTTP.isbytes(e.response.body) ? body : nothing
+    # When using HTTP.jl `response_stream` the body will not be stored inside the response. A
+    # real streamed request leaves `body` as a literal `nothing`; test doubles built through
+    # HTTP.jl's keyword `Response` constructors can only reproduce this as `HTTP.EmptyBody()`,
+    # since those constructors normalize a `nothing` body argument into `EmptyBody()`.
+    streamed_body = if isnothing(e.response.body) || e.response.body isa HTTP.EmptyBody
+        body
+    else
+        nothing
+    end
 
     return AWSException(code, message, info, e, streamed_body)
 end

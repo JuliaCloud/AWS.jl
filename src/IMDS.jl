@@ -10,10 +10,10 @@ security reasons).
 """
 module IMDS
 
+using ..AWS: is_connection_exception, is_ttl_expired_exception
 using ..AWSExceptions: IMDSUnavailable
 
 using HTTP: HTTP
-using HTTP.Exceptions: ConnectError, StatusError
 using Mocking
 using URIs: URI
 
@@ -91,9 +91,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
-        # Could also populate the `StatusError` via `r.request.method` and
-        # `r.request.target` however `r.request` may not be populated under test scenarios.
-        throw(StatusError(r.status, "PUT", uri.path, r))
+        throw(HTTP.StatusError(r.status, r))
     end
 
     return session
@@ -112,7 +110,7 @@ function request(
         refresh_token!(session)
         allow_refresh = false
     end
-    headers = HTTP.Header[]
+    headers = HTTP.Headers()
     if !isempty(session.token)
         HTTP.setheader(headers, "X-aws-ec2-metadata-token" => session.token)
     end
@@ -127,19 +125,19 @@ function request(
     # > When token usage is set to `required` (IMDSv2), requests without a valid token or
     # > with an expired token receive a `401 - Unauthorized` HTTP error code.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-v2-how-it-works
-    retry_delays = [0]
-    function retry_check(s, e, request, response, response_body)
-        if allow_refresh && e isa StatusError && e.status == 401 && !isempty(session.token)
+    function retry_if(attempt, err, req, resp::HTTP.Response)
+        if allow_refresh && resp.status == 401 && !isempty(session.token)
             refresh_token!(session)
-            allow_refresh = false
-            HTTP.setheader(request.headers, "X-aws-ec2-metadata-token" => session.token)
+            allow_refresh = false  # Ensure we only refresh the token once in this `retry_if`
+            HTTP.setheader(req, "X-aws-ec2-metadata-token" => session.token)
             return true
         else
             return false
         end
     end
+    retry_if(attempt, err, req, resp::Nothing) = false
 
-    return _http_request(method, uri, headers; retry_delays, retry_check, status_exception)
+    return _http_request(method, uri, headers; retry_if, status_exception)
 end
 
 function _http_request(args...; status_exception=true, kwargs...)
@@ -156,14 +154,14 @@ function _http_request(args...; status_exception=true, kwargs...)
         # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
         # returned.
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-returns
-        if is_connection_exception(e) || e isa StatusError && e.status == 403
+        if is_connection_exception(e) || e isa HTTP.StatusError && e.status == 403
             throw(IMDSUnavailable())
 
         #! format: off
         # Return the status exception when `status_exception=false`. We must always cause
         # `HTTP.request` to throw status errors for our `IMDSUnavailable` check.
         #! format: on
-        elseif !status_exception && e isa StatusError
+        elseif !status_exception && e isa HTTP.StatusError
             e.response
         else
             rethrow()
@@ -172,16 +170,6 @@ function _http_request(args...; status_exception=true, kwargs...)
 
     return response
 end
-
-is_connection_exception(e::ConnectError) = true
-is_connection_exception(e::Exception) = false
-
-# https://github.com/JuliaCloud/AWS.jl/issues/654
-# https://github.com/JuliaCloud/AWS.jl/issues/649
-function is_ttl_expired_exception(e::HTTP.Exceptions.RequestError)
-    return e.error == Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-end
-is_ttl_expired_exception(e::Exception) = false
 
 """
     get([session::Session], path::AbstractString) -> Union{String, Nothing}
@@ -200,7 +188,7 @@ function get(session::Session, path::AbstractString)
     response = try
         request(session, "GET", path)
     catch e
-        if e isa IMDSUnavailable || e isa StatusError && e.status == 404
+        if e isa IMDSUnavailable || e isa HTTP.StatusError && e.status == 404
             nothing
         else
             rethrow()

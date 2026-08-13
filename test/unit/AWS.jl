@@ -257,7 +257,7 @@ end
 
         # Access to response headers
         @test response.response.headers == Patches.headers
-        @test response.response.headers isa Vector
+        @test response.response.headers isa AbstractVector
 
         # Access to streaming content
         @test response.io isa IO
@@ -267,7 +267,7 @@ end
 
         # Backwards compatibility with those expecting an `HTTP.Response`
         @test response.headers == Patches.headers
-        @test response.headers isa Vector
+        @test response.headers isa AbstractVector
         @test String(response.body) == Patches.body
     end
 
@@ -285,7 +285,7 @@ end
 
         # Access to response headers
         @test response.response.headers == Patches.headers
-        @test response.response.headers isa Vector
+        @test response.response.headers isa AbstractVector
 
         # Access to streaming content
         @test response.io isa IO
@@ -295,7 +295,7 @@ end
 
         # Backwards compatibility with those expecting an `HTTP.Response`
         @test response.headers == Patches.headers
-        @test response.headers isa Vector
+        @test response.headers isa AbstractVector
         @test String(response.body) == Patches.body
     end
 

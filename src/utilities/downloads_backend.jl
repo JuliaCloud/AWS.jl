@@ -120,13 +120,12 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     return AWS.Response(response, response_stream)
 end
 
-function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
-    response = HTTP.Response(res.status, res.headers; body=IOBuffer(), request=nothing)
+function _http_response(request::Request, response::Downloads.Response; throw::Bool=true)
+    req = _as_http_request(request)
+    resp = HTTP.Response(response.status; response.headers, request=req)
 
-    if throw && HTTP.iserror(response)
-        target = HTTP.resource(HTTP.URI(req.url))
-        e = HTTP.StatusError(res.status, req.request_method, target, response)
-        Base.throw(e)
+    if throw && HTTP._status_throws(resp)
+        throw(HTTP.StatusError(resp.status, resp))
     end
 
     return response

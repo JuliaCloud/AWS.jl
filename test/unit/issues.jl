@@ -14,7 +14,7 @@
                 attempt_num += 1
                 if attempt_num <= num_attempts_to_fail
                     write(response_stream, data[1:(n - 1)]) # an incomplete stream that shouldn't be retained
-                    throw(HTTP.RequestError(HTTP.Request(), EOFError()))
+                    throw(EOFError())
                 else
                     write(response_stream, data)
                     return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
@@ -56,7 +56,7 @@
 
     @testset "Fail all 4 attempts then throw" begin
         err_t = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-            HTTP.RequestError
+            EOFError
         else
             Downloads.RequestError
         end
