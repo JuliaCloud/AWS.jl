@@ -6,6 +6,14 @@ function _clean_high_level_definition(definition::String)
     return definition
 end
 
+@testset "camelcase_to_snakecase" begin
+    @test camelcase_to_snakecase("ChecksumCRC32") == "checksum_crc32"
+    @test camelcase_to_snakecase("ChecksumCRC32C") == "checksum_crc32c"
+    @test camelcase_to_snakecase("ChecksumCRC64NVME") == "checksum_crc64nvme"
+    @test camelcase_to_snakecase("ChecksumSHA1") == "checksum_sha1"
+    @test camelcase_to_snakecase("ChecksumSHA256") == "checksum_sha256"
+end
+
 @testset "_replace" begin
     @testset "overlap" begin
         @test _replace("aaa", r"^(.*)a" => (m -> "$(m[1])b"); overlap=false) == "aab"
@@ -567,24 +575,30 @@ end
     defaulting to the global configuration (`current_aws_config()`).
 
     # Required Keywords
-    - `RequiredParam1`: Required param 1
-    - `RequiredParam2`: Required param 2
+    - `RequiredParam1` (or `required_param1`): Required param 1
+    - `RequiredParam2` (or `required_param2`): Required param 2
 
     # Optional Keywords
     The following optional keyword arguments can be provided:
-    - `OptionalParam`: Optional param
+    - `OptionalParam` (or `optional_param`): Optional param
     \"\"\"
     function sample_operation end
 
-    function sample_operation(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam1, RequiredParam2, kwargs...)
-        params = Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2)
+    function sample_operation(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+        params = Dict{String, Any}()
         for (k, v) in kwargs
-            if k === :OptionalParam
+            if k === :RequiredParam1 || k === :required_param1
+                params["RequiredParam1"] = v
+            elseif k === :RequiredParam2 || k === :required_param2
+                params["RequiredParam2"] = v
+            elseif k === :OptionalParam || k === :optional_param
                 params["OptionalParam"] = v
             else
                 throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `sample_operation`"))
             end
         end
+        haskey(params, "RequiredParam1") || throw(ArgumentError("missing required keyword argument: `RequiredParam1` (or `required_param1`) for `sample_operation`"))
+        haskey(params, "RequiredParam2") || throw(ArgumentError("missing required keyword argument: `RequiredParam2` (or `required_param2`) for `sample_operation`"))
         sample_service("POST", "/", params; aws_config, feature_set=SERVICE_FEATURE_SET)
     end
     """
@@ -636,23 +650,26 @@ end
             defaulting to the global configuration (`current_aws_config()`).
 
             # Required Keywords
-            - `RequiredParam`: This parameter is required.
+            - `RequiredParam` (or `required_param`): This parameter is required.
 
             # Optional Keywords
             The following optional keyword arguments can be provided:
-            - `OptionalParam`: This parameter is optional.
+            - `OptionalParam` (or `optional_param`): This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
-                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+                params = Dict{String, Any}()
                 for (k, v) in kwargs
-                    if k === :OptionalParam
+                    if k === :RequiredParam || k === :required_param
+                        params["RequiredParam"] = v
+                    elseif k === :OptionalParam || k === :optional_param
                         params["OptionalParam"] = v
                     else
                         throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                     end
                 end
+                haskey(params, "RequiredParam") || throw(ArgumentError("missing required keyword argument: `RequiredParam` (or `required_param`) for `function_name`"))
                 service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -687,23 +704,26 @@ end
             defaulting to the global configuration (`current_aws_config()`).
 
             # Required Keywords
-            - `RequiredParam`: This parameter is required.
+            - `RequiredParam` (or `required_param`): This parameter is required.
 
             # Optional Keywords
             The following optional keyword arguments can be provided:
-            - `OptionalParam`: This parameter is optional.
+            - `OptionalParam` (or `optional_param`): This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
-                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+                params = Dict{String, Any}()
                 for (k, v) in kwargs
-                    if k === :OptionalParam
+                    if k === :RequiredParam || k === :required_param
+                        params["RequiredParam"] = v
+                    elseif k === :OptionalParam || k === :optional_param
                         params["OptionalParam"] = v
                     else
                         throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                     end
                 end
+                haskey(params, "RequiredParam") || throw(ArgumentError("missing required keyword argument: `RequiredParam` (or `required_param`) for `function_name`"))
                 service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -756,25 +776,29 @@ end
             defaulting to the global configuration (`current_aws_config()`).
 
             # Required Keywords
-            - `RequiredParam`: This parameter   is required.
+            - `RequiredParam` (or `required_param`): This parameter   is required.
 
             # Optional Keywords
             The following optional keyword arguments can be provided:
-            - `OptionalParam`: This parameter i  s optional.
+            - `OptionalParam` (or `optional_param`): This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
-                headers = Dict{String, Any}("RequiredParam" => RequiredParam)
-                params = Dict{String, Any}("headers" => headers)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+                headers = Dict{String, Any}()
+                params = Dict{String, Any}()
                 for (k, v) in kwargs
-                    if k === :OptionalParam
+                    if k === :RequiredParam || k === :required_param
+                        headers["RequiredParam"] = v
+                    elseif k === :OptionalParam || k === :optional_param
                         params["OptionalParam"] = v
                     else
                         throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                     end
                 end
-                haskey(kwargs, :OptionalParam) || (params["OptionalParam"] = string(uuid4()))
+                haskey(headers, "RequiredParam") || throw(ArgumentError("missing required keyword argument: `RequiredParam` (or `required_param`) for `function_name`"))
+                haskey(kwargs, :OptionalParam) || haskey(kwargs, :optional_param) || (params["OptionalParam"] = string(uuid4()))
+                isempty(headers) || (params["headers"] = headers)
                 service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -808,24 +832,27 @@ end
             defaulting to the global configuration (`current_aws_config()`).
 
             # Required Keywords
-            - `RequiredParam`: This parameter   is required.
+            - `RequiredParam` (or `required_param`): This parameter   is required.
 
             # Optional Keywords
             The following optional keyword arguments can be provided:
-            - `OptionalParam`: This parameter i  s optional.
+            - `OptionalParam` (or `optional_param`): This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
-                params = Dict{String, Any}("RequiredParam" => RequiredParam)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+                params = Dict{String, Any}()
                 for (k, v) in kwargs
-                    if k === :OptionalParam
+                    if k === :RequiredParam || k === :required_param
+                        params["RequiredParam"] = v
+                    elseif k === :OptionalParam || k === :optional_param
                         params["OptionalParam"] = v
                     else
                         throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                     end
                 end
-                haskey(kwargs, :OptionalParam) || (params["OptionalParam"] = string(uuid4()))
+                haskey(params, "RequiredParam") || throw(ArgumentError("missing required keyword argument: `RequiredParam` (or `required_param`) for `function_name`"))
+                haskey(kwargs, :OptionalParam) || haskey(kwargs, :optional_param) || (params["OptionalParam"] = string(uuid4()))
                 service_name("FunctionName", params; aws_config, feature_set=SERVICE_FEATURE_SET)
             end
             """
@@ -852,9 +879,10 @@ end
         # Mirrors real-world S3 (`MaxKeys` serialized as querystring `max-keys`) and SSO
         # (`AccessToken` serialized as header `x-amz-sso_bearer_token`, mixing hyphens and
         # underscores) parameters: the generated keyword name is always the exact member name
-        # from AWS's own docs, no hyphen/underscore translation or casing conversion is ever
-        # performed, and header-located optional parameters are automatically nested under
-        # `"headers"` without the caller having to know that.
+        # from AWS's own docs (no hyphen/underscore translation of the *wire* name is ever
+        # performed), with a snake_case alias also accepted for Julia-idiomatic calls, and
+        # header-located optional parameters are automatically nested under `"headers"` without
+        # the caller having to know that.
         protocol = "rest-xml"
         required_params = LittleDict(
             "ContentType" => Dict(
@@ -889,27 +917,31 @@ end
         defaulting to the global configuration (`current_aws_config()`).
 
         # Required Keywords
-        - `ContentType`: Content type header.
+        - `ContentType` (or `content_type`): Content type header.
 
         # Optional Keywords
         The following optional keyword arguments can be provided:
-        - `MaxKeys`: Max results.
-        - `AccessToken`: Bearer token.
+        - `MaxKeys` (or `max_keys`): Max results.
+        - `AccessToken` (or `access_token`): Bearer token.
         \"\"\"
         function function_name end
 
-        function function_name(aws_config::AbstractAWSConfig=current_aws_config(); ContentType, kwargs...)
-            headers = Dict{String, Any}("Content-Type" => ContentType)
-            params = Dict{String, Any}("headers" => headers)
+        function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+            headers = Dict{String, Any}()
+            params = Dict{String, Any}()
             for (k, v) in kwargs
-                if k === :MaxKeys
+                if k === :ContentType || k === :content_type
+                    headers["Content-Type"] = v
+                elseif k === :MaxKeys || k === :max_keys
                     params["max-keys"] = v
-                elseif k === :AccessToken
+                elseif k === :AccessToken || k === :access_token
                     headers["x-amz-sso_bearer_token"] = v
                 else
                     throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                 end
             end
+            haskey(headers, "Content-Type") || throw(ArgumentError("missing required keyword argument: `ContentType` (or `content_type`) for `function_name`"))
+            isempty(headers) || (params["headers"] = headers)
             service_name("GET", "request_uri", params; aws_config, feature_set=SERVICE_FEATURE_SET)
         end
         """
@@ -920,6 +952,93 @@ end
             name,
             method,
             request_uri,
+            required_params,
+            optional_params,
+            documentation,
+        )
+
+        expected_result = _clean_high_level_definition(expected_result)
+        result = _clean_high_level_definition(result)
+
+        @test result == expected_result
+    end
+
+    @testset "uri-located required parameter (rest protocol)" begin
+        # URI-located required parameters are the one case that can't be routed directly into
+        # `params`/`headers` in the dispatch loop, since the generated request URI needs a real
+        # bound local variable to string-interpolate (`"/$(Bucket)"`) — every other required
+        # parameter (header- or body-located) is inserted straight into its target dict, exactly
+        # like optional parameters, and checked for presence afterwards via `haskey`.
+        protocol = "rest-xml"
+        required_params = LittleDict(
+            "Bucket" => Dict(
+                "location" => "uri",
+                "locationName" => "Bucket",
+                "documentation" => "The bucket name.",
+            ),
+            "ContentType" => Dict(
+                "location" => "header",
+                "locationName" => "Content-Type",
+                "documentation" => "Content type header.",
+            ),
+        )
+        optional_params = LittleDict(
+            "MaxKeys" => Dict(
+                "location" => "querystring",
+                "locationName" => "max-keys",
+                "idempotent" => false,
+                "documentation" => "Max results.",
+            ),
+        )
+
+        expected_result = """
+        \"\"\"
+            function_name([aws_config]; Bucket, ContentType)
+            function_name([aws_config]; Bucket, ContentType, kwargs...)
+
+        Documentation for FunctionName.
+
+        Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+        defaulting to the global configuration (`current_aws_config()`).
+
+        # Required Keywords
+        - `Bucket` (or `bucket`): The bucket name.
+        - `ContentType` (or `content_type`): Content type header.
+
+        # Optional Keywords
+        The following optional keyword arguments can be provided:
+        - `MaxKeys` (or `max_keys`): Max results.
+        \"\"\"
+        function function_name end
+
+        function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
+            Bucket = nothing
+            headers = Dict{String, Any}()
+            params = Dict{String, Any}()
+            for (k, v) in kwargs
+                if k === :Bucket || k === :bucket
+                    Bucket = v
+                elseif k === :ContentType || k === :content_type
+                    headers["Content-Type"] = v
+                elseif k === :MaxKeys || k === :max_keys
+                    params["max-keys"] = v
+                else
+                    throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
+                end
+            end
+            Bucket === nothing && throw(ArgumentError("missing required keyword argument: `Bucket` (or `bucket`) for `function_name`"))
+            haskey(headers, "Content-Type") || throw(ArgumentError("missing required keyword argument: `ContentType` (or `content_type`) for `function_name`"))
+            isempty(headers) || (params["headers"] = headers)
+            service_name("GET", "/\$(Bucket)", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+        end
+        """
+
+        result = _generate_high_level_definition(
+            service_name,
+            protocol,
+            name,
+            method,
+            "/{Bucket}",
             required_params,
             optional_params,
             documentation,
@@ -964,17 +1083,17 @@ end
 
         # Optional Keywords
         The following optional keyword arguments can be provided:
-        - `Prefix`: Key prefix.
-        - `MaxKeys`: Max results.
+        - `Prefix` (or `prefix`): Key prefix.
+        - `MaxKeys` (or `max_keys`): Max results.
         \"\"\"
         function function_name end
 
         function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
             params = Dict{String, Any}()
             for (k, v) in kwargs
-                if k === :Prefix
+                if k === :Prefix || k === :prefix
                     params["prefix"] = v
-                elseif k === :MaxKeys
+                elseif k === :MaxKeys || k === :max_keys
                     params["max-keys"] = v
                 else
                     throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))

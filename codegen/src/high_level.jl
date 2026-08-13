@@ -105,24 +105,86 @@ function _generate_high_level_definition(
     documentation::String,
 )
     """
-    Generate the `if k === :Member ... elseif ... else ... end` dispatch loop over the function's
-    `kwargs...` catch-all: each optional parameter (idempotent or not) is routed into `target`
-    (`"params"` or `"headers"`), and any unrecognized keyword raises a clear `ArgumentError`
-    naming the bad keyword and the function, rather than silently being dropped. Idempotent
-    parameters get a branch here too (so a caller-supplied value is honored), but still need a
-    separate fallback line for when they're absent — see `_idempotent_fallback_line`. Returns no
-    lines when `optional_params` is empty.
+    The `:Symbol` literals a caller may use for `member_key`: the exact Smithy member name,
+    plus its snake_case form (via `camelcase_to_snakecase`) so users can write idiomatic Julia
+    keywords without needing to know AWS's own PascalCase naming. Omits the snake_case form
+    when it's identical to the member name (e.g. already-lowercase single-word members).
     """
-    function _optional_dispatch_lines(
-        optional_params::AbstractDict; use_headers::Bool, function_name::AbstractString
+    function _keyword_aliases(member_key::String)
+        snake = camelcase_to_snakecase(member_key)
+        aliases = [":$member_key"]
+        snake == member_key || push!(aliases, ":$snake")
+        return aliases
+    end
+
+    """
+    The human-readable label for `member_key` used in docstrings and error messages: `` `Member` ``,
+    or `` `Member` (or `snake`) `` when its snake_case alias (see `_keyword_aliases`) differs.
+    """
+    function _keyword_doc_label(member_key::String)
+        snake = camelcase_to_snakecase(member_key)
+        return snake == member_key ? "`$member_key`" : "`$member_key` (or `$snake`)"
+    end
+
+    """
+    The dict a parameter's value should be routed to: `"headers"` when `use_headers` is set and
+    the parameter is header-located, `"params"` otherwise. URI-located parameters have no target
+    dict at all — they're only ever used via string interpolation in the request URI/target —
+    so this returns `nothing` for those (callers must check `meta["location"] == "uri"` first,
+    or handle the `nothing` explicitly).
+    """
+    function _dispatch_target(meta::AbstractDict; use_headers::Bool)
+        meta["location"] == "uri" && return nothing
+        return use_headers && meta["location"] == "header" ? "headers" : "params"
+    end
+
+    """
+    Generate the single `if k === :Member ... elseif ... else ... end` dispatch loop over the
+    function's `kwargs...` catch-all, covering both required and optional parameters (all
+    parameters are extracted this way now, since Julia keyword arguments can't be aliased —
+    `required_params` come first, then `optional_params`, then the catch-all `else`):
+
+    - a URI-located required parameter's branch assigns its local variable (`Bucket = v`), since
+      it's only ever used via string interpolation in the request URI/target, never inserted
+      into a dict — checked for presence afterwards via `_required_missing_check_line`;
+    - every other parameter's branch (required or optional, idempotent or not) inserts directly
+      into `target` (`"params"` or `"headers"`) — non-URI required parameters are checked for
+      presence via `haskey` afterwards (`_required_missing_check_line`); idempotent optional ones
+      still need a separate fallback line for when they're absent (`_idempotent_fallback_line`);
+    - any unrecognized keyword raises a clear `ArgumentError` naming the bad keyword and the
+      function, rather than silently being dropped.
+
+    Every branch condition matches either a parameter's exact member name or its snake_case
+    alias (see `_keyword_aliases`). Returns no lines when both dicts are empty.
+    """
+    function _dispatch_lines(
+        required_params::AbstractDict,
+        optional_params::AbstractDict;
+        use_headers::Bool,
+        function_name::AbstractString,
     )
-        isempty(optional_params) && return String[]
+        isempty(required_params) && isempty(optional_params) && return String[]
 
         lines = ["for (k, v) in kwargs"]
-        for (i, (member_key, meta)) in enumerate(optional_params)
-            target = use_headers && meta["location"] == "header" ? "headers" : "params"
-            keyword = i == 1 ? "if" : "elseif"
-            push!(lines, "    $keyword k === :$member_key")
+        branch_num = 0
+        for (member_key, meta) in required_params
+            branch_num += 1
+            keyword = branch_num == 1 ? "if" : "elseif"
+            condition = join(("k === $alias" for alias in _keyword_aliases(member_key)), " || ")
+            push!(lines, "    $keyword $condition")
+            target = _dispatch_target(meta; use_headers)
+            if target === nothing
+                push!(lines, "        $member_key = v")
+            else
+                push!(lines, "        $target[$(repr(meta["locationName"]))] = v")
+            end
+        end
+        for (member_key, meta) in optional_params
+            branch_num += 1
+            keyword = branch_num == 1 ? "if" : "elseif"
+            target = _dispatch_target(meta; use_headers)
+            condition = join(("k === $alias" for alias in _keyword_aliases(member_key)), " || ")
+            push!(lines, "    $keyword $condition")
             push!(lines, "        $target[$(repr(meta["locationName"]))] = v")
         end
         push!(lines, "    else")
@@ -138,33 +200,52 @@ function _generate_high_level_definition(
 
     """
     Generate the fallback line for an idempotent optional parameter: when the caller didn't
-    supply one (via the dispatch loop above), insert a freshly generated token into `target`.
+    supply one under either accepted spelling (via the dispatch loop above), insert a freshly
+    generated token into `target`.
     """
     function _idempotent_fallback_line(member_key::String, meta::AbstractDict; use_headers::Bool)
-        target = use_headers && meta["location"] == "header" ? "headers" : "params"
+        target = _dispatch_target(meta; use_headers)
         key = repr(meta["locationName"])
-        sym = ":$member_key"
-        return "haskey(kwargs, $sym) || ($target[$key] = string(uuid4()))"
+        haskey_checks = join(
+            ("haskey(kwargs, $alias)" for alias in _keyword_aliases(member_key)), " || "
+        )
+        return "$haskey_checks || ($target[$key] = string(uuid4()))"
+    end
+
+    """
+    Generate the line which, after the dispatch loop, throws a clear `ArgumentError` if a
+    required parameter is still missing — i.e. the caller supplied neither accepted spelling.
+    URI-located parameters (which the dispatch loop assigns to a local variable rather than a
+    dict, see `_dispatch_lines`) are checked via `=== nothing`; everything else is checked via
+    `haskey` on its target dict, since the loop already inserted it there directly.
+    """
+    function _required_missing_check_line(
+        member_key::String, meta::AbstractDict, function_name::AbstractString; use_headers::Bool
+    )
+        label = _keyword_doc_label(member_key)
+        message = "missing required keyword argument: $label for `$function_name`"
+        target = _dispatch_target(meta; use_headers)
+        return if target === nothing
+            "$member_key === nothing && throw(ArgumentError(\"$message\"))"
+        else
+            "haskey($target, $(repr(meta["locationName"]))) || throw(ArgumentError(\"$message\"))"
+        end
     end
 
     """
     Generate the function signature: `aws_config` is an optional positional argument
-    (defaulting to `current_aws_config()`), followed — as keyword arguments, boto3-style — by
-    the required parameters (with no default, so Julia raises `UndefKeywordError` if one is
-    omitted) and, if there are any optional parameters, a trailing `kwargs...` catch-all.
+    (defaulting to `current_aws_config()`), followed, if there are any required or optional
+    parameters, by a trailing `kwargs...` catch-all — every parameter (required or optional) is
+    extracted and validated from `kwargs` at runtime rather than declared individually, since
+    that's what lets both PascalCase and snake_case spellings be accepted (see
+    `_dispatch_lines`).
     """
-    function _operation_signature(
-        function_name::AbstractString, req_keys::AbstractVector{<:AbstractString}, has_optional::Bool
-    )
-        kw_parts = String[]
-        isempty(req_keys) || push!(kw_parts, join(req_keys, ", "))
-        has_optional && push!(kw_parts, "kwargs...")
-
+    function _operation_signature(function_name::AbstractString, has_any_params::Bool)
         aws_config_arg = "aws_config::AbstractAWSConfig=current_aws_config()"
-        return if isempty(kw_parts)
-            "$function_name($aws_config_arg)"
+        return if has_any_params
+            "$function_name($aws_config_arg; kwargs...)"
         else
-            "$function_name($aws_config_arg; $(join(kw_parts, ", ")))"
+            "$function_name($aws_config_arg)"
         end
     end
 
@@ -184,47 +265,50 @@ function _generate_high_level_definition(
         request_uri = replace(request_uri, '}' => ')')  # Replace } with )
         request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
 
-        req_keys = collect(keys(required_params))
-
-        body_params = filter(p -> !(p[2]["location"] in ("uri", "header")), required_params)
-        header_params = filter(p -> (p[2]["location"] == "header"), required_params)
-
-        req_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in body_params]
-        header_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in header_params]
+        header_required = filter(p -> (p[2]["location"] == "header"), required_params)
+        body_required = filter(p -> !(p[2]["location"] in ("uri", "header")), required_params)
 
         header_optional = filter(p -> (p[2]["location"] == "header"), optional_params)
         idempotent_optional = filter(p -> (p[2]["idempotent"]), optional_params)
 
+        has_required = !isempty(required_params)
         has_optional = !isempty(optional_params)
+        has_any_params = has_required || has_optional
         function_name = _format_name(operation_name)
 
-        routing_lines = vcat(
-            _optional_dispatch_lines(optional_params; use_headers=true, function_name),
-            [
-                _idempotent_fallback_line(k, v; use_headers=true) for
-                (k, v) in idempotent_optional
-            ],
-        )
+        needs_headers = !isempty(header_required) || !isempty(header_optional)
+        needs_params = needs_headers || !isempty(body_required) || has_optional
 
-        needs_headers = !isempty(header_kv) || !isempty(header_optional)
-        needs_params = needs_headers || !isempty(req_kv) || has_optional
-
-        signature = _operation_signature(function_name, req_keys, has_optional)
+        signature = _operation_signature(function_name, has_any_params)
 
         body_lines = String[]
-        call_args = ["\"$method\"", "\"$request_uri\""]
-
-        if needs_params
-            if needs_headers
-                push!(body_lines, "headers = Dict{String, Any}($(join(header_kv, ", ")))")
-                params_kv = vcat(["\"headers\" => headers"], req_kv)
-            else
-                params_kv = req_kv
-            end
-            push!(body_lines, "params = Dict{String, Any}($(join(params_kv, ", ")))")
-            append!(body_lines, routing_lines)
-            push!(call_args, "params")
+        for (member_key, meta) in required_params
+            meta["location"] == "uri" && push!(body_lines, "$member_key = nothing")
         end
+
+        needs_headers && push!(body_lines, "headers = Dict{String, Any}()")
+        needs_params && push!(body_lines, "params = Dict{String, Any}()")
+
+        if has_any_params
+            append!(
+                body_lines,
+                _dispatch_lines(required_params, optional_params; use_headers=true, function_name),
+            )
+            for (member_key, meta) in required_params
+                push!(
+                    body_lines,
+                    _required_missing_check_line(member_key, meta, function_name; use_headers=true),
+                )
+            end
+            for (member_key, meta) in idempotent_optional
+                push!(body_lines, _idempotent_fallback_line(member_key, meta; use_headers=true))
+            end
+        end
+
+        needs_headers && push!(body_lines, "isempty(headers) || (params[\"headers\"] = headers)")
+
+        call_args = ["\"$method\"", "\"$request_uri\""]
+        needs_params && push!(call_args, "params")
 
         push!(
             body_lines,
@@ -247,34 +331,46 @@ function _generate_high_level_definition(
         operation_name::String,
         service_name::String,
     )
-        req_keys = collect(keys(required_params))
-        req_kv = ["\"$(p[2]["locationName"])\" => $(p[1])" for p in required_params]
-
         idempotent_optional = filter(p -> (p[2]["idempotent"]), optional_params)
 
+        has_required = !isempty(required_params)
         has_optional = !isempty(optional_params)
+        has_any_params = has_required || has_optional
         function_name = _format_name(operation_name)
 
-        routing_lines = vcat(
-            _optional_dispatch_lines(optional_params; use_headers=false, function_name),
-            [
-                _idempotent_fallback_line(k, v; use_headers=false) for
-                (k, v) in idempotent_optional
-            ],
-        )
+        needs_params = has_any_params
 
-        needs_params = !isempty(req_kv) || has_optional
-
-        signature = _operation_signature(function_name, req_keys, has_optional)
+        signature = _operation_signature(function_name, has_any_params)
 
         body_lines = String[]
-        call_args = ["\"$operation_name\""]
-
-        if needs_params
-            push!(body_lines, "params = Dict{String, Any}($(join(req_kv, ", ")))")
-            append!(body_lines, routing_lines)
-            push!(call_args, "params")
+        for (member_key, meta) in required_params
+            meta["location"] == "uri" && push!(body_lines, "$member_key = nothing")
         end
+
+        needs_params && push!(body_lines, "params = Dict{String, Any}()")
+
+        if has_any_params
+            append!(
+                body_lines,
+                _dispatch_lines(
+                    required_params, optional_params; use_headers=false, function_name
+                ),
+            )
+            for (member_key, meta) in required_params
+                push!(
+                    body_lines,
+                    _required_missing_check_line(
+                        member_key, meta, function_name; use_headers=false
+                    ),
+                )
+            end
+            for (member_key, meta) in idempotent_optional
+                push!(body_lines, _idempotent_fallback_line(member_key, meta; use_headers=false))
+            end
+        end
+
+        call_args = ["\"$operation_name\""]
+        needs_params && push!(call_args, "params")
 
         push!(
             body_lines,
@@ -335,11 +431,10 @@ function _generate_high_level_definition(
 
             argument_docstrings = String[]
             for (required_key, required_value) in required_parameters
+                label = _keyword_doc_label(required_key)
                 push!(
                     argument_docstrings,
-                    _wraplines(
-                        "- `$required_key`: $(required_value["documentation"])"; base_indent=2
-                    ),
+                    _wraplines("- $label: $(required_value["documentation"])"; base_indent=2),
                 )
             end
 
@@ -367,11 +462,10 @@ function _generate_high_level_definition(
 
             optional_docstrings = String[]
             for (optional_key, optional_value) in optional_parameters
+                label = _keyword_doc_label(optional_key)
                 push!(
                     optional_docstrings,
-                    _wraplines(
-                        "- `$optional_key`: $(optional_value["documentation"])"; base_indent=2
-                    ),
+                    _wraplines("- $label: $(optional_value["documentation"])"; base_indent=2),
                 )
             end
 

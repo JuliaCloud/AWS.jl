@@ -805,3 +805,8 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     return (required_parameters, sort(optional_parameters))
 end
+
+function camelcase_to_snakecase(str::AbstractString)
+    matches = eachmatch(r"[A-Z0-9]{2,}(?=[A-Z]|\b)|[A-Z][a-z0-9]+", str)
+    return lowercase(join((m.match for m in matches), '_'))
+end
