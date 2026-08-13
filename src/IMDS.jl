@@ -125,8 +125,8 @@ function request(
     # > When token usage is set to `required` (IMDSv2), requests without a valid token or
     # > with an expired token receive a `401 - Unauthorized` HTTP error code.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-v2-how-it-works
-    function retry_if(attempt, err, req, resp)
-        if allow_refresh && resp isa HTTP.Response && resp.status == 401 && !isempty(session.token)
+    function retry_if(attempt, err, req, resp::HTTP.Response)
+        if allow_refresh && resp.status == 401 && !isempty(session.token)
             refresh_token!(session)
             allow_refresh = false  # Ensure we only refresh the token once in this `retry_if`
             HTTP.setheader(req, "X-aws-ec2-metadata-token" => session.token)
@@ -135,6 +135,7 @@ function request(
             return false
         end
     end
+    retry_if(attempt, err, req, resp::Nothing) = false
 
     return _http_request(method, uri, headers; retry_if, status_exception)
 end
