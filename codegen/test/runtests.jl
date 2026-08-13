@@ -32,7 +32,7 @@ using HTTP: HTTP
 using Mocking: @patch
 
 _github_commit_patch = @patch function GitHub.commit(repo, sha; kwargs...)
-    GitHub.Commit("abc1234")
+    return GitHub.Commit("abc1234")
 end
 
 _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
