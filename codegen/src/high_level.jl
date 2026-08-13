@@ -127,6 +127,14 @@ function _generate_high_level_definition(
     end
 
     """
+    The Julia local variable name bound to a URI-located required parameter (see
+    `_dispatch_target`) — its snake_case form, since it's a real Julia identifier used both in
+    the dispatch loop and the generated request URI's string interpolation, not a wire-format
+    dict key.
+    """
+    _uri_local_name(member_key::String) = camelcase_to_snakecase(member_key)
+
+    """
     The dict a parameter's value should be routed to: `"headers"` when `use_headers` is set and
     the parameter is header-located, `"params"` otherwise. URI-located parameters have no target
     dict at all — they're only ever used via string interpolation in the request URI/target —
@@ -174,7 +182,7 @@ function _generate_high_level_definition(
             push!(lines, "    $keyword $condition")
             target = _dispatch_target(meta; use_headers)
             if target === nothing
-                push!(lines, "        $member_key = v")
+                push!(lines, "        $(_uri_local_name(member_key)) = v")
             else
                 push!(lines, "        $target[$(repr(meta["locationName"]))] = v")
             end
@@ -216,7 +224,7 @@ function _generate_high_level_definition(
     Generate the line which, after the dispatch loop, throws a clear `ArgumentError` if a
     required parameter is still missing — i.e. the caller supplied neither accepted spelling.
     URI-located parameters (which the dispatch loop assigns to a local variable rather than a
-    dict, see `_dispatch_lines`) are checked via `=== nothing`; everything else is checked via
+    dict, see `_dispatch_lines`) are checked via `!isnothing`; everything else is checked via
     `haskey` on its target dict, since the loop already inserted it there directly.
     """
     function _required_missing_check_line(
@@ -225,11 +233,12 @@ function _generate_high_level_definition(
         label = _keyword_doc_label(member_key)
         message = "missing required keyword argument: $label for `$function_name`"
         target = _dispatch_target(meta; use_headers)
-        return if target === nothing
-            "$member_key === nothing && throw(ArgumentError(\"$message\"))"
+        condition = if target === nothing
+            "!isnothing($(_uri_local_name(member_key)))"
         else
-            "haskey($target, $(repr(meta["locationName"]))) || throw(ArgumentError(\"$message\"))"
+            "haskey($target, $(repr(meta["locationName"])))"
         end
+        return "$condition || throw(ArgumentError(\"$message\"))"
     end
 
     """
@@ -261,9 +270,14 @@ function _generate_high_level_definition(
         method::String,
         request_uri::String,
     )
-        request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
-        request_uri = replace(request_uri, '}' => ')')  # Replace } with )
-        request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
+        # Each `{Member}` (or greedy `{Member+}`) URI label refers to a URI-located required
+        # parameter, bound to a snake_case Julia local variable (see `_uri_local_name`) — so the
+        # interpolated identifier here must be snake_cased to match.
+        request_uri = replace(
+            request_uri,
+            r"\{[^}]*\}" =>
+                m -> "\$(" * _uri_local_name(replace(m, r"[{}+]" => "")) * ")",
+        )
 
         header_required = filter(p -> (p[2]["location"] == "header"), required_params)
         body_required = filter(p -> !(p[2]["location"] in ("uri", "header")), required_params)
@@ -283,7 +297,8 @@ function _generate_high_level_definition(
 
         body_lines = String[]
         for (member_key, meta) in required_params
-            meta["location"] == "uri" && push!(body_lines, "$member_key = nothing")
+            meta["location"] == "uri" &&
+                push!(body_lines, "$(_uri_local_name(member_key)) = nothing")
         end
 
         needs_headers && push!(body_lines, "headers = Dict{String, Any}()")
@@ -344,7 +359,8 @@ function _generate_high_level_definition(
 
         body_lines = String[]
         for (member_key, meta) in required_params
-            meta["location"] == "uri" && push!(body_lines, "$member_key = nothing")
+            meta["location"] == "uri" &&
+                push!(body_lines, "$(_uri_local_name(member_key)) = nothing")
         end
 
         needs_params && push!(body_lines, "params = Dict{String, Any}()")

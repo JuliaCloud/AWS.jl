@@ -1012,12 +1012,12 @@ end
         function function_name end
 
         function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
-            Bucket = nothing
+            bucket = nothing
             headers = Dict{String, Any}()
             params = Dict{String, Any}()
             for (k, v) in kwargs
                 if k === :Bucket || k === :bucket
-                    Bucket = v
+                    bucket = v
                 elseif k === :ContentType || k === :content_type
                     headers["Content-Type"] = v
                 elseif k === :MaxKeys || k === :max_keys
@@ -1026,10 +1026,10 @@ end
                     throw(ArgumentError("unsupported keyword argument \$(repr(k)) for `function_name`"))
                 end
             end
-            Bucket === nothing && throw(ArgumentError("missing required keyword argument: `Bucket` (or `bucket`) for `function_name`"))
+            !isnothing(bucket) || throw(ArgumentError("missing required keyword argument: `Bucket` (or `bucket`) for `function_name`"))
             haskey(headers, "Content-Type") || throw(ArgumentError("missing required keyword argument: `ContentType` (or `content_type`) for `function_name`"))
             isempty(headers) || (params["headers"] = headers)
-            service_name("GET", "/\$(Bucket)", params; aws_config, feature_set=SERVICE_FEATURE_SET)
+            service_name("GET", "/\$(bucket)", params; aws_config, feature_set=SERVICE_FEATURE_SET)
         end
         """
 
