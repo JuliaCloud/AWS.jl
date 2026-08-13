@@ -9,6 +9,7 @@ using Codegen:
     get_markdown_indent,
     _get_service_model_trees,
     _get_function_parameters,
+    _resolve_commit_sha,
     _html_to_markdown,
     _parse_smithy_model,
     _preferred_protocol,
@@ -29,6 +30,10 @@ module Patches
 using GitHub: GitHub
 using HTTP: HTTP
 using Mocking: @patch
+
+_github_commit_patch = @patch function GitHub.commit(repo, sha; kwargs...)
+    return GitHub.Commit("abc1234")
+end
 
 _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
     return if tree_obj == "main"
