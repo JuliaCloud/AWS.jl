@@ -105,25 +105,24 @@ function _generate_high_level_definition(
     documentation::String,
 )
     """
-    The `:Symbol` literals a caller may use for `member_key`: the exact Smithy member name,
-    plus its snake_case form (via `camelcase_to_snakecase`) so users can write idiomatic Julia
-    keywords without needing to know AWS's own PascalCase naming. Omits the snake_case form
-    when it's identical to the member name (e.g. already-lowercase single-word members).
+    The `:Symbol` literals a caller may use for `member_key`: its snake_case form (via
+    `camelcase_to_snakecase`) first, since that's idiomatic Julia and the preferred spelling,
+    followed by the exact Smithy member name. Omits the snake_case form when it's identical to
+    the member name (e.g. already-lowercase single-word members).
     """
     function _keyword_aliases(member_key::String)
         snake = camelcase_to_snakecase(member_key)
-        aliases = [":$member_key"]
-        snake == member_key || push!(aliases, ":$snake")
-        return aliases
+        return snake == member_key ? [":$member_key"] : [":$snake", ":$member_key"]
     end
 
     """
-    The human-readable label for `member_key` used in docstrings and error messages: `` `Member` ``,
-    or `` `Member` (or `snake`) `` when its snake_case alias (see `_keyword_aliases`) differs.
+    The human-readable label for `member_key` used in docstrings and error messages: `` `snake` ``,
+    or `` `snake` / `Member` `` when its snake_case alias (see `_keyword_aliases`) differs —
+    snake_case is the preferred spelling, listed first.
     """
     function _keyword_doc_label(member_key::String)
         snake = camelcase_to_snakecase(member_key)
-        return snake == member_key ? "`$member_key`" : "`$member_key` (or `$snake`)"
+        return snake == member_key ? "`$member_key`" : "`$snake` / `$member_key`"
     end
 
     """
@@ -410,8 +409,9 @@ function _generate_high_level_definition(
         # documentation convention for optional positional arguments (e.g. `Base.open`). All
         # other parameters — required and optional alike — are keyword arguments (boto3-style),
         # so even the "required-only" signature needs a leading `;` once there's at least one
-        # required parameter.
-        args = join(keys(required_parameters), ", ")
+        # required parameter. snake_case is the preferred spelling (see `_keyword_aliases`), so
+        # that's what the illustrative signature shows.
+        args = join((camelcase_to_snakecase(k) for k in keys(required_parameters)), ", ")
 
         signatures = [isempty(args) ? "$function_name([aws_config])" : "$function_name([aws_config]; $args)"]
         if !isempty(optional_parameters)
