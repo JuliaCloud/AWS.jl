@@ -558,22 +558,25 @@ end
 
     expected_result = """
     \"\"\"
-        sample_operation(; RequiredParam1, RequiredParam2)
-        sample_operation(; RequiredParam1, RequiredParam2, kwargs...)
+        sample_operation([aws_config]; RequiredParam1, RequiredParam2)
+        sample_operation([aws_config]; RequiredParam1, RequiredParam2, kwargs...)
 
     The documentation for this operation.
 
-    # Arguments
+    Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+    defaulting to the global configuration (`current_aws_config()`).
+
+    # Required Keywords
     - `RequiredParam1`: Required param 1
     - `RequiredParam2`: Required param 2
 
-    # Optional Parameters
+    # Optional Keywords
     The following optional keyword arguments can be provided:
     - `OptionalParam`: Optional param
     \"\"\"
     function sample_operation end
 
-    function sample_operation(; RequiredParam1, RequiredParam2, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+    function sample_operation(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam1, RequiredParam2, kwargs...)
         params = Dict{String, Any}("RequiredParam1" => RequiredParam1, "RequiredParam2" => RequiredParam2)
         for (k, v) in kwargs
             if k === :OptionalParam
@@ -624,21 +627,24 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(; RequiredParam)
-                function_name(; RequiredParam, kwargs...)
+                function_name([aws_config]; RequiredParam)
+                function_name([aws_config]; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
-            # Arguments
+            Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+            defaulting to the global configuration (`current_aws_config()`).
+
+            # Required Keywords
             - `RequiredParam`: This parameter is required.
 
-            # Optional Parameters
+            # Optional Keywords
             The following optional keyword arguments can be provided:
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -672,21 +678,24 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(; RequiredParam)
-                function_name(; RequiredParam, kwargs...)
+                function_name([aws_config]; RequiredParam)
+                function_name([aws_config]; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
-            # Arguments
+            Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+            defaulting to the global configuration (`current_aws_config()`).
+
+            # Required Keywords
             - `RequiredParam`: This parameter is required.
 
-            # Optional Parameters
+            # Optional Keywords
             The following optional keyword arguments can be provided:
             - `OptionalParam`: This parameter is optional.
             \"\"\"
             function function_name end
 
-            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -738,21 +747,24 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(; RequiredParam)
-                function_name(; RequiredParam, kwargs...)
+                function_name([aws_config]; RequiredParam)
+                function_name([aws_config]; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
-            # Arguments
+            Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+            defaulting to the global configuration (`current_aws_config()`).
+
+            # Required Keywords
             - `RequiredParam`: This parameter   is required.
 
-            # Optional Parameters
+            # Optional Keywords
             The following optional keyword arguments can be provided:
             - `OptionalParam`: This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
                 headers = Dict{String, Any}("RequiredParam" => RequiredParam)
                 params = Dict{String, Any}("headers" => headers)
                 for (k, v) in kwargs
@@ -787,21 +799,24 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(; RequiredParam)
-                function_name(; RequiredParam, kwargs...)
+                function_name([aws_config]; RequiredParam)
+                function_name([aws_config]; RequiredParam, kwargs...)
 
             Documentation for FunctionName.
 
-            # Arguments
+            Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+            defaulting to the global configuration (`current_aws_config()`).
+
+            # Required Keywords
             - `RequiredParam`: This parameter   is required.
 
-            # Optional Parameters
+            # Optional Keywords
             The following optional keyword arguments can be provided:
             - `OptionalParam`: This parameter i  s optional.
             \"\"\"
             function function_name end
 
-            function function_name(; RequiredParam, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+            function function_name(aws_config::AbstractAWSConfig=current_aws_config(); RequiredParam, kwargs...)
                 params = Dict{String, Any}("RequiredParam" => RequiredParam)
                 for (k, v) in kwargs
                     if k === :OptionalParam
@@ -865,22 +880,25 @@ end
 
         expected_result = """
         \"\"\"
-            function_name(; ContentType)
-            function_name(; ContentType, kwargs...)
+            function_name([aws_config]; ContentType)
+            function_name([aws_config]; ContentType, kwargs...)
 
         Documentation for FunctionName.
 
-        # Arguments
+        Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+        defaulting to the global configuration (`current_aws_config()`).
+
+        # Required Keywords
         - `ContentType`: Content type header.
 
-        # Optional Parameters
+        # Optional Keywords
         The following optional keyword arguments can be provided:
         - `MaxKeys`: Max results.
         - `AccessToken`: Bearer token.
         \"\"\"
         function function_name end
 
-        function function_name(; ContentType, aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+        function function_name(aws_config::AbstractAWSConfig=current_aws_config(); ContentType, kwargs...)
             headers = Dict{String, Any}("Content-Type" => ContentType)
             params = Dict{String, Any}("headers" => headers)
             for (k, v) in kwargs
@@ -936,19 +954,22 @@ end
 
         expected_result = """
         \"\"\"
-            function_name()
-            function_name(; kwargs...)
+            function_name([aws_config])
+            function_name([aws_config]; kwargs...)
 
         Documentation for FunctionName.
 
-        # Optional Parameters
+        Accepts an optional `aws_config::AbstractAWSConfig` as the first positional argument,
+        defaulting to the global configuration (`current_aws_config()`).
+
+        # Optional Keywords
         The following optional keyword arguments can be provided:
         - `Prefix`: Key prefix.
         - `MaxKeys`: Max results.
         \"\"\"
         function function_name end
 
-        function function_name(; aws_config::AbstractAWSConfig=current_aws_config(), kwargs...)
+        function function_name(aws_config::AbstractAWSConfig=current_aws_config(); kwargs...)
             params = Dict{String, Any}()
             for (k, v) in kwargs
                 if k === :Prefix

@@ -148,6 +148,27 @@ function _generate_high_level_definition(
     end
 
     """
+    Generate the function signature: `aws_config` is an optional positional argument
+    (defaulting to `current_aws_config()`), followed — as keyword arguments, boto3-style — by
+    the required parameters (with no default, so Julia raises `UndefKeywordError` if one is
+    omitted) and, if there are any optional parameters, a trailing `kwargs...` catch-all.
+    """
+    function _operation_signature(
+        function_name::AbstractString, req_keys::AbstractVector{<:AbstractString}, has_optional::Bool
+    )
+        kw_parts = String[]
+        isempty(req_keys) || push!(kw_parts, join(req_keys, ", "))
+        has_optional && push!(kw_parts, "kwargs...")
+
+        aws_config_arg = "aws_config::AbstractAWSConfig=current_aws_config()"
+        return if isempty(kw_parts)
+            "$function_name($aws_config_arg)"
+        else
+            "$function_name($aws_config_arg; $(join(kw_parts, ", ")))"
+        end
+    end
+
+    """
     Generate function definition for a service request given required, header and optional
     parameters.
     """
@@ -188,11 +209,7 @@ function _generate_high_level_definition(
         needs_headers = !isempty(header_kv) || !isempty(header_optional)
         needs_params = needs_headers || !isempty(req_kv) || has_optional
 
-        # All parameters — required and optional alike — are keyword arguments (boto3-style);
-        # required ones simply have no default, so Julia raises `UndefKeywordError` if omitted.
-        required_kw = isempty(req_keys) ? "" : join(req_keys, ", ") * ", "
-        kwargs_suffix = has_optional ? ", kwargs..." : ""
-        signature = "$function_name(; $(required_kw)aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix)"
+        signature = _operation_signature(function_name, req_keys, has_optional)
 
         body_lines = String[]
         call_args = ["\"$method\"", "\"$request_uri\""]
@@ -248,11 +265,7 @@ function _generate_high_level_definition(
 
         needs_params = !isempty(req_kv) || has_optional
 
-        # All parameters — required and optional alike — are keyword arguments (boto3-style);
-        # required ones simply have no default, so Julia raises `UndefKeywordError` if omitted.
-        required_kw = isempty(req_keys) ? "" : join(req_keys, ", ") * ", "
-        kwargs_suffix = has_optional ? ", kwargs..." : ""
-        signature = "$function_name(; $(required_kw)aws_config::AbstractAWSConfig=current_aws_config()$kwargs_suffix)"
+        signature = _operation_signature(function_name, req_keys, has_optional)
 
         body_lines = String[]
         call_args = ["\"$operation_name\""]
@@ -281,21 +294,31 @@ function _generate_high_level_definition(
     function _generate_docstring(
         function_name, documentation, required_parameters, optional_parameters
     )
-        # All parameters are keyword arguments (boto3-style), so even the "required-only"
-        # signature needs a leading `;` once there's at least one required parameter.
+        # `aws_config` is an optional positional argument, shown in brackets per Julia's
+        # documentation convention for optional positional arguments (e.g. `Base.open`). All
+        # other parameters — required and optional alike — are keyword arguments (boto3-style),
+        # so even the "required-only" signature needs a leading `;` once there's at least one
+        # required parameter.
         args = join(keys(required_parameters), ", ")
 
-        signatures = [isempty(args) ? "$function_name()" : "$function_name(; $args)"]
+        signatures = [isempty(args) ? "$function_name([aws_config])" : "$function_name([aws_config]; $args)"]
         if !isempty(optional_parameters)
             prefix = isempty(args) ? "; " : "; $args, "
-            push!(signatures, "$function_name($(prefix)kwargs...)")
+            push!(signatures, "$function_name([aws_config]$(prefix)kwargs...)")
         end
+
+        aws_config_note = _wraplines(
+            "Accepts an optional `aws_config::AbstractAWSConfig` as the first positional " *
+            "argument, defaulting to the global configuration (`current_aws_config()`).",
+        )
 
         operation_definition = """
             $(repeat('"', 3))
                 $(join(signatures, "\n    "))
 
             $(_wraplines(documentation))
+
+            $aws_config_note
             """
 
         # Determine if any of the docstring arguments are considered long such that all
