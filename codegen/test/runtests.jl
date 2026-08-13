@@ -2,6 +2,7 @@ using Codegen:
     InvalidFileName,
     ProtocolNotDefined,
     ServiceFile,
+    camelcase_to_snakecase,
     _format_name,
     _generate_low_level_definition,
     _generate_high_level_definition,

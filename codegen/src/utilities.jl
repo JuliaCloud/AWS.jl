@@ -730,15 +730,22 @@ end
 
 """
 Get the required and optional parameters for a given operation.
+
+Both returned dicts are keyed by the shape's original member key (e.g. `"MaxKeys"`), which is
+already a valid Julia identifier as-is and used verbatim (no casing conversion) as the
+high-level function's argument/keyword name, since Smithy member names can never contain a
+hyphen. Each entry also carries the resolved wire `"locationName"` (which may differ from the
+member key, e.g. `"max-keys"`) and `"location"` so callers know where to place the value
+(header vs. everything else) when building a request.
 """
 function _get_function_parameters(input::String, shapes::AbstractDict{String})
     """
         _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
 
-    Find the correct parameter name for making requests. Certain ones have a specific locationName, for Batch requests this locationName is nested one shape deeper.
+    Find the correct wire/location name for making requests. Certain ones have a specific locationName, for Batch requests this locationName is nested one shape deeper.
 
     # Arguments
-    - `parameter::String`: Name of the original parameter
+    - `parameter::String`: Name of the original parameter (the shape's member key)
     - `input_shape::AbstractDict{String, <:Any}`: The parameter shape
 
     # Returns
@@ -758,43 +765,48 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
         return get(nested_member, "locationName", parameter)
     end
 
-    required_parameters = LittleDict{String,Any}()
-    optional_parameters = LittleDict{String,Any}()
     input_shape = get(shapes, input, Dict())
 
-    if haskey(input_shape, "required")
-        for parameter in input_shape["required"]
-            parameter_name = _get_parameter_name(parameter, input_shape)
+    # Required parameters are keyword arguments (like optional ones), so their relative order
+    # is not part of the function's calling convention — sort alphabetically by member key.
+    required_parameters = LittleDict{String,Any}()
+    for parameter in sort(get(input_shape, "required", String[]))
+        location = get(input_shape["members"][parameter], "location", "")
+        location_name = _get_parameter_name(parameter, input_shape)
+        documentation = _html_to_markdown(
+            get(input_shape["members"][parameter], "documentation", "")
+        )
 
-            # Check if the parameter needs to be in a certain place
-            parameter_location = get(input_shape["members"][parameter], "location", "")
-
-            documentation = _html_to_markdown(
-                get(input_shape["members"][parameter], "documentation", "")
-            )
-
-            required_parameters[parameter_name] = LittleDict{String,String}(
-                "location" => parameter_location, "documentation" => documentation
-            )
-        end
+        required_parameters[parameter] = LittleDict{String,String}(
+            "location" => location,
+            "locationName" => location_name,
+            "documentation" => documentation,
+        )
     end
 
+    optional_parameters = LittleDict{String,Any}()
     if haskey(input_shape, "members")
         for (member_key, member_value) in input_shape["members"]
-            parameter_name = get(
-                input_shape["members"][member_key], "locationName", member_key
+            haskey(required_parameters, member_key) && continue
+
+            location = get(member_value, "location", "")
+            location_name = _get_parameter_name(member_key, input_shape)
+            documentation = _html_to_markdown(get(member_value, "documentation", ""))
+            idempotent = get(member_value, "idempotencyToken", false)
+
+            optional_parameters[member_key] = LittleDict{String,Union{String,Bool}}(
+                "location" => location,
+                "locationName" => location_name,
+                "documentation" => documentation,
+                "idempotent" => idempotent,
             )
-
-            if !haskey(required_parameters, parameter_name)
-                documentation = _html_to_markdown(get(member_value, "documentation", ""))
-                idempotent = get(member_value, "idempotencyToken", false)
-
-                optional_parameters[parameter_name] = LittleDict{String,Union{String,Bool}}(
-                    "documentation" => documentation, "idempotent" => idempotent
-                )
-            end
         end
     end
 
-    return (sort(required_parameters), sort(optional_parameters))
+    return (required_parameters, sort(optional_parameters))
+end
+
+function camelcase_to_snakecase(str::AbstractString)
+    matches = eachmatch(r"[A-Z0-9]{2,}(?=[A-Z]|\b)|[A-Z][a-z0-9]+", str)
+    return lowercase(join((m.match for m in matches), '_'))
 end
