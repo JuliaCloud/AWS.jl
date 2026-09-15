@@ -23,13 +23,16 @@ jobs:
         run: |
           using Pkg
           Pkg.add(PackageSpec(; name="JuliaFormatter", version="1"))
-      - uses: julia-actions/julia-buildpkg@v1
-      # Run against the latest version, since everything merged into master will be tagged.
-      - name: Update API
-        shell: julia --threads=auto --project {0}
+      - name: Instantiate code generator
+        shell: julia --project=gen --color=yes {0}
         run: |
-          using AWS
-          AWS.APIGeneration.parse_aws_metadata()
+          using Pkg
+          Pkg.instantiate()
+      - name: Update API
+        shell: julia --threads=auto --project=gen {0}
+        run: |
+          using APIGeneration
+          APIGeneration.parse_aws_metadata()
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Format code

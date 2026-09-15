@@ -264,8 +264,6 @@ function global_aws_config(config::AbstractAWSConfig)
     return config
 end
 
-@deprecate_binding AWSMetadata APIGeneration false
-
 function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
     Base.depwarn(
         "`copyto!(dest::AWSCredentials, src::AWSCredentials)` is deprecated and will be " *

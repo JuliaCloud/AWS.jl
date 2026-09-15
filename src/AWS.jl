@@ -12,7 +12,6 @@ using OrderedCollections: LittleDict, OrderedDict
 using Random
 using SHA: sha1, sha256, hmac_sha256
 using ScopedValues: ScopedValues, ScopedValue, @with
-using Sockets
 using URIs
 using UUIDs: UUIDs
 using XMLDict
@@ -34,7 +33,6 @@ include(joinpath("utilities", "utilities.jl"))
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include(joinpath("api_generation", "APIGeneration.jl"))
 include("IMDS.jl")
 
 include(joinpath("utilities", "request.jl"))
