@@ -44,9 +44,20 @@ We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` charac
 are used in the filepathing for sub-directories.
 """
 function _clean_s3_uri(uri::AbstractString)
-    parsed_uri = URIs.URI(uri)
-    cleaned_path = URIs.escapepath(parsed_uri.path)
-    return string(URIs.URI(parsed_uri; path=cleaned_path))
+    # The path is escaped without first parsing the URI as `URIs.URI` rejects raw
+    # whitespace and control characters (URIs.jl >= 1.7) which are valid in S3 keys.
+    path_stop = findfirst(in(('?', '#')), uri)
+    if path_stop === nothing
+        head, rest = SubString(uri), SubString(uri, lastindex(uri) + 1)
+    else
+        head, rest = SubString(uri, 1, prevind(uri, path_stop)), SubString(uri, path_stop)
+    end
+
+    m = match(r"^[A-Za-z][A-Za-z0-9+.\-]*://[^/]*", head)
+    prefix = m === nothing ? "" : m.match
+    path = SubString(head, ncodeunits(prefix) + 1)
+
+    return string(prefix, URIs.escapepath(path), rest)
 end
 
 function _extract_common_kw_args(service, args)
