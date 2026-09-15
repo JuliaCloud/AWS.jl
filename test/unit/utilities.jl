@@ -106,4 +106,14 @@ end
     @test AWS._clean_s3_uri("/bucket/!'()*+,:=@ /file") ==
         "/bucket/%21%27%28%29%2A%2B%2C%3A%3D%40%20/file"
     @test AWS._clean_s3_uri("/📁/📁") == "/%F0%9F%93%81/%F0%9F%93%81"
+
+    # Only the path is escaped; the scheme, authority, query and fragment are untouched
+    @test AWS._clean_s3_uri("https://s3.amazonaws.com/bucket/a b?x=1 2#f g") ==
+        "https://s3.amazonaws.com/bucket/a%20b?x=1 2#f g"
+    @test AWS._clean_s3_uri("") == ""
+    @test AWS._clean_s3_uri("/") == "/"
+    @test AWS._clean_s3_uri("?list-type=2") == "?list-type=2"
+    @test AWS._clean_s3_uri("//host:8080/a b") == "//host:8080/a%20b"
+    @test AWS._clean_s3_uri("s3:/bucket/a b") == "s3:/bucket/a%20b"
+    @test AWS._clean_s3_uri("/bucket/a\nb") == "/bucket/a%0Ab"
 end
