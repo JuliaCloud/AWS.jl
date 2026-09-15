@@ -113,4 +113,7 @@ end
     @test AWS._clean_s3_uri("") == ""
     @test AWS._clean_s3_uri("/") == "/"
     @test AWS._clean_s3_uri("?list-type=2") == "?list-type=2"
+    @test AWS._clean_s3_uri("//host:8080/a b") == "//host:8080/a%20b"
+    @test AWS._clean_s3_uri("s3:/bucket/a b") == "s3:/bucket/a%20b"
+    @test AWS._clean_s3_uri("/bucket/a\nb") == "/bucket/a%0Ab"
 end
