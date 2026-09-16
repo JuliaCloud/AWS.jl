@@ -1,4 +1,3 @@
-using APIGeneration
 using APIGeneration:
     InvalidFileName,
     ProtocolNotDefined,
@@ -20,7 +19,7 @@ using GitHub
 using HTTP
 using JSON: JSON
 using Mocking
-using OrderedCollections: LittleDict, OrderedDict
+using OrderedCollections: LittleDict
 using Test
 
 Mocking.activate()

@@ -6,8 +6,7 @@ using AWS:
     _is_recently_renewed,
     assume_role_creds,
     refresh!
-using AWS.AWSExceptions:
-    AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
+using AWS.AWSExceptions: AWSException, IMDSUnavailable, NoCredentials
 using Base64
 using Compat: mergewith, pkgversion
 using Dates

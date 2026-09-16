@@ -1,4 +1,4 @@
-using Base: Base, @deprecate, @deprecate_binding
+using Base: Base, @deprecate
 
 # Emulates the legacy `use_response_type=false` response behavior using the `AWS.Response`
 function legacy_response(
