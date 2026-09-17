@@ -1,3 +1,45 @@
+using APIGeneration:
+    InvalidFileName,
+    ProtocolNotDefined,
+    ServiceFile,
+    _clean_documentation,
+    _filter_latest_service_version,
+    _generate_low_level_definition,
+    _generate_high_level_definition,
+    _generate_high_level_definitions,
+    _get_service_files,
+    _get_service_and_version,
+    _get_function_parameters,
+    _clean_uri,
+    _format_name,
+    _splitline,
+    _wraplines,
+    _validindex
+using GitHub
+using HTTP
+using JSON: JSON
+using Mocking
+using OrderedCollections: LittleDict
+using Test
+
+Mocking.activate()
+
+_github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
+    if tree_obj == "master"
+        tree = [Dict("path" => "apis", "sha" => "apis-sha", "type" => "tree")]
+        return Tree("test-sha", HTTP.URI(), tree, false)
+    else
+        tree = [
+            Dict(
+                "path" => "test-2020-01-01.normal.json",
+                "sha" => "test-sha",
+                "type" => "blob",
+            ),
+        ]
+        return Tree("test-sha", HTTP.URI(), tree, false)
+    end
+end
+
 function _clean_high_level_definition(definition::String)
     # Required Julia 1.5 or higher with how triple quoted strings are dealt with.
     definition = replace(definition, " " => "")
@@ -7,7 +49,7 @@ function _clean_high_level_definition(definition::String)
 end
 
 @testset "_get_service_files" begin
-    apply(Patches._github_tree_patch) do
+    apply(_github_tree_patch) do
         service_files = _get_service_files(GitHub.OAuth2("foobar"))
 
         @test length(service_files) == 1
@@ -72,7 +114,7 @@ end
 end
 
 @testset "_generate_low_level_definitions" begin
-    services = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "services.json"))
+    services = JSON.parsefile(joinpath(@__DIR__, "resource", "services.json"))
 
     @testset "rest-xml" begin
         expected = "const s3 = AWS.RestXMLService(\"s3\", \"s3\", \"2006-03-01\")"
@@ -252,7 +294,7 @@ end
 end
 
 @testset "_get_function_parameters" begin
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     @testset "required params" begin
         input = "RequiredParams"
@@ -311,8 +353,8 @@ end
 @testset "_generate_high_level_definitions" begin
     service_name = "sample_service"
     protocol = "rest-xml"
-    operations = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "operations.json"))
-    shapes = JSON.parsefile(joinpath(@__DIR__, "..", "resource", "shapes.json"))
+    operations = JSON.parsefile(joinpath(@__DIR__, "resource", "operations.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resource", "shapes.json"))
 
     expected_result = """
     \"\"\"
