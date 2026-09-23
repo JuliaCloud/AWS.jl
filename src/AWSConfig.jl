@@ -24,6 +24,7 @@ end
 
 # provide a default for the new field since people were using the default constructor
 AWSConfig(creds, region, output) = AWSConfig(creds, region, output, AWS_MAX_RETRY_ATTEMPTS)
+Base.copy(config::AWSConfig) = AWSConfig(config.credentials, config.region, config.output, config.max_attempts)
 
 credentials(aws::AWSConfig) = aws.credentials
 region(aws::AWSConfig) = aws.region
