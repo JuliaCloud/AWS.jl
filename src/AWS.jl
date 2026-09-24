@@ -6,7 +6,6 @@ using Dates
 using Downloads: Downloads, Downloader, Curl
 using HTTP
 using JSON: JSON
-using MD5: md5
 using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Random
